@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://d26ybge5kvki2"]
+
+[ext_resource type="AudioStream" uid="uid://wf2qv18bqo2r" path="res://sfx/snd_item.wav" id="1_x2caq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xipl7"]
+
+[node name="PickupInteractArea" type="ItemInteraction" groups=["interactable", "item"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xipl7")
+debug_color = Color(0.951461, 0.221881, 3.85046e-07, 0.42)
+
+[node name="PickUp" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_x2caq")
+bus = &"SFX"
+
+[connection signal="interacted" from="." to="." method="discover"]

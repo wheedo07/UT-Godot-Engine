@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://tuefpi4sls5y"]
+
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="2_26oo3"]
+[ext_resource type="FontFile" uid="uid://5n5gad7ghs8d" path="res://Text/Fonts/hachicro.TTF" id="3_ehycn"]
+[ext_resource type="AudioStream" uid="uid://drtd3uergbvw8" path="res://sfx/snd_damage.wav" id="4_ex8rf"]
+
+[node name="Damage" type="DamageIndicator"]
+offset_left = 317.0
+offset_top = 272.0
+offset_right = 317.0
+offset_bottom = 272.0
+
+[node name="Hp" type="RichTextLabel" parent="."]
+clip_contents = false
+layout_mode = 0
+offset_left = -200.0
+offset_top = -51.0
+offset_right = 200.0
+offset_bottom = 140.0
+theme = ExtResource("2_26oo3")
+theme_override_constants/outline_size = 9
+theme_override_fonts/normal_font = ExtResource("3_ehycn")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]123 MISS"
+
+[node name="Bar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 8.0
+theme = ExtResource("2_26oo3")
+theme_type_variation = &"EnemyHpBar"
+value = 40.0
+show_percentage = false
+
+[node name="Hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ex8rf")
+bus = &"SFX"

@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://buuljqdnrw27h"]
+
+[node name="OverworldSceneChanger" type="OverworldSceneChanger"]
+default_scene = "res://Game/overworld/overworld_default.tscn"
+layer = 9

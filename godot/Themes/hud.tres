@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bevcq3qnk3n8h"]
+
+[ext_resource type="FontFile" uid="uid://bi4ij14ynhyw1" path="res://Text/Fonts/Mars_Needs_Cunnilingus.ttf" id="2_nn8s4"]
+
+[resource]
+RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+RichTextLabel/constants/outline_size = 8
+RichTextLabel/font_sizes/normal_font_size = 24
+RichTextLabel/fonts/normal_font = ExtResource("2_nn8s4")

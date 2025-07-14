@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://dc10754oip7a4"]
+
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="1_aygu1"]
+[ext_resource type="AudioStream" uid="uid://lp7i5p5u17hl" path="res://sfx/heal.wav" id="2_752qb"]
+
+[sub_resource type="Item" id="Item_vjh6r"]
+item_type = 1
+item_name = "막대기"
+use_message = PackedStringArray("* ?", "* 당신은 막대기를 장착했다")
+item_information = PackedStringArray("* 막대기 - 1\n* 겉보기와 달리 위협적이지 않다")
+throw_message = PackedStringArray("* 당신은 막대기를 바닥에 버렸다")
+
+[sub_resource type="Item" id="Item_2bweu"]
+item_name = "반창고"
+use_message = PackedStringArray("* 당신은 반창고를 사용했다")
+item_information = PackedStringArray("* 반창고 - 10 hp 회복\n* 이미 여러 번 붙였던 것이다")
+throw_message = PackedStringArray("* 반창고를 버렸다")
+heal_amount = 10
+
+[node name="Global" type="Global"]
+item_list = Array[Item]([SubResource("Item_vjh6r"), SubResource("Item_2bweu")])
+equipment = {
+"armor": 0,
+"weapon": 1
+}
+player_gold = 4374
+player_lv = 15
+player_exp = 8263
+player_hp = 76
+player_max_hp = 76
+player_defense = 13
+player_attack = 38
+player_kills = 103
+process_mode = 3
+layer = 10
+
+[node name="Info" type="RichTextLabel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_aygu1")
+bbcode_enabled = true
+
+[node name="heal" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_752qb")
+bus = &"SFX"
+
+[node name="KrTimer" type="Timer" parent="."]
+process_mode = 1
+autostart = true
+
+[node name="MusicGlobal" type="AudioStreamPlayer" parent="."]
+process_mode = 1
+bus = &"Music"
+
+[connection signal="timeout" from="KrTimer" to="." method="_on_kr_tick"]
+[connection signal="finished" from="MusicGlobal" to="." method="loop_Music"]

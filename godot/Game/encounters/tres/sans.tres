@@ -1,0 +1,8 @@
+[gd_resource type="Encounter" load_steps=2 format=3 uid="uid://1idxtpurctaf"]
+
+[ext_resource type="PackedScene" uid="uid://cuuor6488vm2a" path="res://Game/encounters/enemy/sans.tscn" id="1_xvqsc"]
+
+[resource]
+encounter_name = &"SANS"
+enemies = Array[PackedScene]([ExtResource("1_xvqsc")])
+flee_chance = 0.5

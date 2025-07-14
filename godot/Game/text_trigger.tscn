@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8yexn6trfd1f"]
+
+[ext_resource type="PackedScene" uid="uid://mh5dhu6wa6nf" path="res://Overworld/Interactions/interaction_trigger.tscn" id="2_v58kh"]
+
+[node name="TextTrigger" type="TextTrigger"]
+
+[node name="InteractionTrigger" parent="." instance=ExtResource("2_v58kh")]
+
+[connection signal="interacted" from="InteractionTrigger" to="." method="_on_interact_text"]

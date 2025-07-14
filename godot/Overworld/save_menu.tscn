@@ -1,0 +1,174 @@
+[gd_scene load_steps=9 format=3 uid="uid://b0ollclfs0ley"]
+
+[ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="1_kbp3q"]
+[ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="2_moqd3"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_cth8f"]
+[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="3_r34tm"]
+[ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="5_dlnkc"]
+[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="5_xmcne"]
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="6_8r4tb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y44al"]
+shader = ExtResource("3_r34tm")
+shader_parameter/threshold = 0.5
+
+[node name="SaveMenu" type="SaveMenu"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 120.0
+offset_top = 120.0
+offset_right = 530.0
+offset_bottom = 290.0
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_kbp3q")
+metadata/_edit_use_anchors_ = true
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_moqd3")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+metadata/_edit_use_anchors_ = true
+
+[node name="Texts" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Name" type="RichTextLabel" parent="Control/Texts"]
+material = SubResource("ShaderMaterial_y44al")
+clip_contents = false
+layout_mode = 0
+offset_left = 28.0
+offset_top = 22.0
+offset_right = 440.0
+offset_bottom = 53.0
+theme = ExtResource("3_cth8f")
+bbcode_enabled = true
+text = "--"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Lv" type="RichTextLabel" parent="Control/Texts"]
+material = SubResource("ShaderMaterial_y44al")
+clip_contents = false
+layout_mode = 0
+offset_left = 165.0
+offset_top = 22.0
+offset_right = 577.0
+offset_bottom = 53.0
+theme = ExtResource("3_cth8f")
+bbcode_enabled = true
+text = "--"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Time" type="RichTextLabel" parent="Control/Texts"]
+material = SubResource("ShaderMaterial_y44al")
+clip_contents = false
+layout_mode = 0
+offset_left = 270.0
+offset_top = 22.0
+offset_right = 682.0
+offset_bottom = 53.0
+theme = ExtResource("3_cth8f")
+bbcode_enabled = true
+text = "00:00:00"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Location" type="RichTextLabel" parent="Control/Texts"]
+material = SubResource("ShaderMaterial_y44al")
+clip_contents = false
+layout_mode = 0
+offset_left = 28.0
+offset_top = 61.0
+offset_right = 440.0
+offset_bottom = 92.0
+theme = ExtResource("3_cth8f")
+theme_override_fonts/normal_font = ExtResource("5_xmcne")
+bbcode_enabled = true
+text = "- - -"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Options" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MenuSoul" parent="Control/Options" instance=ExtResource("5_dlnkc")]
+position = Vector2(57, 121)
+offset = Vector2(-15, 15)
+
+[node name="Save" type="OptionSelectableSolo" parent="Control/Options"]
+NodeRight = NodePath("../Return")
+material = SubResource("ShaderMaterial_y44al")
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.139024
+anchor_top = 0.711765
+anchor_right = 0.882
+anchor_bottom = 0.929412
+theme = ExtResource("3_cth8f")
+theme_override_constants/text_highlight_v_padding = 10
+theme_override_constants/shadow_offset_y = -10
+bbcode_enabled = true
+text = "저장
+"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Return" type="OptionSelectableSolo" parent="Control/Options"]
+NodeLeft = NodePath("../Save")
+material = SubResource("ShaderMaterial_y44al")
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.568293
+anchor_top = 0.711765
+anchor_right = 0.85122
+anchor_bottom = 0.952941
+theme = ExtResource("3_cth8f")
+bbcode_enabled = true
+text = "돌아가기"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_8r4tb")
+bus = &"SFX"
+
+[connection signal="choiced" from="." to="Control/Options/Save" method="disable"]
+[connection signal="choiced" from="." to="Control/Options/Return" method="disable"]
+[connection signal="accept_pressed" from="Control/Options/Save" to="." method="save"]
+[connection signal="move_soul_request" from="Control/Options/Save" to="Control/Options/MenuSoul" method="move_global"]
+[connection signal="accept_pressed" from="Control/Options/Return" to="." method="dismiss"]
+[connection signal="move_soul_request" from="Control/Options/Return" to="Control/Options/MenuSoul" method="move_global"]

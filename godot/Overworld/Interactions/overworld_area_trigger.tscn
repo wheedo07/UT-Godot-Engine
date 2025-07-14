@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dd758xuvic7xl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ymshj"]
+
+[node name="OverworldAreaTrigger" type="OverworldAreaTrigger"]
+metadata/_edit_group_ = true
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ymshj")
+debug_color = Color(0.368319, 0.108732, 0.17304, 0.35)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished_work" from="." to="." method="disable"]

@@ -1,0 +1,111 @@
+[gd_scene load_steps=17 format=3 uid="uid://cobjcttlv6o13"]
+
+[ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="3_lkhun"]
+[ext_resource type="AudioStream" uid="uid://eyckh0i2ms08" path="res://sfx/snd_heartshot.wav" id="4_4sia6"]
+[ext_resource type="AudioStream" uid="uid://cf6w8gm5c7i0h" path="res://sfx/soul_changemode.wav" id="8_ycafo"]
+[ext_resource type="AudioStream" uid="uid://6kct4osuewf0" path="res://sfx/soul_snap.wav" id="9_3ghcw"]
+[ext_resource type="AudioStream" uid="uid://d06gerud2wujc" path="res://sfx/soul_shatter.wav" id="10_y1haa"]
+[ext_resource type="AudioStream" uid="uid://cltec82rumkic" path="res://sfx/impact_wallhit.wav" id="11_3vptc"]
+
+[sub_resource type="Curve" id="Curve_uvwbq"]
+_data = [Vector2(1e-05, 1), 100000.0, 0.0, 1, 0, Vector2(1, 0), -2.00047, 100000.0, 0, 1]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_e8o5g"]
+curve = SubResource("Curve_uvwbq")
+
+[sub_resource type="Curve" id="Curve_7t2k5"]
+_limits = [0.99, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 1.58242, 0, 0, Vector2(1, 2), 0.0322665, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lygt7"]
+curve = SubResource("Curve_7t2k5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i6l44"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_lygt7")
+color = Color(1, 1, 1, 0.666667)
+alpha_curve = SubResource("CurveTexture_e8o5g")
+
+[sub_resource type="Curve" id="Curve_hwskt"]
+_limits = [0.0, 1.1, 0.0, 1.0]
+_data = [Vector2(0, 0.5), 0.0, 1.582, 0, 0, Vector2(1, 0.8), 0.032, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lifa3"]
+curve = SubResource("Curve_hwskt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cm5n5"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+scale_min = 1.1
+scale_max = 1.1
+scale_curve = SubResource("CurveTexture_lifa3")
+alpha_curve = SubResource("CurveTexture_e8o5g")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjyg3"]
+size = Vector2(12, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ns07m"]
+size = Vector2(18, 18)
+
+[node name="Soul" type="SoulBattle"]
+special_bullet_mode = 2
+collision_layer = 0
+floor_stop_on_slope = false
+floor_max_angle = 0.0
+platform_on_leave = 1
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_lkhun")
+
+[node name="Ghost" type="GPUParticles2D" parent="Sprite"]
+emitting = false
+amount = 1
+texture = ExtResource("3_lkhun")
+one_shot = true
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_i6l44")
+
+[node name="afterimage" type="GPUParticles2D" parent="Sprite"]
+emitting = false
+amount = 3
+texture = ExtResource("3_lkhun")
+lifetime = 0.6
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_cm5n5")
+
+[node name="Area2D" type="Area2D" parent="." groups=["player"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_sjyg3")
+debug_color = Color(1, 0.404667, 0.24, 0.0784314)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ns07m")
+disabled = true
+debug_color = Color(0.64, 0.922, 1, 0.0588235)
+
+[node name="Shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_4sia6")
+max_polyphony = 2
+bus = &"SFX"
+
+[node name="Ding" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_ycafo")
+bus = &"SFX"
+
+[node name="Crack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_3ghcw")
+bus = &"SFX"
+
+[node name="Shatter" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_y1haa")
+bus = &"SFX"
+
+[node name="Wallhit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_3vptc")
+bus = &"SFX"

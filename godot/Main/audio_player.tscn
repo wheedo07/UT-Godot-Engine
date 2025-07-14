@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://bxambdq21t4hu"]
+
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="1_38hvj"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="2_cehme"]
+[ext_resource type="AudioStream" uid="uid://d03elcf721v8r" path="res://sfx/snd_save.wav" id="3_2upg6"]
+[ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="4_5t55f"]
+
+[node name="AudioPlayer" type="AudioPlayer"]
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_38hvj")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_cehme")
+bus = &"SFX"
+
+[node name="save" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_2upg6")
+bus = &"SFX"
+
+[node name="hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_5t55f")
+bus = &"SFX"

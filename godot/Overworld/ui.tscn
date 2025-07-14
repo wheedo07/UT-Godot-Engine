@@ -1,0 +1,423 @@
+[gd_scene load_steps=17 format=3 uid="uid://bevhjdbngyvd7"]
+
+[ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="1_2uijs"]
+[ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_elsrr"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_k0cus"]
+[ext_resource type="Theme" uid="uid://bevcq3qnk3n8h" path="res://Themes/hud.tres" id="4_c2gxs"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="5_6t6nw"]
+[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="5_1850g"]
+[ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="6_7ksvh"]
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="7_a71x2"]
+[ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="7_j83rc"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="8_yyivw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u2syl"]
+shader = ExtResource("5_6t6nw")
+shader_parameter/threshold = 0.6
+
+[sub_resource type="Curve" id="Curve_3p0tu"]
+_data = [Vector2(1e-05, 1), 100000.0, 0.0, 1, 0, Vector2(1, 0), -2.00047, 100000.0, 0, 1]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0v48g"]
+curve = SubResource("Curve_3p0tu")
+
+[sub_resource type="Curve" id="Curve_pumt0"]
+_limits = [0.99, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 2.296, 0, 0, Vector2(1, 1.5), 0.183359, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5slsv"]
+curve = SubResource("Curve_pumt0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pxrid"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_5slsv")
+color = Color(1, 1, 1, 0.470588)
+alpha_curve = SubResource("CurveTexture_0v48g")
+
+[node name="UI" type="UI"]
+items_seperation = Vector2(0, 29)
+option_seperation = Vector2(0, 40)
+
+[node name="Control" type="CanvasGroup" parent="."]
+
+[node name="StatAndOptions" type="Control" parent="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 36.0
+offset_top = 50.0
+offset_right = 36.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Stats" type="UI_Box" parent="Control/StatAndOptions"]
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 108.0
+texture = ExtResource("1_2uijs")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Stats"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_elsrr")
+
+[node name="Name" type="RichTextLabel" parent="Control/StatAndOptions/Stats"]
+show_behind_parent = true
+clip_contents = false
+layout_mode = 0
+offset_left = 12.0
+offset_top = 11.0
+offset_right = 262.0
+offset_bottom = 39.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "Name"
+scroll_active = false
+
+[node name="Stats" type="RichTextLabel" parent="Control/StatAndOptions/Stats"]
+show_behind_parent = true
+clip_contents = false
+layout_mode = 0
+offset_left = 14.0
+offset_top = 49.0
+offset_right = 264.0
+offset_bottom = 133.0
+theme = ExtResource("4_c2gxs")
+theme_override_constants/line_separation = -1
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "LV 1
+HP 20/20
+G   0"
+scroll_active = false
+
+[node name="Options" type="UI_Box" parent="Control/StatAndOptions"]
+layout_mode = 0
+offset_top = 114.0
+offset_right = 140.0
+offset_bottom = 274.0
+texture = ExtResource("1_2uijs")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Options"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_elsrr")
+
+[node name="Options" type="RichTextLabel" parent="Control/StatAndOptions/Options"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 48.0
+offset_top = 21.0
+offset_right = 262.0
+offset_bottom = 136.0
+theme = ExtResource("3_k0cus")
+theme_override_constants/line_separation = 7
+theme_override_fonts/normal_font = ExtResource("5_1850g")
+bbcode_enabled = true
+text = "[color=white]아이템[/color]
+[color=white]스텟[/color]
+[color=white]전화[/color]"
+scroll_active = false
+
+[node name="Detailed" type="UI_Box" parent="Control/StatAndOptions"]
+visible = false
+layout_mode = 0
+offset_left = 154.0
+offset_right = 486.0
+offset_bottom = 396.0
+texture = ExtResource("1_2uijs")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_elsrr")
+
+[node name="Name" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 27.0
+offset_top = 36.0
+offset_right = 241.0
+offset_bottom = 151.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "\"Name\""
+scroll_active = false
+
+[node name="Hp" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 27.0
+offset_top = 76.0
+offset_right = 241.0
+offset_bottom = 191.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "HP 20/20"
+scroll_active = false
+
+[node name="Stats" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 27.0
+offset_top = 126.0
+offset_right = 241.0
+offset_bottom = 241.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "AT 10(0)
+DF 10(0)"
+scroll_active = false
+
+[node name="Equipment" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 27.0
+offset_top = 194.0
+offset_right = 352.0
+offset_bottom = 309.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "무기: Toy Gun
+갑옷: Worn Hat"
+scroll_active = false
+
+[node name="Gold" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 27.0
+offset_top = 336.0
+offset_right = 352.0
+offset_bottom = 451.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "GOLD: 0"
+scroll_active = false
+
+[node name="Kills" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 195.0
+offset_top = 336.0
+offset_right = 520.0
+offset_bottom = 451.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "KILLS: 0"
+scroll_active = false
+
+[node name="Lv" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 214.0
+offset_top = 36.0
+offset_right = 428.0
+offset_bottom = 151.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "LV 1"
+scroll_active = false
+
+[node name="Exp" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 174.0
+offset_top = 126.0
+offset_right = 388.0
+offset_bottom = 241.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "EXP 0
+"
+scroll_active = false
+
+[node name="Items" type="UI_Box" parent="Control/StatAndOptions"]
+visible = false
+layout_mode = 0
+offset_left = 154.0
+offset_right = 486.0
+offset_bottom = 332.0
+texture = ExtResource("1_2uijs")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_elsrr")
+
+[node name="Items" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 44.0
+offset_top = 25.0
+offset_right = 339.0
+offset_bottom = 284.0
+theme = ExtResource("3_k0cus")
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "Monster Candy
+Monster Candy
+Monster Candy
+Monster Candy
+Amongus
+Amongus
+Amongus
+Amongus"
+scroll_active = false
+
+[node name="Use" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 44.0
+offset_top = 285.0
+offset_right = 339.0
+offset_bottom = 318.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "사용"
+scroll_active = false
+
+[node name="Info" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 134.0
+offset_top = 285.0
+offset_right = 429.0
+offset_bottom = 318.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "정보"
+scroll_active = false
+
+[node name="Drop" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 234.0
+offset_top = 285.0
+offset_right = 529.0
+offset_bottom = 318.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "버리기"
+scroll_active = false
+
+[node name="Cells" type="UI_Box" parent="Control/StatAndOptions"]
+visible = false
+layout_mode = 0
+offset_left = 154.0
+offset_right = 486.0
+offset_bottom = 332.0
+texture = ExtResource("1_2uijs")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Cells"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_elsrr")
+
+[node name="Numbers" type="RichTextLabel" parent="Control/StatAndOptions/Cells"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
+clip_contents = false
+layout_mode = 0
+offset_left = 44.0
+offset_top = 25.0
+offset_right = 339.0
+offset_bottom = 284.0
+theme = ExtResource("3_k0cus")
+bbcode_enabled = true
+text = "Toriel's Phone"
+scroll_active = false
+
+[node name="Soul" parent="Control/StatAndOptions" instance=ExtResource("7_j83rc")]
+position = Vector2(36, 150)
+
+[node name="Ghost" type="GPUParticles2D" parent="Control/StatAndOptions/Soul"]
+emitting = false
+amount = 1
+texture = ExtResource("6_7ksvh")
+lifetime = 0.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_pxrid")
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_a71x2")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_yyivw")
+bus = &"SFX"

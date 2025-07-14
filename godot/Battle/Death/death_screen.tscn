@@ -1,0 +1,84 @@
+[gd_scene load_steps=7 format=3 uid="uid://dggr74u132cr4"]
+
+[ext_resource type="PackedScene" uid="uid://dleuqhnhqqffc" path="res://Battle/Death/death_soul.tscn" id="2_kpjqu"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="5_1ttji"]
+[ext_resource type="FontFile" uid="uid://ddqyxuicviwwp" path="res://Text/Fonts/8-BIT WONDER.TTF" id="5_hp2tx"]
+[ext_resource type="AudioStream" uid="uid://c1qln468c47ui" path="res://Musics/default/death_screen_music_thing.wav" id="8_vka2r"]
+
+[sub_resource type="Gradient" id="Gradient_gesgi"]
+interpolation_mode = 2
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kcpej"]
+gradient = SubResource("Gradient_gesgi")
+width = 100
+height = 640
+
+[node name="DeathScreen" type="DeathScreen"]
+
+[node name="DeathSoul" parent="." instance=ExtResource("2_kpjqu")]
+
+[node name="Fade" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="Fade"]
+offset_left = 640.0
+offset_right = 740.0
+offset_bottom = 640.0
+rotation = 1.5708
+texture = SubResource("GradientTexture2D_kcpej")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="Fade"]
+offset_top = 480.0
+offset_right = 100.0
+offset_bottom = 1120.0
+rotation = 4.71239
+texture = SubResource("GradientTexture2D_kcpej")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="Fade"]
+offset_left = 640.0
+offset_top = 480.0
+offset_right = 740.0
+offset_bottom = 960.0
+rotation = 3.14159
+texture = SubResource("GradientTexture2D_kcpej")
+expand_mode = 1
+
+[node name="TextureRect4" type="TextureRect" parent="Fade"]
+offset_right = 100.0
+offset_bottom = 480.0
+rotation = 6.28318
+texture = SubResource("GradientTexture2D_kcpej")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Fade"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_top = 0.08
+anchor_right = 1.0
+anchor_bottom = 0.92
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_1ttji")
+theme_override_constants/outline_size = 9
+theme_override_fonts/normal_font = ExtResource("5_hp2tx")
+theme_override_font_sizes/normal_font_size = 72
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+text = "[center][color=white]GAME 
+OVER[/color][b]
+
+
+
+
+
+
+
+[다시로드 할려면 z키를 눌러주세요]"
+scroll_active = false
+
+[node name="mus" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_vka2r")
+volume_db = -64.0
+bus = &"Music"

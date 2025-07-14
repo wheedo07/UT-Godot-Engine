@@ -1,0 +1,8 @@
+[
+	{
+		"text": "오래전 인간과 괴물 두 종족이 세상을 다스렸습니다",
+		"sleep": 0.3,
+		"image_path": "res://Intro/assets/1.png",
+		"duration": 4.5
+	}
+]

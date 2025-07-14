@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://g6wce27yxejw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0jdr8"]
+
+[node name="MoveTrigger" type="MoveTrigger"]
+action = 14
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0jdr8")
+debug_color = Color(0.368319, 0.108732, 0.17304, 0.35)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="cutscene" from="." to="." method="_on_interact_move"]
+[connection signal="finished_work" from="." to="." method="disable"]

@@ -1,0 +1,216 @@
+[gd_scene load_steps=24 format=3 uid="uid://cl1bmaj47viix"]
+
+[ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://Game/assets/sprite/sheet/sans_sheet.png" id="1_o2qip"]
+[ext_resource type="Texture2D" uid="uid://bpomr3hq2pq4m" path="res://Battle/Bullets/Blaster/Blaster.png" id="3_5o75v"]
+[ext_resource type="Texture2D" uid="uid://dlshjjxlail3k" path="res://Battle/Bullets/Blaster/beam.png" id="3_j26d0"]
+[ext_resource type="AudioStream" uid="uid://jvsivjnemi8" path="res://sfx/blaster_load.wav" id="4_wbjg4"]
+[ext_resource type="AudioStream" uid="uid://c6rgbtgfvf6yc" path="res://sfx/blaster_fire.wav" id="5_et17f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlw47"]
+atlas = ExtResource("3_5o75v")
+region = Rect2(0, 0, 42, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7fa0"]
+atlas = ExtResource("3_5o75v")
+region = Rect2(42, 0, 42, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmt6n"]
+atlas = ExtResource("3_5o75v")
+region = Rect2(84, 0, 42, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2s83"]
+atlas = ExtResource("3_5o75v")
+region = Rect2(126, 0, 42, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nniwo"]
+atlas = ExtResource("3_5o75v")
+region = Rect2(0, 57, 42, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6mf37"]
+atlas = ExtResource("3_5o75v")
+region = Rect2(42, 57, 42, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1cfj"]
+atlas = ExtResource("1_o2qip")
+region = Rect2(620, 395, 61, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yat05"]
+atlas = ExtResource("1_o2qip")
+region = Rect2(686, 395, 59, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wd24r"]
+atlas = ExtResource("1_o2qip")
+region = Rect2(749, 395, 57, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_refvh"]
+atlas = ExtResource("1_o2qip")
+region = Rect2(810, 395, 61, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsb1d"]
+atlas = ExtResource("1_o2qip")
+region = Rect2(875, 395, 61, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srbvq"]
+atlas = ExtResource("1_o2qip")
+region = Rect2(938, 395, 61, 66)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vkq66"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xlw47")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7fa0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmt6n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2s83")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nniwo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6mf37")
+}],
+"loop": true,
+"name": &"gaster",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1cfj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yat05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wd24r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_refvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsb1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srbvq")
+}],
+"loop": true,
+"name": &"sans_page1",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ocpxa"]
+
+[sub_resource type="Animation" id="Animation_e4153"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_jroe6"]
+resource_name = "fire"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_cc6rv"]
+resource_name = "prepare"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_84xda"]
+_data = {
+"RESET": SubResource("Animation_e4153"),
+"fire": SubResource("Animation_jroe6"),
+"prepare": SubResource("Animation_cc6rv")
+}
+
+[node name="Blaster" type="Blaster"]
+TweenTrans = 3
+TweenEase = 1
+damage = 15
+iframe_grant = 30
+kr_amount = 10
+sprite_path = NodePath("Sprite")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vkq66")
+animation = &"sans_page1"
+
+[node name="Beam" type="Control" parent="Sprite"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -16.0
+offset_top = 28.0
+offset_right = 16.0
+offset_bottom = 2076.0
+scale = Vector2(1e-05, 1)
+pivot_offset = Vector2(16, 0)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Sprite/Beam"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(16, 0)
+texture = ExtResource("3_j26d0")
+patch_margin_top = 6
+
+[node name="Area2D" type="BulletArea" parent="."]
+bullet_path = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_ocpxa")
+debug_color = Color(1, 0.678431, 0.686275, 0.419608)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_84xda")
+}
+
+[node name="load" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wbjg4")
+bus = &"SFX"
+
+[node name="fire" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_et17f")
+bus = &"SFX"

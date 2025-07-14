@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1p4teid7wp70"]
+
+[ext_resource type="Texture2D" uid="uid://bcianxrri2uvp" path="res://Battle/Attacks/corner.png" id="1_22eaa"]
+[ext_resource type="Shader" path="res://Battle/Attacks/mask.gdshader" id="1_u4bks"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g40mv"]
+shader = ExtResource("1_u4bks")
+
+[node name="BoxClipper" type="AttackManager"]
+copy_mode = 2
+
+[node name="Mask" type="Node2D" parent="."]
+material = SubResource("ShaderMaterial_g40mv")
+
+[node name="TL" type="Sprite2D" parent="Mask"]
+z_index = 100
+use_parent_material = true
+scale = Vector2(200, 200)
+texture = ExtResource("1_22eaa")
+
+[node name="BR" type="Sprite2D" parent="Mask"]
+z_index = 100
+use_parent_material = true
+position = Vector2(640, 481)
+rotation = 3.14159
+scale = Vector2(200, 200)
+texture = ExtResource("1_22eaa")

@@ -1,0 +1,98 @@
+[gd_scene load_steps=15 format=3 uid="uid://ctmkb1gh0a14s"]
+
+[ext_resource type="Texture2D" uid="uid://caygki0qw0gxj" path="res://Battle/Buttons/spr_item0.png" id="1_cnynd"]
+[ext_resource type="Texture2D" uid="uid://ciaviyj2axtlf" path="res://Battle/Buttons/spr_fight0.png" id="1_umftf"]
+[ext_resource type="Texture2D" uid="uid://oucfqpptae5t" path="res://Battle/Buttons/spr_fight1.png" id="2_aru3e"]
+[ext_resource type="Texture2D" uid="uid://dam0vnu1en7ya" path="res://Battle/Buttons/spr_act0.png" id="5_w41yv"]
+[ext_resource type="Texture2D" uid="uid://brqdggqfqwnoe" path="res://Battle/Buttons/spr_act1.png" id="6_werx2"]
+[ext_resource type="Texture2D" uid="uid://b5kr2nvc1jxbp" path="res://Battle/Buttons/spr_mercy0.png" id="9_28mv6"]
+[ext_resource type="Texture2D" uid="uid://bnndxajcesko0" path="res://Battle/Buttons/spr_item1.png" id="10_qhvfw"]
+[ext_resource type="Texture2D" uid="uid://bhln0uovqlxyq" path="res://Battle/Buttons/spr_mercy1.png" id="13_evnjy"]
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="18_ocd1v"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="19_egkmi"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_py7ld"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_umftf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_aru3e")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v0568"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_w41yv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_werx2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kht6d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cnynd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_qhvfw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k4ql1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_28mv6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_evnjy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Buttons" type="BattleButtons"]
+
+[node name="Button1" type="AnimatedSprite2D" parent="."]
+position = Vector2(87, 0)
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_py7ld")
+
+[node name="Button2" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 0)
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_v0568")
+
+[node name="Button3" type="AnimatedSprite2D" parent="."]
+position = Vector2(400, 0)
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_kht6d")
+
+[node name="Button4" type="AnimatedSprite2D" parent="."]
+position = Vector2(555, 0)
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_k4ql1")
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_ocd1v")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_egkmi")
+bus = &"SFX"

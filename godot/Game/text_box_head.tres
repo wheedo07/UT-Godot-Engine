@@ -1,0 +1,68 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://dj2frtvnpp2o6"]
+
+[ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://Game/assets/sprite/sheet/sans_sheet.png" id="1_po35n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eq34n"]
+atlas = ExtResource("1_po35n")
+region = Rect2(131, 48, 38, 38)
+
+[resource]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Alphys",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Asgore",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Flowey",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"FloweyEvil",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Gaster",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Mettaton",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Papyrus",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eq34n")
+}],
+"loop": false,
+"name": &"Sans",
+"speed": 0.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Toriel",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Undyne",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"UndyneTheUndying",
+"speed": 5.0
+}]

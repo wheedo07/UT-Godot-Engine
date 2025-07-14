@@ -1,0 +1,98 @@
+[gd_scene load_steps=6 format=3 uid="uid://cgwqhj12sno6a"]
+
+[ext_resource type="Texture2D" uid="uid://bjtsjfqdyx07n" path="res://Battle/Enemies/sans_raw.png" id="2_gnm0b"]
+[ext_resource type="Shader" path="res://Shaders/fx_master.gdshader" id="2_lg2wh"]
+[ext_resource type="Shader" path="res://Shaders/glitch.gdshader" id="3_vjqlt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_un5sr"]
+resource_local_to_scene = true
+shader = ExtResource("2_lg2wh")
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/shake_enable = false
+shader_parameter/shake_speed = 0.0
+shader_parameter/shake_magnitude = 0.0
+shader_parameter/shake_hspeed = 0.0
+shader_parameter/shake_vspeed = 0.0
+shader_parameter/lens_enable = false
+shader_parameter/lens_amount = 0.0
+shader_parameter/pixelize_enable = false
+shader_parameter/pixelize_amount = 0.0
+shader_parameter/pixelize_max_size = 0.0
+shader_parameter/pixelize_steps = 0.0
+shader_parameter/swirl_enable = false
+shader_parameter/swirl_angle = 0.0
+shader_parameter/swirl_radius = 0.0
+shader_parameter/swirl_rounded = 0.0
+shader_parameter/swirl_center = Vector2(0, 0)
+shader_parameter/sine_enable = false
+shader_parameter/sine_frequency = Vector2(0, 0)
+shader_parameter/sine_amplitude = Vector2(0, 0)
+shader_parameter/sine_speed = 0.0
+shader_parameter/sine_offset = Vector2(0, 0)
+shader_parameter/inter_enable = false
+shader_parameter/inter_speed = 0.0
+shader_parameter/inter_block_size = 0.0
+shader_parameter/inter_interval = 0.0
+shader_parameter/inter_intensity = 0.0
+shader_parameter/inter_amp1 = 0.0
+shader_parameter/inter_amp2 = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_goomq"]
+resource_local_to_scene = true
+shader = ExtResource("3_vjqlt")
+shader_parameter/shake_power = 0.0
+shader_parameter/shake_rate = 1.0
+shader_parameter/shake_speed = 5.0
+shader_parameter/shake_block_size = 30.5
+shader_parameter/shake_color_rate = 0.0
+
+[node name="CameraFx" type="CameraFx"]
+ignore_rotation = false
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Test" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(208, 140)
+texture = ExtResource("2_gnm0b")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Blinder" type="ColorRect" parent="CanvasLayer"]
+modulate = Color(1, 1, 1, 0)
+light_mask = 0
+offset_right = 640.0
+offset_bottom = 480.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="FX" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Fx" type="ColorRect" parent="FX"]
+light_mask = 0
+material = SubResource("ShaderMaterial_un5sr")
+offset_right = 640.0
+offset_bottom = 480.0
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Glitch" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Glitch" type="ColorRect" parent="Glitch"]
+light_mask = 0
+material = SubResource("ShaderMaterial_goomq")
+offset_right = 640.0
+offset_bottom = 480.0
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true

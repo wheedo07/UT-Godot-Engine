@@ -1,0 +1,126 @@
+[gd_scene load_steps=6 format=3 uid="uid://b72rkv2gjlqgd"]
+
+[ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="1_4tsh2"]
+[ext_resource type="PackedScene" uid="uid://x1g53cac1aq7" path="res://Main/settings.tscn" id="3_cwtq4"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1a676"]
+viewport_path = NodePath("SettingsContainer/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5gajx"]
+shader = ExtResource("1_4tsh2")
+shader_parameter/lod = 1.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_d2hn6"]
+viewport_path = NodePath("SubViewportContainer/MainViewport")
+
+[node name="Scenes" type="MainNode"]
+process_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScreenCopy" type="TextureRect" parent="."]
+modulate = Color(0.5, 0.5, 0.5, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("ViewportTexture_1a676")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_5gajx")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -240.0
+offset_right = 320.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(320, 240)
+mouse_filter = 2
+
+[node name="MainViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(640, 480)
+render_target_update_mode = 4
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewportContainer/MainViewport"]
+layer = -101
+
+[node name="ColorRect" type="ColorRect" parent="SubViewportContainer/MainViewport/CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="SettingsContainer" type="SubViewportContainer" parent="."]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -240.0
+offset_right = 320.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(320, 240)
+
+[node name="SubViewport" type="SubViewport" parent="SettingsContainer"]
+process_mode = 3
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(640, 480)
+render_target_update_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="SettingsContainer/SubViewport"]
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("ViewportTexture_d2hn6")
+
+[node name="Settings" parent="SettingsContainer/SubViewport" instance=ExtResource("3_cwtq4")]
+layer = 100
+
+[node name="Border" type="ReferenceRect" parent="SettingsContainer"]
+custom_minimum_size = Vector2(640, 480)
+layout_mode = 2
+mouse_filter = 2
+border_color = Color(1, 1, 1, 1)
+border_width = 2.0
+editor_only = false
+
+[connection signal="setting_changed" from="SettingsContainer/SubViewport/Settings" to="." method="_on_settings_setting_changed"]

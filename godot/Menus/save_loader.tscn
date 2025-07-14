@@ -1,0 +1,148 @@
+[gd_scene load_steps=10 format=3 uid="uid://c4c1hkxfxvh2t"]
+
+[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="2_4f7u4"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="2_u0ptt"]
+[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="3_4gwiv"]
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="4_6utps"]
+[ext_resource type="AudioStream" uid="uid://gmni7dkf4qh3" path="res://sfx/warning.ogg" id="5_rfr4t"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="5_rk211"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ihriq"]
+shader = ExtResource("2_4f7u4")
+shader_parameter/threshold = 0.7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kc30e"]
+shader = ExtResource("2_4f7u4")
+shader_parameter/threshold = 0.7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mkrny"]
+shader = ExtResource("2_4f7u4")
+shader_parameter/threshold = 0.7
+
+[node name="SaveLoader" type="SaveLoader"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 120.0
+offset_top = 120.0
+offset_right = 530.0
+offset_bottom = 290.0
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Texts" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name" type="RichTextLabel" parent="Control/Texts"]
+clip_contents = false
+layout_mode = 0
+offset_left = 28.0
+offset_top = 22.0
+offset_right = 440.0
+offset_bottom = 53.0
+theme = ExtResource("2_u0ptt")
+bbcode_enabled = true
+text = "Chara"
+scroll_active = false
+
+[node name="Lv" type="RichTextLabel" parent="Control/Texts"]
+clip_contents = false
+layout_mode = 0
+offset_left = 165.0
+offset_top = 22.0
+offset_right = 577.0
+offset_bottom = 53.0
+theme = ExtResource("2_u0ptt")
+bbcode_enabled = true
+text = "LV2"
+scroll_active = false
+
+[node name="Time" type="RichTextLabel" parent="Control/Texts"]
+clip_contents = false
+layout_mode = 0
+offset_left = 270.0
+offset_top = 22.0
+offset_right = 682.0
+offset_bottom = 53.0
+theme = ExtResource("2_u0ptt")
+bbcode_enabled = true
+text = "HH:MM:SS"
+scroll_active = false
+
+[node name="Location" type="RichTextLabel" parent="Control/Texts"]
+material = SubResource("ShaderMaterial_ihriq")
+clip_contents = false
+layout_mode = 0
+offset_left = 28.0
+offset_top = 61.0
+offset_right = 440.0
+offset_bottom = 92.0
+theme = ExtResource("2_u0ptt")
+bbcode_enabled = true
+text = "Ruins-LeafPile"
+scroll_active = false
+
+[node name="Options" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Load" type="OptionSelectableSolo" parent="Control/Options"]
+NodeRight = NodePath("../Reset")
+material = SubResource("ShaderMaterial_kc30e")
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.13
+anchor_top = 0.711765
+anchor_right = 0.668
+anchor_bottom = 0.929412
+theme = ExtResource("2_u0ptt")
+theme_override_fonts/normal_font = ExtResource("3_4gwiv")
+bbcode_enabled = true
+text = "계속하기"
+scroll_active = false
+
+[node name="Reset" type="OptionSelectableSolo" parent="Control/Options"]
+NodeLeft = NodePath("../Load")
+material = SubResource("ShaderMaterial_mkrny")
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.47
+anchor_top = 0.712
+anchor_right = 1.0
+anchor_bottom = 0.944
+theme = ExtResource("2_u0ptt")
+theme_override_fonts/normal_font = ExtResource("3_4gwiv")
+bbcode_enabled = true
+text = "리셋"
+scroll_active = false
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_6utps")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_rk211")
+bus = &"SFX"
+
+[node name="warn" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_rfr4t")
+bus = &"SFX"
+
+[connection signal="disable" from="." to="Control/Options/Load" method="disable"]
+[connection signal="disable" from="." to="Control/Options/Reset" method="disable"]
+[connection signal="reset_options" from="." to="Control/Options/Load" method="reset"]
+[connection signal="reset_options" from="." to="Control/Options/Reset" method="reset"]
+[connection signal="accept_pressed" from="Control/Options/Load" to="." method="load_save"]
+[connection signal="accept_pressed" from="Control/Options/Reset" to="." method="_on_reset_accept_pressed"]

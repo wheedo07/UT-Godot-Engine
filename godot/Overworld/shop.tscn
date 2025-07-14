@@ -1,0 +1,251 @@
+[gd_scene load_steps=11 format=3 uid="uid://cky15oufpvxym"]
+
+[ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="2_c0m18"]
+[ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="3_dls26"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_lws8l"]
+[ext_resource type="AudioStream" uid="uid://bhsttfwejarc4" path="res://sfx/Clicks/generic1.wav" id="5_upaer"]
+[ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="8_if0j0"]
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="10_bn7bx"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="11_udity"]
+[ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="12_tldfv"]
+[ext_resource type="AudioStream" uid="uid://bccff4667e570" path="res://sfx/buy_item.wav" id="15_ssolt"]
+[ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="16_jjntu"]
+
+[node name="Shop" type="SHOP"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Info" type="NinePatchRect" parent="Control"]
+layout_mode = 0
+offset_left = 422.0
+offset_top = 250.0
+offset_right = 640.0
+offset_bottom = 455.0
+texture = ExtResource("2_c0m18")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Panel" type="Panel" parent="Control/Info"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_dls26")
+
+[node name="ItemInfo" type="RichTextLabel" parent="Control/Info"]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 21.0
+offset_right = 209.0
+offset_bottom = 254.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "ItemName - Heals 80 hp
+do something
+...
+..."
+scroll_active = false
+
+[node name="TextBox" type="NinePatchRect" parent="Control"]
+layout_mode = 0
+offset_top = 240.0
+offset_right = 419.0
+offset_bottom = 479.0
+texture = ExtResource("2_c0m18")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Panel" type="Panel" parent="Control/TextBox"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_dls26")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/TextBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 25
+
+[node name="Dialogue" type="AdvancedTextTyper" parent="Control/TextBox/MarginContainer"]
+click_path = NodePath("Click")
+visible = false
+layout_mode = 2
+theme = ExtResource("3_lws8l")
+bbcode_enabled = true
+text = "* (와 샌즈다)"
+scroll_active = false
+visible_characters_behavior = 1
+
+[node name="Click" type="AudioStreamPlayer" parent="Control/TextBox/MarginContainer/Dialogue"]
+stream = ExtResource("5_upaer")
+bus = &"SFX"
+
+[node name="Items" type="RichTextLabel" parent="Control/TextBox"]
+visible = false
+layout_mode = 0
+offset_left = 70.0
+offset_top = 22.0
+offset_right = 410.0
+offset_bottom = 278.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = " 60G - Starfait
+120G - Glamburger
+300G - Legendary Hero
+500G - [i]Steakintheshapeofmettaton'sface[/i]
+Exit"
+scroll_active = false
+
+[node name="SellItems" type="RichTextLabel" parent="Control/TextBox"]
+visible = false
+layout_mode = 0
+offset_left = 70.0
+offset_top = 22.0
+offset_right = 410.0
+offset_bottom = 278.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "Item1 - 0G
+Item2 - 3G
+..."
+scroll_active = false
+
+[node name="Dialogues" type="RichTextLabel" parent="Control/TextBox"]
+visible = false
+layout_mode = 0
+offset_left = 70.0
+offset_top = 22.0
+offset_right = 410.0
+offset_bottom = 278.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+scroll_active = false
+
+[node name="Slider" parent="Control/TextBox" instance=ExtResource("12_tldfv")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.925
+anchor_top = 0.08
+anchor_right = 0.975
+anchor_bottom = 0.894
+
+[node name="Main" type="NinePatchRect" parent="Control"]
+layout_mode = 0
+offset_left = 422.0
+offset_top = 240.0
+offset_right = 640.0
+offset_bottom = 480.0
+texture = ExtResource("2_c0m18")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Soul" parent="Control/Main" instance=ExtResource("8_if0j0")]
+position = Vector2(38, 38)
+
+[node name="Panel" type="Panel" parent="Control/Main"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_dls26")
+
+[node name="Options" type="RichTextLabel" parent="Control/Main"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 22.0
+offset_right = 396.0
+offset_bottom = 278.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 10
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "구매
+팔기
+대화
+나가기"
+scroll_active = false
+
+[node name="Gold" type="RichTextLabel" parent="Control/Main"]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 181.0
+offset_right = 217.0
+offset_bottom = 210.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "2729G"
+scroll_active = false
+
+[node name="Space" type="RichTextLabel" parent="Control/Main"]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 181.0
+offset_right = 318.0
+offset_bottom = 210.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "7/8"
+scroll_active = false
+
+[node name="room_exit" type="RoomEntranceNode" parent="Control"]
+door_margin = 0
+layout_mode = 0
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_bn7bx")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_udity")
+bus = &"SFX"
+
+[node name="bought" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_ssolt")
+bus = &"SFX"
+
+[node name="insufficient" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_jjntu")
+bus = &"SFX"
+
+[connection signal="advanced_finished_all_texts" from="Control/TextBox/MarginContainer/Dialogue" to="." method="_on_keeper_dialogue_finished_all_texts"]
+[connection signal="started_typing" from="Control/TextBox/MarginContainer/Dialogue" to="." method="_on_keeper_dialogue_started_typing"]

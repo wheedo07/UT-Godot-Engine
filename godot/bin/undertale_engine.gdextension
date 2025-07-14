@@ -1,0 +1,37 @@
+[configuration]
+
+entry_symbol = "undertale_engine_main_init"
+compatibility_minimum = "4.4"
+
+[libraries]
+
+windows.debug.x86_32 = "res://bin/exe/lib.UndertaleEngine.windows_debug.x86_32.dll"
+windows.release.x86_32 = "res://bin/exe/lib.UndertaleEngine.windows_release.x86_32.dll"
+windows.debug.x86_64 = "res://bin/exe/lib.UndertaleEngine.windows_debug.x86_64.dll"
+windows.release.x86_64 = "res://bin/exe/lib.UndertaleEngine.windows_release.x86_64.dll"
+linux.debug.x86_64 = "res://bin/exe/lib.UndertaleEngine.linux_debug.x86_64.so"
+linux.release.x86_64 = "res://bin/exe/lib.UndertaleEngine.linux_release.x86_64.so"
+linux.debug.arm64 = "res://bin/exe/lib.UndertaleEngine.linux_debug.arm64.so"
+linux.release.arm64 = "res://bin/exe/lib.UndertaleEngine.linux_release.arm64.so"
+linux.debug.rv64 = "res://bin/exe/lib.UndertaleEngine.linux_debug.rv64.so"
+linux.release.rv64 = "res://bin/exe/lib.UndertaleEngine.linux_release.rv64.so"
+android.debug.x86_64 = "res://bin/exe/lib.UndertaleEngine.android_debug.x86_64.so"
+android.release.x86_64 = "res://bin/exe/lib.UndertaleEngine.android_release.x86_64.so"
+android.debug.arm64 = "res://bin/exe/lib.UndertaleEngine.android_debug.arm64.so"
+android.release.arm64 = "res://bin/exe/lib.UndertaleEngine.android_release.arm64.so"
+web.debug.wasm32 = "res://bin/exe/lib.UndertaleEngine.web_debug.wasm32.wasm"
+web.release.wasm32 = "res://bin/exe/lib.UndertaleEngine.web_release.wasm32.wasm"
+web.debug.wasm32.nothreads = "res://bin/exe/lib.UndertaleEngine.web_debug.wasm32.nothreads.wasm"
+web.release.wasm32.nothreads = "res://bin/exe/lib.UndertaleEngine.web_release.wasm32.nothreads.wasm"
+
+[icons]
+
+Overworld = "res://Overworld/icon_overworld.png"
+ShopCreate = "res://Overworld/icon_shop.png"
+RoomEntranceNode = "res://Overworld/icon_room.png"
+GenericTextTyper = "res://Text/icon.png"
+AdvancedTextTyper = "res://Text/icon.png"
+Bullet = "res://Battle/Bullets/icon_bullet.png"
+DefaultBullet = "res://Battle/Bullets/icon_default.png"
+BulletArea = "res://Battle/Bullets/icon_area.png"
+Enemy = "res://Battle/Enemies/icon_enemy.png"

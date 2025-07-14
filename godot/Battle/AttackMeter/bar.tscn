@@ -1,0 +1,98 @@
+[gd_scene load_steps=12 format=3 uid="uid://e4mlmtm3prrv"]
+
+[ext_resource type="Texture2D" uid="uid://dyxj6keyxr4v" path="res://Battle/AttackMeter/bars.png" id="1_uqwy5"]
+[ext_resource type="Texture2D" uid="uid://cnnbormdbe1y" path="res://Battle/AttackMeter/meter.png" id="2_bkue7"]
+[ext_resource type="AudioStream" uid="uid://dm2pw7skxmkn4" path="res://Battle/Slashes/Gun/snd_hit_critical.wav" id="4_4xfpp"]
+[ext_resource type="AudioStream" uid="uid://b3s6d5ina6qdi" path="res://sfx/snd_hit.wav" id="4_rdxli"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuboy"]
+atlas = ExtResource("1_uqwy5")
+region = Rect2(0, 0, 14, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ji8tq"]
+atlas = ExtResource("1_uqwy5")
+region = Rect2(14, 0, 14, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_upain"]
+atlas = ExtResource("2_bkue7")
+region = Rect2(0, 0, 14, 30)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ycm5y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuboy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ji8tq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_upain")
+}],
+"loop": false,
+"name": &"sprites",
+"speed": 8.0
+}]
+
+[sub_resource type="Animation" id="Animation_leloy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_d2rxw"]
+resource_name = "glow"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ftbe7"]
+_data = {
+"RESET": SubResource("Animation_leloy"),
+"glow": SubResource("Animation_d2rxw")
+}
+
+[node name="Bar" type="AttackBar" groups=["attack_bar"]]
+position = Vector2(43, 323)
+sprite_frames = SubResource("SpriteFrames_ycm5y")
+animation = &"sprites"
+
+[node name="critical" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_4xfpp")
+bus = &"SFX"
+
+[node name="hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_rdxli")
+bus = &"SFX"
+
+[node name="Overlay" type="ColorRect" parent="."]
+offset_left = -8.0
+offset_top = -65.0
+offset_right = 8.0
+offset_bottom = 65.0
+color = Color(1, 1, 1, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ftbe7")
+}

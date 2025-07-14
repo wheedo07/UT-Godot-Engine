@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqieb06a4unb2"]
+
+[ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="1_t152p"]
+
+[node name="MenuSoul" type="MenuSoul"]
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("1_t152p")

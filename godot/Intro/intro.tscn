@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://b4slb6gco6aly"]
+
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="2_pcxj1"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="2_t2ayt"]
+[ext_resource type="Texture2D" uid="uid://bqdbc0xkj31tf" path="res://Intro/assets/1.png" id="3_2gjn4"]
+[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="3_4b4jb"]
+[ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="5_1hq8x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tojfl"]
+shader = ExtResource("3_4b4jb")
+shader_parameter/threshold = 0.53
+
+[node name="Intro" type="Intro"]
+intro_completed_path = "res://Intro/title.tscn"
+
+[node name="Camera" parent="." instance=ExtResource("2_t2ayt")]
+position = Vector2(320, 240)
+
+[node name="Panel" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 60.0
+offset_right = 520.0
+offset_bottom = 280.0
+texture = ExtResource("3_2gjn4")
+
+[node name="IntroText" type="GenericTextTyper" parent="."]
+click_path = NodePath("Generic")
+queued_texts_handling = 1
+material = SubResource("ShaderMaterial_tojfl")
+clip_contents = false
+layout_mode = 0
+offset_left = 83.0
+offset_top = 293.0
+offset_right = 564.0
+offset_bottom = 471.0
+theme = ExtResource("2_pcxj1")
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "와 샌즈"
+scroll_active = false
+visible_characters_behavior = 1
+
+[node name="Generic" type="AudioStreamPlayer" parent="IntroText"]
+stream = ExtResource("5_1hq8x")

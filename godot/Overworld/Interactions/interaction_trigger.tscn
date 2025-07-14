@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://mh5dhu6wa6nf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o5b5j"]
+
+[node name="InteractionTrigger" type="InteractionTrigger" groups=["interactable"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_o5b5j")
+debug_color = Color(0.28658, 0.620021, 0.333399, 0.42)

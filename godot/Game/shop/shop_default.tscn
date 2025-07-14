@@ -1,0 +1,223 @@
+[gd_scene load_steps=23 format=3 uid="uid://tw6eogrd1cju"]
+
+[ext_resource type="AudioStream" uid="uid://bs4g8uklvbn26" path="res://Musics/shop_muisc.mp3" id="1_3i4qp"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="2_pbwyu"]
+[ext_resource type="Texture2D" uid="uid://c0d8jfq1f7kpd" path="res://Game/assets/sprite/image/shop_background.png" id="2_wf08j"]
+[ext_resource type="Texture2D" uid="uid://c85b2lll8hwnt" path="res://Game/assets/sprite/sheet/shop_sheet.png" id="3_q0445"]
+[ext_resource type="AudioStream" uid="uid://s6sq0p485acf" path="res://sfx/Clicks/sans.wav" id="5_fd5hb"]
+
+[sub_resource type="ShopItem" id="ShopItem_3hwyn"]
+
+[sub_resource type="ShopItem" id="ShopItem_u6r2o"]
+
+[sub_resource type="Dialogue" id="Dialogue_58gno"]
+dialog_text = "안녕 반갑네"
+
+[sub_resource type="Dialogues" id="Dialogues_d7ljb"]
+dialogues = Array[Dialogue]([SubResource("Dialogue_58gno")])
+
+[sub_resource type="Dialogue" id="Dialogue_p70sc"]
+dialog_text = "그냥 여기서 물건 팔고 테스트 도와주고 있지"
+
+[sub_resource type="Dialogue" id="Dialogue_dcrgd"]
+dialog_text = "막대기나 살래?"
+
+[sub_resource type="Dialogues" id="Dialogues_ujnux"]
+dialogues = Array[Dialogue]([SubResource("Dialogue_p70sc"), SubResource("Dialogue_dcrgd")])
+
+[sub_resource type="Dialogue" id="Dialogue_5t50o"]
+dialog_text = "여긴 어디냐고?"
+
+[sub_resource type="Dialogue" id="Dialogue_4giyn"]
+dialog_text = "그냥 물건 파는 상점 테스트 하는 곳이야"
+
+[sub_resource type="Dialogues" id="Dialogues_0kv5i"]
+dialogues = Array[Dialogue]([SubResource("Dialogue_5t50o"), SubResource("Dialogue_4giyn")])
+
+[sub_resource type="Dialogue" id="Dialogue_hplse"]
+dialog_text = "안녕 여긴 테스트 상점이야"
+
+[sub_resource type="Dialogues" id="Dialogues_060io"]
+dialogues = Array[Dialogue]([SubResource("Dialogue_hplse")])
+
+[sub_resource type="Dialogue" id="Dialogue_wp774"]
+dialog_text = "미안하지만 kid 팔만한 물건이 없네"
+
+[sub_resource type="Dialogues" id="Dialogues_h8g0r"]
+dialogues = Array[Dialogue]([SubResource("Dialogue_wp774")])
+
+[sub_resource type="Animation" id="Animation_0ac6o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("head:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.32599, -50.5645)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("head:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.32599]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("head:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("hand:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.581195]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("hand:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-45, 121)]
+}
+
+[sub_resource type="Animation" id="Animation_v5x30"]
+resource_name = "idle"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("head:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.6, 1.5, 2.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-17.0, 0.0, 17.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("head:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6, 1.5, 2.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.226893, 0.0, 0.226893]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("hand:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.13439, 0.523599]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("hand:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.6, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-19, 89), Vector2(-45, 121)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e2vl0"]
+_data = {
+&"RESET": SubResource("Animation_0ac6o"),
+&"idle": SubResource("Animation_v5x30")
+}
+
+[node name="ShopCreate" type="ShopCreate"]
+shop_music = ExtResource("1_3i4qp")
+click_path = NodePath("click")
+room_id = 1
+room_path = "res://Game/overworld/overworld_default.tscn"
+offerings = [SubResource("ShopItem_3hwyn")]
+sellferings = [SubResource("ShopItem_u6r2o")]
+keeper_dialogues = [SubResource("Dialogues_d7ljb"), SubResource("Dialogues_ujnux"), SubResource("Dialogues_0kv5i")]
+keeper_def_dialogue = SubResource("Dialogues_060io")
+keeper_cannot_sell_dialogues = SubResource("Dialogues_h8g0r")
+dialogue_options = PackedStringArray("인사", "안부묻기", "질문하기")
+
+[node name="Camera" parent="." instance=ExtResource("2_pbwyu")]
+position = Vector2(325, 320)
+
+[node name="background" type="Sprite2D" parent="."]
+position = Vector2(320, 240)
+scale = Vector2(0.54207, 0.721233)
+texture = ExtResource("2_wf08j")
+
+[node name="sans" type="Node2D" parent="background"]
+
+[node name="body" type="Sprite2D" parent="background/sans"]
+position = Vector2(0, 79.0313)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_q0445")
+region_enabled = true
+region_rect = Rect2(0, 163, 200, 134)
+
+[node name="head" type="Sprite2D" parent="background/sans"]
+position = Vector2(1.32599, -50.5645)
+scale = Vector2(1.7, 1.3)
+texture = ExtResource("3_q0445")
+region_enabled = true
+region_rect = Rect2(38, 22, 126, 128)
+
+[node name="hand" type="Sprite2D" parent="background/sans"]
+position = Vector2(-45, 121)
+rotation = 0.581195
+scale = Vector2(1.62556, 1.4978)
+texture = ExtResource("3_q0445")
+region_enabled = true
+region_rect = Rect2(224, 161, 166, 118)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="background/sans"]
+libraries = {
+&"": SubResource("AnimationLibrary_e2vl0")
+}
+autoplay = "idle"
+
+[node name="click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_fd5hb")
+bus = &"SFX"

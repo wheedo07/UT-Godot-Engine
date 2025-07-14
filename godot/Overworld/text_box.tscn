@@ -1,0 +1,353 @@
+[gd_scene load_steps=53 format=3 uid="uid://dy0t6jldvkcc1"]
+
+[ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="1_gscy0"]
+[ext_resource type="SpriteFrames" uid="uid://dj2frtvnpp2o6" path="res://Game/text_box_head.tres" id="2_gj67d"]
+[ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_ftbcr"]
+[ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="4_1fbps"]
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="5_uxfsj"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="6_3vwd2"]
+[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="7_nm6xw"]
+[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="7_wv0lv"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="8_1qomw"]
+[ext_resource type="AudioStream" uid="uid://bhsttfwejarc4" path="res://sfx/Clicks/generic1.wav" id="9_6g2we"]
+[ext_resource type="AudioStream" uid="uid://s6sq0p485acf" path="res://sfx/Clicks/sans.wav" id="10_44e3i"]
+[ext_resource type="AudioStream" uid="uid://2u4u8m7cnuq7" path="res://sfx/Clicks/papyrus.wav" id="11_86f60"]
+[ext_resource type="AudioStream" uid="uid://daeo6y751q54c" path="res://sfx/Clicks/undyne1.wav" id="12_rd7f3"]
+[ext_resource type="AudioStream" uid="uid://nrgsply1aux6" path="res://sfx/Clicks/undyne2.wav" id="13_bthkd"]
+[ext_resource type="AudioStream" uid="uid://dcg7owrihd8dn" path="res://sfx/Clicks/undyne3.wav" id="14_14vkl"]
+[ext_resource type="AudioStream" uid="uid://b46mq0ft13634" path="res://sfx/Clicks/undyne4.wav" id="15_2728w"]
+[ext_resource type="AudioStream" uid="uid://bv3sgmsfw05iq" path="res://sfx/Clicks/undynetheundying.wav" id="16_321w7"]
+[ext_resource type="AudioStream" uid="uid://dvhubyjqw3g6h" path="res://sfx/Clicks/alphys.wav" id="17_m7sf0"]
+[ext_resource type="AudioStream" uid="uid://6ukqr8vdx1m7" path="res://sfx/Clicks/asgore.wav" id="18_u6vs6"]
+[ext_resource type="AudioStream" uid="uid://cdswlclfysbmw" path="res://sfx/Clicks/flowey.wav" id="19_62rud"]
+[ext_resource type="AudioStream" uid="uid://bks7jirweby4s" path="res://sfx/Clicks/floweyevil.wav" id="20_jva33"]
+[ext_resource type="AudioStream" uid="uid://bg8c1x04euact" path="res://sfx/Clicks/gaster1.wav" id="21_ic45q"]
+[ext_resource type="AudioStream" uid="uid://bhsg5ilwpo5f4" path="res://sfx/Clicks/gaster2.wav" id="22_xmfl5"]
+[ext_resource type="AudioStream" uid="uid://q2d06v4sfu8t" path="res://sfx/Clicks/gaster3.wav" id="23_o5bbi"]
+[ext_resource type="AudioStream" uid="uid://dwe36fa1v7qys" path="res://sfx/Clicks/gaster4.wav" id="24_6nt5q"]
+[ext_resource type="AudioStream" uid="uid://caok5pit8ghms" path="res://sfx/Clicks/gaster5.wav" id="25_nn70c"]
+[ext_resource type="AudioStream" uid="uid://b8q2u54goh2b4" path="res://sfx/Clicks/gaster6.wav" id="26_lxf6h"]
+[ext_resource type="AudioStream" uid="uid://c8dgh237mf1qf" path="res://sfx/Clicks/gaster7.wav" id="27_0b0l6"]
+[ext_resource type="AudioStream" uid="uid://bm6w0snuipcpm" path="res://sfx/Clicks/mettaton1.wav" id="28_k0p43"]
+[ext_resource type="AudioStream" uid="uid://btv7rxxdq0f1u" path="res://sfx/Clicks/mettaton2.wav" id="29_k4c30"]
+[ext_resource type="AudioStream" uid="uid://c13hk4gkygxh2" path="res://sfx/Clicks/mettaton3.wav" id="30_80fvh"]
+[ext_resource type="AudioStream" uid="uid://clpwhb1d2jkm1" path="res://sfx/Clicks/mettaton4.wav" id="31_33uhv"]
+[ext_resource type="AudioStream" uid="uid://chjwuyc5fesvs" path="res://sfx/Clicks/mettaton5.wav" id="32_x3826"]
+[ext_resource type="AudioStream" uid="uid://dw5oor3s0du1c" path="res://sfx/Clicks/mettaton6.wav" id="33_d5ofu"]
+[ext_resource type="AudioStream" uid="uid://ckvc248gjj3jy" path="res://sfx/Clicks/mettaton7.wav" id="34_3a2s4"]
+[ext_resource type="AudioStream" uid="uid://h73px4vf4whx" path="res://sfx/Clicks/mettaton8.wav" id="35_xua2f"]
+[ext_resource type="AudioStream" uid="uid://d72pkav60mnj" path="res://sfx/Clicks/mettaton9.wav" id="36_h3uwx"]
+[ext_resource type="AudioStream" uid="uid://4wc52flcygbk" path="res://sfx/Clicks/temmie1.wav" id="37_qin50"]
+[ext_resource type="AudioStream" uid="uid://bcoujng8wh7w5" path="res://sfx/Clicks/temmie2.wav" id="38_hda8x"]
+[ext_resource type="AudioStream" uid="uid://nasc3m5mqp86" path="res://sfx/Clicks/temmie3.wav" id="39_eh5mb"]
+[ext_resource type="AudioStream" uid="uid://dpyqnqx65kw6l" path="res://sfx/Clicks/temmie4.wav" id="40_vplix"]
+[ext_resource type="AudioStream" uid="uid://cvk6c5ayxtpl" path="res://sfx/Clicks/temmie5.wav" id="41_2ckla"]
+[ext_resource type="AudioStream" uid="uid://cekrpgb4njkjs" path="res://sfx/Clicks/temmie6.wav" id="42_p0rmu"]
+[ext_resource type="AudioStream" uid="uid://djqghf5vwlrnq" path="res://sfx/Clicks/toriel1.wav" id="43_2c8ib"]
+[ext_resource type="AudioStream" uid="uid://n0o5byomurv5" path="res://sfx/Clicks/toriel2.wav" id="44_urrdq"]
+[ext_resource type="AudioStream" uid="uid://frjfxua8sc18" path="res://sfx/Clicks/toriel3.wav" id="45_54n7u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sdknb"]
+shader = ExtResource("7_nm6xw")
+shader_parameter/threshold = 0.5
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_cv3w1"]
+streams_count = 4
+stream_0/stream = ExtResource("12_rd7f3")
+stream_1/stream = ExtResource("13_bthkd")
+stream_2/stream = ExtResource("14_14vkl")
+stream_3/stream = ExtResource("15_2728w")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_r7y6t"]
+streams_count = 7
+stream_0/stream = ExtResource("21_ic45q")
+stream_1/stream = ExtResource("22_xmfl5")
+stream_2/stream = ExtResource("23_o5bbi")
+stream_3/stream = ExtResource("24_6nt5q")
+stream_4/stream = ExtResource("25_nn70c")
+stream_5/stream = ExtResource("26_lxf6h")
+stream_6/stream = ExtResource("27_0b0l6")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1t7dp"]
+streams_count = 9
+stream_0/stream = ExtResource("28_k0p43")
+stream_1/stream = ExtResource("29_k4c30")
+stream_2/stream = ExtResource("30_80fvh")
+stream_3/stream = ExtResource("31_33uhv")
+stream_4/stream = ExtResource("32_x3826")
+stream_5/stream = ExtResource("33_d5ofu")
+stream_6/stream = ExtResource("34_3a2s4")
+stream_7/stream = ExtResource("35_xua2f")
+stream_8/stream = ExtResource("36_h3uwx")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bcmho"]
+streams_count = 6
+stream_0/stream = ExtResource("37_qin50")
+stream_1/stream = ExtResource("38_hda8x")
+stream_2/stream = ExtResource("39_eh5mb")
+stream_3/stream = ExtResource("40_vplix")
+stream_4/stream = ExtResource("41_2ckla")
+stream_5/stream = ExtResource("42_p0rmu")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_nwm53"]
+streams_count = 3
+stream_0/stream = ExtResource("43_2c8ib")
+stream_1/stream = ExtResource("44_urrdq")
+stream_2/stream = ExtResource("45_54n7u")
+
+[node name="TextBox" type="TextBox"]
+layer = 2
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 33.0
+offset_top = 322.0
+offset_right = 611.0
+offset_bottom = 470.0
+pivot_offset = Vector2(289, 74)
+
+[node name="Speaker" type="Control" parent="Control"]
+layout_mode = 1
+anchor_left = 0.022
+anchor_top = -0.615
+anchor_right = 0.189
+offset_left = 0.283999
+offset_top = 0.0200043
+offset_right = -0.242004
+offset_bottom = 5.0
+metadata/_edit_group_ = true
+
+[node name="Panel" type="Panel" parent="Control/Speaker"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_gscy0")
+
+[node name="Head" type="AnimatedSprite2D" parent="Control/Speaker"]
+position = Vector2(48, 47)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("2_gj67d")
+animation = &"Sans"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/Speaker"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ftbcr")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_gscy0")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ftbcr")
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="Soul" type="Sprite2D" parent="Control"]
+visible = false
+modulate = Color(1, 0, 0, 1)
+position = Vector2(-33, -322)
+texture = ExtResource("4_1fbps")
+centered = false
+offset = Vector2(-20, 9)
+
+[node name="choice" type="AudioStreamPlayer" parent="Control/Soul"]
+stream = ExtResource("5_uxfsj")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="Control/Soul"]
+stream = ExtResource("6_3vwd2")
+bus = &"SFX"
+
+[node name="TextContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+metadata/_edit_group_ = true
+
+[node name="Text" type="TextBoxWriter" parent="Control/TextContainer"]
+click_path = NodePath("../../../Sounds/Generic")
+material = SubResource("ShaderMaterial_sdknb")
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("8_1qomw")
+theme_override_constants/line_separation = 2
+theme_override_fonts/normal_font = ExtResource("7_wv0lv")
+bbcode_enabled = true
+text = "* (정수기 이다.)
+* (물 한컵을 가져갈까? )"
+scroll_active = false
+visible_characters_behavior = 1
+
+[node name="Options" type="HBoxContainer" parent="Control/TextContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="First" type="TextBoxOptionWriter" parent="Control/TextContainer/Options"]
+visible = false
+material = SubResource("ShaderMaterial_sdknb")
+clip_contents = false
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("8_1qomw")
+theme_override_fonts/normal_font = ExtResource("7_wv0lv")
+bbcode_enabled = true
+text = "예"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Second" type="TextBoxOptionWriter" parent="Control/TextContainer/Options"]
+visible = false
+material = SubResource("ShaderMaterial_sdknb")
+clip_contents = false
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("8_1qomw")
+theme_override_fonts/normal_font = ExtResource("7_wv0lv")
+bbcode_enabled = true
+text = "아니요"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Third" type="TextBoxOptionWriter" parent="Control/TextContainer/Options"]
+visible = false
+material = SubResource("ShaderMaterial_sdknb")
+clip_contents = false
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("8_1qomw")
+theme_override_fonts/normal_font = ExtResource("7_wv0lv")
+bbcode_enabled = true
+text = "Maybe"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Fourth" type="TextBoxOptionWriter" parent="Control/TextContainer/Options"]
+visible = false
+material = SubResource("ShaderMaterial_sdknb")
+clip_contents = false
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("8_1qomw")
+theme_override_fonts/normal_font = ExtResource("7_wv0lv")
+bbcode_enabled = true
+text = "Later"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Textbox" type="TextureRect" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.345098)
+offset_top = 310.0
+offset_right = 640.0
+offset_bottom = 479.201
+expand_mode = 1
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Generic" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("9_6g2we")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Sans" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("10_44e3i")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Papyrus" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("11_86f60")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Undyne" type="AudioStreamPlayer" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_cv3w1")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="UndyneTheUndying" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("16_321w7")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Alphys" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("17_m7sf0")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Asgore" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("18_u6vs6")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Flowey" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("19_62rud")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="FloweyEvil" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("20_jva33")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Gaster" type="AudioStreamPlayer" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_r7y6t")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="GasterText" type="AudioStreamPlayer" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_r7y6t")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Mettaton" type="AudioStreamPlayer" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_1t7dp")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Temmie" type="AudioStreamPlayer" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_bcmho")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="Toriel" type="AudioStreamPlayer" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_nwm53")
+max_polyphony = 3
+bus = &"SFX"
