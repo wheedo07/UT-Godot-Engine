@@ -3,7 +3,7 @@
 ## 📝 개요
 
 **UT-Godot-Engine**은 **Godot Engine**과 \*\*C++ (GDExtension)\*\*을 기반으로 개발된 **Undertale 스타일의 팬게임 개발 프레임워크**입니다.
-Godot의 장점과 C++의 성능을 결합하여, 독창적인 **턴 기반 전투**, **대화 연출**, **오버월드 시스템** 등을 유연하게 구현할 수 있도록 설계되었습니다.
+Godot의 장점과 C++의 성능을 결합하여 **턴 기반 전투**, **대화 연출**, **오버월드 시스템** 등을 유연하게 구현할 수 있도록 설계되었습니다.
 
 <br>
 
@@ -39,6 +39,7 @@ Godot의 장점과 C++의 성능을 결합하여, 독창적인 **턴 기반 전�
 * [Overworld](/docs/Overworld.md)
 * [ShopCreate](/docs/ShopCreate.md)
 * [RoomEntranceNode](/docs/RoomEntranceNode.md)
+* [GenericTextTyper](/docs/GenericTextTyper.md)
 
 ---
 
