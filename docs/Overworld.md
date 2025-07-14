@@ -34,23 +34,22 @@ UT-Godot-Engine에 Overworld를 만들기 위한 노드입니다
 
 ```gdscript
 extends Overworld
-
-@onready var sansTres = preload("res://Game/encounters/tres/sans.tres")
+@onready var sansTres = preload("res://Game/encounters/tres/sans.tres");
 
 func ready():
-    print("Overworld 준비 완료")
+	print("ready 실행");
 
 func _on_batle():
-    var textbox = summontextbox()
-    textbox.generic(Dialogues.new().from([
-        "* 전투를 하시겠습니까?",
-        "* 나중에 다시 전투할 수 있습니다."
-    ]), ["예", "아니요"])
-
-    textbox.connect("selected_option", func(i: int):
-        if i == 0:
-            OverworldSceneChangers.load_battle(sansTres)
-    )
+	var textbox = summontextbox();
+	textbox.generic(Dialogues.new().from([
+		"* 전투를 하시겠습니까?", "* 나중에 다시 전투 할수 있습니다"
+	]), ["예", "아니요"]);
+	textbox.connect("selected_option", func(i:int):
+		if i == 0:
+			OverworldSceneChangers.load_battle(sansTres);
+	);
+	await textbox.dialogue_finished;
+	Globals.set_player_can_move(true);
 ```
 
 </details>

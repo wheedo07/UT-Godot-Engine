@@ -286,7 +286,7 @@ void UI::_close_menu() {
 
 void UI::_unhandled_input(const Ref<InputEvent>& event) {
     // 텍스트 박스가 활성화되어 있으면 무시
-    if (textbox) return;
+    if (textbox || isEditor) return;
     
     if (event->is_action_pressed("ui_down")) {
         soul_move(Vector2(0, 1));

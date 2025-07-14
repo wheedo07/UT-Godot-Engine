@@ -4,6 +4,7 @@
 #include "text_box_writer.h"
 #include "text_box_options.h"
 #include "engine/Text/character.h"
+#include "engine/Menus/menu_soul.h"
 #include<godot_cpp/classes/canvas_layer.hpp>
 #include<godot_cpp/classes/input_event.hpp>
 #include<godot_cpp/classes/animated_sprite2d.hpp>
@@ -38,6 +39,7 @@ namespace godot {
 
             TextBoxWriter* Text;
             AnimatedSprite2D* head;
+            MenuSoul* soul;
             Array Options;
             Vector2 defpos = Vector2(0, 0);
             Vector2 defsize = Vector2(0, 0);
@@ -63,7 +65,6 @@ namespace godot {
             ~TextBox();
 
             void _ready() override;
-            void _process(double delta) override;
             void _input(const Ref<InputEvent>& event) override;
 
             // 사용 함수

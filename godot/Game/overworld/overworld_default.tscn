@@ -25,6 +25,8 @@ func _on_batle():
 		if i == 0:
 			OverworldSceneChangers.load_battle(sansTres);
 	);
+	await textbox.dialogue_finished;
+	Globals.set_player_can_move(true);
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_37vgg"]

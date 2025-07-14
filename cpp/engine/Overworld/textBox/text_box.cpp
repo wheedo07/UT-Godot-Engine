@@ -50,6 +50,7 @@ void TextBox::_ready() {
     
     Text = Object::cast_to<TextBoxWriter>(get_node_internal("Control/TextContainer/Text"));
     head = Object::cast_to<AnimatedSprite2D>(get_node_internal("Control/Speaker/Head"));
+    soul = Object::cast_to<MenuSoul>(get_node_internal("Control/Soul"));
     Text->set_text("");
     Text->connect("skip", Callable(this, "_on_skip"));
     
@@ -93,13 +94,6 @@ void TextBox::_ready() {
     // * //
 }
 
-void TextBox::_process(double delta) {
-    Node* soul = get_node_internal("Control/Soul");
-    Vector2 current_pos = soul->call("get_global_position");
-    Vector2 new_pos = current_pos.lerp(soul_position, delta * 40);
-    soul->call("set_global_position", new_pos);
-}
-
 void TextBox::_input(const Ref<InputEvent>& event) {
     if(!selecting || isEditor) return;
     
@@ -108,6 +102,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
         selected_option = 1;
         get_node_internal("Control/Soul/choice")->call("play");
         soul_position = Options[soulpos].call("get_global_position");
+        soul->move_global(soul_position);
     }
     
     if(event->is_action_pressed("ui_right") && (soulpos < optionamt-1 || !selected_option)) {
@@ -115,6 +110,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
         get_node_internal("Control/Soul/choice")->call("play");
         soulpos++;
         soul_position = Options[soulpos].call("get_global_position");
+        soul->move_global(soul_position);
     }
     
     if(event->is_action_pressed("ui_accept") && selected_option) {
@@ -123,13 +119,11 @@ void TextBox::_input(const Ref<InputEvent>& event) {
         get_node_internal("Control/Soul/select")->call("play");
         finish_options();
     }
+    
 }
 
 void TextBox::finish_options() {
-    Node* soul = get_node_internal("Control/Soul");
-    if (soul) {
-        soul->call("hide");
-    }
+    soul->hide();
     
     for (int i = 0; i < 4; i++) {
         Options[i].call("set_text", "");
@@ -245,7 +239,6 @@ void TextBox::setup_options_typing(const PackedStringArray& options) {
 }
 
 void TextBox::setup_soul_selection(const PackedStringArray& options) {
-    Sprite2D* soul = Object::cast_to<Sprite2D>(get_node_internal("Control/Soul"));
     soul->show();
     optionamt = options.size();
     soulpos = (optionamt - 1) / 2.0;

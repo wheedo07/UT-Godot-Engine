@@ -1,12 +1,12 @@
 [gd_scene load_steps=53 format=3 uid="uid://dy0t6jldvkcc1"]
 
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="1_gscy0"]
-[ext_resource type="SpriteFrames" uid="uid://dj2frtvnpp2o6" path="res://Game/text_box_head.tres" id="2_gj67d"]
+[ext_resource type="SpriteFrames" uid="uid://dj2frtvnpp2o6" path="res://Main/text_box_head.tres" id="2_gj67d"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_ftbcr"]
-[ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="4_1fbps"]
+[ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="4_5w4db"]
 [ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="5_uxfsj"]
 [ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="6_3vwd2"]
-[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="7_nm6xw"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="7_nm6xw"]
 [ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="7_wv0lv"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="8_1qomw"]
 [ext_resource type="AudioStream" uid="uid://bhsttfwejarc4" path="res://sfx/Clicks/generic1.wav" id="9_6g2we"]
@@ -168,11 +168,9 @@ patch_margin_top = 11
 patch_margin_right = 11
 patch_margin_bottom = 11
 
-[node name="Soul" type="Sprite2D" parent="Control"]
+[node name="Soul" parent="Control" instance=ExtResource("4_5w4db")]
 visible = false
-modulate = Color(1, 0, 0, 1)
 position = Vector2(-33, -322)
-texture = ExtResource("4_1fbps")
 centered = false
 offset = Vector2(-20, 9)
 
