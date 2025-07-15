@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlix5icrmdrty"]
+
+[ext_resource type="Texture2D" uid="uid://b6esm7jl8wclu" path="res://Battle/Box/Scroll/arrow.png" id="1_tb4gn"]
+[ext_resource type="Texture2D" uid="uid://drgpkwqyg5j54" path="res://Menus/assets/X.png" id="2_y6jrr"]
+[ext_resource type="Texture2D" uid="uid://jktotggpuwol" path="res://Menus/assets/A.png" id="3_rguxf"]
+[ext_resource type="Texture2D" uid="uid://dwydwox8hn0x7" path="res://Menus/assets/menu.png" id="4_gpqdw"]
+[ext_resource type="Texture2D" uid="uid://btudqg53mbiy1" path="res://Menus/assets/setting.png" id="5_y6jrr"]
+
+[node name="Mobile" type="Control"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 3
+anchors_preset = 0
+
+[node name="ui_input" type="Node2D" parent="."]
+position = Vector2(-50, 335)
+scale = Vector2(1.1, 1.1)
+
+[node name="ui_up" type="TouchScreenButton" parent="ui_input"]
+position = Vector2(0, -15)
+scale = Vector2(3.895, 4)
+texture_normal = ExtResource("1_tb4gn")
+action = "ui_up"
+
+[node name="ui_down" type="TouchScreenButton" parent="ui_input"]
+position = Vector2(63, 131)
+rotation = 3.14159
+scale = Vector2(3.895, 4)
+texture_normal = ExtResource("1_tb4gn")
+action = "ui_down"
+
+[node name="ui_right" type="TouchScreenButton" parent="ui_input"]
+position = Vector2(102, 27)
+rotation = 1.5708
+scale = Vector2(3.895, 4)
+texture_normal = ExtResource("1_tb4gn")
+action = "ui_right"
+
+[node name="ui_left" type="TouchScreenButton" parent="ui_input"]
+position = Vector2(-42, 90)
+rotation = -1.5708
+scale = Vector2(3.895, 4)
+texture_normal = ExtResource("1_tb4gn")
+action = "ui_left"
+
+[node name="ui_button" type="Node2D" parent="."]
+position = Vector2(650, 410)
+
+[node name="X" type="TouchScreenButton" parent="ui_button"]
+texture_normal = ExtResource("2_y6jrr")
+action = "ui_cancel"
+
+[node name="A" type="TouchScreenButton" parent="ui_button"]
+position = Vector2(-79, -77)
+texture_normal = ExtResource("3_rguxf")
+action = "ui_accept"
+
+[node name="menu" type="TouchScreenButton" parent="."]
+position = Vector2(581, 6)
+texture_normal = ExtResource("4_gpqdw")
+action = "ui_menu"
+
+[node name="setting" type="TouchScreenButton" parent="."]
+position = Vector2(518, 6)
+texture_normal = ExtResource("5_y6jrr")
+action = "ui_close"

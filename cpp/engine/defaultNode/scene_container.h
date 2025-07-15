@@ -17,6 +17,7 @@ namespace godot {
         private:
             SubViewportContainer* settings_viewport_container;
             SubViewportContainer* main_viewport_container;
+            Control* mobile;
             SubViewport* main_viewport;
             CameraFx* camera;
             ReferenceRect* border;

@@ -155,6 +155,8 @@ void UI::_in_state(States state) {
         case ITEM_USE_DISABLE_MOVEMENT:
             items->shrink();
             break;
+        default:
+            break;
     }
     
     soul_move(Vector2());

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b72rkv2gjlqgd"]
+[gd_scene load_steps=7 format=3 uid="uid://b72rkv2gjlqgd"]
 
-[ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="1_4tsh2"]
+[ext_resource type="Shader" uid="uid://cwal68u742e4u" path="res://Shaders/blur.gdshader" id="1_4tsh2"]
+[ext_resource type="PackedScene" uid="uid://dlix5icrmdrty" path="res://Menus/mobile.tscn" id="2_pcttb"]
 [ext_resource type="PackedScene" uid="uid://x1g53cac1aq7" path="res://Main/settings.tscn" id="3_cwtq4"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1a676"]
@@ -122,5 +123,10 @@ mouse_filter = 2
 border_color = Color(1, 1, 1, 1)
 border_width = 2.0
 editor_only = false
+
+[node name="Mobile" parent="." instance=ExtResource("2_pcttb")]
+process_mode = 3
+visible = false
+layout_mode = 1
 
 [connection signal="setting_changed" from="SettingsContainer/SubViewport/Settings" to="." method="_on_settings_setting_changed"]

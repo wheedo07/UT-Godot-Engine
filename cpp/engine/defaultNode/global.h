@@ -21,7 +21,7 @@ namespace godot {
 		
 		public:
 	        AudioStreamPlayer* heal_sound;
-	        bool start;
+	        bool start, isMobile;
 
         private:
 			String savepath;

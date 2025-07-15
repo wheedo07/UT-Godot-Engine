@@ -117,6 +117,8 @@ void SHOP::_unhandled_input(const Ref<InputEvent>& event) {
                 soul_position = 1;
                 _in_state(SELECTING_ACTIONS);
                 break;
+            default:
+                break;
         }
     }
     
@@ -191,6 +193,8 @@ void SHOP::_unhandled_input(const Ref<InputEvent>& event) {
                 }
                 break;
             }
+            default:
+                break;
         }
     }
 }

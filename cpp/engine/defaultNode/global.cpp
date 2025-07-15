@@ -87,6 +87,7 @@ Global::Global() {
     playtime = 0.0;
     cache_playtime = 0.0;
     start = false;
+    isMobile = false;
 }
 
 Global::~Global() {}
@@ -102,7 +103,13 @@ void Global::_ready() {
     KrTimer = Object::cast_to<Timer>(get_node_internal("KrTimer"));
     Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
     String osName = os->get_name();
+    isMobile = osName == "Android";
     if(osName == "Web") return;
+    if(osName == "Android") {
+        call_deferred("toggle_fullscreen");
+        savepath = "user://saved.json";
+        settingpaths = "user://settings.json";
+    }
 
     if(savepath.find("$home") != -1) {
         if(osName == "Windows") 
@@ -155,6 +162,8 @@ PackedStringArray Global::equip_item(int item_id) {
             items.push_back(equipment["armor"]);
             equipment["armor"] = item_id;
             break;
+        default:
+            break;
     }
     
     return equip_text;
@@ -170,7 +179,7 @@ void Global::heal(int amt) {
 
 void Global::_input(const Ref<InputEvent>& event) {
     if(isEditor) return;
-    if (event->is_action_pressed("toggle_fullscreen")) {
+    if (event->is_action_pressed("toggle_fullscreen") && !isMobile) {
         toggle_fullscreen();
     }
     if (event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {

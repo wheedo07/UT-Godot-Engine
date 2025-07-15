@@ -36,6 +36,7 @@ void SceneContainer::_ready() {
     main_viewport = Object::cast_to<SubViewport>(get_node_internal("SubViewportContainer/MainViewport"));
     border = Object::cast_to<ReferenceRect>(get_node_internal("SettingsContainer/Border"));
     screen_copy = Object::cast_to<TextureRect>(get_node_internal("ScreenCopy"));
+    mobile = Object::cast_to<Control>(get_node_internal("Mobile"));
 
     global = Object::cast_to<Global>(get_node_internal("/root/Globals"));
     scene_changer = Object::cast_to<OverworldSceneChanger>(get_node_internal("/root/OverworldSceneChangers"));
@@ -45,6 +46,10 @@ void SceneContainer::_ready() {
     global->set_scene_container(this);
     global->connect("fullscreen_toggled", Callable(this, "_on_fullscreen_toggle"));
     settings_viewport_container->get_node_internal("SubViewport/Settings")->emit_signal("init");
+
+    if(global->isMobile) {
+        mobile->show();
+    }
 
     reload_camera();
     change_scene_to_file("res://Intro/intro.tscn");
@@ -121,6 +126,11 @@ void SceneContainer::_on_fullscreen_toggle(bool to) {
     Vector2 scale = Vector2(to ? get_fullscreen_scale() : 1, to ? get_fullscreen_scale() : 1);
     main_viewport_container->set_scale(scale);
     settings_viewport_container->set_scale(scale);
+    mobile->set_scale(scale);
+    Vector2 screen_size = DisplayServer::get_singleton()->screen_get_size();
+    Vector2 mobile_size = SCREEN_SIZE * scale;
+    Vector2 center_pos = (screen_size - mobile_size) / 2;
+    mobile->set_position(center_pos);
     if (_just_toggled_border) {
         _refresh_window();
     }

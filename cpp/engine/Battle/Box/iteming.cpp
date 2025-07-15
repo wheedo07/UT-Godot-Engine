@@ -37,7 +37,7 @@ void ItemingBoxBehaviour::input(const Ref<InputEvent>& event) {
         box->backout();
         box->emit_signal("moved_to_buttons");
     }else if(event->is_action_pressed("ui_accept")) {
-        if(!global->get_items().size() > 0) {
+        if(!(global->get_items().size() > 0)) {
             box->emit_signal("moved_to_buttons");
             box->backout();
             return;
