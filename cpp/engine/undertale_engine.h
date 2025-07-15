@@ -77,6 +77,7 @@ using namespace godot;
 #include "Menus/bool_setting.h"
 #include "Menus/item_slider.h"
 #include "Menus/save_loader.h"
+#include "Menus/joystick.h"
 // [end] //
 
 // [Intro] //

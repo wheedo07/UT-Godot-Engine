@@ -80,6 +80,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_CLASS(AudiobusSettings);
     GDREGISTER_CLASS(ItemSlider);
     GDREGISTER_CLASS(SaveLoader);
+    GDREGISTER_CLASS(Joystick);
     // [end] //
 
     // [Intro] //
