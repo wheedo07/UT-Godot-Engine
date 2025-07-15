@@ -384,10 +384,9 @@ void SoulBattle::set_gravity_direction(const Vector2& new_direction, bool force_
         angle += Math_PI;
     }
     
-    Tween* rotation_tween = Object::cast_to<Tween>(create_tween().ptr());
+    Ref<Tween> rotation_tween = create_tween();
     rotation_tween->tween_property(sprite, "rotation", angle, 0.2);
-    
-    if (force_blue_mode) set_mode(BLUE);
+    if(force_blue_mode) set_mode(BLUE);
 }
 
 void SoulBattle::set_gravity_direction_silent(const Vector2& new_direction) {
@@ -459,7 +458,7 @@ void SoulBattle::blue() {
         motion.y += gravity * gravity_multiplier;
     }
     
-    motion.x = speed * ceil(inputs.x) / slow_down;
+    motion.x = speed * inputs.x / slow_down;
     
     if (is_on_floor()) {
         if (motion.y > 0) {
