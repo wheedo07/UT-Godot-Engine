@@ -19,12 +19,11 @@ namespace godot {
 
             enum Visibility_mode {
                 ALWAYS,           // 항상 표시
-                TOUCHSCREEN_ONLY, // 터치스크린에서만 표시
                 WHEN_TOUCHED      // 터치할 때만 표시
             };
 
         private:
-            bool isEditor, is_pressed, use_input_actions;
+            bool isEditor, is_pressed;
             float deadzone_size, clampzone_size;
             int touch_index;
             StringName action_left;
@@ -32,7 +31,6 @@ namespace godot {
             StringName action_up;
             StringName action_down;
             Vector2 output;
-            Dictionary action_states;
             Joystick_mode joystick_mode;
             Visibility_mode visibility_mode;
             TextureRect* base;
@@ -48,7 +46,7 @@ namespace godot {
             Vector2 _get_base_radius();
             bool _is_point_inside_base(const Vector2& point);
             void _update_joystick(const Vector2& touch_position);
-            void _set_action_state(const String& action, bool pressed, float strength = 1.0f);
+            void _set_action_state(const String& action, bool pressed, float strength = 0);
             void _reset();
             
             void set_pressed_color(Color value);

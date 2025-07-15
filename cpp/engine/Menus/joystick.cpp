@@ -10,7 +10,6 @@ using namespace godot;
 
 Joystick::Joystick() {
     isEditor = true;
-    use_input_actions = true;
     is_pressed = false;
     joystick_mode = Joystick_mode::FIXED;
     visibility_mode = Visibility_mode::ALWAYS;
@@ -33,7 +32,6 @@ void Joystick::_bind_methods() {
     BIND_ENUM_CONSTANT(FOLLOWING);
     
     BIND_ENUM_CONSTANT(ALWAYS);
-    BIND_ENUM_CONSTANT(TOUCHSCREEN_ONLY);
     BIND_ENUM_CONSTANT(WHEN_TOUCHED);
 
     ClassDB::bind_method(D_METHOD("set_pressed_color", "value"), &Joystick::set_pressed_color);
@@ -57,7 +55,7 @@ void Joystick::_bind_methods() {
 
     ADD_PROPERTY(PropertyInfo(Variant::COLOR, "pressed_color"), "set_pressed_color", "get_pressed_color");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "joystick_mode", PROPERTY_HINT_ENUM, "Dynamic,Fixed,Following"), "set_joystick_mode", "get_joystick_mode");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "visibility_mode", PROPERTY_HINT_ENUM, "Always Visible,When Touched,Touchscreen Only"), "set_visibility_mode", "get_visibility_mode");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "visibility_mode", PROPERTY_HINT_ENUM, "Always Visible,When Touched"), "set_visibility_mode", "get_visibility_mode");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "deadzone_size", PROPERTY_HINT_RANGE, "0,200,1"), "set_deadzone_size", "get_deadzone_size");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "clampzone_size", PROPERTY_HINT_RANGE, "0,500,1"), "set_clampzone_size", "get_clampzone_size");
 
@@ -74,24 +72,9 @@ void Joystick::_ready() {
     base = Object::cast_to<TextureRect>(get_node_internal("Base"));
     tip = Object::cast_to<TextureRect>(get_node_internal("Base/Tip"));
 
-    if (!DisplayServer::get_singleton()->is_touchscreen_available() && visibility_mode == TOUCHSCREEN_ONLY) {
-        hide();
-    }
-    
-    if (visibility_mode == WHEN_TOUCHED) {
-        hide();
-    }
-    
-    action_states["ui_left"] = false;
-    action_states["ui_right"] = false;
-    action_states["ui_up"] = false;
-    action_states["ui_down"] = false;
-    
-    if (base && tip) {
-        base_default_position = base->get_position();
-        tip_default_position = tip->get_position();
-        default_color = tip->get_modulate();
-    }
+    base_default_position = base->get_position();
+    tip_default_position = tip->get_position();
+    default_color = tip->get_modulate();
     
     _reset();
 }
@@ -117,7 +100,7 @@ void Joystick::_input(const Ref<InputEvent>& event) {
                     get_viewport()->set_input_as_handled();
                 }
             }
-        } else if (touch_event->get_index() == touch_index) {
+        }else if(touch_event->get_index() == touch_index) {
             _reset();
             if (visibility_mode == WHEN_TOUCHED) {
                 hide();
@@ -127,7 +110,7 @@ void Joystick::_input(const Ref<InputEvent>& event) {
     }
     
     Ref<InputEventScreenDrag> drag_event = event;
-    if (drag_event.is_valid()) {
+    if(drag_event.is_valid()) {
         if (drag_event->get_index() == touch_index) {
             _update_joystick(drag_event->get_position());
             get_viewport()->set_input_as_handled();
@@ -175,65 +158,44 @@ void Joystick::_update_joystick(const Vector2& touch_position) {
     Vector2 center = base->get_global_position() + base_radius;
     Vector2 vector = touch_position - center;
     
-    if (vector.length() > clampzone_size) {
+    if(vector.length() > clampzone_size) {
         vector = vector.normalized() * clampzone_size;
     }
     
-    if (joystick_mode == FOLLOWING && touch_position.distance_to(center) > clampzone_size) {
+    if(joystick_mode == FOLLOWING && touch_position.distance_to(center) > clampzone_size) {
         _move_base(touch_position - vector);
     }
     
     _move_tip(center + vector);
     
-    if (vector.length_squared() > deadzone_size * deadzone_size) {
+    if(vector.length_squared() > deadzone_size * deadzone_size) {
         is_pressed = true;
         output = (vector - (vector.normalized() * deadzone_size)) / (clampzone_size - deadzone_size);
-    } else {
+    }else {
         is_pressed = false;
         output = Vector2(0, 0);
     }
     
-    if (use_input_actions) {
-        float threshold = 0.3f;
-        
-        if (output.x < -threshold) {
-            _set_action_state(action_left, true, -output.x);
-            _set_action_state(action_right, false);
-        } else if (output.x > threshold) {
-            _set_action_state(action_right, true, output.x);
-            _set_action_state(action_left, false);
-        } else {
-            _set_action_state(action_left, false);
-            _set_action_state(action_right, false);
-        }
-        
-        if (output.y < -threshold) {
-            _set_action_state(action_up, true, -output.y);
-            _set_action_state(action_down, false);
-        } else if (output.y > threshold) {
-            _set_action_state(action_down, true, output.y);
-            _set_action_state(action_up, false);
-        } else {
-            _set_action_state(action_up, false);
-            _set_action_state(action_down, false);
-        }
-    }
+    float threshold = 0.3f;
+    
+    float left_strength = output.x < -threshold ? -output.x : 0.0f;
+    float right_strength = output.x > threshold ? output.x : 0.0f;
+    float up_strength = output.y < -threshold ? -output.y : 0.0f;
+    float down_strength = output.y > threshold ? output.y : 0.0f;
+
+    _set_action_state(action_left, left_strength > 0, left_strength);
+    _set_action_state(action_right, right_strength > 0, right_strength);
+    _set_action_state(action_up, up_strength > 0, up_strength);
+    _set_action_state(action_down, down_strength > 0, down_strength);
 }
 
 void Joystick::_set_action_state(const String& action, bool pressed, float strength) {
-    bool current_pressed = action_states.get(action, false);
+    Ref<InputEventAction> event = memnew(InputEventAction);
+    event->set_action(action);
+    event->set_pressed(pressed);
+    event->set_strength(pressed ? strength : 0);
     
-    if (current_pressed != pressed) {
-        action_states[action] = pressed;
-        
-        Ref<InputEventAction> event;
-        event.instantiate();
-        event->set_action(action);
-        event->set_pressed(pressed);
-        event->set_strength(strength);
-        
-        Input::get_singleton()->parse_input_event(event);
-    }
+    Input::get_singleton()->parse_input_event(event);
 }
 
 void Joystick::_reset() {
@@ -241,16 +203,14 @@ void Joystick::_reset() {
     output = Vector2(0, 0);
     touch_index = -1;
     
-    if (tip) tip->set_modulate(default_color);
-    if (base) base->set_position(base_default_position);
-    if (tip) tip->set_position(tip_default_position);
+    tip->set_modulate(default_color);
+    base->set_position(base_default_position);
+    tip->set_position(tip_default_position);
     
-    if(use_input_actions) {
-        _set_action_state(action_left, false);
-        _set_action_state(action_right, false);
-        _set_action_state(action_up, false);
-        _set_action_state(action_down, false);
-    }
+    _set_action_state(action_left, false);
+    _set_action_state(action_right, false);
+    _set_action_state(action_up, false);
+    _set_action_state(action_down, false);
 }
 
 void Joystick::set_pressed_color(Color value) {

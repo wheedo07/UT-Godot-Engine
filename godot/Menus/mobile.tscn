@@ -12,8 +12,9 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="joystick" parent="." instance=ExtResource("1_rguxf")]
-visibility_mode = 2
-clampzone_size = 15.0
+visibility_mode = 1
+deadzone_size = 50.0
+clampzone_size = 80.0
 layout_mode = 1
 offset_left = -167.0
 offset_top = 251.0
