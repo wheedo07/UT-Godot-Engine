@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://dlix5icrmdrty"]
 
 [ext_resource type="PackedScene" uid="uid://cbjh6e76ltge7" path="res://Menus/joystick.tscn" id="1_rguxf"]
+[ext_resource type="Texture2D" uid="uid://cjw2ybhjla5le" path="res://Menus/assets/Z.png" id="2_rguxf"]
 [ext_resource type="Texture2D" uid="uid://drgpkwqyg5j54" path="res://Menus/assets/X.png" id="2_y6jrr"]
-[ext_resource type="Texture2D" uid="uid://jktotggpuwol" path="res://Menus/assets/A.png" id="3_rguxf"]
-[ext_resource type="Texture2D" uid="uid://dwydwox8hn0x7" path="res://Menus/assets/menu.png" id="4_gpqdw"]
-[ext_resource type="Texture2D" uid="uid://btudqg53mbiy1" path="res://Menus/assets/setting.png" id="5_y6jrr"]
+[ext_resource type="Texture2D" uid="uid://dlixiuyqwp63q" path="res://Menus/assets/C.png" id="4_gpqdw"]
+[ext_resource type="Texture2D" uid="uid://b8aisc3wx0e70" path="res://Themes/Textures/settings.svg" id="5_xd2ic"]
 
 [node name="Mobile" type="Control"]
 modulate = Color(1, 1, 1, 0.6)
@@ -23,23 +23,25 @@ offset_bottom = 551.0
 scale = Vector2(0.8, 0.8)
 
 [node name="ui_button" type="Node2D" parent="."]
-position = Vector2(650, 405)
+position = Vector2(617, 391)
+
+[node name="Z" type="TouchScreenButton" parent="ui_button"]
+position = Vector2(-79, -77)
+texture_normal = ExtResource("2_rguxf")
+action = "ui_accept"
 
 [node name="X" type="TouchScreenButton" parent="ui_button"]
+position = Vector2(6, 7)
 texture_normal = ExtResource("2_y6jrr")
 action = "ui_cancel"
 
-[node name="A" type="TouchScreenButton" parent="ui_button"]
-position = Vector2(-79, -77)
-texture_normal = ExtResource("3_rguxf")
-action = "ui_accept"
-
-[node name="menu" type="TouchScreenButton" parent="."]
-position = Vector2(581, 6)
+[node name="C" type="TouchScreenButton" parent="ui_button"]
+position = Vector2(32, -108)
 texture_normal = ExtResource("4_gpqdw")
 action = "ui_menu"
 
 [node name="setting" type="TouchScreenButton" parent="."]
-position = Vector2(518, 6)
-texture_normal = ExtResource("5_y6jrr")
+position = Vector2(583, 5)
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("5_xd2ic")
 action = "ui_close"

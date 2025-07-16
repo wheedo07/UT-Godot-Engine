@@ -63,6 +63,8 @@ folder_colors={
 "res://Musics/": "green",
 "res://Musics/default/": "red",
 "res://Overworld/": "red",
+"res://Text/": "red",
+"res://Themes/": "red",
 "res://bin/": "red"
 }
 
