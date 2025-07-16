@@ -33,8 +33,7 @@ void BattleObject::fade() {
 }
 
 void BattleObject::kill() {
-    if(velocity_tween.is_valid()) 
-        if(velocity_tween->is_running()) velocity_tween->kill();
+    if(velocity_tween.is_valid() && velocity_tween->is_running()) velocity_tween->kill();
     queue_free();
 }
 
