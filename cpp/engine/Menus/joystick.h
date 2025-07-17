@@ -24,8 +24,9 @@ namespace godot {
 
         private:
             bool isEditor, is_pressed;
-            float deadzone_size, clampzone_size;
+            float deadzone_size, clampzone_size, coolTime;
             int touch_index;
+            Dictionary actions_time;
             StringName action_left;
             StringName action_right;
             StringName action_up;
@@ -59,6 +60,8 @@ namespace godot {
             float get_deadzone_size() const;
             void set_clampzone_size(float value);
             float get_clampzone_size() const;
+            void set_cooltime(float value);
+            float get_cooltime() const;
 
             void set_action_left(const StringName& value);
             StringName get_action_left() const;
@@ -75,6 +78,7 @@ namespace godot {
 
             void _ready() override;
             void _input(const Ref<InputEvent>& event) override;
+            void _process(double delta) override;
     };
 }
 VARIANT_ENUM_CAST(godot::Joystick::Joystick_mode);

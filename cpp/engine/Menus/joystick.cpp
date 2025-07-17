@@ -3,6 +3,8 @@
 #include<godot_cpp/classes/input_event_screen_touch.hpp>
 #include<godot_cpp/classes/input_event_screen_drag.hpp>
 #include<godot_cpp/classes/input_event_action.hpp>
+#include<godot_cpp/classes/input_event_key.hpp>
+#include<godot_cpp/classes/input_map.hpp>
 #include<godot_cpp/classes/display_server.hpp>
 #include<godot_cpp/classes/viewport.hpp>
 #include<godot_cpp/variant/utility_functions.hpp>
@@ -16,6 +18,7 @@ Joystick::Joystick() {
     touch_index = -1;
     deadzone_size = 10.0f;
     clampzone_size = 75.0f;
+    coolTime = 0.1f;
     output = Vector2(0,0);
     pressed_color = Color(0.5, 0.5, 0.5);
     action_left = "ui_left";
@@ -44,6 +47,8 @@ void Joystick::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_deadzone_size"), &Joystick::get_deadzone_size);
     ClassDB::bind_method(D_METHOD("set_clampzone_size", "value"), &Joystick::set_clampzone_size);
     ClassDB::bind_method(D_METHOD("get_clampzone_size"), &Joystick::get_clampzone_size);
+    ClassDB::bind_method(D_METHOD("set_cooltime", "value"), &Joystick::set_cooltime);
+    ClassDB::bind_method(D_METHOD("get_cooltime"), &Joystick::get_cooltime);
     ClassDB::bind_method(D_METHOD("set_action_left", "value"), &Joystick::set_action_left);
     ClassDB::bind_method(D_METHOD("get_action_left"), &Joystick::get_action_left);
     ClassDB::bind_method(D_METHOD("set_action_right", "value"), &Joystick::set_action_right);
@@ -58,6 +63,7 @@ void Joystick::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::INT, "visibility_mode", PROPERTY_HINT_ENUM, "Always Visible,When Touched"), "set_visibility_mode", "get_visibility_mode");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "deadzone_size", PROPERTY_HINT_RANGE, "0,200,1"), "set_deadzone_size", "get_deadzone_size");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "clampzone_size", PROPERTY_HINT_RANGE, "0,500,1"), "set_clampzone_size", "get_clampzone_size");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "cooltime", PROPERTY_HINT_RANGE, "0,10,0.01"), "set_cooltime", "get_cooltime");
 
     ADD_GROUP("Input Actions", "");
     ADD_PROPERTY(PropertyInfo(Variant::STRING_NAME, "action_left"), "set_action_left", "get_action_left");
@@ -76,7 +82,26 @@ void Joystick::_ready() {
     tip_default_position = tip->get_position();
     default_color = tip->get_modulate();
     
+    actions_time[action_left] = Variant();
+    actions_time[action_right] = Variant();
+    actions_time[action_up] = Variant();
+    actions_time[action_down] = Variant();
+
     _reset();
+}
+
+void Joystick::_process(double delta) {
+    if(isEditor) return;
+    Array values = actions_time.values();
+    Array keys = actions_time.keys();
+    for(int i=0; i < values.size(); i++) {
+        if(values[i].get_type() == Variant::NIL) continue;
+
+        float time = values[i];
+        if(time > coolTime) {
+            actions_time[keys[i]] = Variant();
+        }else actions_time[keys[i]] = time + delta;
+    }
 }
 
 void Joystick::_input(const Ref<InputEvent>& event) {
@@ -190,12 +215,28 @@ void Joystick::_update_joystick(const Vector2& touch_position) {
 }
 
 void Joystick::_set_action_state(const String& action, bool pressed, float strength) {
-    Ref<InputEventAction> event = memnew(InputEventAction);
-    event->set_action(action);
-    event->set_pressed(pressed);
-    event->set_strength(pressed ? strength : 0);
-    
-    Input::get_singleton()->parse_input_event(event);
+    TypedArray<InputEvent> inputs = InputMap::get_singleton()->action_get_events(action);
+    for(int i=0; i < inputs.size(); i++) {
+        Ref<InputEventKey> input = inputs[i];
+        if(input.is_valid()) {
+            bool is_action = actions_time[action].get_type() == Variant::NIL;
+            Ref<InputEventKey> event = memnew(InputEventKey);
+            event->set_keycode(input->get_keycode());
+            event->set_echo(!is_action);
+            event->set_pressed(pressed);
+            Input::get_singleton()->parse_input_event(event);
+
+            if(is_action) actions_time[action] = 0.0f;
+            break;
+        }
+    }
+
+    if(pressed) {
+        Ref<InputEventAction> event = memnew(InputEventAction);
+        event->set_action(action);
+        event->set_strength(strength);
+        Input::get_singleton()->parse_input_event(event);
+    }
 }
 
 void Joystick::_reset() {
@@ -283,4 +324,12 @@ void Joystick::set_action_down(const StringName& value) {
 
 StringName Joystick::get_action_down() const {
     return action_down;
+}
+
+void Joystick::set_cooltime(float value) {
+    coolTime = value;
+}
+
+float Joystick::get_cooltime() const {
+    return coolTime;
 }
