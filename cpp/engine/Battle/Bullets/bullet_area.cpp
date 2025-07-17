@@ -11,7 +11,7 @@ BulletArea::~BulletArea() {}
 void BulletArea::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_bullet_path", "value"), &BulletArea::set_bullet_path);
     ClassDB::bind_method(D_METHOD("get_bullet_path"), &BulletArea::get_bullet_path);
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "bullet_path"), "set_bullet_path", "get_bullet_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "bullet_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "Bullet"), "set_bullet_path", "get_bullet_path");
 }
 
 void BulletArea::_ready() {

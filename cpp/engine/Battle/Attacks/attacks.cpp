@@ -67,7 +67,11 @@ void AttackBase::start_attack() {}
 
 void AttackBase::add_bullet(Node* bullet, Masking mask_value) {
     if (!bullet) {
-        UtilityFunctions::push_error("Trying to add null bullet");
+        ERR_PRINT("총알 노드가 null 입니다");
+        return;
+    }
+    if(main->transparent && (mask_value == Masking::ABSOLUTE || mask_value == Masking::ABSOLUTE_CLIP)) {
+        ERR_PRINT("투명 모드에서는 ABSOLUTE 마스킹을 사용할 수 없습니다. 마스킹을 RELATIVE_BOX_CLIP 또는 RELATIVE_BOX로 변경하세요.");
         return;
     }
     

@@ -48,12 +48,12 @@ void OptionSelectableSolo::_bind_methods() {
     
     ADD_GROUP("Surrounding Options", "");
     
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeUp", PROPERTY_HINT_NODE_TYPE, "OptionSelectable"), "set_node_up", "get_node_up");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeDown", PROPERTY_HINT_NODE_TYPE, "OptionSelectable"), "set_node_down", "get_node_down");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeLeft", PROPERTY_HINT_NODE_TYPE, "OptionSelectable"), "set_node_left", "get_node_left");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeRight", PROPERTY_HINT_NODE_TYPE, "OptionSelectable"), "set_node_right", "get_node_right");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeUp", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_up", "get_node_up");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeDown", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_down", "get_node_down");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeLeft", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_left", "get_node_left");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeRight", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_right", "get_node_right");
     
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeAccept", PROPERTY_HINT_NODE_TYPE, "OptionSelectable"), "set_node_accept", "get_node_accept");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeAccept", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_accept", "get_node_accept");
     
     ADD_SIGNAL(MethodInfo("accept_pressed"));
     ADD_SIGNAL(MethodInfo("move_soul_request", PropertyInfo(Variant::VECTOR2, "pos")));

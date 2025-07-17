@@ -128,13 +128,13 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_dialogue_path"), &Enemy::get_dialogue_path);
     
     ADD_GROUP("NodePath", "");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "hurt_sound_path"), "set_hurt_sound_path", "get_hurt_sound_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_sound_path"), "set_dust_sound_path", "get_dust_sound_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_path"), "set_dust_path", "get_dust_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "e_head_path"), "set_e_head_path", "get_e_head_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "e_body_path"), "set_e_body_path", "get_e_body_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "hurt_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_hurt_sound_path", "get_hurt_sound_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_dust_sound_path", "get_dust_sound_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_dust_path", "get_dust_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "e_head_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AnimatedSprite2D"), "set_e_head_path", "get_e_head_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "e_body_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AnimatedSprite2D"), "set_e_body_path", "get_e_body_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "sprites_path"), "set_sprites_path", "get_sprites_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dialogue_path"), "set_dialogue_path", "get_dialogue_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dialogue_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "DialogueControl"), "set_dialogue_path", "get_dialogue_path");
 
     ClassDB::bind_method(D_METHOD("handle_typing", "text_index", "dialogue_ref", "duration", "skip"), &Enemy::handle_typing);
     
