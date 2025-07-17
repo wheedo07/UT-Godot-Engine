@@ -44,10 +44,10 @@ void CameraFx::_process(double delta) {
     if(isEditor || !global) return;
     Dictionary settings = global->get_settings();
 
-    if(!settings["shake"]) Fxmaster->set_shader_parameter("shake_enable", false);
+    Fxmaster->set_shader_parameter("shake_enable", settings["shake"]);
 
     bool tv = settings["vfx"];
-    if (tv != vfx) {
+    if(tv != vfx) {
         vfx = settings["vfx"];
         for (int i = 0; i < VFX.size(); i++) {
             Node* item = Object::cast_to<Node>(VFX[i]);
@@ -89,7 +89,7 @@ void CameraFx::add_shake(float amt, float speed, float time, float duration) {
     float current_magnitude = 0.0f;
     float current_speed = 0.0f;
     
-    if (is_shake_active) {
+    if(is_shake_active) {
         current_magnitude = Fxmaster->get_shader_parameter("shake_magnitude");
         current_speed = Fxmaster->get_shader_parameter("shake_speed");
         
@@ -97,12 +97,10 @@ void CameraFx::add_shake(float amt, float speed, float time, float duration) {
             return;
         }
         
-        if (Fxtween.is_valid()) {
+        if(Fxtween.is_valid()) {
             Fxtween->kill();
         }
     }
-    
-    Fxmaster->set_shader_parameter("shake_enable", true);
     
     Fxtween.unref();
     Fxtween = create_tween()->set_parallel()->set_trans(Tween::TRANS_SINE);
@@ -122,7 +120,7 @@ void CameraFx::add_shake(float amt, float speed, float time, float duration) {
         float fade_duration = duration * 0.3;
         
         Fxtween->chain();
-        Fxtween->tween_property(Fxcher, "material:shader_parameter/shake_magnitude", 0.0f, fade_duration)->set_delay(fade_start);
+        Fxtween->tween_property(Fxcher, "material:shader_parameter/shake_magnitude", 0, fade_duration)->set_delay(fade_start);
         Fxtween->tween_property(Fxcher, "material:shader_parameter/shake_speed", 10.0f, fade_duration)->set_delay(fade_start);
 
         Fxtween->connect("finished", Callable(this, "stop_shake"), CONNECT_ONE_SHOT);
@@ -132,7 +130,10 @@ void CameraFx::add_shake(float amt, float speed, float time, float duration) {
 }
 
 void CameraFx::stop_shake() {
-    Fxmaster->set_shader_parameter("shake_enable", false);
+    Fxmaster->set_shader_parameter("shake_speed", 0);
+    Fxmaster->set_shader_parameter("shake_magnitude", 0);
+    Fxmaster->set_shader_parameter("shake_hspeed", 0);
+    Fxmaster->set_shader_parameter("shake_vspeed", 0);
 }
 
 void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 offset) {
