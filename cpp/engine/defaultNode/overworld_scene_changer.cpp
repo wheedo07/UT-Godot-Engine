@@ -47,8 +47,14 @@ void OverworldSceneChanger::_bind_methods() {
 
 void OverworldSceneChanger::_ready() {
     loader = ResourceLoader::get_singleton();
-    if (data_default.is_empty()) {
+    if(data_default.is_empty()) {
         data_default = data.duplicate();
+    }
+    if(default_scene.is_empty()) {
+        ERR_PRINT("default_scene 이 비어있습니다. 기본 씬을 설정해주세요.");
+    }
+    if(battle_scene_path.is_empty()) {
+        ERR_PRINT("battle_scene_path 이 비어있습니다. 전투 씬 경로를 설정해주세요.");
     }
 }
 
