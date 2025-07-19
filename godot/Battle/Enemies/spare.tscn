@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3 uid="uid://cvdyy2a8wldbo"]
+
+[ext_resource type="Texture2D" uid="uid://d327ya7cinmm0" path="res://Battle/Particles/smoke.png" id="1_q8m7y"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_w6q8r"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_ly5ps"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.25874, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2t0oe"]
+curve = SubResource("Curve_ly5ps")
+
+[sub_resource type="Curve" id="Curve_qhnhf"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lx7ot"]
+curve = SubResource("Curve_qhnhf")
+
+[sub_resource type="Curve" id="Curve_ln0sc"]
+_data = [Vector2(0, 1), 0.0, -1.74636, 0, 0, Vector2(1, 0), -0.375671, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rdf7h"]
+curve = SubResource("Curve_ln0sc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nlka1"]
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 20.0
+direction = Vector3(1, 1, 0)
+spread = 0.0
+radial_velocity_min = 160.0
+radial_velocity_max = 160.0
+radial_velocity_curve = SubResource("CurveTexture_rdf7h")
+gravity = Vector3(0, 0, 0)
+alpha_curve = SubResource("CurveTexture_2t0oe")
+anim_offset_curve = SubResource("CurveTexture_lx7ot")
+
+[node name="Spare" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_w6q8r")
+emitting = false
+amount = 16
+texture = ExtResource("1_q8m7y")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2(-141.412, -148.057, 285.059, 248.057)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_nlka1")

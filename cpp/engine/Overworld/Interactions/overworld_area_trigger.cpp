@@ -107,6 +107,10 @@ void OverworldAreaTrigger::_successful_enter() {
     }
 
     if (action & (ROOM_CHANGE | NON_ROOM_SCENE_CHANGE)) {
+        if (new_room.is_empty()) {
+            ERR_PRINT("새로운 방이 설정되지 않았습니다.");
+            return;
+        }
         global->set_just_died(false);
         if (action & NON_ROOM_SCENE_CHANGE) {
             scene_changer->load_general_scene(new_room);

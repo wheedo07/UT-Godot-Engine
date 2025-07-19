@@ -1,9 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://cuuor6488vm2a"]
+[gd_scene load_steps=11 format=3 uid="uid://cuuor6488vm2a"]
 
 [ext_resource type="PackedScene" uid="uid://bp62m2pkjek8i" path="res://Game/encounters/body/sans.tscn" id="1_pvga3"]
 [ext_resource type="Shader" uid="uid://5h6o16kson3k" path="res://Battle/Enemies/undertale_dust.tres" id="3_5ysnq"]
 [ext_resource type="Texture2D" uid="uid://bbwyngu2np0cb" path="res://Game/assets/sprite/image/sans_dust.png" id="4_cg3ll"]
-[ext_resource type="Texture2D" uid="uid://d327ya7cinmm0" path="res://Battle/Particles/smoke.png" id="5_esl3v"]
+[ext_resource type="PackedScene" uid="uid://cvdyy2a8wldbo" path="res://Battle/Enemies/spare.tscn" id="4_j47lk"]
 [ext_resource type="PackedScene" uid="uid://d3j04wql8n25c" path="res://Battle/Misc/dialogue.tscn" id="6_4j25b"]
 [ext_resource type="AudioStream" uid="uid://cltec82rumkic" path="res://sfx/impact_wallhit.wav" id="8_7oarx"]
 [ext_resource type="AudioStream" uid="uid://ddcjquq3yok8y" path="res://sfx/snd_vaporized.wav" id="9_0t6hf"]
@@ -27,46 +27,6 @@ shader_parameter/initial_linear_velocity_random = 0.4
 shader_parameter/linear_accel_random = 0.15
 shader_parameter/lifetime_randomness = 0.2
 shader_parameter/sprite = ExtResource("4_cg3ll")
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_w6q8r"]
-particles_animation = true
-particles_anim_h_frames = 5
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="Curve" id="Curve_ly5ps"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.25874, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_2t0oe"]
-curve = SubResource("Curve_ly5ps")
-
-[sub_resource type="Curve" id="Curve_qhnhf"]
-_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_lx7ot"]
-curve = SubResource("Curve_qhnhf")
-
-[sub_resource type="Curve" id="Curve_ln0sc"]
-_data = [Vector2(0, 1), 0.0, -1.74636, 0, 0, Vector2(1, 0), -0.375671, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_rdf7h"]
-curve = SubResource("Curve_ln0sc")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nlka1"]
-particle_flag_disable_z = true
-emission_shape = 2
-emission_sphere_radius = 20.0
-direction = Vector3(1, 1, 0)
-spread = 0.0
-radial_velocity_min = 160.0
-radial_velocity_max = 160.0
-radial_velocity_curve = SubResource("CurveTexture_rdf7h")
-gravity = Vector3(0, 0, 0)
-alpha_curve = SubResource("CurveTexture_2t0oe")
-anim_offset_curve = SubResource("CurveTexture_lx7ot")
 
 [node name="Enemy_SANS" type="Enemy_SANS"]
 enemy_name = "샌즈"
@@ -103,18 +63,8 @@ visibility_rect = Rect2(-6.06821, -19.7972, 119.866, 163.797)
 local_coords = true
 process_material = SubResource("ShaderMaterial_ny8xc")
 
-[node name="Spare" type="GPUParticles2D" parent="."]
-material = SubResource("CanvasItemMaterial_w6q8r")
+[node name="Spare" parent="." instance=ExtResource("4_j47lk")]
 position = Vector2(3, -63)
-emitting = false
-amount = 16
-texture = ExtResource("5_esl3v")
-lifetime = 0.5
-one_shot = true
-explosiveness = 1.0
-visibility_rect = Rect2(-141.412, -148.057, 285.059, 248.057)
-local_coords = true
-process_material = SubResource("ParticleProcessMaterial_nlka1")
 
 [node name="Dialogue" parent="." instance=ExtResource("6_4j25b")]
 character = 1
