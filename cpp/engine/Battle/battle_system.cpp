@@ -335,7 +335,7 @@ void BattleMain::_on_damage_info_completed(int target) {
 void BattleMain::_on_fight_used_completed(int target) {
     if (box) box->disable();
     
-    if (float(box->enemies_hp[target]) < 0.0f) {
+    if (float(box->enemies_hp[target]) < 0) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
         if (enemy) {
             enemy->on_death();
@@ -562,8 +562,8 @@ void BattleMain::end_encounter() {
     }
     
     // 보상 처리
-    global->set_player_gold(global->get_player_gold() + (int)rewards["gold"]);
-    global->set_player_exp(global->get_player_exp() + (int)rewards["exp"]);
+    global->set_player_gold(global->get_player_gold() + int(rewards["gold"]));
+    global->set_player_exp(global->get_player_exp() + int(rewards["exp"]));
     
     String win_text = box->get_wintext();
     win_text = vformat(win_text,
