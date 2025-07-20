@@ -11,7 +11,7 @@ AttackMeter::AttackMeter() {
     speed_mult = 1.0f;
     targetid = 0;
     target = 0;
-    distance = 0.0f;
+    distance = 0;
     score = 0;
     misses = 0;
     crits = 0;
@@ -63,7 +63,7 @@ void AttackMeter::_ready() {
     can_crit = weapon->get_critical_hits();
     
     Color modulate = meter->get_modulate();
-    modulate.a = 0.0f;
+    modulate.a = 0;
     meter->set_modulate(modulate);
     
     Vector2 scale = meter->get_scale();
@@ -109,8 +109,8 @@ void AttackMeter::remove_meter() {
     tw->set_parallel(true);
     tw->set_ease(Tween::EASE_IN);
     
-    tw->tween_property(meter, "scale:x", 0.0f, TIME);
-    tw->tween_property(meter, "modulate:a", 0.0f, TIME);
+    tw->tween_property(meter, "scale:x", 0, TIME);
+    tw->tween_property(meter, "modulate:a", 0, TIME);
     
     Ref<Tween> chain_tw = tw->chain();
     chain_tw->tween_callback(Callable(this, "queue_free"))->set_delay(0.2);
@@ -157,7 +157,7 @@ void AttackMeter::calculate(int posx, bool crit, float hspeed) {
     if (meter) {
         distance = Math::abs(posx - meter->get_position().x);
     } else {
-        distance = 0.0f;
+        distance = 0;
     }
     
     if (distance <= 12.0f) {

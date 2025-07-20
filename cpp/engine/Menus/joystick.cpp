@@ -203,10 +203,10 @@ void Joystick::_update_joystick(const Vector2& touch_position) {
     
     float threshold = 0.3f;
     
-    float left_strength = output.x < -threshold ? -output.x : 0.0f;
-    float right_strength = output.x > threshold ? output.x : 0.0f;
-    float up_strength = output.y < -threshold ? -output.y : 0.0f;
-    float down_strength = output.y > threshold ? output.y : 0.0f;
+    float left_strength = output.x < -threshold ? -output.x : 0;
+    float right_strength = output.x > threshold ? output.x : 0;
+    float up_strength = output.y < -threshold ? -output.y : 0;
+    float down_strength = output.y > threshold ? output.y : 0;
 
     _set_action_state(action_left, left_strength > 0, left_strength);
     _set_action_state(action_right, right_strength > 0, right_strength);
@@ -226,7 +226,7 @@ void Joystick::_set_action_state(const String& action, bool pressed, float stren
             event->set_pressed(pressed);
             Input::get_singleton()->parse_input_event(event);
 
-            if(is_action) actions_time[action] = 0.0f;
+            if(is_action) actions_time[action] = 0;
             break;
         }
     }

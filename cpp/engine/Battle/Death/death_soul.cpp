@@ -4,8 +4,8 @@
 
 DeathSoul::DeathSoul() {
     soul_type = HUMAN;
-    human_color = Color(1.0f, 0.0f, 0.0f, 1.0f);  // RED
-    monster_color = Color(1.0f, 1.0f, 1.0f, 1.0f); // WHITE
+    human_color = Color(1, 0, 0, 1);  // RED
+    monster_color = Color(1, 1, 1, 1); // WHITE
     die_in_progress = false;
 }
 
@@ -65,7 +65,7 @@ void DeathSoul::_on_first_timer_timeout() {
     shatter_sound->play();
     
     Color self_modulate_color = get_self_modulate();
-    self_modulate_color.a = 0.0f;
+    self_modulate_color.a = 0;
     set_self_modulate(self_modulate_color);
     global->get_scene_container()->get_camera()->add_shake(0.17f);
     

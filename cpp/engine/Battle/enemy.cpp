@@ -311,7 +311,7 @@ void Enemy::dodge() {
     int rand_sign = (rng->randi_range(0, 1) * 2) - 1;
     
     tw->tween_property(sprites, "position:x", rand_sign * 120.0f, 0.4)->as_relative();
-    tw->tween_property(sprites, "position:x", 0.0f, 0.4)->as_relative()->set_delay(0.8);
+    tw->tween_property(sprites, "position:x", 0, 0.4)->as_relative()->set_delay(0.8);
 }
 
 void Enemy::_hurt(int amount) {
@@ -380,10 +380,10 @@ void Enemy::on_death() {
     Ref<Tween> tween = get_tree()->create_tween();
     tween->set_parallel(true);
     
-    tween->tween_property(sprites, "modulate:a", 0.0f, dust->get_lifetime() / 4.0f);
+    tween->tween_property(sprites, "modulate:a", 0, dust->get_lifetime() / 4.0f);
     
     Ref<ShaderMaterial> material = dust->get_process_material();
-    tween->tween_property(material.ptr(), "shader_parameter/progress", 1.0f, dust->get_lifetime())->from(0.0f);
+    tween->tween_property(material.ptr(), "shader_parameter/progress", 1.0f, dust->get_lifetime())->from(0);
     
     dust->restart();
     dust->set_emitting(true);

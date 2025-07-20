@@ -40,7 +40,7 @@ void BattleHUD::_process(double delta) {
     
     String hp_text = "";
     if(global->get_player_kr() > 0) {
-        Color magenta = Color(1.0f, 0.0f, 1.0f);
+        Color magenta = Color(1, 0, 1);
         hp_text = "[color=" + magenta.to_html() + "]";
     }
     

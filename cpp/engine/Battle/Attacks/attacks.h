@@ -53,7 +53,7 @@ namespace godot {
             
             // 사용 함수
             void add_bullet(Node* bullet, Masking mask = ABSOLUTE_CLIP);
-            Node* quick_bullet(const Ref<PackedScene>& bullet_scene, const Vector2& pos, float rot = 0.0f, Masking mask = ABSOLUTE_CLIP);
+            Node* quick_bullet(const Ref<PackedScene>& bullet_scene, const Vector2& pos, float rot = 0, Masking mask = ABSOLUTE_CLIP);
             void end_attack();
             
             int get_attack_id() const;

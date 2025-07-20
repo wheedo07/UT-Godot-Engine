@@ -686,7 +686,7 @@ void BattleBox::set_webs(int n, float separation, int margin) {
 float BattleBox::get_web_y_pos(int id) {
     if (webs_array.is_empty()) {
         ERR_PRINT("웹이 비어 있습니다. set_webs()를 사용하여 보라색 영혼이 생길경우 추가해 주세요!");
-        return 0.0f;
+        return 0;
     }
     
     id = UtilityFunctions::clamp(id, 0, webs_array.size() - 1);
@@ -697,7 +697,7 @@ float BattleBox::get_web_y_pos(int id) {
         return vec.y;
     }
     
-    return 0.0f;
+    return 0;
 }
 
 Ref<ArgsHolder> BattleBox::change_size(const Vector2& new_size, bool relative) {

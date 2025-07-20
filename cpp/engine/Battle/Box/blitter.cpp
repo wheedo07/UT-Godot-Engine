@@ -7,7 +7,7 @@ using namespace godot;
 
 Blitter::Blitter() {
     container = nullptr;
-    default_volume = 0.0f;
+    default_volume = 0;
     current_text_index = 0;
     is_typing = false;
 }

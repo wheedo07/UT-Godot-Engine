@@ -31,7 +31,7 @@ void Settings::_ready() {
     AnimPlayer->set_speed_scale(1.0f / TIME);
     Darken->set_modulate(Color(1, 1, 1, 0));
     Ref<ShaderMaterial> shader = Blur->get_material();
-    shader->set_shader_parameter("lod", 0.0f);
+    shader->set_shader_parameter("lod", 0);
     AnimPlayer->play("RESET");
 
     TypedArray<Node> settings = BoolOptions->get_children();

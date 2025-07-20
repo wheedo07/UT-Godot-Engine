@@ -85,7 +85,7 @@ PackedStringArray Encounter::get_mercy_options() const {
 }
 
 void Encounter::set_flee_chance(float p_chance) {
-    flee_chance = CLAMP(p_chance, 0.0f, 1.0f);
+    flee_chance = CLAMP(p_chance, 0, 1.0f);
 }
 
 float Encounter::get_flee_chance() const {

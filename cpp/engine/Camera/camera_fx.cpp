@@ -13,15 +13,15 @@ void CameraFx::_bind_methods() {
     ADD_SIGNAL(MethodInfo("finished_tween"));
 
     ClassDB::bind_method(D_METHOD("kill"), &CameraFx::kill);
-    ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0.0f), DEFVAL(1.0f), DEFVAL(0.1));
+    ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0), DEFVAL(1), DEFVAL(0.1));
     ClassDB::bind_method(D_METHOD("blinder_color", "color"), &CameraFx::blinder_color, DEFVAL(Color(0, 0, 0, 1)));
-    ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(30.0f), DEFVAL(0.4f), DEFVAL(0.15f));
+    ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(30), DEFVAL(0.4f), DEFVAL(0.15f));
     ClassDB::bind_method(D_METHOD("stop_shake"), &CameraFx::stop_shake);
     ClassDB::bind_method(D_METHOD("tween_zoom", "amount", "time", "offset"), &CameraFx::tween_zoom, DEFVAL(Vector2(1, 1)), DEFVAL(0.5f), DEFVAL(Vector2(0, 0)));    
 
     // VFX
-    ClassDB::bind_method(D_METHOD("glitch", "time", "targetrate"), &CameraFx::glitch, DEFVAL(0.0f), DEFVAL(1.0f));
-    ClassDB::bind_method(D_METHOD("rgbsplit", "time", "targetrate"), &CameraFx::rgbsplit, DEFVAL(0.0f), DEFVAL(1.0f));
+    ClassDB::bind_method(D_METHOD("glitch", "time", "targetrate"), &CameraFx::glitch, DEFVAL(0), DEFVAL(1));
+    ClassDB::bind_method(D_METHOD("rgbsplit", "time", "targetrate"), &CameraFx::rgbsplit, DEFVAL(0), DEFVAL(1));
 }
 
 void CameraFx::_ready() {
@@ -86,8 +86,8 @@ void CameraFx::add_shake(float amt, float speed, float time, float duration) {
     Ref<Tween> Fxtween = tween[index];
     
     bool is_shake_active = Fxmaster->get_shader_parameter("shake_enable");
-    float current_magnitude = 0.0f;
-    float current_speed = 0.0f;
+    float current_magnitude = 0;
+    float current_speed = 0;
     
     if(is_shake_active) {
         current_magnitude = Fxmaster->get_shader_parameter("shake_magnitude");

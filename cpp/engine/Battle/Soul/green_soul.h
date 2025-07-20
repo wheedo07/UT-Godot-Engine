@@ -19,7 +19,7 @@ namespace godot {
             const Color DEF_COL = Color("0028ff");
             const Color HIT_COL = Color("ff0000");
             const int RAD = 28;
-            const Color COLOR = Color(0.0f, 0.5f, 0.0f); // DARK_GREEN
+            const Color COLOR = Color(0, 0.5, 0); // DARK_GREEN
             const float TIME = 0.2f;
 
             bool always_remove_shielded_bullets, isEditor;

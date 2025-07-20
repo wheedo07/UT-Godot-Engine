@@ -4,7 +4,7 @@ using namespace godot;
 
 ItemSlider::ItemSlider() {
     value = 0;
-    offset = 0.0f;
+    offset = 0;
     step_size = 1.0f;
 }
 

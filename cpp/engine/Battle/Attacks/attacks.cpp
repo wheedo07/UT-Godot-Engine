@@ -22,7 +22,7 @@ void AttackBase::_bind_methods() {
     BIND_ENUM_CONSTANT(RELATIVE_BOX);
 
     ClassDB::bind_method(D_METHOD("add_bullet", "bullet", "mask"), &AttackBase::add_bullet, DEFVAL(0));
-    ClassDB::bind_method(D_METHOD("quick_bullet", "bullet_scene", "pos", "rot", "mask"), &AttackBase::quick_bullet, DEFVAL(0.0f), DEFVAL(ABSOLUTE_CLIP));
+    ClassDB::bind_method(D_METHOD("quick_bullet", "bullet_scene", "pos", "rot", "mask"), &AttackBase::quick_bullet, DEFVAL(0), DEFVAL(ABSOLUTE_CLIP));
     ClassDB::bind_method(D_METHOD("end_attack"), &AttackBase::end_attack);
    
     ClassDB::bind_method(D_METHOD("get_attack_id"), &AttackBase::get_attack_id);

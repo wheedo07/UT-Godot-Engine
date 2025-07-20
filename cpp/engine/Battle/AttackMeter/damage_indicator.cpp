@@ -50,7 +50,7 @@ void DamageIndicator::_ready() {
     hit_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Hit"));
     
     Color modulate_color = get_modulate();
-    modulate_color.a = 0.0f;
+    modulate_color.a = 0;
     set_modulate(modulate_color);
     
     if (health_bar) {

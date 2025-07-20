@@ -31,11 +31,11 @@ SoulBattle::SoulBattle() {
     wallhit = nullptr;
     green_shield = nullptr;
     cyan_detector = nullptr;
-    hiframes = 0.0f;
-    iframes = 0.0f;
+    hiframes = 0;
+    iframes = 0;
     invulnerable = false;
     motion = Vector2(0, 0);
-    changed_direction_time = 0.0f;
+    changed_direction_time = 0;
     purple_pos = 0;
     
     jump.resize(4);
@@ -367,15 +367,15 @@ void SoulBattle::set_gravity_direction(const Vector2& new_direction, bool force_
     gravity_direction = new_direction;
     set_velocity(Vector2(0, 0));
 
-    float angle = 0.0f;
+    float angle = 0;
     if (new_direction == Vector2(0, 1)) { // 아래쪽
-        angle = 0.0f;
+        angle = 0;
     } else if (new_direction == Vector2(0, -1)) { // 위쪽
         angle = Math_PI;
     } else if (new_direction == Vector2(1, 0)) { // 오른쪽
-        angle = -Math_PI / 2.0f;
+        angle = -Math_PI / 2;
     } else if (new_direction == Vector2(-1, 0)) { // 왼쪽
-        angle = Math_PI / 2.0f;
+        angle = Math_PI / 2;
     } else {
         angle = Vector2(0, 1).angle_to(new_direction);
     }
@@ -478,12 +478,12 @@ void SoulBattle::blue() {
         }
     } else {
         if (motion.y > 0) {
-            motion.y += gravity * (float(jump[2]) - 1.0f);
+            motion.y += gravity * (float(jump[2]) - 1);
         } else if (inputs.y == 0) {
             if (motion.y < 20) {
-                motion.y = Math::lerp(motion.y, 0.0f, (float(jump[1]) - 1.0f) / 20.0f);
+                motion.y = Math::lerp(motion.y, 0, (float(jump[1]) - 1) / 20);
             } else {
-                motion.y = Math::lerp(motion.y, 20.0f, (float(jump[0]) - 1.0f) / 20.0f);
+                motion.y = Math::lerp(motion.y, 20, (float(jump[0]) - 1) / 20);
             }
         }
     }
