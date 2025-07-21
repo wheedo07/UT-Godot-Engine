@@ -125,6 +125,7 @@ bool CameraRemoteController::get_position_smoothing_enabled() const {
 
 void CameraRemoteController::set_limit_left(int p_limit) {
     limit_left = p_limit;
+    if(!isEditor) _set_limits();
 }
 
 int CameraRemoteController::get_limit_left() const {
@@ -133,6 +134,7 @@ int CameraRemoteController::get_limit_left() const {
 
 void CameraRemoteController::set_limit_top(int p_limit) {
     limit_top = p_limit;
+    if(!isEditor) _set_limits();
 }
 
 int CameraRemoteController::get_limit_top() const {
@@ -141,6 +143,7 @@ int CameraRemoteController::get_limit_top() const {
 
 void CameraRemoteController::set_limit_right(int p_limit) {
     limit_right = p_limit;
+    if(!isEditor) _set_limits();
 }
 
 int CameraRemoteController::get_limit_right() const {
@@ -149,6 +152,7 @@ int CameraRemoteController::get_limit_right() const {
 
 void CameraRemoteController::set_limit_bottom(int p_limit) {
     limit_bottom = p_limit;
+    if(!isEditor) _set_limits();
 }
 
 int CameraRemoteController::get_limit_bottom() const {
