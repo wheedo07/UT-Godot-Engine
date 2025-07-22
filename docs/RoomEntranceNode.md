@@ -57,6 +57,6 @@ Room2 (door_id=2, new_room_entrance_id=1) → Room1 (door_id=1, new_room_entranc
 - 플레이어에 위치는 이 노드에 pivot 위치에 등장합니다
 - 노드 추가시 Overworld 노드에 [room_entrances](/docs/Overworld.md#속성-properties)에 노드를 추가해야합니다 (그래야지 id가 연결됨)
 
-## 관련 노드
+## 관련 클래스
 
 - [Overworld](/docs/Overworld.md): 룸 입장 및 이벤트를 관리하는 상위 노드

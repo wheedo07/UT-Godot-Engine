@@ -56,3 +56,12 @@ adv_typer.connect("expression_set", func(expr):
 
 - `Dialogues` 리소스와 연동하여 대사, 속도, 표정 등 다양한 연출을 지원합니다.
 - Undertale 스타일의 복잡한 대화 연출이 필요한 경우
+
+## 주의사항
+
+- `type_text` 함수는 이 노드에서는 안쓰입니다
+- `finished_all_texts` 시그널은 이 노드에서 안쓰입니다
+
+## 관련 클래스
+
+- [GenericTextTyper](/docs/GenericTextTyper.md): 이 노드를 이룰때 사용되는 부모 클래스
