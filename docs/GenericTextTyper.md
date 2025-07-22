@@ -38,7 +38,6 @@ UT-Godot-Engine에서 Undertale 스타일의 타이핑 텍스트 효과를 구�
 | --- | --- | --- |
 | `kill_tweens` | `(complete_text: bool = false)` | 현재 실행 중인 모든 트윈을 중단 (complete_text가 true면 텍스트 완료) |
 | `type_text` | `(text: PackedStringArray)` | 지정된 텍스트 배열을 타이핑 시작 |
-| `play_click` | - | 타이핑 사운드 효과 재생 |
 
 ## 💡 사용 예시
 
