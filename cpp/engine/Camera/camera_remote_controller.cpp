@@ -8,7 +8,7 @@
 CameraRemoteController::CameraRemoteController() {
     fade = nullptr;
     zoom = Vector2(1, 1);
-    position_smoothing_enabled = true;
+    position_smoothing_enabled = false;
 
     limit_left = -1000000000;
     limit_top = -1000000000;

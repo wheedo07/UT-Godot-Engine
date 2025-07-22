@@ -135,7 +135,6 @@ position = Vector2(49, 75)
 
 [node name="Camera" parent="TileMap/PlayerOverworld" instance=ExtResource("4_6yy8b")]
 zoom = Vector2(2, 2)
-position_smoothing_enabled = false
 limit_top = -80
 limit_bottom = 160
 
