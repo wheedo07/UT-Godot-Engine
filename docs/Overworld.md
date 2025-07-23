@@ -25,7 +25,7 @@ UT-Godot-Engine에 Overworld를 만들기 위한 노드입니다
 
 | 함수명                     | 설명                                     |
 | ----------------------- | -------------------------------------- |
-| `ready()`               | 사용자 정의 초기화 함수 (GDScript에서 override 가능) |
+| `ready()`               | 사용자 정의 초기화 함수 (GDScript에서도 override 가능) |
 | `summontextbox()`       | 대화 상자 노드를 화면에 소환                       |
 
 ## 💡 사용 예시
