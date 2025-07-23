@@ -22,7 +22,7 @@ Undertale 스타일의 탄환 움직임, 데미지, 효과 모드 등을 구현�
 | `iframe_grant`  | `int`      | 피격 시 무적 프레임 부여량 (기본값: 50)            |
 | `kr_amount`     | `int`      | KR(karma) 데미지량 (기본값: 5)                 |
 | `delete_upon_hit` | `bool`    | 피격 시 탄환 삭제 여부                        |
-| `sprite_path`   | `NodePath` | 탄환 스프라이트 노드 경로                      |
+| `sprite_path`   | `NodePath` | 탄환 스프라이트 노드 경로 (필수)                      |
 | `colors`        | `Array<Color>` | 탄환 모드에 따른 색상 배열 (WHITE, GREEN, BLUE, ORANGE) |
 
 ---
