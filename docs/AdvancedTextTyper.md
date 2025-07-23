@@ -33,8 +33,9 @@ UT-Godot-Engine의 고급 텍스트 타이핑 연출을 위한 노드입니다.
 
 ## 💡 사용 예시
 
+### GDScript 예시
+
 ```gdscript
-# GDScript 예시
 var adv_typer = $AdvancedTextTyper
 var dialogues = Dialogues.new().from([
     "* 테스트 1",
