@@ -67,7 +67,7 @@ const BEAM_COLLISION_MARGIN: float = 6
 @onready var Rect: NinePatchRect = $Sprite/Beam/NinePatchRect
 @onready var AnimPlayer: AnimationPlayer = $AnimationPlayer
 
-func _ready() -> void:
+func ready() -> void:
 	Collision.shape = RectangleShape2D.new()
 	Collision.shape.size = Vector2.ZERO
 
