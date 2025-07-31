@@ -72,9 +72,9 @@ process_material = SubResource("ParticleProcessMaterial_i6l44")
 
 [node name="afterimage" type="GPUParticles2D" parent="Sprite"]
 emitting = false
-amount = 3
+amount = 4
 texture = ExtResource("3_lkhun")
-lifetime = 0.6
+lifetime = 0.45
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_cm5n5")
 
