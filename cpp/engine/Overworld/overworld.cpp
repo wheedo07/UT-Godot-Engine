@@ -95,6 +95,7 @@ void Overworld::start_music_fade_in() {
         ERR_PRINT("Camera 또는 MusicPlayer를 찾을수 없습니다");
         return;
     }
+    if(music_player->get_stream() == music) return;
 
     music_player->set_stream(music);
     music_player->play();
