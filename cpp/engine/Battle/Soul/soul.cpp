@@ -578,7 +578,7 @@ void SoulBattle::orange() {
     material->set_gravity(Vector3(motion.x * -1, motion.y * -1, 0));
     afterimage->set_emitting(true);
 
-    if(get_velocity() == Vector2(0,0) && (is_on_floor() || is_on_wall() || is_on_ceiling())) afterimage->restart();
+    if(get_velocity() == Vector2(0,0)) afterimage->restart();
 }
 
 void SoulBattle::cyan() {
