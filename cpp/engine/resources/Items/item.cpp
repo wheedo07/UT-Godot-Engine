@@ -66,13 +66,13 @@ void Item::_bind_methods() {
     
     ADD_GROUP("Item Use Stats", "item_use_");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "use_message", PROPERTY_HINT_TYPE_STRING,
-        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT)),
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_use_message", "get_use_message");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "item_information", PROPERTY_HINT_TYPE_STRING,
-        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT)),
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_item_information", "get_item_information");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "throw_message", PROPERTY_HINT_TYPE_STRING,
-        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT)),
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_throw_message", "get_throw_message");
     
     ADD_GROUP("", "");

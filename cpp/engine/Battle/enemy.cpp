@@ -98,7 +98,7 @@ void Enemy::_bind_methods() {
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":Dialogues"
     ), "set_dialogues", "get_dialogues");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "flavour_text", PROPERTY_HINT_TYPE_STRING,
-        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT)),
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_flavour_text", "get_flavour_text");
 
     ClassDB::bind_method(D_METHOD("set_current_state", "p_current_state"), &Enemy::set_current_state);

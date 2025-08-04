@@ -15,6 +15,7 @@ EnemyOverworld::EnemyOverworld() {
     current_index = 0;
     current_animation_name = "idle_down";
     current_anim_state = IDLE;
+    canmove = true;
 }
 
 EnemyOverworld::~EnemyOverworld() {}
@@ -22,6 +23,7 @@ EnemyOverworld::~EnemyOverworld() {}
 void EnemyOverworld::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_canmove", "value"), &EnemyOverworld::set_canmove);
     ClassDB::bind_method(D_METHOD("start_walking", "direction"), &EnemyOverworld::start_walking, DEFVAL(Vector2i(0, 0)));
+    ClassDB::bind_method(D_METHOD("force_direction", "dir"), &EnemyOverworld::force_direction);
     ClassDB::bind_method(D_METHOD("show_alert", "duration"), &EnemyOverworld::show_alert, DEFVAL(0.35f));
     ClassDB::bind_method(D_METHOD("set_frame", "index"), &EnemyOverworld::set_frame);
     ClassDB::bind_method(D_METHOD("play_anim", "key", "speed", "back"), &EnemyOverworld::play_anim, DEFVAL(1), DEFVAL(false));
@@ -97,17 +99,21 @@ void EnemyOverworld::set_canmove(bool value) {
 }
 
 void EnemyOverworld::start_walking(const Vector2i& dir) {
-    
-    if (dir != Vector2i()) {
+    if(dir != Vector2i(0,0)) {
         canmove = true;
         set_walk_direction(dir);
         current_anim_state = MOVING;
         sprite->play(current_animation_name);
-    } else {
+    }else {
         canmove = false;
         current_anim_state = IDLE;
         sprite->play(current_animation_name.replace("move_", "idle_"));
     }
+}
+
+void EnemyOverworld::force_direction(const Vector2& dir) {
+    set_walk_direction(dir.normalized());
+    walk_direction = Vector2i(0, 0);
 }
 
 void EnemyOverworld::set_frame(int index) {

@@ -144,7 +144,9 @@ void BattleBox::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_wintext", "value"), &BattleBox::set_wintext);
     ClassDB::bind_method(D_METHOD("get_wintext"), &BattleBox::get_wintext);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "wintext", PROPERTY_HINT_MULTILINE_TEXT), "set_wintext", "get_wintext");
+    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "wintext", PROPERTY_HINT_TYPE_STRING,
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
+    "set_wintext", "get_wintext");
 }
 
 void BattleBox::_ready() {

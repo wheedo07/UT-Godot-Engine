@@ -17,7 +17,7 @@ void SavePoint::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_save_text", "text"), &SavePoint::set_save_text);
     ClassDB::bind_method(D_METHOD("get_save_text"), &SavePoint::get_save_text);
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "save_text", PROPERTY_HINT_TYPE_STRING,
-        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT)),
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_save_text", "get_save_text");
 }
 

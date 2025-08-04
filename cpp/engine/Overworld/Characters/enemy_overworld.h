@@ -35,7 +35,7 @@ namespace godot {
             int frame_alert;
 
             Vector2 walk_direction = Vector2(0, 0);
-            bool canmove = true;
+            bool canmove;
             int walk_speed, current_index;
             float walk_speed_mod;
 
@@ -51,10 +51,11 @@ namespace godot {
 
             void _ready() override;
             void _physics_process(double delta) override;
+            void set_walk_direction(const Vector2i& direction);
 
             // 사용 함수
             void start_walking(const Vector2i& direction = Vector2i(0, 0));
-            void set_walk_direction(const Vector2i& direction);
+            void force_direction(const Vector2& dir);
             void show_alert(float duration=0.35f);
             void set_frame(int index);
             void play_anim(String key, float speed=1, bool back=false);

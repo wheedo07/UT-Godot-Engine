@@ -52,8 +52,8 @@ void GenericTextTyper::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "entire_text_bbcode", PROPERTY_HINT_MULTILINE_TEXT), "set_entire_text_bbcode", "get_entire_text_bbcode");
 
     ADD_GROUP("advanced", "");
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "extra_delay", PROPERTY_HINT_MULTILINE_TEXT), "set_extra_delay", "get_extra_delay");
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "no_sound", PROPERTY_HINT_MULTILINE_TEXT), "set_no_sound", "get_no_sound");
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "extra_delay"), "set_extra_delay", "get_extra_delay");
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "no_sound"), "set_no_sound", "get_no_sound");
     
     ADD_SIGNAL(MethodInfo("started_typing", PropertyInfo(Variant::INT, "line")));
     ADD_SIGNAL(MethodInfo("confirm"));

@@ -33,19 +33,27 @@ void ItemInteraction::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("set_discover_text", "text"), &ItemInteraction::set_discover_text);
     ClassDB::bind_method(D_METHOD("get_discover_text"), &ItemInteraction::get_discover_text);
-    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "discover_text", PROPERTY_HINT_MULTILINE_TEXT), "set_discover_text", "get_discover_text");
+    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "discover_text", PROPERTY_HINT_TYPE_STRING,
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
+    "set_discover_text", "get_discover_text");
     
     ClassDB::bind_method(D_METHOD("set_accept_text", "text"), &ItemInteraction::set_accept_text);
     ClassDB::bind_method(D_METHOD("get_accept_text"), &ItemInteraction::get_accept_text);
-    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "accept_text", PROPERTY_HINT_MULTILINE_TEXT), "set_accept_text", "get_accept_text");
+    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "accept_text", PROPERTY_HINT_TYPE_STRING,
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
+    "set_accept_text", "get_accept_text");
     
     ClassDB::bind_method(D_METHOD("set_reject_text", "text"), &ItemInteraction::set_reject_text);
     ClassDB::bind_method(D_METHOD("get_reject_text"), &ItemInteraction::get_reject_text);
-    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "reject_text", PROPERTY_HINT_MULTILINE_TEXT), "set_reject_text", "get_reject_text");
+    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "reject_text", PROPERTY_HINT_TYPE_STRING,
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
+    "set_reject_text", "get_reject_text");
     
     ClassDB::bind_method(D_METHOD("set_full_text", "text"), &ItemInteraction::set_full_text);
     ClassDB::bind_method(D_METHOD("get_full_text"), &ItemInteraction::get_full_text);
-    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "full_text", PROPERTY_HINT_MULTILINE_TEXT), "set_full_text", "get_full_text");
+    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "full_text", PROPERTY_HINT_TYPE_STRING,
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
+    "set_full_text", "get_full_text");
     
     ClassDB::bind_method(D_METHOD("set_option_names", "names"), &ItemInteraction::set_option_names);
     ClassDB::bind_method(D_METHOD("get_option_names"), &ItemInteraction::get_option_names);

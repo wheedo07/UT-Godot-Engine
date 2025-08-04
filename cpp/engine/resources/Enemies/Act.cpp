@@ -17,7 +17,7 @@ void ActInfo::_bind_methods() {
 
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "act"), "set_act", "get_act");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "description", PROPERTY_HINT_TYPE_STRING,
-        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT)),
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_description", "get_description");
 }
 
