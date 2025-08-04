@@ -40,8 +40,7 @@ void EnemyState::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "acts", PROPERTY_HINT_TYPE_STRING, 
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":ActInfo")
     ,"set_acts", "get_acts");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "sparable"), 
-                "set_sparable", "get_sparable");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "sparable"), "set_sparable", "get_sparable");
 }
 
 void EnemyState::set_acts(TypedArray<ActInfo> p_acts) {
