@@ -80,8 +80,11 @@ void OverworldAreaTrigger::_on_body_entered(Node* body) {
                 body->call("set_canmove", false);
             }else WARN_PRINT("set_canmove 가 없는 오브젝트가 들어왔습니다.");
         }
-        if (action & ONE_SHOT) {
-            emit_signal("finished_work");
+        if (action & CUTSCENE) {
+            emit_signal("cutscene");
+            if (action & ONE_SHOT) {
+                emit_signal("finished_work");
+            }
         }
         return;
     }
