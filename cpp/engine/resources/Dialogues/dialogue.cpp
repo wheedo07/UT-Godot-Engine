@@ -6,7 +6,7 @@ Dialogue::Dialogue() {
     dialog_text = "test";
     // 기본 출력 속도
     dialog_speed = 0.08;
-    dialog_expressions = Array::make( 0, 0 );
+    dialog_expressions = Array::make(-1, -1);
 }
 
 Dialogue::~Dialogue() {}
