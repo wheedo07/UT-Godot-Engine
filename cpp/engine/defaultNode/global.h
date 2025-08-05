@@ -109,7 +109,11 @@ namespace godot {
 	        void load_game();
 
 			void save_flag(const String& key, const Variant& value);
+			void set_flag(String key, Variant value);
 			Variant get_flag(String key, Variant defaultValue=false);
+
+			Variant get_g_flags(String key, Variant defaultValue=false);
+			void set_g_flags(String key, Variant value);
                 
 	        void refresh_audio_busses();
 	        void toggle_collision_shape_visibility();
@@ -230,13 +234,8 @@ namespace godot {
 			void set_flags(Dictionary value);
 			Dictionary get_flags();
 
-			void set_flag(String key, Variant value);
-
 			void set_savepath(String value);
 			String get_savepath();
-
-			Variant get_g_flags(String key);
-			void set_g_flags(String key, Variant value);
     };
 }
 

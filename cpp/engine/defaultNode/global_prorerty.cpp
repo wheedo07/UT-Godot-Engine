@@ -5,6 +5,7 @@ void Global::_bind_methods() {
     ADD_SIGNAL(MethodInfo("saved"));
     ADD_SIGNAL(MethodInfo("fullscreen_toggled", PropertyInfo(Variant::BOOL, "to")));
 
+    ClassDB::bind_method(D_METHOD("alert", "text", "title"), &Global::alert, DEFVAL("Alert!"));
     ClassDB::bind_method(D_METHOD("item_use_text", "item_id"), &Global::item_use_text);
     ClassDB::bind_method(D_METHOD("equip_item", "item_id"), &Global::equip_item);
     ClassDB::bind_method(D_METHOD("heal", "amt"), &Global::heal);
@@ -17,6 +18,7 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("toggle_collision_shape_visibility"), &Global::toggle_collision_shape_visibility);
     ClassDB::bind_method(D_METHOD("_on_kr_tick"), &Global::_on_kr_tick);
     ClassDB::bind_method(D_METHOD("check_level_up"), &Global::check_level_up);
+    ClassDB::bind_method(D_METHOD("loop_Music"), &Global::loop_Music);
     
     ClassDB::bind_method(D_METHOD("set_item_list", "value"), &Global::set_item_list);
     ClassDB::bind_method(D_METHOD("get_item_list"), &Global::get_item_list);
@@ -78,15 +80,35 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_flags", "value"), &Global::set_flags);
     ClassDB::bind_method(D_METHOD("get_flags"), &Global::get_flags);
 
+    // gdscript에서 호출을 위한 메서드 바인딩
+    ClassDB::bind_method(D_METHOD("get_player_in_menu"), &Global::get_player_in_menu);
     ClassDB::bind_method(D_METHOD("set_player_in_menu", "value"), &Global::set_player_in_menu);
+
+    ClassDB::bind_method(D_METHOD("get_player_can_move"), &Global::get_player_can_move);
     ClassDB::bind_method(D_METHOD("set_player_can_move", "value"), &Global::set_player_can_move);
+
+    ClassDB::bind_method(D_METHOD("get_player_set_menu"), &Global::get_player_set_menu);
+    ClassDB::bind_method(D_METHOD("set_player_set_menu", "value"), &Global::set_player_set_menu);
+
     ClassDB::bind_method(D_METHOD("set_player_move", "value"), &Global::set_player_move);
+    ClassDB::bind_method(D_METHOD("get_player_move"), &Global::get_player_move);
+
+    ClassDB::bind_method(D_METHOD("get_battle_text_box"), &Global::get_battle_text_box);
     ClassDB::bind_method(D_METHOD("set_battle_text_box", "value"), &Global::set_battle_text_box);
+
+    ClassDB::bind_method(D_METHOD("get_player_text_box"), &Global::get_player_text_box);
     ClassDB::bind_method(D_METHOD("set_player_text_box", "value"), &Global::set_player_text_box);
+
+    ClassDB::bind_method(D_METHOD("save_flag", "key", "value"), &Global::save_flag);
+    ClassDB::bind_method(D_METHOD("set_flag", "key", "value"), &Global::set_flag);
+    ClassDB::bind_method(D_METHOD("get_flag", "key", "defaultValue"), &Global::get_flag, DEFVAL(false));
+
+    ClassDB::bind_method(D_METHOD("get_g_flags", "key", "defaultValue"), &Global::get_g_flags, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("set_g_flags", "key", "value"), &Global::set_g_flags);
+
     ClassDB::bind_method(D_METHOD("get_frist"), &Global::get_first);
     ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
-    ClassDB::bind_method(D_METHOD("loop_Music"), &Global::loop_Music);
-    ClassDB::bind_method(D_METHOD("alert", "text", "title"), &Global::alert);
+    ClassDB::bind_method(D_METHOD("get_fullscreen"), &Global::get_fullscreen);
 
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "item_list", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":Item")
@@ -432,8 +454,12 @@ void Global::set_g_flags(String key, Variant value) {
     save_settings();
 }
 
-Variant Global::get_g_flags(String key) {
-    return g_flags[key];
+Variant Global::get_g_flags(String key, Variant defaultValue) {
+    if(g_flags.has(key)) {
+        return g_flags[key];
+    }else {
+        return defaultValue;
+    }
 }
 
 void Global::set_player_set_menu(bool value) {
