@@ -114,6 +114,7 @@ void EnemyOverworld::start_walking(const Vector2i& dir) {
 void EnemyOverworld::force_direction(const Vector2& dir) {
     set_walk_direction(dir.normalized());
     walk_direction = Vector2i(0, 0);
+    _physics_process(0);
 }
 
 void EnemyOverworld::set_frame(int index) {
