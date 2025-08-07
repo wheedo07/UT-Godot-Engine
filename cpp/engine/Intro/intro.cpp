@@ -22,6 +22,7 @@ Intro::~Intro() {}
 void Intro::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_play_intro"), &Intro::_play_intro);
     ClassDB::bind_method(D_METHOD("_on_intro_completed"), &Intro::_on_intro_completed);
+    ClassDB::bind_method(D_METHOD("_intro_image_next"), &Intro::_intro_image_next);
     ClassDB::bind_method(D_METHOD("is_intro_completed"), &Intro::is_intro_completed);
     ClassDB::bind_method(D_METHOD("start_text_typing", "text", "sleep"), &Intro::start_text_typing);
     ClassDB::bind_method(D_METHOD("_on_text_completed"), &Intro::_on_text_completed);
@@ -72,6 +73,15 @@ void Intro::_play_intro() {
         emit_signal("intro_completed");
         return;
     }
+    Dictionary data = intro_data[current_index];
+    
+    if (data.has("image")) {
+        Ref<Texture2D> img = data["image"];
+        intro_image->set_texture(img);
+        intro_image->set_visible(true);
+    }else {
+        intro_image->set_visible(false);
+    }
     
     process_next_intro();
 }
@@ -82,16 +92,10 @@ void Intro::process_next_intro() {
         emit_signal("intro_completed");
         return;
     }
+    Ref<Tween> tw = create_tween();
+    tw->tween_property(intro_image, "modulate:a", 1, 0.15);
     
     Dictionary data = intro_data[current_index];
-    
-    if (data.has("image")) {
-        Ref<Texture2D> img = data["image"];
-        intro_image->set_texture(img);
-        intro_image->set_visible(true);
-    }else {
-        intro_image->set_visible(false);
-    }
     
     String text = data["text"];
     float sleep = data["sleep"];
@@ -127,7 +131,27 @@ void Intro::_on_text_completed() {
 }
 
 void Intro::_on_duration_timeout() {
+    Ref<Tween> tw = create_tween();
+    tw->tween_property(intro_image, "modulate:a", 0, 0.2); 
+    tw->connect("finished", Callable(this, "_intro_image_next"), CONNECT_ONE_SHOT);
+}
+
+void Intro::_intro_image_next() {
     current_index++;
+    if (current_index >= intro_data.size() || skip_intro) {
+        intro_completed = true;
+        emit_signal("intro_completed");
+        return;
+    }
+
+    Dictionary data = intro_data[current_index];
+    if (data.has("image")) {
+        Ref<Texture2D> img = data["image"];
+        intro_image->set_texture(img);
+        intro_image->set_visible(true);
+    }else {
+        intro_image->set_visible(false);
+    }
     process_next_intro();
 }
 

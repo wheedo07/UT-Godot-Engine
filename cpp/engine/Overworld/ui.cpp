@@ -66,7 +66,8 @@ void UI::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_set_items"), &UI::_set_items);
     ClassDB::bind_method(D_METHOD("_set_cells"), &UI::_set_cells);
     ClassDB::bind_method(D_METHOD("_close_menu"), &UI::_close_menu);
-    ClassDB::bind_method(D_METHOD("soul_move", "action"), &UI::soul_move); ClassDB::bind_method(D_METHOD("_on_animation_finished"), &UI::_on_animation_finished);
+    ClassDB::bind_method(D_METHOD("soul_move", "action"), &UI::soul_move); 
+    ClassDB::bind_method(D_METHOD("_on_animation_finished"), &UI::_on_animation_finished);
     ClassDB::bind_method(D_METHOD("_on_item_use_dialogue_finished"), &UI::_on_item_use_dialogue_finished);
     ClassDB::bind_method(D_METHOD("_on_item_info_dialogue_finished"), &UI::_on_item_info_dialogue_finished);
     ClassDB::bind_method(D_METHOD("_on_item_drop_dialogue_finished"), &UI::_on_item_drop_dialogue_finished);
@@ -171,13 +172,13 @@ void UI::_set_enabled_options() {
     for (int i = 0; i < enabled_options.size(); i++) {
         switch (i) {
             case 0:
-                enabled_array[i] = global->get_items().size() > 0;
+                enabled_array[i] = global->get_items().size() > 0 && enabled_options[i];
                 break;
             case 1:
                 enabled_array[i] = enabled_options[i];
                 break;
             case 2:
-                enabled_array[i] = global->get_cells().size() > 0;
+                enabled_array[i] = global->get_cells().size() > 0 && enabled_options[i];
                 break;
             case 3:
                 if (global->get_boxesinmenu()) {

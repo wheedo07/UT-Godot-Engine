@@ -45,6 +45,7 @@ void GenericTextTyper::_bind_methods() {
     ClassDB::bind_method(D_METHOD("create_tweeners"), &GenericTextTyper::create_tweeners);
     ClassDB::bind_method(D_METHOD("_type_one_line", "line"), &GenericTextTyper::_type_one_line);
     ClassDB::bind_method(D_METHOD("play_click"), &GenericTextTyper::play_click);
+    ClassDB::bind_method(D_METHOD("on_line_finished"), &GenericTextTyper::on_line_finished);
     
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "click_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_click_path", "get_click_path");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "interval"), "set_interval", "get_interval");
@@ -140,7 +141,8 @@ bool GenericTextTyper::_type_one_line(const String& line) {
     sound_tween->set_loops(parsed_text.length());
     sound_tween->tween_callback(Callable(this, "play_click"));
     sound_tween->tween_interval(interval);
-    
+
+    visible_tween->connect("finished", Callable(this, "on_line_finished"), CONNECT_ONE_SHOT);
     return true;
 }
 
@@ -151,9 +153,6 @@ void GenericTextTyper::_process_typing() {
             if (_type_one_line(queued_texts[current_line_index])) {
                 line_typing = true;
             }
-        } else if (visible_tween.is_valid() && !visible_tween->is_running()) {
-            line_typing = false;
-            current_line_index++;
         }
     } else {
         emit_signal("finished_all_texts");
@@ -190,6 +189,11 @@ void GenericTextTyper::play_click() {
     if (click) {
         click->play();
     }
+}
+
+void GenericTextTyper::on_line_finished() {
+    line_typing = false;
+    current_line_index++;
 }
 
 void GenericTextTyper::set_click_path(const NodePath& p_path) {

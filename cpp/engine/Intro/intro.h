@@ -33,6 +33,7 @@ namespace godot {
 
             void _on_text_completed();
             void _on_duration_timeout();
+            void _intro_image_next();
             void _load_intro_data_from_json();
 
             void set_music(const Ref<AudioStream>& p_music);

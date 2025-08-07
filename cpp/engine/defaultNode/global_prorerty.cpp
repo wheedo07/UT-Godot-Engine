@@ -109,6 +109,7 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_frist"), &Global::get_first);
     ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
     ClassDB::bind_method(D_METHOD("get_fullscreen"), &Global::get_fullscreen);
+    ClassDB::bind_method(D_METHOD("get_Music"), &Global::get_Music);
 
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "item_list", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":Item")

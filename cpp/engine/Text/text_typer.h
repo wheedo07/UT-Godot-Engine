@@ -38,6 +38,8 @@ namespace godot {
             PackedStringArray queued_texts;
             int current_line_index;
             bool line_typing;
+
+            void on_line_finished();
         
         public:
             GenericTextTyper();
