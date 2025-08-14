@@ -104,8 +104,9 @@ using namespace godot;
 #include "Battle/Attacks/attacks_manager.h"
 
 // Box
-#include "Battle/Box/blitter.h"
+#include "Battle/Box/argsHolder.h"
 #include "Battle/Box/battle_box.h"
+#include "Battle/Box/blitter.h"
 #include "Battle/Box/box_behaviour.h"
 #include "Battle/Box/fighting.h"
 #include "Battle/Box/acting.h"

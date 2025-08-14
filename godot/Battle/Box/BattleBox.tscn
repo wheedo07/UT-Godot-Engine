@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://3mahpp3h1cx4"]
 
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_o8u07"]
-[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="3_a0mh2"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="3_a0mh2"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_f5ep8"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_ms4jc"]
 [ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="5_20ij6"]

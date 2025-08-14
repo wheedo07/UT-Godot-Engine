@@ -3,6 +3,7 @@
 #define SCROLL_THRESHOLD 3
 
 #include "blitter.h"
+#include "argsHolder.h"
 #include "engine/Text/text_typer.h"
 #include "engine/Menus/item_slider.h"
 #include<godot_cpp/classes/node2d.hpp>
@@ -21,20 +22,6 @@ namespace godot {
     class BattleMain;
     class Enemy;
     class BattleBoxBehaviour;
-
-    class ArgsHolder : public RefCounted {
-        GDCLASS(ArgsHolder, RefCounted);
-
-        protected:
-            static void _bind_methods();
-        
-        public:
-            Array args;
-            float duration = 0.6f;
-        
-            void set_duration(float p_duration);
-            float get_duration() const;
-    };
 
     class BattleBox : public Node2D {
         GDCLASS(BattleBox, Node2D);
