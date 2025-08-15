@@ -110,7 +110,7 @@ pivot_offset = Vector2(289, 74)
 [node name="Head" type="AnimatedSprite2D" parent="Control"]
 visible = false
 z_index = 1
-position = Vector2(63, 69)
+position = Vector2(66, 75)
 scale = Vector2(2, 2)
 sprite_frames = ExtResource("2_gj67d")
 animation = &"Sans"
@@ -157,6 +157,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 5.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 28

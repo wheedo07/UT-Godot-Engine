@@ -171,8 +171,8 @@ void TextBox::character(bool head_hide, Character chr, const Ref<Dialogues>& dia
         head->hide();
     } else {
         head->show();
-        text_container->set_size(Vector2(485, 130));
-        text_container->set_position(Vector2(88, 10));
+        text_container->set_size(Vector2(470, 143));
+        text_container->set_position(Vector2(108, 5));
         head->set_animation(String(get_character_name()[Variant(chr)]));
         Text->connect("expression_set", Callable(this, "set_head_frame"));
     }
