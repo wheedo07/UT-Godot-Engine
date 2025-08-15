@@ -107,44 +107,13 @@ offset_right = 611.0
 offset_bottom = 470.0
 pivot_offset = Vector2(289, 74)
 
-[node name="Speaker" type="Control" parent="Control"]
-layout_mode = 1
-anchor_left = 0.022
-anchor_top = -0.615
-anchor_right = 0.189
-offset_left = 0.283999
-offset_top = 0.0200043
-offset_right = -0.242004
-offset_bottom = 5.0
-metadata/_edit_group_ = true
-
-[node name="Panel" type="Panel" parent="Control/Speaker"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = ExtResource("1_gscy0")
-
-[node name="Head" type="AnimatedSprite2D" parent="Control/Speaker"]
-position = Vector2(48, 47)
+[node name="Head" type="AnimatedSprite2D" parent="Control"]
+visible = false
+z_index = 1
+position = Vector2(63, 69)
 scale = Vector2(2, 2)
 sprite_frames = ExtResource("2_gj67d")
 animation = &"Sans"
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Control/Speaker"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_ftbcr")
-patch_margin_left = 11
-patch_margin_top = 11
-patch_margin_right = 11
-patch_margin_bottom = 11
 
 [node name="Panel" type="Panel" parent="Control"]
 layout_mode = 1
@@ -269,14 +238,6 @@ bbcode_enabled = true
 text = "Later"
 scroll_active = false
 autowrap_mode = 0
-
-[node name="Textbox" type="TextureRect" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0.345098)
-offset_top = 310.0
-offset_right = 640.0
-offset_bottom = 479.201
-expand_mode = 1
 
 [node name="Sounds" type="Node" parent="."]
 

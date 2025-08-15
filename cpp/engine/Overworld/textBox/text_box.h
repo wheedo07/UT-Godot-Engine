@@ -9,6 +9,7 @@
 #include<godot_cpp/classes/input_event.hpp>
 #include<godot_cpp/classes/animated_sprite2d.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
+#include<godot_cpp/classes/margin_container.hpp>
 #include<godot_cpp/variant/variant.hpp>
 namespace godot {
     class TextBox : public CanvasLayer {
@@ -39,6 +40,7 @@ namespace godot {
 
             TextBoxWriter* Text;
             AnimatedSprite2D* head;
+            MarginContainer* text_container;
             MenuSoul* soul;
             Array Options;
             Vector2 defpos = Vector2(0, 0);

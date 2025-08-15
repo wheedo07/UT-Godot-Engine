@@ -46,11 +46,10 @@ void TextBox::_bind_methods() {
 int selected_option = 0;
 void TextBox::_ready() {
     if(isEditor) return;
-    get_node_internal("Control/Speaker")->call("hide");
-    
     Text = Object::cast_to<TextBoxWriter>(get_node_internal("Control/TextContainer/Text"));
-    head = Object::cast_to<AnimatedSprite2D>(get_node_internal("Control/Speaker/Head"));
+    head = Object::cast_to<AnimatedSprite2D>(get_node_internal("Control/Head"));
     soul = Object::cast_to<MenuSoul>(get_node_internal("Control/Soul"));
+    text_container = Object::cast_to<MarginContainer>(get_node_internal("Control/TextContainer"));
     Text->set_text("");
     Text->connect("skip", Callable(this, "_on_skip"));
     
@@ -80,8 +79,8 @@ void TextBox::_ready() {
         char_sound[Variant(arr_key[i])] = "Sounds/" + String(arr_value[i]);
     }
 
-    // * 캐릭터 추가시 추가 * //
     ResourceLoader* loader = ResourceLoader::get_singleton();
+    // * 캐릭터 추가시 추가 * //
     Dictionary sans_font;
     sans_font["font"] = loader->load("res://Text/Fonts/character/sans.ttf");
     sans_font["size"] = 26;
@@ -168,17 +167,16 @@ void TextBox::generic(const Ref<Dialogues>& text, const PackedStringArray& optio
 }
 
 void TextBox::character(bool head_hide, Character chr, const Ref<Dialogues>& dialogues, const PackedStringArray& options, const TypedArray<Dialogues>& dialogues_after_options) {
-    Node* speaker = get_node_internal("Control/Speaker");
-    if (speaker) {
-        if (head_hide) {
-            speaker->call("hide");
-        } else {
-            speaker->call("show");
-            head->set_animation(String(get_character_name()[Variant(chr)]));
-            Text->connect("expression_set", Callable(this, "set_head_frame"));
-        }
+    if (head_hide) {
+        head->hide();
+    } else {
+        head->show();
+        text_container->set_size(Vector2(485, 130));
+        text_container->set_position(Vector2(88, 10));
+        head->set_animation(String(get_character_name()[Variant(chr)]));
+        Text->connect("expression_set", Callable(this, "set_head_frame"));
     }
-    
+
     Dictionary font_data = char_font.has(Variant(chr)) ? Dictionary(char_font[Variant(chr)]) : Dictionary();
     if (!font_data.is_empty() && Text) {
         Text->add_theme_font_size_override("normal_font_size", font_data["size"]);

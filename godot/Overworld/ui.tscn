@@ -39,7 +39,7 @@ alpha_curve = SubResource("CurveTexture_0v48g")
 
 [node name="UI" type="UI"]
 items_seperation = Vector2(0, 29)
-option_seperation = Vector2(0, 40)
+option_seperation = Vector2(0, 41)
 
 [node name="Control" type="CanvasGroup" parent="."]
 
