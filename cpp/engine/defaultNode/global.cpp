@@ -84,8 +84,9 @@ Global::Global() {
     overworld_data["room"] = "";
     overworld_data["room_name"] = "";
     overworld_data["room_pos"] = Vector2(0.0, 0.0);
-    playtime = 0.0;
-    cache_playtime = 0.0;
+    playtime = 0;
+    cache_playtime = 0;
+    quit_time = 0;
     start = false;
     isMobile = false;
 }
@@ -179,10 +180,9 @@ void Global::heal(int amt) {
 
 void Global::_input(const Ref<InputEvent>& event) {
     if(isEditor) return;
-    if (event->is_action_pressed("toggle_fullscreen") && !isMobile) {
-        toggle_fullscreen();
-    }
-    if (event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {
+    if(event->is_action_pressed("toggle_fullscreen") && !isMobile) toggle_fullscreen();
+
+    if(event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {
         toggle_collision_shape_visibility();
         debugmode = !debugmode;
     }
@@ -190,7 +190,7 @@ void Global::_input(const Ref<InputEvent>& event) {
 
 void Global::_unhandled_input(const Ref<InputEvent>& event) {
     if(isEditor) return;
-    if (debugmode) {
+    if(debugmode) {
         if (event->is_action_pressed("refresh_scene") && os->is_debug_build()) {
             UtilityFunctions::print(String::utf8("경고: 노드가 손실될 수 있습니다!"));
             player_hp = player_max_hp;
@@ -212,7 +212,25 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
 
 void Global::_process(double delta) {
     if(isEditor) return;
-    if (debugmode) {
+    Input* input = Input::get_singleton();
+    if(input->is_action_pressed("ui_quit")) {
+        quit_time += delta;
+    }else {
+        if(tw_quit.is_valid() && tw_quit->is_valid()) tw_quit->kill();
+        Info->set_modulate(Color(1,1,1,1));
+        quit_time = 0;
+    }
+
+    if(quit_time != 0) {
+        if(!tw_quit.is_valid() || !tw_quit->is_valid()) {
+            tw_quit = create_tween()->set_loops();
+            tw_quit->tween_property(Info, "modulate:a", 0.35, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
+            tw_quit->tween_property(Info, "modulate:a", 1, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
+        }
+
+        Info->set_text(String::utf8("[color=red]종료중..."));
+        if(quit_time >= 2) get_tree()->quit();
+    }else if(debugmode) {
         Info->set_text(vformat(String::utf8("[rainbow]디버그 모드[/rainbow]\nFPS: %s")
         + (os->is_debug_build() ? String::utf8("\n[R] 현재 장면 다시 로드") : String("")),
             Engine::get_singleton()->get_frames_per_second()));

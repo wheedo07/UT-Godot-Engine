@@ -81,6 +81,8 @@ namespace godot {
 			OS* os;
             DisplayServer* display;
 
+			double quit_time;
+			Ref<Tween> tw_quit;
 			Dictionary input_event;
 
 			void loop_Music();
