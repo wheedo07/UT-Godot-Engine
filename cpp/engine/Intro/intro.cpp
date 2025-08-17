@@ -61,7 +61,7 @@ void Intro::_ready() {
 }
 
 void Intro::_input(const Ref<InputEvent>& event) {
-    if (event->is_action_pressed("ui_cancel")) {
+    if (event->is_action_pressed("ui_accept")) {
         skip_intro = true;
         intro_text->kill_tweens(true);
     }
