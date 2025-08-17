@@ -149,8 +149,7 @@ void OverworldSceneChanger::on_scene_setup_finished(bool transition) {
     tree->set_current_scene(sc);
     tree->get_main_viewport()->add_child(sc);
     
-    global->set_battle_start(false);
-  
+    global->call_deferred("set_battle_start", false);
     if(sc->has_signal("initialized")) sc->emit_signal("initialized");
 
     if(sc->has_method("ready")) sc->call("ready"); // // C++ 이랑 GDscript 모두 호환되도록
