@@ -47,7 +47,29 @@ void AttackSans::turn_2() {
             soul->set_mode(SoulBattle::YELLOW);
         }, 30.0},
         {[this]() {
+            main->toggle_transparent();
+            soul->set_mode();
+            Vector2 center = Vector2(320, 165);
+            float radius = 130.0f;
+            float angle_increment = 90.0f;
+            sys->time_loop(Array(),[this, center, radius, angle_increment](double delta, TimeAccumPtr acc) {
+                double* time = acc[0];
+                double* current_angle = acc[1];
+                
+                *current_angle += UFus::deg_to_rad(angle_increment) * delta;
+                *current_angle = UFus::fmod(*current_angle, 2.0 * Math_PI);
+                if (*time >= 0.2) {
+                    Vector2 spawn_position = Vector2(center.x + radius * cos(*current_angle), center.y + radius * sin(*current_angle));
+                    Blaster* bl = create_blaster(Masking::RELATIVE_BOX);
+                    bl->set_position(Vector2(spawn_position.x, spawn_position.y-100));
+                    bl->set_rotation_degrees(UFus::rad_to_deg(*current_angle) + 90);
+                    bl->fire(spawn_position, 1.5, 0.3, 0.4);
+                    *time = 0;
+                }else *time += delta;
+            }, 15);
+        }, 5.0},
+        {[this]() {
             end_attack();
-        }, 5.0}
+        }, 16.0f}
     });
 }
