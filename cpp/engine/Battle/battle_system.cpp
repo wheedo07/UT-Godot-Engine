@@ -557,9 +557,7 @@ String BattleMain::pure_int_to_short_representation(int input) {
 }
 
 void BattleMain::end_encounter() {
-    if (music_player) {
-        music_player->stop();
-    }
+    music_player->stop();
     
     // 보상 처리
     global->set_player_gold(global->get_player_gold() + int(rewards["gold"]));
@@ -572,22 +570,20 @@ void BattleMain::end_encounter() {
     );
     
     // 레벨업 처리
-    if (global->check_level_up()) {
+    if(global->check_level_up()) {
         win_text += String::utf8(" \n* 당신의 LOVE가 올라갔다");
         if (lvlup_sound) {
             lvlup_sound->play();
         }
     }
     
-    if (box) {
-        box->change_state(BattleBox::State_BlitteringCasual);
-        Blitter* blitter_text = box->get_blitter_text();
-        if (blitter_text) {
-            PackedStringArray texts;
-            texts.push_back(win_text);
-            blitter_text->type_text(texts);
-            blitter_text->connect("finished_all_texts", Callable(this, "_finish_encounter"), CONNECT_ONE_SHOT);
-        }
+    box->change_state(BattleBox::State_BlitteringCasual);
+    Blitter* blitter_text = box->get_blitter_text();
+    if (blitter_text) {
+        PackedStringArray texts;
+        texts.push_back(win_text);
+        blitter_text->type_text(texts);
+        blitter_text->connect("finished_all_texts", Callable(this, "_finish_encounter"), CONNECT_ONE_SHOT);
     }
 }
 
