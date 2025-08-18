@@ -229,7 +229,10 @@ void Global::_process(double delta) {
         }
 
         Info->set_text(String::utf8("[color=red]종료중..."));
-        if(quit_time >= 2) get_tree()->quit();
+        if(quit_time >= 2) {
+            save_settings();
+            get_tree()->quit();
+        }
     }else if(debugmode) {
         Info->set_text(vformat(String::utf8("[rainbow]디버그 모드[/rainbow]\nFPS: %s")
         + (os->is_debug_build() ? String::utf8("\n[R] 현재 장면 다시 로드") : String("")),
