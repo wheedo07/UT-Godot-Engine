@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b4bh4j4oik4sl"]
+[gd_scene load_steps=19 format=3 uid="uid://b4bh4j4oik4sl"]
 
 [ext_resource type="AudioStream" uid="uid://duh3v5648axhv" path="res://Musics/default/overworld.wav" id="1_rnacv"]
 [ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://Game/assets/sprite/sheet/new_home.png" id="2_ulhiq"]
@@ -97,8 +97,11 @@ sources/5 = SubResource("TileSetAtlasSource_qf4dj")
 [sub_resource type="Dialogue" id="Dialogue_xp77p"]
 dialog_text = "* 안녕 꼬마 여긴 테스트 방이야"
 
+[sub_resource type="Dialogue" id="Dialogue_njfgb"]
+dialog_text = "* 나랑 싸울래?"
+
 [sub_resource type="Dialogues" id="Dialogues_8ru6p"]
-dialogues = Array[Dialogue]([SubResource("Dialogue_xp77p")])
+dialogues = Array[Dialogue]([SubResource("Dialogue_xp77p"), SubResource("Dialogue_njfgb")])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bx6vr"]
 size = Vector2(20, 199)
@@ -193,4 +196,5 @@ shape = SubResource("RectangleShape2D_bx6vr")
 position = Vector2(790, 130)
 shape = SubResource("RectangleShape2D_iks5l")
 
+[connection signal="character_finished" from="TileMap/Sans" to="." method="_on_batle"]
 [connection signal="cutscene" from="TileMap/trigger/sans_battle" to="." method="_on_batle"]
