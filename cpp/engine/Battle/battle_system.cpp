@@ -657,7 +657,7 @@ int BattleMain::get_turn_number() {
 }
 
 void BattleMain::toggle_transparent() {
-    if(global->isMobile) {
+    if(global->isMobile()) {
         ERR_PRINT("투명 모드는 모바일에서 지원되지 않습니다");
         return;
     }

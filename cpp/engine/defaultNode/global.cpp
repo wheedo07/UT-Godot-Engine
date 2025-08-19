@@ -88,7 +88,7 @@ Global::Global() {
     cache_playtime = 0;
     quit_time = 0;
     start = false;
-    isMobile = false;
+    is_Mobile = false;
 }
 
 Global::~Global() {}
@@ -104,7 +104,7 @@ void Global::_ready() {
     KrTimer = Object::cast_to<Timer>(get_node_internal("KrTimer"));
     Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
     String osName = os->get_name();
-    isMobile = osName == "Android";
+    is_Mobile = osName == "Android";
     if(osName == "Web") return;
     if(osName == "Android") {
         call_deferred("toggle_fullscreen");
@@ -180,7 +180,7 @@ void Global::heal(int amt) {
 
 void Global::_input(const Ref<InputEvent>& event) {
     if(isEditor) return;
-    if(event->is_action_pressed("toggle_fullscreen") && !isMobile) toggle_fullscreen();
+    if(event->is_action_pressed("toggle_fullscreen") && !is_Mobile) toggle_fullscreen();
 
     if(event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {
         toggle_collision_shape_visibility();

@@ -47,6 +47,10 @@ void AttackSans::turn_2() {
             soul->set_mode(SoulBattle::YELLOW);
         }, 30.0},
         {[this]() {
+            if(global->isMobile()) {
+                end_attack();
+                return;
+            }
             main->toggle_transparent();
             soul->set_mode();
             Vector2 center = Vector2(320, 165);
@@ -69,6 +73,7 @@ void AttackSans::turn_2() {
             }, 15);
         }, 5.0},
         {[this]() {
+            if(global->isMobile()) return;
             end_attack();
         }, 16.0f}
     });

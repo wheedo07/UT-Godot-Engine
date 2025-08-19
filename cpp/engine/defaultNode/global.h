@@ -21,7 +21,7 @@ namespace godot {
 		
 		public:
 	        AudioStreamPlayer* heal_sound;
-	        bool start, isMobile;
+	        bool start;
 
         private:
 			String savepath;
@@ -84,6 +84,7 @@ namespace godot {
 			double quit_time;
 			Ref<Tween> tw_quit;
 			Dictionary input_event;
+			bool is_Mobile;
 
 			void loop_Music();
         
@@ -105,6 +106,7 @@ namespace godot {
 	        void save_game(bool is_sys);
 	        void resetgame();
 	        void true_resetgame();
+			bool isMobile();
                 
 	        void save_settings();
                 

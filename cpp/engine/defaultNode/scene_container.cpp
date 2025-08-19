@@ -48,7 +48,7 @@ void SceneContainer::_ready() {
     global->connect("fullscreen_toggled", Callable(this, "_on_fullscreen_toggle"));
     settings_viewport_container->get_node_internal("SubViewport/Settings")->emit_signal("init");
 
-    if(global->isMobile) {
+    if(global->isMobile()) {
         mobile->show();
     }
 

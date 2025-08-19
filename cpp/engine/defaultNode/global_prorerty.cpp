@@ -20,6 +20,7 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("check_level_up"), &Global::check_level_up);
     ClassDB::bind_method(D_METHOD("loop_Music"), &Global::loop_Music);
     ClassDB::bind_method(D_METHOD("set_battle_start"), &Global::set_battle_start);
+    ClassDB::bind_method(D_METHOD("isMobile"), &Global::isMobile);
     
     ClassDB::bind_method(D_METHOD("set_item_list", "value"), &Global::set_item_list);
     ClassDB::bind_method(D_METHOD("get_item_list"), &Global::get_item_list);
@@ -470,4 +471,8 @@ void Global::set_player_set_menu(bool value) {
 
 bool Global::get_player_set_menu() const {
     return player_set_menu;
+}
+
+bool Global::isMobile() {
+    return is_Mobile;
 }
