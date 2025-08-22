@@ -115,6 +115,7 @@ void Global::_ready() {
     if(savepath.find("$home") != -1) {
         if(osName == "Windows") 
             savepaths = savepath.replace("$home", std::getenv("homepath"));
+            savepaths = std::getenv("homedrive") + savepaths;
     }else savepaths = savepath;
 
     if(savepaths.find("user://") == -1) {
