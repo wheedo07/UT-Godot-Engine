@@ -8,7 +8,7 @@
 #include<variant>
 using namespace std;
 #define clearReload_time 1.3f
-using LoopTime = std::variant<double, function<int()>>;
+using LoopTime = std::variant<double, function<bool()>>;
 using TimeAccumPtr = double (*)[3];
 namespace godot {
     using UFus = UtilityFunctions;
