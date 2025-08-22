@@ -34,7 +34,7 @@ namespace godot {
             void sleep(function<void()> fun, double cool, int id=-1);
             void loop(Array init, function<bool(double delta, TimeAccumPtr acc)> fun, int id=-1);
             void time_loop(Array init, function<void(double delta, TimeAccumPtr acc)> fun, double duration);
-            void executeTrue(function<int()> isFun, function<void()> fun, int id=-1);
+            void executeTrue(function<bool()> isFun, function<void()> fun, int id=-1);
             void sequence(vector<pair<function<void()>, LoopTime>> funs);
 
             Ref<Dialogues> dia();

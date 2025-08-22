@@ -72,7 +72,7 @@ void MainNode::sequence(vector<pair<function<void()>, LoopTime>> funs) {
     });
 }
 
-void MainNode::executeTrue(function<int()> isFun, function<void()> fun, int id) {
+void MainNode::executeTrue(function<bool()> isFun, function<void()> fun, int id) {
     loop(Array(),[fun, isFun](double delta, TimeAccumPtr acc) {
         if (isFun()) {
             fun();
