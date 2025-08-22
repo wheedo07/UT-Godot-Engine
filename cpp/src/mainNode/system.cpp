@@ -39,7 +39,7 @@ void MainNode::sequence(vector<pair<function<void()>, LoopTime>> funs) {
     LoopTime looptime = funs[*index].second;
     if(holds_alternative<double>(looptime)) {
         sleep(funs[*index].first, std::get<double>(looptime), base_id + *index);
-    }else executeTrue(std::get<function<int()>>(looptime), funs[*index].first, base_id + *index);
+    }else executeTrue(std::get<function<bool()>>(looptime), funs[*index].first, base_id + *index);
 
     loop(Array(),[this, funs, index, base_id](double delta, TimeAccumPtr acc) {
         if(*index < funs.size()) {
@@ -60,7 +60,7 @@ void MainNode::sequence(vector<pair<function<void()>, LoopTime>> funs) {
                     LoopTime looptime = funs[*index].second;
                     if(holds_alternative<double>(looptime)) {
                         sleep(funs[*index].first, std::get<double>(looptime), base_id + *index);
-                    }else executeTrue(std::get<function<int()>>(looptime), funs[*index].first, base_id + *index);
+                    }else executeTrue(std::get<function<bool()>>(looptime), funs[*index].first, base_id + *index);
                 }
             }
             return false;

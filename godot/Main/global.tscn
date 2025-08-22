@@ -19,6 +19,7 @@ heal_amount = 10
 
 [node name="Global" type="Global"]
 item_list = Array[Item]([SubResource("Item_vjh6r"), SubResource("Item_2bweu")])
+savepath = "$home/.Undertale-Engine/saved.json"
 equipment = {
 "armor": 0,
 "weapon": 1
