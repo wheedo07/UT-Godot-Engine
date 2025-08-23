@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://tw6eogrd1cju"]
+[gd_scene load_steps=24 format=3 uid="uid://tw6eogrd1cju"]
 
 [ext_resource type="AudioStream" uid="uid://bs4g8uklvbn26" path="res://Musics/shop_muisc.mp3" id="1_3i4qp"]
 [ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="2_pbwyu"]
@@ -8,7 +8,12 @@
 
 [sub_resource type="ShopItem" id="ShopItem_3hwyn"]
 
+[sub_resource type="ShopItem" id="ShopItem_q6ug7"]
+item = 2
+cost = 300
+
 [sub_resource type="ShopItem" id="ShopItem_u6r2o"]
+cost = 5
 
 [sub_resource type="Dialogue" id="Dialogue_58gno"]
 dialog_text = "안녕 반갑네"
@@ -173,7 +178,7 @@ shop_music = ExtResource("1_3i4qp")
 click_path = NodePath("click")
 room_id = 1
 room_path = "res://Game/overworld/overworld_default.tscn"
-offerings = [SubResource("ShopItem_3hwyn")]
+offerings = [SubResource("ShopItem_3hwyn"), SubResource("ShopItem_q6ug7")]
 sellferings = [SubResource("ShopItem_u6r2o")]
 keeper_dialogues = [SubResource("Dialogues_d7ljb"), SubResource("Dialogues_ujnux"), SubResource("Dialogues_0kv5i")]
 keeper_def_dialogue = SubResource("Dialogues_060io")
