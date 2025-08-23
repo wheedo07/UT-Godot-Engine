@@ -281,7 +281,7 @@ void UI::_close_menu() {
     get_node_internal("Control/StatAndOptions/Stats")->call("shrink");
     get_node_internal("Control/StatAndOptions/Options")->call("shrink");
     
-    Ref<Tween> tw = get_node_internal("/root")->call("create_tween");
+    Ref<Tween> tw = get_tree()->create_tween();
     tw->tween_property(soul, "modulate:a", 0.0, 0.2)->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_EXPO);
     UI_Box* tw_property = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Options"));
     tw_property->get_tw()->connect("finished", Callable(this, "_on_animation_finished"));
@@ -289,22 +289,22 @@ void UI::_close_menu() {
 
 void UI::_unhandled_input(const Ref<InputEvent>& event) {
     // 텍스트 박스가 활성화되어 있으면 무시
-    if (textbox || isEditor) return;
+    if(textbox || isEditor) return;
     
-    if (event->is_action_pressed("ui_down")) {
+    if(event->is_action_pressed("ui_down")) {
         soul_move(Vector2(0, 1));
     }
-    if (event->is_action_pressed("ui_up")) {
+    if(event->is_action_pressed("ui_up")) {
         soul_move(Vector2(0, -1));
     }
-    if (event->is_action_pressed("ui_right")) {
+    if(event->is_action_pressed("ui_right")) {
         soul_move(Vector2(1, 0));
     }
-    if (event->is_action_pressed("ui_left")) {
+    if(event->is_action_pressed("ui_left")) {
         soul_move(Vector2(-1, 0));
     }
     
-    if (event->is_action_pressed("ui_accept")) {
+    if(event->is_action_pressed("ui_accept")) {
         Object::cast_to<GPUParticles2D>(get_node_internal("Control/StatAndOptions/Soul/Ghost"))->restart();
         Object::cast_to<GPUParticles2D>(get_node_internal("Control/StatAndOptions/Soul/Ghost"))->set_emitting(true);
         
@@ -405,7 +405,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
     }
     
     // 취소 버튼 처리
-    if (event->is_action_pressed("ui_cancel")) {
+    if(event->is_action_pressed("ui_cancel")) {
         switch (current_state) {
             case ITEM:
             case CELL:
@@ -421,6 +421,8 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
             default:
                 break;
         }
+    }else if(current_state == OPTIONS && event->is_action_pressed("ui_menu")) {
+        call_deferred("_close_menu");
     }
 }
 

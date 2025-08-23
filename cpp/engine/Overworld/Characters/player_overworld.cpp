@@ -252,7 +252,7 @@ void PlayerOverworld::_unhandled_input(const Ref<InputEvent>& event) {
             }
         }
         
-        if (event->is_action_pressed("ui_menu") && !global->get_player_text_box()) {
+        if (event->is_action_pressed("ui_menu") && !global->get_player_text_box() && !global->get_player_in_menu()) {
             if (!player_menu.is_null()) {
                 UI* menu = Object::cast_to<UI>(player_menu->instantiate());
                 bool is = global->get_flag("isGenocide");
