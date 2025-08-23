@@ -95,14 +95,15 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hf80h"]
 _data = {
-"RESET": SubResource("Animation_srfc3"),
-"fire": SubResource("Animation_pcwrs")
+&"RESET": SubResource("Animation_srfc3"),
+&"fire": SubResource("Animation_pcwrs")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtwmf"]
 size = Vector2(9, 6)
 
 [node name="YellowSoulBullet" type="YellowBullet"]
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_mqxby")
 speed_scale = 3.0
 centered = false
@@ -110,7 +111,7 @@ offset = Vector2(-4, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_hf80h")
+&"": SubResource("AnimationLibrary_hf80h")
 }
 autoplay = "fire"
 
