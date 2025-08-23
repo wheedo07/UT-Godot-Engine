@@ -141,8 +141,8 @@ void SoulBattle::_physics_process(double delta) {
         motion.y = get_velocity().y * gravity_direction.y;
         motion.x = get_velocity().x;
     }
-    
-    set_up_direction(gravity_direction * -1);
+
+    if(!gravity_direction.is_zero_approx()) set_up_direction(gravity_direction * -1);
     
     switch(mode) {
         case RED:
