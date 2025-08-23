@@ -29,6 +29,7 @@ Bullet::~Bullet() {}
 void Bullet::_bind_methods() {
     // 스크립트 메소드
     BIND_VIRTUAL_METHOD(Bullet, ready, hash_djb2("Bullet_ready"));
+    BIND_VIRTUAL_METHOD(Bullet, on_hit_yellow, hash_djb2("Bullet_on_hit_yellow"));
 
     ADD_SIGNAL(MethodInfo("bullet_fade"));
     ADD_SIGNAL(MethodInfo("shake_camera", PropertyInfo(Variant::FLOAT, "shake_amt")));
@@ -43,7 +44,6 @@ void Bullet::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("_on_hit_player"), &Bullet::_on_hit_player);
     ClassDB::bind_method(D_METHOD("_on_hit_player_shield"), &Bullet::_on_hit_player_shield);
-    ClassDB::bind_method(D_METHOD("_on_hit_yellow"), &Bullet::_on_hit_yellow);
     ClassDB::bind_method(D_METHOD("set_mode", "mode"), &Bullet::set_mode, DEFVAL(MODE_BLUE));
     ClassDB::bind_method(D_METHOD("fade"), &Bullet::fade);
     ClassDB::bind_method(D_METHOD("kill"), &Bullet::kill);
@@ -87,6 +87,7 @@ void Bullet::_ready() {
 }
 
 void Bullet::ready() {}
+void Bullet::on_hit_yellow() {}
 
 void Bullet::_physics_process(double delta) {
     if(isEditor) return;
@@ -109,8 +110,6 @@ void Bullet::_on_hit_player() {
 void Bullet::_on_hit_player_shield() {
     _on_hit_player();
 }
-
-void Bullet::_on_hit_yellow() {}
 
 Bullet* Bullet::set_mode(DamageMode mode) {
     damage_mode = mode;

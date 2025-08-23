@@ -6,5 +6,9 @@ void BulletAreaYellowHittable::_bind_methods() {
 }
 
 void BulletAreaYellowHittable::_on_yellow_bullet_hit() {
-    bullet->_on_hit_yellow();
+    if(bullet->has_method("on_hit_yellow")) { // C++ 이랑 GDscript 모두 호환되도록
+        bullet->call("on_hit_yellow");
+    } else {
+        bullet->on_hit_yellow();
+    }
 }
