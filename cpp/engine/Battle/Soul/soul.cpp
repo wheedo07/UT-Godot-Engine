@@ -352,6 +352,8 @@ void SoulBattle::set_mode_silent(int new_mode) {
 
     if(new_mode == PURPLE) {
         purple_pos = 0;
+        gravity_direction = Vector2(0,0);
+        motion = Vector2(0, 0);
         update_purple_pos();
     }
 }

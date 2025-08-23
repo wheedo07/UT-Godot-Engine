@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cky15oufpvxym"]
+[gd_scene load_steps=13 format=3 uid="uid://cky15oufpvxym"]
 
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="2_c0m18"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="3_dls26"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_lws8l"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="4_7bd6x"]
 [ext_resource type="AudioStream" uid="uid://bhsttfwejarc4" path="res://sfx/Clicks/generic1.wav" id="5_upaer"]
 [ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="8_if0j0"]
 [ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="10_bn7bx"]
@@ -10,6 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="12_tldfv"]
 [ext_resource type="AudioStream" uid="uid://bccff4667e570" path="res://sfx/buy_item.wav" id="15_ssolt"]
 [ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="16_jjntu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6cvxh"]
+shader = ExtResource("4_7bd6x")
+shader_parameter/threshold = 0.6
 
 [node name="Shop" type="SHOP"]
 
@@ -94,6 +99,7 @@ theme_override_constants/margin_right = 25
 [node name="Dialogue" type="AdvancedTextTyper" parent="Control/TextBox/MarginContainer"]
 click_path = NodePath("Click")
 visible = false
+material = SubResource("ShaderMaterial_6cvxh")
 layout_mode = 2
 theme = ExtResource("3_lws8l")
 bbcode_enabled = true
@@ -107,6 +113,7 @@ bus = &"SFX"
 
 [node name="Items" type="RichTextLabel" parent="Control/TextBox"]
 visible = false
+material = SubResource("ShaderMaterial_6cvxh")
 layout_mode = 0
 offset_left = 70.0
 offset_top = 22.0
@@ -125,6 +132,7 @@ scroll_active = false
 
 [node name="SellItems" type="RichTextLabel" parent="Control/TextBox"]
 visible = false
+material = SubResource("ShaderMaterial_6cvxh")
 layout_mode = 0
 offset_left = 70.0
 offset_top = 22.0
@@ -141,6 +149,7 @@ scroll_active = false
 
 [node name="Dialogues" type="RichTextLabel" parent="Control/TextBox"]
 visible = false
+material = SubResource("ShaderMaterial_6cvxh")
 layout_mode = 0
 offset_left = 70.0
 offset_top = 22.0
@@ -186,6 +195,7 @@ grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_dls26")
 
 [node name="Options" type="RichTextLabel" parent="Control/Main"]
+material = SubResource("ShaderMaterial_6cvxh")
 layout_mode = 0
 offset_left = 56.0
 offset_top = 22.0

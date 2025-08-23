@@ -225,10 +225,10 @@ void BattleBox::_physics_process(double delta) {
     Vector2 corner_position_1 = corner_positions[1];
     Vector2 center = corner_position_0 + current_size / 2.0;
     
-    collisions[0].call("set_position", Vector2(center.x, corner_position_0.y - (colsize / 2.0 - 5.5)));
-    collisions[1].call("set_position", Vector2(center.x, corner_position_1.y + (colsize / 2.0 - 5.5)));
-    collisions[2].call("set_position", Vector2(corner_position_0.x - (colsize / 2.0 - 5.5), center.y));
-    collisions[3].call("set_position", Vector2(corner_position_1.x + (colsize / 2.0 - 5.5), center.y));
+    collisions[0].call("set_position", Vector2(center.x, corner_position_0.y - (colsize / 2.0 - 5)));
+    collisions[1].call("set_position", Vector2(center.x, corner_position_1.y + (colsize / 2.0 - 5)));
+    collisions[2].call("set_position", Vector2(corner_position_0.x - (colsize / 2.0 - 5), center.y));
+    collisions[3].call("set_position", Vector2(corner_position_1.x + (colsize / 2.0 - 5), center.y));
     rect_container->set_pivot_offset(center);
     
     tl->set_position(corner_position_0 + Vector2(6, 6));

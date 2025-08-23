@@ -114,13 +114,13 @@ shape = SubResource("RectangleShape2D_yiolc")
 debug_color = Color(0.47, 0.540667, 1, 0.0392157)
 
 [node name="Left" type="CollisionShape2D" parent="BoxContainer/Collisions"]
-position = Vector2(32, 320)
+position = Vector2(31, 320)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_p27oi")
 debug_color = Color(0.47, 0.540667, 1, 0.0392157)
 
 [node name="Right" type="CollisionShape2D" parent="BoxContainer/Collisions"]
-position = Vector2(608, 320)
+position = Vector2(609, 320)
 rotation = 4.71239
 shape = SubResource("RectangleShape2D_p27oi")
 debug_color = Color(0.47, 0.540667, 1, 0.0392157)
