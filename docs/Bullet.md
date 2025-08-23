@@ -47,10 +47,9 @@ Undertale 스타일의 탄환 움직임, 데미지, 효과 모드 등을 구현�
 | 함수명                       | 설명                                   |
 | ------------------------ | ------------------------------------ |
 | `ready()`               | 사용자 정의 초기화 함수 (GDScript에서도 override 가능) |
+| `on_hit_yellow()`               | 사용자 정의 함수 노란색 영혼의 탄환에 맞았을때 (GDScript에서도 override 가능) |
 | `set_mode(mode: DamageMode)` | 탄환의 데미지 타입 설정 (색상도 변경됨)         |
 | `kill()`                  | 탄환 즉시 삭제                            |
-| `fade()`                  | 탄환 페이드(서서히 사라짐) 효과 적용             |
-| `_on_exit_screen`                 | `VisibleOnScreenNotifier2D` 노드의 `screen_exited` 시그널과 연결용 함수             |
 
 ---
 
