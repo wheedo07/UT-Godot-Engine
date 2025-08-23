@@ -105,7 +105,7 @@ size = Vector2(9, 6)
 [node name="YellowSoulBullet" type="YellowBullet"]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_mqxby")
-speed_scale = 3.0
+speed_scale = 5.0
 centered = false
 offset = Vector2(-4, 0)
 
@@ -122,4 +122,9 @@ position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_mtwmf")
 disabled = true
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 8.5)
+scale = Vector2(0.5, 0.85)
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="queue_free"]

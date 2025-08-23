@@ -525,7 +525,7 @@ void SoulBattle::yellow() {
             main->box->add_child(bullet);
             bullet->set_global_position(sprite->get_global_position() + Vector2(0, -1).rotated(sprite->get_global_rotation()) * 6);
             bullet->set_rotation(sprite->get_global_rotation());
-            bullet->set_velocity(Vector2(0, -1).rotated(sprite->get_global_rotation()) * bullet->get_speed_scale());
+            bullet->set_velocity(Vector2(0, -1).rotated(sprite->get_global_rotation()) * bullet->get_speed());
         }
     }
     

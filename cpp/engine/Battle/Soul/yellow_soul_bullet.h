@@ -11,7 +11,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            const int SPEED = 300;
+            float speed;
             Vector2 velocity;
         
         public:
@@ -22,7 +22,8 @@ namespace godot {
             void _on_area_2d_area_entered(Area2D* area);
 
             void set_velocity(const Vector2& p_velocity);
-            Vector2 get_velocity() const;
+            void set_speed(float value);
+            float get_speed();
     };
 }
 
