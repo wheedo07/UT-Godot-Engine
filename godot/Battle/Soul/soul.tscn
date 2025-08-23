@@ -50,7 +50,7 @@ alpha_curve = SubResource("CurveTexture_e8o5g")
 size = Vector2(12, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ns07m"]
-size = Vector2(18, 18)
+size = Vector2(16, 16)
 
 [node name="Soul" type="SoulBattle"]
 special_bullet_mode = 2
