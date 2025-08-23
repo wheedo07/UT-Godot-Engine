@@ -174,7 +174,27 @@ void SHOP::_unhandled_input(const Ref<InputEvent>& event) {
             case SELLING_ITEMS: {
                 Array items = global->get_items();
                 if (items.size() > soul_position && items[soul_position].operator int() >= 0) {
-                    items.remove_at(soul_position);
+                    Array sellItem;
+                    for(int i=0; i < items.size(); i++) {
+                        for(int j=0; j < sellferings.size(); j++) {
+                            Ref<ShopItem> shop_item = sellferings[j];
+                            if (int(items[i]) == shop_item->get_item()) {
+                                sellItem.push_back(shop_item->get_item());
+                                break;
+                            }
+                        }
+                    }
+                    bool is = false;
+                    for(int i=0; i < items.size(); i++) {
+                        for(int j=0; j < sellItem.size(); j++) {
+                            if(int(items[i]) == int(sellItem[j]) && j == soul_position) {
+                                items.remove_at(i);
+                                is = true;
+                                break;
+                            }
+                        }
+                        if(is) break;
+                    }
                     global->set_items(items);
                     _refresh_g_info();
                     Object::cast_to<AudioStreamPlayer>(get_node_internal("bought"))->play();
@@ -358,6 +378,7 @@ void SHOP::_set_soul_pos() {
 
 void SHOP::_exit() {
     RoomEntranceNode* exit_node = Object::cast_to<RoomEntranceNode>(get_node_internal("Control/room_exit"));
+    global->set_player_text_box(false);
     exit_node->force_enter();
 }
 

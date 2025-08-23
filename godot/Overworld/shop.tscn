@@ -49,6 +49,7 @@ grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_dls26")
 
 [node name="ItemInfo" type="RichTextLabel" parent="Control/Info"]
+material = SubResource("ShaderMaterial_6cvxh")
 layout_mode = 0
 offset_left = 29.0
 offset_top = 21.0
