@@ -105,7 +105,6 @@ size = Vector2(9, 6)
 [node name="YellowSoulBullet" type="YellowBullet"]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_mqxby")
-speed_scale = 5.0
 centered = false
 offset = Vector2(-4, 0)
 
@@ -114,6 +113,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_hf80h")
 }
 autoplay = "fire"
+speed_scale = 3.0
 
 [node name="Area2D" type="Area2D" parent="."]
 
