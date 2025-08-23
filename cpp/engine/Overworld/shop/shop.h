@@ -70,7 +70,6 @@ namespace godot {
             void _write_sell_items(int id);
             void _write_shop_items();
             void _keeper_dialogue(Ref<Dialogues> dialogues);
-            void _keeper_dialogue_temp(Ref<Dialogues> dialogues, int return_state);
             void _on_keeper_dialogue_started_typing(int index);
             void _on_keeper_dialogue_finished_all_texts();
             
@@ -80,6 +79,7 @@ namespace godot {
 
             void _ready() override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
+            void _keeper_dialogue_temp(Ref<Dialogues> dialogues, int return_state);
 
             void init();
 

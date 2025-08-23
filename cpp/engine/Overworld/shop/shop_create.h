@@ -37,6 +37,9 @@ namespace godot {
 
             virtual void ready();
 
+            // 사용 함수
+            void print_dialogue(const Ref<Dialogues>& dialogues);
+
             void _ready() override;
 
             void set_music(const Ref<AudioStream>& p_music);
