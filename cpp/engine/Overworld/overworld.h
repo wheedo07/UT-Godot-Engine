@@ -11,6 +11,8 @@
 #include<godot_cpp/classes/engine.hpp>
 #include<godot_cpp/variant/dictionary.hpp>
 #include<godot_cpp/variant/typed_array.hpp>
+#include<godot_cpp/core/binder_common.hpp>
+#include<godot_cpp/core/gdvirtual.gen.inc>
 #include "engine/Overworld/Characters/player_overworld.h"
 #include "engine/Camera/camera_fx.h"
 #include "engine/Overworld/room_entrance_node.h"
@@ -45,6 +47,7 @@ namespace godot {
             void _ready() override;
         
             virtual void ready();
+            GDVIRTUAL0(ready);
 
             void room_init(const Dictionary& data);
             void _on_saved();

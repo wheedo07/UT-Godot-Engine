@@ -10,8 +10,8 @@ AttackBase::~AttackBase() {}
 
 void AttackBase::_bind_methods() {
     // 스크립트 메소드
-    BIND_VIRTUAL_METHOD(AttackBase, ready, hash_djb2("AttackBase_ready"));
-    BIND_VIRTUAL_METHOD(AttackBase, start_attack, hash_djb2("AttackBase_start_attack"));
+    GDVIRTUAL_BIND(ready);
+    GDVIRTUAL_BIND(start_attack);
 
     ADD_SIGNAL(MethodInfo("remove_attack", PropertyInfo(Variant::INT, "id")));
     ADD_SIGNAL(MethodInfo("remove_bullets"));

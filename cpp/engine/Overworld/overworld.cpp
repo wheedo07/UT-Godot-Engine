@@ -18,7 +18,7 @@ Overworld::~Overworld() {}
 
 void Overworld::_bind_methods() {
     // 스크립트 메소드
-    BIND_VIRTUAL_METHOD(Overworld, ready, hash_djb2("Overworld_ready"));
+    GDVIRTUAL_BIND(ready);
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Overworld::set_property);
     ClassDB::bind_method(D_METHOD("get_player"), &Overworld::get_player);

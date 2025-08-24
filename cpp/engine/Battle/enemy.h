@@ -15,6 +15,8 @@
 #include<godot_cpp/classes/tween.hpp>
 #include<godot_cpp/classes/random_number_generator.hpp>
 #include<godot_cpp/classes/node2d.hpp>
+#include<godot_cpp/core/binder_common.hpp>
+#include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
     class BattleMain;
 
@@ -116,6 +118,15 @@ namespace godot {
             virtual void _on_end_turn();
             virtual void on_win();
             virtual void on_defeat(bool death);
+            GDVIRTUAL0(ready);
+            GDVIRTUAL0(on_fight_used);
+            GDVIRTUAL1(on_act_used, int);
+            GDVIRTUAL1(on_item_used, int);
+            GDVIRTUAL0(on_mercy_used);
+            GDVIRTUAL0(_on_get_turn);
+            GDVIRTUAL0(_on_end_turn);
+            GDVIRTUAL0(on_win);
+            GDVIRTUAL1(on_defeat, bool);
 
             void change_stats(Dictionary value);
             Ref<ActInfo> get_act_info(int act_choice);

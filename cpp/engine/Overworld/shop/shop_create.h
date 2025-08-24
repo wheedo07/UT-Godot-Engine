@@ -3,6 +3,8 @@
 
 #include<godot_cpp/classes/control.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
+#include<godot_cpp/core/binder_common.hpp>
+#include<godot_cpp/core/gdvirtual.gen.inc>
 #include "shop.h"
 namespace godot {
     class ShopCreate : public Control {
@@ -36,6 +38,7 @@ namespace godot {
             ~ShopCreate();
 
             virtual void ready();
+            GDVIRTUAL0(ready);
 
             // 사용 함수
             void print_dialogue(const Ref<Dialogues>& dialogues);

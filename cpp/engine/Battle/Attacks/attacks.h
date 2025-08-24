@@ -9,6 +9,8 @@
 #include<godot_cpp/classes/node.hpp>
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/classes/control.hpp>
+#include<godot_cpp/core/binder_common.hpp>
+#include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
     class AttackBase : public Node {
         GDCLASS(AttackBase, Node);
@@ -50,6 +52,8 @@ namespace godot {
 
             virtual void start_attack();
             virtual void ready();
+            GDVIRTUAL0(ready);
+            GDVIRTUAL0(start_attack);
             
             // 사용 함수
             void add_bullet(Node* bullet, Masking mask = ABSOLUTE_CLIP);

@@ -46,14 +46,15 @@ void Enemy::_bind_methods() {
     ADD_SIGNAL(MethodInfo("on_mercy_end"));
 
     // 스크립트 메소드
-    BIND_VIRTUAL_METHOD(Enemy, ready, hash_djb2("Enemy_ready"));
-    BIND_VIRTUAL_METHOD(Enemy, _on_get_turn, hash_djb2("Enemy__on_get_turn"));
-    BIND_VIRTUAL_METHOD(Enemy, _on_end_turn, hash_djb2("Enemy__on_end_turn"));
-    BIND_VIRTUAL_METHOD(Enemy, on_fight_used, hash_djb2("Enemy_on_fight_used"));
-    BIND_VIRTUAL_METHOD(Enemy, on_act_used, hash_djb2("Enemy_on_act_used"));
-    BIND_VIRTUAL_METHOD(Enemy, on_item_used, hash_djb2("Enemy_on_item_used"));
-    BIND_VIRTUAL_METHOD(Enemy, on_mercy_used, hash_djb2("Enemy_on_mercy_used"));
-    BIND_VIRTUAL_METHOD(Enemy, on_win, hash_djb2("Enemy_on_win"));
+    GDVIRTUAL_BIND(ready);
+    GDVIRTUAL_BIND(_on_get_turn);
+    GDVIRTUAL_BIND(_on_end_turn);
+    GDVIRTUAL_BIND(on_fight_used);
+    GDVIRTUAL_BIND(on_act_used, "option");
+    GDVIRTUAL_BIND(on_item_used, "option");
+    GDVIRTUAL_BIND(on_mercy_used);
+    GDVIRTUAL_BIND(on_win);
+    GDVIRTUAL_BIND(on_defeat, "death");
 
     ClassDB::bind_method(D_METHOD("set_kr", "p_kr"), &Enemy::set_kr);
     ClassDB::bind_method(D_METHOD("get_kr"), &Enemy::get_kr);

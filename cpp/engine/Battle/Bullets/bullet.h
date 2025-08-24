@@ -7,6 +7,8 @@
 #include<godot_cpp/classes/tween.hpp>
 #include<godot_cpp/classes/property_tweener.hpp>
 #include<godot_cpp/classes/callback_tweener.hpp>
+#include<godot_cpp/core/binder_common.hpp>
+#include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
     class BulletArea;
 
@@ -56,6 +58,8 @@ namespace godot {
 
             virtual void ready();
             virtual void on_hit_yellow();
+            GDVIRTUAL0(ready);
+            GDVIRTUAL0(on_hit_yellow);
 
             void _on_hit_player();
             void _on_hit_player_shield();

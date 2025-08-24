@@ -28,8 +28,8 @@ Bullet::~Bullet() {}
 
 void Bullet::_bind_methods() {
     // 스크립트 메소드
-    BIND_VIRTUAL_METHOD(Bullet, ready, hash_djb2("Bullet_ready"));
-    BIND_VIRTUAL_METHOD(Bullet, on_hit_yellow, hash_djb2("Bullet_on_hit_yellow"));
+    GDVIRTUAL_BIND(ready);
+    GDVIRTUAL_BIND(on_hit_yellow);
 
     ADD_SIGNAL(MethodInfo("bullet_fade"));
     ADD_SIGNAL(MethodInfo("shake_camera", PropertyInfo(Variant::FLOAT, "shake_amt")));

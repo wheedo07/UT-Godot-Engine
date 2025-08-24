@@ -15,7 +15,7 @@ ShopCreate::~ShopCreate() {}
 
 void ShopCreate::_bind_methods() {
     // 스크립트 메소드
-    BIND_VIRTUAL_METHOD(ShopCreate, ready, hash_djb2("ShopCreate_ready"));
+    GDVIRTUAL_BIND(ready);
     ClassDB::bind_method(D_METHOD("print_dialogue", "dialogues"), &ShopCreate::print_dialogue);
 
     ClassDB::bind_method(D_METHOD("set_music", "music"), &ShopCreate::set_music);
