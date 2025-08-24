@@ -27,7 +27,7 @@ void AttackBase::_bind_methods() {
    
     ClassDB::bind_method(D_METHOD("get_attack_id"), &AttackBase::get_attack_id);
     ClassDB::bind_method(D_METHOD("set_attack_id", "attack_id"), &AttackBase::set_attack_id);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "attack_id"), "set_attack_id", "get_attack_id");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "attack_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_attack_id", "get_attack_id");
 
     // 속성
     ClassDB::bind_method(D_METHOD("set_property", "value"), &AttackBase::set_property);
