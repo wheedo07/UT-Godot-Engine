@@ -128,6 +128,13 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("box_show"), &BattleBox::box_show);
     ClassDB::bind_method(D_METHOD("box_hide"), &BattleBox::box_hide);
 
+    // 상자 크기
+    ClassDB::bind_method(D_METHOD("get_size"), &BattleBox::get_size);
+    // 상자 왼쪽위 모서리 위치
+    ClassDB::bind_method(D_METHOD("get_tl_anchor"), &BattleBox::get_tl_anchor);
+    // 상자 오른쪽아래 모서리 위치
+    ClassDB::bind_method(D_METHOD("get_br_anchor"), &BattleBox::get_br_anchor);
+
     ClassDB::bind_method(D_METHOD("set_wintext", "value"), &BattleBox::set_wintext);
     ClassDB::bind_method(D_METHOD("get_wintext"), &BattleBox::get_wintext);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "wintext", PROPERTY_HINT_MULTILINE_TEXT), "set_wintext", "get_wintext");
@@ -788,6 +795,14 @@ void BattleBox::blitter_print(PackedStringArray texts) {
 
 Vector2 BattleBox::get_size() {
     return rect->get_size();
+}
+
+Vector2 BattleBox::get_tl_anchor() {
+    return anchor_targets[0];
+}
+
+Vector2 BattleBox::get_br_anchor() {
+    return anchor_targets[1];
 }
 
 void BattleBox::box_show() {
