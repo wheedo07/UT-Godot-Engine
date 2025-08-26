@@ -236,7 +236,7 @@ void SoulBattle::check_bullet(Area2D* area) {
                 case Bullet::MODE_BLUE:
                     if ((special_bullet_mode == ARROW_KEYS && !inputs.is_zero_approx()) || 
                         (special_bullet_mode == VELOCITY && !get_velocity().is_zero_approx()) || 
-                        (special_bullet_mode == ARROW_KEYS_AND_MOVING && !inputs.is_zero_approx() && !get_velocity().is_zero_approx())) {
+                        (special_bullet_mode == ARROW_KEYS_AND_MOVING && (!inputs.is_zero_approx() || !get_velocity().is_zero_approx()))) {
                         hurt(bullet_area);
                     }
                     break;
