@@ -288,6 +288,7 @@ void SoulBattle::hurt(BulletArea* area) {
 void SoulBattle::_on_death() {
     main->_on_death_player();
     sys->clear_system();
+    global->save_settings();
     global->set_player_position(get_global_transform_with_canvas().get_origin());
     main->attacks->force_end_attacks();
     global->get_scene_container()->change_scene_to_file("res://Battle/Death/death_screen.tscn");
