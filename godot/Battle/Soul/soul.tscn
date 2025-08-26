@@ -53,7 +53,6 @@ size = Vector2(12, 12)
 size = Vector2(16, 16)
 
 [node name="Soul" type="SoulBattle"]
-special_bullet_mode = 2
 collision_layer = 0
 floor_stop_on_slope = false
 floor_max_angle = 0.0
