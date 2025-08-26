@@ -20,7 +20,7 @@ SoulBattle::SoulBattle() {
     inputs = Vector2(0, 0);
     slow_down = 1;
     gravity_direction = Vector2(0, 1);
-    special_bullet_mode = ARROW_KEYS;
+    special_bullet_mode = ARROW_KEYS_AND_MOVING;
     sprite = nullptr;
     ghost = nullptr;
     shoot = nullptr;

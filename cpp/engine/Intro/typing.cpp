@@ -53,59 +53,42 @@ void Typing::_ready() {
 }
 
 void Typing::set_current_pos(const Vector2i& pos) {
-    current_pos.x = Math::clamp(pos.x, 0, LIMIT-1);
-    
-    Array column = letters[current_pos.x];
-    bool found_valid = false;
-    
-    if (current_pos.x >= 5) {
-        if (pos.y >= 3 && pos.y <= 3) {
-            current_pos.y = 2;
-        } else if (pos.y >= 7) {
-            current_pos.y = 6; 
-        } else {
-            current_pos.y = Math::clamp(pos.y, 0, LIMIT);
-        }
-    } else {
-        current_pos.y = Math::clamp(pos.y, 0, LIMIT);
+    int new_x = pos.x;
+    int new_y = pos.y;
+
+    if (new_x < 0) new_x = LIMIT - 1;
+    if (new_x >= LIMIT) new_x = 0;
+
+    Array arr = letters[new_x];
+    if (arr.is_empty()) return;
+
+    if (new_y < 0) new_y = arr.size() - 1;
+    if (new_y >= arr.size()) new_y = 0;
+
+    int dx = (pos.x - current_pos.x);
+    int dy = (pos.y - current_pos.y);
+    dx = dx == 0 ? 0 : (dx > 0 ? 1 : -1);
+    dy = dy == 0 ? 0 : (dy > 0 ? 1 : -1);
+
+    int safety = 0;
+    while (safety < 100) {
+        NodePath path = arr[new_y];
+        if (!path.is_empty()) break;
+
+        new_x += dx;
+        new_y += dy;
+
+        if (new_x < 0) new_x = LIMIT - 1;
+        if (new_x >= LIMIT) new_x = 0;
+
+        arr = letters[new_x];
+        if (arr.is_empty()) return;
+        if (new_y < 0) new_y = arr.size() - 1;
+        if (new_y >= arr.size()) new_y = 0;
+
+        safety++;
     }
-    
-    NodePath path = column[current_pos.y];
-    if (path.is_empty()) {
-        for (int offset = 1; offset <= LIMIT; offset++) {
-            int check_up = current_pos.y - offset;
-            if (check_up >= 0) {
-                NodePath up_path = column[check_up];
-                if (!up_path.is_empty()) {
-                    current_pos.y = check_up;
-                    found_valid = true;
-                    break;
-                }
-            }
-            
-            int check_down = current_pos.y + offset;
-            if (check_down <= LIMIT) {
-                NodePath down_path = column[check_down];
-                if (!down_path.is_empty()) {
-                    current_pos.y = check_down;
-                    found_valid = true;
-                    break;
-                }
-            }
-        }
-        
-        if (!found_valid) {
-            for (int x_offset = 1; x_offset < LIMIT; x_offset++) {
-                int check_x = (current_pos.x + x_offset) % LIMIT;
-                Array check_column = letters[check_x];
-                if (!NodePath(check_column[0]).is_empty()) {
-                    current_pos.x = check_x;
-                    current_pos.y = 0;
-                    break;
-                }
-            }
-        }
-    }
+    current_pos = Vector2i(new_x, new_y);
 }
 
 Vector2i Typing::get_current_pos() const {
@@ -251,8 +234,7 @@ void Typing::refresh_thing(const Vector2i& action) {
     
     Object::cast_to<OptionSelectable>(get_node_internal(arr[current_pos.y]))->set_selected(false);
     
-    current_pos += action;
-    set_current_pos(current_pos);
+    set_current_pos(current_pos + action);
     
     arr = letters[current_pos.x];
     Object::cast_to<OptionSelectable>(get_node_internal(arr[current_pos.y]))->set_selected(true);
