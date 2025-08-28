@@ -23,7 +23,7 @@ void YellowBullet::_physics_process(double delta) {
 }
 
 void YellowBullet::_on_area_2d_area_entered(Area2D* area) {
-    if(area->is_class("BulletAreaYellowHittable")) area->call("_on_yellow_bullet_hit");
+    if(area->is_class("BulletArea")) area->call("_on_yellow_bullet_hit");
 }
 
 void YellowBullet::set_velocity(const Vector2& p_velocity) {

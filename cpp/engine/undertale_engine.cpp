@@ -124,7 +124,6 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_CLASS(BattleObject);
     GDREGISTER_CLASS(BattlePlatform);
     GDREGISTER_CLASS(BulletArea);
-    GDREGISTER_CLASS(BulletAreaYellowHittable);
     GDREGISTER_CLASS(DefaultBullet);
     GDREGISTER_CLASS(Bone);
     GDREGISTER_CLASS(BoneSpike);

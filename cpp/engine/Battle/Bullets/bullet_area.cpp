@@ -9,6 +9,7 @@ BulletArea::BulletArea() {
 BulletArea::~BulletArea() {}
 
 void BulletArea::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("_on_yellow_bullet_hit"), &BulletArea::_on_yellow_bullet_hit);
     ClassDB::bind_method(D_METHOD("set_bullet_path", "value"), &BulletArea::set_bullet_path);
     ClassDB::bind_method(D_METHOD("get_bullet_path"), &BulletArea::get_bullet_path);
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "bullet_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "Bullet"), "set_bullet_path", "get_bullet_path");
@@ -39,6 +40,14 @@ void BulletArea::_process(double delta) {
                     bullet->_on_hit_player();
             }
         }
+    }
+}
+
+void BulletArea::_on_yellow_bullet_hit() {
+    if(bullet->has_method("on_hit_yellow")) { // C++ 이랑 GDscript 모두 호환되도록
+        bullet->call("on_hit_yellow");
+    } else {
+        bullet->on_hit_yellow();
     }
 }
 

@@ -30,6 +30,8 @@ namespace godot {
 
             void _ready() override;
             void _process(double delta) override;
+
+            void _on_yellow_bullet_hit();
     };
 }
 

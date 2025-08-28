@@ -121,7 +121,6 @@ using namespace godot;
 #include "Battle/Bullets/battle_object.h"
 #include "Battle/Bullets/battle_platform.h"
 #include "Battle/Bullets/bullet_area.h"
-#include "Battle/Bullets/bullet_area_yh.h"
 #include "Battle/Bullets/defaultbullet.h"
 #include "Battle/Bullets/custom/bone.h"
 #include "Battle/Bullets/custom/bone_spike.h"
