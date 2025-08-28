@@ -20,7 +20,7 @@ func ready() -> void:
 func _on_batle():
 	var textbox = summontextbox();
 	textbox.generic(Dialogues.new().from([
-		\"테스트 전투가 시작됩니다\", \"어떤 전투를 하겠습니까?\"
+		\"* 테스트 전투가 시작됩니다\", \"* 어떤 전투를 하겠습니까?\"
 	]), [\"전투1\", \"전투2\", \"안한다\"]);
 	textbox.connect(\"selected_option\", func(i:int):
 		if i == 0:
