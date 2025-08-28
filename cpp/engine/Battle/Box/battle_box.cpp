@@ -89,7 +89,6 @@ void BattleBox::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_enemies", "p_enemies"), &BattleBox::set_enemies);
     ClassDB::bind_method(D_METHOD("set_targets", "show_hp_bar"), &BattleBox::set_targets, DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("reset_box"), &BattleBox::reset_box);
     ClassDB::bind_method(D_METHOD("backout"), &BattleBox::backout);
     ClassDB::bind_method(D_METHOD("change_state", "new_state"), &BattleBox::change_state);
     ClassDB::bind_method(D_METHOD("disable"), &BattleBox::disable);
@@ -97,17 +96,6 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("blitter_act"), &BattleBox::blitter_act);
     ClassDB::bind_method(D_METHOD("blitter_item"), &BattleBox::blitter_item);
     ClassDB::bind_method(D_METHOD("blitter_mercy"), &BattleBox::blitter_mercy);
-    ClassDB::bind_method(D_METHOD("blitter_print", "texts"), &BattleBox::blitter_print);
-    
-    ClassDB::bind_method(D_METHOD("change_size", "new_size", "relative"), &BattleBox::change_size, DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative"), &BattleBox::change_position, DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("advanced_change_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative"), 
-        &BattleBox::advanced_change_size, DEFVAL(Vector2()), DEFVAL(Vector2(100, 100)), DEFVAL(false), DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("rotate_by", "rot", "relative"), &BattleBox::rotate_by, DEFVAL(false));
-    
-    ClassDB::bind_method(D_METHOD("clear_webs"), &BattleBox::clear_webs);
-    ClassDB::bind_method(D_METHOD("set_webs", "n", "separation", "margin"), &BattleBox::set_webs, DEFVAL(-1), DEFVAL(0));
-    ClassDB::bind_method(D_METHOD("get_web_y_pos", "id"), &BattleBox::get_web_y_pos);
     
     ClassDB::bind_method(D_METHOD("tween_size", "args"), &BattleBox::tween_size);
     ClassDB::bind_method(D_METHOD("real_rotate_by", "args"), &BattleBox::real_rotate_by);
@@ -125,8 +113,6 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_br"), &BattleBox::get_br);
     ClassDB::bind_method(D_METHOD("get_blitter_text"), &BattleBox::get_blitter_text);
     ClassDB::bind_method(D_METHOD("_on_soul_move_cooldown"), &BattleBox::_on_soul_move_cooldown);
-    ClassDB::bind_method(D_METHOD("box_show"), &BattleBox::box_show);
-    ClassDB::bind_method(D_METHOD("box_hide"), &BattleBox::box_hide);
 
     // 상자 크기
     ClassDB::bind_method(D_METHOD("get_size"), &BattleBox::get_size);
@@ -134,6 +120,18 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_tl_anchor"), &BattleBox::get_tl_anchor);
     // 상자 오른쪽아래 모서리 위치
     ClassDB::bind_method(D_METHOD("get_br_anchor"), &BattleBox::get_br_anchor);
+    ClassDB::bind_method(D_METHOD("reset_box", "duration"), &BattleBox::reset_box, DEFVAL(0.6f));
+    ClassDB::bind_method(D_METHOD("change_size", "new_size", "relative"), &BattleBox::change_size, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative"), &BattleBox::change_position, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("advanced_change_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative"), 
+        &BattleBox::advanced_change_size, DEFVAL(Vector2()), DEFVAL(Vector2(100, 100)), DEFVAL(false), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("rotate_by", "rot", "relative"), &BattleBox::rotate_by, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("box_show"), &BattleBox::box_show);
+    ClassDB::bind_method(D_METHOD("box_hide"), &BattleBox::box_hide);
+    ClassDB::bind_method(D_METHOD("clear_webs"), &BattleBox::clear_webs);
+    ClassDB::bind_method(D_METHOD("set_webs", "n", "separation", "margin"), &BattleBox::set_webs, DEFVAL(-1), DEFVAL(0));
+    ClassDB::bind_method(D_METHOD("get_web_y_pos", "id"), &BattleBox::get_web_y_pos);
+    ClassDB::bind_method(D_METHOD("blitter_print", "texts"), &BattleBox::blitter_print);
 
     ClassDB::bind_method(D_METHOD("set_wintext", "value"), &BattleBox::set_wintext);
     ClassDB::bind_method(D_METHOD("get_wintext"), &BattleBox::get_wintext);
