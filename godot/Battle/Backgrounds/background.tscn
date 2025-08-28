@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://0nraaqapf5jy"]
-
-[ext_resource type="Texture2D" uid="uid://cs4k2lrche0i2" path="res://Battle/Backgrounds/default.png" id="1_eamob"]
+[gd_scene format=3 uid="uid://0nraaqapf5jy"]
 
 [node name="Background" type="ParallaxBackground"]
 layer = -10
@@ -11,5 +9,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_eamob")
 stretch_mode = 5

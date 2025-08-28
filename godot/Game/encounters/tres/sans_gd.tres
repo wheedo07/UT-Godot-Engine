@@ -1,0 +1,10 @@
+[gd_resource type="Encounter" load_steps=3 format=3 uid="uid://bp7davgg4c2yg"]
+
+[ext_resource type="Texture2D" uid="uid://cs4k2lrche0i2" path="res://Game/assets/sprite/image/battle_background.png" id="1_q2s51"]
+[ext_resource type="PackedScene" uid="uid://cuuor6488vm2a" path="res://Game/encounters/enemy/sans_cpp.tscn" id="2_7lixq"]
+
+[resource]
+encounter_name = &"SANS_GD"
+background = ExtResource("1_q2s51")
+enemies = Array[PackedScene]([ExtResource("2_7lixq")])
+flee_chance = 0.5

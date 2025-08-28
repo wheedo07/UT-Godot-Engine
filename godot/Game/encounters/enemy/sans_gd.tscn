@@ -1,0 +1,127 @@
+[gd_scene load_steps=12 format=3 uid="uid://bjg0655hy3vx0"]
+
+[ext_resource type="PackedScene" uid="uid://bp62m2pkjek8i" path="res://Game/encounters/body/sans.tscn" id="1_aij3i"]
+[ext_resource type="Shader" uid="uid://5h6o16kson3k" path="res://Battle/Enemies/undertale_dust.tres" id="2_2d17r"]
+[ext_resource type="Texture2D" uid="uid://bbwyngu2np0cb" path="res://Game/assets/sprite/image/sans_dust.png" id="3_jrkr4"]
+[ext_resource type="PackedScene" uid="uid://cvdyy2a8wldbo" path="res://Battle/Enemies/spare.tscn" id="4_l08ll"]
+[ext_resource type="PackedScene" uid="uid://d3j04wql8n25c" path="res://Battle/Misc/dialogue.tscn" id="5_7gmq6"]
+[ext_resource type="AudioStream" uid="uid://cltec82rumkic" path="res://sfx/impact_wallhit.wav" id="6_a0585"]
+[ext_resource type="AudioStream" uid="uid://ddcjquq3yok8y" path="res://sfx/snd_vaporized.wav" id="7_gctqu"]
+
+[sub_resource type="ActInfo" id="ActInfo_3yu38"]
+description = PackedStringArray("* 샌즈 - ATK 1 DEF 1\n* 1 데미지만 줄수 있다", "* 당신은 이미 잘 알고 있는 사실이다")
+
+[sub_resource type="EnemyState" id="EnemyState_udyrt"]
+acts = Array[ActInfo]([SubResource("ActInfo_3yu38")])
+
+[sub_resource type="GDScript" id="GDScript_aij3i"]
+resource_name = "Enemy_gd"
+script/source = "extends Enemy
+@onready var attack = preload(\"res://Game/mainAttacks/attack_sans_gd.tscn\");
+@onready var head = $sans/Throw/head;
+@onready var AnimStates:AnimationNodeStateMachinePlayback = $sans/States.get(\"parameters/playback\");
+
+func _on_get_turn() -> void:
+	create_attack().start_attack();
+
+func create_attack() -> AttackBase:
+	var base = attacks.add_attack(attack) as AttackBase;
+	base.connect(\"throws\", self._on_throws);
+	return base;
+
+func _on_throws(dir:Vector2, power:int=10):
+	$Timer.start();
+	AnimStates.stop();
+	var key:String;
+	if(dir == Vector2.LEFT):
+		key = \"throw_left\"
+	elif(dir == Vector2.RIGHT):
+		key = \"throw_right\"
+	elif(dir == Vector2.DOWN):
+		key = \"throw_down\"
+	elif(dir == Vector2.UP):
+		key = \"throw_up\";
+	AnimStates.travel(key);
+	head.play(\"crazy\", true);
+	await get_tree().create_timer(0.2).timeout;
+	soul.set_gravity_direction(dir);
+	soul.set_gravity_multiplier(power);
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ny8xc"]
+shader = ExtResource("2_2d17r")
+shader_parameter/progress = 0.0
+shader_parameter/particle_lifetime_fraction = 0.5
+shader_parameter/connect_lines = false
+shader_parameter/direction = Vector3(0, -1, 0)
+shader_parameter/spread = 45.0
+shader_parameter/initial_linear_velocity = 40.0
+shader_parameter/linear_accel = 20.0
+shader_parameter/initial_linear_velocity_random = 0.4
+shader_parameter/linear_accel_random = 0.15
+shader_parameter/lifetime_randomness = 0.2
+shader_parameter/sprite = ExtResource("3_jrkr4")
+
+[node name="Enemy" type="Enemy"]
+enemy_name = "샌즈"
+kr = true
+dodging = true
+stats = {
+"def": 1,
+"hp": 1,
+"max_hp": 1
+}
+one_by_one_overrdie = true
+flavour_text = PackedStringArray("* 테스트 전투다")
+enemy_states = [SubResource("EnemyState_udyrt")]
+hurt_sound_path = NodePath("Sounds/Hurt")
+dust_sound_path = NodePath("Sounds/Dust")
+dust_path = NodePath("Dust")
+e_head_path = NodePath("sans/Idle/body/head")
+e_body_path = NodePath("sans/Idle/body")
+sprites_path = NodePath("sans")
+dialogue_path = NodePath("Dialogue")
+script = SubResource("GDScript_aij3i")
+
+[node name="sans" parent="." instance=ExtResource("1_aij3i")]
+position = Vector2(1, -70)
+scale = Vector2(1.6, 1.6)
+
+[node name="Dust" type="GPUParticles2D" parent="."]
+position = Vector2(-58, -147)
+scale = Vector2(1.6, 1.6)
+emitting = false
+amount = 16000
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2(-6.06821, -19.7972, 119.866, 163.797)
+local_coords = true
+process_material = SubResource("ShaderMaterial_ny8xc")
+
+[node name="Spare" parent="." instance=ExtResource("4_l08ll")]
+position = Vector2(3, -63)
+
+[node name="Dialogue" parent="." instance=ExtResource("5_7gmq6")]
+character = 1
+offset_left = 69.0
+offset_top = -144.0
+offset_right = 231.0
+offset_bottom = -34.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.6
+one_shot = true
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("6_a0585")
+bus = &"SFX"
+
+[node name="Dust" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("7_gctqu")
+bus = &"SFX"
+
+[connection signal="timeout" from="Timer" to="." method="end_throws"]
+
+[editable path="sans"]

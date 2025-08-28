@@ -17,7 +17,7 @@ void Enemy_SANS::ready() {
     AnimStates = Object::cast_to<AnimationNodeStateMachinePlayback>(get_node_internal("sans/States")->get("parameters/playback"));
     throw_timer = Object::cast_to<Timer>(get_node_internal("Timer"));
     sprite = Object::cast_to<Node2D>(get_sprites());
-    attackScene = ResourceLoader::get_singleton()->load("res://Game/mainAttacks/attack_sans.tscn");
+    attackScene = ResourceLoader::get_singleton()->load("res://Game/mainAttacks/attack_sans_cpp.tscn");
 }
 
 void Enemy_SANS::_on_get_turn() {

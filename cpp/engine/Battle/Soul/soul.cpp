@@ -65,15 +65,14 @@ void SoulBattle::_bind_methods() {
     BIND_ENUM_CONSTANT(ARROW_KEYS);
     BIND_ENUM_CONSTANT(VELOCITY);
     BIND_ENUM_CONSTANT(ARROW_KEYS_AND_MOVING);
-
-    ClassDB::bind_method(D_METHOD("fade_tw_calle", "node_ref", "parent_ref"), &SoulBattle::fade_tw_calle);
     
     ClassDB::bind_method(D_METHOD("set_mode", "new_mode"), &SoulBattle::set_mode, DEFVAL(RED));
     ClassDB::bind_method(D_METHOD("get_mode"), &SoulBattle::get_mode);
-    
     ClassDB::bind_method(D_METHOD("set_gravity_direction", "new_direction", "force_blue_mode"), 
                          &SoulBattle::set_gravity_direction, DEFVAL(true));
+    ClassDB::bind_method(D_METHOD("set_gravity_multiplier", "value"), &SoulBattle::set_gravity_multiplier);
                          
+    ClassDB::bind_method(D_METHOD("fade_tw_calle", "node_ref", "parent_ref"), &SoulBattle::fade_tw_calle);
     ClassDB::bind_method(D_METHOD("disable"), &SoulBattle::disable);
     ClassDB::bind_method(D_METHOD("enable"), &SoulBattle::enable);
     ClassDB::bind_method(D_METHOD("menu_enable"), &SoulBattle::menu_enable);
@@ -319,7 +318,7 @@ void SoulBattle::set_mode(SoulMode new_mode) {
 }
 
 void SoulBattle::set_mode_silent(int new_mode) {
-    mode = new_mode;
+    mode = SoulMode(new_mode);
     if(!is_node_ready()) return;
     
     if (new_mode == DISABLE_MOVEMENT) {
@@ -670,7 +669,7 @@ int SoulBattle::get_special_bullet_mode() const {
     return special_bullet_mode;
 }
 
-int SoulBattle::get_mode() const {
+SoulBattle::SoulMode SoulBattle::get_mode() const {
     return mode;
 }
 

@@ -11,19 +11,22 @@
 [sub_resource type="GDScript" id="GDScript_u3m8p"]
 resource_name = "Default"
 script/source = "extends Overworld
-@onready var sansTres = preload(\"res://Game/encounters/tres/sans.tres\");
+@onready var sansCpp_tres = preload(\"res://Game/encounters/tres/sans_cpp.tres\");
+@onready var sansGd_tres = preload(\"res://Game/encounters/tres/sans_gd.tres\");
 
-func ready():
+func ready() -> void:
 	print(\"ready 실행\");
 
 func _on_batle():
 	var textbox = summontextbox();
 	textbox.generic(Dialogues.new().from([
-		\"* 전투를 하시겠습니까?\", \"* 나중에 다시 전투 할수 있습니다\"
-	]), [\"예\", \"아니요\"]);
+		\"테스트 전투가 시작됩니다\", \"어떤 전투를 하겠습니까?\"
+	]), [\"1\", \"2\", \"3\", \"4\"]);
 	textbox.connect(\"selected_option\", func(i:int):
 		if i == 0:
-			OverworldSceneChangers.load_battle(sansTres);
+			OverworldSceneChangers.load_battle(sansCpp_tres);
+		elif i == 1:
+			OverworldSceneChangers.load_battle(sansGd_tres);
 	);
 	await textbox.dialogue_finished;
 	Globals.set_player_can_move(true);

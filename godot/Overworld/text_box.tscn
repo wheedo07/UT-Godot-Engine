@@ -222,7 +222,7 @@ size_flags_horizontal = 6
 theme = ExtResource("8_1qomw")
 theme_override_fonts/normal_font = ExtResource("7_wv0lv")
 bbcode_enabled = true
-text = "Maybe"
+text = "뭐요"
 scroll_active = false
 autowrap_mode = 0
 
@@ -236,7 +236,7 @@ size_flags_horizontal = 6
 theme = ExtResource("8_1qomw")
 theme_override_fonts/normal_font = ExtResource("7_wv0lv")
 bbcode_enabled = true
-text = "Later"
+text = "고요"
 scroll_active = false
 autowrap_mode = 0
 

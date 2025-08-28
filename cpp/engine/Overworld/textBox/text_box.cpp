@@ -43,7 +43,7 @@ void TextBox::_bind_methods() {
     ADD_SIGNAL(MethodInfo("dialogue_finished"));
 }
 
-int selected_option = 0;
+bool selected_option = false;
 void TextBox::_ready() {
     if(isEditor) return;
     Text = Object::cast_to<TextBoxWriter>(get_node_internal("Control/TextContainer/Text"));
@@ -96,16 +96,16 @@ void TextBox::_ready() {
 void TextBox::_input(const Ref<InputEvent>& event) {
     if(!selecting || isEditor) return;
     
-    if(event->is_action_pressed("ui_left") && (soulpos >= optionamt-1 || !selected_option)) {
-        if(selected_option) soulpos--;
-        selected_option = 1;
+    if(event->is_action_pressed("ui_left") && soulpos >= optionamt-1) {
+        selected_option = true;
         get_node_internal("Control/Soul/choice")->call("play");
+        soulpos--;
         soul_position = Options[soulpos].call("get_global_position");
         soul->move_global(soul_position);
     }
     
-    if(event->is_action_pressed("ui_right") && (soulpos < optionamt-1 || !selected_option)) {
-        selected_option = 1;
+    if(event->is_action_pressed("ui_right") && soulpos < optionamt-1) {
+        selected_option = true;
         get_node_internal("Control/Soul/choice")->call("play");
         soulpos++;
         soul_position = Options[soulpos].call("get_global_position");
@@ -118,7 +118,6 @@ void TextBox::_input(const Ref<InputEvent>& event) {
         get_node_internal("Control/Soul/select")->call("play");
         finish_options();
     }
-    
 }
 
 void TextBox::finish_options() {
@@ -144,6 +143,12 @@ void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& opti
     global->set_player_in_menu(true);
     global->set_player_text_box(true);
     text_after_option = text_after_options;
+    if (options.size() < 4) {
+        WARN_PRINT("option 갯수가 4개를 초과했습니다. 4개까지만 표시됩니다.");
+    }
+    if(text_after_option.size() < 4) {
+        WARN_PRINT("text_after_options 갯수가 4개를 초과했습니다. 4개까지만 표시됩니다.");
+    }
     
     Text->call_deferred("type_text_advanced", text);
     text_typing_completed = false;
@@ -239,13 +244,12 @@ void TextBox::setup_options_typing(const PackedStringArray& options) {
 void TextBox::setup_soul_selection(const PackedStringArray& options) {
     soul->show();
     optionamt = options.size();
-    soulpos = (optionamt - 1) / 2.0;
+    soulpos = 0;
     
     get_node_internal("Control/Soul/choice")->call("play");
     
     Vector2 option_pos = Options[0].call("get_global_position");
-    soul_position = Vector2(320, option_pos.y);
-    soul->set_global_position(Vector2(320, option_pos.y));
+    soul->set_global_position(option_pos);
     selecting = true;
 }
 

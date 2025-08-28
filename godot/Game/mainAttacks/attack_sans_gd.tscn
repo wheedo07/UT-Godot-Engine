@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://ltomwnri1181"]
+
+[ext_resource type="AudioStream" uid="uid://diuv40dkq8wo6" path="res://sfx/bullet_rise.wav" id="1_djrxi"]
+[ext_resource type="AudioStream" uid="uid://cltec82rumkic" path="res://sfx/impact_wallhit.wav" id="2_4ahu6"]
+
+[sub_resource type="GDScript" id="GDScript_wjn43"]
+resource_name = "Attack_gd"
+script/source = "extends AttackBase
+signal throws(direction:Vector2, power:int);
+@onready var bone = preload(\"res://Battle/Bullets/Bone/bone.tscn\");
+
+func start_attack() -> void:
+	throws.emit(Vector2.DOWN);
+	var h_tween;
+	var _b: Bone;
+	for i in 5:
+		$summon.play();
+		_b = bone.instantiate() as Bone;
+		add_bullet(_b);
+		_b.position = Vector2(100,376);
+		_b.rotation = PI;
+		_b.fire(Vector2(540,376), Bullet.MovementMode.MOVEMENT_TWEEN, 140.0);
+		_b.queue_fire(i*0.4 + 0.5, Vector2(0,376), Bullet.MovementMode.MOVEMENT_TWEEN, 110.0);
+		h_tween = _b.create_tween().set_trans(Tween.TRANS_CUBIC);
+		h_tween.tween_callback(_b.tween_height.bind(25 + i * 8, 1.0))
+		h_tween.tween_callback(_b.tween_height.bind(15, 2.4)).set_delay(2.0 + i * 0.4)
+		
+		_b = bone.instantiate() as Bone
+		add_bullet(_b);
+		_b.position = Vector2(540,385)
+		_b.rotation = PI
+		_b.queue_fire(3.5 + i * 0.4, Vector2(100,385), Bullet.MovementMode.MOVEMENT_TWEEN, 110.0);
+		_b.set_mode(Bullet.MODE_BLUE);
+		h_tween = _b.create_tween().set_trans(Tween.TRANS_CUBIC)
+		h_tween.tween_callback(_b.tween_height.bind(100, 1.0));
+		
+		_b = bone.instantiate() as Bone
+		add_bullet(_b);
+		_b.set_mode(Bullet.MODE_ORANGE);
+		_b.position = box.get_tl_anchor() + Vector2.ONE * 14;
+		_b.rotation_degrees = 270;
+		_b.queue_fire(1.0, Vector2(_b.position.x, 340 - i * 8), Bullet.MovementMode.MOVEMENT_TWEEN, 130.0);
+		_b.queue_fire(0.2, Vector2(_b.position.x,0), Bullet.MovementMode.MOVEMENT_TWEEN, 100.0);
+		h_tween = _b.create_tween().set_trans(Tween.TRANS_LINEAR)
+		h_tween.tween_callback(_b.tween_height.bind(339, 0.4));
+		h_tween.tween_callback(camera.add_shake.bind(0.07)).set_delay(0.4);
+		h_tween.tween_callback($wallhit.play);
+		await get_tree().create_timer(0.6, false).timeout
+	await get_tree().create_timer(6.9, false).timeout
+"
+
+[node name="AttackBase" type="AttackBase"]
+script = SubResource("GDScript_wjn43")
+
+[node name="summon" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_djrxi")
+bus = &"SFX"
+
+[node name="wallhit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_4ahu6")
+bus = &"SFX"

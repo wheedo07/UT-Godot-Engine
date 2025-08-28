@@ -54,7 +54,7 @@ namespace godot {
             float gravity_multiplier;
 
             int soul_type;
-            int mode;
+            SoulMode mode;
             Vector2 inputs;
             int slow_down;
 
@@ -135,8 +135,11 @@ namespace godot {
             void _unhandled_input(const Ref<InputEvent>& event) override;
 
             // 사용 함수
+            SoulMode get_mode() const;
             void set_mode(SoulMode new_mode = RED);
+            void set_gravity_multiplier(float value);
             void set_gravity_direction(const Vector2& new_direction, bool force_blue_mode = true);
+
             void disable();
             void enable();
             void menu_enable();
@@ -147,9 +150,6 @@ namespace godot {
 
             void set_special_bullet_mode(int p_mode);
             int get_special_bullet_mode() const;
-
-            int get_mode() const;
-            void set_gravity_multiplier(float value);
     };
 }
 VARIANT_ENUM_CAST(godot::SoulBattle::SoulMode);
