@@ -615,7 +615,7 @@ void BattleBox::_on_soul_move_cooldown() {
     can_move = true;
 }
 
-void BattleBox::reset_box() {
+void BattleBox::reset_box(float duration) {
     if (tw.is_valid()) {
         tw->kill();
     }
@@ -627,13 +627,14 @@ void BattleBox::reset_box() {
         tw = create_tween();
         tw->set_ease(EaseType);
         tw->set_trans(TransType);
-        tw->tween_property(rect_container, "rotation", 0.0, 0.6);
+        tw->tween_property(rect_container, "rotation", 0, duration);
         tw->play();
     }
     
     anchor_targets = def_anchors.duplicate();
     
     Ref<ArgsHolder> args = memnew(ArgsHolder);
+    args->set_duration(duration);
     tween_size(args);
     
     clear_webs();

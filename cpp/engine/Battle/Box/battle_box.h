@@ -140,7 +140,6 @@ namespace godot {
             void soul_choice(const Vector2i& action);
             void set_enemies(const Array p_enemies);
             void set_targets(bool show_hp_bar = false);
-            void reset_box();
             void backout();
             void change_state(int new_state);
             void disable();
@@ -160,6 +159,7 @@ namespace godot {
             
             // 사용 함수
             void blitter_print(PackedStringArray texts);
+            void reset_box(float duration = 0.6f);
             Ref<ArgsHolder> change_size(const Vector2& new_size, bool relative = false);
             Ref<ArgsHolder> change_position(const Vector2& new_position, bool relative = false);
             Ref<ArgsHolder> advanced_change_size(int relative_to, 
