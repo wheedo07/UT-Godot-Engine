@@ -47,6 +47,75 @@ func start_attack() -> void:
 		h_tween.tween_callback($wallhit.play);
 		await get_tree().create_timer(0.6, false).timeout
 	await get_tree().create_timer(6.9, false).timeout
+	
+	for i in 5:
+		_b = bone.instantiate() as Bone
+		add_bullet(_b);
+		_b.position = Vector2(540,385)
+		_b.rotation = PI
+		_b.queue_fire(i / 3.0, Vector2(100,385), Bullet.MovementMode.MOVEMENT_TWEEN, 140.0 - i * 10.0)
+		_b.queue_fire(0, Vector2(640,385), Bullet.MovementMode.MOVEMENT_VELOCITY, 130.0 + i * 6.0)
+		_b.tween_height(30, 2.0  + i / 8.0);
+		
+		_b = bone.instantiate() as Bone
+		add_bullet(_b)
+		_b.position = Vector2(540,255)
+		_b.queue_fire(i / 3.0, Vector2(100,255), Bullet.MovementMode.MOVEMENT_TWEEN, 140.0 - i * 10.0)
+		_b.queue_fire(0, Vector2(640,255), Bullet.MovementMode.MOVEMENT_VELOCITY, 130.0 + i * 6.0)
+		_b.tween_height(100, 2.0  + i / 8.0);
+		
+		_b = bone.instantiate() as Bone
+		add_bullet(_b)
+		_b.position = Vector2(580,255)
+		_b.rotation = - PI * 2 / 5.0;
+		_b.set_mode(Bullet.MODE_BLUE);
+		_b.queue_fire(i / 3.0, Vector2(140, 255), Bullet.MovementMode.MOVEMENT_TWEEN, 140.0 - i * 10.0);
+		_b.queue_fire(0, Vector2(650, 255), Bullet.MovementMode.MOVEMENT_VELOCITY, 130.0 + i * 6.0);
+		_b.tween_height(120, 1.0);
+		h_tween = _b.create_tween().set_trans(Tween.TRANS_CUBIC);
+		h_tween.tween_property(_b, \"rotation\", 0, 1.5).set_delay(2 * i / 3.0);
+	await get_tree().create_timer(8, false).timeout
+	for i in 2:
+		_b = bone.instantiate() as Bone;
+		add_bullet(_b);
+		_b.position = Vector2(100, 264)
+		_b.tween_height(90  + i * 10, 0);
+		_b.fire(Vector2(540, 264), Bullet.MovementMode.MOVEMENT_VELOCITY, 150);
+		await get_tree().create_timer(0.08, false).timeout
+	for i in 3:
+		_b = bone.instantiate() as Bone
+		add_bullet(_b)
+		_b.rotation = PI
+		_b.position = Vector2(540, 376);
+		_b.tween_height(20 + i * 20, 0);
+		_b.fire(Vector2(10, 376), Bullet.MOVEMENT_VELOCITY, 200);
+		await get_tree().create_timer(0.5, false).timeout
+	await get_tree().create_timer(1, false).timeout
+	soul.set_mode(SoulBattle.RED);
+	
+	for i in 7:
+		if i == 1:
+			box.change_size(Vector2(-250,0), true, 15);
+		_b = bone.instantiate() as Bone;
+		add_bullet(_b)
+		_b.position = Vector2(100,385)
+		_b.rotation_degrees = 120.0
+		_b.fire(Vector2(540,390), Bullet.MOVEMENT_TWEEN, 120.0);
+		_b.tween_height(75, 0.5);
+		h_tween = _b.create_tween().set_trans(Tween.TRANS_CUBIC).set_parallel()
+		h_tween.tween_property(_b, \"rotation_degrees\", 180.0, 0.5);
+		
+		_b = bone.instantiate() as Bone
+		add_bullet(_b)
+		_b.position = Vector2(540,255)
+		_b.rotation_degrees = -60.0;
+		_b.fire(Vector2(100,260), Bullet.MOVEMENT_TWEEN, 120);
+		_b.tween_height(75, 0.5);
+		h_tween = _b.create_tween().set_trans(Tween.TRANS_CUBIC).set_parallel();
+		h_tween.tween_property(_b, \"rotation_degrees\", 0, 0.5);
+		await get_tree().create_timer(0.8 - i * 0.07, false).timeout
+	await get_tree().create_timer(2.25, false).timeout
+	end_attack();
 "
 
 [node name="AttackBase" type="AttackBase"]

@@ -160,14 +160,14 @@ namespace godot {
             // 사용 함수
             void blitter_print(PackedStringArray texts);
             void reset_box(float duration = 0.6f);
-            Ref<ArgsHolder> change_size(const Vector2& new_size, bool relative = false);
-            Ref<ArgsHolder> change_position(const Vector2& new_position, bool relative = false);
-            Ref<ArgsHolder> advanced_change_size(int relative_to, 
+            void change_size(const Vector2& new_size, bool relative = false, float duration=0.6f);
+            void change_position(const Vector2& new_position, bool relative = false, float duration=0.6f);
+            void advanced_change_size(RelativePosition relative_to, 
                 const Vector2& new_position = Vector2(), 
                 const Vector2& new_size = Vector2(100, 100), 
                 bool position_relative = false, 
-                bool size_relative = false);
-            Ref<ArgsHolder> rotate_by(float rot, bool relative = false);
+                bool size_relative = false, float duration = 0.6f);
+            void rotate_by(float rot, bool relative = false, float duration = 0.6f);
             void box_show();
             void box_hide();
             Vector2 get_size();

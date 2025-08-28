@@ -22,6 +22,7 @@ script/source = "extends Enemy
 @onready var AnimStates:AnimationNodeStateMachinePlayback = $sans/States.get(\"parameters/playback\");
 
 func _on_get_turn() -> void:
+	box.change_size(Vector2(350, 140), false, 0.3);
 	create_attack().start_attack();
 
 func create_attack() -> AttackBase:

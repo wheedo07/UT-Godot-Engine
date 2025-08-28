@@ -121,11 +121,11 @@ void BattleBox::_bind_methods() {
     // 상자 오른쪽아래 모서리 위치
     ClassDB::bind_method(D_METHOD("get_br_anchor"), &BattleBox::get_br_anchor);
     ClassDB::bind_method(D_METHOD("reset_box", "duration"), &BattleBox::reset_box, DEFVAL(0.6f));
-    ClassDB::bind_method(D_METHOD("change_size", "new_size", "relative"), &BattleBox::change_size, DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative"), &BattleBox::change_position, DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("advanced_change_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative"), 
-        &BattleBox::advanced_change_size, DEFVAL(Vector2()), DEFVAL(Vector2(100, 100)), DEFVAL(false), DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("rotate_by", "rot", "relative"), &BattleBox::rotate_by, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("change_size", "new_size", "relative", "duration"), &BattleBox::change_size, DEFVAL(false), DEFVAL(0.6f));
+    ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative", "duration"), &BattleBox::change_position, DEFVAL(false), DEFVAL(0.6f));
+    ClassDB::bind_method(D_METHOD("advanced_change_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative", "duration"), &BattleBox::advanced_change_size, 
+        DEFVAL(Vector2()), DEFVAL(Vector2(100, 100)), DEFVAL(false), DEFVAL(false), DEFVAL(0.6f));
+    ClassDB::bind_method(D_METHOD("rotate_by", "rot", "relative", "duration"), &BattleBox::rotate_by, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("box_show"), &BattleBox::box_show);
     ClassDB::bind_method(D_METHOD("box_hide"), &BattleBox::box_hide);
     ClassDB::bind_method(D_METHOD("clear_webs"), &BattleBox::clear_webs);
@@ -692,7 +692,7 @@ float BattleBox::get_web_y_pos(int id) {
     return 0;
 }
 
-Ref<ArgsHolder> BattleBox::change_size(const Vector2& new_size, bool relative) {
+void BattleBox::change_size(const Vector2& new_size, bool relative, float duration) {
     Vector2 anchor_targets_0 = anchor_targets[0];
     Vector2 anchor_targets_1 = anchor_targets[1];
 
@@ -708,12 +708,11 @@ Ref<ArgsHolder> BattleBox::change_size(const Vector2& new_size, bool relative) {
     anchor_targets[1] = current_center + final_size / 2.0;
     
     Ref<ArgsHolder> args = memnew(ArgsHolder);
+    args->set_duration(duration);
     tween_size(args);
-    
-    return args;
 }
 
-Ref<ArgsHolder> BattleBox::change_position(const Vector2& new_position, bool relative) {
+void BattleBox::change_position(const Vector2& new_position, bool relative, float duration) {
     Vector2 anchor_targets_0 = anchor_targets[0];
     Vector2 anchor_targets_1 = anchor_targets[1];
 
@@ -724,14 +723,13 @@ Ref<ArgsHolder> BattleBox::change_position(const Vector2& new_position, bool rel
     anchor_targets[1] = final_position + intended_size;
     
     Ref<ArgsHolder> args = memnew(ArgsHolder);
+    args->set_duration(duration);
     tween_size(args);
-    
-    return args;
 }
 
-Ref<ArgsHolder> BattleBox::advanced_change_size(int relative_to, const Vector2& new_position, 
+void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2& new_position, 
                                                const Vector2& new_size, bool position_relative, 
-                                               bool size_relative) {
+                                               bool size_relative, float duration) {
     Vector2 anchor_targets_0 = anchor_targets[0];
     Vector2 anchor_targets_1 = anchor_targets[1];
 
@@ -771,18 +769,17 @@ Ref<ArgsHolder> BattleBox::advanced_change_size(int relative_to, const Vector2& 
     anchor_targets[1] = anchor_targets_0 + final_size;
     
     Ref<ArgsHolder> args = memnew(ArgsHolder);
+    args->set_duration(duration);
     tween_size(args);
-    
-    return args;
 }
 
-Ref<ArgsHolder> BattleBox::rotate_by(float rot, bool relative) {
+void BattleBox::rotate_by(float rot, bool relative, float duration) {
     Ref<ArgsHolder> args = memnew(ArgsHolder);
+    args->set_duration(duration);
     args->args.append(rot);
     args->args.append(relative);
     
     call_deferred("real_rotate_by", args);
-    return args;
 }
 
 void BattleBox::blitter_print(PackedStringArray texts) {

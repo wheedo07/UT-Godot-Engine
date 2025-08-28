@@ -96,7 +96,7 @@ void TextBox::_ready() {
 void TextBox::_input(const Ref<InputEvent>& event) {
     if(!selecting || isEditor) return;
     
-    if(event->is_action_pressed("ui_left") && soulpos >= optionamt-1) {
+    if(event->is_action_pressed("ui_left") && soulpos > 0) {
         selected_option = true;
         get_node_internal("Control/Soul/choice")->call("play");
         soulpos--;
@@ -143,10 +143,10 @@ void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& opti
     global->set_player_in_menu(true);
     global->set_player_text_box(true);
     text_after_option = text_after_options;
-    if (options.size() < 4) {
+    if(options.size() >= 4) {
         WARN_PRINT("option 갯수가 4개를 초과했습니다. 4개까지만 표시됩니다.");
     }
-    if(text_after_option.size() < 4) {
+    if(text_after_option.size() >= 4) {
         WARN_PRINT("text_after_options 갯수가 4개를 초과했습니다. 4개까지만 표시됩니다.");
     }
     
