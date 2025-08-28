@@ -2,9 +2,6 @@
 #define RegisterTYPE_H
 #include<godot_cpp/core/class_db.hpp>
 #include "mainNode/mainNode.h"
-#include "mainNode/dropText.h"
-#include "trigger/text_trigger.h"
-#include "trigger/move_trigger.h"
 
 // attackNode
 #include "mainAttacks/sans/attack_sans.h"

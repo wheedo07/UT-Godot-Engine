@@ -5,9 +5,6 @@
 
 void register_init() {
     GDREGISTER_CLASS(MainNode);
-    GDREGISTER_CLASS(DropText);
-    GDREGISTER_CLASS(TextTrigger);
-    GDREGISTER_CLASS(MoveTrigger);
 
     // overworld Node
     GDREGISTER_CLASS(TEST_WORLD);
