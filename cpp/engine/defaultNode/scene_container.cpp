@@ -50,7 +50,7 @@ void SceneContainer::_ready() {
 
     if(global->isMobile()) {
         mobile->show();
-    }
+    }else mobile->hide();
 
     reload_camera();
     change_scene_to_file("res://Intro/intro.tscn");

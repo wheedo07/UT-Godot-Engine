@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dlix5icrmdrty"]
+[gd_scene load_steps=9 format=3 uid="uid://dlix5icrmdrty"]
 
 [ext_resource type="PackedScene" uid="uid://cbjh6e76ltge7" path="res://Menus/joystick.tscn" id="1_rguxf"]
-[ext_resource type="Texture2D" uid="uid://cjw2ybhjla5le" path="res://Menus/assets/Z.png" id="2_rguxf"]
-[ext_resource type="Texture2D" uid="uid://drgpkwqyg5j54" path="res://Menus/assets/X.png" id="2_y6jrr"]
-[ext_resource type="Texture2D" uid="uid://dlixiuyqwp63q" path="res://Menus/assets/C.png" id="4_gpqdw"]
+[ext_resource type="Texture2D" uid="uid://cen416fn7la7x" path="res://Menus/assets/button/Z.png" id="2_xd2ic"]
+[ext_resource type="Texture2D" uid="uid://bj5a6whyss7ca" path="res://Menus/assets/button/Z_pressed.png" id="3_3kt15"]
+[ext_resource type="Texture2D" uid="uid://dbwdcsm34ajuq" path="res://Menus/assets/button/X.png" id="3_gpqdw"]
+[ext_resource type="Texture2D" uid="uid://dbq42hij2fpox" path="res://Menus/assets/button/C.png" id="4_rguxf"]
+[ext_resource type="Texture2D" uid="uid://c2rlad3j140tl" path="res://Menus/assets/button/X_pressed.png" id="4_xd2ic"]
+[ext_resource type="Texture2D" uid="uid://ci15n3w6qdihk" path="res://Menus/assets/button/C_pressed.png" id="5_gpqdw"]
 [ext_resource type="Texture2D" uid="uid://b8aisc3wx0e70" path="res://Themes/Textures/settings.svg" id="5_xd2ic"]
 
 [node name="Mobile" type="Control"]
@@ -15,30 +18,36 @@ anchors_preset = 0
 visibility_mode = 1
 deadzone_size = 50.0
 clampzone_size = 80.0
-cooltime = 0.21
+cooltime = 0.19
 layout_mode = 1
-offset_left = -167.0
-offset_top = 251.0
-offset_right = 133.0
-offset_bottom = 551.0
+offset_left = -160.0
+offset_top = 250.0
+offset_right = 140.0
+offset_bottom = 550.0
 scale = Vector2(0.8, 0.8)
 
 [node name="ui_button" type="Node2D" parent="."]
-position = Vector2(617, 391)
+position = Vector2(617, 395)
 
 [node name="Z" type="TouchScreenButton" parent="ui_button"]
-position = Vector2(-79, -77)
-texture_normal = ExtResource("2_rguxf")
+position = Vector2(-70, -63)
+scale = Vector2(2.3, 2.3)
+texture_normal = ExtResource("2_xd2ic")
+texture_pressed = ExtResource("3_3kt15")
 action = "ui_accept"
 
 [node name="X" type="TouchScreenButton" parent="ui_button"]
-position = Vector2(6, 7)
-texture_normal = ExtResource("2_y6jrr")
+position = Vector2(5, 19)
+scale = Vector2(2.3, 2.3)
+texture_normal = ExtResource("3_gpqdw")
+texture_pressed = ExtResource("4_xd2ic")
 action = "ui_cancel"
 
 [node name="C" type="TouchScreenButton" parent="ui_button"]
-position = Vector2(32, -108)
-texture_normal = ExtResource("4_gpqdw")
+position = Vector2(34, -83)
+scale = Vector2(2.3, 2.3)
+texture_normal = ExtResource("4_rguxf")
+texture_pressed = ExtResource("5_gpqdw")
 action = "ui_menu"
 
 [node name="setting" type="TouchScreenButton" parent="."]

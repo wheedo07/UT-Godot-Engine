@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_h3fwb"]
 [ext_resource type="Theme" uid="uid://csrwnc0ryis8q" path="res://Themes/EditorMain.tres" id="4_h6exq"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="5_v40wf"]
-[ext_resource type="Texture2D" uid="uid://berhvwkx8e1jr" path="res://Menus/assets/audiobus_volumes.PNG" id="6_fsars"]
+[ext_resource type="Texture2D" uid="uid://berhvwkx8e1jr" path="res://Menus/assets/audiobus_volumes.png" id="6_fsars"]
 [ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="6_ww75r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g7yoa"]
