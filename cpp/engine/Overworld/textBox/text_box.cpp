@@ -252,7 +252,7 @@ void TextBox::setup_soul_selection(const PackedStringArray& options) {
     soul->set_global_position(option_pos);
     selecting = true;
 
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.5);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.35);
     timer->connect("timeout", Callable(this, "_setup_options_timer"), CONNECT_ONE_SHOT);
 }
 
