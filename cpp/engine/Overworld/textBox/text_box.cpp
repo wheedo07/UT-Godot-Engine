@@ -32,6 +32,7 @@ void TextBox::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("setup_options_typing", "options"), &TextBox::setup_options_typing);
     ClassDB::bind_method(D_METHOD("setup_soul_selection", "options"), &TextBox::setup_soul_selection);
+    ClassDB::bind_method(D_METHOD("_setup_options_timer"), &TextBox::_setup_options_timer);
     ClassDB::bind_method(D_METHOD("finish_dialogue"), &TextBox::finish_dialogue);
     ClassDB::bind_method(D_METHOD("on_finish_dialogue"), &TextBox::on_finish_dialogue);
     ClassDB::bind_method(D_METHOD("_on_skip"), &TextBox::_on_skip);
@@ -43,7 +44,6 @@ void TextBox::_bind_methods() {
     ADD_SIGNAL(MethodInfo("dialogue_finished"));
 }
 
-bool selected_option = false;
 void TextBox::_ready() {
     if(isEditor) return;
     Text = Object::cast_to<TextBoxWriter>(get_node_internal("Control/TextContainer/Text"));
@@ -251,6 +251,13 @@ void TextBox::setup_soul_selection(const PackedStringArray& options) {
     Vector2 option_pos = Options[0].call("get_global_position");
     soul->set_global_position(option_pos);
     selecting = true;
+
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.3);
+    timer->connect("timeout", Callable(this, "_setup_options_timer"), CONNECT_ONE_SHOT);
+}
+
+void TextBox::_setup_options_timer() {
+    selected_option = true;
 }
 
 void TextBox::finish_dialogue() {

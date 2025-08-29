@@ -29,7 +29,7 @@ namespace godot {
 
             Character talking_character = DEFAULT;
 
-            // 대화 타이핑이 완료되었는지 추적하는 상태 변수들
+            bool selected_option = false;
             bool text_typing_completed = false;
             bool options_typing_completed = false;
             bool selection_completed = false;
@@ -61,6 +61,7 @@ namespace godot {
             void finish_options();
             void _on_skip();
             void _on_confirm();
+            void _setup_options_timer();
         
         public:
             TextBox();
@@ -74,8 +75,8 @@ namespace godot {
             const TypedArray<Dialogues>& text_after_options = TypedArray<Dialogues>());
             void character(bool head_hide, Character chr, const Ref<Dialogues>& dialogues, const PackedStringArray& options = PackedStringArray(), 
             const TypedArray<Dialogues>& dialogues_after_options = TypedArray<Dialogues>());
-
             void set_key(bool is);
+
             void on_text_click_played();
     };
 }
