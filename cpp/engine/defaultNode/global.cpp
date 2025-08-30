@@ -103,7 +103,7 @@ void Global::_ready() {
     heal_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("heal"));
     Info = Object::cast_to<RichTextLabel>(get_node_internal("Info"));
     KrTimer = Object::cast_to<Timer>(get_node_internal("KrTimer"));
-    // Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
+    Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
     String osName = os->get_name();
     is_Mobile = osName == "Android";
     if(osName == "Web") return;

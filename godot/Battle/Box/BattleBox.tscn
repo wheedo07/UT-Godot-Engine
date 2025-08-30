@@ -69,6 +69,10 @@ y_sort_enabled = true
 layout_mode = 2
 color = Color(0, 0, 0, 0)
 
+[node name="background" type="Polygon2D" parent="BoxContainer/Rect"]
+color = Color(0, 0, 0, 0.7)
+polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139, 1, 139)
+
 [node name="Webs" type="Control" parent="BoxContainer/Rect"]
 show_behind_parent = true
 clip_contents = true
@@ -102,10 +106,6 @@ closed = true
 width = 4.5
 joint_mode = 1
 begin_cap_mode = 1
-
-[node name="background" type="Polygon2D" parent="BoxContainer/Rect"]
-color = Color(0.099986, 0.099986, 0.099986, 0.7)
-polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139, 1, 139)
 
 [node name="Collisions" type="StaticBody2D" parent="BoxContainer"]
 collision_mask = 0
