@@ -7,7 +7,10 @@
 #include "engine/Text/text_typer.h"
 #include "engine/Menus/item_slider.h"
 #include<godot_cpp/classes/node2d.hpp>
-#include<godot_cpp/classes/nine_patch_rect.hpp>
+#include<godot_cpp/classes/color_rect.hpp>
+#include<godot_cpp/classes/line2d.hpp>
+#include<godot_cpp/classes/collision_polygon2d.hpp>
+#include<godot_cpp/classes/polygon2d.hpp>
 #include<godot_cpp/classes/margin_container.hpp>
 #include<godot_cpp/classes/remote_transform2d.hpp>
 #include<godot_cpp/classes/control.hpp>
@@ -102,7 +105,9 @@ namespace godot {
             Blitter* blitter_text;
             BattleMain* main;
             MarginContainer* rect_container;
-            NinePatchRect* rect;
+            ColorRect* rect;
+            Line2D* border;
+            Polygon2D* background;
             Ref<PackedScene> web_scene;
             Control* webs;
             Array collisions;
@@ -113,8 +118,25 @@ namespace godot {
             BattleBoxBehaviour* current_state_node;
             RichTextLabel* column1;
             RichTextLabel* column2;
-            Ref<Texture2D> box_texture;
-            
+            Color backup_color;
+
+            // Polygon mode 관련 변수 && 함수
+            int polygon_point_count;
+            float morph_speed;
+            bool isPolygonMode;
+            PackedVector2Array static_shape;
+            PackedVector2Array target_shape;
+            CollisionPolygon2D* polygon;
+            Ref<Tween> point_tween;
+            int tweening_vertex_index;
+            bool is_point_tweening, isPolygonRest;
+            int find_closest_edge_to_point(PackedVector2Array& poly, Vector2 point);
+            int find_closest_vertex(const PackedVector2Array& poly, const Vector2& point);
+            bool is_polygon_valid(const PackedVector2Array& poly);
+            void _on_point_tween_step(Vector2 new_position);
+            void _on_point_tween_finished();
+            void _polygon_reset_finished();
+
             Array id_to_soul_pos(int id, int x_limit = 2);
             void refresh_options();
             void refresh_nodes();
@@ -123,6 +145,16 @@ namespace godot {
             void tween_size(Ref<ArgsHolder> args);
             void real_rotate_by(Ref<ArgsHolder> args);
             void _on_soul_move_cooldown();
+            void _reset_finished();
+
+            void set_wintext(String value);
+            String get_wintext() const;
+            void set_mercy_texts(PackedStringArray value);
+            PackedStringArray get_mercy_texts();
+            void set_morph_speed(float value);
+            float get_morph_speed() const;
+            void set_polygon_point_count(int value);
+            int get_polygon_point_count() const;
         
         public:
 
@@ -131,6 +163,7 @@ namespace godot {
             
             void _ready() override;
             void _physics_process(double delta) override;
+            void _process(double delta) override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
             
             void set_mercy_options();
@@ -150,9 +183,6 @@ namespace godot {
             RemoteTransform2D* get_tl() const;
             RemoteTransform2D* get_br() const;
             Blitter* get_blitter_text() const;
-
-            void set_wintext(String value);
-            String get_wintext() const;
 
             int get_used_item();
             void set_used_item(int value);
@@ -176,6 +206,14 @@ namespace godot {
             void clear_webs();
             void set_webs(int n, float separation = -1, int margin = 0);
             float get_web_y_pos(int id);
+            void polygon_enable();
+            void move_closest_point(Vector2 target_point, float duration = 0.3f);
+            void move_point_by_index(int vertex_index, Vector2 target_point, float duration = 0.3f);
+            void move_point_by_offset(Vector2 from_point, Vector2 offset, float duration = 0.3f);
+            void remove_point_at_position(Vector2 point);
+            void remove_point_by_index(int vertex_index);
+            PackedVector2Array get_polygon_points();
+            Vector2 get_vertex_position(int vertex_index);
     };
 }
 VARIANT_ENUM_CAST(godot::BattleBox::RelativePosition);

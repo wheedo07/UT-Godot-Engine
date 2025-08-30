@@ -1,9 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://3mahpp3h1cx4"]
+[gd_scene load_steps=13 format=3 uid="uid://3mahpp3h1cx4"]
 
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_o8u07"]
 [ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="3_a0mh2"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_f5ep8"]
-[ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_ms4jc"]
 [ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="5_20ij6"]
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="5_61718"]
 [ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="7_u3o5n"]
@@ -61,18 +60,16 @@ rotation = 3.14159
 update_scale = false
 
 [node name="Panel" type="Panel" parent="BoxContainer"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_o8u07")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="BoxContainer"]
+[node name="Rect" type="ColorRect" parent="BoxContainer"]
+y_sort_enabled = true
 layout_mode = 2
-texture = ExtResource("3_ms4jc")
-patch_margin_left = 11
-patch_margin_top = 11
-patch_margin_right = 11
-patch_margin_bottom = 11
+color = Color(0, 0, 0, 0)
 
-[node name="Webs" type="Control" parent="BoxContainer/NinePatchRect"]
+[node name="Webs" type="Control" parent="BoxContainer/Rect"]
 show_behind_parent = true
 clip_contents = true
 layout_mode = 1
@@ -82,7 +79,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Bullets" type="Control" parent="BoxContainer/NinePatchRect"]
+[node name="Bullets" type="Control" parent="BoxContainer/Rect"]
 show_behind_parent = true
 clip_contents = true
 layout_mode = 1
@@ -92,12 +89,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="RectNoClip" type="Control" parent="BoxContainer/NinePatchRect"]
+[node name="RectNoClip" type="Control" parent="BoxContainer/Rect"]
 show_behind_parent = true
 layout_mode = 2
 anchors_preset = 0
 offset_right = 584.0
 offset_bottom = 140.0
+
+[node name="border" type="Line2D" parent="BoxContainer/Rect"]
+points = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)
+closed = true
+width = 4.5
+joint_mode = 1
+begin_cap_mode = 1
+
+[node name="background" type="Polygon2D" parent="BoxContainer/Rect"]
+color = Color(0.099986, 0.099986, 0.099986, 0.7)
+polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139, 1, 139)
 
 [node name="Collisions" type="StaticBody2D" parent="BoxContainer"]
 collision_mask = 0
@@ -124,6 +132,10 @@ position = Vector2(609, 320)
 rotation = 4.71239
 shape = SubResource("RectangleShape2D_p27oi")
 debug_color = Color(0.47, 0.540667, 1, 0.0392157)
+
+[node name="Polygon" type="CollisionPolygon2D" parent="BoxContainer/Collisions"]
+build_mode = 1
+disabled = true
 
 [node name="Acts" type="MarginContainer" parent="."]
 visible = false

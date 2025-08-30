@@ -5,6 +5,7 @@
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/engine.hpp>
 #include<godot_cpp/classes/tween.hpp>
+#include<godot_cpp/classes/method_tweener.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
 #include<godot_cpp/classes/input_event_action.hpp>
@@ -15,6 +16,7 @@
 #include<godot_cpp/classes/line2d.hpp>
 #include<godot_cpp/classes/rectangle_shape2d.hpp>
 #include<godot_cpp/core/property_info.hpp>
+#include<godot_cpp/classes/geometry2d.hpp>
 
 BattleBox::BattleBox() {
     items_per_page = 3;
@@ -29,6 +31,13 @@ BattleBox::BattleBox() {
     can_move = true;
     used_item = 0;
     current_web = 0;
+    isPolygonMode = false;
+    morph_speed = 200.0f;
+    backup_color = Color();
+    polygon_point_count = 120;
+    tweening_vertex_index = -1;
+    is_point_tweening = false;
+    isPolygonRest = false;
     
     win_text = String::utf8("* 당신의 승리! \n* 당신은 %s EXP 와 %s Gold 를 얻었다");
     
@@ -43,7 +52,7 @@ BattleBox::BattleBox() {
     anchor_targets[0] = Vector2(220, 140);
     anchor_targets[1] = Vector2(420, 340);
     
-    action_memory.append((int)BattleState::State_Disabled);
+    action_memory.append(int(BattleState::State_Disabled));
     current_size = Vector2(0, 0);
     history = Array();
     for(int i=0; i < 4; i++) {
@@ -85,7 +94,7 @@ void BattleBox::_bind_methods() {
     ADD_SIGNAL(MethodInfo("fight", PropertyInfo(Variant::INT, "target")));
     ADD_SIGNAL(MethodInfo("item", PropertyInfo(Variant::INT, "item_choice")));
     ADD_SIGNAL(MethodInfo("mercy", PropertyInfo(Variant::INT, "target")));
-    ADD_SIGNAL(MethodInfo("tweening_finished"));
+    ADD_SIGNAL(MethodInfo("reset_finished"));
 
     ClassDB::bind_method(D_METHOD("set_enemies", "p_enemies"), &BattleBox::set_enemies);
     ClassDB::bind_method(D_METHOD("set_targets", "show_hp_bar"), &BattleBox::set_targets, DEFVAL(false));
@@ -113,6 +122,9 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_br"), &BattleBox::get_br);
     ClassDB::bind_method(D_METHOD("get_blitter_text"), &BattleBox::get_blitter_text);
     ClassDB::bind_method(D_METHOD("_on_soul_move_cooldown"), &BattleBox::_on_soul_move_cooldown);
+    ClassDB::bind_method(D_METHOD("_on_point_tween_step", "new_position"), &BattleBox::_on_point_tween_step);
+    ClassDB::bind_method(D_METHOD("_on_point_tween_finished"), &BattleBox::_on_point_tween_finished);
+    ClassDB::bind_method(D_METHOD("_reset_finished"), &BattleBox::_reset_finished);
 
     // 상자 크기
     ClassDB::bind_method(D_METHOD("get_size"), &BattleBox::get_size);
@@ -132,10 +144,33 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_webs", "n", "separation", "margin"), &BattleBox::set_webs, DEFVAL(-1), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("get_web_y_pos", "id"), &BattleBox::get_web_y_pos);
     ClassDB::bind_method(D_METHOD("blitter_print", "texts"), &BattleBox::blitter_print);
+    ClassDB::bind_method(D_METHOD("polygon_enable"), &BattleBox::polygon_enable);
+    ClassDB::bind_method(D_METHOD("remove_point_at_position", "point"), &BattleBox::remove_point_at_position);
+    ClassDB::bind_method(D_METHOD("remove_point_by_index", "vertex_index"), &BattleBox::remove_point_by_index);
+    ClassDB::bind_method(D_METHOD("get_polygon_points"), &BattleBox::get_polygon_points);
+    ClassDB::bind_method(D_METHOD("get_vertex_position", "vertex_index"), &BattleBox::get_vertex_position);
+    ClassDB::bind_method(D_METHOD("move_closest_point", "target_point", "duration"), &BattleBox::move_closest_point, DEFVAL(0.3f));
+    ClassDB::bind_method(D_METHOD("move_point_by_index", "vertex_index", "target_point", "duration"), &BattleBox::move_point_by_index, DEFVAL(0.3f));
+    ClassDB::bind_method(D_METHOD("move_point_by_offset", "from_point", "offset", "duration"), &BattleBox::move_point_by_offset, DEFVAL(0.3f));
+
 
     ClassDB::bind_method(D_METHOD("set_wintext", "value"), &BattleBox::set_wintext);
     ClassDB::bind_method(D_METHOD("get_wintext"), &BattleBox::get_wintext);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "wintext", PROPERTY_HINT_MULTILINE_TEXT), "set_wintext", "get_wintext");
+
+    ClassDB::bind_method(D_METHOD("set_mercy_texts", "value"), &BattleBox::set_mercy_texts);
+    ClassDB::bind_method(D_METHOD("get_mercy_texts"), &BattleBox::get_mercy_texts);
+    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "mercy_texts", PROPERTY_HINT_TYPE_STRING,
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
+    "set_mercy_texts", "get_mercy_texts");
+
+    ClassDB::bind_method(D_METHOD("set_morph_speed", "value"), &BattleBox::set_morph_speed);
+    ClassDB::bind_method(D_METHOD("get_morph_speed"), &BattleBox::get_morph_speed);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "morph_speed", PROPERTY_HINT_RANGE, "0.1,500,0.1"), "set_morph_speed", "get_morph_speed");
+
+    ClassDB::bind_method(D_METHOD("set_polygon_point_count", "value"), &BattleBox::set_polygon_point_count);
+    ClassDB::bind_method(D_METHOD("get_polygon_point_count"), &BattleBox::get_polygon_point_count);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "polygon_point_count", PROPERTY_HINT_RANGE, "100,300,1"), "set_polygon_point_count", "get_polygon_point_count");
 }
 
 void BattleBox::_ready() {
@@ -149,7 +184,9 @@ void BattleBox::_ready() {
     main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
     rect_container = Object::cast_to<MarginContainer>(get_node_internal("BoxContainer"));
     blitter = Object::cast_to<MarginContainer>(get_node_internal("Blitter"));
-    rect = Object::cast_to<NinePatchRect>(get_node_internal("BoxContainer/NinePatchRect"));
+    rect = Object::cast_to<ColorRect>(get_node_internal("BoxContainer/Rect"));
+    border = Object::cast_to<Line2D>(get_node_internal("BoxContainer/Rect/border"));
+    background = Object::cast_to<Polygon2D>(get_node_internal("BoxContainer/Rect/background"));
     mercy_choices = Object::cast_to<RichTextLabel>(get_node_internal("Mercy/Choices"));
     column1 = Object::cast_to<RichTextLabel>(get_node_internal("Acts/Options/Column1"));
     column2 = Object::cast_to<RichTextLabel>(get_node_internal("Acts/Options/Column2"));
@@ -158,15 +195,16 @@ void BattleBox::_ready() {
     ResourceLoader* loader = ResourceLoader::get_singleton();
     web_scene = loader->load("res://Battle/Soul/box_web.tscn");
     
-    webs = Object::cast_to<Control>(get_node_internal("BoxContainer/NinePatchRect/Webs"));
-    rect_no_clip = Object::cast_to<Control>(get_node_internal("BoxContainer/NinePatchRect/RectNoClip"));
-    rect_clip = Object::cast_to<Control>(get_node_internal("BoxContainer/NinePatchRect/Bullets"));
+    webs = Object::cast_to<Control>(get_node_internal("BoxContainer/Rect/Webs"));
+    rect_no_clip = Object::cast_to<Control>(get_node_internal("BoxContainer/Rect/RectNoClip"));
+    rect_clip = Object::cast_to<Control>(get_node_internal("BoxContainer/Rect/Bullets"));
     
     collisions.resize(4);
     collisions[0] = Object::cast_to<CollisionShape2D>(get_node_internal("BoxContainer/Collisions/Top"));
     collisions[1] = Object::cast_to<CollisionShape2D>(get_node_internal("BoxContainer/Collisions/Bottom"));
     collisions[2] = Object::cast_to<CollisionShape2D>(get_node_internal("BoxContainer/Collisions/Left"));
     collisions[3] = Object::cast_to<CollisionShape2D>(get_node_internal("BoxContainer/Collisions/Right"));
+    polygon = Object::cast_to<CollisionPolygon2D>(get_node_internal("BoxContainer/Collisions/Polygon"));
     
     hp_bars.resize(3);
     hp_bars[0] = Object::cast_to<ProgressBar>(get_node_internal("Target/HpBars/Control/1"));
@@ -238,6 +276,52 @@ void BattleBox::_physics_process(double delta) {
     
     tl->set_position(corner_position_0 + Vector2(6, 6));
     br->set_position(corner_position_1 - Vector2(6, 6));
+
+    PackedVector2Array points;
+    if(isPolygonMode) {
+        float margin_left = rect_container->get_theme_constant("margin_left");
+        float margin_top = rect_container->get_theme_constant("margin_top");
+        Vector2 margin_offset = Vector2(margin_left, margin_top);
+
+        points = polygon->get_polygon();
+        for(int i = 0; i < points.size(); i++) {
+            points[i] = points[i] - margin_offset;
+        }
+    }else {
+        points.push_back(Vector2(0, 0));
+        points.push_back(Vector2(current_size.x, 0));
+        points.push_back(current_size);
+        points.push_back(Vector2(0, current_size.y));
+    }
+    Array off = Geometry2D::get_singleton()->offset_polygon(points, 0);
+    PackedVector2Array border_pts = off.size() > 0 ? (PackedVector2Array)off[0] : points;
+    border->set_points(border_pts);
+    background->set_polygon(border_pts);
+}
+
+void BattleBox::_process(double delta) {
+    if(!isPolygonMode || isEditor) return;
+
+    if(static_shape.size() == target_shape.size()) {
+        bool all_reached = true;
+        
+        for(int i=0; i < target_shape.size(); i++) {
+            Vector2 current = static_shape[i];
+            Vector2 target = target_shape[i];
+            float speed = isPolygonRest && morph_speed < 350 ? 350 : morph_speed;
+            Vector2 new_pos = current.move_toward(target, speed * delta);
+            static_shape.set(i, new_pos);
+
+            if (current.distance_to(target) > 1.0f) {
+                all_reached = false;
+            }
+        }
+        polygon->set_polygon(static_shape);
+
+        if (all_reached && isPolygonRest) {
+            _polygon_reset_finished();
+        }
+    }
 }
 
 void BattleBox::_unhandled_input(const Ref<InputEvent>& event) {
@@ -613,14 +697,122 @@ void BattleBox::_on_soul_move_cooldown() {
     can_move = true;
 }
 
-void BattleBox::reset_box(float duration) {
-    if (tw.is_valid()) {
-        tw->kill();
+int BattleBox::find_closest_edge_to_point(PackedVector2Array& poly, Vector2 point) {
+    int best_edge = 0;
+    float best_distance = Math_INF;
+    for(int i=0; i < poly.size(); i++) {
+        Vector2 a = poly[i];
+        Vector2 b = poly[(i + 1) % poly.size()];
+        Vector2 closest = Geometry2D::get_singleton()->get_closest_point_to_segment(point, a, b);
+        float distance = (point - closest).length_squared();
+        
+        if (distance < best_distance) {
+            best_distance = distance;
+            best_edge = i;
+        }
     }
+    
+    return best_edge;
+}
+
+int BattleBox::find_closest_vertex(const PackedVector2Array& poly, const Vector2& point) {
+    if (poly.size() == 0) return -1;
+    
+    int closest_index = 0;
+    float closest_distance = Math_INF;
+    
+    for (int i = 0; i < poly.size(); i++) {
+        float distance = (poly[i] - point).length_squared();
+        if (distance < closest_distance) {
+            closest_distance = distance;
+            closest_index = i;
+        }
+    }
+    
+    return closest_index;
+}
+
+bool BattleBox::is_polygon_valid(const PackedVector2Array& poly) {
+    if (poly.size() < 3) return false;
+    
+    for(int i = 0; i < poly.size(); i++) {
+        Vector2 a1 = poly[i];
+        Vector2 a2 = poly[(i + 1) % poly.size()];
+        
+        for (int j = i + 2; j < poly.size(); j++) {
+            if(j == poly.size() - 1 && i == 0) continue;
+            
+            Vector2 b1 = poly[j];
+            Vector2 b2 = poly[(j + 1) % poly.size()];
+            Variant intersection = Geometry2D::get_singleton()->segment_intersects_segment(a1, a2, b1, b2);
+            
+            if(intersection.get_type() == Variant::VECTOR2) return false;
+        }
+    }
+    return true;
+}
+
+void BattleBox::_on_point_tween_step(Vector2 new_position) {
+    if (tweening_vertex_index >= 0 && tweening_vertex_index < target_shape.size()) {
+        target_shape.set(tweening_vertex_index, new_position);
+    }
+}
+
+void BattleBox::_on_point_tween_finished() {
+    is_point_tweening = false;
+    tweening_vertex_index = -1;
+}
+
+void BattleBox::_reset_finished() {
+    if(isPolygonMode) {
+        isPolygonRest = true;
+        is_point_tweening = false;
+        tweening_vertex_index = -1;
+        if(point_tween.is_valid()) point_tween->kill();
+
+        Vector2 margin_offset = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
+        PackedVector2Array rect_poly;
+        
+        float perimeter = (current_size.x + current_size.y) * 2.0f;
+        float segment_length = perimeter / float(static_shape.size());
+        for(int i = 0; i < static_shape.size(); i++) {
+            float distance = segment_length * float(i);
+            Vector2 point;
+
+            if(distance < current_size.x) {
+                point = margin_offset + Vector2(distance, 0);
+            } else if (distance < current_size.x + current_size.y) {
+                point = margin_offset + Vector2(current_size.x, distance - current_size.x);
+            } else if (distance < current_size.x * 2.0f + current_size.y) {
+                point = margin_offset + Vector2(current_size.x - (distance - current_size.x - current_size.y), current_size.y);
+            } else {
+                point = margin_offset + Vector2(0, current_size.y - (distance - current_size.x * 2.0f - current_size.y));
+            }
+
+            rect_poly.push_back(point);
+        }
+        target_shape = rect_poly;
+    }else {
+        emit_signal("reset_finished");
+    }
+}
+
+void BattleBox::_polygon_reset_finished() {
+    isPolygonMode = false;
+    isPolygonRest = false;
+    polygon->set_disabled(true);
+    for(int i=0; i < 4; i++) collisions[i].set("disabled", false);
+    static_shape.clear();
+    target_shape.clear();
+    emit_signal("reset_finished");
+}
+
+void BattleBox::reset_box(float duration) {
+    if(tw.is_valid()) tw->kill();
     
     float rotation = rect_container->get_rotation();
     if (!Math::is_zero_approx(rotation)) {
-        rotation = Math::fmod(rotation, static_cast<float>(Math_PI));
+        rotation = Math::fmod(rotation, float(Math_PI));
         
         tw = create_tween();
         tw->set_ease(EaseType);
@@ -628,13 +820,10 @@ void BattleBox::reset_box(float duration) {
         tw->tween_property(rect_container, "rotation", 0, duration);
         tw->play();
     }
-    
     anchor_targets = def_anchors.duplicate();
-    
     Ref<ArgsHolder> args = memnew(ArgsHolder);
     args->set_duration(duration);
     tween_size(args);
-    
     clear_webs();
 }
 
@@ -693,6 +882,10 @@ float BattleBox::get_web_y_pos(int id) {
 }
 
 void BattleBox::change_size(const Vector2& new_size, bool relative, float duration) {
+    if(isPolygonMode) {
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        return;
+    }
     Vector2 anchor_targets_0 = anchor_targets[0];
     Vector2 anchor_targets_1 = anchor_targets[1];
 
@@ -713,6 +906,10 @@ void BattleBox::change_size(const Vector2& new_size, bool relative, float durati
 }
 
 void BattleBox::change_position(const Vector2& new_position, bool relative, float duration) {
+    if(isPolygonMode) {
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        return;
+    }
     Vector2 anchor_targets_0 = anchor_targets[0];
     Vector2 anchor_targets_1 = anchor_targets[1];
 
@@ -730,6 +927,10 @@ void BattleBox::change_position(const Vector2& new_position, bool relative, floa
 void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2& new_position, 
                                                const Vector2& new_size, bool position_relative, 
                                                bool size_relative, float duration) {
+    if(isPolygonMode) {
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        return;
+    }
     Vector2 anchor_targets_0 = anchor_targets[0];
     Vector2 anchor_targets_1 = anchor_targets[1];
 
@@ -774,6 +975,10 @@ void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2
 }
 
 void BattleBox::rotate_by(float rot, bool relative, float duration) {
+    if(isPolygonMode) {
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        return;
+    }
     Ref<ArgsHolder> args = memnew(ArgsHolder);
     args->set_duration(duration);
     args->args.append(rot);
@@ -801,16 +1006,128 @@ Vector2 BattleBox::get_br_anchor() {
     return anchor_targets[1];
 }
 
+void BattleBox::polygon_enable() {
+    isPolygonMode = true;
+    
+    Vector2 margin_offset = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
+    PackedVector2Array rect_poly;
+    
+    float perimeter = (current_size.x + current_size.y) * 2.0f;
+    float segment_length = perimeter / float(polygon_point_count);
+    for(int i = 0; i < polygon_point_count; i++) {
+        float distance = segment_length * float(i);
+        Vector2 point;
+        
+        if(distance < current_size.x) {
+            point = margin_offset + Vector2(distance, 0);
+        } else if (distance < current_size.x + current_size.y) {
+            point = margin_offset + Vector2(current_size.x, distance - current_size.x);
+        } else if (distance < current_size.x * 2.0f + current_size.y) {
+            point = margin_offset + Vector2(current_size.x - (distance - current_size.x - current_size.y), current_size.y);
+        } else {
+            point = margin_offset + Vector2(0, current_size.y - (distance - current_size.x * 2.0f - current_size.y));
+        }
+        
+        rect_poly.push_back(point);
+    }
+    polygon->set_polygon(rect_poly);
+    target_shape = rect_poly.duplicate();
+    static_shape = rect_poly.duplicate();
+
+    polygon->set_disabled(false);
+    for (int i = 0; i < 4; i++) {
+        collisions[i].set("disabled", true);
+    }
+}
+
+void BattleBox::move_closest_point(Vector2 target_point, float duration) {
+    if (!isPolygonMode || target_shape.size() < 3 || is_point_tweening) return;
+    
+    Vector2 local_target = to_local(target_point);
+    int closest_vertex = find_closest_vertex(target_shape, local_target);
+    
+    if (closest_vertex >= 0 && closest_vertex < target_shape.size()) {
+        move_point_by_index(closest_vertex, target_point, duration);
+    }
+}
+
+void BattleBox::move_point_by_index(int vertex_index, Vector2 target_point, float duration) {
+   if (!isPolygonMode || vertex_index < 0 || vertex_index >= target_shape.size() || is_point_tweening) return;
+    Vector2 local_target = to_local(target_point);
+    Vector2 constrained_point = local_target;
+    Vector2 old_position = target_shape[vertex_index];
+
+    target_shape.set(vertex_index, constrained_point);
+    if(!is_polygon_valid(target_shape)) {
+        target_shape.set(vertex_index, old_position);
+        ERR_PRINT("유효하지 않은 다각형 모양입니다. 점을 이동할 수 없습니다.");
+        return;
+    }
+    
+    target_shape.set(vertex_index, old_position);
+    
+    tweening_vertex_index = vertex_index;
+    is_point_tweening = true;
+    if(point_tween.is_valid()) point_tween->kill();
+    
+    Vector2 current_position = target_shape[vertex_index];
+    point_tween = create_tween()->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_QUAD);
+    point_tween->tween_method(Callable(this, "_on_point_tween_step"), current_position, constrained_point, duration);
+    point_tween->connect("finished", Callable(this, "_on_point_tween_finished"), CONNECT_ONE_SHOT);
+    point_tween->play();
+}
+
+void BattleBox::move_point_by_offset(Vector2 from_point, Vector2 offset, float duration) {
+    if (!isPolygonMode || target_shape.size() < 3 || is_point_tweening) return;
+    
+    Vector2 local_from = to_local(from_point);
+    int closest_vertex = find_closest_vertex(target_shape, local_from);
+    
+    if (closest_vertex >= 0 && closest_vertex < target_shape.size()) {
+        Vector2 current_pos = target_shape[closest_vertex];
+        Vector2 target_pos = to_global(current_pos + offset);
+        move_point_by_index(closest_vertex, target_pos, duration);
+    }
+}
+
+void BattleBox::remove_point_at_position(Vector2 point) {
+    if (!isPolygonMode || target_shape.size() <= 3) return;
+    Vector2 local_point = to_local(point);
+    int closest_vertex = find_closest_vertex(target_shape, local_point);
+    
+    if (closest_vertex >= 0 && closest_vertex < target_shape.size()) {
+        target_shape.remove_at(closest_vertex);
+    }
+}
+
+void BattleBox::remove_point_by_index(int vertex_index) {
+    if (!isPolygonMode || target_shape.size() <= 3 || vertex_index < 0 || vertex_index >= target_shape.size()) return;
+    target_shape.remove_at(vertex_index);
+}
+
+PackedVector2Array BattleBox::get_polygon_points() {
+    return target_shape.duplicate();
+}
+
+Vector2 BattleBox::get_vertex_position(int vertex_index) {
+    if (vertex_index < 0 || vertex_index >= target_shape.size()) {
+        return Vector2();
+    }
+    return target_shape[vertex_index];
+}
+
 void BattleBox::box_show() {
-    if(box_texture.is_null()) return;
+    if(backup_color == Color()) backup_color = background->get_color();
     get_node_internal("BoxContainer/Panel")->call("show");
-    rect->set_texture(box_texture);
+    border->show();
+    background->set_color(backup_color);
 }
 
 void BattleBox::box_hide() {
-    box_texture = rect->get_texture()->duplicate();
+    if(backup_color == Color()) backup_color = background->get_color();
     get_node_internal("BoxContainer/Panel")->call("hide");
-    rect->set_texture(Ref<Texture>());
+    border->hide();
+    background->set_color(Color(0, 0, 0, 0));
 }
 
 void BattleBox::real_rotate_by(Ref<ArgsHolder> args) {
@@ -832,8 +1149,7 @@ void BattleBox::real_rotate_by(Ref<ArgsHolder> args) {
 }
 
 void BattleBox::tween_size(Ref<ArgsHolder> args) {
-    tw = create_tween();
-    tw->set_parallel(true);
+    tw = create_tween()->set_parallel(true);
     tw->set_ease(EaseType);
     tw->set_trans(TransType);
     
@@ -861,7 +1177,7 @@ void BattleBox::tween_size(Ref<ArgsHolder> args) {
                       margin_bottom + (current_corner1.y - anchor_targets_1.y), args->get_duration());
     
     tw->play();
-    tw->connect("finished", Callable(this, "emit_signal").bind("tweening_finished"));
+    tw->connect("finished", Callable(this, "_reset_finished"));
 }
 
 RemoteTransform2D* BattleBox::get_tl() const {
@@ -890,4 +1206,28 @@ void BattleBox::set_used_item(int value) {
 
 int BattleBox::get_used_item() {
     return used_item;
+}
+
+void BattleBox::set_mercy_texts(PackedStringArray value) {
+    mercy_texts = value;
+}
+
+PackedStringArray BattleBox::get_mercy_texts() {
+    return mercy_texts;
+}
+
+void BattleBox::set_morph_speed(float value) {
+    morph_speed = value;
+}
+
+float BattleBox::get_morph_speed() const {
+    return morph_speed;
+}
+
+void BattleBox::set_polygon_point_count(int value) {
+    polygon_point_count = value;
+}
+
+int BattleBox::get_polygon_point_count() const {
+    return polygon_point_count;
 }

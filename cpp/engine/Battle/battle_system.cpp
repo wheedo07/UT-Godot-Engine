@@ -84,6 +84,9 @@ void BattleMain::_ready() {
     attack_scene = loader->load("res://Battle/AttackMeter/meter.tscn");
     slash_scene = loader->load("res://Battle/Slashes/slashes.tscn");
     damage_info_scene = loader->load("res://Battle/AttackMeter/damage.tscn");
+    if(!encounter.is_valid() && global->battle_encounter && global->battle_encounter->is_class("Encounter")) {
+        encounter = global->battle_encounter;
+    }
 
     global->set_battle_start(true);
     if(encounter.is_valid()) {
@@ -563,7 +566,7 @@ void BattleMain::end_encounter() {
     global->set_player_gold(global->get_player_gold() + int(rewards["gold"]));
     global->set_player_exp(global->get_player_exp() + int(rewards["exp"]));
     
-    String win_text = box->get_wintext();
+    String win_text = box->get("wintext");
     win_text = vformat(win_text,
         rewards["exp"],
         rewards["gold"]

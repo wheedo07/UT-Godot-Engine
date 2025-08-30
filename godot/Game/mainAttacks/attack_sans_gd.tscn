@@ -10,7 +10,12 @@ signal throws(direction:Vector2, power:int);
 @onready var bone = preload(\"res://Battle/Bullets/Bone/bone.tscn\");
 
 func start_attack() -> void:
-	throws.emit(Vector2.DOWN);
+	soul.set_mode(SoulBattle.RED)
+	await get_tree().create_timer(0.5).timeout;
+	box.polygon_enable();
+	await get_tree().create_timer(10).timeout;
+	return;
+	
 	var h_tween;
 	var _b: Bone;
 	for i in 5:

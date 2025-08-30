@@ -89,6 +89,7 @@ Global::Global() {
     quit_time = 0;
     start = false;
     is_Mobile = false;
+    battle_encounter = nullptr;
 }
 
 Global::~Global() {}
@@ -102,7 +103,7 @@ void Global::_ready() {
     heal_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("heal"));
     Info = Object::cast_to<RichTextLabel>(get_node_internal("Info"));
     KrTimer = Object::cast_to<Timer>(get_node_internal("KrTimer"));
-    Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
+    // Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
     String osName = os->get_name();
     is_Mobile = osName == "Android";
     if(osName == "Web") return;
@@ -197,8 +198,9 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             player_hp = player_max_hp;
             player_can_move = true;
             player_in_menu = false;
-            
-            if (Object::cast_to<SceneContainer>(get_tree()->get_current_scene())) {
+            Node* current_scene = get_scene_container()->get_current_scene();
+            if(get_tree()->get_current_scene()->is_class("SceneContainer")) {
+                if(current_scene->is_class("BattleMain")) battle_encounter = current_scene->get("encounter");
                 scene_container->reload_current_scene();
                 return;
             }
