@@ -104,8 +104,8 @@ offset_bottom = 140.0
 points = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)
 closed = true
 width = 4.5
-joint_mode = 1
 begin_cap_mode = 1
+sharp_limit = 25.0
 
 [node name="Collisions" type="StaticBody2D" parent="BoxContainer"]
 collision_mask = 0
