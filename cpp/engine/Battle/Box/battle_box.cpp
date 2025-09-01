@@ -17,6 +17,7 @@
 #include<godot_cpp/classes/rectangle_shape2d.hpp>
 #include<godot_cpp/core/property_info.hpp>
 #include<godot_cpp/classes/geometry2d.hpp>
+#define reset_morphSpeed 800
 
 BattleBox::BattleBox() {
     items_per_page = 3;
@@ -94,7 +95,7 @@ void BattleBox::_bind_methods() {
     ADD_SIGNAL(MethodInfo("fight", PropertyInfo(Variant::INT, "target")));
     ADD_SIGNAL(MethodInfo("item", PropertyInfo(Variant::INT, "item_choice")));
     ADD_SIGNAL(MethodInfo("mercy", PropertyInfo(Variant::INT, "target")));
-    ADD_SIGNAL(MethodInfo("reset_finished"));
+    ADD_SIGNAL(MethodInfo("tween_finished"));
 
     ClassDB::bind_method(D_METHOD("set_enemies", "p_enemies"), &BattleBox::set_enemies);
     ClassDB::bind_method(D_METHOD("set_targets", "show_hp_bar"), &BattleBox::set_targets, DEFVAL(false));
@@ -132,7 +133,7 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_tl_anchor"), &BattleBox::get_tl_anchor);
     // 상자 오른쪽아래 모서리 위치
     ClassDB::bind_method(D_METHOD("get_br_anchor"), &BattleBox::get_br_anchor);
-    ClassDB::bind_method(D_METHOD("reset_box", "duration"), &BattleBox::reset_box, DEFVAL(0.6f));
+    ClassDB::bind_method(D_METHOD("reset_box", "duration"), &BattleBox::reset_box, DEFVAL(0.5f));
     ClassDB::bind_method(D_METHOD("change_size", "new_size", "relative", "duration"), &BattleBox::change_size, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative", "duration"), &BattleBox::change_position, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("advanced_change_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative", "duration"), &BattleBox::advanced_change_size, 
@@ -306,7 +307,7 @@ void BattleBox::_process(double delta) {
         for(int i=0; i < target_shape.size(); i++) {
             Vector2 current = static_shape[i];
             Vector2 target = target_shape[i];
-            float speed = isPolygonRest && morph_speed < 350 ? 350 : morph_speed;
+            float speed = isPolygonRest && morph_speed < reset_morphSpeed ? reset_morphSpeed : morph_speed;
             Vector2 new_pos = current.move_toward(target, speed * delta);
             static_shape.set(i, new_pos);
 
@@ -790,8 +791,6 @@ void BattleBox::_reset_finished() {
             rect_poly.push_back(point);
         }
         target_shape = rect_poly;
-    }else {
-        emit_signal("reset_finished");
     }
 }
 
@@ -802,7 +801,6 @@ void BattleBox::_polygon_reset_finished() {
     for(int i=0; i < 4; i++) collisions[i].set("disabled", false);
     static_shape.clear();
     target_shape.clear();
-    emit_signal("reset_finished");
 }
 
 void BattleBox::reset_box(float duration) {
@@ -821,8 +819,9 @@ void BattleBox::reset_box(float duration) {
     anchor_targets = def_anchors.duplicate();
     Ref<ArgsHolder> args = memnew(ArgsHolder);
     args->set_duration(duration);
-    tween_size(args);
     clear_webs();
+    tween_size(args);
+    tw->connect("finished", Callable(this, "_reset_finished"));
 }
 
 void BattleBox::clear_webs() {
@@ -973,10 +972,6 @@ void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2
 }
 
 void BattleBox::rotate_by(float rot, bool relative, float duration) {
-    if(isPolygonMode) {
-        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
-        return;
-    }
     Ref<ArgsHolder> args = memnew(ArgsHolder);
     args->set_duration(duration);
     args->args.append(rot);
@@ -1160,7 +1155,7 @@ void BattleBox::tween_size(Ref<ArgsHolder> args) {
                       margin_bottom + (current_corner1.y - anchor_targets_1.y), args->get_duration());
     
     tw->play();
-    tw->connect("finished", Callable(this, "_reset_finished"));
+    tw->connect("finished", Callable(this, "emit_signal").bind("tween_finished"));
 }
 
 RemoteTransform2D* BattleBox::get_tl() const {

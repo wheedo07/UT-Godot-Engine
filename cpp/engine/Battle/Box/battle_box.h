@@ -189,7 +189,7 @@ namespace godot {
             
             // 사용 함수
             void blitter_print(PackedStringArray texts);
-            void reset_box(float duration = 0.6f);
+            void reset_box(float duration = 0.5f);
             void change_size(const Vector2& new_size, bool relative = false, float duration=0.6f);
             void change_position(const Vector2& new_position, bool relative = false, float duration=0.6f);
             void advanced_change_size(RelativePosition relative_to, 
