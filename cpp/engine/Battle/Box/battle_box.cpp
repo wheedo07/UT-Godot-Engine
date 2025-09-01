@@ -145,8 +145,6 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_web_y_pos", "id"), &BattleBox::get_web_y_pos);
     ClassDB::bind_method(D_METHOD("blitter_print", "texts"), &BattleBox::blitter_print);
     ClassDB::bind_method(D_METHOD("polygon_enable"), &BattleBox::polygon_enable);
-    ClassDB::bind_method(D_METHOD("remove_point_at_position", "point"), &BattleBox::remove_point_at_position);
-    ClassDB::bind_method(D_METHOD("remove_point_by_index", "vertex_index"), &BattleBox::remove_point_by_index);
     ClassDB::bind_method(D_METHOD("get_polygon_points"), &BattleBox::get_polygon_points);
     ClassDB::bind_method(D_METHOD("get_vertex_position", "vertex_index"), &BattleBox::get_vertex_position);
     ClassDB::bind_method(D_METHOD("move_closest_point", "target_point", "duration"), &BattleBox::move_closest_point, DEFVAL(0.3f));
@@ -1088,21 +1086,6 @@ void BattleBox::move_point_by_offset(Vector2 from_point, Vector2 offset, float d
         Vector2 target_pos = to_global(current_pos + offset);
         move_point_by_index(closest_vertex, target_pos, duration);
     }
-}
-
-void BattleBox::remove_point_at_position(Vector2 point) {
-    if (!isPolygonMode || target_shape.size() <= 3) return;
-    Vector2 local_point = to_local(point);
-    int closest_vertex = find_closest_vertex(target_shape, local_point);
-    
-    if (closest_vertex >= 0 && closest_vertex < target_shape.size()) {
-        target_shape.remove_at(closest_vertex);
-    }
-}
-
-void BattleBox::remove_point_by_index(int vertex_index) {
-    if (!isPolygonMode || target_shape.size() <= 3 || vertex_index < 0 || vertex_index >= target_shape.size()) return;
-    target_shape.remove_at(vertex_index);
 }
 
 PackedVector2Array BattleBox::get_polygon_points() {

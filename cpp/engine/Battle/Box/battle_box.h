@@ -210,8 +210,6 @@ namespace godot {
             void move_closest_point(Vector2 target_point, float duration = 0.3f);
             void move_point_by_index(int vertex_index, Vector2 target_point, float duration = 0.3f);
             void move_point_by_offset(Vector2 from_point, Vector2 offset, float duration = 0.3f);
-            void remove_point_at_position(Vector2 point);
-            void remove_point_by_index(int vertex_index);
             PackedVector2Array get_polygon_points();
             Vector2 get_vertex_position(int vertex_index);
     };
