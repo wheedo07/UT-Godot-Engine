@@ -9,6 +9,7 @@
 #include<godot_cpp/classes/tween.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
 namespace godot {
+    class Bullet;
     class GreenShielding : public Node2D {
         GDCLASS(GreenShielding, Node2D)
         
