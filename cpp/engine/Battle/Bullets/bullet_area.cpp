@@ -31,13 +31,19 @@ void BulletArea::_process(double delta) {
     damage_mode = bullet->damage_mode;
     if(is_monitoring()) {
         TypedArray<Area2D> overlapping_areas = get_overlapping_areas();
-        
-        for (int i = 0; i < overlapping_areas.size(); i++) {
+        for(int i = 0; i < overlapping_areas.size(); i++) {
             Node* overlap_node = Object::cast_to<Node>(overlapping_areas[i]);
             
-            if (overlap_node && overlap_node->is_in_group("player") && 
-                (damage_mode <= Bullet::MODE_GREEN) && bullet->delete_upon_hit_value) {
-                    bullet->_on_hit_player();
+            if(overlap_node && overlap_node->is_in_group("player") && (damage_mode <= Bullet::MODE_GREEN)) {
+                if(bullet->delete_upon_hit_value) {
+                    bullet->kill();;
+                }else {
+                    if(bullet->has_method("on_hit_player")) { // C++ 이랑 GDscript 모두 호환되도록
+                        bullet->call("on_hit_player");
+                    } else {
+                        bullet->on_hit_player();
+                    }
+                }
             }
         }
     }

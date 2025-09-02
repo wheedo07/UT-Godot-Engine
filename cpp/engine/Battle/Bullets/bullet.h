@@ -57,12 +57,13 @@ namespace godot {
             void _physics_process(double delta) override;
 
             virtual void ready();
+            virtual void on_hit_player();
             virtual void on_hit_yellow();
+            virtual void on_hit_player_shield();
             GDVIRTUAL0(ready);
+            GDVIRTUAL0(on_hit_player);
             GDVIRTUAL0(on_hit_yellow);
-
-            void _on_hit_player();
-            void _on_hit_player_shield();
+            GDVIRTUAL0(on_hit_player_shield);
 
             Bullet* set_mode(DamageMode mode = MODE_BLUE);
             void kill();

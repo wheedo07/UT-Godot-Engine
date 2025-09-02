@@ -22,13 +22,15 @@ namespace godot {
             const Color COLOR = Color(0, 0.5, 0); // DARK_GREEN
             const float TIME = 0.2f;
 
-            bool always_remove_shielded_bullets, isEditor;
-
+            bool isEditor;
             Timer* hit_timer;
             Line2D* line;
             Area2D* shield;
             Ref<Tween> shield_tween;
             AudioStreamPlayer* ding_sound;
+
+            void _on_timer_timeout();
+            void _on_bullet_hit(Bullet* bullet);
         
         public:
             GreenShielding();
@@ -38,7 +40,6 @@ namespace godot {
             void _draw() override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
 
-            void _on_timer_timeout();
             void _change_shield_rot_deg(int to);
             void _on_shield_area_entered(Area2D* area);
     };

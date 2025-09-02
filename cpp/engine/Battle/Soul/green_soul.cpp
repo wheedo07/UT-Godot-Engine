@@ -5,14 +5,13 @@
 #include<godot_cpp/classes/engine.hpp>
 using namespace godot;
 
-GreenShielding::GreenShielding() {
-    always_remove_shielded_bullets = true;
-}
+GreenShielding::GreenShielding() {}
 
 GreenShielding::~GreenShielding() {}
 
 void GreenShielding::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_timer_timeout"), &GreenShielding::_on_timer_timeout);
+    ClassDB::bind_method(D_METHOD("_on_bullet_hit", "bullet"), &GreenShielding::_on_bullet_hit);
     ClassDB::bind_method(D_METHOD("_change_shield_rot_deg", "to"), &GreenShielding::_change_shield_rot_deg);
     ClassDB::bind_method(D_METHOD("_on_shield_area_entered", "area"), &GreenShielding::_on_shield_area_entered);
 }
@@ -48,10 +47,6 @@ void GreenShielding::_unhandled_input(const Ref<InputEvent>& event) {
     }
 }
 
-void GreenShielding::_on_timer_timeout() {
-    line->set_modulate(DEF_COL);
-}
-
 void GreenShielding::_change_shield_rot_deg(int to) {
     shield_tween = create_tween();
     shield_tween->set_trans(Tween::TRANS_SINE);
@@ -60,22 +55,23 @@ void GreenShielding::_change_shield_rot_deg(int to) {
 
 void GreenShielding::_on_shield_area_entered(Area2D* area) {
     BulletArea* bullet_area = Object::cast_to<BulletArea>(area);
-    Node* parent = bullet_area->bullet;
-    if (parent) {
-        if (always_remove_shielded_bullets) {
-            parent->call_deferred("_on_hit_player_shield");
-        }
-        
-        if (ding_sound) {
-            ding_sound->play();
-        }
-        
-        if (line) {
-            line->set_modulate(HIT_COL);
-        }
-        
-        if (hit_timer) {
-            hit_timer->start();
-        }
-    }else ERR_PRINT("parent 없음 에러");
+    Bullet* bullet = bullet_area->bullet;
+    if(bullet) {
+        call_deferred("_on_bullet_hit", bullet);
+        ding_sound->play();
+        line->set_modulate(HIT_COL);
+        hit_timer->start();
+    }else ERR_PRINT("bullet 없음 에러");
+}
+
+void GreenShielding::_on_bullet_hit(Bullet* bullet) {
+    if(bullet->has_method("on_hit_player_shield")) { // C++ 이랑 GDscript 모두 호환되도록
+        bullet->call("on_hit_player_shield");
+    } else {
+        bullet->on_hit_player_shield();
+    }
+}
+
+void GreenShielding::_on_timer_timeout() {
+    line->set_modulate(DEF_COL);
 }
