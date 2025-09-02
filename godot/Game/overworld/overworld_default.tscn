@@ -30,6 +30,12 @@ func _on_batle():
 	);
 	await textbox.dialogue_finished;
 	global.set_player_can_move(true);
+	
+func _on_camera():
+	var camera = global.get_scene_container().get_camera();
+	camera.transition(\"res://Game/transition/test.tres\", 2, true);
+	await camera.finished_tween;
+	global.set_player_can_move(true);
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_37vgg"]
@@ -158,6 +164,11 @@ action = 14
 position = Vector2(229, 80)
 scale = Vector2(1, 4)
 
+[node name="on_transition" parent="TileMap/trigger" instance=ExtResource("7_5tkl3")]
+action = 14
+position = Vector2(351, 80)
+scale = Vector2(1, 4)
+
 [node name="shop_room" type="RoomEntranceNode" parent="TileMap/trigger"]
 facing_direction = Vector2(0, 1)
 door_id = 1
@@ -201,3 +212,4 @@ shape = SubResource("RectangleShape2D_iks5l")
 
 [connection signal="character_finished" from="TileMap/Sans" to="." method="_on_batle"]
 [connection signal="cutscene" from="TileMap/trigger/sans_battle" to="." method="_on_batle"]
+[connection signal="cutscene" from="TileMap/trigger/on_transition" to="." method="_on_camera"]

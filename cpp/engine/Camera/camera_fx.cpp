@@ -85,8 +85,8 @@ void CameraFx::blind(float time, float targetopacity, float duration) {
     blindertween.unref();
 	blindertween = create_tween()->set_trans(Tween::TRANS_SINE);
 	blindertween->tween_property(blinder, "modulate:a", targetopacity, time == 0 ? duration : time);
-    blindertween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
     if(time != 0) blindertween->connect("finished", Callable(this, "blind").bind(0, 0, duration), CONNECT_ONE_SHOT);
+    else blindertween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
 
     tween[index] = blindertween;
 }
