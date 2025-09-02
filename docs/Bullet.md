@@ -47,9 +47,12 @@ Undertale 스타일의 탄환 움직임, 데미지, 효과 모드 등을 구현�
 | 함수명                       | 설명                                   |
 | ------------------------ | ------------------------------------ |
 | `ready()`               | 사용자 정의 초기화 함수 (GDScript에서도 override 가능) |
-| `on_hit_yellow()`               | 사용자 정의 함수 노란색 영혼의 탄환에 맞았을때 (GDScript에서도 override 가능) |
+| `on_hit_player()`               | 사용자 정의 함수, soul에 맞았을때 (GDScript에서도 override 가능) |
+| `on_hit_yellow()`               | 사용자 정의 함수, 노란색 영혼의 탄환에 맞았을때 (GDScript에서도 override 가능) |
+| `on_hit_player_shield()`               | 사용자 정의 함수, 초록색 영혼 방패에 막혔을때 (GDScript에서도 override 가능) |
 | `set_mode(mode: DamageMode)` | 탄환의 데미지 타입 설정 (색상도 변경됨)         |
 | `kill()`                  | 탄환 즉시 삭제                            |
+| `fade()`                  | 탄환을 페이드아웃 효과와 함께 삭제              |
 
 ---
 
@@ -233,3 +236,4 @@ void Blaster::_blast(float duration) {
 ## 주의사항
 
 - 이 노드에서는 `_physics_process` 함수를 선언할수 없습니다
+- `delete_upon_hit`가 true 일시 `on_hit_player` 함수는 발생하지 않습니다
