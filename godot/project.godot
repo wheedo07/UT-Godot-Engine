@@ -23,9 +23,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-AudioPlayers="*res://Main/audio_player.tscn"
-OverworldSceneChangers="*res://Main/overworld_scene_changer.tscn"
-Globals="*res://Main/global.tscn"
+audio_player="*res://Main/audio_player.tscn"
+scene_changer="*res://Main/overworld_scene_changer.tscn"
+global="*res://Main/global.tscn"
 
 [debug]
 
@@ -64,6 +64,8 @@ folder_colors={
 "res://Musics/": "green",
 "res://Musics/default/": "red",
 "res://Overworld/": "red",
+"res://Shaders/": "green",
+"res://Shaders/default/": "red",
 "res://Text/": "red",
 "res://Themes/": "red",
 "res://bin/": "red"

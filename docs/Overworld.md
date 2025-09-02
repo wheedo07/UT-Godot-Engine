@@ -46,10 +46,10 @@ func _on_batle():
 	]), ["예", "아니요"]);
 	textbox.connect("selected_option", func(i:int):
 		if i == 0:
-			OverworldSceneChangers.load_battle(sansTres);
+			scene_changer.load_battle(sansTres);
 	);
 	await textbox.dialogue_finished;
-	Globals.set_player_can_move(true);
+	global.set_player_can_move(true);
 ```
 
 </details>

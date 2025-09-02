@@ -39,9 +39,9 @@ void SceneContainer::_ready() {
     screen_copy = Object::cast_to<TextureRect>(get_node_internal("ScreenCopy"));
     mobile = Object::cast_to<Control>(get_node_internal("Mobile"));
 
-    global = Object::cast_to<Global>(get_node_internal("/root/Globals"));
-    scene_changer = Object::cast_to<OverworldSceneChanger>(get_node_internal("/root/OverworldSceneChangers"));
-    audio_player = Object::cast_to<AudioPlayer>(get_node_internal("/root/AudioPlayers"));
+    global = Object::cast_to<Global>(get_node_internal("/root/global"));
+    scene_changer = Object::cast_to<OverworldSceneChanger>(get_node_internal("/root/scene_changer"));
+    audio_player = Object::cast_to<AudioPlayer>(get_node_internal("/root/audio_player"));
 
     global->load_game();
     global->set_scene_container(this);

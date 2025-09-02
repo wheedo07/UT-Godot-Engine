@@ -5,10 +5,10 @@ resource_name = "Title"
 script/source = "extends Node2D
 
 func _ready():
-	if Globals.get_frist():
-		Globals.get_scene_container().change_scene_to_file(\"res://Intro/name_selection.tscn\");
+	if global.get_frist():
+		global.get_scene_container().change_scene_to_file(\"res://Intro/name_selection.tscn\");
 	else:
-		Globals.get_scene_container().change_scene_to_file(\"res://Menus/save_loader.tscn\");
+		global.get_scene_container().change_scene_to_file(\"res://Menus/save_loader.tscn\");
 "
 
 [node name="title" type="Node2D"]

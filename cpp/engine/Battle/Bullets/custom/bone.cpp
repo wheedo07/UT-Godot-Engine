@@ -63,7 +63,7 @@ void Bone::scroll_texture(Vector2 speed) {
         return;
     }
     Ref<ShaderMaterial> shader = memnew(ShaderMaterial);
-    shader->set_shader(loader->load("res://Shaders/scroll_texture.gdshader"));
+    shader->set_shader(loader->load("res://Shaders/default/scroll_texture.gdshader"));
     shader->set_shader_parameter("speed", speed);
     sprite_rect->set_material(shader);
     shader_time = 0;

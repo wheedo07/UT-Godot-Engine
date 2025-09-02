@@ -24,12 +24,12 @@ func _on_batle():
 	]), [\"전투1\", \"전투2\", \"안한다\"]);
 	textbox.connect(\"selected_option\", func(i:int):
 		if i == 0:
-			OverworldSceneChangers.load_battle(sansCpp_tres);
+			scene_changer.load_battle(sansCpp_tres);
 		elif i == 1:
-			OverworldSceneChangers.load_battle(sansGd_tres);
+			scene_changer.load_battle(sansGd_tres);
 	);
 	await textbox.dialogue_finished;
-	Globals.set_player_can_move(true);
+	global.set_player_can_move(true);
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_37vgg"]

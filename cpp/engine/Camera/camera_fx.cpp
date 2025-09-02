@@ -5,14 +5,17 @@
 
 CameraFx::CameraFx() {
     origin_zoom = Vector2(0,0);
+    isTransition = false;
 }
 
 CameraFx::~CameraFx() {}
 
 void CameraFx::_bind_methods() {
     ADD_SIGNAL(MethodInfo("finished_tween"));
+    ClassDB::bind_method(D_METHOD("_on_timeout_transition", "isblind"), &CameraFx::_on_timeout_transition);
 
     ClassDB::bind_method(D_METHOD("kill"), &CameraFx::kill);
+    ClassDB::bind_method(D_METHOD("transition", "path", "duration", "isblind"), &CameraFx::transition, DEFVAL(2), DEFVAL(false));
     ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0), DEFVAL(1), DEFVAL(0.1));
     ClassDB::bind_method(D_METHOD("blinder_color", "color"), &CameraFx::blinder_color, DEFVAL(Color(0, 0, 0, 1)));
     ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(30), DEFVAL(0.4f), DEFVAL(0.15f));
@@ -54,6 +57,12 @@ void CameraFx::_process(double delta) {
             item->call("set_visible", vfx);
         }
     }
+
+    if(transition_shader.is_valid()) {
+        if(isTransition) {
+            transition_shader->set_shader_parameter("progress", float(transition_shader->get_shader_parameter("progress")) + delta);
+        }
+    }
 }
 
 void CameraFx::kill() {
@@ -62,6 +71,11 @@ void CameraFx::kill() {
     for(int i=0; i < tween.size(); i++) {
         Ref<Tween> tw = tween[i];
         if(tw.is_valid()) tw->kill();
+    }
+    if(isTransition) {
+        isTransition = false;
+        transition_shader.unref();
+        blinder->set_material(memnew(Material));
     }
 }
 
@@ -75,6 +89,22 @@ void CameraFx::blind(float time, float targetopacity, float duration) {
     if(time != 0) blindertween->connect("finished", Callable(this, "blind").bind(0, 0, duration), CONNECT_ONE_SHOT);
 
     tween[index] = blindertween;
+}
+
+void CameraFx::transition(String path, float duration, bool isblind) {
+    Ref<Tween> blindertween = tween[0];
+    if(blindertween->is_running()) {
+        ERR_PRINT("Transition은 블라인드가 완전히 켜진 상태에서만 실행할 수 있습니다.");
+        return;
+    }
+    Color mod = blinder->get_modulate();
+    mod.a = 1;
+    blinder->set_modulate(mod);
+    transition_shader = ResourceLoader::get_singleton()->load(path);
+    blinder->set_material(transition_shader);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration);
+    timer->connect("timeout", Callable(this, "_on_timeout_transition").bind(isblind), CONNECT_ONE_SHOT);
+    isTransition = true;
 }
 
 void CameraFx::blinder_color(Color color) {
@@ -177,4 +207,19 @@ void CameraFx::fx_stop() {
     Fxmaster->set_shader_parameter("swirl_enable", false);
     Fxmaster->set_shader_parameter("sine_enable", false);
     Fxmaster->set_shader_parameter("inter_enable", false);
+}
+
+void CameraFx::_on_timeout_transition(bool isblind) {
+    if(!transition_shader.is_valid()) return;
+    isTransition = false;
+    transition_shader.unref();
+    blinder->set_material(memnew(Material));
+    Color mod = blinder->get_modulate();
+    if(isblind) {
+        blind(0.5, mod.a ? 0 : 1);
+    }else {
+        mod.a = mod.a ? 0 : 1;
+        blinder->set_modulate(mod);
+        emit_signal("finished_tween");
+    }
 }
