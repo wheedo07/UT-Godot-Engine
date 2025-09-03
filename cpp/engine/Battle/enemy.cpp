@@ -150,7 +150,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("on_death"), &Enemy::on_death);
     ClassDB::bind_method(D_METHOD("_on_spared", "id_number"), &Enemy::_on_spared);
     ClassDB::bind_method(D_METHOD("_on_finished_all_texts_dialogue", "head", "body"), &Enemy::_on_finished_all_texts_dialogue);
-    ClassDB::bind_method(D_METHOD("change_stats", "value"), &Enemy::change_stats);
+    ClassDB::bind_method(D_METHOD("modify_stats", "value"), &Enemy::modify_stats);
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Enemy::set_property);
     ClassDB::bind_method(D_METHOD("get_main"), &Enemy::get_main);
@@ -195,8 +195,8 @@ void Enemy::_ready() {
     }
 }
 
-void Enemy::change_stats(Dictionary value) {
-    main->change_stats(id, value);
+void Enemy::modify_stats(Dictionary value) {
+    main->modify_stats(id, value);
 }
 
 Ref<ActInfo> Enemy::get_act_info(int act_choice) {

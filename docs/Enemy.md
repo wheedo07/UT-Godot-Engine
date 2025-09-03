@@ -81,7 +81,7 @@ UT-Godot-Engine에서 전투 시스템의 적 캐릭터를 구현하는 핵심 �
 | `change_state(new_state: int)` | 적 ACT 변경 |
 | `play_set_dialogue(dialogue: Dialogues, duration: float, skip: bool)` | 대사 리소스 재생 |
 | `play_dialogue(index: int, duration: float, skip: bool)` | 지정된 인덱스의 대사 재생 |
-| `change_stats(value: Dictionary)` | 적 능력치 변경 |
+| `modify_stats(value: Dictionary)` | 적 능력치 변경 |
 
 
 ---

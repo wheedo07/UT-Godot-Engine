@@ -128,11 +128,13 @@ namespace godot {
             GDVIRTUAL0(on_win);
             GDVIRTUAL1(on_defeat, bool);
 
-            void change_stats(Dictionary value);
-            Ref<ActInfo> get_act_info(int act_choice);
+            // 사용 함수
+            void modify_stats(Dictionary value);
             void change_state(int new_state);
             void play_dialogue(int index, float duration=0, bool skip=true);
             void play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration=0, bool skip=true);
+
+            Ref<ActInfo> get_act_info(int act_choice);
             void dodge();
             void _hurt(int amount);
             void on_death();

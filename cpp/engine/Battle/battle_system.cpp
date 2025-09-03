@@ -608,7 +608,7 @@ int BattleMain::enemy_size() {
     return size;
 }
 
-void BattleMain::change_stats(int id, Dictionary stats) {
+void BattleMain::modify_stats(int id, Dictionary stats) {
     box->enemies_hp[id] = stats.get("hp", box->enemies_hp[id]);
     enemies_max_hp[id] = stats.get("max_hp", enemies_max_hp[id]);
     enemies_def[id] = stats.get("def", enemies_def[id]);

@@ -100,7 +100,7 @@ namespace godot {
             void end_encounter();
             int enemy_size();
 
-            void change_stats(int id, Dictionary stats);
+            void modify_stats(int id, Dictionary stats);
             
             void set_encounter(const Ref<Encounter>& p_encounter);
             Ref<Encounter> get_encounter() const;
