@@ -104,8 +104,11 @@ void UI::_ready() {
     item_actions[2.0] = get_node_internal("Control/StatAndOptions/Items/Drop");
     
     textboxscene = ResourceLoader::get_singleton()->load("res://Overworld/text_box.tscn");
-    
     soultarget = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"))->get_global_position();
+
+    if(global->get_player_position().y >= 240) {
+        get_node_internal("Control/StatAndOptions/Stats")->call("set_position", Vector2(0, 280));
+    }
     
     global->set_player_in_menu(true);
     
