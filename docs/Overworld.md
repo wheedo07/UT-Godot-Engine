@@ -57,7 +57,7 @@ func _on_batle():
 <details>
 <summary>C++</summary>
 
-```C++
+```cpp
 #include "test.h"
 #include "env.h"
 
