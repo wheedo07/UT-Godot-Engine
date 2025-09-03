@@ -61,11 +61,8 @@ void CameraRemoteController::_ready() {
     fade->set_z_index(10);
     add_child(fade);
     
-    SceneTree* tree = get_tree();
-    if (tree) {
-        Ref<SceneTreeTimer> timer = tree->create_timer(2.0);
-        timer->connect("timeout", Callable(this, "_on_timer_timeout"));
-    }
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(2.0);
+    timer->connect("timeout", Callable(this, "_on_timer_timeout"));
 }
 
 void CameraRemoteController::force_update() {
@@ -78,9 +75,7 @@ void CameraRemoteController::force_update() {
 void CameraRemoteController::_process(double delta) {
     if(isEditor) return;
     CameraFx* camera = global->get_scene_container()->get_camera();
-    if (camera) {
-        camera->set_zoom(zoom);
-    }
+    camera->set_zoom(zoom);
 }
 
 void CameraRemoteController::_on_timer_timeout() {

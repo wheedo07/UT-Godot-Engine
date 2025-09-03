@@ -38,11 +38,9 @@ void BattleObject::kill() {
 }
 
 void BattleObject::_on_exit_screen() {
-    if(velocity_tween.is_valid()) {
-        if(!velocity_tween->is_valid()) {
-            fade();
-            return;
-        }
+    if(velocity_tween.is_valid() && !velocity_tween->is_valid()) {
+        fade();
+        return;
     }
 
     if(!velocity_tween.is_valid() || !velocity.is_zero_approx()) 

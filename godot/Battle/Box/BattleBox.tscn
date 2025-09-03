@@ -22,7 +22,7 @@ shader_parameter/threshold = 0.5
 bg_color = Color(1, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u3r4t"]
-bg_color = Color(0.101961, 1, 0, 1)
+bg_color = Color(0.11, 1, 0, 1)
 
 [node name="BattleBox" type="BattleBox"]
 
@@ -71,7 +71,7 @@ color = Color(0, 0, 0, 0)
 
 [node name="background" type="Polygon2D" parent="BoxContainer/Rect"]
 color = Color(0, 0, 0, 0.7)
-polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139, 1, 139)
+polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)
 
 [node name="Webs" type="Control" parent="BoxContainer/Rect"]
 show_behind_parent = true

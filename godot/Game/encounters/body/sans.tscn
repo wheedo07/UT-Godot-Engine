@@ -1,6 +1,5 @@
-[gd_scene load_steps=44 format=3 uid="uid://bp62m2pkjek8i"]
+[gd_scene load_steps=37 format=3 uid="uid://bp62m2pkjek8i"]
 
-[ext_resource type="Texture2D" uid="uid://bjtsjfqdyx07n" path="res://Battle/Enemies/sans_raw.png" id="1_m0b6s"]
 [ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://Game/assets/sprite/sheet/sans_sheet.png" id="3_suomx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_akon3"]
@@ -103,42 +102,6 @@ animations = [{
 "speed": 0.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xo308"]
-atlas = ExtResource("1_m0b6s")
-region = Rect2(13, 47, 1, 1)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i8vxg"]
-atlas = ExtResource("1_m0b6s")
-region = Rect2(5, 593, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s6b5b"]
-atlas = ExtResource("1_m0b6s")
-region = Rect2(42, 593, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ef7y5"]
-atlas = ExtResource("1_m0b6s")
-region = Rect2(79, 593, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ghdqy"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xo308")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i8vxg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s6b5b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ef7y5")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_a7wy2"]
 atlas = ExtResource("3_suomx")
 region = Rect2(125, 299, 77, 40)
@@ -166,26 +129,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vbngc")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_f6pgy"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xo308")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i8vxg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s6b5b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ef7y5")
 }],
 "loop": true,
 "name": &"default",
@@ -380,18 +323,6 @@ tracks/11/path = NodePath("Idle/body/head:frame")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/12/type = "value"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("Idle/body/head/sweat:frame")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -729,12 +660,12 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p1ddc"]
 _data = {
-"RESET": SubResource("Animation_hv5l2"),
-"idle": SubResource("Animation_y1n5e"),
-"throw_down": SubResource("Animation_srdvs"),
-"throw_left": SubResource("Animation_5ffnb"),
-"throw_right": SubResource("Animation_ay4j4"),
-"throw_up": SubResource("Animation_a3xj3")
+&"RESET": SubResource("Animation_hv5l2"),
+&"idle": SubResource("Animation_y1n5e"),
+&"throw_down": SubResource("Animation_srdvs"),
+&"throw_left": SubResource("Animation_5ffnb"),
+&"throw_right": SubResource("Animation_ay4j4"),
+&"throw_up": SubResource("Animation_a3xj3")
 }
 
 [node name="sans" type="Node2D"]
@@ -758,11 +689,6 @@ position = Vector2(-2.5, -22.5)
 sprite_frames = SubResource("SpriteFrames_qg8do")
 animation = &"crazy"
 
-[node name="sweat" type="AnimatedSprite2D" parent="Throw/head"]
-position = Vector2(-0.05, -1.833)
-scale = Vector2(1.1, 1.1)
-sprite_frames = SubResource("SpriteFrames_ghdqy")
-
 [node name="Idle" type="Node2D" parent="."]
 visible = false
 
@@ -781,11 +707,6 @@ sprite_frames = SubResource("SpriteFrames_qg8do")
 animation = &"heads"
 offset = Vector2(0, -0.5)
 
-[node name="sweat" type="AnimatedSprite2D" parent="Idle/body/head"]
-position = Vector2(-0.0499401, -1.8327)
-scale = Vector2(1.1, 1.1)
-sprite_frames = SubResource("SpriteFrames_f6pgy")
-
 [node name="States" type="AnimationTree" parent="."]
 deterministic = false
 tree_root = SubResource("AnimationNodeStateMachine_52eby")
@@ -793,6 +714,6 @@ anim_player = NodePath("../Animations")
 
 [node name="Animations" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_p1ddc")
+&"": SubResource("AnimationLibrary_p1ddc")
 }
 speed_scale = 1.2

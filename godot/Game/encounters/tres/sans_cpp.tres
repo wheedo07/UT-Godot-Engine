@@ -1,10 +1,15 @@
-[gd_resource type="Encounter" load_steps=3 format=3 uid="uid://1idxtpurctaf"]
+[gd_resource type="Encounter" load_steps=4 format=3 uid="uid://1idxtpurctaf"]
 
-[ext_resource type="Texture2D" uid="uid://cs4k2lrche0i2" path="res://Game/assets/sprite/image/battle_background.png" id="1_jjnf8"]
+[ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://Game/assets/sprite/sheet/sans_sheet.png" id="1_jjnf8"]
 [ext_resource type="PackedScene" uid="uid://cuuor6488vm2a" path="res://Game/encounters/enemy/sans_cpp.tscn" id="1_xvqsc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xx18k"]
+atlas = ExtResource("1_jjnf8")
+region = Rect2(1354, 1381, 287, 160)
 
 [resource]
 encounter_name = &"SANS_CPP"
-background = ExtResource("1_jjnf8")
 enemies = Array[PackedScene]([ExtResource("1_xvqsc")])
+background = SubResource("AtlasTexture_xx18k")
+offset = Vector2(0, -165)
 flee_chance = 0.5

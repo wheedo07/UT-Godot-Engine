@@ -13,6 +13,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
+            Vector2 offset;
             StringName encounter_name;
             Ref<Texture2D> background;
             TypedArray<PackedScene> enemies;
@@ -30,13 +31,16 @@ namespace godot {
             
             void set_background(const Ref<Texture2D>& p_background);
             Ref<Texture2D> get_background() const;
+
+            void set_offset(const Vector2& p_offset);
+            Vector2 get_offset() const;
             
             void set_enemies(const TypedArray<PackedScene>& p_enemies);
             TypedArray<PackedScene> get_enemies() const;
             
             void set_music(const Ref<AudioStream>& p_music);
             Ref<AudioStream> get_music() const;
-            
+
             void set_mercy_options(const PackedStringArray& p_options);
             PackedStringArray get_mercy_options() const;
             

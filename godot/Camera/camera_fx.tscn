@@ -1,6 +1,5 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgwqhj12sno6a"]
+[gd_scene load_steps=5 format=3 uid="uid://cgwqhj12sno6a"]
 
-[ext_resource type="Texture2D" uid="uid://bjtsjfqdyx07n" path="res://Battle/Enemies/sans_raw.png" id="2_gnm0b"]
 [ext_resource type="Shader" uid="uid://yw61hbye7xou" path="res://Shaders/default/fx_master.gdshader" id="2_lg2wh"]
 [ext_resource type="Shader" uid="uid://p5gamikixidy" path="res://Shaders/default/glitch.gdshader" id="3_vjqlt"]
 
@@ -52,11 +51,6 @@ position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 editor_draw_limits = true
 editor_draw_drag_margin = true
-
-[node name="Test" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(208, 140)
-texture = ExtResource("2_gnm0b")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10

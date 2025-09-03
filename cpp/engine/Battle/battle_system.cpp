@@ -91,6 +91,7 @@ void BattleMain::_ready() {
     global->set_battle_start(true);
     if(encounter.is_valid()) {
         bg->set_texture(encounter->get_background());
+        bg->set_position(encounter->get_offset());
         Array enemy_scenes = encounter->get_enemies().duplicate();
 
         Ref<AudioStream> music = encounter->get_music();
