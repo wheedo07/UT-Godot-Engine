@@ -6,8 +6,7 @@ SettingBoolButton::SettingBoolButton() {
     setting_name = "";
 }
 
-SettingBoolButton::~SettingBoolButton() {
-}
+SettingBoolButton::~SettingBoolButton() {}
 
 void SettingBoolButton::_bind_methods() {
     ClassDB::bind_method(D_METHOD("init"), &SettingBoolButton::init);
@@ -20,12 +19,11 @@ void SettingBoolButton::_bind_methods() {
 
 void SettingBoolButton::init() {
     if(isEditor) return;
-    
     Dictionary settings = global->get_settings();
     if (settings.has(setting_name)) {
         Variant value = settings[setting_name];
         set_pressed(value);
-    }
+    }else ERR_PRINT(vformat("%s 설정이 존재하지 않습니다", setting_name));
 }
 
 void SettingBoolButton::_on_toggled(bool val) {
@@ -36,10 +34,10 @@ void SettingBoolButton::_on_toggled(bool val) {
         Variant value = settings[setting_name];
         if (value.get_type() != Variant::BOOL) {
             if (value.get_type() == Variant::NIL) {
-                UtilityFunctions::push_error("Setting is NULL, please set it in Global singleton.");
+                ERR_PRINT("설정이 존재하지 않습니다");
                 return;
             }
-            UtilityFunctions::push_error("Setting is NOT boolean.");
+            ERR_PRINT("설정 타입이 BOOL이 아닙니다");
             return;
         }
         settings[setting_name] = val;

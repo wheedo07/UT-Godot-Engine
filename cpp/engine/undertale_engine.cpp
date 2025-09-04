@@ -77,6 +77,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_CLASS(OptionSelectable);
     GDREGISTER_CLASS(OptionSelectableSolo);
     GDREGISTER_CLASS(SettingBoolButton);
+    GDREGISTER_CLASS(SettingToggleButton);
     GDREGISTER_CLASS(AudiobusSettings);
     GDREGISTER_CLASS(ItemSlider);
     GDREGISTER_CLASS(SaveLoader);

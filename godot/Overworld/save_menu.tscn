@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0ollclfs0ley"]
+[gd_scene load_steps=8 format=3 uid="uid://b0ollclfs0ley"]
 
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="1_kbp3q"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="2_moqd3"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_cth8f"]
-[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="3_r34tm"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="3_r34tm"]
 [ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="5_dlnkc"]
-[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="5_xmcne"]
 [ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="6_8r4tb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y44al"]
@@ -108,7 +107,6 @@ offset_top = 61.0
 offset_right = 440.0
 offset_bottom = 92.0
 theme = ExtResource("3_cth8f")
-theme_override_fonts/normal_font = ExtResource("5_xmcne")
 bbcode_enabled = true
 text = "- - -"
 scroll_active = false

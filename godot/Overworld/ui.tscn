@@ -1,11 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://bevhjdbngyvd7"]
+[gd_scene load_steps=16 format=3 uid="uid://bevhjdbngyvd7"]
 
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="1_2uijs"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_elsrr"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_k0cus"]
 [ext_resource type="Theme" uid="uid://bevcq3qnk3n8h" path="res://Themes/hud.tres" id="4_c2gxs"]
 [ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="5_6t6nw"]
-[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="5_1850g"]
 [ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="6_7ksvh"]
 [ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="7_a71x2"]
 [ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="7_j83rc"]
@@ -137,7 +136,6 @@ offset_right = 262.0
 offset_bottom = 136.0
 theme = ExtResource("3_k0cus")
 theme_override_constants/line_separation = 7
-theme_override_fonts/normal_font = ExtResource("5_1850g")
 bbcode_enabled = true
 text = "[color=white]아이템[/color]
 [color=white]스텟[/color]

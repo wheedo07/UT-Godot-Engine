@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cw7by1ibpkm1x"]
+[gd_scene load_steps=10 format=3 uid="uid://cw7by1ibpkm1x"]
 
 [ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="1_wgwn4"]
-[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="2_u0tfp"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_2u401"]
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="4_wgfxx"]
-[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="5_jss6j"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="5_jss6j"]
 [ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="5_kots0"]
 [ext_resource type="AudioStream" uid="uid://cjt5oikkeubw6" path="res://sfx/mus_cymbal.ogg" id="6_s3pw6"]
 
@@ -43,7 +42,7 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-theme_override_fonts/normal_font = ExtResource("2_u0tfp")
+theme = ExtResource("3_2u401")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "[center][shake rate=3 level=5]
@@ -156,7 +155,6 @@ offset_right = 640.0
 offset_bottom = 400.0
 mouse_filter = 2
 theme = ExtResource("3_2u401")
-theme_override_fonts/normal_font = ExtResource("2_u0tfp")
 bbcode_enabled = true
 visible_characters_behavior = 1
 

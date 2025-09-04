@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c4c1hkxfxvh2t"]
+[gd_scene load_steps=9 format=3 uid="uid://c4c1hkxfxvh2t"]
 
-[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="2_4f7u4"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="2_4f7u4"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="2_u0ptt"]
-[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="3_4gwiv"]
 [ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="4_6utps"]
 [ext_resource type="AudioStream" uid="uid://gmni7dkf4qh3" path="res://sfx/warning.ogg" id="5_rfr4t"]
 [ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="5_rk211"]
@@ -85,7 +84,7 @@ offset_right = 440.0
 offset_bottom = 92.0
 theme = ExtResource("2_u0ptt")
 bbcode_enabled = true
-text = "Ruins-LeafPile"
+text = "----"
 scroll_active = false
 
 [node name="Options" type="Control" parent="Control"]
@@ -107,7 +106,6 @@ anchor_top = 0.711765
 anchor_right = 0.668
 anchor_bottom = 0.929412
 theme = ExtResource("2_u0ptt")
-theme_override_fonts/normal_font = ExtResource("3_4gwiv")
 bbcode_enabled = true
 text = "계속하기"
 scroll_active = false
@@ -123,7 +121,6 @@ anchor_top = 0.712
 anchor_right = 1.0
 anchor_bottom = 0.944
 theme = ExtResource("2_u0ptt")
-theme_override_fonts/normal_font = ExtResource("3_4gwiv")
 bbcode_enabled = true
 text = "리셋"
 scroll_active = false

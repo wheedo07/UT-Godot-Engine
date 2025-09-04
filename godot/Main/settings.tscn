@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://x1g53cac1aq7"]
+[gd_scene load_steps=15 format=3 uid="uid://x1g53cac1aq7"]
 
-[ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="1_n24qb"]
+[ext_resource type="Shader" uid="uid://cwal68u742e4u" path="res://Shaders/blur.gdshader" id="1_n24qb"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="2_rnrpm"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="3_jxe76"]
-[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="4_rygnh"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="4_rygnh"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="5_v15op"]
-[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="5_wypse"]
 [ext_resource type="PackedScene" uid="uid://cnm64bp0hy4b0" path="res://Menus/audiobus.tscn" id="6_t1t4d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_46ohv"]
@@ -54,7 +53,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("BoolOptions:position:y")
+tracks/2/path = NodePath("Options:position:y")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -91,7 +90,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("BoolOptions:position:y")
+tracks/2/path = NodePath("Options:position:y")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -102,8 +101,8 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gxxvs"]
 _data = {
-"RESET": SubResource("Animation_qnifu"),
-"toggle": SubResource("Animation_ooyau")
+&"RESET": SubResource("Animation_qnifu"),
+&"toggle": SubResource("Animation_ooyau")
 }
 
 [node name="Settings" type="Settings"]
@@ -141,7 +140,7 @@ theme = ExtResource("2_rnrpm")
 bbcode_enabled = true
 text = "[center]--일시정지--"
 
-[node name="BoolOptions" type="Control" parent="."]
+[node name="Options" type="Control" parent="."]
 layout_mode = 3
 anchor_right = 0.5
 anchor_bottom = 0.2
@@ -151,7 +150,7 @@ offset_bottom = -320.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="BoolOptions"]
+[node name="Panel" type="Panel" parent="Options"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -160,7 +159,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_jxe76")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BoolOptions"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Options"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -172,32 +171,28 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VFX" type="SettingBoolButton" parent="BoolOptions/VBoxContainer"]
+[node name="VFX" type="SettingBoolButton" parent="Options/VBoxContainer"]
 setting_name = "vfx"
 material = SubResource("ShaderMaterial_67afo")
 layout_mode = 2
 theme = ExtResource("2_rnrpm")
-theme_override_fonts/font = ExtResource("5_wypse")
-text = "VFX 쉐이더"
+text = "VFX"
 
-[node name="CamShake" type="SettingBoolButton" parent="BoolOptions/VBoxContainer"]
+[node name="CamShake" type="SettingBoolButton" parent="Options/VBoxContainer"]
 setting_name = "shake"
 material = SubResource("ShaderMaterial_yrnwr")
 layout_mode = 2
 theme = ExtResource("2_rnrpm")
-theme_override_fonts/font = ExtResource("5_wypse")
 text = "카메라 흔들림"
 
-[node name="Border" type="SettingBoolButton" parent="BoolOptions/VBoxContainer"]
+[node name="Border" type="SettingBoolButton" parent="Options/VBoxContainer"]
 setting_name = "border"
 material = SubResource("ShaderMaterial_0px4p")
 layout_mode = 2
 theme = ExtResource("2_rnrpm")
-theme_override_fonts/font = ExtResource("5_wypse")
-text = "테두리
-"
+text = "테두리"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="BoolOptions"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Options"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -240,16 +235,16 @@ layout_mode = 2
 process_mode = 3
 deterministic = true
 libraries = {
-"": SubResource("AnimationLibrary_gxxvs")
+&"": SubResource("AnimationLibrary_gxxvs")
 }
 speed_scale = 1.667
 
-[connection signal="init" from="." to="BoolOptions/VBoxContainer/VFX" method="init"]
-[connection signal="init" from="." to="BoolOptions/VBoxContainer/CamShake" method="init"]
-[connection signal="init" from="." to="BoolOptions/VBoxContainer/Border" method="init"]
+[connection signal="init" from="." to="Options/VBoxContainer/VFX" method="init"]
+[connection signal="init" from="." to="Options/VBoxContainer/CamShake" method="init"]
+[connection signal="init" from="." to="Options/VBoxContainer/Border" method="init"]
 [connection signal="init" from="." to="BusContainer/Master" method="init"]
 [connection signal="init" from="." to="BusContainer/SFX" method="init"]
 [connection signal="init" from="." to="BusContainer/Music" method="init"]
-[connection signal="toggled" from="BoolOptions/VBoxContainer/VFX" to="BoolOptions/VBoxContainer/VFX" method="_on_toggled"]
-[connection signal="toggled" from="BoolOptions/VBoxContainer/CamShake" to="BoolOptions/VBoxContainer/CamShake" method="_on_toggled"]
-[connection signal="toggled" from="BoolOptions/VBoxContainer/Border" to="BoolOptions/VBoxContainer/Border" method="_on_toggled"]
+[connection signal="toggled" from="Options/VBoxContainer/VFX" to="Options/VBoxContainer/VFX" method="_on_toggled"]
+[connection signal="toggled" from="Options/VBoxContainer/CamShake" to="Options/VBoxContainer/CamShake" method="_on_toggled"]
+[connection signal="toggled" from="Options/VBoxContainer/Border" to="Options/VBoxContainer/Border" method="_on_toggled"]

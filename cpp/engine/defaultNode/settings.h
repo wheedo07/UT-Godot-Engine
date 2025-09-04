@@ -1,6 +1,5 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
-#include "engine/Menus/bool_setting.h"
 #include<godot_cpp/classes/canvas_layer.hpp>
 #include<godot_cpp/classes/panel.hpp>
 #include<godot_cpp/classes/canvas_item.hpp>
@@ -26,17 +25,17 @@ namespace godot {
             CanvasItem* Blur;
             HBoxContainer* BusContainer;
             AnimationPlayer* AnimPlayer;
-            VBoxContainer* BoolOptions;
+            VBoxContainer* Options;
             bool enabled = false;
         
         public:
             Settings();
             ~Settings();
 
-            virtual void _ready() override;
+            void _ready() override;
             void toggle();
-            void on_setting_changed(SettingBoolButton* name);
-            virtual void _input(const Ref<InputEvent>& event) override;
+            void on_setting_changed(Node* btn);
+            void _input(const Ref<InputEvent>& event) override;
     };
 }
 

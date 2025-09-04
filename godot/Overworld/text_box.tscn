@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://dy0t6jldvkcc1"]
+[gd_scene load_steps=52 format=3 uid="uid://dy0t6jldvkcc1"]
 
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="1_gscy0"]
 [ext_resource type="SpriteFrames" uid="uid://dj2frtvnpp2o6" path="res://Main/text_box_head.tres" id="2_gj67d"]
@@ -7,7 +7,6 @@
 [ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="5_uxfsj"]
 [ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="6_3vwd2"]
 [ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="7_nm6xw"]
-[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="7_wv0lv"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="8_1qomw"]
 [ext_resource type="AudioStream" uid="uid://bhsttfwejarc4" path="res://sfx/Clicks/generic1.wav" id="9_6g2we"]
 [ext_resource type="AudioStream" uid="uid://s6sq0p485acf" path="res://sfx/Clicks/sans.wav" id="10_44e3i"]
@@ -173,7 +172,6 @@ clip_contents = false
 layout_mode = 2
 theme = ExtResource("8_1qomw")
 theme_override_constants/line_separation = 2
-theme_override_fonts/normal_font = ExtResource("7_wv0lv")
 bbcode_enabled = true
 text = "* (정수기 이다.)
 * (물 한컵을 가져갈까? )"
@@ -192,7 +190,6 @@ custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("8_1qomw")
-theme_override_fonts/normal_font = ExtResource("7_wv0lv")
 bbcode_enabled = true
 text = "예"
 scroll_active = false
@@ -206,7 +203,6 @@ custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("8_1qomw")
-theme_override_fonts/normal_font = ExtResource("7_wv0lv")
 bbcode_enabled = true
 text = "아니요"
 scroll_active = false
@@ -220,7 +216,6 @@ custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("8_1qomw")
-theme_override_fonts/normal_font = ExtResource("7_wv0lv")
 bbcode_enabled = true
 text = "뭐요"
 scroll_active = false
@@ -234,7 +229,6 @@ custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("8_1qomw")
-theme_override_fonts/normal_font = ExtResource("7_wv0lv")
 bbcode_enabled = true
 text = "고요"
 scroll_active = false

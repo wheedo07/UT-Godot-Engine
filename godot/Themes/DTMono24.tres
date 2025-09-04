@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bhnvrxq5lxeum" path="res://Themes/Textures/switch_d.png" id="3_d7wwe"]
 [ext_resource type="Texture2D" uid="uid://11u0yvsw2qhm" path="res://Themes/Textures/switch_f.png" id="3_j8yck"]
 [ext_resource type="SystemFont" uid="uid://kdw56fky57yh" path="res://Themes/CodeFont.tres" id="4_7rsjk"]
-[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/main-korean.ttf" id="9_pqumt"]
+[ext_resource type="FontFile" uid="uid://budoii6xa4dow" path="res://Text/Fonts/UNDERTALE-font/main-ko.ttf" id="9_pqumt"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_majhq"]
 

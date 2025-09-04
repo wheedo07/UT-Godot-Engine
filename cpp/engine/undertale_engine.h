@@ -75,6 +75,7 @@ using namespace godot;
 #include "Menus/option_selectable_solo.h"
 #include "Menus/audiobus_settings.h"
 #include "Menus/bool_setting.h"
+#include "Menus/toggle_setting.h"
 #include "Menus/item_slider.h"
 #include "Menus/save_loader.h"
 #include "Menus/joystick.h"

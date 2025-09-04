@@ -12,7 +12,7 @@ Settings::~Settings() {}
 
 void Settings::_bind_methods() {
     ClassDB::bind_method(D_METHOD("toggle"), &Settings::toggle);
-    ClassDB::bind_method(D_METHOD("on_setting_changed", "boolBtn"), &Settings::on_setting_changed);
+    ClassDB::bind_method(D_METHOD("on_setting_changed", "btn"), &Settings::on_setting_changed);
     ADD_SIGNAL(MethodInfo("init"));
     ADD_SIGNAL(MethodInfo("setting_changed", 
         PropertyInfo(Variant::STRING, "setting_name"),
@@ -26,7 +26,7 @@ void Settings::_ready() {
     Blur = Object::cast_to<CanvasItem>(get_node_internal("Blur"));
     BusContainer = Object::cast_to<HBoxContainer>(get_node_internal("BusContainer"));
     AnimPlayer = Object::cast_to<AnimationPlayer>(get_node_internal("AnimationPlayer"));
-    BoolOptions = Object::cast_to<VBoxContainer>(get_node_internal("BoolOptions/VBoxContainer"));
+    Options = Object::cast_to<VBoxContainer>(get_node_internal("Options/VBoxContainer"));
 
     AnimPlayer->set_speed_scale(1.0f / TIME);
     Darken->set_modulate(Color(1, 1, 1, 0));
@@ -34,10 +34,9 @@ void Settings::_ready() {
     shader->set_shader_parameter("lod", 0);
     AnimPlayer->play("RESET");
 
-    TypedArray<Node> settings = BoolOptions->get_children();
-    for (int i = 0; i < settings.size(); i++) {
-        SettingBoolButton* setting = Object::cast_to<SettingBoolButton>(settings[i]);
-        if (!setting) continue;
+    TypedArray<Node> settings = Options->get_children();
+    for (int i=0; i < settings.size(); i++) {
+        Node* setting = Object::cast_to<Node>(settings[i]);
         setting->connect("pressed", Callable(this, "on_setting_changed").bind(setting));
     }
 }
@@ -55,8 +54,8 @@ void Settings::toggle() {
         enabled ? Input::MOUSE_MODE_VISIBLE : Input::MOUSE_MODE_HIDDEN
     );
 
-    tw = create_tween()->set_trans(static_cast<Tween::TransitionType>(TRANSTYPE))
-    ->set_ease(static_cast<Tween::EaseType>(enabled ? 1 : 0))
+    tw = create_tween()->set_trans(Tween::TransitionType(TRANSTYPE))
+    ->set_ease(Tween::EaseType(enabled ? 1 : 0))
     ->set_parallel(true);
 
     tw->tween_property(
@@ -86,7 +85,7 @@ void Settings::_input(const Ref<InputEvent>& event) {
     }
 }
 
-void Settings::on_setting_changed(SettingBoolButton* boolBtn) {
+void Settings::on_setting_changed(Node* btn) {
     if(!get_tree()->is_paused()) return;
-    emit_signal("setting_changed", boolBtn->get_setting_name(), boolBtn->is_pressed());
+    emit_signal("setting_changed", btn->call("get_setting_name"), btn->call("is_pressed"));
 }
