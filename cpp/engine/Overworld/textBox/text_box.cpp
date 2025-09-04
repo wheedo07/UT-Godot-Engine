@@ -68,9 +68,9 @@ void TextBox::_ready() {
     }
     
     selected_option = 0;
-    Node* control = get_node_internal("Control");
-    defpos = control->call("get_position");
-    defsize = control->call("get_size");
+    if(global->get_player_position().y >= 240) {
+        get_node_internal("Control")->call("set_position", Vector2(33, 10));
+    }
     
     char_sound[Variant(DEFAULT)] = "Sounds/Generic";
     Array arr_value = get_character_name().values();

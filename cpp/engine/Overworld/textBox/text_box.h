@@ -43,8 +43,6 @@ namespace godot {
             MarginContainer* text_container;
             MenuSoul* soul;
             Array Options;
-            Vector2 defpos = Vector2(0, 0);
-            Vector2 defsize = Vector2(0, 0);
 
             void on_option_selected(int option);
             void on_text_typing_finished();

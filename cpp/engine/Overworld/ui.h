@@ -49,6 +49,9 @@ namespace godot {
             Dictionary options_dict;
             Dictionary pos_history;
 
+            void _on_animation_finished();
+            void _on_item_dialogue_finished();
+
         public:
             UI();
             ~UI();
@@ -57,11 +60,6 @@ namespace godot {
 
             void _ready() override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
-
-            void _on_animation_finished();
-            void _on_item_use_dialogue_finished();
-            void _on_item_info_dialogue_finished();
-            void _on_item_drop_dialogue_finished();
 
             void _in_state(States state);
             void _set_enabled_options();

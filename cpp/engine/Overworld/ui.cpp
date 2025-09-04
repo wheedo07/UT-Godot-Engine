@@ -68,9 +68,7 @@ void UI::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_close_menu"), &UI::_close_menu);
     ClassDB::bind_method(D_METHOD("soul_move", "action"), &UI::soul_move); 
     ClassDB::bind_method(D_METHOD("_on_animation_finished"), &UI::_on_animation_finished);
-    ClassDB::bind_method(D_METHOD("_on_item_use_dialogue_finished"), &UI::_on_item_use_dialogue_finished);
-    ClassDB::bind_method(D_METHOD("_on_item_info_dialogue_finished"), &UI::_on_item_info_dialogue_finished);
-    ClassDB::bind_method(D_METHOD("_on_item_drop_dialogue_finished"), &UI::_on_item_drop_dialogue_finished);
+    ClassDB::bind_method(D_METHOD("_on_item_dialogue_finished"), &UI::_on_item_dialogue_finished);
     
     ClassDB::bind_method(D_METHOD("set_items_seperation", "seperation"), &UI::set_items_seperation);
     ClassDB::bind_method(D_METHOD("get_items_seperation"), &UI::get_items_seperation);
@@ -340,13 +338,14 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                 break;
             }
             case ITEM_ACTION: {
+                soul->hide();
                 switch (int(soulposition.x)) {
                     case 0: {
                         _in_state(ITEM_USE_DISABLE_MOVEMENT);
                         Ref<Item> item = global->get_item_list()[global->get_items()[soulposition_item.y]];
                         textbox = Object::cast_to<TextBox>(textboxscene->instantiate());
                         global->get_scene_container()->get_current_scene()->add_child(textbox);
-                        textbox->connect("dialogue_finished", Callable(this, "_on_item_use_dialogue_finished"), CONNECT_ONE_SHOT);
+                        textbox->connect("dialogue_finished", Callable(this, "_on_item_dialogue_finished"), CONNECT_ONE_SHOT);
                         Ref<Dialogues> dialogues = memnew(Dialogues);
                         
                         if (item->get_item_type() != Item::CONSUMABLE) {
@@ -379,7 +378,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                         Ref<Dialogues> dialogues = memnew(Dialogues);
                         dialogues->from(info);
                         textbox->generic(dialogues);
-                        textbox->connect("dialogue_finished", Callable(this, "_on_item_info_dialogue_finished"), CONNECT_ONE_SHOT);
+                        textbox->connect("dialogue_finished", Callable(this, "_on_item_dialogue_finished"), CONNECT_ONE_SHOT);
                         break;
                     }
                     case 2: {
@@ -395,7 +394,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                         items.remove_at(soulposition_item.y);
                         global->set_items(items);
                         textbox->generic(dialogues);
-                        textbox->connect("dialogue_finished", Callable(this, "_on_item_drop_dialogue_finished"), CONNECT_ONE_SHOT);
+                        textbox->connect("dialogue_finished", Callable(this, "_on_item_dialogue_finished"), CONNECT_ONE_SHOT);
                         break;
                     }
                 }
@@ -501,25 +500,12 @@ void UI::_on_animation_finished() {
     queue_free();
 }
 
-void UI::_on_item_use_dialogue_finished() {
+void UI::_on_item_dialogue_finished() {
     textbox = nullptr;
     global->set_player_in_menu(true);
     _write_options();
     _in_state(OPTIONS);
-}
-
-void UI::_on_item_info_dialogue_finished() {
-    textbox = nullptr;
-    global->set_player_in_menu(true);
-    _write_options();
-    _in_state(OPTIONS);
-}
-
-void UI::_on_item_drop_dialogue_finished() {
-    textbox = nullptr;
-    global->set_player_in_menu(true);
-    _write_options();
-    _in_state(OPTIONS);
+    soul->show();
 }
 
 void UI::set_enabled_options(const Array& options) {
