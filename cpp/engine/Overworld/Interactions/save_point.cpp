@@ -26,9 +26,6 @@ void SavePoint::_ready() {
     ResourceLoader* loader = ResourceLoader::get_singleton();
     txt_box = loader->load("res://Overworld/text_box.tscn");
     save_menu = loader->load("res://Overworld/save_menu.tscn");
-    
-    bool isGenocide = global->get_flag("isGenocide");
-    if(!isGenocide) save_text.push_back(String::utf8("* (HP 가 가득찼다.)"));
 }
 
 void SavePoint::_on_interact_save() {

@@ -14,6 +14,7 @@
 #include<godot_cpp/classes/dir_access.hpp>
 #include<godot_cpp/classes/window.hpp>
 #include<godot_cpp/classes/input_map.hpp>
+#include<godot_cpp/classes/translation_server.hpp>
 #include<godot_cpp/core/math.hpp>
 using namespace godot;
 namespace fs = std::filesystem;
@@ -194,7 +195,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
     if(isEditor) return;
     if(debugmode) {
         if (event->is_action_pressed("refresh_scene") && os->is_debug_build()) {
-            UtilityFunctions::print(String::utf8("경고: 노드가 손실될 수 있습니다!"));
+            UtilityFunctions::print(tr("WARN_NODE_LOSS"));
             player_hp = player_max_hp;
             player_can_move = true;
             player_in_menu = false;
@@ -231,14 +232,14 @@ void Global::_process(double delta) {
             tw_quit->tween_property(Info, "modulate:a", 1, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
         }
 
-        Info->set_text(String::utf8("[color=red]종료중..."));
+        Info->set_text(String::utf8("[color=red]")+tr("EXITING"));
         if(quit_time >= 2) {
             save_settings();
             get_tree()->quit();
         }
     }else if(debugmode) {
-        Info->set_text(vformat(String::utf8("[rainbow]디버그 모드[/rainbow]\nFPS: %s")
-        + (os->is_debug_build() ? String::utf8("\n[R] 현재 장면 다시 로드") : String("")),
+        Info->set_text(vformat(String("[rainbow]")+tr("DEBUG_MODE")+String("[/rainbow]\nFPS: %s")
+        + (os->is_debug_build() ? String("\n[R] ")+ tr("RELOAD_SCENE") : String("")),
             Engine::get_singleton()->get_frames_per_second()));
     } else {
         Info->set_text("");

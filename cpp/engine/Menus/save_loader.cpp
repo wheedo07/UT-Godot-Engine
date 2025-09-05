@@ -58,7 +58,7 @@ void SaveLoader::load_save() {
 
 void SaveLoader::warn() {
     warn_sound->play();
-    reset_text->set_text(String::utf8("[color=red]계속하시겠습니까?"));
+    reset_text->set_text(String("[color=red]")+tr("CONTINUE_CONFIRM"));
     reset_level = 1;
 }
 

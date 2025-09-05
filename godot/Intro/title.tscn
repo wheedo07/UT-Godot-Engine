@@ -5,6 +5,7 @@ resource_name = "Title"
 script/source = "extends Node2D
 
 func _ready():
+	#TranslationServer.set_locale(\"en\");
 	if global.get_frist():
 		global.get_scene_container().change_scene_to_file(\"res://Intro/name_selection.tscn\");
 	else:

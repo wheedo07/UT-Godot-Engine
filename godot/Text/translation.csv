@@ -1,0 +1,6 @@
+key,ko,en
+RELOAD_SCENE,현재 장면 다시 로드,Reload Scene
+DEBUG_MODE,디버그 모드,Debug Mode
+EXITING,종료중...,Exiting...
+CONTINUE_CONFIRM,계속하시겠습니까?,Are you sure?
+WARN_NODE_LOSS,경고: 노드가 손실될 수 있습니다!,Warning: Nodes may be lost!

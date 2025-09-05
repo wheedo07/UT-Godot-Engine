@@ -139,6 +139,11 @@ ui_quit={
 
 pointing/emulate_touch_from_mouse=true
 
+[internationalization]
+
+locale/translation_remaps={}
+locale/translations=PackedStringArray("res://Text/translation.en.translation", "res://Text/translation.ko.translation")
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

@@ -73,9 +73,6 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_player_attack", "value"), &Global::set_player_attack);
     ClassDB::bind_method(D_METHOD("get_player_attack"), &Global::get_player_attack);
     
-    ClassDB::bind_method(D_METHOD("set_player_kr", "value"), &Global::set_player_kr);
-    ClassDB::bind_method(D_METHOD("get_player_kr"), &Global::get_player_kr);
-    
     ClassDB::bind_method(D_METHOD("set_player_kills", "value"), &Global::set_player_kills);
     ClassDB::bind_method(D_METHOD("get_player_kills"), &Global::get_player_kills);
 
@@ -108,6 +105,7 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_g_flags", "key", "defaultValue"), &Global::get_g_flags, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("set_g_flags", "key", "value"), &Global::set_g_flags);
 
+    ClassDB::bind_method(D_METHOD("get_player_kr"), &Global::get_player_kr);
     ClassDB::bind_method(D_METHOD("get_frist"), &Global::get_first);
     ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
     ClassDB::bind_method(D_METHOD("get_fullscreen"), &Global::get_fullscreen);
