@@ -195,7 +195,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
     if(isEditor) return;
     if(debugmode) {
         if (event->is_action_pressed("refresh_scene") && os->is_debug_build()) {
-            UtilityFunctions::print(tr("WARN_NODE_LOSS"));
+            UtilityFunctions::print(tr("UT_WARN_NODE_LOSS"));
             player_hp = player_max_hp;
             player_can_move = true;
             player_in_menu = false;
@@ -232,14 +232,14 @@ void Global::_process(double delta) {
             tw_quit->tween_property(Info, "modulate:a", 1, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
         }
 
-        Info->set_text(String::utf8("[color=red]")+tr("EXITING"));
+        Info->set_text(String::utf8("[color=red]")+tr("UT_EXITING"));
         if(quit_time >= 2) {
             save_settings();
             get_tree()->quit();
         }
     }else if(debugmode) {
-        Info->set_text(vformat(String("[rainbow]")+tr("DEBUG_MODE")+String("[/rainbow]\nFPS: %s")
-        + (os->is_debug_build() ? String("\n[R] ")+ tr("RELOAD_SCENE") : String("")),
+        Info->set_text(vformat(String("[rainbow]")+tr("UT_DEBUG_MODE")+String("[/rainbow]\nFPS: %s")
+        + (os->is_debug_build() ? String("\n[R] ")+ tr("UT_RELOAD_SCENE") : String("")),
             Engine::get_singleton()->get_frames_per_second()));
     } else {
         Info->set_text("");
