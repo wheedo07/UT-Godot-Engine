@@ -12,3 +12,11 @@ UT_UI_INFO,정보,info
 UT_UI_DROP,버리기,drop
 UT_UI_WEAPON,무기,weapon
 UT_UI_ARMOR,갑옷,armor
+UT_CONTINUOUS,계속하기,continuous
+UT_RESET,리셋,reset
+UT_NAME_FALLEN_HUMAN,떨어진 인간의 이름 ?,Name the fallen human.
+UT_EXIT,나가기,Exit
+UT_DELETE,지우기,Delete
+UT_CONFIRM,결정,Confirm
+UT_YES,네,YES
+UT_NO,아니요,NO

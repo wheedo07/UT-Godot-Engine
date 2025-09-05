@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cw7by1ibpkm1x"]
+[gd_scene load_steps=11 format=3 uid="uid://cw7by1ibpkm1x"]
 
 [ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="1_wgwn4"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_2u401"]
@@ -6,6 +6,19 @@
 [ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="5_jss6j"]
 [ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="5_kots0"]
 [ext_resource type="AudioStream" uid="uid://cjt5oikkeubw6" path="res://sfx/mus_cymbal.ogg" id="6_s3pw6"]
+
+[sub_resource type="GDScript" id="GDScript_8npst"]
+resource_name = "NameSelection_gd"
+script/source = "extends NameSelection
+
+func check_names(name: String) -> void:
+	if(name == \"SANS\"):
+		react_to_name(\"NO!!!\", true);
+	elif(name == \"GASTER\"):
+		global.alert(\"NO\", \"ERROR\");
+	else:
+		react_to_name(\"이것이 이름입니까?\");
+"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_anwqw"]
 shader = ExtResource("5_jss6j")
@@ -27,6 +40,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+script = SubResource("GDScript_8npst")
 
 [node name="Camera" parent="." instance=ExtResource("1_wgwn4")]
 position = Vector2(320, 240)
@@ -45,9 +59,6 @@ mouse_filter = 1
 theme = ExtResource("3_2u401")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
-text = "[center][shake rate=3 level=5]
-떨어진 인간의 이름 ?[/shake]
-"
 scroll_active = false
 
 [node name="Name" type="Label" parent="."]
@@ -113,8 +124,7 @@ layout_mode = 0
 offset_right = 75.0
 offset_bottom = 40.0
 theme = ExtResource("3_2u401")
-text = "나가기
-"
+text = "UT_EXIT"
 
 [node name="Backspace" type="OptionSelectable" parent="Options"]
 material = SubResource("ShaderMaterial_qht23")
@@ -124,17 +134,17 @@ offset_left = 156.0
 offset_right = 286.0
 offset_bottom = 40.0
 theme = ExtResource("3_2u401")
-text = "지우기"
+text = "UT_DELETE"
 
 [node name="Done" type="OptionSelectable" parent="Options"]
 material = SubResource("ShaderMaterial_anwqw")
 clip_contents = false
 layout_mode = 0
 offset_left = 324.0
-offset_right = 382.0
+offset_right = 462.0
 offset_bottom = 40.0
 theme = ExtResource("3_2u401")
-text = "결정"
+text = "UT_CONFIRM"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -175,13 +185,13 @@ split_offset = 120
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_2u401")
-text = "네"
+text = "UT_YES"
 
 [node name="NO" type="OptionSelectable" parent="Confirmation"]
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_2u401")
-text = "아니요"
+text = "UT_NO"
 
 [node name="no" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_kots0")

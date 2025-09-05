@@ -13,6 +13,8 @@
 #include<godot_cpp/classes/camera2d.hpp>
 #include<godot_cpp/classes/color_rect.hpp>
 #include<godot_cpp/variant/string.hpp>
+#include<godot_cpp/core/binder_common.hpp>
+#include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
     class NameSelection : public Control {
         GDCLASS(NameSelection, Control)
@@ -41,13 +43,15 @@ namespace godot {
 
             void _ready() override;
             void _input(const Ref<InputEvent>& event) override;
+            void check_names(String name);
+            GDVIRTUAL1(check_names, String);
 
+            void on_check_name(String name);
             void on_name_allowed();
 
             void on_name_input_text_changed(const String& new_text);
             void on_backspace_pressed();
             void on_name_input_text_submitted();
-            void check_names(const String& name);
             void react_to_name(const String& text, bool deny = false);
             void await_confirm();
 

@@ -107,7 +107,7 @@ anchor_right = 0.668
 anchor_bottom = 0.929412
 theme = ExtResource("2_u0ptt")
 bbcode_enabled = true
-text = "계속하기"
+text = "UT_CONTINUOUS"
 scroll_active = false
 
 [node name="Reset" type="OptionSelectableSolo" parent="Control/Options"]
@@ -122,7 +122,7 @@ anchor_right = 1.0
 anchor_bottom = 0.944
 theme = ExtResource("2_u0ptt")
 bbcode_enabled = true
-text = "리셋"
+text = "UT_RESET"
 scroll_active = false
 
 [node name="choice" type="AudioStreamPlayer" parent="."]

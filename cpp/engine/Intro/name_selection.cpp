@@ -27,15 +27,19 @@ void NameSelection::_bind_methods() {
     ADD_SIGNAL(MethodInfo("enable"));
     ADD_SIGNAL(MethodInfo("pass_name", PropertyInfo(Variant::BOOL, "allowed")));
     ADD_SIGNAL(MethodInfo("choice", PropertyInfo(Variant::INT, "id")));
+
+    // 스크립트 메소드
+    GDVIRTUAL_BIND(check_names, "name");
    
+    // 사용 함수
+    ClassDB::bind_method(D_METHOD("react_to_name", "text", "deny"), &NameSelection::react_to_name, DEFVAL(false));
+
     ClassDB::bind_method(D_METHOD("on_name_input_text_changed", "new_text"), &NameSelection::on_name_input_text_changed);
     ClassDB::bind_method(D_METHOD("on_backspace_pressed"), &NameSelection::on_backspace_pressed);
     ClassDB::bind_method(D_METHOD("on_name_input_text_submitted"), &NameSelection::on_name_input_text_submitted);
-    ClassDB::bind_method(D_METHOD("check_names", "name"), &NameSelection::check_names);
-    ClassDB::bind_method(D_METHOD("react_to_name", "text", "deny"), &NameSelection::react_to_name, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("await_confirm"), &NameSelection::await_confirm);
     ClassDB::bind_method(D_METHOD("on_pass_name", "is"), &NameSelection::on_pass_name);
-    
+    ClassDB::bind_method(D_METHOD("on_check_name", "name"), &NameSelection::on_check_name);
     ClassDB::bind_method(D_METHOD("on_typer_finished"), &NameSelection::on_typer_finished);
     ClassDB::bind_method(D_METHOD("on_choice_made", "id"), &NameSelection::on_choice_made);
 }
@@ -52,7 +56,9 @@ void NameSelection::_ready() {
     camera = Object::cast_to<CameraRemoteController>(get_node_internal("Camera"));
     choices.push_back(Object::cast_to<OptionSelectable>(get_node_internal("Confirmation/YES")));
     choices.push_back(Object::cast_to<OptionSelectable>(get_node_internal("Confirmation/NO")));
+
     confirmation->hide();
+    prompt->call("set_text", String("[center][shake rate=3 level=5]") + tr("UT_NAME_FALLEN_HUMAN"));
 }
 
 void NameSelection::on_name_input_text_changed(const String& new_text) {
@@ -88,17 +94,15 @@ void NameSelection::on_name_input_text_submitted() {
     SceneTree* tree = get_tree();
     if (tree) {
         Ref<SceneTreeTimer> timer = tree->create_timer(0.1);
-        timer->connect("timeout", Callable(this, "check_names").bind(name_text));
+        timer->connect("timeout", Callable(this, "on_check_name").bind(name_text));
     }
 }
 
-void NameSelection::check_names(const String& name) {
-    if(name == "GASTER") {
-        global->alert("NO", "ERROR");
-    }else if (name == "SANS") {
-        react_to_name("[center]NO!!!!!", true);
+void NameSelection::on_check_name(String name) {
+    if(has_method("check_names")) { // C++ 이랑 GDscript 모두 호환되도록
+        call("check_names", name);
     }else {
-        react_to_name(String::utf8("[center]이것이 이름입니까?"));
+        check_names(name);
     }
 }
 
@@ -106,9 +110,10 @@ void NameSelection::react_to_name(const String& text, bool deny) {
     if (typer->is_connected("finished_all_texts", Callable(this, "on_typer_finished"))) {
         typer->disconnect("finished_all_texts", Callable(this, "on_typer_finished"));
     }
+    String text_center = String("[center]") + text;
     
     Array text_array;
-    text_array.push_back(text);
+    text_array.push_back(text_center);
     typer->type_text(text_array);
     is_deny = deny;
     
@@ -203,4 +208,9 @@ void NameSelection::on_pass_name(bool is) {
         typer->set_text("");
         call_deferred("emit_signal", "enable");
     }
+}
+
+// 수정 필요 할시 수정
+void NameSelection::check_names(String name) {
+    react_to_name(String::utf8("이것이 이름입니까?"));
 }
