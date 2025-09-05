@@ -34,9 +34,9 @@ UI::UI() {
     enabled_options[2] = false;
     
     options_dict = Dictionary();
-    options_dict[0] = String::utf8("아이템");
-    options_dict[1] = String::utf8("스텟");
-    options_dict[2] = String::utf8("전화");
+    options_dict[0] = tr("UT_UI_ITEM");
+    options_dict[1] = tr("UT_UI_STAT");
+    options_dict[2] = tr("UT_UI_CALL");
     options_dict[3] = String::utf8("BOX");
     
     pos_history = Dictionary();
@@ -113,6 +113,7 @@ void UI::_ready() {
     _set_overview();
     _write_options();
     _set_enabled_options();
+    soul_move(Vector2(0,0));
     
     get_node_internal("Control/StatAndOptions/Options")->call("grow");
     get_node_internal("Control/StatAndOptions/Stats")->call("grow");
@@ -438,33 +439,38 @@ bool UI::soul_move(const Vector2& action) {
     if (soulposition.y + action.y < 0) return false;
     
     soulposition += action;
-    
+   
+    Vector2 target;
     switch (current_state) {
         case OPTIONS: {
             RichTextLabel* options_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"));
             soultarget = options_node->get_global_position() + soulposition * option_seperation;
+            target = soultarget + Vector2(-12, 20);
             break;
         }
         case ITEM: {
             RichTextLabel* items_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Items/Items"));
             soultarget = items_node->get_global_position() + soulposition * items_seperation;
+            target = soultarget + Vector2(-12, 15);
             break;
         }
         case ITEM_ACTION: {
             Node* action_node = Object::cast_to<Node>(item_actions[soulposition.x]);
             soultarget = action_node->call("get_global_position");
+            target = soultarget + Vector2(-12, 18);
             break;
         }
         case CELL: {
             RichTextLabel* numbers_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Cells/Numbers"));
             soultarget = numbers_node->get_global_position() + soulposition * items_seperation;
+            target = soultarget + Vector2(-12, 15);
             break;
         }
         default:
             break;
     }
 
-    soul->move_global(soultarget + Vector2(-12, 15));
+    soul->move_global(target);
     return true;
 }
 

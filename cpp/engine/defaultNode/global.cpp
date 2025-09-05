@@ -14,7 +14,6 @@
 #include<godot_cpp/classes/dir_access.hpp>
 #include<godot_cpp/classes/window.hpp>
 #include<godot_cpp/classes/input_map.hpp>
-#include<godot_cpp/classes/translation_server.hpp>
 #include<godot_cpp/core/math.hpp>
 using namespace godot;
 namespace fs = std::filesystem;

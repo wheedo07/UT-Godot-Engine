@@ -77,8 +77,8 @@ namespace godot {
             TypedArray<Item> item_list;
 
 			double krtime;
-
 			Dictionary backup;
+
 			OS* os;
             DisplayServer* display;
 

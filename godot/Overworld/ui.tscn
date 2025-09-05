@@ -38,7 +38,7 @@ alpha_curve = SubResource("CurveTexture_0v48g")
 
 [node name="UI" type="UI"]
 items_seperation = Vector2(0, 29)
-option_seperation = Vector2(0, 41)
+option_seperation = Vector2(0, 42)
 
 [node name="Control" type="CanvasGroup" parent="."]
 
@@ -136,6 +136,7 @@ offset_right = 262.0
 offset_bottom = 136.0
 theme = ExtResource("3_k0cus")
 theme_override_constants/line_separation = 7
+theme_override_font_sizes/normal_font_size = 33
 bbcode_enabled = true
 text = "[color=white]아이템[/color]
 [color=white]스텟[/color]
@@ -334,7 +335,7 @@ offset_right = 339.0
 offset_bottom = 318.0
 theme = ExtResource("3_k0cus")
 bbcode_enabled = true
-text = "사용"
+text = "UT_UI_USE"
 scroll_active = false
 
 [node name="Info" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
@@ -348,7 +349,7 @@ offset_right = 429.0
 offset_bottom = 318.0
 theme = ExtResource("3_k0cus")
 bbcode_enabled = true
-text = "정보"
+text = "UT_UI_INFO"
 scroll_active = false
 
 [node name="Drop" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
@@ -362,7 +363,7 @@ offset_right = 529.0
 offset_bottom = 318.0
 theme = ExtResource("3_k0cus")
 bbcode_enabled = true
-text = "버리기"
+text = "UT_UI_DROP"
 scroll_active = false
 
 [node name="Cells" type="UI_Box" parent="Control/StatAndOptions"]
@@ -402,7 +403,7 @@ text = "Toriel's Phone"
 scroll_active = false
 
 [node name="Soul" parent="Control/StatAndOptions" instance=ExtResource("7_j83rc")]
-position = Vector2(36, 150)
+position = Vector2(36, 152)
 
 [node name="Ghost" type="GPUParticles2D" parent="Control/StatAndOptions/Soul"]
 emitting = false

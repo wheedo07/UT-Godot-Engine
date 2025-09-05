@@ -4,3 +4,9 @@ UT_DEBUG_MODE,디버그 모드,Debug Mode
 UT_EXITING,종료중...,Exiting...
 UT_WARN_NODE_LOSS,경고: 노드가 손실될 수 있습니다!,Warning: Nodes may be lost!
 UT_CONTINUE_CONFIRM,계속하시겠습니까?,Are you sure?
+UT_UI_ITEM,아이템,ITEM
+UT_UI_STAT,스텟,STAT
+UT_UI_CALL,전화,CALL
+UT_UI_USE,사용,use
+UT_UI_INFO,정보,info
+UT_UI_DROP,버리기,drop
