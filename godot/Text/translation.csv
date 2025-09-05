@@ -10,3 +10,5 @@ UT_UI_CALL,전화,CALL
 UT_UI_USE,사용,use
 UT_UI_INFO,정보,info
 UT_UI_DROP,버리기,drop
+UT_UI_WEAPON,무기,weapon
+UT_UI_ARMOR,갑옷,armor

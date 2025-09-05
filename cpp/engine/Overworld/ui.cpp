@@ -245,7 +245,7 @@ void UI::_set_detailed() {
     );
     Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Detailed/Stats"))->set_text(stats_text);
     
-    String equipment_text = vformat(String::utf8("무기: %s \n갑옷: %s"),
+    String equipment_text = vformat(tr("UT_UI_WEAPON")+String(": %s \n")+tr("UT_UI_ARMOR")+String(": %s"),
         weapon_item->get_item_name(),
         armor_item->get_item_name()
     );
