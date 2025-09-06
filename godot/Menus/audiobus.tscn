@@ -81,7 +81,7 @@ flat = true
 [node name="Mute" type="Button" parent="Margin/HBoxContainer"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-tooltip_text = "음소거"
+tooltip_text = "UT_SETTING_MUTE"
 focus_mode = 0
 theme = ExtResource("5_v40wf")
 theme_override_colors/font_pressed_color = Color(1, 0.113725, 0.113725, 1)
