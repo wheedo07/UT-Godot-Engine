@@ -138,7 +138,7 @@ offset_bottom = 28.0
 grow_horizontal = 2
 theme = ExtResource("2_rnrpm")
 bbcode_enabled = true
-text = "[center]--일시정지--"
+text = "UT_SETTING_PAUSED"
 
 [node name="Options" type="Control" parent="."]
 layout_mode = 3
@@ -183,14 +183,14 @@ setting_name = "shake"
 material = SubResource("ShaderMaterial_yrnwr")
 layout_mode = 2
 theme = ExtResource("2_rnrpm")
-text = "카메라 흔들림"
+text = "UT_SETTING_SHAKE"
 
 [node name="Border" type="SettingBoolButton" parent="Options/VBoxContainer"]
 setting_name = "border"
 material = SubResource("ShaderMaterial_0px4p")
 layout_mode = 2
 theme = ExtResource("2_rnrpm")
-text = "테두리"
+text = "UT_SETTING_BORDER"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Options"]
 layout_mode = 1
@@ -222,12 +222,12 @@ grow_vertical = 0
 layout_mode = 2
 
 [node name="SFX" parent="BusContainer" instance=ExtResource("6_t1t4d")]
-audio_bus_name = "효과음"
+audio_bus_name = "UT_SETTING_SFX"
 audio_bus_key = &"SFX"
 layout_mode = 2
 
 [node name="Music" parent="BusContainer" instance=ExtResource("6_t1t4d")]
-audio_bus_name = "배경음악"
+audio_bus_name = "UT_SETTING_BGM"
 audio_bus_key = &"Music"
 layout_mode = 2
 

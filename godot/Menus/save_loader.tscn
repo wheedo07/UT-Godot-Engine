@@ -22,7 +22,7 @@ shader_parameter/threshold = 0.7
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
+anchor_right = 0.084375
 offset_left = 120.0
 offset_top = 120.0
 offset_right = 530.0
@@ -101,7 +101,7 @@ material = SubResource("ShaderMaterial_kc30e")
 clip_contents = false
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.13
+anchor_left = 0.117
 anchor_top = 0.711765
 anchor_right = 0.668
 anchor_bottom = 0.929412
@@ -116,7 +116,7 @@ material = SubResource("ShaderMaterial_mkrny")
 clip_contents = false
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.47
+anchor_left = 0.518
 anchor_top = 0.712
 anchor_right = 1.0
 anchor_bottom = 0.944

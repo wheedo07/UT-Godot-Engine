@@ -35,3 +35,9 @@ UT_BUY,구매,Buy
 UT_SELL,팔기,Sell
 UT_TALK,대화,Talk
 UT_FILE_SAVED,파일 저장됨.,File saved.
+UT_SETTING_SHAKE,카메라 흔들림,Camera Shake
+UT_SETTING_BORDER,테두리,Border
+UT_SETTING_MASTER,메인,Master
+UT_SETTING_SFX,효과음,SFX
+UT_SETTING_BGM,배경음악,BGM
+UT_SETTING_PAUSED,[center]--일시정지--,[center]--Paused--

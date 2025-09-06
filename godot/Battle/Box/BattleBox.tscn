@@ -161,7 +161,7 @@ material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
-theme_override_font_sizes/normal_font_size = 29
+theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "* 살펴보기
 * 보기"
@@ -172,7 +172,7 @@ material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
-theme_override_font_sizes/normal_font_size = 29
+theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "* 때리기
 * 모욕하기"

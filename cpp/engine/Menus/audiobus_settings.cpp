@@ -6,7 +6,7 @@
 #include<godot_cpp/core/math.hpp>
 
 AudiobusSettings::AudiobusSettings() {
-    audio_bus_name = String::utf8("메인");
+    audio_bus_name = "UT_SETTING_MASTER";
     audio_bus_key = "Master";
 }
 
@@ -36,8 +36,8 @@ void AudiobusSettings::init() {
     Info = Object::cast_to<RichTextLabel>(get_node_internal("Margin/Info"));
     VolumeSlider = Object::cast_to<VSlider>(get_node_internal("Margin/VSlider"));
     audiobus_id = AudioServer::get_singleton()->get_bus_index(audio_bus_key);
-    
-    Name->set_text("[center]" + audio_bus_name);
+
+    Name->set_text("[center]" + tr(audio_bus_name));
     
     Dictionary settings = global->get_settings();
     

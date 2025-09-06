@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://ddcjquq3yok8y" path="res://sfx/snd_vaporized.wav" id="7_gctqu"]
 
 [sub_resource type="ActInfo" id="ActInfo_3yu38"]
-act = "* check"
+act = "* Check"
 description = PackedStringArray("* sans - ATK 1 DEF 1")
 
 [sub_resource type="EnemyState" id="EnemyState_udyrt"]

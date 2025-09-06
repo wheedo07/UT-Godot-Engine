@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Undertale: Engine"
 config/description="와 샌즈"
-config/version="1.0.5"
+config/version="1.0.6"
 run/main_scene="uid://b72rkv2gjlqgd"
 config/auto_accept_quit=false
 config/features=PackedStringArray("4.4", "Forward Plus")
