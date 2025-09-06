@@ -27,7 +27,10 @@ UT_RETURN,돌아가기,Return
 UT_NOBODY_CAME,그러나 아무도 오지 않았다.,But nobody came.
 UT_LOVE_INCREASED,당신의 LOVE가 올라갔다.,Your LOVE increased.
 UT_VICTORY,당신의 승리!,You WON!
-UT_GET_EXP_GOLD,당신은 %s EXP 와 %s Gold 를 얻었다,You earned %s XP and %s Gold.
+UT_GET_EXP_GOLD,당신은 %s XP 와 %s Gold 를 얻었다,You earned %s XP and %s Gold.
 UT_MERCY,당신은 자비를 배풀었다,You spared.
 UT_ESCAPED,당신은 도망쳤다,You escaped.
 UT_CANNOT_ESCAPE,당신은 도망치지 못했습니다.,You couldn't escape.
+UT_BUY,구매,Buy
+UT_SELL,팔기,Sell
+UT_TALK,대화,Talk

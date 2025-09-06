@@ -72,6 +72,13 @@ void SHOP::_ready() {
     item_slider_thing = Object::cast_to<ItemSlider>(get_node_internal("Control/TextBox/Slider"));
     soul = Object::cast_to<MenuSoul>(get_node_internal("Control/Main/Soul"));
     camera = global->get_scene_container()->get_camera();
+
+    get_node_internal("Control/Main/Options")->call("set_text", 
+        tr("UT_BUY") + String("\n") +
+        tr("UT_SELL") + String("\n") +
+        tr("UT_TALK") + String("\n") +
+        tr("UT_RETURN")
+    );
 }
 
 void SHOP::init() {

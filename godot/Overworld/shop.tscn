@@ -209,7 +209,7 @@ bbcode_enabled = true
 text = "구매
 팔기
 대화
-나가기"
+돌아가기"
 scroll_active = false
 
 [node name="Gold" type="RichTextLabel" parent="Control/Main"]
