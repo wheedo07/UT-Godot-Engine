@@ -69,7 +69,7 @@ void SaveMenu::save() {
     emit_signal("_on_save");
     
     return_option->set_visible(false);
-    save_option->set_text(String::utf8("[color=yellow]파일 저장됨."));
+    save_option->set_text(String("[color=yellow]")+tr("UT_FILE_SAVED"));
     soul_node->set_visible(false);
    
     Dictionary overworld_data = global->get_overworld_data();

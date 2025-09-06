@@ -9,7 +9,8 @@
 [ext_resource type="AudioStream" uid="uid://ddcjquq3yok8y" path="res://sfx/snd_vaporized.wav" id="7_gctqu"]
 
 [sub_resource type="ActInfo" id="ActInfo_3yu38"]
-description = PackedStringArray("* 샌즈 - ATK 1 DEF 1\n* 1 데미지만 줄수 있다", "* 당신은 이미 잘 알고 있는 사실이다")
+act = "* check"
+description = PackedStringArray("* sans - ATK 1 DEF 1")
 
 [sub_resource type="EnemyState" id="EnemyState_udyrt"]
 acts = Array[ActInfo]([SubResource("ActInfo_3yu38")])
@@ -64,7 +65,7 @@ shader_parameter/lifetime_randomness = 0.2
 shader_parameter/sprite = ExtResource("3_jrkr4")
 
 [node name="Enemy" type="Enemy"]
-enemy_name = "샌즈"
+enemy_name = "sans"
 kr = true
 dodging = true
 stats = {

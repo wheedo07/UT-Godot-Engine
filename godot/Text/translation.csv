@@ -34,3 +34,4 @@ UT_CANNOT_ESCAPE,당신은 도망치지 못했습니다.,You couldn't escape.
 UT_BUY,구매,Buy
 UT_SELL,팔기,Sell
 UT_TALK,대화,Talk
+UT_FILE_SAVED,파일 저장됨.,File saved.
