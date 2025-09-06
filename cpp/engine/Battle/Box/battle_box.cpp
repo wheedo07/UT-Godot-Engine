@@ -40,14 +40,14 @@ BattleBox::BattleBox() {
     is_point_tweening = false;
     isPolygonRest = false;
     
-    win_text = String::utf8("* 당신의 승리! \n* 당신은 %s EXP 와 %s Gold 를 얻었다");
+    win_text = String("* ") + tr("UT_VICTORY") + String("\n * ") + tr("UT_GET_EXP_GOLD");
     
     TransType = Tween::TRANS_QUAD;
     EaseType = Tween::EASE_OUT;
     
-    mercy_texts.push_back(String::utf8("* 당신은 자비를 배풀었다"));
-    mercy_texts.push_back(String::utf8("* 당신은 도망쳤다"));
-    mercy_texts.push_back(String::utf8("* 당신은 도망치지 못했습니다."));
+    mercy_texts.push_back(String("* ")+tr("UT_MERCY"));
+    mercy_texts.push_back(String("* ")+tr("UT_ESCAPED"));
+    mercy_texts.push_back(String("* ")+tr("UT_CANNOT_ESCAPE"));
     
     anchor_targets.resize(2);
     anchor_targets[0] = Vector2(220, 140);

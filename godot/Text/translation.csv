@@ -20,3 +20,14 @@ UT_DELETE,지우기,Delete
 UT_CONFIRM,결정,Confirm
 UT_YES,네,YES
 UT_NO,아니요,NO
+UT_SPARE,자비,Spare
+UT_FLEE,도망,Flee
+UT_SAVE,저장,Save
+UT_RETURN,돌아가기,Return
+UT_NOBODY_CAME,그러나 아무도 오지 않았다.,But nobody came.
+UT_LOVE_INCREASED,당신의 LOVE가 올라갔다.,Your LOVE increased.
+UT_VICTORY,당신의 승리!,You WON!
+UT_GET_EXP_GOLD,당신은 %s EXP 와 %s Gold 를 얻었다,You earned %s XP and %s Gold.
+UT_MERCY,당신은 자비를 배풀었다,You spared.
+UT_ESCAPED,당신은 도망쳤다,You escaped.
+UT_CANNOT_ESCAPE,당신은 도망치지 못했습니다.,You couldn't escape.

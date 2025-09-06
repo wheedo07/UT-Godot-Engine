@@ -2,12 +2,12 @@
 using namespace godot;
 
 Encounter::Encounter() {
-    encounter_name = String::utf8("이름");
+    encounter_name = "name";
     offset = Vector2(0,0);
     flee_chance = 0.2f;
     
-    mercy_options.push_back(String::utf8("* 자비"));
-    mercy_options.push_back(String::utf8("* 도망"));
+    mercy_options.push_back(String("* ") + tr("UT_SPARE"));
+    mercy_options.push_back(String("* ") + tr("UT_FLEE"));
 }
 
 Encounter::~Encounter() {}

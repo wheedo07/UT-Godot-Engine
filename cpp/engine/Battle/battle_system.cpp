@@ -205,7 +205,7 @@ void BattleMain::no_enemies_handler() {
     box->change_state(BattleBox::BattleState::State_BlitteringCasual);
     Blitter* blitter_text = box->get_blitter_text();
     PackedStringArray texts;
-    texts.push_back(String::utf8("* 그러나 아무도 오지 않았다."));
+    texts.push_back(String("* ")+tr("UT_NOBODY_CAME"));
     blitter_text->type_text(texts);
     blitter_text->connect("finished_all_texts", Callable(this, "_on_blitter_finished_all_texts"), CONNECT_ONE_SHOT);
 }
@@ -575,7 +575,7 @@ void BattleMain::end_encounter() {
     
     // 레벨업 처리
     if(global->check_level_up()) {
-        win_text += String::utf8(" \n* 당신의 LOVE가 올라갔다");
+        win_text += String(" \n* ")+tr("UT_LOVE_INCREASED");
         if (lvlup_sound) {
             lvlup_sound->play();
         }

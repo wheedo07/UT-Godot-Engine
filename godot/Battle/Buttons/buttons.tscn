@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://ctmkb1gh0a14s"]
 
-[ext_resource type="Texture2D" uid="uid://dhymhovn3w1ag" path="res://Battle/Buttons/button_sheet.png" id="1_sujrp"]
+[ext_resource type="Texture2D" uid="uid://dhymhovn3w1ag" path="res://Battle/Buttons/button_sheet_ko.png" id="1_sujrp"]
 [ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="18_ocd1v"]
 [ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="19_egkmi"]
 

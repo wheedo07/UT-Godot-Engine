@@ -141,7 +141,9 @@ pointing/emulate_touch_from_mouse=true
 
 [internationalization]
 
-locale/translation_remaps={}
+locale/translation_remaps={
+"res://Battle/Buttons/button_sheet_ko.png": PackedStringArray("res://Battle/Buttons/button_sheet_en.png:en")
+}
 locale/translations=PackedStringArray("res://Text/translation.en.translation", "res://Text/translation.ko.translation")
 
 [rendering]
