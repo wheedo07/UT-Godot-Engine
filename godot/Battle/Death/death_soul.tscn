@@ -46,9 +46,9 @@ bus = &"SFX"
 
 [node name="shards" type="GPUParticles2D" parent="."]
 emitting = false
-process_material = SubResource("ParticleProcessMaterial_ebjb8")
 texture = ExtResource("9_gwxdv")
 lifetime = 3.0
 one_shot = true
 explosiveness = 1.0
 visibility_rect = Rect2(-7, -7, 14, 14)
+process_material = SubResource("ParticleProcessMaterial_ebjb8")
