@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bevhjdbngyvd7"]
+[gd_scene load_steps=17 format=3 uid="uid://bevhjdbngyvd7"]
 
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="1_2uijs"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_elsrr"]
@@ -13,6 +13,10 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u2syl"]
 shader = ExtResource("5_6t6nw")
 shader_parameter/threshold = 0.6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_538qr"]
+shader = ExtResource("5_6t6nw")
+shader_parameter/threshold = 0.5
 
 [sub_resource type="Curve" id="Curve_3p0tu"]
 _data = [Vector2(1e-05, 1), 100000.0, 0.0, 1, 0, Vector2(1, 0), -2.00047, 100000.0, 0, 1]
@@ -76,6 +80,7 @@ theme_override_styles/panel = ExtResource("2_elsrr")
 
 [node name="Name" type="RichTextLabel" parent="Control/StatAndOptions/Stats"]
 show_behind_parent = true
+material = SubResource("ShaderMaterial_u2syl")
 clip_contents = false
 layout_mode = 0
 offset_left = 12.0
@@ -127,7 +132,7 @@ theme_override_styles/panel = ExtResource("2_elsrr")
 
 [node name="Options" type="RichTextLabel" parent="Control/StatAndOptions/Options"]
 show_behind_parent = true
-material = SubResource("ShaderMaterial_u2syl")
+material = SubResource("ShaderMaterial_538qr")
 clip_contents = false
 layout_mode = 0
 offset_left = 48.0
@@ -136,7 +141,7 @@ offset_right = 262.0
 offset_bottom = 136.0
 theme = ExtResource("3_k0cus")
 theme_override_constants/line_separation = 7
-theme_override_font_sizes/normal_font_size = 33
+theme_override_font_sizes/normal_font_size = 34
 bbcode_enabled = true
 text = "[color=white]아이템[/color]
 [color=white]스텟[/color]
