@@ -6,10 +6,10 @@ UT_WARN_NODE_LOSS,경고: 노드가 손실될 수 있습니다!,Warning: Nodes m
 UT_CONTINUE_CONFIRM,계속하시겠습니까?,Are you sure?
 UT_UI_ITEM,아이템,ITEM
 UT_UI_STAT,스텟,STAT
-UT_UI_CALL,전화,CALL
-UT_UI_USE,사용,use
-UT_UI_INFO,정보,info
-UT_UI_DROP,버리기,drop
+UT_UI_CALL,전화,CELL
+UT_UI_USE,사용,Use
+UT_UI_INFO,정보,Info
+UT_UI_DROP,버리기,Drop
 UT_UI_WEAPON,무기,weapon
 UT_UI_ARMOR,갑옷,armor
 UT_CONTINUOUS,계속하기,continuous
