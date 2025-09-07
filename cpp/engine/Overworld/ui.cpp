@@ -445,7 +445,7 @@ bool UI::soul_move(const Vector2& action) {
         case OPTIONS: {
             RichTextLabel* options_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"));
             soultarget = options_node->get_global_position() + soulposition * option_seperation;
-            target = soultarget + Vector2(-12, 20);
+            target = soultarget + Vector2(-12, 22);
             break;
         }
         case ITEM: {

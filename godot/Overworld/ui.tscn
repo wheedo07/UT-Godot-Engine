@@ -141,7 +141,7 @@ offset_right = 262.0
 offset_bottom = 136.0
 theme = ExtResource("3_k0cus")
 theme_override_constants/line_separation = 7
-theme_override_font_sizes/normal_font_size = 34
+theme_override_font_sizes/normal_font_size = 35
 bbcode_enabled = true
 text = "[color=white]아이템[/color]
 [color=white]스텟[/color]
@@ -408,7 +408,7 @@ text = "Toriel's Phone"
 scroll_active = false
 
 [node name="Soul" parent="Control/StatAndOptions" instance=ExtResource("7_j83rc")]
-position = Vector2(36, 152)
+position = Vector2(36, 157)
 
 [node name="Ghost" type="GPUParticles2D" parent="Control/StatAndOptions/Soul"]
 emitting = false
