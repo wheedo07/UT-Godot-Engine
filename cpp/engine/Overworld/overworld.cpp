@@ -1,6 +1,5 @@
 #include "overworld.h"
 #include "env.h"
-#include "engine/Camera/camera_remote_controller.h"
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/variant/utility_functions.hpp>
 using namespace godot;
@@ -22,7 +21,11 @@ void Overworld::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Overworld::set_property);
     ClassDB::bind_method(D_METHOD("get_player"), &Overworld::get_player);
+    ClassDB::bind_method(D_METHOD("get_music_player"), &Overworld::get_music_player);
+    ClassDB::bind_method(D_METHOD("get_camera"), &Overworld::get_camera);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "player", PROPERTY_HINT_NONE, "PlayerOverworld", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_player");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "music_player", PROPERTY_HINT_NONE, "AudioStreamPlayer", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_music_player");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraRemoteController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
 
     ClassDB::bind_method(D_METHOD("room_init", "data"), &Overworld::room_init);
     ClassDB::bind_method(D_METHOD("_on_saved"), &Overworld::_on_saved);
@@ -67,14 +70,14 @@ void Overworld::_ready() {
         ERR_PRINT("player_path 경로 또는 camera_path 경로 비어있음!");
         return;
     }
-    CameraRemoteController* control_camera = Object::cast_to<CameraRemoteController>(get_node_internal(camera_path));
+    camera = Object::cast_to<CameraRemoteController>(get_node_internal(camera_path));
     player = Object::cast_to<PlayerOverworld>(get_node_internal(player_path));
 
     connect("initialized", Callable(this, "start_music_fade_in"));
-    connect("initialized", Callable(control_camera, "force_update"));
-    connect("initialized", Callable(control_camera, "_set_limits"));
-    connect("room_initialized", Callable(control_camera, "force_update"));
-    connect("room_initialized", Callable(control_camera, "_set_limits"));
+    connect("initialized", Callable(camera, "force_update"));
+    connect("initialized", Callable(camera, "_set_limits"));
+    connect("room_initialized", Callable(camera, "force_update"));
+    connect("room_initialized", Callable(camera, "_set_limits"));
     
     start_music_fade_in();
 
@@ -88,13 +91,8 @@ void Overworld::_ready() {
 void Overworld::ready() {}
 
 void Overworld::start_music_fade_in() {
-    camera = global->get_scene_container()->get_camera();
     music_player = global->get_Music();
 
-    if (!camera || !music_player) {
-        ERR_PRINT("Camera 또는 MusicPlayer를 찾을수 없습니다");
-        return;
-    }
     if(music_player->get_stream() == music && !global->get_battle_start()) return;
 
     music_player->set_stream(music);
@@ -215,4 +213,12 @@ void Overworld::set_property(Object* value) {
 
 PlayerOverworld* Overworld::get_player() {
     return player;
+}
+
+CameraRemoteController* Overworld::get_camera() {
+    return camera;
+}
+
+AudioStreamPlayer* Overworld::get_music_player() {
+    return music_player;
 }
