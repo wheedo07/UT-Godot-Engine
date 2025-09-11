@@ -105,6 +105,9 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_g_flags", "key", "defaultValue"), &Global::get_g_flags, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("set_g_flags", "key", "value"), &Global::set_g_flags);
 
+    ClassDB::bind_method(D_METHOD("enable_input", "key"), &Global::enable_input);
+    ClassDB::bind_method(D_METHOD("disable_input", "key"), &Global::disable_input);
+
     ClassDB::bind_method(D_METHOD("get_player_kr"), &Global::get_player_kr);
     ClassDB::bind_method(D_METHOD("get_frist"), &Global::get_first);
     ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
