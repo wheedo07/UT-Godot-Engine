@@ -37,6 +37,7 @@ namespace godot {
         BIND_ENUM_CONSTANT(METTATON);
         BIND_ENUM_CONSTANT(TEMMIE);
         BIND_ENUM_CONSTANT(TORIEL);
+        if(set_fun == "" && get_fun == "") return;
 
         Array arr = get_character_name().values();
         String enum_string = "";

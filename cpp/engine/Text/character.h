@@ -20,7 +20,7 @@ enum Character {
 VARIANT_ENUM_CAST(Character);
 
 namespace godot {
-    void bind_enum(StringName name, String set_fun, String get_fun);
+    void bind_enum(StringName name, String set_fun="", String get_fun="");
     Dictionary get_character_name();
 }
 

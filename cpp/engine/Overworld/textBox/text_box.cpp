@@ -19,7 +19,6 @@ TextBox::TextBox() {
 TextBox::~TextBox() {}
 
 void TextBox::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("abstract", "text", "options", "text_after_options"), &TextBox::abstract, DEFVAL(PackedStringArray()), DEFVAL(TypedArray<Dialogues>()));
     ClassDB::bind_method(D_METHOD("generic", "text", "options", "text_after_options"), &TextBox::generic, DEFVAL(PackedStringArray()), DEFVAL(TypedArray<Dialogues>()));
     ClassDB::bind_method(D_METHOD("character", "head_hide", "chr", "text", "options", "text_after_options"), &TextBox::character, DEFVAL(PackedStringArray()), DEFVAL(TypedArray<Dialogues>()));
     ClassDB::bind_method(D_METHOD("set_head_frame", "expr"), &TextBox::set_head_frame);

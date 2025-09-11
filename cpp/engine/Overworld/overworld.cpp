@@ -26,6 +26,7 @@ void Overworld::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "player", PROPERTY_HINT_NONE, "PlayerOverworld", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_player");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "music_player", PROPERTY_HINT_NONE, "AudioStreamPlayer", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_music_player");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraRemoteController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
+    bind_enum(get_class_static());
 
     ClassDB::bind_method(D_METHOD("room_init", "data"), &Overworld::room_init);
     ClassDB::bind_method(D_METHOD("_on_saved"), &Overworld::_on_saved);
