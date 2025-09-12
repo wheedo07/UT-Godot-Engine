@@ -158,6 +158,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_box"), &Enemy::get_box);
     ClassDB::bind_method(D_METHOD("get_soul"), &Enemy::get_soul);
     ClassDB::bind_method(D_METHOD("get_dialogue"), &Enemy::get_dialogue);
+    ClassDB::bind_method(D_METHOD("get_camera"), &Enemy::get_camera);
     ClassDB::bind_method(D_METHOD("get_bg"), &Enemy::get_bg);
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "main", PROPERTY_HINT_NONE, "BattleMain", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_main");
@@ -165,6 +166,7 @@ void Enemy::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "box", PROPERTY_HINT_NONE, "BattleBox", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_box");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "soul", PROPERTY_HINT_NONE, "SoulBattle", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_soul");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dialogue", PROPERTY_HINT_NONE, "DialogueControl", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_dialogue");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraRemoteController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "bg", PROPERTY_HINT_NONE, "BattleBackground", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_bg");
 }
 
@@ -600,6 +602,10 @@ SoulBattle* Enemy::get_soul() {
 
 DialogueControl* Enemy::get_dialogue() {
     return dialogue;
+}
+
+CameraRemoteController* Enemy::get_camera() {
+    return camera;
 }
 
 TextureRect* Enemy::get_bg() {

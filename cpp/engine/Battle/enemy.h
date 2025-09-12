@@ -32,6 +32,7 @@ namespace godot {
             BattleBox* box;
             SoulBattle* soul;
             DialogueControl* dialogue;
+            CameraRemoteController* camera;
             TextureRect* bg;
         
         private:
@@ -40,7 +41,6 @@ namespace godot {
             GPUParticles2D* dust;
             Node* non_mask;
             Node* sprites;
-            CameraRemoteController* camera;
             AnimatedSprite2D* e_head;
             AnimatedSprite2D* e_body;
 
@@ -101,6 +101,7 @@ namespace godot {
             BattleBox* get_box();
             SoulBattle* get_soul();
             DialogueControl* get_dialogue();
+            CameraRemoteController* get_camera();
             TextureRect* get_bg();
         
         public:
