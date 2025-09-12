@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://jaey6n5ae5bp"]
 
-[ext_resource type="Texture2D" uid="uid://duwpqpb1ja3al" path="res://Battle/Bullets/BoneSpike/bone_sans_wall.png" id="3_fkikv"]
+[ext_resource type="Texture2D" uid="uid://w4geahft3l6b" path="res://Battle/Bullets/Bone/bone_sans.png" id="1_up1md"]
 [ext_resource type="AudioStream" uid="uid://wtp5ovq3dy16" path="res://sfx/overworld_encounter_surprise.wav" id="5_ngoh0"]
 [ext_resource type="AudioStream" uid="uid://diuv40dkq8wo6" path="res://sfx/bullet_rise.wav" id="6_e6brk"]
 
@@ -39,8 +39,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bdhas"]
 _data = {
-"RESET": SubResource("Animation_q42h4"),
-"warning": SubResource("Animation_jf6qr")
+&"RESET": SubResource("Animation_q42h4"),
+&"warning": SubResource("Animation_jf6qr")
 }
 
 [node name="BoneSpike" type="BoneSpike"]
@@ -53,7 +53,7 @@ visible = false
 offset_top = -1.0
 offset_right = 640.0
 offset_bottom = 166.0
-texture = ExtResource("3_fkikv")
+texture = ExtResource("1_up1md")
 patch_margin_top = 9
 patch_margin_bottom = 9
 axis_stretch_horizontal = 1
@@ -92,6 +92,6 @@ bus = &"SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_bdhas")
+&"": SubResource("AnimationLibrary_bdhas")
 }
 autoplay = "warning"
