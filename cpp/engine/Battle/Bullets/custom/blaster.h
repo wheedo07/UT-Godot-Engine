@@ -10,7 +10,7 @@
 #include<godot_cpp/classes/interval_tweener.hpp>
 namespace godot {
     class Blaster : public Bullet {
-        GDCLASS(Blaster, Bullet)
+        GDCLASS(Blaster, Bullet);
 
         protected:
             static void _bind_methods();
@@ -28,12 +28,6 @@ namespace godot {
             Tween::TransitionType tween_trans;
             Tween::EaseType tween_ease;
 
-            void set_tweenTrans(Tween::TransitionType value);
-            Tween::TransitionType get_tweenTrans() const;
-
-            void set_tweenEase(Tween::EaseType value);
-            Tween::EaseType get_tweenEase() const;
-
         public:
             Blaster();
             ~Blaster();
@@ -42,6 +36,12 @@ namespace godot {
 
             Blaster* fire(const Vector2& target, float size = 1.0f, float delay = 0.5f, float duration = 0.5f);
             void _blast(float duration);
+
+            void set_tweenTrans(Tween::TransitionType value);
+            Tween::TransitionType get_tweenTrans() const;
+
+            void set_tweenEase(Tween::EaseType value);
+            Tween::EaseType get_tweenEase() const;
     };
 }
 

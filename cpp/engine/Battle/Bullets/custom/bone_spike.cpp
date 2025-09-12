@@ -4,10 +4,13 @@
 #include<godot_cpp/classes/tween.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
 #include<godot_cpp/classes/canvas_item.hpp>
+#define SpikeTime 0.3f
 using namespace godot;
 
 BoneSpike::BoneSpike() {
     collision_margin = 4.0f;
+    tween_trans = Tween::TRANS_EXPO;
+    tween_ease = Tween::EASE_OUT;
 }
 
 BoneSpike::~BoneSpike() {}
@@ -20,8 +23,15 @@ void BoneSpike::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("set_collision_margin", "margin"), &BoneSpike::set_collision_margin);
     ClassDB::bind_method(D_METHOD("get_collision_margin"), &BoneSpike::get_collision_margin);
-    
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "collision_margin"), "set_collision_margin", "get_collision_margin");
+
+    ClassDB::bind_method(D_METHOD("set_tweenTrans", "value"), &BoneSpike::set_tweenTrans);
+    ClassDB::bind_method(D_METHOD("get_tweenTrans"), &BoneSpike::get_tweenTrans);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenTrans", PROPERTY_HINT_ENUM, "Linear,Sine,Quint,Quart,Quad,Expo,Elastic,Cubic,Circ,Bounce,Back,Spring"), "set_tweenTrans", "get_tweenTrans");
+
+    ClassDB::bind_method(D_METHOD("set_tweenEase", "value"), &BoneSpike::set_tweenEase);
+    ClassDB::bind_method(D_METHOD("get_tweenEase"), &BoneSpike::get_tweenEase);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut"), "set_tweenEase", "get_tweenEase");
 }
 
 void BoneSpike::ready() {
@@ -70,19 +80,19 @@ void BoneSpike::on_warn_time_timeout(const Vector2& size, float remain_time) {
 void BoneSpike::spike(float remain_time) {
     Object::cast_to<AudioStreamPlayer>(get_node_internal("Spike"))->play();
 
-    Ref<Tween> tw = create_tween()->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_EXPO)->set_parallel(true);
-    tw->tween_property(sprite_rect, "size:y", warning->get_size().y, spike_time);
+    Ref<Tween> tw = create_tween()->set_ease(tween_ease)->set_trans(tween_trans)->set_parallel();
+    tw->tween_property(sprite_rect, "size:y", warning->get_size().y, SpikeTime);
     
     Ref<RectangleShape2D> shape = collision->get_shape();
     float warning_size_y = warning->get_size().y;
-    tw->tween_property(shape.ptr(), "size:y", warning_size_y - collision_margin, spike_time);
-    tw->tween_property(collision, "position:y", (warning_size_y - collision_margin) / 2.0f, spike_time);
+    tw->tween_property(shape.ptr(), "size:y", warning_size_y - collision_margin, SpikeTime);
+    tw->tween_property(collision, "position:y", (warning_size_y - collision_margin) / 2.0f, SpikeTime);
     tw->tween_interval(remain_time);
     tw->chain();
-    tw->tween_property(sprite_rect, "size:y", 0, spike_time*2);
-    tw->tween_property(shape.ptr(), "size:y", 0, spike_time*2);
-    tw->tween_property(collision, "position:y", 0, spike_time*2);
-    tw->tween_property(sprite_rect, "position:y", 33, spike_time*2);
+    tw->tween_property(sprite_rect, "size:y", 0, SpikeTime*2);
+    tw->tween_property(shape.ptr(), "size:y", 0, SpikeTime*2);
+    tw->tween_property(collision, "position:y", 0, SpikeTime*2);
+    tw->tween_property(sprite_rect, "position:y", 33, SpikeTime*2);
     tw->tween_callback(Callable(this, "queue_free"));
 }
 
@@ -92,4 +102,20 @@ void BoneSpike::set_collision_margin(float p_collision_margin) {
 
 float BoneSpike::get_collision_margin() const {
     return collision_margin;
+}
+
+void BoneSpike::set_tweenTrans(Tween::TransitionType value) {
+    tween_trans = value;
+}
+
+Tween::TransitionType BoneSpike::get_tweenTrans() const {
+    return tween_trans;
+}
+
+void BoneSpike::set_tweenEase(Tween::EaseType value) {
+    tween_ease = value;
+}
+
+Tween::EaseType BoneSpike::get_tweenEase() const {
+    return tween_ease;
 }

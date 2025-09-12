@@ -25,7 +25,8 @@ namespace godot {
             Panel* mode_hint;
             NinePatchRect* sprite_rect;
 
-            const float spike_time = 0.3f;
+            Tween::TransitionType tween_trans;
+            Tween::EaseType tween_ease;
 
             void on_warn_time_timeout(const Vector2& size, float remain_time);
 
@@ -41,6 +42,11 @@ namespace godot {
             void ready() override;
 
             void fire(const Vector2& size, float warn_time = 0.4f, float remain_time = 1.0f, DamageMode mode = MODE_WHITE);
+
+            void set_tweenTrans(Tween::TransitionType value);
+            Tween::TransitionType get_tweenTrans() const;
+            void set_tweenEase(Tween::EaseType value);
+            Tween::EaseType get_tweenEase() const;
     };
 }
 
