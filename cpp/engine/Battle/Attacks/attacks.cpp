@@ -22,7 +22,7 @@ void AttackBase::_bind_methods() {
     BIND_ENUM_CONSTANT(RELATIVE_BOX);
 
     ClassDB::bind_method(D_METHOD("add_bullet", "bullet", "mask"), &AttackBase::add_bullet, DEFVAL(0));
-    ClassDB::bind_method(D_METHOD("quick_bullet", "bullet_scene", "pos", "rot", "mask"), &AttackBase::quick_bullet, DEFVAL(0), DEFVAL(ABSOLUTE_CLIP));
+    ClassDB::bind_method(D_METHOD("quick_bullet", "bullet_scene", "pos", "rot_deg", "mask"), &AttackBase::quick_bullet, DEFVAL(0), DEFVAL(ABSOLUTE_CLIP));
     ClassDB::bind_method(D_METHOD("end_attack"), &AttackBase::end_attack);
    
     ClassDB::bind_method(D_METHOD("get_attack_id"), &AttackBase::get_attack_id);
@@ -108,7 +108,7 @@ void AttackBase::add_bullet(Node* bullet, Masking mask_value) {
     }
 }
 
-Node* AttackBase::quick_bullet(const Ref<PackedScene>& bullet_scene, const Vector2& pos, float rot, Masking mask_value) {
+Node* AttackBase::quick_bullet(const Ref<PackedScene>& bullet_scene, const Vector2& pos, float rot_deg, Masking mask_value) {
     if (!bullet_scene.is_valid()) {
         ERR_PRINT("scene을 가져올수 없음");
         return nullptr;
@@ -123,7 +123,7 @@ Node* AttackBase::quick_bullet(const Ref<PackedScene>& bullet_scene, const Vecto
     add_bullet(bullet, mask_value);
     
     bullet->call("set_position", pos);
-    bullet->call("set_rotation_degrees", rot);
+    bullet->call("set_rotation_degrees", rot_deg);
     
     return bullet;
 }
