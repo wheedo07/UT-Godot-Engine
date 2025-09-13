@@ -92,15 +92,14 @@ namespace godot {
             void _act(int target, int option);
             void _mercy(int choice);
             void _item(int item_id);
-
-            void toggle_transparent();
-            
             void kill_enemy(int enemy_id = 0);
             void spare_enemy(int enemy_id = 0);
+            void modify_stats(int id, Dictionary stats);
+
+            // 사용 함수
+            void toggle_transparent();
             void end_encounter();
             int enemy_size();
-
-            void modify_stats(int id, Dictionary stats);
             
             void set_encounter(const Ref<Encounter>& p_encounter);
             Ref<Encounter> get_encounter() const;

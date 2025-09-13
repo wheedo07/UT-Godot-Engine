@@ -23,6 +23,10 @@ void BattleMain::_bind_methods() {
     ADD_SIGNAL(MethodInfo("end_turn"));
     ADD_SIGNAL(MethodInfo("item_used", PropertyInfo(Variant::INT, "id")));
     
+    ClassDB::bind_method(D_METHOD("end_encounter"), &BattleMain::end_encounter);
+    ClassDB::bind_method(D_METHOD("enemy_size"), &BattleMain::enemy_size);
+    ClassDB::bind_method(D_METHOD("toggle_transparent"), &BattleMain::toggle_transparent);
+    
     ClassDB::bind_method(D_METHOD("no_enemies_handler"), &BattleMain::no_enemies_handler);
     ClassDB::bind_method(D_METHOD("on_get_turn"), &BattleMain::on_get_turn);
     ClassDB::bind_method(D_METHOD("on_end_turn"), &BattleMain::on_end_turn);
@@ -41,11 +45,10 @@ void BattleMain::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("kill_enemy", "enemy_id"), &BattleMain::kill_enemy, DEFVAL(0));
     ClassDB::bind_method(D_METHOD("spare_enemy", "enemy_id"), &BattleMain::spare_enemy, DEFVAL(0));
-    ClassDB::bind_method(D_METHOD("end_encounter"), &BattleMain::end_encounter);
     ClassDB::bind_method(D_METHOD("check_end_encounter"), &BattleMain::check_end_encounter);
     ClassDB::bind_method(D_METHOD("check_enemy_solo"), &BattleMain::check_enemy_solo);
     ClassDB::bind_method(D_METHOD("pure_int_to_short_representation", "input"), &BattleMain::pure_int_to_short_representation);
-    
+
     ClassDB::bind_method(D_METHOD("_on_slash_finished", "damage", "target", "crit"), &BattleMain::_on_slash_finished);
     ClassDB::bind_method(D_METHOD("_on_damage_info_completed", "target"), &BattleMain::_on_damage_info_completed);
     ClassDB::bind_method(D_METHOD("_on_fight_used_completed", "target"), &BattleMain::_on_fight_used_completed);
