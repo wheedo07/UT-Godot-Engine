@@ -686,6 +686,7 @@ void BattleMain::_on_transparent() {
         scene->get_node_internal("SubViewportContainer/MainViewport/CanvasLayer")->call("show");
         attacks->show();
         buttons->show();
+        hud->show();
         bg->show();
         enemies_node->show();
         box->box_show();
@@ -698,6 +699,7 @@ void BattleMain::_on_transparent() {
         scene->get_node_internal("SubViewportContainer/MainViewport/CanvasLayer")->call("hide");
         attacks->hide();
         buttons->hide();
+        hud->hide();
         bg->hide();
         enemies_node->hide();
         box->box_hide();

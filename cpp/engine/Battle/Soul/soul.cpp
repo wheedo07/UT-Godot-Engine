@@ -398,7 +398,6 @@ void SoulBattle::set_gravity_direction(const Vector2& new_direction, bool force_
 
 void SoulBattle::toggle_hpText() {
     hp_label->set_visible(!hp_label->is_visible());
-    main->hud->set_visible(!hp_label->is_visible());
 }
 
 void SoulBattle::set_gravity_direction_silent(const Vector2& new_direction) {
