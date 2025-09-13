@@ -678,6 +678,7 @@ void BattleMain::toggle_transparent() {
 void BattleMain::_on_transparent() {
     DisplayServer* display = DisplayServer::get_singleton();
     SceneContainer* scene = global->get_scene_container();
+    soul_battle->toggle_hpText();
     if(transparent) {
         display->window_set_flag(DisplayServer::WINDOW_FLAG_TRANSPARENT, false);
         get_tree()->get_root()->set_transparent_background(false);
@@ -688,7 +689,6 @@ void BattleMain::_on_transparent() {
         bg->show();
         enemies_node->show();
         box->box_show();
-        hud->set_position(Vector2(32, 400));
         global->enable_input("ui_close");
         global->enable_input("toggle_fullscreen");
     }else {
@@ -702,7 +702,6 @@ void BattleMain::_on_transparent() {
         enemies_node->hide();
         box->box_hide();
         box->change_size(Vector2(640, 330));
-        hud->set_position(Vector2(6,6));
         global->toggle_fullscreen();
         global->disable_input("ui_close");
         global->disable_input("toggle_fullscreen");

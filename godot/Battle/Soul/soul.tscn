@@ -1,7 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://cobjcttlv6o13"]
+[gd_scene load_steps=20 format=3 uid="uid://cobjcttlv6o13"]
 
 [ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="3_lkhun"]
 [ext_resource type="AudioStream" uid="uid://eyckh0i2ms08" path="res://sfx/snd_heartshot.wav" id="4_4sia6"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="7_cm5n5"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="8_2u0sn"]
 [ext_resource type="AudioStream" uid="uid://cf6w8gm5c7i0h" path="res://sfx/soul_changemode.wav" id="8_ycafo"]
 [ext_resource type="AudioStream" uid="uid://6kct4osuewf0" path="res://sfx/soul_snap.wav" id="9_3ghcw"]
 [ext_resource type="AudioStream" uid="uid://d06gerud2wujc" path="res://sfx/soul_shatter.wav" id="10_y1haa"]
@@ -51,6 +53,10 @@ size = Vector2(12, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ns07m"]
 size = Vector2(16, 16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3cvi2"]
+shader = ExtResource("7_cm5n5")
+shader_parameter/threshold = 0.5
 
 [node name="Soul" type="SoulBattle"]
 collision_layer = 0
@@ -108,3 +114,16 @@ bus = &"SFX"
 [node name="Wallhit" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_3vptc")
 bus = &"SFX"
+
+[node name="hp_label" type="RichTextLabel" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_3cvi2")
+offset_left = -29.0
+offset_top = -32.0
+offset_right = 31.0
+offset_bottom = -8.0
+theme = ExtResource("8_2u0sn")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "74 / 92"
+horizontal_alignment = 1

@@ -71,7 +71,8 @@ void SoulBattle::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_gravity_direction", "new_direction", "force_blue_mode"), 
                          &SoulBattle::set_gravity_direction, DEFVAL(true));
     ClassDB::bind_method(D_METHOD("set_gravity_multiplier", "value"), &SoulBattle::set_gravity_multiplier);
-                         
+    ClassDB::bind_method(D_METHOD("toggle_hpText"), &SoulBattle::toggle_hpText);
+
     ClassDB::bind_method(D_METHOD("fade_tw_calle", "node_ref", "parent_ref"), &SoulBattle::fade_tw_calle);
     ClassDB::bind_method(D_METHOD("disable"), &SoulBattle::disable);
     ClassDB::bind_method(D_METHOD("enable"), &SoulBattle::enable);
@@ -99,6 +100,7 @@ void SoulBattle::_ready() {
     area = Object::cast_to<Area2D>(get_node_internal("Area2D"));
     collision = Object::cast_to<CollisionShape2D>(get_node_internal("CollisionShape2D"));
     wallhit = Object::cast_to<AudioStreamPlayer>(get_node_internal("Wallhit"));
+    hp_label = Object::cast_to<RichTextLabel>(get_node_internal("hp_label"));
     input = Input::get_singleton();
     
     ResourceLoader* loader = ResourceLoader::get_singleton();
@@ -118,7 +120,8 @@ void SoulBattle::_ready() {
     }
     
     main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
-    
+  
+    hp_label->hide();
     set_gravity_direction(Vector2(0, 1), false);
     set_modulate(Color(1, 1, 1, 0));
     red();
@@ -179,6 +182,8 @@ void SoulBattle::_physics_process(double delta) {
             check_bullet(area_node);
         }
     }
+
+    hp_label->set_text(vformat("[color=%s]%d/%d", global->get_player_kr() ? "ff00ff" : "ffffff", global->get_player_hp(), global->get_player_max_hp()));
 }
 
 void SoulBattle::_process(double delta) {
@@ -389,6 +394,11 @@ void SoulBattle::set_gravity_direction(const Vector2& new_direction, bool force_
     Ref<Tween> rotation_tween = create_tween();
     rotation_tween->tween_property(sprite, "rotation", angle, 0.2);
     if(force_blue_mode) set_mode(BLUE);
+}
+
+void SoulBattle::toggle_hpText() {
+    hp_label->set_visible(!hp_label->is_visible());
+    main->hud->set_visible(!hp_label->is_visible());
 }
 
 void SoulBattle::set_gravity_direction_silent(const Vector2& new_direction) {

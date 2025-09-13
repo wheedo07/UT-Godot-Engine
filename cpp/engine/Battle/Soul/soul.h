@@ -4,6 +4,7 @@
 #include "engine/Battle/Soul/green_soul.h"
 #include "engine/Battle/Soul/cyan_detection.h"
 #include<godot_cpp/classes/character_body2d.hpp>
+#include<godot_cpp/classes/rich_text_label.hpp>
 #include<godot_cpp/classes/node2d.hpp>
 #include<godot_cpp/classes/gpu_particles2d.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
@@ -70,6 +71,7 @@ namespace godot {
             Area2D* area;
             CollisionShape2D* collision;
             AudioStreamPlayer* wallhit;
+            RichTextLabel* hp_label;
 
             // 소울 모드 관련
             Ref<PackedScene> green_mode_scene;
@@ -139,6 +141,7 @@ namespace godot {
             void set_mode(SoulMode new_mode = RED);
             void set_gravity_multiplier(float value);
             void set_gravity_direction(const Vector2& new_direction, bool force_blue_mode = true);
+            void toggle_hpText();
 
             void disable();
             void enable();
