@@ -200,7 +200,10 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             player_in_menu = false;
             Node* current_scene = get_scene_container()->get_current_scene();
             if(get_tree()->get_current_scene()->is_class("SceneContainer")) {
-                if(current_scene->is_class("BattleMain")) battle_encounter = current_scene->get("encounter");
+                if(current_scene->is_class("BattleMain")) {
+                    battle_encounter = current_scene->get("encounter");
+                    player_kr = 0;
+                }
                 scene_container->reload_current_scene();
                 return;
             }
