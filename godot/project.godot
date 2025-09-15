@@ -55,6 +55,7 @@ window/per_pixel_transparency/allowed=true
 
 folder_colors={
 "res://Battle/": "red",
+"res://Battle/Death/": "yellow",
 "res://Boxes/": "red",
 "res://Camera/": "red",
 "res://Game/": "green",

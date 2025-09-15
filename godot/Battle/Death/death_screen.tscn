@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dggr74u132cr4"]
+[gd_scene load_steps=8 format=3 uid="uid://dggr74u132cr4"]
 
-[ext_resource type="PackedScene" uid="uid://dleuqhnhqqffc" path="res://Battle/Death/death_soul.tscn" id="2_kpjqu"]
+[ext_resource type="PackedScene" uid="uid://dleuqhnhqqffc" path="res://Battle/Soul/death_soul.tscn" id="2_kpjqu"]
+[ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="4_vc66o"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="5_1ttji"]
 [ext_resource type="FontFile" uid="uid://ddqyxuicviwwp" path="res://Text/Fonts/8-BIT WONDER.TTF" id="5_hp2tx"]
 [ext_resource type="AudioStream" uid="uid://c1qln468c47ui" path="res://Musics/default/death_screen_music_thing.wav" id="8_vka2r"]
@@ -15,6 +16,7 @@ width = 100
 height = 640
 
 [node name="DeathScreen" type="DeathScreen"]
+soul_path = NodePath("DeathSoul")
 
 [node name="DeathSoul" parent="." instance=ExtResource("2_kpjqu")]
 
@@ -69,6 +71,22 @@ bbcode_enabled = true
 text = "[center][color=white]GAME
 OVER[/color][b]"
 scroll_active = false
+
+[node name="GenericTextTyper" type="GenericTextTyper" parent="Fade"]
+click_path = NodePath("click")
+offset_left = 110.0
+offset_top = 194.0
+offset_right = 521.0
+offset_bottom = 377.0
+theme = ExtResource("5_1ttji")
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="click" type="AudioStreamPlayer" parent="Fade/GenericTextTyper"]
+stream = ExtResource("4_vc66o")
 
 [node name="mus" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_vka2r")

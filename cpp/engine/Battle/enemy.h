@@ -117,7 +117,7 @@ namespace godot {
             virtual void on_mercy_used();
             virtual void _on_get_turn();
             virtual void _on_end_turn();
-            virtual void on_win();
+            virtual PackedStringArray on_win();
             virtual void on_defeat(bool death);
             GDVIRTUAL0(ready);
             GDVIRTUAL0(on_fight_used);
@@ -126,7 +126,7 @@ namespace godot {
             GDVIRTUAL0(on_mercy_used);
             GDVIRTUAL0(_on_get_turn);
             GDVIRTUAL0(_on_end_turn);
-            GDVIRTUAL0(on_win);
+            GDVIRTUAL0R(PackedStringArray, on_win);
             GDVIRTUAL1(on_defeat, bool);
 
             // 사용 함수

@@ -20,7 +20,6 @@ namespace godot {
         
         private:
             SoulType soul_type;
-            NodePath camera_path;
             Color human_color;
             Color monster_color;
             GPUParticles2D* shards;
@@ -42,9 +41,6 @@ namespace godot {
             
             void set_soul_type(SoulType p_soul_type);
             SoulType get_soul_type() const;
-            
-            void set_camera_path(const NodePath& p_camera_path);
-            NodePath get_camera_path() const;
             
             // 사용 함수
             void die();

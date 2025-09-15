@@ -23,10 +23,6 @@ void DeathSoul::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_soul_type", "soul_type"), &DeathSoul::set_soul_type);
     ClassDB::bind_method(D_METHOD("get_soul_type"), &DeathSoul::get_soul_type);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "soul_type", PROPERTY_HINT_ENUM, "HUMAN,MONSTER"), "set_soul_type", "get_soul_type");
-    
-    ClassDB::bind_method(D_METHOD("set_camera_path", "camera_path"), &DeathSoul::set_camera_path);
-    ClassDB::bind_method(D_METHOD("get_camera_path"), &DeathSoul::get_camera_path);
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "camera_path"), "set_camera_path", "get_camera_path");
 }
 
 void DeathSoul::_ready() {
@@ -47,7 +43,7 @@ void DeathSoul::_ready() {
 }
 
 void DeathSoul::die() {
-    if (die_in_progress) return;
+    if(die_in_progress) return;
     
     die_in_progress = true;
     
@@ -84,12 +80,4 @@ void DeathSoul::set_soul_type(SoulType p_soul_type) {
 
 DeathSoul::SoulType DeathSoul::get_soul_type() const {
     return soul_type;
-}
-
-void DeathSoul::set_camera_path(const NodePath& p_camera_path) {
-    camera_path = p_camera_path;
-}
-
-NodePath DeathSoul::get_camera_path() const {
-    return camera_path;
 }

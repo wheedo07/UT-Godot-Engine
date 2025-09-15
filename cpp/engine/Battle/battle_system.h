@@ -105,7 +105,7 @@ namespace godot {
             Ref<Encounter> get_encounter() const;
             
             bool is_kr();
-            void _on_death_player();
+            PackedStringArray _on_death_player();
     };
 }
 

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="2_q2i28"]
 [ext_resource type="AudioStream" uid="uid://6kct4osuewf0" path="res://sfx/soul_snap.wav" id="8_1y2lf"]
 [ext_resource type="AudioStream" uid="uid://d06gerud2wujc" path="res://sfx/soul_shatter.wav" id="9_6pwoj"]
-[ext_resource type="Texture2D" uid="uid://ch278nywihhx8" path="res://Battle/Death/heart_shards_animated_texture.tres" id="9_gwxdv"]
+[ext_resource type="Texture2D" uid="uid://ch278nywihhx8" path="res://Battle/Soul/heart_shards_animated_texture.tres" id="9_gwxdv"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sgg3o"]
 animations = [{

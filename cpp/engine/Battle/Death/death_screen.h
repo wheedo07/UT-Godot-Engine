@@ -3,6 +3,7 @@
 
 #include "death_soul.h"
 #include "engine/Camera/camera_fx.h"
+#include "engine/Text/text_typer.h"
 #include<godot_cpp/classes/node2d.hpp>
 #include<godot_cpp/classes/tween.hpp>
 #include<godot_cpp/classes/input_event.hpp>
@@ -19,12 +20,13 @@ namespace godot {
             CameraFx* camera;
             DeathSoul* death_soul;
             RichTextLabel* fade_text;
+            GenericTextTyper* text_typer;
             AudioStreamPlayer* music_player;
             Ref<Tween> tween;
-            bool pressed;
+            bool pressed, isCustom;
+            NodePath soul_path;
 
             void _setup_death_animation();
-            void _done();
         
         public:
             DeathScreen();
@@ -32,6 +34,16 @@ namespace godot {
 
             void _ready() override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
+
+            // 사용 함수
+            void done();
+            PackedStringArray get_gameOver_text();
+
+            void set_is_custom(bool value);
+            bool get_is_custom();
+
+            void set_soul_path(NodePath value);
+            NodePath get_soul_path();
     };
 }
 

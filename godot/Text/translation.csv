@@ -42,3 +42,4 @@ UT_SETTING_SFX,효과음,SFX
 UT_SETTING_BGM,배경음악,BGM
 UT_SETTING_PAUSED,[center]--일시정지--,[center]--Paused--
 UT_SETTING_MUTE,잠시 음소거,Temporarily muted
+UT_DEFAULT_WIN,Z 키를 눌러 로드합니다,Press the Z key to load

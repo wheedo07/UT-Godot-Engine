@@ -1,5 +1,6 @@
-[gd_scene load_steps=37 format=3 uid="uid://bp62m2pkjek8i"]
+[gd_scene load_steps=42 format=3 uid="uid://bp62m2pkjek8i"]
 
+[ext_resource type="Texture2D" uid="uid://dtcwl1cusiam7" path="res://Game/assets/sprite/sheet/sans_sweat.png" id="2_adfr6"]
 [ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://Game/assets/sprite/sheet/sans_sheet.png" id="3_suomx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_akon3"]
@@ -100,6 +101,35 @@ animations = [{
 "loop": false,
 "name": &"heads",
 "speed": 0.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3iikc"]
+atlas = ExtResource("2_adfr6")
+region = Rect2(5, 5, 32, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_orghh"]
+atlas = ExtResource("2_adfr6")
+region = Rect2(42, 5, 32, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crska"]
+atlas = ExtResource("2_adfr6")
+region = Rect2(79, 5, 32, 9)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_78qas"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3iikc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_orghh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crska")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a7wy2"]
@@ -689,6 +719,12 @@ position = Vector2(-2.5, -22.5)
 sprite_frames = SubResource("SpriteFrames_qg8do")
 animation = &"crazy"
 
+[node name="sweat" type="AnimatedSprite2D" parent="Throw/head"]
+visible = false
+position = Vector2(1.25262, -14.3424)
+scale = Vector2(1.1117, 1.06929)
+sprite_frames = SubResource("SpriteFrames_78qas")
+
 [node name="Idle" type="Node2D" parent="."]
 visible = false
 
@@ -706,6 +742,12 @@ position = Vector2(0, -25)
 sprite_frames = SubResource("SpriteFrames_qg8do")
 animation = &"heads"
 offset = Vector2(0, -0.5)
+
+[node name="sweat" type="AnimatedSprite2D" parent="Idle/body"]
+visible = false
+position = Vector2(-0.247384, -41.3424)
+scale = Vector2(1.1117, 1.06929)
+sprite_frames = SubResource("SpriteFrames_78qas")
 
 [node name="States" type="AnimationTree" parent="."]
 deterministic = false

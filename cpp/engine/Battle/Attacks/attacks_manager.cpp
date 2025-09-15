@@ -4,9 +4,7 @@
 #include<godot_cpp/classes/engine.hpp>
 using namespace godot;
 
-AttackManager::AttackManager() {
-    at_id = 0;
-}
+AttackManager::AttackManager() {}
 
 AttackManager::~AttackManager() {}
 
@@ -41,6 +39,11 @@ Node* AttackManager::add_attack(const Ref<PackedScene>& attack) {
         ERR_PRINT("instantiate 실패");
         return nullptr;
     }
+
+    if(!attack_node->is_class("AttackBase")) {
+        ERR_PRINT("AttackBase가 아님");
+        return nullptr;
+    }
     
     add_child(attack_node, true);
     current_attacks.push_back(attack_node);
@@ -52,59 +55,59 @@ Node* AttackManager::add_attack(const Ref<PackedScene>& attack) {
 }
 
 void AttackManager::start_attacks() {
-    start_attack(at_id);
-    at_id++;
+    for(int i = 0; i < current_attacks.size(); i++) {
+        if(run_attack_id.find(i) != -1) continue;
+        start_attack(i);
+    }
 }
 
 void AttackManager::start_attack(int id) {
-    if (id < 0 || id >= current_attacks.size()) {
-        ERR_PRINT(String::utf8("attack ID ") + String::num_int64(id) + String::utf8("가 없습니다"));
+    if(id < 0 || id >= current_attacks.size()) {
+        ERR_PRINT(vformat("attack ID %d가 없습니다", id));
         return;
     }
     
     AttackBase* attack = Object::cast_to<AttackBase>(current_attacks[id]);
-    if (!attack) {
-        ERR_PRINT(String::utf8("attack ID ") + String::num_int64(id) + String::utf8("가 없습니다"));
+    if(!attack) {
+        ERR_PRINT(vformat("attack ID %d가 없습니다", id));
         return;
     }
     
-    if (attack->has_method("start_attack")) {
+    if(attack->has_method("start_attack")) { // C++ 이랑 GDscript 모두 호환되도록
         attack->call("start_attack");
-    } else {
+    }else {
         attack->start_attack();
     }
+    run_attack_id.append(id);
 }
 
 void AttackManager::force_end_attacks() {
     // 모든 공격 강제 종료
     for (int i = 0; i < current_attacks.size(); i++) {
         Node* attack = Object::cast_to<Node>(current_attacks[i]);
-        if (attack) {
-            attack->queue_free();
-        }
+        attack->queue_free();
     }
     
     current_attacks.clear();
-    at_id = 0;
-    
+    run_attack_id.clear();
     emit_signal("player_turn");
 }
 
 void AttackManager::end_attack(int id) {
-    if (id < 0 || id >= current_attacks.size()) {
-        ERR_PRINT(String::utf8("attack ID ") + String::num_int64(id) + String::utf8("가 없습니다"));
+    if(id < 0 || id >= current_attacks.size()) {
+        ERR_PRINT(vformat("attack ID %d가 없습니다", id));
         return;
     }
     
     Node* attack = Object::cast_to<Node>(current_attacks[id]);
-    if (attack) {
+    if(attack) {
         attack->queue_free();
         current_attacks[id] = Variant(); 
     }
     
-    if (check_all_attacks_finished()) {
-        at_id = 0;
+    if(check_all_attacks_finished()) {
         current_attacks.clear();
+        run_attack_id.clear();
         emit_signal("player_turn");
     }
 }
@@ -112,13 +115,12 @@ void AttackManager::end_attack(int id) {
 bool AttackManager::check_all_attacks_finished() {
     bool finished = true;
     
-    for (int i = 0; i < current_attacks.size(); i++) {
+    for(int i = 0; i < current_attacks.size(); i++) {
         Variant attack = current_attacks[i];
         if (attack.get_type() != Variant::Type::NIL) {
             finished = false;
             break;
         }
     }
-    
     return finished;
 }

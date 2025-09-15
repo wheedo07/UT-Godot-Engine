@@ -251,15 +251,16 @@ void BattleMain::_on_damage_info_finished() {
     // (필요한 경우)
 }
 
-void BattleMain::_on_death_player() {
+PackedStringArray BattleMain::_on_death_player() {
     for(int i=0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-        if(enemy) {
-            if(enemy->has_method("on_win")) { // C++ 이랑 GDscript 모두 호환되도록
-                enemy->call("on_win");
-            } else enemy->on_win();
+        if(enemy->has_method("on_win")) { // C++ 이랑 GDscript 모두 호환되도록
+            return enemy->call("on_win");
+        }else {
+            return enemy->on_win();
         }
     }
+    return {};
 }
 
 void BattleMain::_fight(int target) {

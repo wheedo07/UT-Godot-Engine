@@ -14,11 +14,11 @@ namespace godot {
             static void _bind_methods();
         
         public:
-            int at_id;
             Sprite2D* top_left;
             Sprite2D* bottom_right;
         
         private:
+            PackedInt32Array run_attack_id;
             Node2D* mask;
             Array current_attacks;
 

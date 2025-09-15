@@ -21,6 +21,7 @@ namespace godot {
 		
 		public:
 	        AudioStreamPlayer* heal_sound;
+			Dictionary game_over;
 			Object* battle_encounter;
 	        bool start;
 
