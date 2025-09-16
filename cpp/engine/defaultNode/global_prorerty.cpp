@@ -5,23 +5,26 @@ void Global::_bind_methods() {
     ADD_SIGNAL(MethodInfo("saved"));
     ADD_SIGNAL(MethodInfo("fullscreen_toggled", PropertyInfo(Variant::BOOL, "to")));
 
-    ClassDB::bind_method(D_METHOD("alert", "text", "title"), &Global::alert, DEFVAL("Alert!"));
-    ClassDB::bind_method(D_METHOD("item_use_text", "item_id"), &Global::item_use_text);
-    ClassDB::bind_method(D_METHOD("equip_item", "item_id"), &Global::equip_item);
-    ClassDB::bind_method(D_METHOD("heal", "amt"), &Global::heal);
-    ClassDB::bind_method(D_METHOD("toggle_fullscreen"), &Global::toggle_fullscreen);
+    ClassDB::bind_method(D_METHOD("disable_input", "key"), &Global::disable_input);
+    ClassDB::bind_method(D_METHOD("enable_input", "key"), &Global::enable_input);
+    ClassDB::bind_method(D_METHOD("has_input_disabled", "key"), &Global::has_input_disabled);
+    ClassDB::bind_method(D_METHOD("save", "room_name"), &Global::save, DEFVAL(""));
     ClassDB::bind_method(D_METHOD("resetgame"), &Global::resetgame);
-    ClassDB::bind_method(D_METHOD("save_game", "is_sys"), &Global::save_game);
-    ClassDB::bind_method(D_METHOD("save_settings"), &Global::save_settings);
-    ClassDB::bind_method(D_METHOD("load_game"), &Global::load_game);
-    ClassDB::bind_method(D_METHOD("refresh_audio_busses"), &Global::refresh_audio_busses);
-    ClassDB::bind_method(D_METHOD("toggle_collision_shape_visibility"), &Global::toggle_collision_shape_visibility);
-    ClassDB::bind_method(D_METHOD("_on_kr_tick"), &Global::_on_kr_tick);
-    ClassDB::bind_method(D_METHOD("check_level_up"), &Global::check_level_up);
-    ClassDB::bind_method(D_METHOD("loop_Music"), &Global::loop_Music);
-    ClassDB::bind_method(D_METHOD("set_battle_start"), &Global::set_battle_start);
+    ClassDB::bind_method(D_METHOD("true_resetgame"), &Global::true_resetgame);
     ClassDB::bind_method(D_METHOD("isMobile"), &Global::isMobile);
+    ClassDB::bind_method(D_METHOD("save_settings"), &Global::save_settings);
+    ClassDB::bind_method(D_METHOD("save_flag", "key", "value"), &Global::save_flag);
+    ClassDB::bind_method(D_METHOD("heal", "amt"), &Global::heal);
+    ClassDB::bind_method(D_METHOD("check_level_up"), &Global::check_level_up);
+    ClassDB::bind_method(D_METHOD("toggle_fullscreen"), &Global::toggle_fullscreen);
+    ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
+    ClassDB::bind_method(D_METHOD("get_Music"), &Global::get_Music);
+    ClassDB::bind_method(D_METHOD("get_fullscreen"), &Global::get_fullscreen);
     
+    ClassDB::bind_method(D_METHOD("loop_Music"), &Global::loop_Music);
+    ClassDB::bind_method(D_METHOD("_on_kr_tick"), &Global::_on_kr_tick);
+    ClassDB::bind_method(D_METHOD("set_battle_start"), &Global::set_battle_start);
+
     ClassDB::bind_method(D_METHOD("set_item_list", "value"), &Global::set_item_list);
     ClassDB::bind_method(D_METHOD("get_item_list"), &Global::get_item_list);
 
@@ -110,9 +113,6 @@ void Global::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("get_player_kr"), &Global::get_player_kr);
     ClassDB::bind_method(D_METHOD("get_frist"), &Global::get_first);
-    ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
-    ClassDB::bind_method(D_METHOD("get_fullscreen"), &Global::get_fullscreen);
-    ClassDB::bind_method(D_METHOD("get_Music"), &Global::get_Music);
 
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "item_list", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":Item")

@@ -89,6 +89,7 @@ namespace godot {
 			bool is_Mobile;
 
 			void loop_Music();
+	        void _on_kr_tick();
         
         public:
             Global();
@@ -101,31 +102,28 @@ namespace godot {
          
 			void disable_input(String key);
 			void enable_input(String key);
+			bool has_input_disabled(String key);
 			void alert(String text, String title = "Alert!");
-	        PackedStringArray item_use_text(int item_id);
-	        PackedStringArray equip_item(int item_id);
 	        void heal(int amt);
-	        void save_game(bool is_sys);
 	        void resetgame();
 	        void true_resetgame();
+			void save(String room_name="");
 			bool isMobile();
-                
 	        void save_settings();
-                
-	        void load_game();
-
 			void save_flag(const String& key, const Variant& value);
 			void set_flag(String key, Variant value);
 			Variant get_flag(String key, Variant defaultValue=false);
-
 			Variant get_g_flags(String key, Variant defaultValue=false);
 			void set_g_flags(String key, Variant value);
-                
+	        bool check_level_up();
+	        void toggle_fullscreen();
+
+	        void save_game(bool is_sys);
+	        void load_game();
+	        PackedStringArray item_use_text(int item_id);
+	        PackedStringArray equip_item(int item_id);
 	        void refresh_audio_busses();
 	        void toggle_collision_shape_visibility();
-	        void _on_kr_tick();
-	        int check_level_up();
-	        void toggle_fullscreen();
 
 	        void set_item_list(TypedArray<Item> value);
 	        TypedArray<Item> get_item_list() const;

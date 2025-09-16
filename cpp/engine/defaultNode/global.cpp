@@ -210,8 +210,9 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             get_tree()->reload_current_scene();
         }
         
-        if (event->is_action_pressed("force_save") && (os->is_debug_build() || os->has_feature("debug_op"))) {
-            save_game(false);
+        if(event->is_action_pressed("force_save") && (os->is_debug_build() || os->has_feature("debug_op"))) {
+            UtilityFunctions::print(tr("UT_SAVING_GAME"));
+            save();
         }
     }
 }
@@ -338,6 +339,7 @@ void Global::save_game(bool is_sys) {
         file_write.close();
     }
     save_settings();
+    emit_signal("saved");
 }
 
 void Global::true_resetgame() {
@@ -430,9 +432,9 @@ void Global::_on_kr_tick() {
     }
 }
 
-int Global::check_level_up() {
+bool Global::check_level_up() {
     int lv = player_lv;
-    int lvup = 0;
+    bool lvup = false;
     
     if (player_exp >= 10) lv = 2;
     if (player_exp >= 30) lv = 3;
@@ -455,7 +457,7 @@ int Global::check_level_up() {
     if (player_exp >= 99999) lv = 20;
     
     if (lv != player_lv) {
-        lvup = 1;
+        lvup = true;
         player_max_hp = 16 + lv * 4;
         player_attack = 8 + lv * 2;
         player_defense = 9 + Math::ceil(lv / 4.0);
@@ -465,7 +467,7 @@ int Global::check_level_up() {
             player_defense = 99;
         }
     } else {
-        lvup = 0;
+        lvup = false;
     }
     
     player_lv = lv;
@@ -677,6 +679,21 @@ void Global::enable_input(String key) {
         Ref<InputEvent> event = events[i];
         map->action_add_event(key, event);
     }
+    input_event.erase(key);
+}
+
+bool Global::has_input_disabled(String key) {
+    return input_event.has(key);
+}
+
+void Global::save(String room_name) {
+    overworld_data["room_pos"] = player_position;
+    if(room_name.is_empty()) {
+        overworld_data["room_name"] = scene_container->get_current_scene()->get_name();
+    } else {
+        overworld_data["room_name"] = room_name;
+    }
+    save_game(false);
 }
 
 void Global::save_flag(const String& flag, const Variant& value) {
