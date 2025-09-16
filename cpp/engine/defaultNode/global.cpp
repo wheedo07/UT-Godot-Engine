@@ -696,7 +696,7 @@ void Global::save(String room_name) {
     save_game(false);
 }
 
-void Global::save_flag(const String& flag, const Variant& value) {
+void Global::save_flag(String flag, Variant value) {
     Dictionary new_flag;
     new_flag[flag] = value;
     flags.merge(new_flag, true);

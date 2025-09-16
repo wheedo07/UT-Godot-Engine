@@ -146,6 +146,6 @@ using namespace godot;
 #include "src/register_types.h"
 
 void undertale_engine_init(ModuleInitializationLevel p_level);
-void undertale_engine_tem(ModuleInitializationLevel p_level);
+void undertale_engine_uninit(ModuleInitializationLevel p_level);
 
 #endif

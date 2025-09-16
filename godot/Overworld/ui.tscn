@@ -42,7 +42,7 @@ alpha_curve = SubResource("CurveTexture_0v48g")
 
 [node name="UI" type="UI"]
 items_seperation = Vector2(0, 29)
-option_seperation = Vector2(0, 42)
+option_seperation = Vector2(0, 40)
 
 [node name="Control" type="CanvasGroup" parent="."]
 
@@ -136,17 +136,17 @@ material = SubResource("ShaderMaterial_538qr")
 clip_contents = false
 layout_mode = 0
 offset_left = 48.0
-offset_top = 21.0
+offset_top = 19.0
 offset_right = 262.0
-offset_bottom = 136.0
+offset_bottom = 144.0
 theme = ExtResource("3_k0cus")
-theme_override_constants/line_separation = 7
 theme_override_font_sizes/normal_font_size = 35
 bbcode_enabled = true
 text = "[color=white]아이템[/color]
 [color=white]스텟[/color]
 [color=white]전화[/color]"
 scroll_active = false
+vertical_alignment = 3
 
 [node name="Detailed" type="UI_Box" parent="Control/StatAndOptions"]
 visible = false

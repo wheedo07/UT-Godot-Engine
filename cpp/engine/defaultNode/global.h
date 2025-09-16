@@ -110,7 +110,7 @@ namespace godot {
 			void save(String room_name="");
 			bool isMobile();
 	        void save_settings();
-			void save_flag(const String& key, const Variant& value);
+			void save_flag(String key, Variant value);
 			void set_flag(String key, Variant value);
 			Variant get_flag(String key, Variant defaultValue=false);
 			Variant get_g_flags(String key, Variant defaultValue=false);

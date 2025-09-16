@@ -5,22 +5,6 @@ void Global::_bind_methods() {
     ADD_SIGNAL(MethodInfo("saved"));
     ADD_SIGNAL(MethodInfo("fullscreen_toggled", PropertyInfo(Variant::BOOL, "to")));
 
-    ClassDB::bind_method(D_METHOD("disable_input", "key"), &Global::disable_input);
-    ClassDB::bind_method(D_METHOD("enable_input", "key"), &Global::enable_input);
-    ClassDB::bind_method(D_METHOD("has_input_disabled", "key"), &Global::has_input_disabled);
-    ClassDB::bind_method(D_METHOD("save", "room_name"), &Global::save, DEFVAL(""));
-    ClassDB::bind_method(D_METHOD("resetgame"), &Global::resetgame);
-    ClassDB::bind_method(D_METHOD("true_resetgame"), &Global::true_resetgame);
-    ClassDB::bind_method(D_METHOD("isMobile"), &Global::isMobile);
-    ClassDB::bind_method(D_METHOD("save_settings"), &Global::save_settings);
-    ClassDB::bind_method(D_METHOD("save_flag", "key", "value"), &Global::save_flag);
-    ClassDB::bind_method(D_METHOD("heal", "amt"), &Global::heal);
-    ClassDB::bind_method(D_METHOD("check_level_up"), &Global::check_level_up);
-    ClassDB::bind_method(D_METHOD("toggle_fullscreen"), &Global::toggle_fullscreen);
-    ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
-    ClassDB::bind_method(D_METHOD("get_Music"), &Global::get_Music);
-    ClassDB::bind_method(D_METHOD("get_fullscreen"), &Global::get_fullscreen);
-    
     ClassDB::bind_method(D_METHOD("loop_Music"), &Global::loop_Music);
     ClassDB::bind_method(D_METHOD("_on_kr_tick"), &Global::_on_kr_tick);
     ClassDB::bind_method(D_METHOD("set_battle_start"), &Global::set_battle_start);
@@ -83,6 +67,25 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_flags"), &Global::get_flags);
 
     // gdscript에서 호출을 위한 메서드 바인딩
+    ClassDB::bind_method(D_METHOD("disable_input", "key"), &Global::disable_input);
+    ClassDB::bind_method(D_METHOD("enable_input", "key"), &Global::enable_input);
+    ClassDB::bind_method(D_METHOD("has_input_disabled", "key"), &Global::has_input_disabled);
+    ClassDB::bind_method(D_METHOD("save", "room_name"), &Global::save, DEFVAL(""));
+    ClassDB::bind_method(D_METHOD("resetgame"), &Global::resetgame);
+    ClassDB::bind_method(D_METHOD("true_resetgame"), &Global::true_resetgame);
+    ClassDB::bind_method(D_METHOD("isMobile"), &Global::isMobile);
+    ClassDB::bind_method(D_METHOD("save_settings"), &Global::save_settings);
+    ClassDB::bind_method(D_METHOD("heal", "amt"), &Global::heal);
+    ClassDB::bind_method(D_METHOD("check_level_up"), &Global::check_level_up);
+    ClassDB::bind_method(D_METHOD("toggle_fullscreen"), &Global::toggle_fullscreen);
+
+    ClassDB::bind_method(D_METHOD("save_flag", "key", "value"), &Global::save_flag);
+    ClassDB::bind_method(D_METHOD("set_flag", "key", "value"), &Global::set_flag);
+    ClassDB::bind_method(D_METHOD("get_flag", "key", "defaultValue"), &Global::get_flag, DEFVAL(false));
+
+    ClassDB::bind_method(D_METHOD("get_g_flags", "key", "defaultValue"), &Global::get_g_flags, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("set_g_flags", "key", "value"), &Global::set_g_flags);
+
     ClassDB::bind_method(D_METHOD("get_player_in_menu"), &Global::get_player_in_menu);
     ClassDB::bind_method(D_METHOD("set_player_in_menu", "value"), &Global::set_player_in_menu);
 
@@ -101,16 +104,10 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_player_text_box"), &Global::get_player_text_box);
     ClassDB::bind_method(D_METHOD("set_player_text_box", "value"), &Global::set_player_text_box);
 
-    ClassDB::bind_method(D_METHOD("save_flag", "key", "value"), &Global::save_flag);
-    ClassDB::bind_method(D_METHOD("set_flag", "key", "value"), &Global::set_flag);
-    ClassDB::bind_method(D_METHOD("get_flag", "key", "defaultValue"), &Global::get_flag, DEFVAL(false));
-
-    ClassDB::bind_method(D_METHOD("get_g_flags", "key", "defaultValue"), &Global::get_g_flags, DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("set_g_flags", "key", "value"), &Global::set_g_flags);
-
-    ClassDB::bind_method(D_METHOD("enable_input", "key"), &Global::enable_input);
-    ClassDB::bind_method(D_METHOD("disable_input", "key"), &Global::disable_input);
-
+    ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
+    ClassDB::bind_method(D_METHOD("get_Music"), &Global::get_Music);
+    ClassDB::bind_method(D_METHOD("get_fullscreen"), &Global::get_fullscreen);
+    ClassDB::bind_method(D_METHOD("get_player_position"), &Global::get_player_position);
     ClassDB::bind_method(D_METHOD("get_player_kr"), &Global::get_player_kr);
     ClassDB::bind_method(D_METHOD("get_frist"), &Global::get_first);
 

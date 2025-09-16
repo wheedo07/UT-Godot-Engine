@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="2_pcxj1"]
 [ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="2_t2ayt"]
 [ext_resource type="Texture2D" uid="uid://bqdbc0xkj31tf" path="res://Intro/assets/1.png" id="3_2gjn4"]
-[ext_resource type="Shader" path="res://Text/pixel.gdshader" id="3_4b4jb"]
+[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="3_4b4jb"]
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="5_1hq8x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tojfl"]
