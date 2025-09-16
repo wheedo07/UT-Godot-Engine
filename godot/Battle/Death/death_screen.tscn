@@ -74,6 +74,7 @@ scroll_active = false
 
 [node name="GenericTextTyper" type="GenericTextTyper" parent="Fade"]
 click_path = NodePath("click")
+delay = 0.5
 offset_left = 110.0
 offset_top = 194.0
 offset_right = 521.0

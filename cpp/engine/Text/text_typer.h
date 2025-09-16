@@ -10,7 +10,7 @@
 #include<godot_cpp/classes/callback_tweener.hpp>
 namespace godot {
     class GenericTextTyper : public RichTextLabel {
-        GDCLASS(GenericTextTyper, RichTextLabel)
+        GDCLASS(GenericTextTyper, RichTextLabel);
 
         protected:
             static void _bind_methods();
@@ -25,7 +25,7 @@ namespace godot {
         private:
             NodePath click_path;
             AudioStreamPlayer* click;
-            float interval;
+            float interval, delay;
             TextQueueMode queued_texts_handling;
             Ref<Tween> pause_tween;
             Ref<Tween> visible_tween;
@@ -39,11 +39,15 @@ namespace godot {
             int current_line_index;
             bool line_typing;
 
-            void on_line_finished();
+            void on_line_finished(bool next_line=false);
         
         public:
             GenericTextTyper();
             ~GenericTextTyper();
+
+            void _get_property_list(List<PropertyInfo> *p_list) const;
+            bool _set(const StringName& p_name, const Variant& p_value);
+            bool _get(const StringName& p_name, Variant& r_ret);
 
             virtual void _process(double delta) override;
             virtual void _unhandled_input(const Ref<InputEvent>& event) override;
@@ -90,6 +94,9 @@ namespace godot {
 
             void set_click(AudioStreamPlayer* value);
             AudioStreamPlayer* get_click();
+
+            void set_delay(float value);
+            float get_delay();
     };
 }
 VARIANT_ENUM_CAST(godot::GenericTextTyper::TextQueueMode);

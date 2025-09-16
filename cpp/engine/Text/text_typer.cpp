@@ -3,6 +3,7 @@
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/engine.hpp>
 #include<godot_cpp/classes/input_event_action.hpp>
+#include<godot_cpp/classes/scene_tree_timer.hpp>
 
 GenericTextTyper::GenericTextTyper() {
     click_path = NodePath();
@@ -11,7 +12,7 @@ GenericTextTyper::GenericTextTyper() {
     typing = false;
     extra_delay = "@#$%^&+=_-~`<>\"|\\*{}()[].,!?";
     no_sound = "@#$%^&+=_-~`<>\"|\\*{}()[].,!? ";
-    
+    delay = 0;
     click = nullptr;
 }
 
@@ -21,45 +22,80 @@ void GenericTextTyper::_bind_methods() {
     BIND_ENUM_CONSTANT(AWAIT_FINISH);
     BIND_ENUM_CONSTANT(OVERRIDE_CURRENT);
     BIND_ENUM_CONSTANT(VOID_QUEUED);
-    
+
     ClassDB::bind_method(D_METHOD("set_click_path", "path"), &GenericTextTyper::set_click_path);
     ClassDB::bind_method(D_METHOD("get_click_path"), &GenericTextTyper::get_click_path);
     
     ClassDB::bind_method(D_METHOD("set_interval", "interval"), &GenericTextTyper::set_interval);
     ClassDB::bind_method(D_METHOD("get_interval"), &GenericTextTyper::get_interval);
+
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "click_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_click_path", "get_click_path");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "interval"), "set_interval", "get_interval");
     
-    ClassDB::bind_method(D_METHOD("set_queued_texts_handling", "mode"), &GenericTextTyper::set_queued_texts_handling);
-    ClassDB::bind_method(D_METHOD("get_queued_texts_handling"), &GenericTextTyper::get_queued_texts_handling);
-    
-    ClassDB::bind_method(D_METHOD("set_entire_text_bbcode", "text"), &GenericTextTyper::set_entire_text_bbcode);
-    ClassDB::bind_method(D_METHOD("get_entire_text_bbcode"), &GenericTextTyper::get_entire_text_bbcode);
-
-    ClassDB::bind_method(D_METHOD("set_extra_delay"), &GenericTextTyper::set_extra_delay);
-    ClassDB::bind_method(D_METHOD("get_extra_delay"), &GenericTextTyper::get_extra_delay);
-
-    ClassDB::bind_method(D_METHOD("set_no_sound"), &GenericTextTyper::set_no_sound);
-    ClassDB::bind_method(D_METHOD("get_no_sound"), &GenericTextTyper::get_no_sound);
-
     ClassDB::bind_method(D_METHOD("kill_tweens", "complete_text"), &GenericTextTyper::kill_tweens, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("type_text", "text"), &GenericTextTyper::type_text);
+
     ClassDB::bind_method(D_METHOD("create_tweeners"), &GenericTextTyper::create_tweeners);
     ClassDB::bind_method(D_METHOD("_type_one_line", "line"), &GenericTextTyper::_type_one_line);
     ClassDB::bind_method(D_METHOD("play_click"), &GenericTextTyper::play_click);
-    ClassDB::bind_method(D_METHOD("on_line_finished"), &GenericTextTyper::on_line_finished);
-    
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "click_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_click_path", "get_click_path");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "interval"), "set_interval", "get_interval");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "queued_texts_handling", PROPERTY_HINT_ENUM, "AWAIT_FINISH,OVERRIDE_CURRENT,VOID_QUEUED"), "set_queued_texts_handling", "get_queued_texts_handling");
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "entire_text_bbcode", PROPERTY_HINT_MULTILINE_TEXT), "set_entire_text_bbcode", "get_entire_text_bbcode");
-
-    ADD_GROUP("advanced", "");
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "extra_delay"), "set_extra_delay", "get_extra_delay");
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "no_sound"), "set_no_sound", "get_no_sound");
+    ClassDB::bind_method(D_METHOD("on_line_finished", "next_line"), &GenericTextTyper::on_line_finished, DEFVAL(false));
     
     ADD_SIGNAL(MethodInfo("started_typing", PropertyInfo(Variant::INT, "line")));
     ADD_SIGNAL(MethodInfo("confirm"));
     ADD_SIGNAL(MethodInfo("skip"));
     ADD_SIGNAL(MethodInfo("finished_all_texts"));
+}
+
+void GenericTextTyper::_get_property_list(List<PropertyInfo> *p_list) const {
+    if(!is_class("AdvancedTextTyper")) {
+        p_list->push_back(PropertyInfo(Variant::FLOAT, "delay"));
+        p_list->push_back(PropertyInfo(Variant::INT, "queued_texts_handling", PROPERTY_HINT_ENUM, "AWAIT_FINISH,OVERRIDE_CURRENT,VOID_QUEUED"));
+    }
+    p_list->push_back(PropertyInfo(Variant::STRING, "entire_text_bbcode", PROPERTY_HINT_MULTILINE_TEXT));
+
+    p_list->push_back(PropertyInfo(Variant::NIL, "advanced", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
+    p_list->push_back(PropertyInfo(Variant::STRING, "extra_delay"));
+    p_list->push_back(PropertyInfo(Variant::STRING, "no_sound"));
+}
+
+bool GenericTextTyper::_set(const StringName& p_name, const Variant& p_value) {
+    if(String(p_name) == "delay") {
+        delay = float(p_value);
+        return true;
+    }else if(String(p_name) == "queued_texts_handling") {
+        queued_texts_handling = TextQueueMode(int(p_value));
+        return true;
+    }else if(String(p_name) == "entire_text_bbcode") {
+        entire_text_bbcode = String(p_value);
+        return true;
+    }else if(String(p_name) == "extra_delay") {
+        extra_delay = String(p_value);
+        return true;
+    }else if(String(p_name) == "no_sound") {
+        no_sound = String(p_value);
+        return true;
+    }
+    return false;
+}
+
+bool GenericTextTyper::_get(const StringName& p_name, Variant& r_ret) {
+    if(String(p_name) == "delay") {
+        r_ret = delay;
+        return true;
+    }else if(String(p_name) == "queued_texts_handling") {
+        r_ret = int(queued_texts_handling);
+        return true;
+    }else if(String(p_name) == "entire_text_bbcode") {
+        r_ret = entire_text_bbcode;
+        return true;
+    }else if(String(p_name) == "extra_delay") {
+        r_ret = extra_delay;
+        return true;
+    }else if(String(p_name) == "no_sound") {
+        r_ret = no_sound;
+        return true;
+    }
+    return false;
 }
 
 void GenericTextTyper::_ready() {
@@ -191,9 +227,14 @@ void GenericTextTyper::play_click() {
     }
 }
 
-void GenericTextTyper::on_line_finished() {
-    line_typing = false;
-    current_line_index++;
+void GenericTextTyper::on_line_finished(bool next_line) {
+    if(next_line || delay <= 0) {
+        line_typing = false;
+        current_line_index++;
+    }else {
+        Ref<SceneTreeTimer> timer = get_tree()->create_timer(delay);
+        timer->connect("timeout", Callable(this, "on_line_finished").bind(true), CONNECT_ONE_SHOT);
+    }
 }
 
 void GenericTextTyper::set_click_path(const NodePath& p_path) {
@@ -290,4 +331,12 @@ void GenericTextTyper::set_click(AudioStreamPlayer* value) {
 
 AudioStreamPlayer* GenericTextTyper::get_click() {
     return click;
+}
+
+void GenericTextTyper::set_delay(float value) {
+    delay = value;
+}
+
+float GenericTextTyper::get_delay() {
+    return delay;
 }
