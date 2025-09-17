@@ -83,6 +83,18 @@
         <member name="room_entrances" type="Array" setter="set_room_entrances" getter="get_room_entrances">
             이 맵에 배치된 [code]RoomEntranceNode[/code]들의 배열.
         </member>
+
+        <member name="player" type="PlayerOverworld" setter="set_property" getter="get_player">
+            player 변수 (스크립트에서 사용되는 읽기 전용)
+        </member>
+
+        <member name="music_player" type="AudioStreamPlayer" setter="set_property" getter="get_music_player">
+            배경 음악 (music_player == global.get_Music()) 변수 (스크립트에서 사용되는 읽기 전용)
+        </member>
+
+        <member name="camera" type="CameraRemoteController" setter="set_property" getter="get_camera">
+            카메라 변수 (스크립트에서 사용되는 읽기 전용)
+        </member>
     </members>
 
     <signals>

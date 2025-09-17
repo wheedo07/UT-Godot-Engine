@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="ShopCreate" inherits="Control" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        UT-Godot-Engine에서 상점을 구현할 때 사용하는 전용 노드입니다.
+        상점 인터페이스, 대화 연출, 물건 구매 처리 등을 위한 커스터마이징 가능한 구성요소입니다.
+    </brief_description>
+
+    <description>
+        [b]ShopCreate[/b]는 Undertale 스타일의 상점 시스템을 구현하는 노드입니다.
+        • 상점 UI([code]SHOP[/code])를 자동으로 로드하고 관리합니다.
+        • 점주와의 대화, 아이템 구매/판매, 상점 음악 등을 처리합니다.
+        • [code]shop.tscn[/code] 씬을 인스턴스화하여 상점 인터페이스를 생성합니다.
+        • C++ 또는 GDScript에서 [code]ready()[/code]를 오버라이드해 사용자 초기화를 정의할 수 있습니다.
+
+        [b]주요 기능[/b]
+        • 구매 가능한 아이템([member offerings]) 및 판매 가능한 아이템([member sellferings]) 설정
+        • 점주 대화([member keeper_dialogues], [member keeper_def_dialogue]) 관리
+        • 상점 음악([member shop_music]) 자동 재생
+        • 상점 종료 시 지정된 방([member room_path])으로 이동
+
+        [b]주의[/b]
+        • [member dialogue_options]는 최대 5개까지만 설정 가능합니다.
+        • 아이템이나 대화가 모두 비어있으면 오류가 발생합니다.
+
+        [b]예시 (GDScript)[/b]
+        [codeblock]
+        extends ShopCreate
+
+        func ready():
+            print("상점이 초기화되었습니다")
+            # 커스텀 초기화 로직
+        [/codeblock]
+    </description>
+
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="ready">
+            <return type="void"/>
+            <description>
+                사용자 정의 초기화 훅. C++/GDScript에서 오버라이드 가능합니다.
+                엔진 생명주기 함수 [code]_ready()[/code] 내에서 호출됩니다.
+            </description>
+        </method>
+
+        <method name="print_dialogue">
+            <return type="void"/>
+            <param index="0" name="dialogues" type="Dialogues"/>
+            <description>
+                지정된 대화를 상점 점주 대화창에 출력합니다.
+                [param dialogues]: 출력할 대화 리소스
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="shop_music" type="AudioStream" setter="set_music" getter="get_music">
+            상점에서 재생될 배경 음악. 설정하지 않으면 음악이 정지됩니다.
+        </member>
+
+        <member name="click_path" type="NodePath" setter="set_click_path" getter="get_click_path" default="">
+            대화 출력 시 재생할 효과음의 [code]AudioStreamPlayer[/code] 노드 경로.
+        </member>
+
+        <member name="room_id" type="int" setter="set_room_id" getter="get_room_id" default="0">
+            상점에서 나갈 때 이동할 방의 입구 ID([code]RoomEntranceNode[/code]의 ID).
+        </member>
+
+        <member name="room_path" type="String" setter="set_room_path" getter="get_room_path" default="&quot;&quot;">
+            상점에서 나갈 때 로드할 오버월드 씬의 경로(.tscn 파일).
+        </member>
+
+        <member name="offerings" type="Array" setter="set_offerings" getter="get_offerings">
+            상점에서 판매하는 아이템 목록. [code]ShopItem[/code] 리소스의 배열입니다.
+        </member>
+
+        <member name="sellferings" type="Array" setter="set_sellferings" getter="get_sellferings">
+            플레이어가 판매할 수 있는 아이템 목록. [code]ShopItem[/code] 리소스의 배열입니다.
+        </member>
+
+        <member name="keeper_dialogues" type="Array" setter="set_keeper_dialogues" getter="get_keeper_dialogues">
+            점주의 다양한 대화 목록. [code]Dialogues[/code] 리소스의 배열입니다.
+        </member>
+
+        <member name="keeper_def_dialogue" type="Dialogues" setter="set_keeper_def_dialogue" getter="get_keeper_def_dialogue">
+            점주의 기본 대화. 상점 진입 시 또는 특별한 상황이 없을 때 출력됩니다.
+        </member>
+
+        <member name="keeper_cannot_sell_dialogues" type="Dialogues" setter="set_keeper_cannot_sell_dialogues" getter="get_keeper_cannot_sell_dialogues">
+            플레이어가 판매할 수 없는 상황에서 점주가 하는 대화.
+        </member>
+
+        <member name="dialogue_options" type="PackedStringArray" setter="set_dialogue_options" getter="get_dialogue_options">
+            상점에서 표시될 선택지 텍스트 목록. 최대 5개까지 설정 가능합니다.
+        </member>
+
+        <member name="can_be_sold_to" type="bool" setter="set_can_be_sold_to" getter="get_can_be_sold_to" default="true">
+            플레이어가 이 상점에서 아이템을 판매할 수 있는지 여부.
+        </member>
+    </members>
+</class>
