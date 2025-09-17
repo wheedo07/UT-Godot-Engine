@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="RoomEntranceNode" inherits="ReferenceRect" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        UT-Godot-Engine에서 오버월드 맵 간 이동을 관리하는 노드입니다. 문이나 통로 등 맵 간 전환 지점을 정의할 때 사용됩니다.
+    </brief_description>
+    <description>
+        [b]RoomEntranceNode[/b]은 Overwolrd에서 각 장면으로 이동할수 있게 만들어주는 노드입니다
+
+        사용 방법
+        • Overwolrd 씬에 [b]RoomEntranceNode[/b] 추가하기
+        • 문/통로 영역 크기를 조절하기
+        • 속성 (Properties) 설정하기
+
+        주의 사항
+        • 플레이어에 위치는 이 노드에 pivot 위치에 등장합니다
+        • 노드 추가시 Overworld 노드에 [room_entrances]에 노드를 추가해야합니다 (그래야지 id가 연결됨)
+
+        룸 연결 예시
+        [codeblock]
+        Room1 (door_id=1, new_room_entrance_id=2) → Room2 (door_id=2, new_room_entrance_id=1)
+        Room2 (door_id=2, new_room_entrance_id=1) → Room1 (door_id=1, new_room_entrance_id=2)
+        [/codeblock]
+    </description>
+
+    <tutorials></tutorials>
+
+    <members>
+        <member name="facing_direction" type="Vector2" setter="set_facing_direction" getter="get_facing_direction">
+            플레이어가 새 룸에 입장할 때의 바라보는 방향
+            (예: Vector2(0, 1) 아래쪽)
+        </member>
+        <member name="door_id" type="int" setter="set_door_id" getter="get_door_id">
+            현재 문의 고유 ID
+            (동일 씬에서는 중복되지 않아야 함)
+        </member>
+        <member name="door_margin" type="int" setter="set_door_margin" getter="get_door_margin">
+            문 주변 마진
+        </member>
+
+        <member name="new_room" type="String" setter="set_new_room" getter="get_new_room">
+            이동할 새 룸의 씬 파일 경로 (.tscn)
+        </member>
+        <member name="special_room" type="bool" setter="set_special_room" getter="get_special_room">
+            특수 룸 여부
+            (true 일시 카메라 아웃을 수동으로 해야함)
+        </member>
+        <member name="new_room_entrance_id" type="int" setter="set_new_room_entrance_id" getter="get_new_room_entrance_id">
+            이동할 새 룸에서 사용할 입구 ID
+        </member>
+    </members>
+</class>
