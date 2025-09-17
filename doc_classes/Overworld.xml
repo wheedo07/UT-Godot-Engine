@@ -1,0 +1,96 @@
+<class name="Overworld" inherits="Node2D">
+    <brief_description>
+      오버월드 씬의 플레이어 배치, 카메라 연동, BGM 페이드인을 관리하는 루트 노드.
+    </brief_description>
+
+    <description>
+        [b]Overworld[/b]는 프로젝트의 오버월드 상태를 총괄하는 노드입니다.
+        • 플레이어/카메라의 NodePath를 통해 실제 노드를 찾아 초기화합니다.
+        • 맵 입구(RoomEntranceNode) 정보로 진입 방향/좌표를 설정합니다.
+        • BGM(AudioStream)을 페이드인하여 재생합니다.
+        • C++ 또는 GDScript에서 [code]ready()[/code]를 오버라이드해 사용자 초기화를 정의할 수 있습니다(엔진의 [code]_ready()[/code]와는 별개인 사용자 정의 훅).
+
+        [b]신호[/b]
+        • [code]initialized[/code]: Overworld 초기화가 완료되었을 때 발생합니다.
+        • [code]room_initialized[/code]: RoomEntranceNode를 통해 방에 진입해 플레이어/카메라 상태가 반영되었을 때 발생합니다.
+
+        [b]주의[/b]
+        • [member player_path], [member camera_path]는 필수입니다. 비어 있으면 초기화가 중단되고 경고가 출력됩니다.
+        • [member room_entrances]는 해당 맵에 배치된 입구 노드들의 목록입니다.
+
+        [b]예시 (GDScript)[/b]
+        [codeblock]
+        extends Overworld
+        @onready var tres := preload("res://Game/encounters/tres/sans.tres")
+
+        func ready() -> void:
+            print("Overworld ready() 호출")
+            var tb := summontextbox()
+            tb.generic(Dialogues.new().from(["* 전투를 하시겠습니까?", "* 나중에 다시 전투할 수 있습니다"]), ["예","아니요"])
+            tb.connect("selected_option", func(i:int):
+                if i == 0:
+                    scene_changer.load_battle(tres)
+            )
+            await tb.dialogue_finished
+            global.set_player_can_move(true)
+        [/codeblock]
+    </description>
+
+    <members>
+        <member name="world_name" type="String" setter="set_world_name" getter="get_world_name" default="&quot;overworld room&quot;">
+            현재 오버월드의 이름(세이브/표시 용도).
+        </member>
+
+        <member name="player_path" type="NodePath" setter="set_player_path" getter="get_player_path" default="">
+            오버월드 플레이어 노드([code]PlayerOverworld[/code])의 경로. [b]필수[/b].
+        </member>
+
+        <member name="camera_path" type="NodePath" setter="set_camera" getter="get_camera_path" default="">
+            카메라 컨트롤러([code]CameraRemoteController[/code])의 경로. [b]필수[/b].
+        </member>
+
+        <member name="music" type="AudioStream" setter="set_music" getter="get_music">
+            배경 음악(없으면 기본 경로의 오버월드 BGM이 로드됨).
+        </member>
+
+        <member name="room_entrances" type="Array" setter="set_room_entrances" getter="get_room_entrances">
+            이 맵에 배치된 [code]RoomEntranceNode[/code]들의 배열.
+        </member>
+    </members>
+
+    <signals>
+        <signal name="initialized">
+            <description>Overworld 초기화가 완료되었을 때 발생.</description>
+        </signal>
+        <signal name="room_initialized">
+            <description>RoomEntranceNode를 통해 방에 진입하여 위치/카메라가 갱신되었을 때 발생.</description>
+        </signal>
+    </signals>
+
+    <methods>
+        <method name="ready">
+            <return type="void"/>
+            <description>
+                사용자 정의 초기화 훅. C++/GDScript에서 오버라이드 가능합니다.
+                엔진 생명주기 함수 [code]_ready()[/code] 내에서 호출됩니다.
+            </description>
+        </method>
+
+        <method name="summontextbox">
+            <return type="TextBox" />
+            <description>
+                텍스트 박스 씬을 인스턴스화하여 자식으로 추가하고 그 인스턴스를 반환합니다.
+            </description>
+        </method>
+
+        <method name="start_music_fade_in">
+            <return type="void"/>
+            <description>
+                [member music]을 [code]AudioStreamPlayer[/code]에 설정하고 페이드인(트윈)으로 재생을 시작합니다.
+            </description>
+        </method>
+    </methods>
+
+    <constants/>
+    <theme_items/>
+</class>

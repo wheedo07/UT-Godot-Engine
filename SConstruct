@@ -24,6 +24,10 @@ sources += Glob("cpp/src/*/*.cpp")
 sources += Glob("cpp/src/*/*/*.cpp")
 sources += Glob("cpp/src/*/*/*/*.cpp")
 
+if env["target"] in ["editor", "template_debug"]:
+    doc_data = env.GodotCPPDocData("cpp/engine/engine_doc.gen.cpp", source=Glob("doc_classes/*.xml"))
+    sources.append(doc_data)
+
 library = env.SharedLibrary(
     "godot/bin/exe/lib.UndertaleEngine{}{}".format(env["suffix"], env["SHLIBSUFFIX"]).replace(".template", ""),
     source=sources,
