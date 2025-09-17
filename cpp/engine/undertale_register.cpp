@@ -5,6 +5,11 @@
 
 void undertale_engine_init(ModuleInitializationLevel p_level) {
     if(p_level != MODULE_INITIALIZATION_LEVEL_SCENE) return;
+    GDExtensionMainLoopCallbacks cbs{};
+    cbs.startup_func = &on_startup;
+    cbs.shutdown_func = &on_shutdown;
+    cbs.frame_func = &on_frame;
+    godot::internal::gdextension_interface_register_main_loop_callbacks(godot::internal::library, &cbs);
 
     // [resources] //
     // Dialogues
@@ -150,14 +155,4 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
 void undertale_engine_uninit(ModuleInitializationLevel p_level) {
     if(p_level != MODULE_INITIALIZATION_LEVEL_SCENE) return;
-}
-
-extern "C" {
-    GDExtensionBool GDE_EXPORT undertale_engine_main_init(GDExtensionInterfaceGetProcAddress p_get, const GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_init) {
-        GDExtensionBinding::InitObject init_obj(p_get, p_library, r_init);
-        init_obj.register_initializer(undertale_engine_init);
-        init_obj.register_terminator(undertale_engine_uninit);
-        init_obj.set_minimum_library_initialization_level(MODULE_INITIALIZATION_LEVEL_SCENE);
-        return init_obj.init();
-    }
 }

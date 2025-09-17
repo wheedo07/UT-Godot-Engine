@@ -28,7 +28,6 @@ void SceneContainer::_bind_methods() {
 }
 
 void SceneContainer::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint();
     if(isEditor) return;
     loader = ResourceLoader::get_singleton();
     camera_scene = loader->load("res://Camera/camera_fx.tscn");

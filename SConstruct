@@ -14,7 +14,8 @@ env = SConscript("godot-cpp/SConstruct")
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=["cpp/"])
-sources = Glob("cpp/engine/undertale_engine.cpp")
+sources = Glob("cpp/engine/engine_main.cpp")
+sources += Glob("cpp/engine/undertale_register.cpp")
 sources += Glob("cpp/src/register_types.cpp")
 sources += Glob("cpp/env.cpp")
 sources += Glob("cpp/engine/*/*/*/*.cpp")
