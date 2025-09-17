@@ -1,4 +1,5 @@
-<class name="Overworld" inherits="Node2D">
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Overworld" inherits="Node2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
     <brief_description>
       오버월드 씬의 플레이어 배치, 카메라 연동, BGM 페이드인을 관리하는 루트 노드.
     </brief_description>
@@ -36,6 +37,32 @@
         [/codeblock]
     </description>
 
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="ready">
+            <return type="void"/>
+            <description>
+                사용자 정의 초기화 훅. C++/GDScript에서 오버라이드 가능합니다.
+                엔진 생명주기 함수 [code]_ready()[/code] 내에서 호출됩니다.
+            </description>
+        </method>
+
+        <method name="summontextbox">
+            <return type="TextBox" />
+            <description>
+                텍스트 박스 씬을 인스턴스화하여 자식으로 추가하고 그 인스턴스를 반환합니다.
+            </description>
+        </method>
+
+        <method name="start_music_fade_in">
+            <return type="void"/>
+            <description>
+                [member music]을 [code]AudioStreamPlayer[/code]에 설정하고 페이드인(트윈)으로 재생을 시작합니다.
+            </description>
+        </method>
+    </methods>
+
     <members>
         <member name="world_name" type="String" setter="set_world_name" getter="get_world_name" default="&quot;overworld room&quot;">
             현재 오버월드의 이름(세이브/표시 용도).
@@ -66,30 +93,4 @@
             <description>RoomEntranceNode를 통해 방에 진입하여 위치/카메라가 갱신되었을 때 발생.</description>
         </signal>
     </signals>
-
-    <methods>
-        <method name="ready">
-            <return type="void"/>
-            <description>
-                사용자 정의 초기화 훅. C++/GDScript에서 오버라이드 가능합니다.
-                엔진 생명주기 함수 [code]_ready()[/code] 내에서 호출됩니다.
-            </description>
-        </method>
-
-        <method name="summontextbox">
-            <return type="TextBox" />
-            <description>
-                텍스트 박스 씬을 인스턴스화하여 자식으로 추가하고 그 인스턴스를 반환합니다.
-            </description>
-        </method>
-
-        <method name="start_music_fade_in">
-            <return type="void"/>
-            <description>
-                [member music]을 [code]AudioStreamPlayer[/code]에 설정하고 페이드인(트윈)으로 재생을 시작합니다.
-            </description>
-        </method>
-    </methods>
-
-    <constants/>
 </class>
