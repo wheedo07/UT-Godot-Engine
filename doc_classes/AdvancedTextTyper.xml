@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="AdvancedTextTyper" inherits="GenericTextTyper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        UT-Godot-Engine의 고급 텍스트 타이핑 연출을 위한 노드입니다.  
+        대사, 표정, 스피드 등 Undertale 스타일의 복잡한 대화 연출을 구현할 수 있습니다.
+    </brief_description>
+    <description>
+        [b]AdvancedTextTyper[/b]는 [GenericTextTyper]를 확장하여 더욱 복잡한 대화 연출을 제공하는 노드입니다.
+        
+        [b]주요 기능[/b]
+        • [Dialogues] 리소스와 연동한 고급 대화 시스템
+        • 캐릭터별 표정 변경 시스템
+        • 각 대사별 개별 타이핑 속도 설정
+        • 대사 중 일시정지([DialoguePause]) 기능
+        • 캐릭터 표현 상태 변경 이벤트
+        
+        [b]주의사항[/b]
+        • 부모 클래스의 [method GenericTextTyper.type_text] 메서드는 사용하지 않습니다.
+        • [signal GenericTextTyper.finished_all_texts] 시그널 대신 [signal advanced_finished_all_texts]를 사용합니다.
+        
+        [b]예시 (GDScript)[/b]
+        [codeblock]
+        @onready var adv_typer = $AdvancedTextTyper
+        
+        func start_advanced_dialogue():
+            var dialogues = Dialogues.new().from([
+                "* 안녕하세요!",
+                "* 오늘 날씨가 좋네요.",
+                "* 어디 가시는 길인가요?"
+            ]).set_expressions([1, 4, 5])
+            
+            adv_typer.type_text_advanced(dialogues)
+            adv_typer.connect("advanced_finished_all_texts", _on_dialogue_finished)
+            adv_typer.connect("expression_set", _on_expression_changed)
+        
+        func _on_dialogue_finished():
+            print("모든 대사 출력 완료!")
+        
+        func _on_expression_changed(expr):
+            # 캐릭터 표정 변경
+            $Character.set_expression(expr[0])
+        [/codeblock]
+    </description>
+    <tutorials></tutorials>
+    
+    <methods>
+        <method name="type_text_advanced">
+            <return type="void"/>
+            <param index="0" name="dialogues" type="Dialogues"/>
+            <description>
+                [Dialogues] 리소스를 받아 고급 타이핑 연출을 시작합니다.
+                각 대사별로 속도, 표정, 일시정지 등의 설정이 적용됩니다.
+            </description>
+        </method>
+        
+        <method name="get_queued_dialogues">
+            <return type="Dialogues"/>
+            <description>
+                현재 처리 중인 [Dialogues] 리소스를 반환합니다.
+            </description>
+        </method>
+        
+        <method name="playclick_advanced">
+            <return type="void"/>
+            <description>
+                고급 타이핑 시스템용 클릭 사운드 재생 메서드입니다.
+                일시정지([DialoguePause]) 처리와 표현 상태 변경을 포함합니다.
+                내부적으로 사용되는 메서드입니다.
+            </description>
+        </method>
+        
+        <method name="on_confirm_advanced">
+            <return type="void"/>
+            <description>
+                고급 타이핑 시스템용 확인 이벤트 처리 메서드입니다.
+                현재 대사가 완료되면 다음 대사로 진행합니다.
+                내부적으로 사용되는 메서드입니다.
+            </description>
+        </method>
+        
+        <method name="on_tween_finished_advanced">
+            <return type="void"/>
+            <description>
+                고급 타이핑 트윈 완료 시 호출되는 메서드입니다.
+                내부적으로 사용되는 메서드입니다.
+            </description>
+        </method>
+    </methods>
+    
+    <members>
+        <member name="current_dialogue_index" type="int" setter="set_current_dialogue_index" getter="get_current_dialogue_index" default="0">
+            현재 출력 중인 대사의 인덱스입니다.
+            대화 진행 상황을 추적할 때 사용할 수 있습니다.
+        </member>
+    </members>
+    
+    <signals>
+        <signal name="advanced_finished_all_texts">
+            <description>
+                모든 대사의 출력이 완료되었을 때 발생합니다.
+                [signal GenericTextTyper.finished_all_texts] 대신 사용하세요.
+            </description>
+        </signal>
+        
+        <signal name="click_played">
+            <description>
+                타이핑 클릭 사운드가 재생될 때마다 발생합니다.
+                각 글자가 타이핑될 때 추가적인 효과를 구현할 때 사용할 수 있습니다.
+            </description>
+        </signal>
+        
+        <signal name="expression_set">
+            <param index="0" name="expr" type="Array"/>
+            <description>
+                대사별 표정(또는 상태) 변경 시 발생합니다.
+                [param expr]은 표현 상태를 나타내는 배열입니다.
+                캐릭터의 표정이나 상태를 변경할 때 사용하세요.
+            </description>
+        </signal>
+    </signals>
+</class>

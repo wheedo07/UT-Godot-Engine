@@ -10,8 +10,6 @@ AdvancedTextTyper::~AdvancedTextTyper() {}
 
 void AdvancedTextTyper::_bind_methods() {
     ClassDB::bind_method(D_METHOD("type_text_advanced", "dialogues"), &AdvancedTextTyper::type_text_advanced);
-    ClassDB::bind_method(D_METHOD("type_buffer", "dialogues", "index"), &AdvancedTextTyper::type_buffer);
-    ClassDB::bind_method(D_METHOD("type_buffer_text", "txt"), &AdvancedTextTyper::type_buffer_text);
     ClassDB::bind_method(D_METHOD("playclick_advanced"), &AdvancedTextTyper::playclick_advanced);
     ClassDB::bind_method(D_METHOD("on_confirm_advanced"), &AdvancedTextTyper::on_confirm_advanced);
     ClassDB::bind_method(D_METHOD("on_tween_finished_advanced"), &AdvancedTextTyper::on_tween_finished_advanced);
