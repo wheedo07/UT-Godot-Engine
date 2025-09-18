@@ -49,8 +49,8 @@ void GenericTextTyper::_bind_methods() {
 void GenericTextTyper::_get_property_list(List<PropertyInfo> *p_list) const {
     if(!is_class("AdvancedTextTyper")) {
         p_list->push_back(PropertyInfo(Variant::FLOAT, "delay"));
-        p_list->push_back(PropertyInfo(Variant::INT, "queued_texts_handling", PROPERTY_HINT_ENUM, "AWAIT_FINISH,OVERRIDE_CURRENT,VOID_QUEUED"));
     }
+    p_list->push_back(PropertyInfo(Variant::INT, "queued_texts_handling", PROPERTY_HINT_ENUM, "AWAIT_FINISH,OVERRIDE_CURRENT,VOID_QUEUED"));
     p_list->push_back(PropertyInfo(Variant::STRING, "entire_text_bbcode", PROPERTY_HINT_MULTILINE_TEXT));
 
     p_list->push_back(PropertyInfo(Variant::NIL, "advanced", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));

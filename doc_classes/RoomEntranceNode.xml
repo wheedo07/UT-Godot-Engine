@@ -24,6 +24,15 @@
 
     <tutorials></tutorials>
 
+    <methods>
+        <method name="force_enter">
+            <return type="void"/>
+            <description>
+                플레이어가 룸에 안들어와도 강제로 룸 이벤트 발생
+            </description>
+        </method>
+    </methods>
+
     <members>
         <member name="facing_direction" type="Vector2" setter="set_facing_direction" getter="get_facing_direction">
             플레이어가 새 룸에 입장할 때의 바라보는 방향

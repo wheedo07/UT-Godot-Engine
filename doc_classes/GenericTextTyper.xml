@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="GenericTextTyper" inherits="RichTextLabel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        UT-Godot-Engine에서 Undertale 스타일의 타이핑 텍스트 효과를 구현하는 노드입니다. 대화 상자에서 글자가 하나씩 나타나는 타이핑 효과를 제공합니다.
+    </brief_description>
+    <description>
+        [b]GenericTextTyper[/b]는 Undertale 스타일의 타이핑 텍스트 효과를 구현하는 노드입니다.
+        
+        [b]주요 기능[/b]
+        • 글자가 하나씩 나타나는 타이핑 애니메이션
+        • 타이핑 사운드 효과 지원
+        • 특정 문자에 대한 추가 지연 효과
+        • 무음 문자 설정 가능
+        • 여러 텍스트 대기열 처리 모드
+        • BBCode 지원으로 텍스트 스타일링
+        • 사용자 입력으로 텍스트 스킵 및 확인
+        
+        [b]텍스트 대기열 처리 모드[/b]
+        • [code]AWAIT_FINISH[/code]: 현재 타이핑이 완료될 때까지 기다린 후 다음 텍스트 처리
+        • [code]OVERRIDE_CURRENT[/code]: 현재 타이핑을 중단하고 새 텍스트로 교체
+        • [code]VOID_QUEUED[/code]: 타이핑 중이면 대기열에 있는 텍스트 무시
+        
+        [b]입력 제어[/b]
+        • [code]ui_cancel[/code]: 텍스트 스킵 (타이핑 중일 때)
+        • [code]ui_accept[/code]: 다음 텍스트 확인 (타이핑 완료 후)
+        
+        [b]예시 (GDScript)[/b]
+        [codeblock]
+        @onready var text_typer = $GenericTextTyper
+        
+        func start_dialogue():
+            var dialogue_lines = [
+                "* 안녕하세요! 반갑습니다.",
+                "* 이것은 Undertale 스타일 대화창입니다."
+            ]
+            text_typer.type_text(dialogue_lines)
+        [/codeblock]
+    </description>
+    <tutorials></tutorials>
+    
+    <methods>
+        <method name="kill_tweens">
+            <return type="void"/>
+            <param index="0" name="complete_text" type="bool" default="false"/>
+            <description>
+                현재 실행 중인 모든 트윈을 중단합니다.
+                [param complete_text]가 true면 텍스트를 즉시 완료 상태로 만듭니다.
+            </description>
+        </method>
+        
+        <method name="type_text">
+            <return type="void"/>
+            <param index="0" name="text" type="PackedStringArray"/>
+            <description>
+                지정된 텍스트 배열을 타이핑 효과와 함께 순차적으로 출력합니다.
+                각 배열 요소는 하나의 대화 라인이 됩니다.
+            </description>
+        </method>
+        
+        <method name="create_tweeners">
+            <return type="void"/>
+            <description>
+                타이핑 효과에 사용할 트윈 객체들을 생성합니다.
+                내부적으로 사용되는 메서드입니다.
+            </description>
+        </method>
+        
+        <method name="play_click">
+            <return type="void"/>
+            <description>
+                타이핑 사운드 효과를 재생합니다.
+                [member no_sound] 설정에 따라 특정 문자에서는 소리가 재생되지 않습니다.
+            </description>
+        </method>
+    </methods>
+    
+    <members>
+        <member name="click_path" type="NodePath" setter="set_click_path" getter="get_click_path" default="NodePath(&quot;&quot;)">
+            타이핑 사운드 효과를 재생할 [AudioStreamPlayer] 노드의 경로입니다.
+        </member>
+        
+        <member name="interval" type="float" setter="set_interval" getter="get_interval" default="0.1">
+            글자 간 타이핑 간격(초)입니다. 값이 클수록 타이핑 속도가 느려집니다.
+        </member>
+        
+        <member name="queued_texts_handling" type="int" setter="set_queued_texts_handling" getter="get_queued_texts_handling" default="0" enum="GenericTextTyper.TextQueueMode">
+            여러 텍스트 처리 모드입니다.
+            • [code]AWAIT_FINISH[/code]: 현재 타이핑 완료 후 다음 텍스트 처리
+            • [code]OVERRIDE_CURRENT[/code]: 현재 타이핑 중단 후 새 텍스트로 교체
+            • [code]VOID_QUEUED[/code]: 타이핑 중이면 대기열 텍스트 무시
+        </member>
+        
+        <member name="entire_text_bbcode" type="String" setter="set_entire_text_bbcode" getter="get_entire_text_bbcode" default="&quot;&quot;">
+            모든 텍스트 앞에 추가할 BBCode 텍스트입니다.
+            텍스트 전체에 적용할 스타일을 설정할 때 사용합니다.
+            [b]주의:[/b] BBCode Enabled를 활성화해야 합니다.
+        </member>
+        
+        <member name="extra_delay" type="String" setter="set_extra_delay" getter="get_extra_delay" default="&quot;@#$%^&amp;+=_-~`&lt;&gt;\&quot;|\\*{}()[].,!?&quot;">
+            추가 지연이 적용될 문자들입니다.
+            이 문자열에 포함된 문자 뒤에는 추가 지연이 발생합니다.
+        </member>
+        
+        <member name="no_sound" type="String" setter="set_no_sound" getter="get_no_sound" default="&quot;@#$%^&amp;+=_-~`&lt;&gt;\&quot;|\\*{}()[].,!? &quot;">
+            타이핑 소리가 나지 않는 문자들입니다.
+            공백과 특수문자에서 소리가 나지 않도록 설정되어 있습니다.
+        </member>
+        
+        <member name="delay" type="float" setter="set_delay" getter="get_delay" default="0.0">
+            각 라인 완료 후 다음 라인으로 넘어가기 전의 추가 지연 시간(초)입니다.
+        </member>
+    </members>
+    
+    <signals>
+        <signal name="started_typing">
+            <param index="0" name="line" type="int"/>
+            <description>
+                새 라인의 타이핑이 시작될 때 발생합니다.
+                [param line]은 현재 타이핑 중인 라인의 인덱스입니다.
+            </description>
+        </signal>
+        
+        <signal name="confirm">
+            <description>
+                사용자가 확인 버튼([code]ui_accept[/code])을 눌렀을 때 발생합니다.
+                텍스트가 완전히 타이핑된 후에만 발생합니다.
+            </description>
+        </signal>
+        
+        <signal name="skip">
+            <description>
+                사용자가 취소 버튼([code]ui_cancel[/code])을 눌러 텍스트를 스킵할 때 발생합니다.
+                타이핑 중일 때만 발생합니다.
+            </description>
+        </signal>
+        
+        <signal name="finished_all_texts">
+            <description>
+                모든 텍스트의 타이핑이 완료되었을 때 발생합니다.
+                대화 시퀀스의 종료를 감지할 때 사용합니다.
+            </description>
+        </signal>
+    </signals>
+    
+    <constants>
+        <constant name="AWAIT_FINISH" value="0" enum="TextQueueMode">
+            현재 타이핑이 완료될 때까지 기다린 후 다음 텍스트를 처리합니다.
+        </constant>
+        
+        <constant name="OVERRIDE_CURRENT" value="1" enum="TextQueueMode">
+            현재 타이핑을 중단하고 새 텍스트로 교체합니다.
+        </constant>
+        
+        <constant name="VOID_QUEUED" value="2" enum="TextQueueMode">
+            타이핑 중이면 대기열에 있는 텍스트를 무시합니다.
+        </constant>
+    </constants>
+</class>
