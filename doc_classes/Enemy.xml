@@ -335,35 +335,35 @@
         
         <!-- 사용 변수 -->
         <member name="enemy_id" type="int" setter="set_property" getter="get_id">
-            적의 id 입니다. [color=red](읽기 전용)[/color]
+            적의 id 입니다. (읽기 전용)
         </member>
 
         <member name="main" type="BattleMain" setter="set_property" getter="get_main">
-            전투 시스템의 메인 노드 참조입니다. [color=red](읽기 전용)[/color]
+            전투 시스템의 메인 노드 참조입니다. (읽기 전용)
         </member>
         
         <member name="attacks" type="AttackManager" setter="set_property" getter="get_attacks">
-            공격 관리자 노드 참조입니다. [color=red](읽기 전용)[/color]
+            공격 관리자 노드 참조입니다. (읽기 전용)
         </member>
         
         <member name="box" type="BattleBox" setter="set_property" getter="get_box">
-            전투 상자 노드 참조입니다. [color=red](읽기 전용)[/color]
+            전투 상자 노드 참조입니다. (읽기 전용)
         </member>
         
         <member name="soul" type="SoulBattle" setter="set_property" getter="get_soul">
-            영혼 노드 참조입니다. [color=red](읽기 전용)[/color]
+            영혼 노드 참조입니다. (읽기 전용)
         </member>
         
         <member name="dialogue" type="DialogueControl" setter="set_property" getter="get_dialogue">
-            대화 제어 노드 참조입니다. [color=red](읽기 전용)[/color]
+            대화 제어 노드 참조입니다. (읽기 전용)
         </member>
         
         <member name="camera" type="CameraRemoteController" setter="set_property" getter="get_camera">
-            카메라 제어 노드 참조입니다. [color=red](읽기 전용)[/color]
+            카메라 제어 노드 참조입니다. (읽기 전용)
         </member>
         
         <member name="bg" type="TextureRect" setter="set_property" getter="get_bg">
-            배경 노드 참조입니다. [color=red](읽기 전용)[/color]
+            배경 노드 참조입니다. (읽기 전용)
         </member>
     </members>
     
