@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Enemy" inherits="CharacterBody2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        (생성 가능)
+        UT-Godot-Engine에서 전투 시스템의 적 캐릭터를 구현하는 핵심 노드입니다.
+        턴 기반 전투, 대화, 애니메이션, 상태 관리 등 Undertale 스타일의 적 행동을 모두 처리합니다.
+    </brief_description>
+    <description>
+        [b]Enemy[/b]는 Undertale 스타일의 전투 시스템에서 적 캐릭터를 구현하는 핵심 노드입니다.
+        
+        [b]주요 기능[/b]
+        • 턴 기반 전투 로직 처리
+        • 적 상태([EnemyState]) 관리 시스템
+        • 대화 및 표정 연출
+        • 데미지 처리 및 애니메이션
+        • 회피(dodge) 및 죽음 연출
+        • 자비(spare) 처리
+        • 플레이어 행동에 대한 반응 시스템
+        
+        [b]전투 시스템 통합[/b]
+        • [BattleMain], [AttackManager], [BattleBox], [SoulBattle] 등과 자동 연동
+        • [DialogueControl]을 통한 대화 시스템 관리
+        • [CameraRemoteController]를 통한 카메라 제어
+        
+        [b]가상 함수 시스템[/b]
+        • C++과 GDScript 모두에서 오버라이드 가능한 가상 함수 제공
+        • 플레이어 행동에 대한 커스텀 반응 구현 가능
+        
+        [b]예시 (GDScript)[/b]
+        [codeblock]
+        extends Enemy
+        
+        func ready():
+            enemy_name = "테스트 적"
+            stats = {"hp": 100, "max_hp": 100, "def": 10}
+            rewards = {"exp": 20, "gold": 15}
+        
+        func _on_get_turn():
+            # 공격 패턴 실행
+            box.change_size(Vector2(350, 140), false, 0.3)
+            var attack = attacks.add_attack(preload("res://attacks/test_attack.tscn"))
+            attack.start_attacks()
+        
+        func on_fight_used():
+            play_dialogue(0)  # 첫 번째 대사 재생
+            await finished_dialogue
+            emit_signal("on_fight_end")
+        [/codeblock]
+    </description>
+    <tutorials></tutorials>
+    
+    <methods>
+        <method name="ready" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                적 초기화 함수입니다. C++과 GDScript에서 오버라이드 가능합니다.
+                적의 기본 설정, 능력치, 공격 패턴 등을 초기화할 때 사용합니다.
+            </description>
+        </method>
+        
+        <method name="on_fight_used" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                플레이어가 공격(FIGHT)을 선택했을 때 호출되는 가상 함수입니다.
+                적의 피격 반응이나 대사를 구현할 때 사용합니다.
+                처리 완료 후 [signal on_fight_end] 시그널을 발생시켜야 합니다.
+            </description>
+        </method>
+        
+        <method name="on_act_used" qualifiers="virtual">
+            <return type="void"/>
+            <param index="0" name="option" type="int"/>
+            <description>
+                플레이어가 행동(ACT)을 선택했을 때 호출되는 가상 함수입니다.
+                [param option]은 선택된 행동의 인덱스입니다.
+                처리 완료 후 [signal on_act_end] 시그널을 발생시켜야 합니다.
+            </description>
+        </method>
+        
+        <method name="on_item_used" qualifiers="virtual">
+            <return type="void"/>
+            <param index="0" name="option" type="int"/>
+            <description>
+                플레이어가 아이템(ITEM)을 사용했을 때 호출되는 가상 함수입니다.
+                [param option]은 사용된 아이템의 인덱스입니다.
+                처리 완료 후 [signal on_item_end] 시그널을 발생시켜야 합니다.
+            </description>
+        </method>
+        
+        <method name="on_mercy_used" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                플레이어가 자비(MERCY)를 선택했을 때 호출되는 가상 함수입니다.
+                적의 자비 반응을 구현할 때 사용합니다.
+                처리 완료 후 [signal on_mercy_end] 시그널을 발생시켜야 합니다.
+            </description>
+        </method>
+        
+        <method name="_on_get_turn" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                적의 턴이 시작될 때 호출되는 가상 함수입니다.
+                공격 패턴을 실행하거나 특별한 행동을 구현할 때 사용합니다.
+            </description>
+        </method>
+        
+        <method name="_on_end_turn" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                적의 턴이 끝날 때 호출되는 가상 함수입니다.
+                턴 종료 처리나 상태 정리를 할 때 사용합니다.
+            </description>
+        </method>
+        
+        <method name="on_win" qualifiers="virtual">
+            <return type="PackedStringArray"/>
+            <description>
+                적이 승리했을 때 호출되는 가상 함수입니다.
+                승리 메시지를 반환합니다. 기본값은 "UT_DEFAULT_WIN"입니다.
+            </description>
+        </method>
+        
+        <method name="on_defeat" qualifiers="virtual">
+            <return type="void"/>
+            <param index="0" name="death" type="bool"/>
+            <description>
+                적이 패배했을 때 호출되는 가상 함수입니다.
+                [param death]가 true면 적이 죽었음을, false면 자비를 받았음을 의미합니다.
+            </description>
+        </method>
+        
+        <method name="change_state">
+            <return type="void"/>
+            <param index="0" name="new_state" type="int"/>
+            <description>
+                적의 ACT 상태를 변경합니다.
+                [param new_state]는 [member enemy_states] 배열의 인덱스입니다.
+                상태 변경 후 [signal changed_state] 시그널이 발생합니다.
+            </description>
+        </method>
+        
+        <method name="play_dialogue">
+            <return type="void"/>
+            <param index="0" name="index" type="int"/>
+            <param index="1" name="duration" type="float" default="0"/>
+            <param index="2" name="skip" type="bool" default="true"/>
+            <description>
+                지정된 인덱스의 대사를 재생합니다.
+                [param index]는 [member dialogues] 배열의 인덱스입니다.
+                [param duration]은 추가 지연 시간, [param skip]은 스킵 가능 여부입니다.
+            </description>
+        </method>
+        
+        <method name="play_set_dialogue">
+            <return type="void"/>
+            <param index="0" name="dialogue_ref" type="Dialogues"/>
+            <param index="1" name="duration" type="float" default="0"/>
+            <param index="2" name="skip" type="bool" default="true"/>
+            <description>
+                지정된 [Dialogues] 리소스를 직접 재생합니다.
+                [param duration]은 추가 지연 시간, [param skip]은 스킵 가능 여부입니다.
+            </description>
+        </method>
+        
+        <method name="get_act_info">
+            <return type="ActInfo"/>
+            <param index="0" name="act_choice" type="int"/>
+            <description>
+                지정된 ACT 선택에 대한 정보를 반환합니다.
+                [param act_choice]는 ACT 옵션의 인덱스입니다.
+            </description>
+        </method>
+        
+        <method name="modify_stats">
+            <return type="void"/>
+            <param index="0" name="value" type="Dictionary"/>
+            <description>
+                적의 능력치를 수정합니다.
+                [param value]는 변경할 능력치들을 포함한 딕셔너리입니다.
+            </description>
+        </method>
+        
+        <method name="get_sprites">
+            <return type="Node"/>
+            <description>
+                스프라이트 컨테이너 노드를 반환합니다.
+                애니메이션 제어에 사용됩니다.
+            </description>
+        </method>
+
+        <method name="get_solo">
+            <return type="bool"/>
+            <description>
+                다중 전투인지 여부를 반환합니다.
+            </description>
+        </method>
+
+        <!-- 금지 함수 -->
+        <method name="_hurt">
+            <return type="void"/>
+            <param index="0" name="amount" type="int"/>
+            <description>
+                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
+            </description>
+        </method>
+
+        <method name="dodge">
+            <return type="void"/>
+            <description>
+                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
+            </description>
+        </method>
+
+        <method name="_on_spared">
+            <return type="void"/>
+            <param index="0" name="id_number" type="int"/>
+            <description>
+                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
+            </description>
+        </method>
+
+        <method name="_on_finished_all_texts_dialogue">
+            <return type="void"/>
+            <param index="0" name="head" type="int"/>
+            <param index="1" name="body" type="int"/>
+            <description>
+                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
+            </description>
+        </method>
+
+        <method name="handle_typing">
+            <return type="void"/>
+            <param index="0" name="text_index" type="int"/>
+            <param index="1" name="dialogue_ref" type="Dialogues"/>
+            <param index="2" name="duration" type="float"/>
+            <param index="3" name="skip" type="bool"/>
+            <description>
+                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
+            </description>
+        </method>
+    </methods>
+    
+    <members>
+        <member name="enemy_name" type="String" setter="set_enemy_name" getter="get_enemy_name" default="&quot;Enemy&quot;">
+            적의 이름입니다. 전투 UI에서 표시됩니다.
+        </member>
+        
+        <member name="kr" type="bool" setter="set_kr" getter="get_kr" default="false">
+            KR(Karmic Retribution) 데미지 사용 여부입니다.
+            true면 시간에 따라 추가 데미지를 가합니다.
+        </member>
+        
+        <member name="isFirstTurn" type="bool" setter="set_is_first_turn" getter="get_is_first_turn" default="false">
+            첫 턴에 바로 공격을 시작할지 여부입니다.
+            true면 대화 없이 즉시 공격 패턴을 실행합니다.
+        </member>
+        
+        <member name="dodging" type="bool" setter="set_dodging" getter="get_dodging" default="false">
+            회피 가능 여부입니다.
+            true면 플레이어 공격 시 회피할 수 있습니다.
+        </member>
+        
+        <member name="stats" type="Dictionary" setter="set_stats" getter="get_stats">
+            적의 능력치를 저장하는 딕셔너리입니다.
+            기본 키: "hp", "max_hp", "def"
+            기본값: {"hp": 100, "max_hp": 100, "def": 10}
+        </member>
+        
+        <member name="rewards" type="Dictionary" setter="set_rewards" getter="get_rewards">
+            적 처치 시 얻는 보상을 저장하는 딕셔너리입니다.
+            기본 키: "exp", "gold"
+            기본값: {"exp": 10, "gold": 10}
+        </member>
+        
+        <member name="dialogues" type="Array" setter="set_dialogues" getter="get_dialogues">
+            적의 대사 목록입니다. [Dialogues] 리소스의 배열입니다.
+            [method play_dialogue]에서 인덱스로 접근합니다.
+        </member>
+        
+        <member name="flavour_text" type="PackedStringArray" setter="set_flavour_text" getter="get_flavour_text">
+            적에 대한 플레이버 텍스트 목록입니다.
+            전투 중 Check 행동이나 상황 설명에 사용됩니다.
+        </member>
+        
+        <member name="enemy_states" type="Array" setter="set_enemy_states" getter="get_enemy_states">
+            적의 ACT 상태 목록입니다. [EnemyState] 리소스의 배열입니다.
+            각 상태는 플레이어가 선택할 수 있는 ACT 옵션들을 포함합니다.
+        </member>
+        
+        <member name="current_state" type="int" setter="set_current_state" getter="get_current_state" default="0">
+            현재 적의 ACT 상태 인덱스입니다.
+            [member enemy_states] 배열의 인덱스를 나타냅니다.
+        </member>
+        
+        <member name="new_states_override" type="bool" setter="set_new_states_override" getter="get_new_states_override" default="true">
+            새로운 상태가 이전 상태를 덮어쓸지 여부입니다.
+            ACT 처리 방식을 결정합니다.
+        </member>
+        
+        <member name="one_by_one_overrdie" type="bool" setter="set_one_by_one_overrdie" getter="get_one_by_one_overrdie" default="false">
+            상태를 하나씩 순차적으로 처리할지 여부입니다.
+            ACT 정보 검색 방식에 영향을 줍니다.
+        </member>
+        
+        <member name="hurt_sound_path" type="NodePath" setter="set_hurt_sound_path" getter="get_hurt_sound_path" default="NodePath(&quot;&quot;)">
+            피격 사운드를 재생할 [AudioStreamPlayer] 노드의 경로입니다.
+        </member>
+        
+        <member name="dust_sound_path" type="NodePath" setter="set_dust_sound_path" getter="get_dust_sound_path" default="NodePath(&quot;&quot;)">
+            사망 사운드를 재생할 [AudioStreamPlayer] 노드의 경로입니다.
+        </member>
+        
+        <member name="dust_path" type="NodePath" setter="set_dust_path" getter="get_dust_path" default="NodePath(&quot;&quot;)">
+            사망 파티클을 표시할 [GPUParticles2D] 노드의 경로입니다.
+        </member>
+        
+        <member name="e_head_path" type="NodePath" setter="set_e_head_path" getter="get_e_head_path" default="NodePath(&quot;&quot;)">
+            머리 애니메이션을 제어할 [AnimatedSprite2D] 노드의 경로입니다.
+            대화 중 표정 변경에 사용됩니다.
+        </member>
+        
+        <member name="e_body_path" type="NodePath" setter="set_e_body_path" getter="get_e_body_path" default="NodePath(&quot;&quot;)">
+            몸 애니메이션을 제어할 [AnimatedSprite2D] 노드의 경로입니다.
+            대화 중 몸짓 변경에 사용됩니다.
+        </member>
+        
+        <member name="sprites_path" type="NodePath" setter="set_sprites_path" getter="get_sprites_path" default="NodePath(&quot;&quot;)">
+            스프라이트 컨테이너 노드의 경로입니다.
+            애니메이션 및 이동 효과에 사용됩니다.
+        </member>
+        
+        <member name="dialogue_path" type="NodePath" setter="set_dialogue_path" getter="get_dialogue_path" default="NodePath(&quot;&quot;)">
+            대화를 제어할 [DialogueControl] 노드의 경로입니다.
+        </member>
+        
+        <!-- 사용 변수 -->
+        <member name="enemy_id" type="int" setter="set_property" getter="get_id">
+            적의 id 입니다. [color=red](읽기 전용)[/color]
+        </member>
+
+        <member name="main" type="BattleMain" setter="set_property" getter="get_main">
+            전투 시스템의 메인 노드 참조입니다. [color=red](읽기 전용)[/color]
+        </member>
+        
+        <member name="attacks" type="AttackManager" setter="set_property" getter="get_attacks">
+            공격 관리자 노드 참조입니다. [color=red](읽기 전용)[/color]
+        </member>
+        
+        <member name="box" type="BattleBox" setter="set_property" getter="get_box">
+            전투 상자 노드 참조입니다. [color=red](읽기 전용)[/color]
+        </member>
+        
+        <member name="soul" type="SoulBattle" setter="set_property" getter="get_soul">
+            영혼 노드 참조입니다. [color=red](읽기 전용)[/color]
+        </member>
+        
+        <member name="dialogue" type="DialogueControl" setter="set_property" getter="get_dialogue">
+            대화 제어 노드 참조입니다. [color=red](읽기 전용)[/color]
+        </member>
+        
+        <member name="camera" type="CameraRemoteController" setter="set_property" getter="get_camera">
+            카메라 제어 노드 참조입니다. [color=red](읽기 전용)[/color]
+        </member>
+        
+        <member name="bg" type="TextureRect" setter="set_property" getter="get_bg">
+            배경 노드 참조입니다. [color=red](읽기 전용)[/color]
+        </member>
+    </members>
+    
+    <signals>
+        <signal name="finished_dialogue">
+            <description>
+                대화가 완료되었을 때 발생합니다.
+                [method play_dialogue]나 [method play_set_dialogue] 완료 후 발생합니다.
+            </description>
+        </signal>
+        
+        <signal name="changed_state">
+            <description>
+                적의 ACT 상태가 변경되었을 때 발생합니다.
+                [method change_state] 호출 후 발생합니다.
+            </description>
+        </signal>
+        
+        <signal name="spared">
+            <param index="0" name="id_number" type="int"/>
+            <description>
+                적에게 자비가 적용되었을 때 발생합니다.
+                [param id_number]는 적의 ID입니다.
+            </description>
+        </signal>
+        
+        <signal name="on_fight_end">
+            <description>
+                공격 행동 처리가 완료되었을 때 발생시켜야 하는 시그널입니다.
+                [method on_fight_used] 구현 시 반드시 발생시켜야 합니다.
+            </description>
+        </signal>
+        
+        <signal name="on_act_end">
+            <description>
+                ACT 행동 처리가 완료되었을 때 발생시켜야 하는 시그널입니다.
+                [method on_act_used] 구현 시 반드시 발생시켜야 합니다.
+            </description>
+        </signal>
+        
+        <signal name="on_item_end">
+            <description>
+                아이템 사용 처리가 완료되었을 때 발생시켜야 하는 시그널입니다.
+                [method on_item_used] 구현 시 반드시 발생시켜야 합니다.
+            </description>
+        </signal>
+        
+        <signal name="on_mercy_end">
+            <description>
+                자비 행동 처리가 완료되었을 때 발생시켜야 하는 시그널입니다.
+                [method on_mercy_used] 구현 시 반드시 발생시켜야 합니다.
+            </description>
+        </signal>
+    </signals>
+</class>

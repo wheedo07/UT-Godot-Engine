@@ -58,10 +58,6 @@ void Enemy::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_kr", "p_kr"), &Enemy::set_kr);
     ClassDB::bind_method(D_METHOD("get_kr"), &Enemy::get_kr);
-    ClassDB::bind_method(D_METHOD("set_id", "p_id"), &Enemy::set_id);
-    ClassDB::bind_method(D_METHOD("get_id"), &Enemy::get_id);
-    ClassDB::bind_method(D_METHOD("set_solo", "p_solo"), &Enemy::set_solo);
-    ClassDB::bind_method(D_METHOD("get_solo"), &Enemy::get_solo);
     ClassDB::bind_method(D_METHOD("set_enemy_name", "p_enemy_name"), &Enemy::set_enemy_name);
     ClassDB::bind_method(D_METHOD("get_enemy_name"), &Enemy::get_enemy_name);
     ClassDB::bind_method(D_METHOD("set_is_first_turn", "p_is_first_turn"), &Enemy::set_is_first_turn);
@@ -137,20 +133,19 @@ void Enemy::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "sprites_path"), "set_sprites_path", "get_sprites_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dialogue_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "DialogueControl"), "set_dialogue_path", "get_dialogue_path");
 
-    ClassDB::bind_method(D_METHOD("handle_typing", "text_index", "dialogue_ref", "duration", "skip"), &Enemy::handle_typing);
-    
+    // 사용 함수
+    ClassDB::bind_method(D_METHOD("get_solo"), &Enemy::get_solo);
     ClassDB::bind_method(D_METHOD("get_sprites"), &Enemy::get_sprites);
-    ClassDB::bind_method(D_METHOD("get_act_info", "act_choice"), &Enemy::get_act_info);
-    ClassDB::bind_method(D_METHOD("_get_act", "state", "option"), &Enemy::_get_act);
+    ClassDB::bind_method(D_METHOD("modify_stats", "value"), &Enemy::modify_stats);
     ClassDB::bind_method(D_METHOD("change_state", "new_state"), &Enemy::change_state);
     ClassDB::bind_method(D_METHOD("play_dialogue", "index", "duration", "skip"), &Enemy::play_dialogue, DEFVAL(0), DEFVAL(true));
     ClassDB::bind_method(D_METHOD("play_set_dialogue", "dialogue_ref", "duration", "skip"), &Enemy::play_set_dialogue, DEFVAL(0), DEFVAL(true));
+
     ClassDB::bind_method(D_METHOD("dodge"), &Enemy::dodge);
     ClassDB::bind_method(D_METHOD("_hurt", "amount"), &Enemy::_hurt);
-    ClassDB::bind_method(D_METHOD("on_death"), &Enemy::on_death);
     ClassDB::bind_method(D_METHOD("_on_spared", "id_number"), &Enemy::_on_spared);
     ClassDB::bind_method(D_METHOD("_on_finished_all_texts_dialogue", "head", "body"), &Enemy::_on_finished_all_texts_dialogue);
-    ClassDB::bind_method(D_METHOD("modify_stats", "value"), &Enemy::modify_stats);
+    ClassDB::bind_method(D_METHOD("handle_typing", "text_index", "dialogue_ref", "duration", "skip"), &Enemy::handle_typing);
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Enemy::set_property);
     ClassDB::bind_method(D_METHOD("get_main"), &Enemy::get_main);
@@ -160,7 +155,9 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_dialogue"), &Enemy::get_dialogue);
     ClassDB::bind_method(D_METHOD("get_camera"), &Enemy::get_camera);
     ClassDB::bind_method(D_METHOD("get_bg"), &Enemy::get_bg);
+    ClassDB::bind_method(D_METHOD("get_id"), &Enemy::get_id);
 
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "enemy_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_id");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "main", PROPERTY_HINT_NONE, "BattleMain", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_main");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "attacks", PROPERTY_HINT_NONE, "AttackManager", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_attacks");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "box", PROPERTY_HINT_NONE, "BattleBox", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_box");
