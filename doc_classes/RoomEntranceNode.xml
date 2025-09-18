@@ -13,7 +13,7 @@
 
         주의 사항
         • 플레이어에 위치는 이 노드에 pivot 위치에 등장합니다
-        • 노드 추가시 Overworld 노드에 [members Overworld.room_entrances]에 노드를 추가해야합니다 (그래야지 id가 연결됨)
+        • 노드 추가시 Overworld 노드에 [member Overworld.room_entrances]에 노드를 추가해야합니다 (그래야지 id가 연결됨)
 
         룸 연결 예시
         [codeblock]

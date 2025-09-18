@@ -13,10 +13,10 @@ void AdvancedTextTyper::_bind_methods() {
     ClassDB::bind_method(D_METHOD("playclick_advanced"), &AdvancedTextTyper::playclick_advanced);
     ClassDB::bind_method(D_METHOD("on_confirm_advanced"), &AdvancedTextTyper::on_confirm_advanced);
     ClassDB::bind_method(D_METHOD("on_tween_finished_advanced"), &AdvancedTextTyper::on_tween_finished_advanced);
+    ClassDB::bind_method(D_METHOD("get_queued_dialogues"), &AdvancedTextTyper::get_queued_dialogues);
     
     ClassDB::bind_method(D_METHOD("get_current_dialogue_index"), &AdvancedTextTyper::get_current_dialogue_index);
     ClassDB::bind_method(D_METHOD("set_current_dialogue_index", "p_index"), &AdvancedTextTyper::set_current_dialogue_index);
-    ClassDB::bind_method(D_METHOD("get_queued_dialogues"), &AdvancedTextTyper::get_queued_dialogues);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "current_dialogue_index", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_current_dialogue_index", "get_current_dialogue_index");
 
     ADD_SIGNAL(MethodInfo("advanced_finished_all_texts"));

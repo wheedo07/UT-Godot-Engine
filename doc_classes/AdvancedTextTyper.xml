@@ -49,7 +49,6 @@
             <param index="0" name="dialogues" type="Dialogues"/>
             <description>
                 [Dialogues] 리소스를 받아 고급 타이핑 연출을 시작합니다.
-                각 대사별로 속도, 표정, 일시정지 등의 설정이 적용됩니다.
             </description>
         </method>
         
@@ -65,7 +64,7 @@
             <description>
                 고급 타이핑 시스템용 클릭 사운드 재생 메서드입니다.
                 일시정지([DialoguePause]) 처리와 표현 상태 변경을 포함합니다.
-                내부적으로 사용되는 메서드입니다.
+                내부적으로 사용되는 메서드입니다. (사용 금지)
             </description>
         </method>
         
@@ -74,7 +73,7 @@
             <description>
                 고급 타이핑 시스템용 확인 이벤트 처리 메서드입니다.
                 현재 대사가 완료되면 다음 대사로 진행합니다.
-                내부적으로 사용되는 메서드입니다.
+                내부적으로 사용되는 메서드입니다. (사용 금지)
             </description>
         </method>
         
@@ -82,7 +81,7 @@
             <return type="void"/>
             <description>
                 고급 타이핑 트윈 완료 시 호출되는 메서드입니다.
-                내부적으로 사용되는 메서드입니다.
+                내부적으로 사용되는 메서드입니다. (사용 금지)
             </description>
         </method>
     </methods>
