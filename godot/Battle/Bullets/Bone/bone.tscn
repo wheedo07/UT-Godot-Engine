@@ -29,4 +29,4 @@ debug_color = Color(0.701961, 0.701961, 0.701961, 0.419608)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_exit_screen"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="on_exit_screen"]

@@ -194,50 +194,6 @@
                 다중 전투인지 여부를 반환합니다.
             </description>
         </method>
-
-        <!-- 금지 함수 -->
-        <method name="_hurt">
-            <return type="void"/>
-            <param index="0" name="amount" type="int"/>
-            <description>
-                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
-            </description>
-        </method>
-
-        <method name="dodge">
-            <return type="void"/>
-            <description>
-                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
-            </description>
-        </method>
-
-        <method name="_on_spared">
-            <return type="void"/>
-            <param index="0" name="id_number" type="int"/>
-            <description>
-                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
-            </description>
-        </method>
-
-        <method name="_on_finished_all_texts_dialogue">
-            <return type="void"/>
-            <param index="0" name="head" type="int"/>
-            <param index="1" name="body" type="int"/>
-            <description>
-                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
-            </description>
-        </method>
-
-        <method name="handle_typing">
-            <return type="void"/>
-            <param index="0" name="text_index" type="int"/>
-            <param index="1" name="dialogue_ref" type="Dialogues"/>
-            <param index="2" name="duration" type="float"/>
-            <param index="3" name="skip" type="bool"/>
-            <description>
-                내부적으로 사용되는 메서드입니다. [color=red](사용금지)[/color]
-            </description>
-        </method>
     </methods>
     
     <members>

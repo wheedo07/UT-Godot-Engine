@@ -46,7 +46,7 @@ void Bullet::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_mode", "mode"), &Bullet::set_mode, DEFVAL(MODE_BLUE));
     ClassDB::bind_method(D_METHOD("fade"), &Bullet::fade);
     ClassDB::bind_method(D_METHOD("kill"), &Bullet::kill);
-    ClassDB::bind_method(D_METHOD("_on_exit_screen"), &Bullet::_on_exit_screen);
+    ClassDB::bind_method(D_METHOD("on_exit_screen"), &Bullet::on_exit_screen);
     
     ClassDB::bind_method(D_METHOD("set_damage", "damage"), &Bullet::set_damage);
     ClassDB::bind_method(D_METHOD("get_damage"), &Bullet::get_damage);
@@ -128,7 +128,7 @@ void Bullet::fade() {
     fade_tween->play();
 }
 
-void Bullet::_on_exit_screen() {
+void Bullet::on_exit_screen() {
     if(velocity_tween.is_valid() && !velocity_tween->is_valid()) {
         fade();
         return;

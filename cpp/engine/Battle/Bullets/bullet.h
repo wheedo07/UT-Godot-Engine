@@ -46,7 +46,7 @@ namespace godot {
             Array colors;
             Array overlapping_areas;
 
-            void _on_exit_screen();
+            void on_exit_screen();
         
         public:
             Bullet();

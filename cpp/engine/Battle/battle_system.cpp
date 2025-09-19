@@ -285,7 +285,7 @@ void BattleMain::hit(int damage, int target, bool crit) {
     Slash* slashes = Object::cast_to<Slash>(slash_scene->instantiate());
     if (slashes) {
         if (enemy->get_dodging()) {
-            slashes->connect("started", Callable(enemy, "dodge"), CONNECT_ONE_SHOT);
+            slashes->connect("started", Callable(enemy, "_dodge"), CONNECT_ONE_SHOT);
         }
         slashes->connect("finished", Callable(this, "_on_slash_finished").bind(damage, target, crit), CONNECT_ONE_SHOT);
 

@@ -14,7 +14,7 @@ void BattleObject::_bind_methods() {
     BIND_ENUM_CONSTANT(TWEEN);
     ClassDB::bind_method(D_METHOD("fade"), &BattleObject::fade);
     ClassDB::bind_method(D_METHOD("kill"), &BattleObject::kill);
-    ClassDB::bind_method(D_METHOD("_on_exit_screen"), &BattleObject::_on_exit_screen);
+    ClassDB::bind_method(D_METHOD("on_exit_screen"), &BattleObject::on_exit_screen);
 
     ClassDB::bind_method(D_METHOD("set_trans", "value"), &BattleObject::set_trans);
     ClassDB::bind_method(D_METHOD("get_trans"), &BattleObject::get_trans);
@@ -37,7 +37,7 @@ void BattleObject::kill() {
     queue_free();
 }
 
-void BattleObject::_on_exit_screen() {
+void BattleObject::on_exit_screen() {
     if(velocity_tween.is_valid() && !velocity_tween->is_valid()) {
         fade();
         return;

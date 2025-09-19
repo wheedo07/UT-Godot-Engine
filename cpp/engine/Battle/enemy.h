@@ -69,9 +69,6 @@ namespace godot {
             NodePath dialogue_path;
 
             Ref<ActInfo> _info;
-
-            void handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip);
-
             void set_hurt_sound_path(const NodePath& p_path);
             NodePath get_hurt_sound_path() const;
             
@@ -93,7 +90,10 @@ namespace godot {
             void set_dialogue_path(const NodePath& p_path);
             NodePath get_dialogue_path() const;
 
+            void _handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip);
             void _on_finished_all_texts_dialogue(int head, int body);
+            void _hurt(int amount);
+            void _dodge();
 
             void set_property(Object* value);
             BattleMain* get_main();
@@ -136,11 +136,8 @@ namespace godot {
             void play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration=0, bool skip=true);
 
             Ref<ActInfo> get_act_info(int act_choice);
-            void dodge();
-            void _hurt(int amount);
             void on_death();
             void _on_spared(int id_number);
-
             void _get_act(int state, int option);
 
             void set_kr(bool p_kr);

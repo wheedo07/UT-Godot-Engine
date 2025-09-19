@@ -141,11 +141,11 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("play_dialogue", "index", "duration", "skip"), &Enemy::play_dialogue, DEFVAL(0), DEFVAL(true));
     ClassDB::bind_method(D_METHOD("play_set_dialogue", "dialogue_ref", "duration", "skip"), &Enemy::play_set_dialogue, DEFVAL(0), DEFVAL(true));
 
-    ClassDB::bind_method(D_METHOD("dodge"), &Enemy::dodge);
+    ClassDB::bind_method(D_METHOD("_dodge"), &Enemy::_dodge);
     ClassDB::bind_method(D_METHOD("_hurt", "amount"), &Enemy::_hurt);
     ClassDB::bind_method(D_METHOD("_on_spared", "id_number"), &Enemy::_on_spared);
     ClassDB::bind_method(D_METHOD("_on_finished_all_texts_dialogue", "head", "body"), &Enemy::_on_finished_all_texts_dialogue);
-    ClassDB::bind_method(D_METHOD("handle_typing", "text_index", "dialogue_ref", "duration", "skip"), &Enemy::handle_typing);
+    ClassDB::bind_method(D_METHOD("_handle_typing", "text_index", "dialogue_ref", "duration", "skip"), &Enemy::_handle_typing);
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Enemy::set_property);
     ClassDB::bind_method(D_METHOD("get_main"), &Enemy::get_main);
@@ -248,7 +248,7 @@ void Enemy::play_dialogue(int index, float duration, bool skip) {
         Ref<Dialogues> dialogue_ref = dialogues[index];
         if (dialogue_ref.is_valid()) {
             EnemySpeech* text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
-            Callable call = Callable(this, "handle_typing").bind(dialogue_ref, duration, skip);
+            Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration, skip);
             if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
             text_typer->connect("started_typing", call);
             dialogue->DialogueText(dialogue_ref);
@@ -270,7 +270,7 @@ void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool 
     
     if (dialogue_ref.is_valid()) {
         EnemySpeech* text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
-        Callable call = Callable(this, "handle_typing").bind(dialogue_ref, duration, skip);
+        Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration, skip);
         if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
         text_typer->connect("started_typing", call);
         dialogue->DialogueText(dialogue_ref);
@@ -285,7 +285,7 @@ void Enemy::_on_finished_all_texts_dialogue(int head, int body) {
     emit_signal("finished_dialogue");
 }
 
-void Enemy::handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip) {
+void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip) {
     if(e_head) {
         PackedInt32Array expressions = dialogue_ref->get_dialogues_single(Dialogues::DIALOGUE_EXPRESSION_HEAD);
         if (text_index < expressions.size() && expressions[text_index] != -1) {
@@ -302,7 +302,7 @@ void Enemy::handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float dur
     if(duration != 0) dialogue->on_text_click_played(skip, duration);
 }
 
-void Enemy::dodge() {
+void Enemy::_dodge() {
     if (!sprites) return;
     
     Ref<Tween> tw = create_tween()->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_QUAD);

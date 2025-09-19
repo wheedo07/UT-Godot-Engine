@@ -23,7 +23,7 @@ namespace godot {
             Tween::TransitionType trans;
             Tween::EaseType ease;
 
-            void _on_exit_screen();
+            void on_exit_screen();
             
         public:
             BattleObject();

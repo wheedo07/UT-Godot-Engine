@@ -116,7 +116,7 @@
             </description>
         </method>
 
-        <method name="_on_exit_screen">
+        <method name="on_exit_screen">
             <return type="void"/>
             <description>
                 VisibleOnScreenNotifier2D 노드에 screen_exited 시그널과 연결용 함수입니다
@@ -165,7 +165,6 @@
     <signals>
         <signal name="bullet_fade">
             <description>
-                탄환 제거를 요청하는 시그널 입니다
                 [method fade] 호출 시 자동으로 발생합니다.
             </description>
         </signal>
