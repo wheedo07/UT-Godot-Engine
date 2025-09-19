@@ -21,14 +21,15 @@ void BulletArea::_ready() {
     bullet = Object::cast_to<Bullet>(get_node_internal(bullet_path));
     bullet->connect("bullet_fade", Callable(this, "set_monitorable").bind(false));
     bullet->connect("bullet_fade", Callable(this, "set_monitoring").bind(false));
-    damage = bullet->get_damage();
-    iframes = bullet->get_iframe_grant();
-    kr = bullet->get_kr_amount();
 }
 
 void BulletArea::_process(double delta) {
     if(isEditor) return;
     damage_mode = bullet->damage_mode;
+    damage = bullet->get_damage();
+    iframes = bullet->get_iframe_grant();
+    kr = bullet->get_kr_amount();
+
     if(is_monitoring()) {
         TypedArray<Area2D> overlapping_areas = get_overlapping_areas();
         for(int i = 0; i < overlapping_areas.size(); i++) {

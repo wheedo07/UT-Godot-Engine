@@ -14,8 +14,7 @@ void DefaultBullet::_bind_methods() {
     ClassDB::bind_method(D_METHOD("fire", "target", "movement_type", "speed"), &DefaultBullet::fire, DEFVAL(100.0f));
     ClassDB::bind_method(D_METHOD("queue_fire", "delay", "target", "movement_type", "speed"), &DefaultBullet::queue_fire, DEFVAL(100.0f));
     ClassDB::bind_method(D_METHOD("_await_fire", "fire_call", "delay"), &DefaultBullet::_await_fire);
-    ClassDB::bind_method(D_METHOD("_on_tween_finished", "fire_call", "delay"), &DefaultBullet::_on_tween_finished);
-    ClassDB::bind_method(D_METHOD("get_sprite_size"), &DefaultBullet::get_sprite_size);
+    ClassDB::bind_method(D_METHOD("_start_await_fire", "fire_call", "delay"), &DefaultBullet::_start_await_fire);
 
     ClassDB::bind_method(D_METHOD("set_collision_margin", "margin"), &DefaultBullet::set_collision_margin);
     ClassDB::bind_method(D_METHOD("get_collision_margin"), &DefaultBullet::get_collision_margin);
@@ -57,9 +56,11 @@ void DefaultBullet::_process(double delta) {
     shape->set_size(Vector2(sprite_size.x - collision_margin, sprite_size.y - collision_margin));
 }
 
-void DefaultBullet::fire(const Vector2& target, MovementMode movement_type, float speed) {
+void DefaultBullet::fire(const Vector2& target, MovementMode movement_type, float speed, DamageMode mode) {
     fire_mode = movement_type;
     target_position = target;
+    set_mode(mode);
+
     Vector2 distance;
     if(get_parent()->is_class("Node2D"))
         distance = target_position - get_global_position();
@@ -81,28 +82,24 @@ void DefaultBullet::fire(const Vector2& target, MovementMode movement_type, floa
     }
 }
 
-void DefaultBullet::queue_fire(float delay, const Vector2& target, MovementMode movement_type, float speed) {
-    Callable fire_call = Callable(this, "fire").bind(target, movement_type, speed);
+void DefaultBullet::queue_fire(float delay, const Vector2& target, MovementMode movement_type, float speed, DamageMode mode) {
+    Callable fire_call = Callable(this, "fire").bind(target, movement_type, speed, mode);
     _await_fire(fire_call, delay);
 }
 
 void DefaultBullet::_await_fire(const Callable& fire_call, float delay) {
     if (tw.is_valid() && tw->is_running()) {
-        tw->connect("finished", Callable(this, "_on_tween_finished").bind(fire_call, delay));
+        tw->connect("finished", Callable(this, "_start_await_fire").bind(fire_call, delay));
         return;
     }
     
     _start_await_fire(fire_call, delay);
 }
 
-void DefaultBullet::_on_tween_finished(const Callable& fire_call, float delay) {
-    _start_await_fire(fire_call, delay);
-}
-
 void DefaultBullet::_start_await_fire(const Callable& fire_call, float delay) {
     tw = create_tween();
     
-    if (velocity_tween.is_valid() && velocity_tween->is_running()) {
+    if(velocity_tween.is_valid() && velocity_tween->is_running()) {
         tw->pause();
         velocity_tween->connect("finished", Callable(tw.ptr(), "play"));
     }

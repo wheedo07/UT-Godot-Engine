@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="BulletArea" inherits="Area2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=green](사용자 생성 가능)[/color]
+        UT-Godot-Engine에서 탄환의 충돌 감지를 처리하는 전용 노드입니다.
+        [Bullet] 노드와 함께 사용되어 플레이어와의 충돌, 데미지 처리, 무적 프레임 등을 관리합니다.
+    </brief_description>
+    <description>
+        [b]BulletArea[/b]는 탄환과 플레이어 간의 충돌을 감지하고 처리하는 특화된 노드입니다.
+        
+        [b]주요 기능[/b]
+        • 탄환과 플레이어 간의 충돌 감지
+        • 데미지 모드에 따른 차별화된 충돌 처리
+        • [Bullet] 노드와의 자동 데이터 동기화
+        • 페이드 시 자동 모니터링 비활성화
+        
+        [b]데미지 모드 처리[/b]
+        • [code]MODE_WHITE[/code], [code]MODE_GREEN[/code]: 일반 충돌 처리
+        • [code]MODE_BLUE[/code], [code]MODE_ORANGE[/code]: 영혼의 이동 상태에 따른 조건부 처리
+        
+        [b]자동 연결 기능[/b]
+        • [Bullet]의 [signal bullet_fade] 시그널과 자동 연결되어 페이드 시 충돌 감지 비활성화
+        • 데미지, 무적 프레임, KR 값을 [Bullet]에서 자동 동기화
+        
+        [b]사용법[/b]
+        이 노드는 직접 스크립트를 작성하지 않고, [Bullet] 노드의 하위 노드로 배치하여 사용합니다.
+        [Area2D] 대신 사용되는 특화된 충돌 감지 노드입니다.
+        
+        [b]씬 구조 예시[/b]
+        [codeblock]
+        Bullet (Bullet 스크립트)
+        ├── Sprite2D
+        ├── BulletArea (bullet_path: "../")
+        │   └── CollisionShape2D
+        └── ...
+        [/codeblock]
+        
+        [b]주의사항[/b]
+        • [member bullet_path]는 반드시 유효한 [Bullet] 노드를 가리켜야 합니다.
+        • 충돌 감지는 자동으로 처리되므로 별도 설정이 필요하지 않습니다.
+    </description>
+    <tutorials></tutorials>
+    
+    <members>
+        <member name="bullet_path" type="NodePath" setter="set_bullet_path" getter="get_bullet_path" default="NodePath(&quot;&quot;)">
+            연결할 [Bullet] 노드의 경로입니다.
+            이 노드를 통해 탄환의 데미지, 무적 프레임, KR 값 등을 자동으로 동기화합니다.
+            반드시 유효한 [Bullet] 타입 노드를 가리켜야 합니다.
+        </member>
+    </members>
+</class>

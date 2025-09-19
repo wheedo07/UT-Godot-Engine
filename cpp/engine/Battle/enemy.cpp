@@ -198,7 +198,7 @@ void Enemy::modify_stats(Dictionary value) {
     main->modify_stats(id, value);
 }
 
-Ref<ActInfo> Enemy::get_act_info(int act_choice) {
+Ref<ActInfo> Enemy::_get_act_info(int act_choice) {
     if (new_states_override) {
         if (one_by_one_overrdie) {
             _get_act(0, act_choice);

@@ -457,7 +457,7 @@ void BattleBox::set_options() {
     Enemy* enemy = Object::cast_to<Enemy>(enemies[current_target_id]);
     
     for (int i = 0; i < 6; i++) {
-        Ref<ActInfo> act = enemy->get_act_info(i);
+        Ref<ActInfo> act = enemy->_get_act_info(i);
         if(!act.is_null()) acts.append(act->get_act());
     }
     
@@ -617,8 +617,7 @@ void BattleBox::blitter_act() {
     Enemy* enemy = Object::cast_to<Enemy>(enemies[current_target_id]);
     
     if (enemy && blitter_text) {
-        Ref<ActInfo> act_info = enemy->get_act_info(target_id);
-        
+        Ref<ActInfo> act_info = enemy->_get_act_info(target_id);
         PackedStringArray description = act_info->get_description();
         
         blitter_text->type_text(description);

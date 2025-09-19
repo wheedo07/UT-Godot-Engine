@@ -128,7 +128,8 @@
                 [param death]가 true면 적이 죽었음을, false면 자비를 받았음을 의미합니다.
             </description>
         </method>
-        
+
+        <!-- 사용 함수 -->
         <method name="change_state">
             <return type="void"/>
             <param index="0" name="new_state" type="int"/>
@@ -162,15 +163,6 @@
             </description>
         </method>
         
-        <method name="get_act_info">
-            <return type="ActInfo"/>
-            <param index="0" name="act_choice" type="int"/>
-            <description>
-                지정된 ACT 선택에 대한 정보를 반환합니다.
-                [param act_choice]는 ACT 옵션의 인덱스입니다.
-            </description>
-        </method>
-        
         <method name="modify_stats">
             <return type="void"/>
             <param index="0" name="value" type="Dictionary"/>
@@ -191,7 +183,7 @@
         <method name="get_solo">
             <return type="bool"/>
             <description>
-                다중 전투인지 여부를 반환합니다.
+                솔로 전투인지 여부를 반환합니다.
             </description>
         </method>
     </methods>

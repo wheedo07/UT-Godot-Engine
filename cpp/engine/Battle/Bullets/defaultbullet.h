@@ -25,7 +25,6 @@ namespace godot {
             Ref<Tween> tw;
             Vector2 target_position;
             
-            void _on_tween_finished(const Callable& fire_call, float delay);
             void _start_await_fire(const Callable& fire_call, float delay);
             void _await_fire(const Callable& fire_call, float delay);
 
@@ -39,8 +38,8 @@ namespace godot {
             void _process(double delta) override;
             Vector2 get_sprite_size();
 
-            void fire(const Vector2& target, MovementMode movement_type, float speed = 100.0f);
-            void queue_fire(float delay, const Vector2& target, MovementMode movement_type, float speed = 100.0f);
+            void fire(const Vector2& target, MovementMode movement_type, float speed = 100.0f, DamageMode mode = MODE_WHITE);
+            void queue_fire(float delay, const Vector2& target, MovementMode movement_type, float speed = 100.0f, DamageMode mode = MODE_WHITE);
 
             void set_collision_path(const NodePath& p_collision_path);
             NodePath get_collision_path() const;

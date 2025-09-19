@@ -135,7 +135,7 @@ namespace godot {
             void play_dialogue(int index, float duration=0, bool skip=true);
             void play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration=0, bool skip=true);
 
-            Ref<ActInfo> get_act_info(int act_choice);
+            Ref<ActInfo> _get_act_info(int act_choice);
             void on_death();
             void _on_spared(int id_number);
             void _get_act(int state, int option);

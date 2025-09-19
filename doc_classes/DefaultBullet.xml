@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DefaultBullet" inherits="Bullet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=green](사용자 생성 가능)[/color]
+        DefaultBullet 노드는 정말 기본적인 날아가는 탄환을 만들 때 주로 사용됩니다.
+        기본적인 탄환 발사 기능과 충돌 처리를 제공합니다.
+    </brief_description>
+    <description>
+        [b]DefaultBullet[/b]는 [Bullet]을 상속받아 기본적인 발사 기능을 추가한 탄환 노드입니다.
+        
+        [b]주요 기능[/b]
+        • 즉시 발사와 지연 발사 지원
+        • 속도 기반 및 트윈 기반 이동 모드
+        • 자동 충돌 영역 크기 조정
+        • 스프라이트 크기 자동 감지
+        • 유연한 트윈 애니메이션 설정
+        
+        [b]이동 모드[/b]
+        • [code]MOVEMENT_VELOCITY[/code]: 속도 기반 이동 (연속적인 움직임)
+        • [code]MOVEMENT_TWEEN[/code]: 트윈 기반 이동 (부드러운 애니메이션)
+        
+        [b]자동 충돌 관리[/b]
+        • 스프라이트 크기를 자동으로 감지하여 충돌 영역 설정
+        • [member collision_margin]을 통한 충돌 영역 미세 조정
+        • 다양한 스프라이트 노드 타입 지원 (Sprite2D, AnimatedSprite2D, TextureRect 등)
+        
+        [b]예시 (GDScript)[/b]
+        [codeblock]
+        extends DefaultBullet
+        
+        func ready():
+            # 탄환 설정
+            damage = 15
+            collision_margin = 2.0
+            TweenTrans = Tween.TRANS_SINE
+            TweenEase = Tween.EASE_OUT
+        
+            # 즉시 발사 (속도 기반)
+            fire(Vector2(100, 100), MOVEMENT_VELOCITY, 200.0)
+        
+        func create_delayed_pattern():
+            # 지연 발사 패턴 (트윈 기반)
+            queue_fire(1.0, Vector2(200, 0), MOVEMENT_TWEEN, 150.0)
+            queue_fire(2.0, Vector2(0, 200), MOVEMENT_TWEEN, 150.0)
+            queue_fire(3.0, Vector2(-200, 0), MOVEMENT_TWEEN, 150.0)
+        [/codeblock]
+
+        [b]필수 노드 구조[/b]
+        [codeblock]
+            DefaultBullet (DefaultBullet 스크립트)
+            ├── [sprite_path에 설정된 스프라이트 노드] (Sprite2D, AnimatedSprite2D 등)
+            └── [collision_path에 설정된 CollisionShape2D 노드]
+        [/codeblock]
+        
+        [b]주의사항[/b]
+        • [member sprite_path]와 [member collision_path]는 반드시 설정해야 합니다.
+        • [member collision_path]는 [CollisionShape2D] 노드를 가리켜야 합니다.
+        • [method queue_fire] 사용 시 기존 트윈이 실행 중이면 완료 후 발사됩니다.
+    </description>
+    <tutorials></tutorials>
+    
+    <methods>
+        <method name="fire">
+            <return type="void"/>
+            <param index="0" name="target" type="Vector2"/>
+            <param index="1" name="movement_type" type="int" enum="Bullet.MovementMode"/>
+            <param index="2" name="speed" type="float" default="100.0"/>
+            <param index="3" name="mode" type="int" enum="Bullet.DamageMode" default="0"/>
+            <description>
+                탄환을 즉시 발사합니다.
+                [param target]은 목표 위치, [param movement_type]은 이동 방식입니다.
+                [param speed]는 이동 속도 또는 트윈 지속 시간을 결정합니다.
+                
+                [b]속도 기반:[/b] speed는 픽셀/초 단위의 이동 속도 (멈추지 않음)
+                [b]트윈 기반:[/b] speed는 distance/speed 공식으로 트윈 시간 계산
+            </description>
+        </method>
+        
+        <method name="queue_fire">
+            <return type="void"/>
+            <param index="0" name="delay" type="float"/>
+            <param index="1" name="target" type="Vector2"/>
+            <param index="2" name="movement_type" type="int" enum="Bullet.MovementMode"/>
+            <param index="3" name="speed" type="float" default="100.0"/>
+            <param index="4" name="mode" type="int" enum="Bullet.DamageMode" default="0"/>
+            <description>
+                지연 시간 후 탄환을 발사합니다.
+                [param delay]는 지연 시간(초)입니다.
+                기존 트윈이 실행 중이면 완료 후 지연이 시작됩니다.
+                
+                연속적인 [method queue_fire] 호출로 순차적인 발사 패턴을 만들 수 있습니다.
+            </description>
+        </method>
+    </methods>
+    
+    <members>
+        <member name="collision_margin" type="float" setter="set_collision_margin" getter="get_collision_margin" default="4.0">
+            충돌 영역의 마진 값입니다.
+            스프라이트 크기에서 이 값만큼 빼서 충돌 영역 크기를 결정합니다.
+            값이 클수록 충돌 영역이 작아집니다.
+        </member>
+        
+        <member name="collision_path" type="NodePath" setter="set_collision_path" getter="get_collision_path" default="NodePath(&quot;&quot;)">
+            충돌 감지용 [CollisionShape2D] 노드의 경로입니다.
+            이 노드의 RectangleShape2D가 자동으로 스프라이트 크기에 맞춰 조정됩니다.
+        </member>
+        
+        <member name="TweenTrans" type="int" setter="set_tweenTrans" getter="get_tweenTrans" enum="Tween.TransitionType" default="3">
+            트윈 애니메이션의 전환 타입입니다.
+            [code]MOVEMENT_TWEEN[/code] 모드에서 사용됩니다.
+            기본값: [code]TRANS_QUAD[/code]
+        </member>
+        
+        <member name="TweenEase" type="int" setter="set_tweenEase" getter="get_tweenEase" enum="Tween.EaseType" default="2">
+            트윈 애니메이션의 이징 타입입니다.
+            [code]MOVEMENT_TWEEN[/code] 모드에서 사용됩니다.
+            기본값: [code]EASE_IN_OUT[/code]
+        </member>
+        
+        <member name="target_position" type="Vector2" setter="set_property" getter="get_target_position" default="Vector2(0, 0)">
+            현재 목표 위치입니다. 읽기 전용입니다.
+            [method fire] 또는 [method queue_fire] 호출 시 자동으로 설정됩니다.
+        </member>
+    </members>
+</class>
