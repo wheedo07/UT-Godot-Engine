@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="AttackBase" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
     <brief_description>
-        (사용자 생성 가능)
+        [color=green](사용자 생성 가능)[/color]
         UT-Godot-Engine에서 전투 시스템의 공격 패턴을 구현하는 베이스 클래스입니다.
         모든 공격 패턴은 이 클래스를 상속받아 구현되며, 탄환 생성, 배치, 마스킹 등의 핵심 기능을 제공합니다.
     </brief_description>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="Bullet" inherits="CharacterBody2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
     <brief_description>
-        (사용자 생성 가능)
+        [color=green](사용자 생성 가능)[/color]
         UT-Godot-Engine의 전투 시스템에서 사용되는 탄환(Bullet) 노드입니다.  
         Undertale 스타일의 탄환 움직임, 데미지, 효과 모드 등을 구현할 수 있습니다.
     </brief_description>

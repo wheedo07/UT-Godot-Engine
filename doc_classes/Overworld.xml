@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="Overworld" inherits="Node2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
     <brief_description>
-        (사용자 생성 가능)
+        [color=green](사용자 생성 가능)[/color]
         오버월드 씬의 플레이어 배치, 카메라 연동, BGM 페이드인을 관리하는 루트 노드.
     </brief_description>
 

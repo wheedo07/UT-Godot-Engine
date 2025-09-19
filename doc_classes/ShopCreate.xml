@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="ShopCreate" inherits="Control" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
     <brief_description>
-        (사용자 생성 가능)
+        [color=green](사용자 생성 가능)[/color]
         UT-Godot-Engine에서 상점을 구현할 때 사용하는 전용 노드입니다.
         상점 인터페이스, 대화 연출, 물건 구매 처리 등을 위한 커스터마이징 가능한 구성요소입니다.
     </brief_description>
