@@ -115,6 +115,13 @@
                 [signal bullet_fade] 시그널을 발생시킵니다.
             </description>
         </method>
+
+        <method name="_on_exit_screen">
+            <return type="void"/>
+            <description>
+                VisibleOnScreenNotifier2D 노드에 screen_exited 시그널과 연결용 함수입니다
+            </description>
+        </method>
     </methods>
     
     <members>
