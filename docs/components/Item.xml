@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Item" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        Undertale 스타일 게임의 아이템을 정의하는 리소스 클래스입니다.
+    </brief_description>
+    <description>
+        Item 클래스는 게임 내 모든 아이템(소비 아이템, 무기, 방어구)을 정의하는 데 사용되는 리소스입니다. 
+        아이템의 타입, 능력치, 사용 메시지 등을 설정할 수 있으며, Undertale 스타일의 인벤토리 시스템과 완벽하게 호환됩니다.
+        
+        [b]지원되는 아이템 타입:[/b]
+        • CONSUMABLE: 회복 아이템, 사용 후 소모
+        • WEAPON: 공격력 증가 장비
+        • ARMOR: 방어력 증가 장비
+        
+        [b]사용법:[/b]
+        1. FileSystem에서 우클릭 → 새 리소스 → Item
+        2. 인스펙터에서 아이템 속성 설정
+        3. res://Main/global.tscn 에서 item_list에 아이템 추가
+    </description>
+    <tutorials></tutorials>
+
+    <members>
+        <member name="attack_amount" type="int" setter="set_attack_amount" getter="get_attack_amount" default="0">
+            무기나 방어구의 공격력 증가량입니다.
+        </member>
+        <member name="critical_hits" type="bool" setter="set_critical_hits" getter="get_critical_hits" default="false">
+            무기가 크리티컬 히트를 발생시킬 수 있는지 여부입니다. true일 경우 완벽한 타이밍에 추가 데미지를 줄 수 있습니다.
+        </member>
+        <member name="defense_amount" type="int" setter="set_defense_amount" getter="get_defense_amount" default="0">
+            방어구의 방어력 증가량입니다. 받는 데미지를 이 값만큼 감소시킵니다.
+        </member>
+        <member name="heal_amount" type="int" setter="set_heal_amount" getter="get_heal_amount" default="0">
+            소비 아이템의 HP 회복량입니다. 사용 시 플레이어의 HP가 이 값만큼 회복됩니다.
+        </member>
+        <member name="item_information" type="PackedStringArray" setter="set_item_information" getter="get_item_information" default="PackedStringArray()">
+            아이템의 상세 정보입니다. 인벤토리에서 아이템을 확인할 때 표시되는 설명문입니다.
+        </member>
+        <member name="item_name" type="String" setter="set_item_name" getter="get_item_name" default="&quot;TestItem&quot;">
+            아이템의 이름입니다. 인벤토리와 메뉴에서 표시됩니다.
+        </member>
+        <member name="item_type" type="int" setter="set_item_type" getter="get_item_type" enum="Item.ItemType" default="0">
+            아이템의 타입입니다. CONSUMABLE(소비 아이템), WEAPON(무기), ARMOR(방어구) 중 하나입니다.
+        </member>
+        <member name="throw_message" type="PackedStringArray" setter="set_throw_message" getter="get_throw_message" default="PackedStringArray()">
+            아이템을 버렸을 때 표시되는 메시지입니다. 각 문자열은 순차적으로 표시됩니다.
+        </member>
+        <member name="use_message" type="PackedStringArray" setter="set_use_message" getter="get_use_message" default="PackedStringArray()">
+            아이템을 사용했을 때 표시되는 메시지입니다. 배열의 각 요소는 순차적으로 표시됩니다.
+        </member>
+        <member name="weapon_bars" type="int" setter="set_weapon_bars" getter="get_weapon_bars" default="1">
+            무기의 공격 바 개수입니다.
+        </member>
+        <member name="weapon_speed" type="float" setter="set_weapon_speed" getter="get_weapon_speed" default="1.5">
+            무기의 공격 바 속도입니다.
+        </member>
+        <member name="weapon_type" type="int" setter="set_weapon_type" getter="get_weapon_type" enum="Item.WeaponType" default="0">
+            무기의 타입입니다. 각 타입마다 고유한 애니메이션을 가집니다.
+        </member>
+    </members>
+    <constants>
+        <constant name="KNIFE" value="0" enum="WeaponType">
+            기본적인 베기 공격을 수행합니다.
+        </constant>
+        <constant name="PUNCH" value="1" enum="WeaponType">
+            주먹 공격 효과를 수행합니다.
+        </constant>
+        <constant name="SHOE" value="2" enum="WeaponType">
+            신발 공격 효과를 수행합니다.
+        </constant>
+        <constant name="BOOK" value="3" enum="WeaponType">
+            책 공격 효과를 수행합니다.
+        </constant>
+        <constant name="PAN" value="4" enum="WeaponType">
+            후라이팬 공격 효과를 수행합니다.
+        </constant>
+        <constant name="GUN" value="5" enum="WeaponType">
+            총 공격 효과를 수행합니다.
+        </constant>
+        <constant name="CONSUMABLE" value="0" enum="ItemType">
+            소비 아이템입니다. 사용 시 효과를 발휘하고 소모됩니다.
+        </constant>
+        <constant name="WEAPON" value="1" enum="ItemType">
+            무기입니다. 장착 시 공격력이 증가합니다.
+        </constant>
+        <constant name="ARMOR" value="2" enum="ItemType">
+            방어구입니다. 장착 시 방어력이 증가합니다.
+        </constant>
+    </constants>
+</class>
