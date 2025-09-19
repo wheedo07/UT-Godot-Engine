@@ -11,8 +11,8 @@ DefaultBullet::DefaultBullet() {
 DefaultBullet::~DefaultBullet() {}
 
 void DefaultBullet::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("fire", "target", "movement_type", "speed"), &DefaultBullet::fire, DEFVAL(100.0f));
-    ClassDB::bind_method(D_METHOD("queue_fire", "delay", "target", "movement_type", "speed"), &DefaultBullet::queue_fire, DEFVAL(100.0f));
+    ClassDB::bind_method(D_METHOD("fire", "target", "movement_type", "speed", "mode"), &DefaultBullet::fire, DEFVAL(100.0f), DEFVAL(MODE_WHITE));
+    ClassDB::bind_method(D_METHOD("queue_fire", "delay", "target", "movement_type", "speed", "mode"), &DefaultBullet::queue_fire, DEFVAL(100.0f), DEFVAL(MODE_WHITE));
     ClassDB::bind_method(D_METHOD("_await_fire", "fire_call", "delay"), &DefaultBullet::_await_fire);
     ClassDB::bind_method(D_METHOD("_start_await_fire", "fire_call", "delay"), &DefaultBullet::_start_await_fire);
 
