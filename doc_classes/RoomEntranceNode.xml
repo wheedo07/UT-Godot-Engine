@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="RoomEntranceNode" inherits="ReferenceRect" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
     <brief_description>
-        (생성 가능)
+        (사용자 생성 가능)
         UT-Godot-Engine에서 오버월드 맵 간 이동을 관리하는 노드입니다. 문이나 통로 등 맵 간 전환 지점을 정의할 때 사용됩니다.
     </brief_description>
     <description>

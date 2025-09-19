@@ -20,6 +20,7 @@ namespace godot {
             const float BEAM_COLLISION_MARGIN = 6.0f;
             const float GROW_TIME = 0.2f;
             const int SPEED = 1000;
+            Vector2 target_position;
 
             Control* beam;
             NinePatchRect* rect;
@@ -27,6 +28,8 @@ namespace godot {
             CollisionShape2D* collision;
             Tween::TransitionType tween_trans;
             Tween::EaseType tween_ease;
+
+            void set_property(const Variant& value);
 
         public:
             Blaster();
@@ -42,6 +45,8 @@ namespace godot {
 
             void set_tweenEase(Tween::EaseType value);
             Tween::EaseType get_tweenEase() const;
+
+            Vector2 get_target_position() const;
     };
 }
 

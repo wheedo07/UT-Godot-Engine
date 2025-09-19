@@ -23,10 +23,13 @@ namespace godot {
             Tween::TransitionType tween_trans;
             Tween::EaseType tween_ease;
             Ref<Tween> tw;
+            Vector2 target_position;
             
             void _on_tween_finished(const Callable& fire_call, float delay);
             void _start_await_fire(const Callable& fire_call, float delay);
             void _await_fire(const Callable& fire_call, float delay);
+
+            void set_property(const Variant& value);
             
         public:
             DefaultBullet();
@@ -50,6 +53,8 @@ namespace godot {
 
             void set_tweenEase(Tween::EaseType value);
             Tween::EaseType get_tweenEase() const;
+
+            Vector2 get_target_position() const;
     };
 };
 

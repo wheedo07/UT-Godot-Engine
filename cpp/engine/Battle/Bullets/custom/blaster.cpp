@@ -10,6 +10,7 @@ Blaster::Blaster() {
     anim_player = nullptr;
     tween_trans = Tween::TRANS_QUAD;
     tween_ease = Tween::EASE_IN_OUT;
+    target_position = Vector2(0, 0);
 }
 
 Blaster::~Blaster() {}
@@ -26,6 +27,10 @@ void Blaster::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_tweenEase", "value"), &Blaster::set_tweenEase);
     ClassDB::bind_method(D_METHOD("get_tweenEase"), &Blaster::get_tweenEase);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut,OutIn"), "set_tweenEase", "get_tweenEase");
+
+    ClassDB::bind_method(D_METHOD("set_property", "value"), &Blaster::set_property);
+    ClassDB::bind_method(D_METHOD("get_target_position"), &Blaster::get_target_position);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "target_position", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_target_position");
 }
 
 void Blaster::ready() {
@@ -117,4 +122,12 @@ void Blaster::set_tweenEase(Tween::EaseType value) {
 
 Tween::EaseType Blaster::get_tweenEase() const {
     return tween_ease;
+}
+
+void Blaster::set_property(const Variant& value) {
+    ERR_PRINT("이 속성은 읽기 전용입니다.");
+}
+
+Vector2 Blaster::get_target_position() const {
+    return target_position;
 }

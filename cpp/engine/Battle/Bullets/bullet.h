@@ -31,10 +31,9 @@ namespace godot {
             };
             bool isEditor;
             MovementMode fire_mode;
-            Vector2 target_position;
-            Ref<Tween> velocity_tween;
             DamageMode damage_mode;
             bool delete_upon_hit_value;
+            Ref<Tween> velocity_tween;
 
         private:
             int damage_value;
@@ -86,6 +85,9 @@ namespace godot {
 
             void set_colors(const Array& p_colors);
             Array get_colors() const;
+
+            void set_velocity_tween(const Ref<Tween>& value);
+            Ref<Tween> get_velocity_tween() const;
     };
 }
 VARIANT_ENUM_CAST(godot::Bullet::MovementMode);

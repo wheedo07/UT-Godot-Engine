@@ -13,7 +13,6 @@ Bullet::Bullet() {
     colors[MODE_BLUE] = Color(0.0, 0.85, 1.0); // BLUE
     colors[MODE_ORANGE] = Color(1.0, 0.65, 0.0); // ORANGE
 
-    target_position = Vector2(0, 0);
     fire_mode = MOVEMENT_VELOCITY;
     damage_value = 5;
     iframe_grant_value = 50;
@@ -72,6 +71,10 @@ void Bullet::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_colors", "colors"), &Bullet::set_colors);
     ClassDB::bind_method(D_METHOD("get_colors"), &Bullet::get_colors);
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "colors", PROPERTY_HINT_ARRAY_TYPE, "Color"), "set_colors", "get_colors");
+
+    ClassDB::bind_method(D_METHOD("set_velocity_tween", "velocity_tween"), &Bullet::set_velocity_tween);
+    ClassDB::bind_method(D_METHOD("get_velocity_tween"), &Bullet::get_velocity_tween);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "velocity_tween", PROPERTY_HINT_NONE, "Tween", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_velocity_tween", "get_velocity_tween");
 }
 
 void Bullet::_ready() {
@@ -181,4 +184,12 @@ void Bullet::set_colors(const Array& p_colors) {
 
 Array Bullet::get_colors() const {
     return colors;
+}
+
+void Bullet::set_velocity_tween(const Ref<Tween>& value) {
+    velocity_tween = value;
+}
+
+Ref<Tween> Bullet::get_velocity_tween() const {
+    return velocity_tween;
 }

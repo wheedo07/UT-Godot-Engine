@@ -3,6 +3,7 @@ using namespace godot;
 
 DefaultBullet::DefaultBullet() {
     collision_margin = 4.0f;
+    target_position = Vector2(0, 0);
     tween_trans = Tween::TRANS_QUAD;
     tween_ease = Tween::EASE_IN_OUT;
 }
@@ -31,6 +32,10 @@ void DefaultBullet::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_tweenEase", "value"), &DefaultBullet::set_tweenEase);
     ClassDB::bind_method(D_METHOD("get_tweenEase"), &DefaultBullet::get_tweenEase);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut,OutIn"), "set_tweenEase", "get_tweenEase");
+
+    ClassDB::bind_method(D_METHOD("set_property", "value"), &DefaultBullet::set_property);
+    ClassDB::bind_method(D_METHOD("get_target_position"), &DefaultBullet::get_target_position);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "target_position", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_target_position");
 }
 
 void DefaultBullet::ready() {
@@ -173,4 +178,12 @@ void DefaultBullet::set_tweenEase(Tween::EaseType value) {
 
 Tween::EaseType DefaultBullet::get_tweenEase() const {
     return tween_ease;
+}
+
+void DefaultBullet::set_property(const Variant& value) {
+    ERR_PRINT("이 속성은 읽기 전용입니다.");
+}
+
+Vector2 DefaultBullet::get_target_position() const {
+    return target_position;
 }
