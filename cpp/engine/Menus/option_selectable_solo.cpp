@@ -16,9 +16,6 @@ OptionSelectableSolo::OptionSelectableSolo() {
 OptionSelectableSolo::~OptionSelectableSolo() {}
 
 void OptionSelectableSolo::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("set_enabled", "new_val"), &OptionSelectableSolo::set_enabled);
-    ClassDB::bind_method(D_METHOD("get_enabled"), &OptionSelectableSolo::get_enabled);
-    
     ClassDB::bind_method(D_METHOD("enable"), &OptionSelectableSolo::enable);
     ClassDB::bind_method(D_METHOD("disable"), &OptionSelectableSolo::disable);
 
@@ -41,7 +38,6 @@ void OptionSelectableSolo::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_node_accept"), &OptionSelectableSolo::get_node_accept);
     
     // 프로퍼티 등록
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "enabled"), "set_enabled", "get_enabled");
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "soul_offset"), "set_soul_offset", "get_soul_offset");
     
     ADD_GROUP("Surrounding Options", "");
@@ -110,14 +106,6 @@ void OptionSelectableSolo::set_selected(bool new_val) {
 
 void OptionSelectableSolo::reset() {
     set_selected(false);
-}
-
-void OptionSelectableSolo::set_enabled(bool new_val) {
-    enabled = new_val;
-}
-
-bool OptionSelectableSolo::get_enabled() const {
-    return enabled;
 }
 
 void OptionSelectableSolo::enable() {
