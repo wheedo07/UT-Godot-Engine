@@ -49,6 +49,9 @@ namespace godot {
             void set_selected(bool new_val) override;
             void reset() override;
 
+            void set_enabled(bool new_val);
+            bool get_enabled() const;
+
             void enable();
             void disable();
 

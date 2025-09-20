@@ -36,9 +36,13 @@ void OptionSelectableSolo::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("set_node_accept", "node"), &OptionSelectableSolo::set_node_accept);
     ClassDB::bind_method(D_METHOD("get_node_accept"), &OptionSelectableSolo::get_node_accept);
+
+    ClassDB::bind_method(D_METHOD("set_enabled", "enabled"), &OptionSelectableSolo::set_enabled);
+    ClassDB::bind_method(D_METHOD("get_enabled"), &OptionSelectableSolo::get_enabled);
     
     // 프로퍼티 등록
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "soul_offset"), "set_soul_offset", "get_soul_offset");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "enabled"), "set_enabled", "get_enabled");
     
     ADD_GROUP("Surrounding Options", "");
     
@@ -110,10 +114,12 @@ void OptionSelectableSolo::reset() {
 
 void OptionSelectableSolo::enable() {
     enabled = true;
+    set_selected(true);
 }
 
 void OptionSelectableSolo::disable() {
     enabled = false;
+    set_selected(false);
 }
 
 void OptionSelectableSolo::move_soul(OptionSelectable* node) {
@@ -171,4 +177,12 @@ void OptionSelectableSolo::set_soul_offset(const Vector2& p_offset) {
 
 Vector2 OptionSelectableSolo::get_soul_offset() const {
     return soul_offset;
+}
+
+void OptionSelectableSolo::set_enabled(bool p_enabled) {
+    enabled = p_enabled;
+}
+
+bool OptionSelectableSolo::get_enabled() const {
+    return enabled;
 }
