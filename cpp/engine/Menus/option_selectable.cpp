@@ -1,4 +1,5 @@
 #include "option_selectable.h"
+#include "env.h"
 #include<godot_cpp/classes/engine.hpp>
 using namespace godot;
 
@@ -11,9 +12,10 @@ OptionSelectable::OptionSelectable() {
 OptionSelectable::~OptionSelectable() {}
 
 void OptionSelectable::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("reset"), &OptionSelectable::reset);
+
     ClassDB::bind_method(D_METHOD("set_selected", "new_val"), &OptionSelectable::set_selected);
     ClassDB::bind_method(D_METHOD("get_selected"), &OptionSelectable::get_selected);
-    ClassDB::bind_method(D_METHOD("reset"), &OptionSelectable::reset);
     
     ClassDB::bind_method(D_METHOD("set_initial_selected", "selected"), &OptionSelectable::set_initial_selected);
     ClassDB::bind_method(D_METHOD("get_initial_selected"), &OptionSelectable::get_initial_selected);
@@ -27,7 +29,7 @@ void OptionSelectable::_bind_methods() {
 }
 
 void OptionSelectable::_ready() {
-    if(Engine::get_singleton()->is_editor_hint()) return;
+    if(isEditor) return;
     default_color = get_self_modulate();
     
     set_selected(Selected);
@@ -58,7 +60,7 @@ bool OptionSelectable::get_initial_selected() const {
 void OptionSelectable::set_selected_color(const Color& p_color) {
     selected_color = p_color;
     
-    if (selected) {
+    if(selected && !isEditor) {
         set_self_modulate(selected_color);
     }
 }

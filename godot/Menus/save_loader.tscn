@@ -96,7 +96,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Load" type="OptionSelectableSolo" parent="Control/Options"]
-NodeRight = NodePath("../Reset")
+node_right = NodePath("../Reset")
 material = SubResource("ShaderMaterial_kc30e")
 clip_contents = false
 layout_mode = 1
@@ -111,7 +111,7 @@ text = "UT_CONTINUOUS"
 scroll_active = false
 
 [node name="Reset" type="OptionSelectableSolo" parent="Control/Options"]
-NodeLeft = NodePath("../Load")
+node_left = NodePath("../Load")
 material = SubResource("ShaderMaterial_mkrny")
 clip_contents = false
 layout_mode = 1

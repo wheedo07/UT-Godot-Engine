@@ -22,8 +22,9 @@ namespace godot {
             ~OptionSelectable();
 
             virtual void _ready() override;
-
+            virtual void reset();
             virtual void set_selected(bool new_val);
+
             bool get_selected() const;
 
             void set_initial_selected(bool p_selected);
@@ -33,8 +34,6 @@ namespace godot {
             Color get_selected_color() const;
             
             Color get_default_color() const;
-
-            virtual void reset();
     };
 }
 

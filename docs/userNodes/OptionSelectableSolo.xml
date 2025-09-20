@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="OptionSelectableSolo" inherits="OptionSelectable" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=green](사용자 생성 가능)[/color]
+        단일 선택 가능한 메뉴 옵션 노드입니다. 키보드 입력으로 다른 옵션들 간의 이동과 선택을 처리합니다.
+    </brief_description>
+    <description>
+        OptionSelectableSolo는 메뉴 시스템에서 개별 선택 옵션을 구현하는 노드입니다.
+        키보드 방향키로 다른 옵션들 간의 이동을 처리하고, 엔터키로 선택을 확정합니다.
+        
+        [b]주요 기능:[/b]
+        • 방향키 입력으로 인접한 옵션들과 연결
+        • 영혼(Soul) 위치 이동 요청 처리
+        • 선택 시각적 피드백 (색상 변화)
+        • 활성/비활성 상태 관리
+        • 오디오 피드백 (선택음, 이동음)
+        
+        [b]사용 예시:[/b]
+        각 OptionSelectableSolo 노드에서 node_up, node_down, node_left, node_right 속성을 설정하여
+        메뉴의 네비게이션 구조를 만들 수 있습니다.
+        
+        [b]시그널 연결:[/b]
+        • accept_pressed: 옵션이 선택되었을 때
+        • move_soul_request: 영혼 위치 이동이 필요할 때
+        
+        [b]상속 관계:[/b]
+        OptionSelectable의 모든 기능을 상속받으며, 추가로 입력 처리와 네비게이션 기능을 제공합니다.
+    </description>
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="disable">
+            <return type="void" />
+            <description>
+                옵션을 비활성화합니다. enabled 속성을 false로 설정하는 편의 함수입니다.
+                비활성화된 옵션은 입력을 받지 않습니다.
+            </description>
+        </method>
+        <method name="enable">
+            <return type="void" />
+            <description>
+                옵션을 활성화합니다. enabled 속성을 true로 설정하는 편의 함수입니다.
+                활성화된 옵션만 키보드 입력을 처리합니다.
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="enabled" type="bool" setter="set_enabled" getter="get_enabled" default="true">
+            옵션의 활성화 상태입니다.
+        </member>
+        <member name="node_accept" type="NodePath" setter="set_node_accept" getter="get_node_accept" default="NodePath(&quot;&quot;)">
+            엔터키를 눌렀을 때 이동할 대상 노드의 경로입니다.
+        </member>
+        <member name="node_down" type="NodePath" setter="set_node_down" getter="get_node_down" default="NodePath(&quot;&quot;)">
+            아래 방향키를 눌렀을 때 이동할 옵션 노드의 경로입니다.
+            OptionSelectable 타입의 노드여야 합니다.
+        </member>
+        <member name="node_left" type="NodePath" setter="set_node_left" getter="get_node_left" default="NodePath(&quot;&quot;)">
+            왼쪽 방향키를 눌렀을 때 이동할 옵션 노드의 경로입니다.
+            OptionSelectable 타입의 노드여야 합니다.
+        </member>
+        <member name="node_right" type="NodePath" setter="set_node_right" getter="get_node_right" default="NodePath(&quot;&quot;)">
+            오른쪽 방향키를 눌렀을 때 이동할 옵션 노드의 경로입니다.
+            OptionSelectable 타입의 노드여야 합니다.
+        </member>
+        <member name="node_up" type="NodePath" setter="set_node_up" getter="get_node_up" default="NodePath(&quot;&quot;)">
+            위 방향키를 눌렀을 때 이동할 옵션 노드의 경로입니다.
+            OptionSelectable 타입의 노드여야 합니다.
+        </member>
+        <member name="soul_offset" type="Vector2" setter="set_soul_offset" getter="get_soul_offset" default="Vector2(0, 0)">
+            영혼 위치의 오프셋입니다.
+            move_soul_request 시그널 발생 시 노드 위치에 이 값을 더한 위치를 전달합니다.
+        </member>
+    </members>
+
+    <signals>
+        <signal name="accept_pressed">
+            <description>
+                엔터키가 눌렸을 때 발생하는 시그널입니다.
+                메뉴 옵션이 선택되었음을 알리는 데 사용됩니다.
+            </description>
+        </signal>
+        <signal name="move_soul_request">
+            <param index="0" name="pos" type="Vector2" />
+            <description>
+                영혼 위치 이동이 요청될 때 발생하는 시그널입니다.
+                pos 매개변수는 영혼이 이동해야 할 글로벌 위치입니다.
+                res://Menus/menu_soul.tscn를 추가하고 move_global에 이 시그널을 연결하여 영혼 이동을 처리할 수 있습니다
+            </description>
+        </signal>
+    </signals>
+</class>

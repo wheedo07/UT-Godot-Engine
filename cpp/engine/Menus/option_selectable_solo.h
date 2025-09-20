@@ -13,7 +13,7 @@ namespace godot {
         private:
             bool enabled;
 
-            Vector2 offset;
+            Vector2 soul_offset;
 
             NodePath node_up;
             NodePath node_down;
@@ -35,6 +35,9 @@ namespace godot {
 
             void set_node_accept(NodePath p_node);
             NodePath get_node_accept() const;
+
+            void set_soul_offset(const Vector2& p_offset);
+            Vector2 get_soul_offset() const;
         
         public:
             OptionSelectableSolo();
@@ -53,9 +56,6 @@ namespace godot {
             void disable();
 
             void move_soul(OptionSelectable* node);
-
-            void set_offset(const Vector2& p_offset);
-            Vector2 get_offset() const;
     };
 }
 

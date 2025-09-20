@@ -5,7 +5,7 @@
 
 OptionSelectableSolo::OptionSelectableSolo() {
     enabled = true;
-    offset = Vector2(0, 0);
+    soul_offset = Vector2(0, 0);
     node_up = NodePath();
     node_down = NodePath();
     node_left = NodePath();
@@ -21,12 +21,10 @@ void OptionSelectableSolo::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("enable"), &OptionSelectableSolo::enable);
     ClassDB::bind_method(D_METHOD("disable"), &OptionSelectableSolo::disable);
-    
-    ClassDB::bind_method(D_METHOD("move_soul", "node"), &OptionSelectableSolo::move_soul);
-    
-    ClassDB::bind_method(D_METHOD("set_offset", "offset"), &OptionSelectableSolo::set_offset);
-    ClassDB::bind_method(D_METHOD("get_offset"), &OptionSelectableSolo::get_offset);
-    
+
+    ClassDB::bind_method(D_METHOD("set_soul_offset", "offset"), &OptionSelectableSolo::set_soul_offset);
+    ClassDB::bind_method(D_METHOD("get_soul_offset"), &OptionSelectableSolo::get_soul_offset);
+
     ClassDB::bind_method(D_METHOD("set_node_up", "node"), &OptionSelectableSolo::set_node_up);
     ClassDB::bind_method(D_METHOD("get_node_up"), &OptionSelectableSolo::get_node_up);
     
@@ -44,16 +42,16 @@ void OptionSelectableSolo::_bind_methods() {
     
     // 프로퍼티 등록
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "enabled"), "set_enabled", "get_enabled");
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "offset"), "set_offset", "get_offset");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "soul_offset"), "set_soul_offset", "get_soul_offset");
     
     ADD_GROUP("Surrounding Options", "");
     
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeUp", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_up", "get_node_up");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeDown", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_down", "get_node_down");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeLeft", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_left", "get_node_left");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeRight", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_right", "get_node_right");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "node_up", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_up", "get_node_up");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "node_down", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_down", "get_node_down");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "node_left", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_left", "get_node_left");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "node_right", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_right", "get_node_right");
     
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "NodeAccept", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_accept", "get_node_accept");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "node_accept", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_accept", "get_node_accept");
     
     ADD_SIGNAL(MethodInfo("accept_pressed"));
     ADD_SIGNAL(MethodInfo("move_soul_request", PropertyInfo(Variant::VECTOR2, "pos")));
@@ -64,8 +62,7 @@ void OptionSelectableSolo::_ready() {
     OptionSelectable::_ready();
     set_selected(get_initial_selected());
     
-    if (!get_selected()) return;
-    
+    if(!get_selected()) return;
     move_soul(this);
 }
 
@@ -134,7 +131,7 @@ void OptionSelectableSolo::disable() {
 void OptionSelectableSolo::move_soul(OptionSelectable* node) {
     get_viewport()->set_input_as_handled();
     
-    emit_signal("move_soul_request", node->get_global_position() + offset);
+    emit_signal("move_soul_request", node->get_global_position() + soul_offset);
     
     set_selected(false);
     node->set_selected(true);
@@ -180,10 +177,10 @@ NodePath OptionSelectableSolo::get_node_accept() const {
     return node_accept;
 }
 
-void OptionSelectableSolo::set_offset(const Vector2& p_offset) {
-    offset = p_offset;
+void OptionSelectableSolo::set_soul_offset(const Vector2& p_offset) {
+    soul_offset = p_offset;
 }
 
-Vector2 OptionSelectableSolo::get_offset() const {
-    return offset;
+Vector2 OptionSelectableSolo::get_soul_offset() const {
+    return soul_offset;
 }
