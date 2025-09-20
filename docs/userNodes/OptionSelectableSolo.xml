@@ -46,6 +46,9 @@
     </methods>
 
     <members>
+        <member name="enabled" type="bool" setter="set_enabled" getter="get_enabled" default="true">
+            옵션의 활성화 상태입니다.
+        </member>
         <member name="node_accept" type="NodePath" setter="set_node_accept" getter="get_node_accept" default="NodePath(&quot;&quot;)">
             엔터키를 눌렀을 때 이동할 대상 노드의 경로입니다.
         </member>
