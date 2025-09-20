@@ -26,29 +26,23 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("end_encounter"), &BattleMain::end_encounter);
     ClassDB::bind_method(D_METHOD("enemy_size"), &BattleMain::enemy_size);
     ClassDB::bind_method(D_METHOD("toggle_transparent"), &BattleMain::toggle_transparent);
-    
-    ClassDB::bind_method(D_METHOD("no_enemies_handler"), &BattleMain::no_enemies_handler);
-    ClassDB::bind_method(D_METHOD("on_get_turn"), &BattleMain::on_get_turn);
-    ClassDB::bind_method(D_METHOD("on_end_turn"), &BattleMain::on_end_turn);
-
-    ClassDB::bind_method(D_METHOD("_on_player_turn_start"), &BattleMain::_on_player_turn_start);
-    ClassDB::bind_method(D_METHOD("_on_enemy_turn_start"), &BattleMain::_on_enemy_turn_start);
-    ClassDB::bind_method(D_METHOD("_on_damage_info_finished"), &BattleMain::_on_damage_info_finished);
-    ClassDB::bind_method(D_METHOD("_initialize"), &BattleMain::initialize);
-    
-    ClassDB::bind_method(D_METHOD("_fight", "target"), &BattleMain::_fight);
-    ClassDB::bind_method(D_METHOD("hit", "damage", "target", "crit"), &BattleMain::hit, DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("miss", "target"), &BattleMain::miss);
-    ClassDB::bind_method(D_METHOD("_act", "target", "option"), &BattleMain::_act);
-    ClassDB::bind_method(D_METHOD("_mercy", "choice"), &BattleMain::_mercy);
-    ClassDB::bind_method(D_METHOD("_item", "item_id"), &BattleMain::_item);
-    
     ClassDB::bind_method(D_METHOD("kill_enemy", "enemy_id"), &BattleMain::kill_enemy, DEFVAL(0));
     ClassDB::bind_method(D_METHOD("spare_enemy", "enemy_id"), &BattleMain::spare_enemy, DEFVAL(0));
     ClassDB::bind_method(D_METHOD("check_end_encounter"), &BattleMain::check_end_encounter);
     ClassDB::bind_method(D_METHOD("check_enemy_solo"), &BattleMain::check_enemy_solo);
-    ClassDB::bind_method(D_METHOD("pure_int_to_short_representation", "input"), &BattleMain::pure_int_to_short_representation);
-
+    
+    ClassDB::bind_method(D_METHOD("_no_enemies_handler"), &BattleMain::_no_enemies_handler);
+    ClassDB::bind_method(D_METHOD("_on_get_turn"), &BattleMain::_on_get_turn);
+    ClassDB::bind_method(D_METHOD("_on_end_turn"), &BattleMain::_on_end_turn);
+    ClassDB::bind_method(D_METHOD("_on_player_turn_start"), &BattleMain::_on_player_turn_start);
+    ClassDB::bind_method(D_METHOD("_on_enemy_turn_start"), &BattleMain::_on_enemy_turn_start);
+    ClassDB::bind_method(D_METHOD("_on_damage_info_finished"), &BattleMain::_on_damage_info_finished);
+    ClassDB::bind_method(D_METHOD("_fight", "target"), &BattleMain::_fight);
+    ClassDB::bind_method(D_METHOD("_hit", "damage", "target", "crit"), &BattleMain::_hit, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("_miss", "target"), &BattleMain::_miss);
+    ClassDB::bind_method(D_METHOD("_act", "target", "option"), &BattleMain::_act);
+    ClassDB::bind_method(D_METHOD("_mercy", "choice"), &BattleMain::_mercy);
+    ClassDB::bind_method(D_METHOD("_item", "item_id"), &BattleMain::_item);
     ClassDB::bind_method(D_METHOD("_on_slash_finished", "damage", "target", "crit"), &BattleMain::_on_slash_finished);
     ClassDB::bind_method(D_METHOD("_on_damage_info_completed", "target"), &BattleMain::_on_damage_info_completed);
     ClassDB::bind_method(D_METHOD("_on_fight_used_completed", "target"), &BattleMain::_on_fight_used_completed);
@@ -107,7 +101,7 @@ void BattleMain::_ready() {
         
         if (enemy_scenes.size() == 0) {
             soul_battle->hide();
-            get_tree()->connect("process_frame", Callable(this, "no_enemies_handler"), CONNECT_ONE_SHOT);
+            get_tree()->connect("process_frame", Callable(this, "_no_enemies_handler"), CONNECT_ONE_SHOT);
             return;
         }
 
@@ -178,10 +172,10 @@ void BattleMain::_ready() {
             enemy->connect("spared", Callable(this, "spare_enemy"));
 
             // C++ 이랑 GDscript 모두 호환되도록
-            connect("end_turn", Callable(this, "on_get_turn"));
+            connect("end_turn", Callable(this, "_on_get_turn"));
             
             if (enemy->get_is_first_turn()) {
-                call_deferred("on_get_turn");
+                call_deferred("_on_get_turn");
                 is_first_turn = true;
             }
         }
@@ -204,7 +198,7 @@ void BattleMain::_ready() {
     }
 }
 
-void BattleMain::no_enemies_handler() {
+void BattleMain::_no_enemies_handler() {
     box->change_state(BattleBox::BattleState::State_BlitteringCasual);
     Blitter* blitter_text = box->get_blitter_text();
     PackedStringArray texts;
@@ -269,14 +263,14 @@ void BattleMain::_fight(int target) {
     Node* clone = attack_scene->instantiate();
     if (clone) {
         clone->set("target", target);
-        clone->connect("damagetarget", Callable(this, "hit"), CONNECT_ONE_SHOT);
-        clone->connect("missed", Callable(this, "miss"), CONNECT_ONE_SHOT);
+        clone->connect("damagetarget", Callable(this, "_hit"), CONNECT_ONE_SHOT);
+        clone->connect("missed", Callable(this, "_miss"), CONNECT_ONE_SHOT);
         clone->set("targetdef", enemies_def[target]);
         box->add_child(clone);
     }
 }
 
-void BattleMain::hit(int damage, int target, bool crit) {
+void BattleMain::_hit(int damage, int target, bool crit) {
     if (!slash_scene.is_valid() || !box || target < 0 || target >= enemies.size()) return;
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
@@ -354,7 +348,7 @@ void BattleMain::_on_fight_used_completed(int target) {
     }
 }
 
-void BattleMain::miss(int target) {
+void BattleMain::_miss(int target) {
     if (!damage_info_scene.is_valid() || !box || target < 0 || target >= enemies.size()) return;
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
@@ -537,33 +531,6 @@ void BattleMain::spare_enemy(int enemy_id) {
     }
 }
 
-String BattleMain::pure_int_to_short_representation(int input) {
-    Dictionary magnitudes;
-    magnitudes[0.0000000001] = "n";
-    magnitudes[0.0000001] = "u";
-    magnitudes[0.001] = "m";
-    magnitudes[1] = "";
-    magnitudes[1000] = "k";
-    magnitudes[1000000] = "M";
-    magnitudes[1000000000] = "B";
-    
-    double highest = 1.0;
-    Array keys = magnitudes.keys();
-    for (int i = 0; i < keys.size(); i++) {
-        double key = keys[i];
-        if (input >= key) {
-            highest = key;
-        }
-    }
-    
-    double result = input / highest;
-    String value = String::num(result);
-    if (value.length() > 4) {
-        value = value.substr(0, 4);
-    }
-    return String::num_real(round(value.to_float())) + String(magnitudes[highest]);
-}
-
 void BattleMain::end_encounter() {
     music_player->stop();
     
@@ -612,7 +579,7 @@ int BattleMain::enemy_size() {
     return size;
 }
 
-void BattleMain::modify_stats(int id, Dictionary stats) {
+void BattleMain::_modify_stats(int id, Dictionary stats) {
     box->enemies_hp[id] = stats.get("hp", box->enemies_hp[id]);
     enemies_max_hp[id] = stats.get("max_hp", enemies_max_hp[id]);
     enemies_def[id] = stats.get("def", enemies_def[id]);
@@ -630,7 +597,7 @@ bool BattleMain::is_kr() {
     return kr;
 }
 
-void BattleMain::on_get_turn() {
+void BattleMain::_on_get_turn() {
     for (int i = 0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) {
@@ -643,7 +610,7 @@ void BattleMain::on_get_turn() {
     }
 }
 
-void BattleMain::on_end_turn() {
+void BattleMain::_on_end_turn() {
     for (int i = 0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
         if (enemy) {

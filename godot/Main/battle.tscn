@@ -71,6 +71,6 @@ color = Color(0, 0, 0, 1)
 [connection signal="shake_camera" from="SoulLayer/Soul_Battle" to="Camera" method="add_shake"]
 [connection signal="movesoul" from="Buttons" to="SoulLayer/Soul_Battle" method="_on_move_soul"]
 [connection signal="selectbutton" from="Buttons" to="BattleBox" method="_on_use_button"]
-[connection signal="player_turn" from="Attacks/BoxClipper" to="." method="on_end_turn"]
+[connection signal="player_turn" from="Attacks/BoxClipper" to="." method="_on_end_turn"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="." method="_on_player_turn_start"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="BattleBox" method="reset_box"]

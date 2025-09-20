@@ -55,14 +55,11 @@ namespace godot {
             int completed_enemies, completed_size;
 
             void initialize();
-            bool check_end_encounter();
-            bool check_enemy_solo();
-            String pure_int_to_short_representation(int input);
 
             void _on_player_turn_start();
             void _on_enemy_turn_start();
             void _on_damage_info_finished();
-            void no_enemies_handler();
+            void _no_enemies_handler();
             
             void _on_slash_finished(int damage, int target, bool crit);
             void _on_damage_info_completed(int target);
@@ -72,8 +69,8 @@ namespace godot {
             void _on_camera_blind_completed();
             void _on_end(bool mercy=false, int id=-1);
             void _finish_encounter();
-            void on_get_turn();
-            void on_end_turn();
+            void _on_get_turn();
+            void _on_end_turn();
 
             void set_property(Variant value);
             int get_turn_number();
@@ -87,19 +84,21 @@ namespace godot {
             void _ready() override;
             
             void _fight(int target);
-            void hit(int damage, int target, bool crit = false);
-            void miss(int target);
+            void _hit(int damage, int target, bool crit = false);
+            void _miss(int target);
             void _act(int target, int option);
             void _mercy(int choice);
             void _item(int item_id);
-            void kill_enemy(int enemy_id = 0);
-            void spare_enemy(int enemy_id = 0);
-            void modify_stats(int id, Dictionary stats);
+            void _modify_stats(int id, Dictionary stats);
 
             // 사용 함수
             void toggle_transparent();
             void end_encounter();
             int enemy_size();
+            void kill_enemy(int enemy_id = 0);
+            void spare_enemy(int enemy_id = 0);
+            bool check_end_encounter();
+            bool check_enemy_solo();
             
             void set_encounter(const Ref<Encounter>& p_encounter);
             Ref<Encounter> get_encounter() const;

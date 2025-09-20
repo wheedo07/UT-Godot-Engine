@@ -32,10 +32,11 @@ namespace godot {
         public:
             SceneContainer();
             ~SceneContainer();
-        
+       
             virtual void _ready() override;
+
+            // 사용 함수
             CameraFx* get_camera();
-            void set_current_scene(Node* p_scene);
             Node* get_current_scene() const;
             Error change_scene_to_file(const String& path);
             Error change_scene_to_packed(const Ref<PackedScene>& file);
@@ -43,10 +44,12 @@ namespace godot {
             void reload_current_scene();
             void reload_camera();
             void init_camera();
+
             int get_fullscreen_scale() const;
             void _on_fullscreen_toggle(bool to);
             void _refresh_window();
             void _on_settings_setting_changed(const String& setting_name, const Variant& to);
+            void set_current_scene(Node* p_scene);
             SubViewport* get_main_viewport();
     };
 } 

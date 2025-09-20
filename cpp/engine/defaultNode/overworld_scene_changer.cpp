@@ -111,7 +111,7 @@ void OverworldSceneChanger::load_cached_overworld_scene(bool transition) {
 
 void OverworldSceneChanger::_scene_setup_thing(bool transition) {
     if (!global) {
-        ERR_PRINT("OverworldSceneChanger: global 로드 안됌");
+        ERR_PRINT("global 로드 문제");
         on_scene_setup_finished(transition);
         return;
     }
@@ -130,7 +130,7 @@ void OverworldSceneChanger::_scene_setup_thing(bool transition) {
 
 void OverworldSceneChanger::on_scene_setup_finished(bool transition) {
     if (!global) {
-        ERR_PRINT("OverworldSceneChanger: global 로드 안됌");
+        ERR_PRINT("global 로드 문제");
         return;
     }
     
@@ -162,7 +162,7 @@ void OverworldSceneChanger::on_scene_setup_finished(bool transition) {
 
 void OverworldSceneChanger::load_battle(const Ref<Encounter>& battle_resource, bool transition, const Vector2& to_position) {
     if (!global) {
-        ERR_PRINT("OverworldSceneChanger: global 로드 안됌");
+        ERR_PRINT("global 로드 문제");
         return;
     }
     SceneContainer* tree = global->get_scene_container();
@@ -170,11 +170,6 @@ void OverworldSceneChanger::load_battle(const Ref<Encounter>& battle_resource, b
     if (transition) {
         Ref<PackedScene> transition_scene = loader->load("res://Overworld/battle_transition.tscn");
         BattleTransition* screen = Object::cast_to<BattleTransition>(transition_scene->instantiate());
-        if (!screen) {
-            ERR_PRINT("OverworldSceneChanger: Failed to instantiate BattleTransition!");
-            return;
-        }
-        
         set_meta("scene_path", battle_scene_path);
         set_meta("encounter", battle_resource);
         set_meta("to_position", to_position);
@@ -203,7 +198,7 @@ void OverworldSceneChanger::on_battle_transition_finished() {
 
 void OverworldSceneChanger::_load_battle_scene(const String& scene_path, const Ref<Encounter>& encounter) {
     if (!global) {
-        ERR_PRINT("OverworldSceneChanger: global 로드 안됌");
+        ERR_PRINT("global 로드 문제");
         return;
     }
     

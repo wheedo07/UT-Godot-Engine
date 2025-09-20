@@ -14,7 +14,6 @@ SceneContainer::~SceneContainer() {}
 
 void SceneContainer::_bind_methods() {
     ADD_SIGNAL(MethodInfo("change_scene"));
-    ClassDB::bind_method(D_METHOD("set_current_scene", "scene"), &SceneContainer::set_current_scene);
     ClassDB::bind_method(D_METHOD("get_current_scene"), &SceneContainer::get_current_scene);
     ClassDB::bind_method(D_METHOD("change_scene_to_file", "path"), &SceneContainer::change_scene_to_file);
     ClassDB::bind_method(D_METHOD("change_scene_to_packed", "file"), &SceneContainer::change_scene_to_packed);
@@ -66,12 +65,12 @@ Node* SceneContainer::get_current_scene() const {
 
 Error SceneContainer::change_scene_to_file(const String& path) {
     if (!loader->exists(path)) {
-        ERR_PRINT("change 파일 찾을수 없음");
+        ERR_PRINT(vformat("change 씬 파일 없음: %s", path));
         return ERR_INVALID_PARAMETER;
     }
     Ref<PackedScene> scene_resource = loader->load(path);
     if (scene_resource.is_null()) {
-        ERR_PRINT("change 파일 null");
+        ERR_PRINT(vformat("씬 로드 실패: %s", path));
         return ERR_INVALID_DATA;
     }
     return change_scene_to_packed(scene_resource);
@@ -82,7 +81,10 @@ Error SceneContainer::change_scene_to_packed(const Ref<PackedScene>& file) {
     current_scene = file->instantiate();
     if(ObjectDB::get_instance(current_scene->get_instance_id())) {
         main_viewport->add_child(current_scene);
-    }else ERR_PRINT("노드 유효하지 않는 에러");
+    }else {
+        ERR_PRINT(vformat("씬 인스턴스화 실패: %s", file->get_path()));
+        return ERR_BUG;
+    }
     call_deferred("emit_signal", "change_scene");
     return OK;
 }
@@ -95,8 +97,11 @@ void SceneContainer::unload_current_scene() {
 }
 
 void SceneContainer::reload_current_scene() {
-    if (!current_scene) return;
-    change_scene_to_file(current_scene->get_scene_file_path());
+    if(!current_scene) return;
+    Error err = change_scene_to_file(current_scene->get_scene_file_path());
+    if(err != OK) {
+        ERR_PRINT("씬 재로딩 실패");
+    }
 }
 
 void SceneContainer::reload_camera() {
@@ -114,6 +119,7 @@ void SceneContainer::reload_camera() {
 
 void SceneContainer::init_camera() {
     camera->set_position(Vector2(320, 240));
+    camera->kill();
     camera->reset_smoothing();
 }
 

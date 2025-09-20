@@ -195,7 +195,7 @@ void Enemy::_ready() {
 }
 
 void Enemy::modify_stats(Dictionary value) {
-    main->modify_stats(id, value);
+    main->_modify_stats(id, value);
 }
 
 Ref<ActInfo> Enemy::_get_act_info(int act_choice) {
