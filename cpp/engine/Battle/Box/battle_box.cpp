@@ -97,31 +97,13 @@ void BattleBox::_bind_methods() {
     ADD_SIGNAL(MethodInfo("mercy", PropertyInfo(Variant::INT, "target")));
     ADD_SIGNAL(MethodInfo("tween_finished"));
 
-    ClassDB::bind_method(D_METHOD("set_enemies", "p_enemies"), &BattleBox::set_enemies);
-    ClassDB::bind_method(D_METHOD("set_targets", "show_hp_bar"), &BattleBox::set_targets, DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("backout"), &BattleBox::backout);
-    ClassDB::bind_method(D_METHOD("change_state", "new_state"), &BattleBox::change_state);
-    ClassDB::bind_method(D_METHOD("disable"), &BattleBox::disable);
-    ClassDB::bind_method(D_METHOD("blitter_flavour"), &BattleBox::blitter_flavour);
-    ClassDB::bind_method(D_METHOD("blitter_act"), &BattleBox::blitter_act);
-    ClassDB::bind_method(D_METHOD("blitter_item"), &BattleBox::blitter_item);
-    ClassDB::bind_method(D_METHOD("blitter_mercy"), &BattleBox::blitter_mercy);
-    
-    ClassDB::bind_method(D_METHOD("tween_size", "args"), &BattleBox::tween_size);
-    ClassDB::bind_method(D_METHOD("real_rotate_by", "args"), &BattleBox::real_rotate_by);
+    ClassDB::bind_method(D_METHOD("_set_targets", "show_hp_bar"), &BattleBox::_set_targets, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("_backout"), &BattleBox::_backout);
+    ClassDB::bind_method(D_METHOD("_disable"), &BattleBox::_disable);
+    ClassDB::bind_method(D_METHOD("_real_rotate_by", "args"), &BattleBox::_real_rotate_by);
     ClassDB::bind_method(D_METHOD("_on_use_button", "choice"), &BattleBox::_on_use_button);
-    ClassDB::bind_method(D_METHOD("soul_choice", "action"), &BattleBox::soul_choice);
-    ClassDB::bind_method(D_METHOD("refresh_nodes"), &BattleBox::refresh_nodes);
-    ClassDB::bind_method(D_METHOD("refresh_options"), &BattleBox::refresh_options);
-    ClassDB::bind_method(D_METHOD("set_mercy_options"), &BattleBox::set_mercy_options);
-    ClassDB::bind_method(D_METHOD("set_options"), &BattleBox::set_options);
-    ClassDB::bind_method(D_METHOD("set_items"), &BattleBox::set_items);
-    ClassDB::bind_method(D_METHOD("soul_pos_to_id", "soul_pos", "is", "x_limit"), &BattleBox::soul_pos_to_id, DEFVAL(false), DEFVAL(2));
-    ClassDB::bind_method(D_METHOD("id_to_soul_pos", "id", "x_limit"), &BattleBox::id_to_soul_pos, DEFVAL(2));
-    
-    ClassDB::bind_method(D_METHOD("get_tl"), &BattleBox::get_tl);
-    ClassDB::bind_method(D_METHOD("get_br"), &BattleBox::get_br);
-    ClassDB::bind_method(D_METHOD("get_blitter_text"), &BattleBox::get_blitter_text);
+    ClassDB::bind_method(D_METHOD("_soul_choice", "action"), &BattleBox::_soul_choice);
+    ClassDB::bind_method(D_METHOD("_set_items"), &BattleBox::_set_items);
     ClassDB::bind_method(D_METHOD("_on_soul_move_cooldown"), &BattleBox::_on_soul_move_cooldown);
     ClassDB::bind_method(D_METHOD("_on_point_tween_step", "new_position"), &BattleBox::_on_point_tween_step);
     ClassDB::bind_method(D_METHOD("_on_point_tween_finished"), &BattleBox::_on_point_tween_finished);
@@ -173,7 +155,6 @@ void BattleBox::_bind_methods() {
 }
 
 void BattleBox::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint();
     if(isEditor) return;
 
     choice_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/choice"));
@@ -331,22 +312,22 @@ void BattleBox::_unhandled_input(const Ref<InputEvent>& event) {
     if (action_memory.size() > 1) {
         if(event->is_action_pressed("ui_down")) {
             if (soul_position.y < choices_extends.size() - 1) {
-                soul_choice(Vector2i(0, 1));
+                _soul_choice(Vector2i(0, 1));
             }
         }
         if(event->is_action_pressed("ui_left")) {
             if (soul_position.x > 0) {
-                soul_choice(Vector2i(-1, 0));
+                _soul_choice(Vector2i(-1, 0));
             }
         }
         if(event->is_action_pressed("ui_right")) {
             if (soul_position.x < int(choices_extends[soul_position.y]) - 1) {
-                soul_choice(Vector2i(1, 0));
+                _soul_choice(Vector2i(1, 0));
             }
         }
         if(event->is_action_pressed("ui_up")) {
             if (soul_position.y > 0) {
-                soul_choice(Vector2i(0, -1));
+                _soul_choice(Vector2i(0, -1));
             }
         }
     }
@@ -361,10 +342,10 @@ void BattleBox::set_enemies(const Array p_enemies) {
             enemies_hp[i] = enemie->get_stats()["hp"];
         }
     }
-    set_targets();
+    _set_targets();
 }
 
-void BattleBox::set_targets(bool show_hp_bar) {
+void BattleBox::_set_targets(bool show_hp_bar) {
     String targets = "";
     RichTextLabel* target_label = Object::cast_to<RichTextLabel>(get_node_internal("Target/Targets"));
     
@@ -480,7 +461,7 @@ void BattleBox::set_options() {
     column2->set_text(acts_p2);
 }
 
-void BattleBox::set_items() {
+void BattleBox::_set_items() {
     PackedStringArray items;
     
     Array global_items = global->get_items();
@@ -530,7 +511,7 @@ void BattleBox::_on_use_button(int choice) {
     refresh_options();
 }
 
-void BattleBox::backout() {
+void BattleBox::_backout() {
     action_memory.resize(action_memory.size() - 1);
     refresh_nodes();
     soul_position = Vector2(0,0);
@@ -542,7 +523,7 @@ void BattleBox::change_state(int new_state) {
     }
     
     if(new_state == BattleState::State_Disabled) {
-        disable();
+        _disable();
         return;
     }
     
@@ -591,7 +572,7 @@ void BattleBox::refresh_options() {
     }
 }
 
-void BattleBox::disable() {
+void BattleBox::_disable() {
     Array screens_array = screens.values();
     
     for (int i = 0; i < screens_array.size(); i++) {
@@ -669,7 +650,7 @@ void BattleBox::blitter_mercy() {
     blitter_text->type_text(mercy_texts[mercy_choice == -1 ? 2 : mercy_choice]);
 }
 
-void BattleBox::soul_choice(const Vector2i& action) {
+void BattleBox::_soul_choice(const Vector2i& action) {
     if(int(action_memory.back()) == BattleState::State_Blittering || !can_move) return;
     Vector2i new_position = soul_position + action;
     
@@ -976,7 +957,7 @@ void BattleBox::rotate_by(float rot, bool relative, float duration) {
     args->args.append(rot);
     args->args.append(relative);
     
-    call_deferred("real_rotate_by", args);
+    call_deferred("_real_rotate_by", args);
 }
 
 void BattleBox::blitter_print(PackedStringArray texts) {
@@ -1107,7 +1088,7 @@ void BattleBox::box_hide() {
     background->set_color(Color(0, 0, 0, 0));
 }
 
-void BattleBox::real_rotate_by(Ref<ArgsHolder> args) {
+void BattleBox::_real_rotate_by(Ref<ArgsHolder> args) {
     float target_rotation = args->args[0];
     bool is_relative = args->args[1];
     

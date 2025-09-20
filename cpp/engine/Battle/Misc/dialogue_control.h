@@ -27,7 +27,7 @@ namespace godot {
             ~DialogueControl();
 
             void DialogueText(const Ref<Dialogues>& dialogues);
-            void on_text_click_played(bool is=true, double duration=0);
+            void _on_text_click_played(bool is=true, double duration=0);
             void set_key(bool is);
 
             void _on_text_expression_set(const Array& expr);

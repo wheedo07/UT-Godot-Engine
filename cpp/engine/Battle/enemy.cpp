@@ -299,7 +299,7 @@ void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float du
         }
     }
 
-    if(duration != 0) dialogue->on_text_click_played(skip, duration);
+    if(duration != 0) dialogue->_on_text_click_played(skip, duration);
 }
 
 void Enemy::_dodge() {

@@ -147,7 +147,7 @@ void BattleMain::_ready() {
             }
             
             enemy->set_id(i);
-            enemy->connect("changed_state", Callable(box, "set_targets"));
+            enemy->connect("changed_state", Callable(box, "_set_targets"));
             
             Dictionary stats = enemy->get_stats();
             enemies_max_hp.append(stats.get("max_hp", 1));
@@ -335,7 +335,7 @@ void BattleMain::_on_damage_info_completed(int target) {
 }
 
 void BattleMain::_on_fight_used_completed(int target) {
-    if (box) box->disable();
+    if (box) box->_disable();
     
     if (float(box->enemies_hp[target]) < 0) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
@@ -361,7 +361,7 @@ void BattleMain::_miss(int target) {
         clone->set("max_hp", enemies_max_hp[target]);
         clone->set("miss", true);
         box->add_child(clone);
-        clone->connect("finished", Callable(box, "disable"), CONNECT_ONE_SHOT);
+        clone->connect("finished", Callable(box, "_disable"), CONNECT_ONE_SHOT);
         clone->connect("finished", Callable(this, "emit_signal").bind("end_turn"), CONNECT_ONE_SHOT);
     }
 }
@@ -453,7 +453,7 @@ void BattleMain::kill_enemy(int enemy_id) {
         
         if (box) {
             box->set_enemies(enemies);
-            box->disable();
+            box->_disable();
         }
         
         if (check_end_encounter()) {

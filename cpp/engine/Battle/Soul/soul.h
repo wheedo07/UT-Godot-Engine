@@ -124,7 +124,7 @@ namespace godot {
             void check_bullet(Area2D* area);
             void hurt(BulletArea* area);
             void heal(BulletArea* area);
-            void fade_tw_calle(Node* node_ref, Node* parent_ref);
+            void _fade_tw_calle(Node* node_ref, Node* parent_ref);
             void _on_death();
         
         public:
@@ -143,7 +143,7 @@ namespace godot {
             void set_gravity_direction(const Vector2& new_direction, bool force_blue_mode = true);
             void toggle_hpText();
 
-            void disable();
+            void _disable();
             void enable();
             void menu_enable();
             void _on_move_soul(const Vector2& newpos);

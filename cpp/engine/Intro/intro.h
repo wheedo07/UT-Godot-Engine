@@ -10,6 +10,8 @@
 #include<godot_cpp/classes/input_event.hpp>
 #include<godot_cpp/classes/resource_loader.hpp>
 #include<godot_cpp/variant/array.hpp>
+#include<godot_cpp/core/binder_common.hpp>
+#include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
     class Intro : public Control {
         GDCLASS(Intro, Control)
@@ -35,6 +37,9 @@ namespace godot {
             void _on_duration_timeout();
             void _intro_image_next();
             void _load_intro_data_from_json();
+            void process_next_intro();
+            void _on_intro_completed();
+            void _play_intro();
 
             void set_music(const Ref<AudioStream>& p_music);
             Ref<AudioStream> get_music() const;
@@ -44,11 +49,11 @@ namespace godot {
             ~Intro();
             void _ready() override;
             void _input(const Ref<InputEvent>& event) override;
-            void _play_intro();
-            void start_text_typing(const String& text, float sleep);
+            virtual void ready();
+            GDVIRTUAL0(ready);
+
+            // 사용 함수
             bool is_intro_completed() const;
-            void process_next_intro();
-            void _on_intro_completed();
 
             void set_intro_json_path(const String& path);
             String get_intro_json_path() const;

@@ -28,7 +28,7 @@ namespace godot {
             Tween::TransitionType tween_trans;
             Tween::EaseType tween_ease;
 
-            void on_warn_time_timeout(const Vector2& size, float remain_time);
+            void _on_warn_time_timeout(const Vector2& size, float remain_time);
 
             void set_collision_margin(float p_collision_margin);
             float get_collision_margin() const;

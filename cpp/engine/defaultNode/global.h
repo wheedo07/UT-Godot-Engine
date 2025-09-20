@@ -99,7 +99,8 @@ namespace godot {
 	        void _process(double delta) override;
 			void _input(const Ref<InputEvent>& event) override;
 			void _unhandled_input(const Ref<InputEvent>& event) override;
-         
+        
+			// 사용 함수
 			void disable_input(String key);
 			void enable_input(String key);
 			bool has_input_disabled(String key);

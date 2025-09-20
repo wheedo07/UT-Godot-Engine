@@ -92,7 +92,7 @@ namespace godot {
             Array anchor_targets;
             Array def_anchors;
             Vector2 current_size;
-            bool can_move, isEditor;
+            bool can_move;
             int used_item;
             int current_web;
             
@@ -143,7 +143,7 @@ namespace godot {
             void _on_use_button(int choice);
             
             void tween_size(Ref<ArgsHolder> args);
-            void real_rotate_by(Ref<ArgsHolder> args);
+            void _real_rotate_by(Ref<ArgsHolder> args);
             void _on_soul_move_cooldown();
             void _reset_finished();
 
@@ -165,17 +165,18 @@ namespace godot {
             void _physics_process(double delta) override;
             void _process(double delta) override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
+
+            void _set_items();
+            void _soul_choice(const Vector2i& action);
+            void _disable();
+            void _backout();
+            void _set_targets(bool show_hp_bar = false);
             
             void set_mercy_options();
             int soul_pos_to_id(const Vector2& soul_pos, bool is = false, int x_limit = 2);
             void set_options();
-            void set_items();
-            void soul_choice(const Vector2i& action);
             void set_enemies(const Array p_enemies);
-            void set_targets(bool show_hp_bar = false);
-            void backout();
             void change_state(int new_state);
-            void disable();
             void blitter_flavour();
             void blitter_act();
             void blitter_item();

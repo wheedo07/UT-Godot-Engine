@@ -43,3 +43,5 @@ visible_characters_behavior = 1
 
 [node name="Generic" type="AudioStreamPlayer" parent="IntroText"]
 stream = ExtResource("5_1hq8x")
+
+[connection signal="intro_completed" from="." to="." method="_on_intro_completed"]

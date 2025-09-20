@@ -18,8 +18,7 @@ BoneSpike::~BoneSpike() {}
 void BoneSpike::_bind_methods() {
     ClassDB::bind_method(D_METHOD("fire", "size", "warn_time", "remain_time", "mode"), &BoneSpike::fire, 
         DEFVAL(0.4f), DEFVAL(1.0f), DEFVAL(MODE_WHITE));
-    ClassDB::bind_method(D_METHOD("spike", "remain_time"), &BoneSpike::spike);
-    ClassDB::bind_method(D_METHOD("on_warn_time_timeout", "size", "remain_time"), &BoneSpike::on_warn_time_timeout);
+    ClassDB::bind_method(D_METHOD("_on_warn_time_timeout", "size", "remain_time"), &BoneSpike::_on_warn_time_timeout);
     
     ClassDB::bind_method(D_METHOD("set_collision_margin", "margin"), &BoneSpike::set_collision_margin);
     ClassDB::bind_method(D_METHOD("get_collision_margin"), &BoneSpike::get_collision_margin);
@@ -60,10 +59,10 @@ void BoneSpike::fire(const Vector2& size, float warn_time, float remain_time, Da
     SceneTree* tree = get_tree();
     Ref<SceneTreeTimer> timer = tree->create_timer(warn_time, false);
     
-    timer->connect("timeout", Callable(this, "on_warn_time_timeout").bind(size, remain_time));
+    timer->connect("timeout", Callable(this, "_on_warn_time_timeout").bind(size, remain_time));
 }
 
-void BoneSpike::on_warn_time_timeout(const Vector2& size, float remain_time) {
+void BoneSpike::_on_warn_time_timeout(const Vector2& size, float remain_time) {
     Ref<RectangleShape2D> shape = memnew(RectangleShape2D);
     
     warning->hide();

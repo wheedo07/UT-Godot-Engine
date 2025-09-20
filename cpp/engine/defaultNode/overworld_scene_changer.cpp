@@ -33,8 +33,8 @@ void OverworldSceneChanger::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_load_and_set_scene", "path"), &OverworldSceneChanger::_load_and_set_scene);
     ClassDB::bind_method(D_METHOD("_set_player_data", "current_scene"), &OverworldSceneChanger::_set_player_data);
     ClassDB::bind_method(D_METHOD("_scene_setup_thing", "transition"), &OverworldSceneChanger::_scene_setup_thing);
-    ClassDB::bind_method(D_METHOD("on_battle_transition_finished"), &OverworldSceneChanger::on_battle_transition_finished);
-    ClassDB::bind_method(D_METHOD("on_scene_setup_finished", "transition"), &OverworldSceneChanger::on_scene_setup_finished);
+    ClassDB::bind_method(D_METHOD("_on_battle_transition_finished"), &OverworldSceneChanger::_on_battle_transition_finished);
+    ClassDB::bind_method(D_METHOD("_on_scene_setup_finished", "transition"), &OverworldSceneChanger::_on_scene_setup_finished);
     
     ClassDB::bind_method(D_METHOD("set_default_scene", "scene"), &OverworldSceneChanger::set_default_scene);
     ClassDB::bind_method(D_METHOD("get_default_scene"), &OverworldSceneChanger::get_default_scene);
@@ -112,7 +112,7 @@ void OverworldSceneChanger::load_cached_overworld_scene(bool transition) {
 void OverworldSceneChanger::_scene_setup_thing(bool transition) {
     if (!global) {
         ERR_PRINT("global 로드 문제");
-        on_scene_setup_finished(transition);
+        _on_scene_setup_finished(transition);
         return;
     }
     CameraFx* camera = global->get_scene_container()->get_camera();
@@ -122,13 +122,13 @@ void OverworldSceneChanger::_scene_setup_thing(bool transition) {
     
     if (transition) {
         camera->blind(0, 1);
-        camera->connect("finished_tween", Callable(this, "on_scene_setup_finished").bind(transition), CONNECT_ONE_SHOT);
+        camera->connect("finished_tween", Callable(this, "_on_scene_setup_finished").bind(transition), CONNECT_ONE_SHOT);
     } else {
-        on_scene_setup_finished(transition);
+        _on_scene_setup_finished(transition);
     }
 }
 
-void OverworldSceneChanger::on_scene_setup_finished(bool transition) {
+void OverworldSceneChanger::_on_scene_setup_finished(bool transition) {
     if (!global) {
         ERR_PRINT("global 로드 문제");
         return;
@@ -178,7 +178,7 @@ void OverworldSceneChanger::load_battle(const Ref<Encounter>& battle_resource, b
         tree->get_current_scene()->add_child(screen);
         
         waiting_for_transition = true;
-        screen->connect("completed", Callable(this, "on_battle_transition_finished"), CONNECT_ONE_SHOT);
+        screen->connect("completed", Callable(this, "_on_battle_transition_finished"), CONNECT_ONE_SHOT);
         screen->transition();
         
     } else {
@@ -186,7 +186,7 @@ void OverworldSceneChanger::load_battle(const Ref<Encounter>& battle_resource, b
     }
 }
 
-void OverworldSceneChanger::on_battle_transition_finished() {
+void OverworldSceneChanger::_on_battle_transition_finished() {
     if (!waiting_for_transition) return;
     waiting_for_transition = false;
     

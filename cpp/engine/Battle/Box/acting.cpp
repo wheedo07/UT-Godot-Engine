@@ -8,12 +8,12 @@ void ActingBoxBehaviour::_on_gain_control() {
     if(arr[1]) box->soul_position = arr[1];
     else box->soul_position = Vector2i(0, 0);
     box->set_options();
-    box->call_deferred("soul_choice", Vector2(0,0));
+    box->call_deferred("_soul_choice", Vector2(0,0));
     box->screens[BattleBox::State_Acting].call("show");
 }
 
 void ActingBoxBehaviour::input(const Ref<InputEvent>& event) {
-    if(event->is_action_pressed("ui_cancel")) box->call_deferred("backout");
+    if(event->is_action_pressed("ui_cancel")) box->call_deferred("_backout");
 
     else if(event->is_action_pressed("ui_accept")) {
         box->change_state(BattleBox::State_Blittering);

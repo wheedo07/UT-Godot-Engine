@@ -73,10 +73,8 @@ void SoulBattle::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_gravity_multiplier", "value"), &SoulBattle::set_gravity_multiplier);
     ClassDB::bind_method(D_METHOD("toggle_hpText"), &SoulBattle::toggle_hpText);
 
-    ClassDB::bind_method(D_METHOD("fade_tw_calle", "node_ref", "parent_ref"), &SoulBattle::fade_tw_calle);
-    ClassDB::bind_method(D_METHOD("disable"), &SoulBattle::disable);
-    ClassDB::bind_method(D_METHOD("enable"), &SoulBattle::enable);
-    ClassDB::bind_method(D_METHOD("menu_enable"), &SoulBattle::menu_enable);
+    ClassDB::bind_method(D_METHOD("_fade_tw_calle", "node_ref", "parent_ref"), &SoulBattle::_fade_tw_calle);
+    ClassDB::bind_method(D_METHOD("_disable"), &SoulBattle::_disable);
     ClassDB::bind_method(D_METHOD("_on_death"), &SoulBattle::_on_death);
     ClassDB::bind_method(D_METHOD("_on_move_soul", "newpos"), &SoulBattle::_on_move_soul);
     
@@ -345,7 +343,7 @@ void SoulBattle::set_mode_silent(int new_mode) {
                 
                 Node* node_ref = mode_node;
                 Node* parent_ref = this;
-                fade_tw->tween_callback(Callable(this, "fade_tw_calle").bind(node_ref, parent_ref));
+                fade_tw->tween_callback(Callable(this, "_fade_tw_calle").bind(node_ref, parent_ref));
             }
         }else if(!mode_node->is_inside_tree()) {
             fade_tw = get_tree()->create_tween();
@@ -364,7 +362,7 @@ void SoulBattle::set_mode_silent(int new_mode) {
     }
 }
 
-void SoulBattle::fade_tw_calle(Node* node_ref, Node* parent_ref) {
+void SoulBattle::_fade_tw_calle(Node* node_ref, Node* parent_ref) {
     if (node_ref->get_parent() == parent_ref) {
         parent_ref->remove_child(node_ref);
     }
@@ -618,7 +616,7 @@ void SoulBattle::_kill_able_tween() {
     }
 }
 
-void SoulBattle::disable() {
+void SoulBattle::_disable() {
     _kill_able_tween();
     _able_tween = get_tree()->create_tween();
     _able_tween->tween_property(this, "modulate:a", 0.0, 0.2);

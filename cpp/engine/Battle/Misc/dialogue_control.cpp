@@ -17,8 +17,9 @@ void DialogueControl::_bind_methods() {
     ADD_SIGNAL(MethodInfo("finished_all_texts_dialogue"));
     
     ClassDB::bind_method(D_METHOD("DialogueText", "dialogues"), &DialogueControl::DialogueText);
-    ClassDB::bind_method(D_METHOD("on_text_click_played", "is", "duration"), &DialogueControl::on_text_click_played, DEFVAL(true), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("set_key", "is"), &DialogueControl::set_key);
+
+    ClassDB::bind_method(D_METHOD("_on_text_click_played", "is", "duration"), &DialogueControl::_on_text_click_played, DEFVAL(true), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("_on_text_expression_set", "expr"), &DialogueControl::_on_text_expression_set);
     ClassDB::bind_method(D_METHOD("_on_tween_finished"), &DialogueControl::_on_tween_finished);
     ClassDB::bind_method(D_METHOD("_on_all_texts_finished"), &DialogueControl::_on_all_texts_finished);
@@ -71,7 +72,7 @@ void DialogueControl::DialogueText(const Ref<Dialogues>& dialogues) {
     active_tween->connect("finished", Callable(this, "_on_tween_finished"));
 }
 
-void DialogueControl::on_text_click_played(bool is, double duration) {
+void DialogueControl::_on_text_click_played(bool is, double duration) {
     if(is) {
         bubble_text->kill_tweens(true);
         bubble_text->emit_signal("confirm");
@@ -85,7 +86,7 @@ void DialogueControl::on_text_click_played(bool is, double duration) {
 
 void DialogueControl::_on_ends_typing() {
     Ref<SceneTreeTimer> timer = get_tree()->create_timer(text_duration);
-    timer->connect("timeout", Callable(this, "on_text_click_played"));
+    timer->connect("timeout", Callable(this, "_on_text_click_played"));
 }
 
 void DialogueControl::set_key(bool is) {

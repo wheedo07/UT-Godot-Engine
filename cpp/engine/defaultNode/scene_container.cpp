@@ -22,6 +22,7 @@ void SceneContainer::_bind_methods() {
     ClassDB::bind_method(D_METHOD("reload_camera"), &SceneContainer::reload_camera);
     ClassDB::bind_method(D_METHOD("init_camera"), &SceneContainer::init_camera);
     ClassDB::bind_method(D_METHOD("get_camera"), &SceneContainer::get_camera);
+
     ClassDB::bind_method(D_METHOD("_on_fullscreen_toggle", "to"), &SceneContainer::_on_fullscreen_toggle);
     ClassDB::bind_method(D_METHOD("_on_settings_setting_changed", "setting_name", "to"), &SceneContainer::_on_settings_setting_changed);
 }

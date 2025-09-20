@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Intro" inherits="Control" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](사용자 생성 불가능)[/color]
+        게임 시작 시 인트로 시퀀스를 재생하는 시스템 노드입니다.
+    </brief_description>
+    <description>
+        Intro 클래스는 게임 시작 시 인트로 시퀀스를 자동으로 재생하는 시스템 노드입니다.
+        JSON 파일에서 인트로 데이터를 로드하여 이미지와 텍스트를 순차적으로 표시하며, 
+        배경 음악과 함께 영화적인 인트로 경험을 제공합니다.
+        
+        [b]주요 기능:[/b]
+        • JSON 기반 인트로 데이터 관리
+        • 이미지와 텍스트의 순차적 표시
+        • 타이핑 효과가 있는 텍스트 연출
+        • 배경 음악 재생
+        • 사용자 입력으로 스킵 가능
+        • 인트로 완료 후 자동 씬 전환
+        
+        [b]JSON 데이터 형식:[/b]
+        [codeblock]
+        [
+            {
+                "image_path": "res://path/to/image.png",
+                "text": "표시할 텍스트",
+                "sleep": 0.05,
+                "duration": 3.0
+            }
+        ]
+        [/codeblock]
+        
+        [b]기본 자식 노드 삭제 금지[/b]
+        이 노드는 시스템 노드로, 기본 자식 노드를 삭제하거나 변경하지 마십시오.
+        삭제 시 인트로 기능이 정상 작동하지 않을 수 있습니다.
+    </description>
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="ready" qualifiers="virtual">
+            <return type="void" />
+            <description>
+                가상 메서드로, 상속받은 클래스에서 오버라이드하여 추가 초기화 로직을 구현할 수 있습니다.
+            </description>
+        </method>
+        <method name="is_intro_completed" qualifiers="const">
+            <return type="bool" />
+            <description>
+                인트로가 완료되었는지 여부를 반환합니다. 
+                모든 인트로 시퀀스가 끝났거나 사용자가 스킵했을 때 true를 반환합니다.
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="intro_completed_path" type="String" setter="set_intro_completed_path" getter="get_intro_completed_path" default="&quot;&quot;">
+            인트로 완료 후 이동할 씬의 파일 경로입니다. 
+            설정되지 않은 경우 인트로 완료 후 현재 씬에 머물러 있습니다.
+        </member>
+        <member name="intro_json_path" type="String" setter="set_intro_json_path" getter="get_intro_json_path" default="&quot;res://Intro/intro_data.json&quot;">
+            인트로 시퀀스 데이터가 정의된 JSON 파일의 경로입니다.
+            이 파일에는 각 인트로 단계의 이미지, 텍스트, 타이밍 정보가 포함되어야 합니다.
+        </member>
+        <member name="music" type="AudioStream" setter="set_music" getter="get_music">
+            인트로 중에 재생될 배경 음악입니다. 
+        </member>
+    </members>
+
+    <signals>
+        <signal name="intro_completed">
+            <description>
+                인트로 시퀀스가 완료되었을 때 발생하는 시그널입니다.
+                모든 인트로 단계가 끝났거나 사용자가 스킵했을 때 방출됩니다.
+                이 시그널을 연결하여 인트로 완료 후의 추가 로직을 구현할 수 있습니다.
+            </description>
+        </signal>
+    </signals>
+</class>

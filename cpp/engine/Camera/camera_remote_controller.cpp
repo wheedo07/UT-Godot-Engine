@@ -19,11 +19,12 @@ CameraRemoteController::CameraRemoteController() {
 CameraRemoteController::~CameraRemoteController() {}
 
 void CameraRemoteController::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("_set_limits"), &CameraRemoteController::_set_limits);
     ClassDB::bind_method(D_METHOD("force_update"), &CameraRemoteController::force_update);
     ClassDB::bind_method(D_METHOD("add_shake", "amount"), &CameraRemoteController::add_shake);
+
     ClassDB::bind_method(D_METHOD("_on_timer_timeout"), &CameraRemoteController::_on_timer_timeout);
-    
+    ClassDB::bind_method(D_METHOD("_set_limits"), &CameraRemoteController::_set_limits);
+
     ClassDB::bind_method(D_METHOD("set_zoom", "zoom"), &CameraRemoteController::set_zoom);
     ClassDB::bind_method(D_METHOD("get_zoom"), &CameraRemoteController::get_zoom);
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "zoom"), "set_zoom", "get_zoom");

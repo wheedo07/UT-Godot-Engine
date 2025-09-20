@@ -20,11 +20,12 @@ Intro::Intro() {
 Intro::~Intro() {}
 
 void Intro::_bind_methods() {
+    GDVIRTUAL_BIND(ready);
+    ClassDB::bind_method(D_METHOD("is_intro_completed"), &Intro::is_intro_completed);
+
     ClassDB::bind_method(D_METHOD("_play_intro"), &Intro::_play_intro);
     ClassDB::bind_method(D_METHOD("_on_intro_completed"), &Intro::_on_intro_completed);
     ClassDB::bind_method(D_METHOD("_intro_image_next"), &Intro::_intro_image_next);
-    ClassDB::bind_method(D_METHOD("is_intro_completed"), &Intro::is_intro_completed);
-    ClassDB::bind_method(D_METHOD("start_text_typing", "text", "sleep"), &Intro::start_text_typing);
     ClassDB::bind_method(D_METHOD("_on_text_completed"), &Intro::_on_text_completed);
     ClassDB::bind_method(D_METHOD("_on_duration_timeout"), &Intro::_on_duration_timeout);
 
@@ -56,9 +57,15 @@ void Intro::_ready() {
     intro_text->set_process_unhandled_input(false);
     _load_intro_data_from_json();
     
-    connect("intro_completed", Callable(this, "_on_intro_completed"));
     _play_intro();
+    if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
+        call("ready");
+    } else {
+        ready();
+    }
 }
+
+void Intro::ready() {}
 
 void Intro::_input(const Ref<InputEvent>& event) {
     if (event->is_action_pressed("ui_accept")) {
@@ -156,22 +163,11 @@ void Intro::_intro_image_next() {
 }
 
 void Intro::_on_intro_completed() {
-    if(intro_completed_path.is_empty()) {
-        ERR_PRINT("intro_completed_path가 설정되지 않았습니다.");
-        return;
-    }
+    if(intro_completed_path.is_empty()) return;
     camera->blind(0, 1, 0.6);
     camera->connect("finished_tween", Callable(global->get_Music(), "stop"), CONNECT_ONE_SHOT);
     camera->connect("finished_tween", Callable(camera, "blind").bind(0.1), CONNECT_ONE_SHOT);
     camera->connect("finished_tween", Callable(global->get_scene_container(), "change_scene_to_file").bind(intro_completed_path), CONNECT_ONE_SHOT);
-}
-
-void Intro::start_text_typing(const String& text, float sleep) {
-    intro_text->set_interval(sleep);
-    
-    PackedStringArray text_array;
-    text_array.push_back(text);
-    intro_text->type_text(text_array);
 }
 
 bool Intro::is_intro_completed() const {
