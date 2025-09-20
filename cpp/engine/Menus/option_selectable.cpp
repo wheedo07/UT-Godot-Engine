@@ -14,9 +14,6 @@ OptionSelectable::~OptionSelectable() {}
 void OptionSelectable::_bind_methods() {
     ClassDB::bind_method(D_METHOD("reset"), &OptionSelectable::reset);
 
-    ClassDB::bind_method(D_METHOD("set_selected", "new_val"), &OptionSelectable::set_selected);
-    ClassDB::bind_method(D_METHOD("get_selected"), &OptionSelectable::get_selected);
-    
     ClassDB::bind_method(D_METHOD("set_initial_selected", "selected"), &OptionSelectable::set_initial_selected);
     ClassDB::bind_method(D_METHOD("get_initial_selected"), &OptionSelectable::get_initial_selected);
     
@@ -25,7 +22,6 @@ void OptionSelectable::_bind_methods() {
     
     // 프로퍼티 등록
     ADD_PROPERTY(PropertyInfo(Variant::COLOR, "selected_color"), "set_selected_color", "get_selected_color");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "selected"), "set_selected", "get_selected");
 }
 
 void OptionSelectable::_ready() {
