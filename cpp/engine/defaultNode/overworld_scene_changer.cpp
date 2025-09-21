@@ -210,9 +210,7 @@ void OverworldSceneChanger::_load_battle_scene(const String& scene_path, const R
     battle->set_encounter(encounter);
     
     SceneContainer* tree = global->get_scene_container();
-    overworld_scene = Object::cast_to<Overworld>(tree->get_current_scene());
-    
-    if (overworld_scene) tree->get_main_viewport()->remove_child(overworld_scene);
+    tree->get_main_viewport()->remove_child(tree->get_current_scene());
     
     tree->set_current_scene(battle);
     tree->reload_camera();
