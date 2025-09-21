@@ -32,9 +32,9 @@ func _on_batle():
 	global.set_player_can_move(true);
 	
 func _on_camera():
-	var camera = global.get_scene_container().get_camera();
-	camera.transition(\"res://Game/transition/test.tres\", 2, true);
-	await camera.finished_tween;
+	var camerafx = global.get_scene_container().get_camera();
+	camerafx.transition(\"res://Game/transition/test.tres\", 2, true);
+	await camerafx.finished_tween;
 	global.set_player_can_move(true);
 "
 

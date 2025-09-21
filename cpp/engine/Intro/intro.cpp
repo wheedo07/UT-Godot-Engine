@@ -164,9 +164,9 @@ void Intro::_intro_image_next() {
 
 void Intro::_on_intro_completed() {
     if(intro_completed_path.is_empty()) return;
-    camera->blind(0, 1, 0.6);
+    camera->blind(0.6, 1);
     camera->connect("finished_tween", Callable(global->get_Music(), "stop"), CONNECT_ONE_SHOT);
-    camera->connect("finished_tween", Callable(camera, "blind").bind(0.1, 1, 0.1), CONNECT_ONE_SHOT);
+    camera->connect("finished_tween", Callable(camera, "blind").bind(0.1, 0), CONNECT_ONE_SHOT);
     camera->connect("finished_tween", Callable(global->get_scene_container(), "change_scene_to_file").bind(intro_completed_path), CONNECT_ONE_SHOT);
 }
 

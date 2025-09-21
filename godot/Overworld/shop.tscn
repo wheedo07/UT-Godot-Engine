@@ -201,9 +201,8 @@ layout_mode = 0
 offset_left = 56.0
 offset_top = 22.0
 offset_right = 396.0
-offset_bottom = 278.0
+offset_bottom = 183.0
 theme = ExtResource("3_lws8l")
-theme_override_constants/line_separation = 10
 theme_override_font_sizes/italics_font_size = 12
 bbcode_enabled = true
 text = "구매
@@ -211,6 +210,7 @@ text = "구매
 대화
 돌아가기"
 scroll_active = false
+vertical_alignment = 3
 
 [node name="Gold" type="RichTextLabel" parent="Control/Main"]
 layout_mode = 0

@@ -221,7 +221,7 @@ void OverworldSceneChanger::_load_battle_scene(const String& scene_path, const R
 
 void OverworldSceneChanger::load_general_scene(const String& scene_path) {
     SceneContainer * tree = global->get_scene_container();
-    tree->get_camera()->blind(0);
+    tree->get_camera()->blind(0.1);
     tree->call_deferred("change_scene_to_packed", loader->load(scene_path));
 }
 

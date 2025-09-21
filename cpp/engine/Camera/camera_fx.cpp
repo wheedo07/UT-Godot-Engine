@@ -84,7 +84,7 @@ void CameraFx::blind(float time, float targetopacity, float duration) {
     Ref<Tween> blindertween = tween[index];
     blindertween.unref();
 	blindertween = create_tween()->set_trans(Tween::TRANS_SINE);
-	blindertween->tween_property(blinder, "modulate:a", targetopacity, time == 0 ? duration : time);
+	blindertween->tween_property(blinder, "modulate:a", targetopacity, duration == 0 ? time : duration);
     if(duration != 0) blindertween->connect("finished", Callable(this, "blind").bind(0, 0, duration), CONNECT_ONE_SHOT);
     else blindertween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
 
@@ -93,10 +93,7 @@ void CameraFx::blind(float time, float targetopacity, float duration) {
 
 void CameraFx::transition(String path, float duration, bool isblind) {
     Ref<Tween> blindertween = tween[0];
-    if(blindertween->is_running()) {
-        ERR_PRINT("Transition은 블라인드가 완전히 켜진 상태에서만 실행할 수 있습니다.");
-        return;
-    }
+    if(blindertween->is_running()) blindertween->kill();
     Color mod = blinder->get_modulate();
     mod.a = 1;
     blinder->set_modulate(mod);
