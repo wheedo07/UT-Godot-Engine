@@ -60,7 +60,7 @@ void OverworldSceneChanger::_ready() {
 
 void OverworldSceneChanger::enter_room_default() {
     CameraFx* camera = global->get_scene_container()->get_camera();
-    camera->blind(0, 1);
+    camera->blind(0.1, 1);
     camera->connect("finished_tween", Callable(this, "_load_and_set_scene").bind(default_scene), CONNECT_ONE_SHOT);
 }
 
@@ -72,7 +72,7 @@ void OverworldSceneChanger::enter_room_path(const String& room_path, const Dicti
     global->set_overworld_data(overworld_data);
     
     CameraFx* camera = global->get_scene_container()->get_camera();
-    camera->blind(0, 1);
+    camera->blind(0.1, 1);
     camera->connect("finished_tween", Callable(this, "_load_and_set_scene").bind(room_path), CONNECT_ONE_SHOT);
 }
 
@@ -121,7 +121,7 @@ void OverworldSceneChanger::_scene_setup_thing(bool transition) {
     global->set_player_can_move(true);
     
     if (transition) {
-        camera->blind(0, 1);
+        camera->blind(0.1, 1);
         camera->connect("finished_tween", Callable(this, "_on_scene_setup_finished").bind(transition), CONNECT_ONE_SHOT);
     } else {
         _on_scene_setup_finished(transition);

@@ -16,7 +16,7 @@ void CameraFx::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("kill"), &CameraFx::kill);
     ClassDB::bind_method(D_METHOD("transition", "path", "duration", "isblind"), &CameraFx::transition, DEFVAL(2), DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0), DEFVAL(1), DEFVAL(0.1));
+    ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0.1f), DEFVAL(1), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("blinder_color", "color"), &CameraFx::blinder_color, DEFVAL(Color(0, 0, 0, 1)));
     ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(30), DEFVAL(0.4f), DEFVAL(0.15f));
     ClassDB::bind_method(D_METHOD("stop_shake"), &CameraFx::stop_shake);
@@ -85,7 +85,7 @@ void CameraFx::blind(float time, float targetopacity, float duration) {
     blindertween.unref();
 	blindertween = create_tween()->set_trans(Tween::TRANS_SINE);
 	blindertween->tween_property(blinder, "modulate:a", targetopacity, time == 0 ? duration : time);
-    if(time != 0) blindertween->connect("finished", Callable(this, "blind").bind(0, 0, duration), CONNECT_ONE_SHOT);
+    if(duration != 0) blindertween->connect("finished", Callable(this, "blind").bind(0, 0, duration), CONNECT_ONE_SHOT);
     else blindertween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
 
     tween[index] = blindertween;
