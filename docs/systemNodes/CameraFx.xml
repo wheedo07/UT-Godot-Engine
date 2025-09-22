@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CameraFx" inherits="Camera2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](사용자 생성 불가능)[/color]
+        Undertale 스타일의 고급 카메라 효과를 제공하는 시스템 노드입니다.
+    </brief_description>
+    <description>
+        [b]CameraFx[/b] 클래스는 UT-Godot-Engine에 global하게 적용되는 카메라 효과를 관리하는 시스템 노드입니다.
+        화면 전환, 셰이커 효과, 줌 애니메이션, 페이드 인/아웃, 글리치 효과 등을 제공합니다.
+        
+        [b]주요 기능:[/b]
+        • 커스텀 셰이더 기반 화면 전환
+        • 동적 화면 흔들림 효과 (세기, 속도 조절 가능)
+        • 부드러운 줌 인/아웃 애니메이션
+        • 페이드 인/아웃 블라인더 효과
+        • 글리치, RGB 분할 등 VFX 효과
+        • 다중 트윈 시스템으로 동시 효과 처리
+        • 설정에 따른 효과 자동 활성화/비활성화
+        
+        [b]시스템 노드 - 직접 생성 금지[/b]
+        res://Camera/CameraFx.tscn 경로에 기본적으로 존재하는 시스템 노드입니다.
+        시스템과 자동으로 연동되며, 직접 생성하지 마십시오.
+    </description>
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="add_shake">
+            <return type="void" />
+            <param index="0" name="amt" type="float" default="0.1" />
+            <param index="1" name="speed" type="float" default="30" />
+            <param index="2" name="time" type="float" default="0.4" />
+            <param index="3" name="duration" type="float" default="0.15" />
+            <description>
+                화면 흔들림 효과를 추가합니다.
+                
+                [b]매개변수:[/b]
+                • amt: 흔들림의 세기 (0.0-1.0 권장)
+                • speed: 흔들림 속도 (높을수록 빠름)
+                • time: 효과 지속 시간 (초)
+                • duration: 페이드 아웃 시간 (0이면 즉시 종료)
+                
+                동일한 세기 이하의 흔들림이 진행 중이면 무시됩니다.
+                더 강한 흔들림은 기존 효과와 합성됩니다.
+            </description>
+        </method>
+        <method name="blind">
+            <return type="void" />
+            <param index="0" name="time" type="float" default="0.1" />
+            <param index="1" name="targetopacity" type="float" default="1" />
+            <param index="2" name="duration" type="float" default="0" />
+            <description>
+                블라인더를 이용한 페이드 효과를 실행합니다.
+                
+                [b]매개변수:[/b]
+                • time: 페이드 시간 (초)
+                • targetopacity: 목표 투명도 (0=투명, 1=불투명)
+                • duration: 유지 시간 (0이면 즉시, 0이 아니면 유지 후 역방향)
+                
+                완료 시 finished_tween 시그널이 방출됩니다.
+            </description>
+        </method>
+        <method name="blinder_color">
+            <return type="void" />
+            <param index="0" name="color" type="Color" default="Color(0, 0, 0, 1)" />
+            <description>
+                블라인더의 색상을 설정합니다.
+                기본값은 검은색이며, 다양한 색상의 페이드 효과를 만들 수 있습니다.
+            </description>
+        </method>
+        <method name="glitch">
+            <return type="void" />
+            <param index="0" name="time" type="float" default="0" />
+            <param index="1" name="targetrate" type="float" default="1" />
+            <description>
+                글리치 효과를 실행합니다.
+                
+                [b]매개변수:[/b]
+                • time: 효과 지속 시간 (0이면 즉시 적용)
+                • targetrate: 글리치 강도 (0-1 권장)
+                
+                VFX 설정이 활성화되어 있을 때만 작동합니다.
+            </description>
+        </method>
+        <method name="kill">
+            <return type="void" />
+            <description>
+                현재 실행 중인 모든 카메라 효과를 즉시 중단합니다.
+                줌을 원래 상태로 되돌리고, 모든 트윈을 정지시키며,
+                전환 효과와 셰이더 효과를 초기화합니다.
+                
+                긴급히 모든 효과를 멈춰야 할 때 사용합니다.
+            </description>
+        </method>
+        <method name="rgbsplit">
+            <return type="void" />
+            <param index="0" name="time" type="float" default="0" />
+            <param index="1" name="targetrate" type="float" default="1" />
+            <description>
+                RGB 분할 효과를 실행합니다.
+                
+                [b]매개변수:[/b]
+                • time: 효과 지속 시간 (초)
+                • targetrate: 분할 강도 (0-1 권장)
+                
+                완료 시 finished_tween 시그널이 방출됩니다.
+            </description>
+        </method>
+        <method name="stop_shake">
+            <return type="void" />
+            <description>
+                현재 실행 중인 화면 흔들림 효과를 즉시 중단합니다.
+                셰이더의 모든 흔들림 매개변수를 0으로 설정합니다.
+            </description>
+        </method>
+        <method name="transition">
+            <return type="void" />
+            <param index="0" name="path" type="String" />
+            <param index="1" name="duration" type="float" default="2" />
+            <param index="2" name="isblind" type="bool" default="false" />
+            <description>
+                커스텀 셰이더를 이용한 화면 전환 효과를 실행합니다.
+                
+                [b]매개변수:[/b]
+                • path: 전환 셰이더 리소스 경로
+                • duration: 전환 지속 시간 (초)
+                • isblind: 전환 완료 후 블라인드 효과 적용 여부
+                
+                전환 중에는 셰이더의 progress 매개변수가 자동으로 증가합니다.
+            </description>
+        </method>
+        <method name="tween_zoom">
+            <return type="void" />
+            <param index="0" name="amount" type="Vector2" default="Vector2(1, 1)" />
+            <param index="1" name="time" type="float" default="0.5" />
+            <param index="2" name="offset" type="Vector2" default="Vector2(0, 0)" />
+            <description>
+                카메라 줌과 오프셋을 부드럽게 애니메이션합니다.
+                
+                [b]매개변수:[/b]
+                • amount: 목표 줌 레벨 (Vector2(1,1)이 기본)
+                • time: 애니메이션 시간 (초)
+                • offset: 목표 카메라 오프셋
+                
+                첫 줌 애니메이션 시 원래 줌 값을 저장하고,
+                kill() 호출 시 원래 상태로 복원됩니다.
+            </description>
+        </method>
+    </methods>
+
+    <signals>
+        <signal name="finished_tween">
+            <description>
+                카메라 효과 애니메이션이 완료되었을 때 방출되는 시그널입니다.
+                blind, add_shake, tween_zoom, glitch, rgbsplit 등의 효과가 
+                완료될 때마다 발생하므로, 효과 체인을 구성할 때 유용합니다.
+            </description>
+        </signal>
+    </signals>
+</class>
