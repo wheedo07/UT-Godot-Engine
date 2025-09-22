@@ -33,7 +33,6 @@ void Bullet::_bind_methods() {
     GDVIRTUAL_BIND(on_hit_player_shield);
 
     ADD_SIGNAL(MethodInfo("bullet_fade"));
-    ADD_SIGNAL(MethodInfo("shake_camera", PropertyInfo(Variant::FLOAT, "shake_amt")));
     
     BIND_ENUM_CONSTANT(MOVEMENT_VELOCITY);
     BIND_ENUM_CONSTANT(MOVEMENT_TWEEN);

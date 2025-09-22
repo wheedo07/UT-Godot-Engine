@@ -1,4 +1,5 @@
 #include "camera_remote_controller.h"
+#include "camera_fx.h"
 #include "env.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/engine.hpp>
@@ -7,6 +8,7 @@
 
 CameraRemoteController::CameraRemoteController() {
     fade = nullptr;
+    camerafx = nullptr;
     zoom = Vector2(1, 1);
     position_smoothing_enabled = false;
 
@@ -20,7 +22,7 @@ CameraRemoteController::~CameraRemoteController() {}
 
 void CameraRemoteController::_bind_methods() {
     ClassDB::bind_method(D_METHOD("force_update"), &CameraRemoteController::force_update);
-    ClassDB::bind_method(D_METHOD("add_shake", "amount"), &CameraRemoteController::add_shake);
+    ClassDB::bind_method(D_METHOD("get_camera"), &CameraRemoteController::get_camera);
 
     ClassDB::bind_method(D_METHOD("_on_timer_timeout"), &CameraRemoteController::_on_timer_timeout);
     ClassDB::bind_method(D_METHOD("_set_limits"), &CameraRemoteController::_set_limits);
@@ -67,16 +69,15 @@ void CameraRemoteController::_ready() {
 }
 
 void CameraRemoteController::force_update() {
-    CameraFx* camera = global->get_scene_container()->get_camera();
-    set_remote_node(get_path_to(camera, true));
-    camera->set_position_smoothing_enabled(position_smoothing_enabled);
+    camerafx = global->get_scene_container()->get_camera();
+    set_remote_node(get_path_to(camerafx, true));
+    camerafx->set_position_smoothing_enabled(position_smoothing_enabled);
     force_update_cache();
 }
 
 void CameraRemoteController::_process(double delta) {
-    if(isEditor) return;
-    CameraFx* camera = global->get_scene_container()->get_camera();
-    camera->set_zoom(zoom);
+    if(isEditor || !camerafx) return;
+    camerafx->set_zoom(zoom);
 }
 
 void CameraRemoteController::_on_timer_timeout() {
@@ -89,18 +90,11 @@ void CameraRemoteController::_on_timer_timeout() {
 }
 
 void CameraRemoteController::_set_limits() {
-    CameraFx* camera = global->get_scene_container()->get_camera();
-    if (camera) {
-        camera->set_limit(Side::SIDE_LEFT, limit_left);
-        camera->set_limit(Side::SIDE_TOP, limit_top);
-        camera->set_limit(Side::SIDE_RIGHT, limit_right);
-        camera->set_limit(Side::SIDE_BOTTOM, limit_bottom);
-    }
-}
-
-void CameraRemoteController::add_shake(float amount) {
-    CameraFx* camera = global->get_scene_container()->get_camera();
-    if(camera) camera->add_shake(amount);
+    camerafx = global->get_scene_container()->get_camera();
+    camerafx->set_limit(Side::SIDE_LEFT, limit_left);
+    camerafx->set_limit(Side::SIDE_TOP, limit_top);
+    camerafx->set_limit(Side::SIDE_RIGHT, limit_right);
+    camerafx->set_limit(Side::SIDE_BOTTOM, limit_bottom);
 }
 
 void CameraRemoteController::set_zoom(const Vector2& p_zoom) {
@@ -153,4 +147,8 @@ void CameraRemoteController::set_limit_bottom(int p_limit) {
 
 int CameraRemoteController::get_limit_bottom() const {
     return limit_bottom;
+}
+
+CameraFx* CameraRemoteController::get_camera() {
+    return camerafx;
 }

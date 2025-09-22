@@ -48,8 +48,6 @@ SoulBattle::SoulBattle() {
 SoulBattle::~SoulBattle() {}
 
 void SoulBattle::_bind_methods() {
-    ADD_SIGNAL(MethodInfo("shake_camera", PropertyInfo(Variant::FLOAT, "amt")));
-    
     BIND_ENUM_CONSTANT(RED);
     BIND_ENUM_CONSTANT(BLUE);
     BIND_ENUM_CONSTANT(ORANGE);
@@ -470,23 +468,23 @@ void SoulBattle::blue() {
     
     motion.x = speed * inputs.x / slow_down;
     
-    if (is_on_floor()) {
+    if(is_on_floor()) {
         if (motion.y > 0) {
             motion.y = 0;
         }
         
-        if (gravity_multiplier > 1.0f && changed_direction_time <= 0) {
+        if(gravity_multiplier > 1.0f && changed_direction_time <= 0) {
             gravity_multiplier = 1.0f;
             
             wallhit->play();
-            
-            emit_signal("shake_camera", 0.05f);
+           
+            global->get_scene_container()->get_camera()->add_shake(0.05f);
         }
         
-        if (inputs.y != 0) {
+        if(inputs.y != 0) {
             motion.y -= float(jump[3]);
         }
-    } else {
+    }else {
         if (motion.y > 0) {
             motion.y += gravity * (float(jump[2]) - 1);
         } else if (inputs.y == 0) {

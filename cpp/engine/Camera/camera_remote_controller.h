@@ -9,6 +9,8 @@
 #include<godot_cpp/variant/vector2.hpp>
 #include<godot_cpp/variant/color.hpp>
 namespace godot {
+    class CameraFx;
+
     class CameraRemoteController : public RemoteTransform2D {
         GDCLASS(CameraRemoteController, RemoteTransform2D)
 
@@ -16,6 +18,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
+            CameraFx* camerafx;
             ColorRect* fade;
             Vector2 zoom;
             bool position_smoothing_enabled;
@@ -32,7 +35,8 @@ namespace godot {
             void _ready() override;
             void _process(double delta) override;
 
-            void add_shake(float amount);
+            // 사용함수
+            CameraFx* get_camera();
             void force_update();
 
             void set_zoom(const Vector2& p_zoom);

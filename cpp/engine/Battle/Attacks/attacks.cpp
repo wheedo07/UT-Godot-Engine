@@ -66,7 +66,7 @@ void AttackBase::ready() {}
 void AttackBase::start_attack() {}
 
 void AttackBase::add_bullet(Node* bullet, Masking mask_value) {
-    if (!bullet) {
+    if(!bullet) {
         ERR_PRINT("총알 노드가 null 입니다");
         return;
     }
@@ -75,11 +75,7 @@ void AttackBase::add_bullet(Node* bullet, Masking mask_value) {
         return;
     }
     
-    if (bullet->has_signal("shake_camera") && camera) {
-        bullet->connect("shake_camera", Callable(camera, "add_shake"));
-    }
-    
-    if (bullet->has_method("fade")) {
+    if(bullet->has_method("fade")) {
         connect("remove_bullets", Callable(bullet, "fade"));
     }
     

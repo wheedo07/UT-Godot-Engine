@@ -80,7 +80,6 @@
             <description>
                 탄환 노드를 씬에 추가합니다.
                 [param bullet]은 추가할 탄환 노드, [param mask]는 렌더링 방식을 결정합니다.
-                탄환에 [code]shake_camera[/code] 시그널이 있으면 카메라와 자동 연결됩니다.
                 탄환에 [code]fade[/code] 메서드가 있으면 [signal remove_bullets] 시그널과 자동 연결됩니다.
             </description>
         </method>

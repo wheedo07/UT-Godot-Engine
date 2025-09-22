@@ -41,8 +41,7 @@
             velocity = Vector2(0, 200)  # 아래로 이동
         
         func on_hit_player():
-            # 플레이어 충돌 시 특별한 효과
-            emit_signal("shake_camera", 0.3)
+            print("플레이어와 충돌!")
             kill();
         [/codeblock]
         
@@ -166,15 +165,6 @@
         <signal name="bullet_fade">
             <description>
                 [method fade] 호출 시 자동으로 발생합니다.
-            </description>
-        </signal>
-        
-        <signal name="shake_camera">
-            <param index="0" name="shake_amt" type="float"/>
-            <description>
-                카메라 흔들림을 요청하는 시그널입니다.
-                [param shake_amt]는 흔들림의 강도를 나타냅니다.
-                [AttackBase]에서 자동으로 카메라와 연결됩니다.
             </description>
         </signal>
     </signals>
