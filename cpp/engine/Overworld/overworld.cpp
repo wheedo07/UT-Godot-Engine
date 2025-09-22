@@ -25,7 +25,7 @@ void Overworld::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_camera"), &Overworld::get_camera);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "player", PROPERTY_HINT_NONE, "PlayerOverworld", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_player");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "music_player", PROPERTY_HINT_NONE, "AudioStreamPlayer", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_music_player");
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraRemoteController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
     bind_enum(get_class_static());
 
     ClassDB::bind_method(D_METHOD("room_init", "data"), &Overworld::room_init);
@@ -51,7 +51,7 @@ void Overworld::_bind_methods() {
     // 프로퍼티 등록
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "world_name"), "set_world_name", "get_world_name");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "player_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "PlayerOverworld"), "set_player_path", "get_player_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "camera_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "CameraRemoteController"), "set_camera", "get_camera_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "camera_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "CameraController"), "set_camera", "get_camera_path");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "music", PROPERTY_HINT_RESOURCE_TYPE, "AudioStream"), "set_music", "get_music");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "room_entrances", PROPERTY_HINT_TYPE_STRING, 
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_NODE_TYPE) + ":RoomEntranceNode")
@@ -71,7 +71,7 @@ void Overworld::_ready() {
         ERR_PRINT("player_path 경로 또는 camera_path 경로 비어있음!");
         return;
     }
-    camera = Object::cast_to<CameraRemoteController>(get_node_internal(camera_path));
+    camera = Object::cast_to<CameraController>(get_node_internal(camera_path));
     player = Object::cast_to<PlayerOverworld>(get_node_internal(player_path));
 
     connect("initialized", Callable(this, "start_music_fade_in"));
@@ -216,7 +216,7 @@ PlayerOverworld* Overworld::get_player() {
     return player;
 }
 
-CameraRemoteController* Overworld::get_camera() {
+CameraController* Overworld::get_camera() {
     return camera;
 }
 

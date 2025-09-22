@@ -17,7 +17,7 @@
 #include "engine/Camera/camera_fx.h"
 #include "engine/Overworld/room_entrance_node.h"
 #include "engine/Overworld/textBox/text_box.h"
-#include "engine/Camera/camera_remote_controller.h"
+#include "engine/Camera/camera_controller.h"
 namespace godot {
     class Overworld : public Node2D {
         GDCLASS(Overworld, Node2D)
@@ -28,7 +28,7 @@ namespace godot {
         public:
             PlayerOverworld* player;
             AudioStreamPlayer* music_player;
-            CameraRemoteController* camera;
+            CameraController* camera;
         
         private:
             String world_name;
@@ -41,7 +41,7 @@ namespace godot {
             void set_property(Object* value);
             PlayerOverworld* get_player();
             AudioStreamPlayer* get_music_player();
-            CameraRemoteController* get_camera();
+            CameraController* get_camera();
         
         public:
             Overworld();

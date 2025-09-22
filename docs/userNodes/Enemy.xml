@@ -20,7 +20,7 @@
         [b]전투 시스템 통합[/b]
         • [BattleMain], [AttackManager], [BattleBox], [SoulBattle] 등과 자동 연동
         • [DialogueControl]을 통한 대화 시스템 관리
-        • [CameraRemoteController]를 통한 카메라 제어
+        • [CameraController]를 통한 카메라 제어
         
         [b]가상 함수 시스템[/b]
         • C++과 GDScript 모두에서 오버라이드 가능한 가상 함수 제공
@@ -306,7 +306,7 @@
             대화 제어 노드 참조입니다. (읽기 전용)
         </member>
         
-        <member name="camera" type="CameraRemoteController" setter="set_property" getter="get_camera">
+        <member name="camera" type="CameraController" setter="set_property" getter="get_camera">
             카메라 제어 노드 참조입니다. (읽기 전용)
         </member>
         

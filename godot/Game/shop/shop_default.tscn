@@ -1,7 +1,6 @@
-[gd_scene load_steps=24 format=3 uid="uid://tw6eogrd1cju"]
+[gd_scene load_steps=23 format=3 uid="uid://tw6eogrd1cju"]
 
 [ext_resource type="AudioStream" uid="uid://bs4g8uklvbn26" path="res://Musics/shop_muisc.mp3" id="1_3i4qp"]
-[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="2_pbwyu"]
 [ext_resource type="Texture2D" uid="uid://c0d8jfq1f7kpd" path="res://Game/assets/sprite/image/shop_background.png" id="2_wf08j"]
 [ext_resource type="Texture2D" uid="uid://c85b2lll8hwnt" path="res://Game/assets/sprite/sheet/shop_sheet.png" id="3_q0445"]
 [ext_resource type="AudioStream" uid="uid://s6sq0p485acf" path="res://sfx/Clicks/sans.wav" id="5_fd5hb"]
@@ -185,7 +184,7 @@ keeper_def_dialogue = SubResource("Dialogues_060io")
 keeper_cannot_sell_dialogues = SubResource("Dialogues_h8g0r")
 dialogue_options = PackedStringArray("인사", "안부묻기", "질문하기")
 
-[node name="Camera" parent="." instance=ExtResource("2_pbwyu")]
+[node name="Camera" type="CameraController" parent="."]
 position = Vector2(325, 320)
 
 [node name="background" type="Sprite2D" parent="."]

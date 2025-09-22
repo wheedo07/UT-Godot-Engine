@@ -3,7 +3,7 @@
 
 #include "engine/Menus/option_selectable.h"
 #include "engine/Text/text_typer.h"
-#include "engine/Camera/camera_remote_controller.h"
+#include "engine/Camera/camera_controller.h"
 #include<godot_cpp/classes/h_split_container.hpp>
 #include<godot_cpp/classes/label.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
@@ -35,7 +35,7 @@ namespace godot {
             ColorRect* color_rect;
             AudioStreamPlayer* cymbal;
             Node* prompt;
-            CameraRemoteController* camera;
+            CameraController* camera;
 
         public:
             NameSelection();

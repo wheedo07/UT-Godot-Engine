@@ -82,7 +82,7 @@
         </member>
 
         <member name="camera_path" type="NodePath" setter="set_camera" getter="get_camera_path" default="">
-            카메라 컨트롤러([code]CameraRemoteController[/code])의 경로. [b]필수[/b].
+            카메라 컨트롤러([code]CameraController[/code])의 경로. [b]필수[/b].
         </member>
 
         <member name="music" type="AudioStream" setter="set_music" getter="get_music">
@@ -101,7 +101,7 @@
             배경 음악 (music_player == global.get_Music()) 변수 (스크립트에서 사용되는 읽기 전용)
         </member>
 
-        <member name="camera" type="CameraRemoteController" setter="set_property" getter="get_camera">
+        <member name="camera" type="CameraController" setter="set_property" getter="get_camera">
             카메라 변수 (스크립트에서 사용되는 읽기 전용)
         </member>
     </members>

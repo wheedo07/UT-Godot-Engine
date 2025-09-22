@@ -33,7 +33,7 @@ using namespace godot;
 
 // [Camera] //
 #include "Camera/camera_fx.h"
-#include "Camera/camera_remote_controller.h"
+#include "Camera/camera_controller.h"
 // [end //
 
 // [Overworld] //

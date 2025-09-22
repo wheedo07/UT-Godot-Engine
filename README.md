@@ -110,7 +110,9 @@ scons target=template_release
 - **`RoomEntranceNode`** - 맵 간 이동 노드
 
 ### 기타 시스템
+- **`CameraController`** - 프레임워크용 카메라
 - **`ShopCreate`** - 상점 시스템 노드
+- **`OptionSelectableSolo`** - 옵션 선택 제작
 
 > 💡 **팁**: 각 노드의 상세한 사용법과 예제 코드는 Godot 에디터의 "도움말" → "클래스 참조"에서 확인할 수 있습니다.
 

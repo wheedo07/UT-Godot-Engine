@@ -5,7 +5,7 @@
 #include "engine/Battle/battle_system.h"
 #include "engine/Battle/Soul/soul.h"
 #include "engine/Battle/Box/battle_box.h"
-#include "engine/Camera/camera_remote_controller.h"
+#include "engine/Camera/camera_controller.h"
 #include<godot_cpp/classes/node.hpp>
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/classes/control.hpp>
@@ -29,7 +29,7 @@ namespace godot {
             BattleBox* box;
             SoulBattle* soul;
             AttackManager* mask;
-            CameraRemoteController* camera;
+            CameraController* camera;
         
         private:
             Node* non_mask;
@@ -42,7 +42,7 @@ namespace godot {
             BattleBox* get_box();
             SoulBattle* get_soul();
             AttackManager* get_mask();
-            CameraRemoteController* get_camera();
+            CameraController* get_camera();
         
         public:
             AttackBase();

@@ -8,7 +8,7 @@
 #include "Soul/soul.h"
 #include "Attacks/attacks_manager.h"
 #include "engine/resources/Encounters/encounter.h"
-#include "engine/Camera/camera_remote_controller.h"
+#include "engine/Camera/camera_controller.h"
 #include<godot_cpp/classes/node2d.hpp>
 #include<godot_cpp/classes/color_rect.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
@@ -24,7 +24,7 @@ namespace godot {
             static void _bind_methods();
 
         public:
-            CameraRemoteController* camera;
+            CameraController* camera;
             BattleButtons* buttons;
             BattleBox* box;
             Node2D* enemies_node;

@@ -1,4 +1,0 @@
-[gd_scene format=3 uid="uid://d4gqwwjrenhax"]
-
-[node name="Camera" type="CameraRemoteController"]
-update_scale = false

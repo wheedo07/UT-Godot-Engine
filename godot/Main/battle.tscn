@@ -1,6 +1,5 @@
-[gd_scene load_steps=9 format=3 uid="uid://c01b4hbwgce3o"]
+[gd_scene load_steps=8 format=3 uid="uid://c01b4hbwgce3o"]
 
-[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="3_j2jej"]
 [ext_resource type="PackedScene" uid="uid://ctmkb1gh0a14s" path="res://Battle/Buttons/buttons.tscn" id="3_m5l1o"]
 [ext_resource type="PackedScene" uid="uid://d1p4teid7wp70" path="res://Battle/Attacks/attacks_manager.tscn" id="4_elftc"]
 [ext_resource type="PackedScene" uid="uid://3mahpp3h1cx4" path="res://Battle/Box/BattleBox.tscn" id="5_1exqf"]
@@ -39,7 +38,7 @@ unique_name_in_owner = true
 z_index = -1
 position = Vector2(0, 453)
 
-[node name="Camera" parent="." instance=ExtResource("3_j2jej")]
+[node name="Camera" type="CameraController" parent="."]
 unique_name_in_owner = true
 position = Vector2(320, 240)
 

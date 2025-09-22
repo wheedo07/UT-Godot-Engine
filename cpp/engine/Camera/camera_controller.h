@@ -1,5 +1,5 @@
-#ifndef CAMERA_REMOTE_CONTROLLER_H
-#define CAMERA_REMOTE_CONTROLLER_H
+#ifndef CAMERA_CONTROLLER_H
+#define CAMERA_CONTROLLER_H
 
 #include<godot_cpp/classes/remote_transform2d.hpp>
 #include<godot_cpp/classes/color_rect.hpp>
@@ -11,8 +11,8 @@
 namespace godot {
     class CameraFx;
 
-    class CameraRemoteController : public RemoteTransform2D {
-        GDCLASS(CameraRemoteController, RemoteTransform2D)
+    class CameraController : public RemoteTransform2D {
+        GDCLASS(CameraController, RemoteTransform2D)
 
         protected:
             static void _bind_methods();
@@ -29,14 +29,14 @@ namespace godot {
             int limit_bottom;
         
         public:
-            CameraRemoteController();
-            ~CameraRemoteController();
+            CameraController();
+            ~CameraController();
 
             void _ready() override;
             void _process(double delta) override;
 
             // 사용함수
-            CameraFx* get_camera();
+            CameraFx* get_global_camera();
             void force_update();
 
             void set_zoom(const Vector2& p_zoom);

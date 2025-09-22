@@ -41,7 +41,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
     // [Camera] //
     GDREGISTER_CLASS(CameraFx);
-    GDREGISTER_CLASS(CameraRemoteController);
+    GDREGISTER_CLASS(CameraController);
     // [end] //
 
     // [Text] //

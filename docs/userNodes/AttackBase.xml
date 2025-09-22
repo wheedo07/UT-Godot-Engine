@@ -136,7 +136,7 @@
             클리핑된 탄환들의 부모 노드입니다.
         </member>
         
-        <member name="camera" type="CameraRemoteController" setter="set_property" getter="get_camera">
+        <member name="camera" type="CameraController" setter="set_property" getter="get_camera">
             카메라 컨트롤러 노드 참조입니다. 읽기 전용입니다.
             카메라 흔들림, 줌, 이동 효과 등에 사용합니다.
         </member>

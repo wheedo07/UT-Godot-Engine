@@ -5,7 +5,7 @@
 #include "Box/battle_box.h"
 #include "Attacks/attacks_manager.h"
 #include "Misc/dialogue_control.h"
-#include "engine/Camera/camera_remote_controller.h"
+#include "engine/Camera/camera_controller.h"
 #include "engine/resources/Enemies/enemy_state.h"
 #include "engine/resources/Enemies/Act.h"
 #include<godot_cpp/classes/character_body2d.hpp>
@@ -32,7 +32,7 @@ namespace godot {
             BattleBox* box;
             SoulBattle* soul;
             DialogueControl* dialogue;
-            CameraRemoteController* camera;
+            CameraController* camera;
             TextureRect* bg;
         
         private:
@@ -101,7 +101,7 @@ namespace godot {
             BattleBox* get_box();
             SoulBattle* get_soul();
             DialogueControl* get_dialogue();
-            CameraRemoteController* get_camera();
+            CameraController* get_camera();
             TextureRect* get_bg();
         
         public:

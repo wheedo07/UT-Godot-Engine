@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CameraController" inherits="RemoteTransform2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=green](사용자 생성 가능)[/color]
+        UT-Godot-Engine에서 사용되는 카메라 노드입니다. 위치, 줌, 제한 범위 등을 설정할 수 있습니다.
+    </brief_description>
+    <description>
+        [b]주요 기능:[/b]
+        • 줌 레벨 설정 및 실시간 조정
+        • 카메라 이동 범위 제한 (limit)
+        • 위치 스무딩 활성화/비활성화
+        • 씬로드시 자동 페이드 인 효과
+        
+        [b]사용법:[/b]
+        1. 씬에 CameraController 노드 추가
+        2. 원하는 위치에 배치
+        3. 인스펙터에서 줌, 제한 범위 등 설정
+    </description>
+    <tutorials></tutorials>
+    <methods>
+        <method name="force_update">
+            <return type="void" />
+            <description>
+                카메라 연결을 강제로 업데이트합니다.
+                카메라 레퍼런스를 새로 가져오고 RemoteTransform2D 연결을 재설정합니다.
+                씬 변경 후나 카메라 설정이 변경된 경우 호출하면 유용합니다.
+            </description>
+        </method>
+        <method name="get_global_camera">
+            <return type="CameraFx" />
+            <description>
+                global 카메라 노드를 반환합니다.
+            </description>
+        </method>
+    </methods>
+    <members>
+        <member name="limit_bottom" type="int" setter="set_limit_bottom" getter="get_limit_bottom" default="1000000000">
+            카메라의 아래쪽 이동 제한입니다.
+            카메라가 이 Y 좌표보다 아래로 이동하지 않습니다. 기본값은 매우 큰 양수입니다.
+        </member>
+        <member name="limit_left" type="int" setter="set_limit_left" getter="get_limit_left" default="-1000000000">
+            카메라의 왼쪽 이동 제한입니다.
+            카메라가 이 X 좌표보다 왼쪽으로 이동하지 않습니다. 기본값은 매우 큰 음수입니다.
+        </member>
+        <member name="limit_right" type="int" setter="set_limit_right" getter="get_limit_right" default="1000000000">
+            카메라의 오른쪽 이동 제한입니다.
+            카메라가 이 X 좌표보다 오른쪽으로 이동하지 않습니다. 기본값은 매우 큰 양수입니다.
+        </member>
+        <member name="limit_top" type="int" setter="set_limit_top" getter="get_limit_top" default="-1000000000">
+            카메라의 위쪽 이동 제한입니다.
+            카메라가 이 Y 좌표보다 위로 이동하지 않습니다. 기본값은 매우 큰 음수입니다.
+        </member>
+        <member name="position_smoothing_enabled" type="bool" setter="set_position_smoothing_enabled" getter="get_position_smoothing_enabled" default="false">
+            카메라 위치 스무딩의 활성화 상태입니다.
+            true일 경우 카메라가 부드럽게 이동하고, false일 경우 즉시 이동합니다.
+        </member>
+        <member name="zoom" type="Vector2" setter="set_zoom" getter="get_zoom" default="Vector2(1, 1)">
+            카메라의 줌 레벨입니다.
+            Vector2(1, 1)이 기본 줌이며, 값이 클수록 확대됩니다. X와 Y 축을 독립적으로 설정할 수 있습니다.
+        </member>
+    </members>
+</class>

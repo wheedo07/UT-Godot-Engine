@@ -53,7 +53,7 @@ void NameSelection::_ready() {
     color_rect = Object::cast_to<ColorRect>(get_node_internal("ColorRect"));
     cymbal = Object::cast_to<AudioStreamPlayer>(get_node_internal("cymbal"));
     prompt = get_node_internal("Prompt");
-    camera = Object::cast_to<CameraRemoteController>(get_node_internal("Camera"));
+    camera = Object::cast_to<CameraController>(get_node_internal("Camera"));
     choices.push_back(Object::cast_to<OptionSelectable>(get_node_internal("Confirmation/YES")));
     choices.push_back(Object::cast_to<OptionSelectable>(get_node_internal("Confirmation/NO")));
 

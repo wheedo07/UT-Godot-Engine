@@ -163,7 +163,7 @@ void Enemy::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "box", PROPERTY_HINT_NONE, "BattleBox", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_box");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "soul", PROPERTY_HINT_NONE, "SoulBattle", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_soul");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dialogue", PROPERTY_HINT_NONE, "DialogueControl", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_dialogue");
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraRemoteController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "bg", PROPERTY_HINT_NONE, "BattleBackground", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_bg");
 }
 
@@ -602,7 +602,7 @@ DialogueControl* Enemy::get_dialogue() {
     return dialogue;
 }
 
-CameraRemoteController* Enemy::get_camera() {
+CameraController* Enemy::get_camera() {
     return camera;
 }
 

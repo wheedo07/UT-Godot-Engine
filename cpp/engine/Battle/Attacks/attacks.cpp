@@ -40,7 +40,7 @@ void AttackBase::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "box", PROPERTY_HINT_NONE, "BattleBox", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_box");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "soul", PROPERTY_HINT_NONE, "SoulBattle", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_soul");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "mask", PROPERTY_HINT_NONE, "AttackManager", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_mask");
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraRemoteController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
 }
 
 void AttackBase::_ready() {
@@ -157,6 +157,6 @@ AttackManager* AttackBase::get_mask() {
     return mask;
 }
 
-CameraRemoteController* AttackBase::get_camera() {
+CameraController* AttackBase::get_camera() {
     return camera;
 }
