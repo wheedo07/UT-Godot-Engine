@@ -43,6 +43,7 @@ using namespace godot;
 #include "Overworld/save_menu.h"
 #include "Overworld/ui_box.h"
 #include "Overworld/ui.h"
+#include "Overworld/soul_overwolrd.h"
 
 // Interactions
 #include "Overworld/Interactions/interaction_trigger.h"

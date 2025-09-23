@@ -370,7 +370,7 @@ void Enemy::_on_end_turn() {
 
 PackedStringArray Enemy::on_win() {
     // 파생 클래스에서 구현
-    return { tr("UT_DEFAULT_WIN") };
+    return { tr("UT_DEFAULT_DIDE") };
 }
 
 void Enemy::on_death() {

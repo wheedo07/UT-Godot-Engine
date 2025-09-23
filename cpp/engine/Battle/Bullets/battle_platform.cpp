@@ -40,7 +40,7 @@ void BattlePlatform::_physics_process(double delta) {
     TypedArray<Area2D> overlapping_areas = area->get_overlapping_areas();
     for (int i=0; i < overlapping_areas.size(); i++) {
         Area2D* overlap_node = Object::cast_to<Area2D>(overlapping_areas[i]);
-        if(overlap_node->is_in_group("player")) {
+        if(overlap_node->is_in_group("soul")) {
             SoulBattle* soul = Object::cast_to<SoulBattle>(overlap_node->get_parent());
             if(soul->get_mode() == SoulBattle::BLUE && soul->is_on_floor()) 
                 soul->set_global_position(soul->get_global_position() + movement);

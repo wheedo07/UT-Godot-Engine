@@ -44,6 +44,11 @@ void DeathScreen::_setup_death_animation() {
     
     death_soul->set_position(global->get_player_position());
     death_soul->set_modulate(global->game_over["color"]);
+    if(global->game_over["overworld"]) {
+        death_soul->set_scale(Vector2(0.35, 0.35));
+    }else {
+        death_soul->set_scale(Vector2(1, 1));
+    }
     if(isCustom) return;
 
     audio_player->play("hurt");
@@ -51,6 +56,10 @@ void DeathScreen::_setup_death_animation() {
 
     tween = create_tween()->set_trans(Tween::TRANS_QUAD)->set_parallel();
     tween->tween_interval(0.4);
+    if(global->game_over["overworld"]) {
+        tween->tween_property(death_soul, "scale", Vector2(1, 1), 1.5)->set_ease(Tween::EASE_IN);
+        tween->tween_interval(1.5);
+    }
     tween->chain()->tween_property(camera, "zoom", Vector2(3.0f, 3.0f), 0.4)->set_ease(Tween::EASE_IN)->set_delay(0.4);
     tween->tween_property(camera, "position", death_soul->get_position(), 0.4)->set_ease(Tween::EASE_OUT);
     tween->chain()->tween_callback(Callable(death_soul, "die"))->set_delay(0.3);

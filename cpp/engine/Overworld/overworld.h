@@ -19,6 +19,8 @@
 #include "engine/Overworld/textBox/text_box.h"
 #include "engine/Camera/camera_controller.h"
 namespace godot {
+    class Bullet;
+
     class Overworld : public Node2D {
         GDCLASS(Overworld, Node2D)
         
@@ -50,14 +52,18 @@ namespace godot {
             void _ready() override;
         
             virtual void ready();
+            virtual PackedStringArray player_died();
             GDVIRTUAL0(ready);
+            GDVIRTUAL0R(PackedStringArray, player_died);
 
-            void room_init(const Dictionary& data);
+            void _room_init(const Dictionary& data);
             void _on_saved();
-            void start_music_fade_in();
 
             // 사용 함수
             TextBox* summontextbox();
+            Bullet* add_bullet(Ref<PackedScene> bullet_scene);
+            void toggle_encounter();
+            void start_music_fade_in();
 
             void set_world_name(const String& p_name);
             String get_world_name() const;

@@ -8,30 +8,46 @@
 #include<godot_cpp/classes/viewport.hpp>
 #include<godot_cpp/classes/input.hpp>
 #include<godot_cpp/classes/resource_loader.hpp>
+#include<godot_cpp/classes/rich_text_label.hpp>
 
 PlayerOverworld::PlayerOverworld() {
     current_animation_name = "idle_down";
+    walk_speed = 80.0f;
     current_anim_state = IDLE;
     frame_alert = 0;
+    forced_walking = false;
+    waiting_for_encounter_timer = false;
+    waiting_for_hide_timer = false;
+    moving = false;
+    wolrd_encounter = false;
+
+    interact_posx[1] = Vector2(-5, -5);
+    interact_posx[-1] = Vector2(5, -5);
+    interact_posx[2] = Vector2(1, -8);
+    interact_posx[-2] = Vector2(-1, -8);
+
+    interact_posy[1] = Vector2(0, -8);
+    interact_posy[-1] = Vector2(0, -2);
+    interact_posy[2] = Vector2(0, -8);
+    interact_posy[-2] = Vector2(-1, -8);
 }
 
 PlayerOverworld::~PlayerOverworld() {}
 
 void PlayerOverworld::_bind_methods() {
     ADD_SIGNAL(MethodInfo("animation_finished"));
-    
-    ClassDB::bind_method(D_METHOD("set_canmove", "value"), &PlayerOverworld::set_canmove);
     ClassDB::bind_method(D_METHOD("start_walking", "direction"), &PlayerOverworld::start_walking, DEFVAL(Vector2i()));
     ClassDB::bind_method(D_METHOD("show_alert", "duration"), &PlayerOverworld::show_alert, DEFVAL(0.35f));
     ClassDB::bind_method(D_METHOD("set_frame", "index"), &PlayerOverworld::set_frame);
     ClassDB::bind_method(D_METHOD("play_anim", "key", "speed", "back"), &PlayerOverworld::play_anim, DEFVAL(1), DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("refresh_direction"), &PlayerOverworld::refresh_direction);
     ClassDB::bind_method(D_METHOD("force_direction", "dir"), &PlayerOverworld::force_direction);
-    ClassDB::bind_method(D_METHOD("set_direction"), &PlayerOverworld::set_direction);
-    ClassDB::bind_method(D_METHOD("_step"), &PlayerOverworld::_step);
+    ClassDB::bind_method(D_METHOD("is_overworld_encounter"), &PlayerOverworld::is_overworld_encounter);
+
+    ClassDB::bind_method(D_METHOD("_on_hurt", "damage"), &PlayerOverworld::_on_hurt);
+    ClassDB::bind_method(D_METHOD("_set_canmove", "value"), &PlayerOverworld::_set_canmove);
     ClassDB::bind_method(D_METHOD("_enter_random_encounter"), &PlayerOverworld::_enter_random_encounter);
-    ClassDB::bind_method(D_METHOD("on_encounter_timer_completed"), &PlayerOverworld::on_encounter_timer_completed);
-    ClassDB::bind_method(D_METHOD("on_hide_timer_completed"), &PlayerOverworld::on_hide_timer_completed);
+    ClassDB::bind_method(D_METHOD("_on_encounter_timer_completed"), &PlayerOverworld::_on_encounter_timer_completed);
+    ClassDB::bind_method(D_METHOD("_on_hide_timer_completed"), &PlayerOverworld::_on_hide_timer_completed);
     
     ClassDB::bind_method(D_METHOD("set_walk_speed", "speed"), &PlayerOverworld::set_walk_speed);
     ClassDB::bind_method(D_METHOD("get_walk_speed"), &PlayerOverworld::get_walk_speed);
@@ -71,8 +87,12 @@ void PlayerOverworld::_ready() {
     interacter = Object::cast_to<Area2D>(get_node_internal("Interacter"));
     alert_sprite = Object::cast_to<AnimatedSprite2D>(get_node_internal("Alert"));
     encounter_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("encounter"));
-    
-    player_menu = ResourceLoader::get_singleton()->load("res://Overworld/ui.tscn");
+    soul = Object::cast_to<SoulOverworld>(get_node_internal("Soul"));
+    sprite_material = sprite->get_material();
+   
+    ResourceLoader* loader = ResourceLoader::get_singleton();
+    player_menu = loader->load("res://Overworld/ui.tscn");
+    hit_label = loader->load("res://Overworld/hit_label.tscn");
     alert_sprite->set_visible(false);
 }
 
@@ -123,9 +143,28 @@ void PlayerOverworld::_physics_process(double delta) {
             interactables.push_back(area);
         }
     }
+
+    if(wolrd_encounter) soul->set_input(direction);
 }
 
-void PlayerOverworld::set_canmove(bool value) {
+void PlayerOverworld::_process(double delta) {
+    if(isEditor) return;
+    
+    if(sprite_material.is_valid()) {
+        if(soul->iframes > 0) {
+            float flicker_alpha = (sin(soul->iframes * 8.0f) + 1.0f) * 0.5f;
+            flicker_alpha = flicker_alpha * 0.4f + 0.3f;
+            
+            sprite_material->set_shader_parameter("sprite_alpha", flicker_alpha);
+            sprite_material->set_shader_parameter("minimal_flickering_alpha", flicker_alpha * 0.5f);
+        } else {
+            sprite_material->set_shader_parameter("sprite_alpha", 0.5f);
+            sprite_material->set_shader_parameter("minimal_flickering_alpha", 0);
+        }
+    }
+}
+
+void PlayerOverworld::_set_canmove(bool value) {
     moving = value;
 }
 
@@ -151,12 +190,20 @@ void PlayerOverworld::set_direction() {
     int dir_x = direction.x;
     int dir_y = direction.y;
     
-    if (interact_posx.has(dir_x)) {
+    if(interact_posx.has(dir_x)) {
         interacter->set_position(interact_posx[dir_x]);
     }
-    
-    if (interact_posy.has(dir_y)) {
+    if(interact_posy.has(dir_y)) {
         interacter->set_position(interact_posy[dir_y]);
+    }
+
+    int soul_dir_x = dir_x*2;
+    int soul_dir_y = dir_y*2;
+    if(interact_posx.has(soul_dir_x)) {
+        soul->set_position(interact_posx[soul_dir_x]);
+    }
+    if(interact_posy.has(soul_dir_y)) {
+        soul->set_position(interact_posy[soul_dir_y]);
     }
     
     if (!direction.is_zero_approx() && !moving) {
@@ -288,10 +335,10 @@ void PlayerOverworld::_enter_random_encounter() {
     
     waiting_for_encounter_timer = true;
     Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.35);
-    timer->connect("timeout", Callable(this, "on_encounter_timer_completed"), CONNECT_ONE_SHOT);
+    timer->connect("timeout", Callable(this, "_on_encounter_timer_completed"), CONNECT_ONE_SHOT);
 }
 
-void PlayerOverworld::on_encounter_timer_completed() {
+void PlayerOverworld::_on_encounter_timer_completed() {
     if (!waiting_for_encounter_timer) return;
     waiting_for_encounter_timer = false;
     
@@ -302,14 +349,51 @@ void PlayerOverworld::on_encounter_timer_completed() {
     
     waiting_for_hide_timer = true;
     Ref<SceneTreeTimer> hide_timer = get_tree()->create_timer(0.6);
-    hide_timer->connect("timeout", Callable(this, "on_hide_timer_completed"), CONNECT_ONE_SHOT);
+    hide_timer->connect("timeout", Callable(this, "_on_hide_timer_completed"), CONNECT_ONE_SHOT);
 }
 
-void PlayerOverworld::on_hide_timer_completed() {
+bool PlayerOverworld::is_overworld_encounter() {
+    return wolrd_encounter;
+}
+
+void PlayerOverworld::_on_hide_timer_completed() {
     if (!waiting_for_hide_timer) return;
     waiting_for_hide_timer = false;
     
     alert_sprite->set_visible(false);
+}
+
+void PlayerOverworld::on_overwolrd_encounter() {
+    wolrd_encounter = true;
+    sprite->set_use_parent_material(false);
+    soul->start();
+    get_node_internal("Interacter/Collision")->set_deferred("disabled", true);
+}
+
+void PlayerOverworld::off_overwolrd_encounter() {
+    wolrd_encounter = false;
+    sprite->set_use_parent_material(true);
+    soul->stop();
+    get_node_internal("Interacter/Collision")->set_deferred("disabled", false);
+}
+
+void PlayerOverworld::_on_hurt(int damage) {
+    if(!wolrd_encounter) return;
+    RichTextLabel* num_label = Object::cast_to<RichTextLabel>(hit_label->instantiate());
+    global->get_scene_container()->get_current_scene()->add_child(num_label);
+    float random_x = UtilityFunctions::randf_range(-10, 10);
+    float random_y = UtilityFunctions::randf_range(-5, 5);
+    Vector2 random_offset = Vector2(random_x, random_y);
+    
+    num_label->set_global_position(get_global_position() - (num_label->get_size() / 2));
+    num_label->set_position(num_label->get_position() + random_offset);
+    num_label->set_text(String::num(damage).replace(".0", ""));
+
+    Ref<Tween> tween = create_tween()->set_parallel();
+    tween->tween_property(num_label, "position:y", num_label->get_position().y - 24, 0.25)->set_ease(Tween::EASE_OUT);
+    tween->tween_property(num_label, "position:y", num_label->get_position().y, 0.5)->set_delay(0.25)->set_ease(Tween::EASE_IN);
+    tween->tween_property(num_label, "scale", Vector2(0, 0), 0.5)->set_delay(0.5)->set_ease(Tween::EASE_IN);
+    tween->connect("finished", Callable(num_label, "queue_free"), CONNECT_ONE_SHOT);
 }
 
 void PlayerOverworld::set_walk_speed(float p_walk_speed) {

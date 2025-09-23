@@ -1,5 +1,6 @@
 #include "overworld.h"
 #include "env.h"
+#include "engine/Battle/Bullets/bullet.h"
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/variant/utility_functions.hpp>
 using namespace godot;
@@ -18,6 +19,11 @@ Overworld::~Overworld() {}
 void Overworld::_bind_methods() {
     // 스크립트 메소드
     GDVIRTUAL_BIND(ready);
+    GDVIRTUAL_BIND(player_died);
+    ClassDB::bind_method(D_METHOD("summontextbox"), &Overworld::summontextbox);
+    ClassDB::bind_method(D_METHOD("add_bullet", "bullet_scene"), &Overworld::add_bullet);
+    ClassDB::bind_method(D_METHOD("start_music_fade_in"), &Overworld::start_music_fade_in);
+    ClassDB::bind_method(D_METHOD("toggle_encounter"), &Overworld::toggle_encounter);
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Overworld::set_property);
     ClassDB::bind_method(D_METHOD("get_player"), &Overworld::get_player);
@@ -28,10 +34,8 @@ void Overworld::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
     bind_enum(get_class_static());
 
-    ClassDB::bind_method(D_METHOD("room_init", "data"), &Overworld::room_init);
+    ClassDB::bind_method(D_METHOD("_room_init", "data"), &Overworld::_room_init);
     ClassDB::bind_method(D_METHOD("_on_saved"), &Overworld::_on_saved);
-    ClassDB::bind_method(D_METHOD("summontextbox"), &Overworld::summontextbox);
-    ClassDB::bind_method(D_METHOD("start_music_fade_in"), &Overworld::start_music_fade_in);
     
     ClassDB::bind_method(D_METHOD("set_world_name", "name"), &Overworld::set_world_name);
     ClassDB::bind_method(D_METHOD("get_world_name"), &Overworld::get_world_name);
@@ -57,6 +61,7 @@ void Overworld::_bind_methods() {
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_NODE_TYPE) + ":RoomEntranceNode")
     ,"set_room_entrances", "get_room_entrances");
     
+    ADD_SIGNAL(MethodInfo("remove_bullets"));
     ADD_SIGNAL(MethodInfo("initialized"));
     ADD_SIGNAL(MethodInfo("room_initialized"));
 }
@@ -90,6 +95,9 @@ void Overworld::_ready() {
 }
 
 void Overworld::ready() {}
+PackedStringArray Overworld::player_died() {
+    return { tr("UT_DEFAULT_DIDE") };
+}
 
 void Overworld::start_music_fade_in() {
     music_player = global->get_Music();
@@ -104,7 +112,41 @@ void Overworld::start_music_fade_in() {
     music_tween->tween_property(music_player, "volume_db", 0, 1.0f)->set_trans(Tween::TRANS_QUAD);
 }
 
-void Overworld::room_init(const Dictionary& data) {
+void Overworld::toggle_encounter() {
+    if (!player) return;
+    
+    if(player->is_overworld_encounter()) {
+        player->off_overwolrd_encounter();
+        emit_signal("remove_bullets");
+    }else {
+        player->on_overwolrd_encounter();
+    }
+}
+
+Bullet* Overworld::add_bullet(Ref<PackedScene> bullet_scene) {
+    if(bullet_scene.is_null()) {
+        ERR_PRINT("bullet_scene이 null입니다");
+        return nullptr;
+    }
+    Node* instance = bullet_scene->instantiate();
+    if(!instance->is_class("Bullet")) {
+        ERR_PRINT("bullet_scene이 Bullet 씬이 아닙니다");
+        return nullptr;
+    }
+
+    add_child(instance);
+    if(instance->has_method("fade")) {
+        connect("remove_bullets", Callable(instance, "fade"));
+    }else {
+        ERR_PRINT("Bullet 씬의 루트 노드에 fade() 메소드가 없습니다");
+        instance->queue_free();
+        return nullptr;
+    }
+    
+    return Object::cast_to<Bullet>(instance);
+}
+
+void Overworld::_room_init(const Dictionary& data) {
     if (!player) {
         ERR_PRINT("Overworld: PlayerOverworld를 찾을수 없습니다");
         return;

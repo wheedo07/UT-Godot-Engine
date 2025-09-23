@@ -1,4 +1,5 @@
 #include "enemy_overworld.h"
+#include "env.h"
 #include<godot_cpp/classes/engine.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
@@ -21,13 +22,15 @@ EnemyOverworld::EnemyOverworld() {
 EnemyOverworld::~EnemyOverworld() {}
 
 void EnemyOverworld::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("set_canmove", "value"), &EnemyOverworld::set_canmove);
+    ADD_SIGNAL(MethodInfo("character_finished"));
+    ADD_SIGNAL(MethodInfo("animation_finished"));
     ClassDB::bind_method(D_METHOD("start_walking", "direction"), &EnemyOverworld::start_walking, DEFVAL(Vector2i(0, 0)));
     ClassDB::bind_method(D_METHOD("force_direction", "dir"), &EnemyOverworld::force_direction);
     ClassDB::bind_method(D_METHOD("show_alert", "duration"), &EnemyOverworld::show_alert, DEFVAL(0.35f));
     ClassDB::bind_method(D_METHOD("set_frame", "index"), &EnemyOverworld::set_frame);
     ClassDB::bind_method(D_METHOD("play_anim", "key", "speed", "back"), &EnemyOverworld::play_anim, DEFVAL(1), DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("set_walk_direction", "direction"), &EnemyOverworld::set_walk_direction);
+
+    ClassDB::bind_method(D_METHOD("_set_canmove", "value"), &EnemyOverworld::_set_canmove);
     ClassDB::bind_method(D_METHOD("_on_area_interacted"), &EnemyOverworld::_on_area_interacted);
     
     ClassDB::bind_method(D_METHOD("set_walk_speed", "speed"), &EnemyOverworld::set_walk_speed);
@@ -47,8 +50,6 @@ void EnemyOverworld::_bind_methods() {
 
     bind_enum(get_class_static(), "set_character", "get_character");
    
-    ADD_SIGNAL(MethodInfo("character_finished"));
-    ADD_SIGNAL(MethodInfo("animation_finished"));
     ADD_PROPERTY(PropertyInfo(Variant::INT, "walk_speed", PROPERTY_HINT_RANGE, "0,400,1"), 
         "set_walk_speed", "get_walk_speed");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "frame_alert"), "set_frame_alert", "get_frame_alert");
@@ -59,7 +60,7 @@ void EnemyOverworld::_bind_methods() {
 }
 
 void EnemyOverworld::_ready() {
-    if(Engine::get_singleton()->is_editor_hint()) return;
+    if(isEditor) return;
     text_box = ResourceLoader::get_singleton()->load("res://Overworld/text_box.tscn");
     sprite = Object::cast_to<AnimatedSprite2D>(get_node_internal("Sprite"));
     alert = Object::cast_to<AnimatedSprite2D>(get_node_internal("Alert"));
@@ -67,6 +68,7 @@ void EnemyOverworld::_ready() {
 }
 
 void EnemyOverworld::_physics_process(double delta) {
+    if(isEditor) return;
     Vector2 vel = Vector2(walk_direction) * walk_speed * walk_speed_mod;
     set_velocity(vel);
     
@@ -94,7 +96,7 @@ void EnemyOverworld::show_alert(float duration) {
     timer->connect("timeout", Callable(alert, "hide"), CONNECT_ONE_SHOT);
 }
 
-void EnemyOverworld::set_canmove(bool value) {
+void EnemyOverworld::_set_canmove(bool value) {
     canmove = value;
 }
 

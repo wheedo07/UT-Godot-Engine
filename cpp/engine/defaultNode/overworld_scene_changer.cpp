@@ -95,8 +95,8 @@ void OverworldSceneChanger::_set_player_data(Node* current_scene) {
         return;
     }
     
-    if(current_scene->has_method("room_init")) {
-        current_scene->call("room_init", data);
+    if(current_scene->has_method("_room_init")) {
+        current_scene->call("_room_init", data);
     }
     
     global->call_deferred("set_player_can_move", true);

@@ -1,11 +1,21 @@
-[gd_scene load_steps=21 format=3 uid="uid://d4g7r4oj7f4t8"]
+[gd_scene load_steps=25 format=3 uid="uid://d4g7r4oj7f4t8"]
 
+[ext_resource type="Shader" uid="uid://gtw0lmi2ftie" path="res://Shaders/default/outline.gdshader" id="1_cf73v"]
 [ext_resource type="Texture2D" uid="uid://cgoo48dwdplgr" path="res://Overworld/Characters/assets/frisk.png" id="3_54vmf"]
 [ext_resource type="Texture2D" uid="uid://bv1ip5w51qorh" path="res://Overworld/Interactions/alert.png" id="4_3i2lt"]
 [ext_resource type="AudioStream" uid="uid://wtp5ovq3dy16" path="res://sfx/overworld_encounter_surprise.wav" id="5_5j3a3"]
+[ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="7_ebdcd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbnmf"]
 size = Vector2(16, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s1ggv"]
+shader = ExtResource("1_cf73v")
+shader_parameter/width = 1
+shader_parameter/outline_color = Color(1, 0, 0, 1)
+shader_parameter/flickering_speed = 0.0
+shader_parameter/minimal_flickering_alpha = 0.0
+shader_parameter/sprite_alpha = 0.5000000074506
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5qi5m"]
 atlas = ExtResource("3_54vmf")
@@ -159,15 +169,10 @@ animations = [{
 "speed": 0.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_cf73v"]
+radius = 5.0
+
 [node name="PlayerOverworld" type="PlayerOverworld" groups=["player"]]
-InteractPosx = {
--1: Vector2(-5, -5),
-1: Vector2(5, -5)
-}
-InteractPosy = {
--1: Vector2(0, -8),
-1: Vector2(0, -2)
-}
 slide_on_ceiling = false
 wall_min_slide_angle = 0.785398
 
@@ -177,6 +182,8 @@ shape = SubResource("RectangleShape2D_pbnmf")
 debug_color = Color(1, 1, 1, 0.419608)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_s1ggv")
+use_parent_material = true
 position = Vector2(0, -10)
 sprite_frames = SubResource("SpriteFrames_ex77f")
 animation = &"act"
@@ -197,3 +204,18 @@ sprite_frames = SubResource("SpriteFrames_5wajs")
 [node name="encounter" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_5j3a3")
 bus = &"SFX"
+
+[node name="Soul" type="SoulOverworld" parent="."]
+visible = false
+modulate = Color(1, 0, 0, 1)
+position = Vector2(0, -8)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("7_ebdcd")
+
+[node name="Area2D" type="Area2D" parent="Soul" groups=["soul"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Soul/Area2D"]
+scale = Vector2(2.857143, 2.857143)
+shape = SubResource("CircleShape2D_cf73v")
+
+[connection signal="hurt" from="Soul" to="." method="_on_hurt"]

@@ -75,7 +75,7 @@ namespace godot {
             void set_frame_alert(int value);
             int get_frame_alert();
 
-            void set_canmove(bool value);
+            void _set_canmove(bool value);
     };
 }
 

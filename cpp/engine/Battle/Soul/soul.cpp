@@ -33,7 +33,6 @@ SoulBattle::SoulBattle() {
     cyan_detector = nullptr;
     hiframes = 0;
     iframes = 0;
-    invulnerable = false;
     motion = Vector2(0, 0);
     changed_direction_time = 0;
     purple_pos = 0;
@@ -219,7 +218,7 @@ void SoulBattle::check_bullet(Area2D* area) {
     if(!area->is_class("BulletArea")) return;
     BulletArea* bullet_area = Object::cast_to<BulletArea>(area);
     
-    if (!invulnerable && bullet_area) {
+    if(bullet_area) {
         // 치유 영역 확인
         if (hiframes <= 0) {
             if (bullet_area->damage_mode == Bullet::MODE_GREEN) {
@@ -288,6 +287,7 @@ void SoulBattle::hurt(BulletArea* area) {
 void SoulBattle::_on_death() {
     global->game_over["text"] = main->_on_death_player();
     global->game_over["color"] = sprite->get_modulate();
+    global->game_over["overworld"] = false;
     sys->clear_system();
     global->save_settings();
     global->set_player_position(get_global_transform_with_canvas().get_origin());
@@ -306,8 +306,6 @@ void SoulBattle::heal(BulletArea* area) {
     if (global->get_player_kr() >= global->get_player_hp()) {
         global->set_player_kr(Math::max(global->get_player_hp() - 1, 0));
     }
-    
-    global->heal_sound->play();
 }
 
 void SoulBattle::set_mode(SoulMode new_mode) {

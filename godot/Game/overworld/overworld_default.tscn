@@ -3,7 +3,7 @@
 [ext_resource type="AudioStream" uid="uid://duh3v5648axhv" path="res://Musics/default/overworld.wav" id="1_rnacv"]
 [ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://Game/assets/sprite/sheet/new_home.png" id="2_ulhiq"]
 [ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Overworld/Characters/player_overworld.tscn" id="3_36w6e"]
-[ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Overworld/Interactions/save.tscn" id="5_0u8sj"]
+[ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Overworld/Interactions/save_point.tscn" id="5_0u8sj"]
 [ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Overworld/Characters/sans.tscn" id="6_a8nlu"]
 [ext_resource type="PackedScene" uid="uid://dd758xuvic7xl" path="res://Overworld/Interactions/overworld_area_trigger.tscn" id="7_5tkl3"]
 
@@ -12,23 +12,29 @@ resource_name = "Default"
 script/source = "extends Overworld
 @onready var sansCpp_tres = preload(\"res://Game/encounters/tres/sans_cpp.tres\");
 @onready var sansGd_tres = preload(\"res://Game/encounters/tres/sans_gd.tres\");
+@onready var bone = preload(\"res://Battle/Bullets/Bone/bone.tscn\");
 
 func ready() -> void:
 	print(\"ready 실행\");
 
 func _on_batle():
-	var textbox = summontextbox();
-	textbox.generic(Dialogues.new().from([
-		\"* 테스트 전투가 시작됩니다\", \"* 어떤 전투를 하겠습니까?\"
-	]), [\"전투1\", \"전투2\", \"안한다\"]);
-	textbox.connect(\"selected_option\", func(i:int):
-		if i == 0:
-			scene_changer.load_battle(sansCpp_tres);
-		elif i == 1:
-			scene_changer.load_battle(sansGd_tres);
-	);
-	await textbox.dialogue_finished;
+	toggle_encounter();
+	#var textbox = summontextbox();
+	#textbox.generic(Dialogues.new().from([
+		#\"* 테스트 전투가 시작됩니다\", \"* 어떤 전투를 하겠습니까?\"
+	#]), [\"전투1\", \"전투2\", \"안한다\"]);
+	#textbox.connect(\"selected_option\", func(i:int):
+		#if i == 0:
+			#scene_changer.load_battle(sansCpp_tres);
+		#elif i == 1:
+			#scene_changer.load_battle(sansGd_tres);
+	#);
+	#await textbox.dialogue_finished;
 	global.set_player_can_move(true);
+	await get_tree().process_frame;
+	var b = add_bullet(bone) as Bone;
+	b.position = player.position - Vector2(10, 0);
+	b.tween_height(30, 0.5);
 	
 func _on_camera():
 	var camerafx = camera.get_global_camera();

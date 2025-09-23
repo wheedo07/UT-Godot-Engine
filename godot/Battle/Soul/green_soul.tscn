@@ -7,7 +7,7 @@ size = Vector2(13, 81)
 
 [node name="GreenSoul" type="GreenShielding"]
 
-[node name="Shield" type="Area2D" parent="." groups=["player"]]
+[node name="Shield" type="Area2D" parent="." groups=["soul"]]
 
 [node name="Col" type="CollisionShape2D" parent="Shield"]
 position = Vector2(-32, 0)

@@ -82,6 +82,7 @@ void CameraFx::kill() {
 void CameraFx::blind(float time, float targetopacity, float duration) {
     int index = 0;
     Ref<Tween> blindertween = tween[index];
+    if(blindertween.is_valid()) blindertween->kill();
     blindertween.unref();
 	blindertween = create_tween()->set_trans(Tween::TRANS_SINE);
 	blindertween->tween_property(blinder, "modulate:a", targetopacity, duration == 0 ? time : duration);
@@ -93,7 +94,7 @@ void CameraFx::blind(float time, float targetopacity, float duration) {
 
 void CameraFx::transition(String path, float duration, bool isblind) {
     Ref<Tween> blindertween = tween[0];
-    if(blindertween->is_running()) blindertween->kill();
+    if(blindertween.is_valid()) blindertween->kill();
     Color mod = blinder->get_modulate();
     mod.a = 1;
     blinder->set_modulate(mod);
@@ -111,6 +112,7 @@ void CameraFx::blinder_color(Color color) {
 void CameraFx::add_shake(float amt, float speed, float time, float duration) {
     int index = 1;
     Ref<Tween> Fxtween = tween[index];
+    if(Fxtween.is_valid()) Fxtween->kill();
     
     bool is_shake_active = Fxmaster->get_shader_parameter("shake_enable");
     float current_magnitude = 0;
@@ -167,6 +169,7 @@ void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 offset) {
     int index = 2;
     if(origin_zoom.is_zero_approx()) origin_zoom = get_zoom();
     Ref<Tween> zoomtween = tween[index];
+    if(zoomtween.is_valid()) zoomtween->kill();
     zoomtween.unref();
     zoomtween = create_tween()->set_parallel();
     zoomtween->tween_property(this, "zoom", amount, time);
@@ -178,6 +181,7 @@ void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 offset) {
 void CameraFx::glitch(float time, float targetrate) {
     int index = 3;
     Ref<Tween> glitchtween = tween[index];
+    if(glitchtween.is_valid()) glitchtween->kill();
     glitchtween.unref();
 	glitchtween = create_tween()->set_parallel();
 	glitchtween->tween_property(glitcher, "material:shader_parameter/shake_power", targetrate * 0.1, time);
@@ -191,6 +195,7 @@ void CameraFx::glitch(float time, float targetrate) {
 void CameraFx::rgbsplit(float time, float targetrate) {
     int index = 4;
     Ref<Tween> glitchtween = tween[index];
+    if(glitchtween.is_valid()) glitchtween->kill();
     glitchtween.unref();
 	glitchtween = create_tween()->set_parallel();
 	glitchtween->tween_property(glitcher, "material:shader_parameter/shake_color_rate", targetrate * 0.01, time);

@@ -76,9 +76,9 @@ void OverworldAreaTrigger::_on_body_entered(Node* body) {
         }
         emit_signal("stopped_obj");
         if (action & STOP_MOVEMENT) {
-            if(body->has_method("set_canmove")) {
-                body->call("set_canmove", false);
-            }else WARN_PRINT("set_canmove 가 없는 오브젝트가 들어왔습니다.");
+            if(body->has_method("_set_canmove")) {
+                body->call("_set_canmove", false);
+            }else WARN_PRINT("_set_canmove 가 없는 오브젝트가 들어왔습니다.");
         }
         if (action & CUTSCENE) {
             emit_signal("cutscene");

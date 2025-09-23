@@ -83,7 +83,7 @@ lifetime = 0.45
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_cm5n5")
 
-[node name="Area2D" type="Area2D" parent="." groups=["player"]]
+[node name="Area2D" type="Area2D" parent="." groups=["soul"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_sjyg3")

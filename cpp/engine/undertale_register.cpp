@@ -56,6 +56,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_CLASS(SaveMenu);
     GDREGISTER_CLASS(UI_Box);
     GDREGISTER_CLASS(UI);
+    GDREGISTER_CLASS(SoulOverworld);
 
     // Interactions
     GDREGISTER_CLASS(InteractionTrigger);

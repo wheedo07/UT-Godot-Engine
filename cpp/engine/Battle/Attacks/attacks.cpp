@@ -77,6 +77,10 @@ void AttackBase::add_bullet(Node* bullet, Masking mask_value) {
     
     if(bullet->has_method("fade")) {
         connect("remove_bullets", Callable(bullet, "fade"));
+    }else {
+        ERR_PRINT("Bullet 노드에 fade() 메소드가 없습니다");
+        bullet->queue_free();
+        return;
     }
     
     switch (mask_value) {

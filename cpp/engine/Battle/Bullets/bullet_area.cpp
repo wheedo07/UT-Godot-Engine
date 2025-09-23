@@ -35,7 +35,7 @@ void BulletArea::_process(double delta) {
         for(int i = 0; i < overlapping_areas.size(); i++) {
             Node* overlap_node = Object::cast_to<Node>(overlapping_areas[i]);
             
-            if(overlap_node && overlap_node->is_in_group("player") && (damage_mode <= Bullet::MODE_GREEN)) {
+            if(overlap_node && overlap_node->is_in_group("soul") && (damage_mode <= Bullet::MODE_GREEN)) {
                 if(bullet->delete_upon_hit_value) {
                     bullet->kill();;
                 }else {

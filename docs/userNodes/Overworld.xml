@@ -62,14 +62,6 @@
                 [member music]을 [code]AudioStreamPlayer[/code]에 설정하고 페이드인(트윈)으로 재생을 시작합니다.
             </description>
         </method>
-
-        <method name="room_init">
-            <return type="void"/>
-            <param index="0" name="data" type="Dictionary"/>
-            <description>
-                내부적으로 사용되는 메서드입니다. [color=red](사용 금지)[/color]
-            </description>
-        </method>
     </methods>
 
     <members>

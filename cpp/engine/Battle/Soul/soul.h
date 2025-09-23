@@ -87,7 +87,6 @@ namespace godot {
             // 무적 프레임 및 충돌 관련
             float hiframes;
             float iframes;
-            bool invulnerable;
             TypedArray<Area2D> overlapping_areas;
 
             // 모션 관련

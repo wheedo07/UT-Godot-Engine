@@ -76,6 +76,11 @@ folder_colors={
 
 import/blender/enabled=false
 
+[global_group]
+
+soul=""
+player=""
+
 [input]
 
 ui_accept={

@@ -1,22 +1,19 @@
 #ifndef PLAYER_OVERWORLD_H
 #define PLAYER_OVERWORLD_H
 
-#include <godot_cpp/classes/character_body2d.hpp>
-#include <godot_cpp/classes/animated_sprite2d.hpp>
-#include <godot_cpp/classes/area2d.hpp>
-#include <godot_cpp/classes/timer.hpp>
-#include <godot_cpp/classes/sprite2d.hpp>
-#include <godot_cpp/classes/audio_stream_player.hpp>
-#include <godot_cpp/classes/input_event.hpp>
-#include <godot_cpp/classes/packed_scene.hpp>
-#include <godot_cpp/variant/dictionary.hpp>
-#include <godot_cpp/variant/array.hpp>
-#include <godot_cpp/variant/vector2.hpp>
-#include <godot_cpp/variant/vector2i.hpp>
-#include <godot_cpp/variant/packed_string_array.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
+#include<godot_cpp/classes/character_body2d.hpp>
+#include<godot_cpp/classes/animated_sprite2d.hpp>
+#include<godot_cpp/classes/area2d.hpp>
+#include<godot_cpp/classes/timer.hpp>
+#include<godot_cpp/classes/sprite2d.hpp>
+#include<godot_cpp/classes/audio_stream_player.hpp>
+#include<godot_cpp/classes/input_event.hpp>
+#include<godot_cpp/classes/packed_scene.hpp>
+#include<godot_cpp/classes/shader_material.hpp>
+#include<godot_cpp/variant/utility_functions.hpp>
 #include "engine/resources/Encounters/encounter.h"
 #include "engine/Overworld/Interactions/interaction_trigger.h"
+#include "../soul_overwolrd.h"
 
 namespace godot {
     class PlayerOverworld : public CharacterBody2D {
@@ -34,8 +31,10 @@ namespace godot {
         private:
             AnimationState current_anim_state;
             int frame_alert;
+            bool wolrd_encounter;
+            Ref<ShaderMaterial> sprite_material;
             
-            float walk_speed = 80.0f;
+            float walk_speed;
             float walk_speed_modifier = 1.0f;
             
             TypedArray<Encounter> encounters;
@@ -46,6 +45,7 @@ namespace godot {
             
             AnimatedSprite2D* sprite = nullptr;
             Area2D* interacter = nullptr;
+            SoulOverworld* soul;
             AnimatedSprite2D* alert_sprite = nullptr;
             AudioStreamPlayer* encounter_sound = nullptr;
             
@@ -53,20 +53,23 @@ namespace godot {
             Dictionary interact_posy;
             Vector2 last_dir;
             Vector2 direction;
-            bool moving = false;
+            bool moving;
             Array interactables;
             
             Ref<PackedScene> player_menu;
-            bool forced_walking = false;
+            Ref<PackedScene> hit_label;
+            bool forced_walking;
             Vector2i forced_direction;
             
-            bool waiting_for_encounter_timer = false;
-            bool waiting_for_hide_timer = false;
+            bool waiting_for_encounter_timer, waiting_for_hide_timer;
             
-            void on_encounter_timer_completed();
-            void on_hide_timer_completed();
+            void _on_encounter_timer_completed();
+            void _on_hide_timer_completed();
             void _step();
             void refresh_direction();
+            void _enter_random_encounter();
+            void _on_hurt(int damage);
+            void set_direction();
         
         public:
             PlayerOverworld();
@@ -74,6 +77,7 @@ namespace godot {
             
             void _ready() override;
             void _physics_process(double delta) override;
+            void _process(double delta) override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
 
             // 사용함수
@@ -81,10 +85,11 @@ namespace godot {
             void show_alert(float duration=0.35f);
             void set_frame(int index);
             void play_anim(String key, float speed=1, bool back=false);
-            
-            void _enter_random_encounter();
             void force_direction(const Vector2& dir);
-            void set_direction();
+            bool is_overworld_encounter();
+
+            void on_overwolrd_encounter();
+            void off_overwolrd_encounter();
             
             void set_walk_speed(float p_walk_speed);
             float get_walk_speed() const;
@@ -107,7 +112,7 @@ namespace godot {
             void set_frame_alert(int value);
             int get_frame_alert();
 
-            void set_canmove(bool value);
+            void _set_canmove(bool value);
     };
 }
 
