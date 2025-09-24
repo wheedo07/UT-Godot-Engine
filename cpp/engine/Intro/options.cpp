@@ -1,5 +1,6 @@
 #include "options.h"
 #include "env.h"
+#include "engine/Menus/option_selectable.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
@@ -108,10 +109,10 @@ void Options::_unhandled_input(const Ref<InputEvent>& event) {
 void Options::refresh_thing(int action) {
     audio_player->play("choice");
     
-    Object::cast_to<Node>(option_nodes[current_pos])->set("selected", false);
+    Object::cast_to<OptionSelectable>(option_nodes[current_pos])->set_selected(false);
     
     current_pos += action;
     set_current_pos(current_pos);
     
-    Object::cast_to<Node>(option_nodes[current_pos])->set("selected", true);
+    Object::cast_to<OptionSelectable>(option_nodes[current_pos])->set_selected(true);
 }

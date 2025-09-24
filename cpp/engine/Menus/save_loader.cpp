@@ -34,7 +34,7 @@ void SaveLoader::_ready() {
     reset_text = Object::cast_to<OptionSelectableSolo>(get_node_internal("Control/Options/Reset"));
     warn_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("warn"));
 
-    Object::cast_to<OptionSelectableSolo>(get_node_internal("Control/Options/Load"))->set_selected(true);
+    Object::cast_to<OptionSelectableSolo>(get_node_internal("Control/Options/Load"))->enable();
    
     refresh();
 }

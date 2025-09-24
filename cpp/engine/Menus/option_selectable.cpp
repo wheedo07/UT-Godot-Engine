@@ -33,8 +33,9 @@ void OptionSelectable::_ready() {
 
 void OptionSelectable::set_selected(bool new_val) {
     selected = new_val;
-    
-    if(new_val && !isEditor) {
+
+    if(isEditor) return;
+    if(new_val) {
         set_self_modulate(selected_color);
     } else {
         set_self_modulate(default_color);
@@ -55,8 +56,9 @@ bool OptionSelectable::get_initial_selected() const {
 
 void OptionSelectable::set_selected_color(const Color& p_color) {
     selected_color = p_color;
-    
-    if(selected && !isEditor) {
+
+    if(isEditor) return;
+    if(selected) {
         set_self_modulate(selected_color);
     }
 }
