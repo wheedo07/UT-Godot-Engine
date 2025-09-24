@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="PlayerOverworld" inherits="CharacterBody2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](사용자 생성 불가능)[/color]
+        오버월드에서 플레이어 캐릭터의 이동, 상호작용, 전투 진입을 관리하는 시스템 노드입니다.
+    </brief_description>
+    <description>
+        PlayerOverworld는 오버월드에서 플레이어의 모든 행동을 관리하는 핵심 시스템 노드입니다.
+        키보드 입력을 통한 이동, NPC와의 상호작용, 랜덤 인카운터, 메뉴 시스템, 오버월드 전투 등을 처리합니다.
+        
+        [b]주요 기능:[/b]
+        • 8방향 이동 시스템 (키보드 입력)
+        • 애니메이션 상태 관리 (idle/moving)
+        • 상호작용 시스템 (NPC, 오브젝트)
+        • 랜덤 인카운터 시스템
+        • 강제 이동 (이벤트 시퀀스용)
+        • 오버월드 전투 모드
+        • HP 표시 및 데미지 처리
+        • 메뉴 시스템 연동
+        • 플레이어 상태 저장/복원
+        
+        [b]애니메이션 설정[/b]
+        플레이어가 움직일때 "walk" 애니메이션이 재생되고, 멈추면 "idle" 애니메이션으로 전환됩니다.
+        애니메이션은 Sprite 노드의 AnimationPlayer를 통해 관리됩니다.
+        "act" 애니메이션은 상호작용 시 재생되며, play_anim() 메서드로 제어할 수 있습니다.
+        이 애니메이션들은 사용자가 커스텀 애니메이션으로 교체할 수 있습니다.
+        
+        [b]시스템 노드 - 직접 생성 금지[/b]
+        이 노드는 오버월드 시스템의 핵심 부분이므로 직접 생성하지 마십시오.
+    </description>
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="force_direction">
+            <return type="void" />
+            <param index="0" name="dir" type="Vector2" />
+            <description>
+                플레이어가 보는 방향을 강제로 설정합니다.
+                주로 컷신이나 이벤트 시퀀스에서 사용됩니다.
+            </description>
+        </method>
+        <method name="is_overworld_encounter">
+            <return type="bool" />
+            <description>
+                현재 오버월드 전투 모드인지 여부를 반환합니다.
+                true일 경우 영혼(Soul)이 활성화되고 탄환과 충돌할 수 있습니다.
+            </description>
+        </method>
+        <method name="play_anim">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="speed" type="float" default="1" />
+            <param index="2" name="back" type="bool" default="false" />
+            <description>
+                지정된 애니메이션을 재생합니다.
+                애니메이션 완료 시 animation_finished 시그널이 방출됩니다.
+                
+                [b]매개변수:[/b]
+                • key: 애니메이션 이름
+                • speed: 재생 속도 (1.0이 기본)
+                • back: 역방향 재생 여부
+            </description>
+        </method>
+        <method name="set_frame">
+            <return type="void" />
+            <param index="0" name="index" type="int" />
+            <description>
+                스프라이트를 "act" 애니메이션의 특정 프레임으로 설정합니다.
+                주로 정적인 표현이나 특정 포즈를 위해 사용됩니다.
+            </description>
+        </method>
+        <method name="show_alert">
+            <return type="void" />
+            <param index="0" name="duration" type="float" default="0.35" />
+            <description>
+                지정된 시간 동안 느낌표를 표시하고 사운드를 재생합니다.
+                
+                [b]매개변수:[/b]
+                • duration: 알림 표시 시간 (초)
+            </description>
+        </method>
+        <method name="start_walking">
+            <return type="void" />
+            <param index="0" name="direction" type="Vector2i" default="Vector2i()" />
+            <description>
+                강제 이동을 시작합니다.
+                플레이어 입력과 관계없이 지정된 방향으로 이동합니다.
+                빈 Vector2i()를 전달하면 강제 이동을 중단합니다.
+            </description>
+        </method>
+    </methods>
+    <members>
+        <member name="Encounters" type="Array" setter="set_encounters" getter="get_encounters" default="Array()">
+            랜덤 인카운터에서 사용할 Encounter 리소스들의 배열입니다.
+            플레이어가 이동할 때 이 배열에서 무작위로 선택되어 전투가 시작됩니다.
+        </member>
+        <member name="InteractPosx" type="Dictionary" setter="set_interact_posx" getter="get_interact_posx" default="Dictionary()">
+            X축 방향별 영역의 오프셋을 정의하는 딕셔너리입니다.
+            키는 방향(-1, 1, -2, 2), 값은 Vector2 오프셋입니다.
+            -1, 1은 상호작용 영역의 X축 오프셋을 나타내고, -2, 2는 X축 영혼 오프셋을 나타냅니다
+        </member>
+        <member name="InteractPosy" type="Dictionary" setter="set_interact_posy" getter="get_interact_posy" default="Dictionary()">
+            Y축 방향별 영역의 오프셋을 정의하는 딕셔너리입니다.
+            키는 방향(-1, 1, -2, 2), 값은 Vector2 오프셋입니다.
+            -1, 1은 상호작용 영역의 Y축 오프셋을 나타내고, -2, 2는 Y축 영혼 오프셋을 나타냅니다
+        </member>
+        <member name="STEP_INCREASE" type="int" setter="set_step_increase" getter="get_step_increase" default="40">
+            인카운터 발생 후 다음 인카운터까지 필요한 걸음 수 증가량입니다.
+            인카운터가 발생할 때마다 StepCounterNeeded에 이 값이 추가됩니다.
+        </member>
+        <member name="StepCounterNeeded" type="int" setter="set_step_counter_needed" getter="get_step_counter_needed" default="200">
+            랜덤 인카운터 발생에 필요한 걸음 수입니다.
+            플레이어가 이 수만큼 이동하면 인카운터가 발생할 확률이 생깁니다.
+        </member>
+        <member name="frame_alert" type="int" setter="set_frame_alert" getter="get_frame_alert" default="0">
+            인카운터 알림 스프라이트의 프레임 인덱스입니다.
+            알림 표시 시 이 프레임이 사용됩니다.
+        </member>
+        <member name="walk_speed" type="float" setter="set_walk_speed" getter="get_walk_speed" default="80.0">
+            플레이어의 이동 속도입니다 (픽셀/초).
+            이 값이 클수록 플레이어가 빠르게 이동합니다.
+        </member>
+    </members>
+
+    <signals>
+        <signal name="animation_finished">
+            <description>
+                play_anim() 메서드로 재생된 애니메이션이 완료되었을 때 방출됩니다.
+                컷신이나 특수 애니메이션의 완료를 감지할 때 사용됩니다.
+            </description>
+        </signal>
+    </signals>
+</class>
