@@ -124,6 +124,10 @@ void Overworld::toggle_encounter() {
 }
 
 Bullet* Overworld::add_bullet(Ref<PackedScene> bullet_scene) {
+    if(!player->is_overworld_encounter()) {
+        ERR_PRINT("현재 오버월드 전투가 활성화 되어있지 않습니다");
+        return nullptr;
+    }
     if(bullet_scene.is_null()) {
         ERR_PRINT("bullet_scene이 null입니다");
         return nullptr;

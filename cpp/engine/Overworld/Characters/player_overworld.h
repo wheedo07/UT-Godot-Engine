@@ -68,7 +68,7 @@ namespace godot {
             void _step();
             void refresh_direction();
             void _enter_random_encounter();
-            void _on_hurt(int damage);
+            void _on_hurt(int damage, bool heal=false);
             void set_direction();
         
         public:

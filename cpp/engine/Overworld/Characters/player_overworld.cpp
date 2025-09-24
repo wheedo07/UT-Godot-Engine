@@ -43,7 +43,7 @@ void PlayerOverworld::_bind_methods() {
     ClassDB::bind_method(D_METHOD("force_direction", "dir"), &PlayerOverworld::force_direction);
     ClassDB::bind_method(D_METHOD("is_overworld_encounter"), &PlayerOverworld::is_overworld_encounter);
 
-    ClassDB::bind_method(D_METHOD("_on_hurt", "damage"), &PlayerOverworld::_on_hurt);
+    ClassDB::bind_method(D_METHOD("_on_hurt", "damage", "heal"), &PlayerOverworld::_on_hurt, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("_set_canmove", "value"), &PlayerOverworld::_set_canmove);
     ClassDB::bind_method(D_METHOD("_enter_random_encounter"), &PlayerOverworld::_enter_random_encounter);
     ClassDB::bind_method(D_METHOD("_on_encounter_timer_completed"), &PlayerOverworld::_on_encounter_timer_completed);
@@ -377,7 +377,7 @@ void PlayerOverworld::off_overwolrd_encounter() {
     get_node_internal("Interacter/Collision")->set_deferred("disabled", false);
 }
 
-void PlayerOverworld::_on_hurt(int damage) {
+void PlayerOverworld::_on_hurt(int damage, bool heal) {
     if(!wolrd_encounter) return;
     RichTextLabel* num_label = Object::cast_to<RichTextLabel>(hit_label->instantiate());
     global->get_scene_container()->get_current_scene()->add_child(num_label);
@@ -387,7 +387,9 @@ void PlayerOverworld::_on_hurt(int damage) {
     
     num_label->set_global_position(get_global_position() - (num_label->get_size() / 2));
     num_label->set_position(num_label->get_position() + random_offset);
-    num_label->set_text(String::num(damage).replace(".0", ""));
+    if(heal) {
+        num_label->set_text("[color=green]" + String::num(damage).replace(".0", ""));
+    }else num_label->set_text(String::num(damage).replace(".0", ""));
 
     Ref<Tween> tween = create_tween()->set_parallel();
     tween->tween_property(num_label, "position:y", num_label->get_position().y - 24, 0.25)->set_ease(Tween::EASE_OUT);

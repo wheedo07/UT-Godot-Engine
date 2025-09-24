@@ -16,6 +16,7 @@ offset_bottom = 42.0
 pivot_offset = Vector2(50, 21)
 theme = ExtResource("2_wjmqp")
 theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
 text = "999999"
 scroll_active = false
 horizontal_alignment = 1

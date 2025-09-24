@@ -20,7 +20,6 @@ namespace godot {
 			void _notification(int what);
 		
 		public:
-	        AudioStreamPlayer* heal_sound;
 			Dictionary game_over;
 			Object* battle_encounter;
 	        bool start;
@@ -29,6 +28,7 @@ namespace godot {
 			String savepath;
 			String savepaths;
 			String settingpaths;
+	        AudioStreamPlayer* heal_sound;
 	        AudioStreamPlayer* Music;
             RichTextLabel* Info;
             Timer* KrTimer;

@@ -13,7 +13,7 @@ SoulOverworld::SoulOverworld() {
 SoulOverworld::~SoulOverworld() {}
 
 void SoulOverworld::_bind_methods() {
-    ADD_SIGNAL(MethodInfo("hurt", PropertyInfo(Variant::INT, "damage")));
+    ADD_SIGNAL(MethodInfo("hurt", PropertyInfo(Variant::INT, "damage"), PropertyInfo(Variant::BOOL, "heal")));
 }
 
 void SoulOverworld::_ready() {
@@ -118,6 +118,7 @@ void SoulOverworld::heal(BulletArea* bullet_area) {
     if(!bullet_area) return;
     hiframes = 1;
     global->heal(bullet_area->damage);
+    emit_signal("hurt", bullet_area->damage, true);
 }
 
 void SoulOverworld::start() {
