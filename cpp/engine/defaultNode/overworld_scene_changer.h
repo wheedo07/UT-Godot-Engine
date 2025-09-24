@@ -25,7 +25,7 @@ namespace godot {
         private:
             String default_scene;
             String battle_scene_path;
-            Overworld* overworld_scene = nullptr;
+            Node* current_node;
             ResourceLoader* loader;
 
             float blind_time;
@@ -51,9 +51,10 @@ namespace godot {
             // 사용 함수
             void enter_room_default();
             void enter_room_path(const String& room_path, const Dictionary& extra_data = Dictionary());
-            void load_cached_overworld_scene(bool transition = true);
             void load_battle(const Ref<Encounter>& battle_resource, bool transition = true, const Vector2& to_position = Vector2(48, 452));
             void load_general_scene(const String& scene_path);
+            void load_cached_scene(bool transition = true);
+            bool is_cached_overworld_scene();
 
             void set_default_scene(const String& p_scene);
             String get_default_scene() const;

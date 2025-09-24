@@ -83,8 +83,8 @@ void DeathScreen::done() {
     
     global->set_just_died(true);
     if(global->get_first()) {
-        global->call_deferred("resetgame");
-        global->get_scene_container()->call_deferred("reload_camera");
+        global->resetgame();
+        global->get_scene_container()->reload_camera();
         global->get_scene_container()->change_scene_to_file("res://Intro/intro.tscn");
         return;
     }

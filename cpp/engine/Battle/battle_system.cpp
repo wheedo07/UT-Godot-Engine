@@ -215,7 +215,7 @@ void BattleMain::_on_blitter_finished_all_texts() {
 void BattleMain::_on_timer_timeout(const String& action) {
     if (action == "no_enemies_exit") {
         soul_battle->queue_free();
-        scene_changer->load_cached_overworld_scene();
+        scene_changer->load_cached_scene();
     }
 }
 
@@ -408,7 +408,7 @@ void BattleMain::_mercy(int choice) {
 void BattleMain::_on_camera_blind_completed() {
     global->set_temp_atk(0);
     global->set_temp_def(0);
-    scene_changer->load_cached_overworld_scene();
+    scene_changer->load_cached_scene();
 }
 
 void BattleMain::_on_end(bool mercy, int id) {
@@ -567,7 +567,7 @@ void BattleMain::_finish_encounter() {
     global->set_temp_def(0);
     
     soul_battle->queue_free();
-    scene_changer->load_cached_overworld_scene();
+    scene_changer->load_cached_scene();
 }
 
 int BattleMain::enemy_size() {

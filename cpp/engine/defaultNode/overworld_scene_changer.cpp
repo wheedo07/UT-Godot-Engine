@@ -19,6 +19,7 @@ OverworldSceneChanger::OverworldSceneChanger() {
     waiting_for_transition = false;
     default_scene = "";
     battle_scene_path = "res://Main/battle.tscn";
+    current_node = nullptr;
 }
 
 OverworldSceneChanger::~OverworldSceneChanger() {}
@@ -26,9 +27,10 @@ OverworldSceneChanger::~OverworldSceneChanger() {}
 void OverworldSceneChanger::_bind_methods() {
     ClassDB::bind_method(D_METHOD("enter_room_default"), &OverworldSceneChanger::enter_room_default);
     ClassDB::bind_method(D_METHOD("enter_room_path", "room_path", "extra_data"), &OverworldSceneChanger::enter_room_path, DEFVAL(Dictionary()));
-    ClassDB::bind_method(D_METHOD("load_cached_overworld_scene", "transition"), &OverworldSceneChanger::load_cached_overworld_scene, DEFVAL(true));
+    ClassDB::bind_method(D_METHOD("load_cached_scene", "transition"), &OverworldSceneChanger::load_cached_scene, DEFVAL(true));
     ClassDB::bind_method(D_METHOD("load_battle", "battle_resource", "transition", "to_position"), &OverworldSceneChanger::load_battle, DEFVAL(true), DEFVAL(Vector2(48, 452)));
     ClassDB::bind_method(D_METHOD("load_general_scene", "scene_path"), &OverworldSceneChanger::load_general_scene);
+    ClassDB::bind_method(D_METHOD("is_cached_overworld_scene"), &OverworldSceneChanger::is_cached_overworld_scene);
     
     ClassDB::bind_method(D_METHOD("_load_and_set_scene", "path"), &OverworldSceneChanger::_load_and_set_scene);
     ClassDB::bind_method(D_METHOD("_set_player_data", "current_scene"), &OverworldSceneChanger::_set_player_data);
@@ -105,7 +107,7 @@ void OverworldSceneChanger::_set_player_data(Node* current_scene) {
     data = data_default.duplicate();
 }
 
-void OverworldSceneChanger::load_cached_overworld_scene(bool transition) {
+void OverworldSceneChanger::load_cached_scene(bool transition) {
     _scene_setup_thing(transition);
 }
 
@@ -137,23 +139,31 @@ void OverworldSceneChanger::_on_scene_setup_finished(bool transition) {
     CameraFx* camera = global->get_scene_container()->get_camera();
     SceneContainer* tree = global->get_scene_container();
     tree->unload_current_scene();
-    
-    Overworld* sc = nullptr;
-    if (overworld_scene) {
-        sc = overworld_scene;
-    } else {
-        Ref<PackedScene> scene = loader->load(default_scene);
-        sc = Object::cast_to<Overworld>(scene->instantiate());
-    }
-    
-    tree->set_current_scene(sc);
-    tree->get_main_viewport()->add_child(sc);
-    
-    global->call_deferred("set_battle_start", false);
-    if(sc->has_signal("initialized")) sc->emit_signal("initialized");
 
-    if(sc->has_method("ready")) sc->call("ready"); // // C++ 이랑 GDscript 모두 호환되도록
-    else sc->ready();
+        
+    Ref<PackedScene> scene;
+    if(!current_node) scene = loader->load(default_scene);
+
+    if(is_cached_overworld_scene() || scene.is_valid()) {
+        Overworld* sc = nullptr;
+        if(!scene.is_valid()) {
+            sc = Object::cast_to<Overworld>(current_node);
+        }else {
+            sc = Object::cast_to<Overworld>(scene->instantiate());
+        }
+        
+        tree->set_current_scene(sc);
+        tree->get_main_viewport()->add_child(sc);
+        
+        if(sc->has_signal("initialized")) sc->emit_signal("initialized");
+        if(sc->has_method("ready")) sc->call("ready"); // // C++ 이랑 GDscript 모두 호환되도록
+        else sc->ready();
+    }else {
+        Node* sc = current_node;
+        tree->set_current_scene(sc);
+        tree->get_main_viewport()->add_child(sc);
+    }
+    global->call_deferred("set_battle_start", false);
 
     if (transition) {
         camera->blind(blind_time, 1, 0.35);
@@ -186,6 +196,10 @@ void OverworldSceneChanger::load_battle(const Ref<Encounter>& battle_resource, b
     }
 }
 
+bool OverworldSceneChanger::is_cached_overworld_scene() {
+    return current_node && current_node->is_class("Overworld");
+}
+
 void OverworldSceneChanger::_on_battle_transition_finished() {
     if (!waiting_for_transition) return;
     waiting_for_transition = false;
@@ -210,7 +224,8 @@ void OverworldSceneChanger::_load_battle_scene(const String& scene_path, const R
     battle->set_encounter(encounter);
     
     SceneContainer* tree = global->get_scene_container();
-    tree->get_main_viewport()->remove_child(tree->get_current_scene());
+    current_node = tree->get_current_scene();
+    tree->get_main_viewport()->remove_child(current_node);
     
     tree->set_current_scene(battle);
     tree->reload_camera();
