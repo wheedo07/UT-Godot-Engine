@@ -357,9 +357,6 @@ void Global::resetgame() {
     flags = backup["flags"];
     first = true;
 
-    settings = backup["settings"];
-    refresh_audio_busses();
-
     player_name = backup["player_name"];
     equipment = backup["equipment"];
 
@@ -530,7 +527,6 @@ void Global::save_settings() {
 
 void Global::load_game() {
     if(backup.is_empty()) {
-        backup["settings"] = settings.duplicate(true);
         backup["player_name"] = player_name;
         
         backup["flags"] = flags.duplicate(true);
