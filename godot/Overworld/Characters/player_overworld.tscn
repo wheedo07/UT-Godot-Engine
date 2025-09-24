@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=3 uid="uid://d4g7r4oj7f4t8"]
+[gd_scene load_steps=27 format=3 uid="uid://d4g7r4oj7f4t8"]
 
 [ext_resource type="Shader" uid="uid://gtw0lmi2ftie" path="res://Shaders/default/outline.gdshader" id="1_cf73v"]
 [ext_resource type="Texture2D" uid="uid://cgoo48dwdplgr" path="res://Overworld/Characters/assets/frisk.png" id="3_54vmf"]
 [ext_resource type="Texture2D" uid="uid://bv1ip5w51qorh" path="res://Overworld/Interactions/alert.png" id="4_3i2lt"]
 [ext_resource type="AudioStream" uid="uid://wtp5ovq3dy16" path="res://sfx/overworld_encounter_surprise.wav" id="5_5j3a3"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="6_s1ggv"]
 [ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="7_ebdcd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbnmf"]
@@ -169,6 +170,9 @@ animations = [{
 "speed": 0.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1ggv"]
+bg_color = Color(0, 0, 0, 1)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_cf73v"]
 radius = 5.0
 
@@ -204,6 +208,20 @@ sprite_frames = SubResource("SpriteFrames_5wajs")
 [node name="encounter" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_5j3a3")
 bus = &"SFX"
+
+[node name="HpBar" type="ProgressBar" parent="."]
+modulate = Color(1, 0.890196, 0, 1)
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -9.0
+offset_top = -40.0
+offset_right = 8.0
+offset_bottom = -34.0
+size_flags_vertical = 1
+theme = ExtResource("6_s1ggv")
+theme_override_styles/background = SubResource("StyleBoxFlat_s1ggv")
+max_value = 20.0
+value = 15.0
+show_percentage = false
 
 [node name="Soul" type="SoulOverworld" parent="."]
 visible = false

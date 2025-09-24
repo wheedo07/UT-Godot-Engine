@@ -88,6 +88,7 @@ void PlayerOverworld::_ready() {
     alert_sprite = Object::cast_to<AnimatedSprite2D>(get_node_internal("Alert"));
     encounter_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("encounter"));
     soul = Object::cast_to<SoulOverworld>(get_node_internal("Soul"));
+    hp_bar = Object::cast_to<ProgressBar>(get_node_internal("HpBar"));
     sprite_material = sprite->get_material();
    
     ResourceLoader* loader = ResourceLoader::get_singleton();
@@ -149,6 +150,9 @@ void PlayerOverworld::_physics_process(double delta) {
 
 void PlayerOverworld::_process(double delta) {
     if(isEditor) return;
+
+    hp_bar->set_max(global->get_player_max_hp());
+    hp_bar->set_value(global->get_player_hp());
     
     if(sprite_material.is_valid()) {
         if(soul->iframes > 0) {
@@ -381,7 +385,7 @@ void PlayerOverworld::_on_hurt(int damage, bool heal) {
     if(!wolrd_encounter) return;
     RichTextLabel* num_label = Object::cast_to<RichTextLabel>(hit_label->instantiate());
     global->get_scene_container()->get_current_scene()->add_child(num_label);
-    float random_x = UtilityFunctions::randf_range(-10, 10);
+    float random_x = UtilityFunctions::randf_range(-20, 20);
     float random_y = UtilityFunctions::randf_range(-5, 5);
     Vector2 random_offset = Vector2(random_x, random_y);
     
@@ -396,6 +400,12 @@ void PlayerOverworld::_on_hurt(int damage, bool heal) {
     tween->tween_property(num_label, "position:y", num_label->get_position().y, 0.5)->set_delay(0.25)->set_ease(Tween::EASE_IN);
     tween->tween_property(num_label, "scale", Vector2(0, 0), 0.5)->set_delay(0.5)->set_ease(Tween::EASE_IN);
     tween->connect("finished", Callable(num_label, "queue_free"), CONNECT_ONE_SHOT);
+
+    if(hpbar_tween.is_null() || !hpbar_tween->is_running()) {
+        hpbar_tween = create_tween();
+        hpbar_tween->tween_property(hp_bar, "self_modulate:a", 1, 0.2)->set_ease(Tween::EASE_IN);
+        hpbar_tween->tween_property(hp_bar, "self_modulate:a", 0, 0.2)->set_delay(0.5)->set_ease(Tween::EASE_OUT);
+    }
 }
 
 void PlayerOverworld::set_walk_speed(float p_walk_speed) {

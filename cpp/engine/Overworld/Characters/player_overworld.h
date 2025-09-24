@@ -7,6 +7,7 @@
 #include<godot_cpp/classes/timer.hpp>
 #include<godot_cpp/classes/sprite2d.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
+#include<godot_cpp/classes/progress_bar.hpp>
 #include<godot_cpp/classes/input_event.hpp>
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/classes/shader_material.hpp>
@@ -33,6 +34,7 @@ namespace godot {
             int frame_alert;
             bool wolrd_encounter;
             Ref<ShaderMaterial> sprite_material;
+            Ref<Tween> hpbar_tween;
             
             float walk_speed;
             float walk_speed_modifier = 1.0f;
@@ -43,11 +45,12 @@ namespace godot {
             int step_count = 0;
             String current_animation_name;
             
-            AnimatedSprite2D* sprite = nullptr;
-            Area2D* interacter = nullptr;
+            AnimatedSprite2D* sprite;
+            Area2D* interacter;
             SoulOverworld* soul;
-            AnimatedSprite2D* alert_sprite = nullptr;
-            AudioStreamPlayer* encounter_sound = nullptr;
+            AnimatedSprite2D* alert_sprite;
+            AudioStreamPlayer* encounter_sound;
+            ProgressBar* hp_bar;
             
             Dictionary interact_posx;
             Dictionary interact_posy;
