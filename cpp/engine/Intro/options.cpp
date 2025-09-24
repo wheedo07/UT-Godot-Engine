@@ -60,10 +60,7 @@ void Options::enable(int x) {
 }
 
 void Options::disable() {
-    Node* option = Object::cast_to<Node>(option_nodes[current_pos]);
-    if (option) {
-        option->set("selected", false);
-    }
+    Object::cast_to<OptionSelectable>(option_nodes[current_pos])->set_selected(false);
     
     emit_signal("enter_typing", current_pos);
     set_process_unhandled_input(false);
