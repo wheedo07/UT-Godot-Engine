@@ -46,6 +46,9 @@
             await finished_dialogue
             emit_signal("on_fight_end")
         [/codeblock]
+
+        [b]주의사항[/b]
+        res://Battle/Enemies/spare.tscn 파일을 반드시 씬의 포함해야 공격이 정상 작동합니다
     </description>
     <tutorials></tutorials>
     
