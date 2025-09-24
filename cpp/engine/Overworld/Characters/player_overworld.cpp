@@ -21,13 +21,13 @@ PlayerOverworld::PlayerOverworld() {
     moving = false;
     wolrd_encounter = false;
 
-    interact_posx[1] = Vector2(-5, -5);
-    interact_posx[-1] = Vector2(5, -5);
+    interact_posx[1] = Vector2(5, -5);
+    interact_posx[-1] = Vector2(-5, -5);
     interact_posx[2] = Vector2(1, -8);
     interact_posx[-2] = Vector2(-1, -8);
 
-    interact_posy[1] = Vector2(0, -8);
-    interact_posy[-1] = Vector2(0, -2);
+    interact_posy[1] = Vector2(0, -2);
+    interact_posy[-1] = Vector2(0, -8);
     interact_posy[2] = Vector2(0, -8);
     interact_posy[-2] = Vector2(-1, -8);
 }
