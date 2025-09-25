@@ -38,8 +38,8 @@ namespace godot {
             void _process(double delta) override;
             Vector2 get_sprite_size();
 
-            void fire(const Vector2& target, MovementMode movement_type, float speed = 100.0f, DamageMode mode = MODE_WHITE);
-            void queue_fire(float delay, const Vector2& target, MovementMode movement_type, float speed = 100.0f, DamageMode mode = MODE_WHITE);
+            void fire(const Vector2& target, MovementMode movement_type, float speed = 100.0f, DamageMode mode = MODE_NULL);
+            void queue_fire(float delay, const Vector2& target, MovementMode movement_type, float speed = 100.0f, DamageMode mode = MODE_NULL);
 
             void set_collision_path(const NodePath& p_collision_path);
             NodePath get_collision_path() const;

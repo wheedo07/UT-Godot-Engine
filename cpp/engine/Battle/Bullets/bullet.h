@@ -24,6 +24,7 @@ namespace godot {
                 MOVEMENT_TWEEN
             };
             enum DamageMode {
+                MODE_NULL = -1,
                 MODE_WHITE,
                 MODE_GREEN,
                 MODE_BLUE,

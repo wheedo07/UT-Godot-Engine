@@ -181,6 +181,11 @@
             복잡한 경로나 가속/감속 효과가 필요한 탄환에 적합합니다.
             [member velocity_tween]을 통해 제어됩니다.
         </constant>
+
+        <constant name="MODE_NULL" value="-1" enum="DamageMode">
+            모드 변경을 하지 않습니다.
+            현재 설정된 데미지 모드를 유지합니다.
+        </constant>
         
         <constant name="MODE_WHITE" value="0" enum="DamageMode">
             일반 탄환 모드입니다.

@@ -37,6 +37,7 @@ void Bullet::_bind_methods() {
     BIND_ENUM_CONSTANT(MOVEMENT_VELOCITY);
     BIND_ENUM_CONSTANT(MOVEMENT_TWEEN);
     
+    BIND_ENUM_CONSTANT(MODE_NULL);
     BIND_ENUM_CONSTANT(MODE_WHITE);
     BIND_ENUM_CONSTANT(MODE_GREEN);
     BIND_ENUM_CONSTANT(MODE_BLUE);
@@ -108,7 +109,7 @@ void Bullet::_physics_process(double delta) {
 }
 
 Bullet* Bullet::set_mode(DamageMode mode) {
-    damage_mode = mode;
+    if(mode != MODE_NULL) damage_mode = mode;
     return this;
 }
 

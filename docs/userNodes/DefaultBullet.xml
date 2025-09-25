@@ -65,7 +65,7 @@
             <param index="0" name="target" type="Vector2"/>
             <param index="1" name="movement_type" type="int" enum="Bullet.MovementMode"/>
             <param index="2" name="speed" type="float" default="100.0"/>
-            <param index="3" name="mode" type="int" enum="Bullet.DamageMode" default="0"/>
+            <param index="3" name="mode" type="int" enum="Bullet.DamageMode" default="-1"/>
             <description>
                 탄환을 즉시 발사합니다.
                 [param target]은 목표 위치, [param movement_type]은 이동 방식입니다.
@@ -82,7 +82,7 @@
             <param index="1" name="target" type="Vector2"/>
             <param index="2" name="movement_type" type="int" enum="Bullet.MovementMode"/>
             <param index="3" name="speed" type="float" default="100.0"/>
-            <param index="4" name="mode" type="int" enum="Bullet.DamageMode" default="0"/>
+            <param index="4" name="mode" type="int" enum="Bullet.DamageMode" default="-1"/>
             <description>
                 지연 시간 후 탄환을 발사합니다.
                 [param delay]는 지연 시간(초)입니다.
