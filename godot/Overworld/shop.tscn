@@ -117,11 +117,10 @@ visible = false
 material = SubResource("ShaderMaterial_6cvxh")
 layout_mode = 0
 offset_left = 70.0
-offset_top = 22.0
+offset_top = 15.0
 offset_right = 410.0
-offset_bottom = 278.0
+offset_bottom = 271.0
 theme = ExtResource("3_lws8l")
-theme_override_constants/line_separation = 11
 theme_override_font_sizes/italics_font_size = 12
 bbcode_enabled = true
 text = " 60G - Starfait
@@ -130,37 +129,38 @@ text = " 60G - Starfait
 500G - [i]Steakintheshapeofmettaton'sface[/i]
 Exit"
 scroll_active = false
+vertical_alignment = 3
 
 [node name="SellItems" type="RichTextLabel" parent="Control/TextBox"]
 visible = false
 material = SubResource("ShaderMaterial_6cvxh")
 layout_mode = 0
 offset_left = 70.0
-offset_top = 22.0
+offset_top = 15.0
 offset_right = 410.0
-offset_bottom = 278.0
+offset_bottom = 271.0
 theme = ExtResource("3_lws8l")
-theme_override_constants/line_separation = 11
 theme_override_font_sizes/italics_font_size = 12
 bbcode_enabled = true
 text = "Item1 - 0G
 Item2 - 3G
 ..."
 scroll_active = false
+vertical_alignment = 3
 
 [node name="Dialogues" type="RichTextLabel" parent="Control/TextBox"]
 visible = false
 material = SubResource("ShaderMaterial_6cvxh")
 layout_mode = 0
 offset_left = 70.0
-offset_top = 22.0
+offset_top = 15.0
 offset_right = 410.0
-offset_bottom = 278.0
+offset_bottom = 210.0
 theme = ExtResource("3_lws8l")
-theme_override_constants/line_separation = 11
 theme_override_font_sizes/italics_font_size = 12
 bbcode_enabled = true
 scroll_active = false
+vertical_alignment = 3
 
 [node name="Slider" parent="Control/TextBox" instance=ExtResource("12_tldfv")]
 layout_mode = 1

@@ -26,6 +26,8 @@ namespace godot {
                 SELLING_ITEMS,
                 VIEWING_DIALOGUE
             };
+            int sell_current_page;
+            int sell_items_per_page;
             States current_state;
             int soul_position;
             Dictionary soul_positions;
@@ -72,6 +74,9 @@ namespace godot {
             void _keeper_dialogue(Ref<Dialogues> dialogues);
             void _on_keeper_dialogue_started_typing(int index);
             void _on_keeper_dialogue_finished_all_texts();
+
+            void set_soul_positions(const Dictionary& p_soul_positions);
+            Dictionary get_soul_positions() const;
             
         public:
             SHOP();

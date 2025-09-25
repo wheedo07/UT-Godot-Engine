@@ -13,7 +13,7 @@ SHOP::SHOP() {
     soul_positions[0] = pos_array1;
     
     Array pos_array2;
-    pos_array2.push_back(Vector2(52, 43));
+    pos_array2.push_back(Vector2(52, 34));
     pos_array2.push_back(Vector2(0, 43));
     soul_positions[1] = pos_array2;
 
@@ -26,6 +26,9 @@ SHOP::SHOP() {
     keeper_box[false] = Vector2(419, 239);
     keeper_box[true] = Vector2(642, 239);
     keeper_box["time"] = 0.2;
+
+    sell_current_page = 0;
+    sell_items_per_page = 5;
 }
 
 SHOP::~SHOP() {}
@@ -46,6 +49,10 @@ void SHOP::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_keeper_dialogue_temp", "dialogues", "return_state"), &SHOP::_keeper_dialogue_temp);
     ClassDB::bind_method(D_METHOD("_on_keeper_dialogue_started_typing", "index"), &SHOP::_on_keeper_dialogue_started_typing);
     ClassDB::bind_method(D_METHOD("_on_keeper_dialogue_finished_all_texts"), &SHOP::_on_keeper_dialogue_finished_all_texts);
+
+    ClassDB::bind_method(D_METHOD("set_soul_positions", "soul_positions"), &SHOP::set_soul_positions);
+    ClassDB::bind_method(D_METHOD("get_soul_positions"), &SHOP::get_soul_positions);
+    ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "soul_positions"), "set_soul_positions", "get_soul_positions");
     
     ADD_SIGNAL(MethodInfo("keeper_expression", PropertyInfo(Variant::ARRAY, "exp")));
 }
@@ -86,6 +93,7 @@ void SHOP::init() {
         if (str.is_empty()) continue;
         dialogue_options->add_text(str + "\n");
     }
+    dialogue_options->set_size(Vector2(dialogue_options->get_size().x, dialogue_option.size() * 43.5f));
     option_numbers.push_back(3);
     option_numbers.push_back(dialogue_option.size() - 1);
     option_numbers.push_back(offerings.size() - 1);
@@ -97,14 +105,41 @@ void SHOP::init() {
 void SHOP::_unhandled_input(const Ref<InputEvent>& event) {
     if (!(current_state < VIEWING_DIALOGUE) || isEditor) return;
 
-    if (event->is_action_pressed("ui_down") && soul_position < option_numbers[current_state]) {
-        soul_position += 1;
+    if (event->is_action_pressed("ui_down")) {
+        if (current_state == SELLING_ITEMS) {
+            int total_sellable = _get_sell_items_count();
+            int items_on_current_page = Math::min(sell_items_per_page, total_sellable - (sell_current_page * sell_items_per_page));
+            
+            if (soul_position < items_on_current_page - 1) {
+                soul_position += 1;
+            } else if (sell_current_page < (total_sellable - 1) / sell_items_per_page) {
+                sell_current_page++;
+                soul_position = 0;
+                _write_sell_items(0);
+            }
+        } else if (soul_position < option_numbers[current_state]) {
+            soul_position += 1;
+        }
+        
         Object::cast_to<AudioStreamPlayer>(get_node_internal("select"))->play();
         _set_soul_pos();
     }
     
-    if (event->is_action_pressed("ui_up") && soul_position > 0) {
-        soul_position -= 1;
+    if (event->is_action_pressed("ui_up")) {
+        if (current_state == SELLING_ITEMS) {
+            if (soul_position > 0) {
+                soul_position -= 1;
+            } else if (sell_current_page > 0) {
+                sell_current_page--;
+                int total_sellable = _get_sell_items_count();
+                int items_on_prev_page = Math::min(sell_items_per_page, total_sellable - (sell_current_page * sell_items_per_page));
+                soul_position = items_on_prev_page - 1;
+                _write_sell_items(0);
+            }
+        } else if (soul_position > 0) {
+            soul_position -= 1;
+        }
+        
         Object::cast_to<AudioStreamPlayer>(get_node_internal("select"))->play();
         _set_soul_pos();
     }
@@ -264,6 +299,7 @@ void SHOP::_in_state(int new_state) {
             keeper_dialogue->show();
             break;
         case SELLING_ITEMS:
+            sell_current_page = 0;
             sell_items->show();
             _write_sell_items(0);
             _set_soul_pos();
@@ -361,12 +397,15 @@ void SHOP::_set_soul_pos() {
     if (current_state == SELLING_ITEMS) {
         _write_sell_items(soul_position);
 
-        int size = _get_sell_items_count() - 1;
-        int x = soul_position; 
-        float y = 16 / size;
-        if(size == soul_position) {
+        int total_sellable = _get_sell_items_count();
+        int current_absolute_position = sell_current_page * sell_items_per_page + soul_position;
+        
+        if (total_sellable > 1) {
+            float slider_value = (float(current_absolute_position) / float(total_sellable - 1)) * 16.0f;
+            item_slider_thing->set_value(slider_value);
+        } else {
             item_slider_thing->set_value(16);
-        }else item_slider_thing->set_value(x * y + 1);
+        }
     }
     
     item_slider_thing->set_visible(current_state == SELLING_ITEMS);
@@ -379,7 +418,7 @@ void SHOP::_set_soul_pos() {
     Vector2 base_pos = pos_info[0];
     Vector2 offset = pos_info[1];
     
-    Vector2 new_pos = base_pos + offset * (current_state != SELLING_ITEMS ? soul_position : 0);
+    Vector2 new_pos = base_pos + offset * soul_position;
     soul->move(new_pos);
 }
 
@@ -412,16 +451,27 @@ String SHOP::_get_sell_items(int id, int size) const {
     Array items = global->get_items();
     TypedArray<Item> item_list = global->get_item_list();
     
+    Array sellable_items;
     for (int i = 0; i < items.size(); i++) {
         for (int j = 0; j < sellferings.size(); j++) {
             Ref<ShopItem> shop_item = sellferings[j];
             if (int(items[i]) == shop_item->get_item()) {
-                count++;
-                if (count < id) continue;
-                
-                Ref<Item> item_data = item_list[items[i]];
-                txt += vformat("%s - %sG\n", item_data->get_item_name(), shop_item->get_cost());
-                if (count >= id + size - 1) return txt;
+                sellable_items.push_back(i);
+                break;
+            }
+        }
+    }
+    
+    int start_index = (id - 1);
+    int end_index = MIN(start_index + size, sellable_items.size());
+    
+    for (int i = start_index; i < end_index; i++) {
+        int item_index = sellable_items[i];
+        for (int j = 0; j < sellferings.size(); j++) {
+            Ref<ShopItem> shop_item = sellferings[j];
+            if (int(items[item_index]) == shop_item->get_item()) {
+                Ref<Item> item_data = item_list[items[item_index]];
+                txt += vformat("%s - %dG\n", item_data->get_item_name(), shop_item->get_cost());
                 break;
             }
         }
@@ -430,7 +480,8 @@ String SHOP::_get_sell_items(int id, int size) const {
 }
 
 void SHOP::_write_sell_items(int id) {
-    sell_items->set_text(_get_sell_items(id + 1));
+    sell_items->set_text(_get_sell_items(sell_current_page * sell_items_per_page + 1, sell_items_per_page));
+    sell_items->set_size(Vector2(sell_items->get_size().x, Math::min(sell_items_per_page, _get_sell_items_count() - sell_current_page * sell_items_per_page) * 43.5f));
 }
 
 void SHOP::_write_shop_items() {
@@ -443,6 +494,7 @@ void SHOP::_write_shop_items() {
         txt += vformat("%sG - %s\n", shop_item->get_cost(), item_data->get_item_name());
     }
     items->set_text(txt);
+    items->set_size(Vector2(items->get_size().x, offerings.size() * 43.5f));
 }
 
 void SHOP::set_offerings(const Array& p_offerings) {
@@ -471,4 +523,12 @@ void SHOP::set_keeper_cannot_sell_dialogues(const Ref<Dialogues>& p_keeper_canno
 
 void SHOP::set_dialogue_options(const PackedStringArray& p_dialogue_options) {
     dialogue_option = p_dialogue_options;
+}
+
+void SHOP::set_soul_positions(const Dictionary& p_soul_positions) {
+    soul_positions = p_soul_positions;
+}
+
+Dictionary SHOP::get_soul_positions() const {
+    return soul_positions;
 }
