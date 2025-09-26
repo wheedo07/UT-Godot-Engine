@@ -103,7 +103,6 @@ void Global::_ready() {
     heal_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("heal"));
     Info = Object::cast_to<RichTextLabel>(get_node_internal("Info"));
     KrTimer = Object::cast_to<Timer>(get_node_internal("KrTimer"));
-    Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
     String osName = os->get_name();
     is_Mobile = osName == "Android";
     if(osName == "Web") return;
@@ -127,6 +126,7 @@ void Global::_ready() {
         if(!fs::create_directories(dir.utf8().get_data()))
             ERR_PRINT("디렉토리 생성 실패!");
     }
+    Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
 }
 
 PackedStringArray Global::item_use_text(int item_id) {
@@ -196,13 +196,13 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
         if (event->is_action_pressed("refresh_scene") && os->is_debug_build()) {
             UtilityFunctions::print(tr("UT_WARN_NODE_LOSS"));
             player_hp = player_max_hp;
+            player_kr = 0;
             player_can_move = true;
             player_in_menu = false;
             Node* current_scene = get_scene_container()->get_current_scene();
             if(get_tree()->get_current_scene()->is_class("SceneContainer")) {
                 if(current_scene->is_class("BattleMain")) {
                     battle_encounter = current_scene->get("encounter");
-                    player_kr = 0;
                 }
                 scene_container->reload_current_scene();
                 return;
