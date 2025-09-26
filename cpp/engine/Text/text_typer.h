@@ -39,7 +39,7 @@ namespace godot {
             int current_line_index;
             bool line_typing;
 
-            void on_line_finished(bool next_line=false);
+            void _on_line_finished(bool next_line=false);
         
         public:
             GenericTextTyper();
@@ -68,7 +68,7 @@ namespace godot {
             void kill_tweens(bool complete_text = false);
             void create_tweeners();
             bool _type_one_line(const String& line);
-            void play_click();
+            void _play_click();
             void _process_typing();
 
             void set_typing(bool value);

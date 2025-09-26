@@ -22,24 +22,20 @@ void GenericTextTyper::_bind_methods() {
     BIND_ENUM_CONSTANT(AWAIT_FINISH);
     BIND_ENUM_CONSTANT(OVERRIDE_CURRENT);
     BIND_ENUM_CONSTANT(VOID_QUEUED);
-
-    ClassDB::bind_method(D_METHOD("set_click_path", "path"), &GenericTextTyper::set_click_path);
-    ClassDB::bind_method(D_METHOD("get_click_path"), &GenericTextTyper::get_click_path);
-    
-    ClassDB::bind_method(D_METHOD("set_interval", "interval"), &GenericTextTyper::set_interval);
-    ClassDB::bind_method(D_METHOD("get_interval"), &GenericTextTyper::get_interval);
-
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "click_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_click_path", "get_click_path");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "interval"), "set_interval", "get_interval");
-    
     ClassDB::bind_method(D_METHOD("kill_tweens", "complete_text"), &GenericTextTyper::kill_tweens, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("type_text", "text"), &GenericTextTyper::type_text);
 
-    ClassDB::bind_method(D_METHOD("create_tweeners"), &GenericTextTyper::create_tweeners);
-    ClassDB::bind_method(D_METHOD("_type_one_line", "line"), &GenericTextTyper::_type_one_line);
-    ClassDB::bind_method(D_METHOD("play_click"), &GenericTextTyper::play_click);
-    ClassDB::bind_method(D_METHOD("on_line_finished", "next_line"), &GenericTextTyper::on_line_finished, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("set_click_path", "path"), &GenericTextTyper::set_click_path);
+    ClassDB::bind_method(D_METHOD("get_click_path"), &GenericTextTyper::get_click_path);
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "click_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_click_path", "get_click_path");
     
+    ClassDB::bind_method(D_METHOD("set_interval", "interval"), &GenericTextTyper::set_interval);
+    ClassDB::bind_method(D_METHOD("get_interval"), &GenericTextTyper::get_interval);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "interval"), "set_interval", "get_interval");
+
+    ClassDB::bind_method(D_METHOD("_type_one_line", "line"), &GenericTextTyper::_type_one_line);
+    ClassDB::bind_method(D_METHOD("_play_click"), &GenericTextTyper::_play_click);
+    ClassDB::bind_method(D_METHOD("_on_line_finished", "next_line"), &GenericTextTyper::_on_line_finished, DEFVAL(false));
     ADD_SIGNAL(MethodInfo("started_typing", PropertyInfo(Variant::INT, "line")));
     ADD_SIGNAL(MethodInfo("confirm"));
     ADD_SIGNAL(MethodInfo("skip"));
@@ -175,10 +171,10 @@ bool GenericTextTyper::_type_one_line(const String& line) {
     
     visible_tween->tween_property(this, "visible_ratio", 1.0, interval * parsed_text.length());
     sound_tween->set_loops(parsed_text.length());
-    sound_tween->tween_callback(Callable(this, "play_click"));
+    sound_tween->tween_callback(Callable(this, "_play_click"));
     sound_tween->tween_interval(interval);
 
-    visible_tween->connect("finished", Callable(this, "on_line_finished"), CONNECT_ONE_SHOT);
+    visible_tween->connect("finished", Callable(this, "_on_line_finished"), CONNECT_ONE_SHOT);
     return true;
 }
 
@@ -196,7 +192,7 @@ void GenericTextTyper::_process_typing() {
     }
 }
 
-void GenericTextTyper::play_click() {
+void GenericTextTyper::_play_click() {
     if (get_visible_characters() >= chache_parsed_text.length() || get_visible_characters() < 0) return;
     
     char32_t current_char = chache_parsed_text[get_visible_characters()];
@@ -227,13 +223,13 @@ void GenericTextTyper::play_click() {
     }
 }
 
-void GenericTextTyper::on_line_finished(bool next_line) {
+void GenericTextTyper::_on_line_finished(bool next_line) {
     if(next_line || delay <= 0) {
         line_typing = false;
         current_line_index++;
     }else {
         Ref<SceneTreeTimer> timer = get_tree()->create_timer(delay);
-        timer->connect("timeout", Callable(this, "on_line_finished").bind(true), CONNECT_ONE_SHOT);
+        timer->connect("timeout", Callable(this, "_on_line_finished").bind(true), CONNECT_ONE_SHOT);
     }
 }
 
