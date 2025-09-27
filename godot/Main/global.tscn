@@ -26,7 +26,7 @@ heal_amount = 999
 
 [node name="Global" type="Global"]
 item_list = Array[Item]([SubResource("Item_vjh6r"), SubResource("Item_2bweu"), SubResource("Item_1gesb")])
-savepath = "$home/.Undertale-Engine/saved.json"
+savepath = "$home/.Undertale-Engine/file0"
 player_gold = 4374
 player_lv = 15
 player_exp = 8263

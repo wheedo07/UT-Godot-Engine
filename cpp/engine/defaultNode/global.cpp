@@ -19,14 +19,15 @@ using namespace godot;
 namespace fs = std::filesystem;
 unsigned char bom[] = {0xEF, 0xBB, 0xBF};
 
+#define HASH_KEY "undertale_engine_by_wheedo07"
 Global::Global() {
     Music = nullptr;
     heal_sound = nullptr;
     Info = nullptr;
     KrTimer = nullptr;
     scene_container = nullptr;
-    savepath = "user://saved.json";
-    settingpaths = "user://settings.json";
+    savepath = "user://file0";
+    settingpaths = "user://file9";
 
     // 기본 상태 변수
     first = true;
@@ -101,6 +102,7 @@ void Global::_ready() {
 
     os = OS::get_singleton();
     display = DisplayServer::get_singleton();
+    marshalls = Marshalls::get_singleton();
     Music = Object::cast_to<AudioStreamPlayer>(get_node_internal("MusicGlobal"));
     heal_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("heal"));
     Info = Object::cast_to<RichTextLabel>(get_node_internal("Info"));
@@ -108,10 +110,10 @@ void Global::_ready() {
     String osName = os->get_name();
     is_Mobile = osName == "Android";
     if(osName == "Web") return;
-    if(osName == "Android") {
+    if(is_Mobile) {
         call_deferred("toggle_fullscreen");
-        savepath = "user://saved.json";
-        settingpaths = "user://settings.json";
+        savepath = "user://file0";
+        settingpaths = "user://file9";
     }
 
     if(savepath.find("$home") != -1) {
@@ -121,8 +123,8 @@ void Global::_ready() {
     }else savepaths = savepath;
 
     if(savepaths.find("user://") == -1) {
-        String dir = savepaths.replace("saved.json", "");
-        settingpaths = dir + "settings.json";
+        String dir = savepaths.replace("file0", "");
+        settingpaths = dir + "file9";
         if(fs::exists(dir.utf8().get_data())) return;
 
         if(!fs::create_directories(dir.utf8().get_data()))
@@ -134,21 +136,21 @@ PackedStringArray Global::item_use_text(int item_id) {
     Ref<Item> item = item_list[item_id];
     PackedStringArray use_text = item->get_use_message();
     
-    if (item->get_heal_amount()) {
+    if(item->get_heal_amount()) {
         heal(item->get_heal_amount());
         if (player_hp == player_max_hp) {
             use_text.push_back(String::utf8("* 당신의 체력은 가득찼다"));
-        } else {
+        }else {
             use_text.push_back(vformat(String::utf8("* 당신은 체력을 %s 회복했다"), item->get_heal_amount()));
         }
     }
-    if (item->get_defense_amount()) {
+    if(item->get_defense_amount()) {
         temp_def += item->get_defense_amount();
-        use_text.push_back(vformat(String::utf8("*당신의 방어력이 +%s 올라갔다"), item->get_defense_amount()));
+        use_text.push_back(vformat(String::utf8("* 당신의 방어력이 +%s 올라갔다"), item->get_defense_amount()));
     }
-    if (item->get_attack_amount()) {
+    if(item->get_attack_amount()) {
         temp_atk += item->get_attack_amount();
-        use_text.push_back(vformat(String::utf8("*당신의 공격력이 +%s 올라갔다"), item->get_attack_amount()));
+        use_text.push_back(vformat(String::utf8("* 당신의 공격력이 +%s 올라갔다"), item->get_attack_amount()));
     }
     return use_text;
 }
@@ -256,6 +258,7 @@ void Global::_process(double delta) {
 }
 
 void Global::_notification(int what) {
+    if(isEditor) return;
     if(what == NOTIFICATION_WM_CLOSE_REQUEST || what == NOTIFICATION_WM_GO_BACK_REQUEST) {
         save_settings();
         get_tree()->quit();
@@ -276,22 +279,25 @@ void Global::save_game(bool is_sys) {
     if (is_sys) {
         if(savepaths.find("user://") != -1) {
             Ref<FileAccess> file = FileAccess::open(savepaths, FileAccess::READ_WRITE);
-            Dictionary savedata = JSON::parse_string(file->get_as_text());
+            String data = xor_decrypt(file->get_as_text(), HASH_KEY);
+            Dictionary savedata = JSON::parse_string(data);
             savedata["flags"] = flags;
-            file->store_line(JSON::stringify(savedata));
+            String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
+            file->store_string(newdata);
             file->close();
         }else {
             std::ifstream file_read(savepaths.utf8().get_data());
             file_read.seekg(3);
             std::stringstream buffer;
             buffer << file_read.rdbuf();
-            Dictionary savedata = JSON::parse_string(String::utf8(buffer.str().data()));
+            String data = xor_decrypt(String::utf8(buffer.str().data()), HASH_KEY);
+            Dictionary savedata = JSON::parse_string(data);
             file_read.close();
             savedata["flags"] = flags;
 
             std::ofstream file_write(savepaths.utf8().get_data());
             file_write.write((char*)bom, sizeof(bom));
-            file_write << JSON::stringify(savedata).utf8().get_data() << std::endl;
+            file_write << xor_encrypt(JSON::stringify(savedata), HASH_KEY).utf8().get_data() << std::endl;
             file_write.close();
         }
         return;
@@ -331,16 +337,41 @@ void Global::save_game(bool is_sys) {
 
     if(savepaths.find("user://") != -1) {
         Ref<FileAccess> file = FileAccess::open(savepaths, FileAccess::WRITE);
-        file->store_line(JSON::stringify(savedata));
+        String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
+        file->store_string(newdata);
         file->close();
     }else {
+        String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
         std::ofstream file_write(savepaths.utf8().get_data());
         file_write.write((char*)bom, sizeof(bom));
-        file_write << JSON::stringify(savedata).utf8().get_data() << std::endl;
+        file_write << newdata.utf8().get_data() << std::endl;
         file_write.close();
     }
     save_settings();
     emit_signal("saved");
+}
+
+String Global::xor_encrypt(String data, String key) {
+    PackedByteArray data_bytes = data.to_utf8_buffer();
+    PackedByteArray key_bytes = key.to_utf8_buffer();
+    
+    // XOR 암호화
+    for(int i = 0; i < data_bytes.size(); i++) {
+        data_bytes[i] ^= key_bytes[i % key_bytes.size()];
+    }
+    
+    return marshalls->raw_to_base64(data_bytes);
+}
+
+String Global::xor_decrypt(String data, String key) {
+    PackedByteArray encrypted_bytes = marshalls->base64_to_raw(data.strip_edges());
+    PackedByteArray key_bytes = key.to_utf8_buffer();
+    
+    for(int i = 0; i < encrypted_bytes.size(); i++) {
+        encrypted_bytes[i] ^= key_bytes[i % key_bytes.size()];
+    }
+    
+    return String::utf8((char*)encrypted_bytes.ptr(), encrypted_bytes.size());
 }
 
 void Global::true_resetgame() {
@@ -388,9 +419,9 @@ void Global::resetgame() {
     paused = false;
     
     if(savepaths.find("user://") != -1) {
-        String dir = savepaths.replace("saved.json", "");
+        String dir = savepaths.replace("file0", "");
         Ref<DirAccess> dirAcs = DirAccess::open(dir);
-        dirAcs->remove("saved.json");
+        dirAcs->remove("file0");
     }else fs::remove(savepaths.utf8().get_data());
 }
 
@@ -480,8 +511,8 @@ void Global::save_settings() {
         if (FileAccess::file_exists(settingpaths)) {
             file = FileAccess::open(settingpaths, FileAccess::READ);
             if (!file->eof_reached()) {
-                String content = file->get_as_text();
-                if (!content.is_empty()) {
+                String content = xor_decrypt(file->get_as_text(), HASH_KEY);
+                if(!content.is_empty()) {
                     Variant parsed = JSON::parse_string(content);
                     if (parsed.get_type() == Variant::DICTIONARY) {
                         setting_data = parsed;
@@ -492,10 +523,11 @@ void Global::save_settings() {
         }
         
         file = FileAccess::open(settingpaths, FileAccess::WRITE);
-        if (file.is_valid()) {
+        if(file.is_valid()) {
             setting_data["settings"] = settings;
             setting_data["g_flags"] = g_flags;
-            file->store_line(JSON::stringify(setting_data));
+            String newdata = xor_encrypt(JSON::stringify(setting_data), HASH_KEY);
+            file->store_string(newdata);
             file->close();
         }
     } else {
@@ -505,8 +537,8 @@ void Global::save_settings() {
             std::stringstream buffer;
             buffer << file_read.rdbuf();
             file_read.close();
-            
-            String content = String::utf8(buffer.str().data());
+           
+            String content = xor_decrypt(String::utf8(buffer.str().data()), HASH_KEY);
             if (!content.is_empty()) {
                 Variant parsed = JSON::parse_string(content);
                 if (parsed.get_type() == Variant::DICTIONARY) {
@@ -520,7 +552,8 @@ void Global::save_settings() {
             file_write.write((char*)bom, sizeof(bom));
             setting_data["settings"] = settings;
             setting_data["g_flags"] = g_flags;
-            file_write << JSON::stringify(setting_data).utf8().get_data() << std::endl;
+            String newdata = xor_encrypt(JSON::stringify(setting_data), HASH_KEY);
+            file_write << newdata.utf8().get_data() << std::endl;
             file_write.close();
         }
     }
@@ -556,9 +589,10 @@ void Global::load_game() {
     if(settingpaths.find("user://") != -1) {
         if(FileAccess::file_exists(settingpaths)) {
             Ref<FileAccess> settings_file = FileAccess::open(settingpaths, FileAccess::READ);
-            if (settings_file.is_valid()) {
-                Variant parsed = JSON::parse_string(settings_file->get_as_text());
-                if (parsed.get_type() == Variant::DICTIONARY) {
+            if(settings_file.is_valid()) {
+                String data = xor_decrypt(settings_file->get_as_text(), HASH_KEY);
+                Variant parsed = JSON::parse_string(data);
+                if(parsed.get_type() == Variant::DICTIONARY) {
                     settings_data = parsed;
                 }
                 settings_file->close();
@@ -571,9 +605,10 @@ void Global::load_game() {
             std::stringstream buffer;
             buffer << settings_file.rdbuf();
             settings_file.close();
-            
-            Variant parsed = JSON::parse_string(String::utf8(buffer.str().data()));
-            if (parsed.get_type() == Variant::DICTIONARY) {
+
+            String data = xor_decrypt(String::utf8(buffer.str().data()), HASH_KEY);
+            Variant parsed = JSON::parse_string(data);
+            if(parsed.get_type() == Variant::DICTIONARY) {
                 settings_data = parsed;
             }
         }
@@ -587,7 +622,8 @@ void Global::load_game() {
     if(savepaths.find("user://") != -1) {
         if(!FileAccess::file_exists(savepaths)) return;
         Ref<FileAccess> file = FileAccess::open(savepaths, FileAccess::READ);
-        savedata = JSON::parse_string(file->get_as_text());
+        String data = xor_decrypt(file->get_as_text(), HASH_KEY);
+        savedata = JSON::parse_string(data);
         file->close();
     }else {
         std::ifstream file(savepaths.utf8().get_data());
@@ -595,11 +631,12 @@ void Global::load_game() {
         if(!file.is_open()) return;
         std::stringstream buffer;
         buffer << file.rdbuf();
-        savedata = JSON::parse_string(String::utf8(buffer.str().data()));
+        String data = xor_decrypt(String::utf8(buffer.str().data()), HASH_KEY);
         file.close();
+        savedata = JSON::parse_string(data);
     }
 
-    if (savedata.is_empty()) savedata = Dictionary();
+    if(savedata.is_empty()) savedata = Dictionary();
     // EQUIPMENT
     Dictionary inv = savedata.get("inv", Dictionary());
     equipment.merge(inv.get("equipment", Dictionary()), true);

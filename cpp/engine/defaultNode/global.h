@@ -11,6 +11,7 @@
 #include<godot_cpp/classes/input.hpp>
 #include<godot_cpp/classes/input_event.hpp>
 #include<godot_cpp/classes/display_server.hpp>
+#include<godot_cpp/classes/marshalls.hpp>
 namespace godot {
     class Global : public CanvasLayer {
         GDCLASS(Global, CanvasLayer)
@@ -82,6 +83,7 @@ namespace godot {
 
 			OS* os;
             DisplayServer* display;
+			Marshalls* marshalls;
 
 			double quit_time;
 			Ref<Tween> tw_quit;
@@ -90,6 +92,8 @@ namespace godot {
 
 			void loop_Music();
 	        void _on_kr_tick();
+			String xor_encrypt(String data, String key);
+			String xor_decrypt(String data, String key);
         
         public:
             Global();
