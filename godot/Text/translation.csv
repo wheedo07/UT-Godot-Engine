@@ -44,3 +44,7 @@ UT_SETTING_PAUSED,[center]--일시정지--,[center]--Paused--
 UT_SETTING_MUTE,잠시 음소거,Temporarily muted
 UT_DEFAULT_DIDE,Z 키를 눌러 로드합니다,Press the Z key to load
 UT_SAVING_GAME,게임이 강제로 저장되었습니다,The game has been force saved
+UT_HP_FULL,* 당신의 체력은 가득찼다,* Your HP was maxed up
+UT_HP_HEAL,* 당신은 체력을 %d 회복했다,* You gained %d HP
+UT_DEF_UP,* 당신의 방어력이 +%d 올라갔다,* Your DEF increased by +%d
+UT_ATK_UP,* 당신의 공격력이 +%d 올라갔다,* Your ATK increased by +%d

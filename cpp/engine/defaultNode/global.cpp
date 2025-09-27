@@ -139,18 +139,18 @@ PackedStringArray Global::item_use_text(int item_id) {
     if(item->get_heal_amount()) {
         heal(item->get_heal_amount());
         if (player_hp == player_max_hp) {
-            use_text.push_back(String::utf8("* 당신의 체력은 가득찼다"));
+            use_text.push_back(tr("UT_HP_FULL"));
         }else {
-            use_text.push_back(vformat(String::utf8("* 당신은 체력을 %s 회복했다"), item->get_heal_amount()));
+            use_text.push_back(vformat(tr("UT_HP_HEAL"), item->get_heal_amount()));
         }
     }
     if(item->get_defense_amount()) {
         temp_def += item->get_defense_amount();
-        use_text.push_back(vformat(String::utf8("* 당신의 방어력이 +%s 올라갔다"), item->get_defense_amount()));
+        use_text.push_back(vformat(tr("UT_DEF_UP"), item->get_defense_amount()));
     }
     if(item->get_attack_amount()) {
         temp_atk += item->get_attack_amount();
-        use_text.push_back(vformat(String::utf8("* 당신의 공격력이 +%s 올라갔다"), item->get_attack_amount()));
+        use_text.push_back(vformat(tr("UT_ATK_UP"), item->get_attack_amount()));
     }
     return use_text;
 }
