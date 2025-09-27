@@ -97,6 +97,8 @@ Global::~Global() {}
 void Global::_ready() {
     isEditor = Engine::get_singleton()->is_editor_hint();
     if(isEditor) return;
+    Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
+
     os = OS::get_singleton();
     display = DisplayServer::get_singleton();
     Music = Object::cast_to<AudioStreamPlayer>(get_node_internal("MusicGlobal"));
@@ -126,7 +128,6 @@ void Global::_ready() {
         if(!fs::create_directories(dir.utf8().get_data()))
             ERR_PRINT("디렉토리 생성 실패!");
     }
-    Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
 }
 
 PackedStringArray Global::item_use_text(int item_id) {

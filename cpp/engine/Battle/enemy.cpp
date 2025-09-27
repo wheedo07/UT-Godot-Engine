@@ -39,7 +39,7 @@ Enemy::~Enemy() {}
 void Enemy::_bind_methods() {
     ADD_SIGNAL(MethodInfo("finished_dialogue"));
     ADD_SIGNAL(MethodInfo("changed_state"));
-    ADD_SIGNAL(MethodInfo("spared", PropertyInfo(Variant::INT, "id_number")));
+    ADD_SIGNAL(MethodInfo("dodged", PropertyInfo(Variant::BOOL, "to_right")));
     ADD_SIGNAL(MethodInfo("on_fight_end"));
     ADD_SIGNAL(MethodInfo("on_act_end"));
     ADD_SIGNAL(MethodInfo("on_item_end"));
@@ -141,9 +141,8 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("play_dialogue", "index", "duration", "skip"), &Enemy::play_dialogue, DEFVAL(0), DEFVAL(true));
     ClassDB::bind_method(D_METHOD("play_set_dialogue", "dialogue_ref", "duration", "skip"), &Enemy::play_set_dialogue, DEFVAL(0), DEFVAL(true));
 
-    ClassDB::bind_method(D_METHOD("_dodge"), &Enemy::_dodge);
+    ClassDB::bind_method(D_METHOD("_dodge", "dodge_sign"), &Enemy::_dodge);
     ClassDB::bind_method(D_METHOD("_hurt", "amount"), &Enemy::_hurt);
-    ClassDB::bind_method(D_METHOD("_on_spared", "id_number"), &Enemy::_on_spared);
     ClassDB::bind_method(D_METHOD("_on_finished_all_texts_dialogue", "head", "body"), &Enemy::_on_finished_all_texts_dialogue);
     ClassDB::bind_method(D_METHOD("_handle_typing", "text_index", "dialogue_ref", "duration", "skip"), &Enemy::_handle_typing);
 
@@ -185,7 +184,6 @@ void Enemy::_ready() {
     sprites = get_node_internal(sprites_path);
     if(!e_head_path.is_empty()) e_head = Object::cast_to<AnimatedSprite2D>(get_node_internal(e_head_path));
     if(!e_body_path.is_empty()) e_body = Object::cast_to<AnimatedSprite2D>(get_node_internal(e_body_path));
-    connect("spared", Callable(this, "_on_spared"));
     
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
         call("ready");
@@ -302,15 +300,11 @@ void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float du
     if(duration != 0) dialogue->_on_text_click_played(skip, duration);
 }
 
-void Enemy::_dodge() {
+void Enemy::_dodge(int dodge_sign) {
     if (!sprites) return;
     
     Ref<Tween> tw = create_tween()->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_QUAD);
-    RandomNumberGenerator* rng = memnew(RandomNumberGenerator);
-    rng->randomize();
-    int rand_sign = (rng->randi_range(0, 1) * 2) - 1;
-    
-    tw->tween_property(sprites, "position:x", rand_sign * 120.0f, 0.4)->as_relative();
+    tw->tween_property(sprites, "position:x", dodge_sign * 120.0f, 0.4)->as_relative();
     tw->tween_property(sprites, "position:x", 0, 0.4)->as_relative()->set_delay(0.8);
 }
 
@@ -389,19 +383,6 @@ void Enemy::on_death() {
     dust->restart();
     dust->set_emitting(true);
     dust_sound->play();
-}
-
-void Enemy::_on_spared(int id_number) {
-    GPUParticles2D* spare = Object::cast_to<GPUParticles2D>(get_node_internal("Spare"));
-    if (spare) {
-        spare->restart();
-        spare->set_emitting(true);
-    }
-    
-    AudioStreamPlayer* sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/Dust"));
-    if (sound) {
-        sound->play();
-    }
 }
 
 void Enemy::on_defeat(bool death) {}

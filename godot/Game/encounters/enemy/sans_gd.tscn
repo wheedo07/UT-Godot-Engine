@@ -19,10 +19,15 @@ acts = Array[ActInfo]([SubResource("ActInfo_3yu38")])
 resource_name = "Enemy_gd"
 script/source = "extends Enemy
 @onready var attack = preload(\"res://Game/mainAttacks/attack_sans_gd.tscn\");
+@onready var dog = $sans/Idle/dodge;
 @onready var head = $sans/Throw/head;
 @onready var AnimStates:AnimationNodeStateMachinePlayback = $sans/States.get(\"parameters/playback\");
 
 func _on_get_turn() -> void:
+	$sans/Idle/leg.show();
+	$sans/Idle/body.show();
+	dog.hide();
+	
 	box.change_size(Vector2(350, 140), false, 0.3);
 	create_attack().start_attack();
 
@@ -30,6 +35,15 @@ func create_attack() -> AttackBase:
 	var base = attacks.add_attack(attack) as AttackBase;
 	base.connect(\"throws\", self._on_throws);
 	return base;
+	
+func _on_dodged(to_right: bool):
+	$sans/Idle/leg.hide();
+	$sans/Idle/body.hide();
+	dog.show();
+	dog.play();
+	dog.flip_h = !to_right;
+	await dog.animation_finished;
+	dog.frame = 0;
 
 func _on_throws(dir:Vector2, power:int=10):
 	$Timer.start();
@@ -124,6 +138,7 @@ bus = &"SFX"
 stream = ExtResource("7_gctqu")
 bus = &"SFX"
 
+[connection signal="dodged" from="." to="." method="_on_dodged"]
 [connection signal="timeout" from="Timer" to="." method="end_throws"]
 
 [editable path="sans"]

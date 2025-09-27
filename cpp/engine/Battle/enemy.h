@@ -93,7 +93,7 @@ namespace godot {
             void _handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip);
             void _on_finished_all_texts_dialogue(int head, int body);
             void _hurt(int amount);
-            void _dodge();
+            void _dodge(int dodge_sign);
 
             void set_property(Object* value);
             BattleMain* get_main();
@@ -137,7 +137,6 @@ namespace godot {
 
             Ref<ActInfo> _get_act_info(int act_choice);
             void on_death();
-            void _on_spared(int id_number);
             void _get_act(int state, int option);
 
             void set_kr(bool p_kr);

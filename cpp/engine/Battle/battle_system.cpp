@@ -169,7 +169,6 @@ void BattleMain::_ready() {
             rewards["exp"] = int(rewards["exp"]) + int(rwrds.get("exp", 0));
             
             connect("item_used", Callable(enemy, "on_item_used"));
-            enemy->connect("spared", Callable(this, "spare_enemy"));
 
             // C++ 이랑 GDscript 모두 호환되도록
             connect("end_turn", Callable(this, "_on_get_turn"));
@@ -279,7 +278,9 @@ void BattleMain::_hit(int damage, int target, bool crit) {
     Slash* slashes = Object::cast_to<Slash>(slash_scene->instantiate());
     if (slashes) {
         if (enemy->get_dodging()) {
-            slashes->connect("started", Callable(enemy, "_dodge"), CONNECT_ONE_SHOT);
+            int dodge_sign = (UtilityFunctions::randi_range(0, 1) * 2) - 1;
+            slashes->connect("started", Callable(enemy, "emit_signal").bind("dodged", dodge_sign == 1), CONNECT_ONE_SHOT);
+            slashes->connect("started", Callable(enemy, "_dodge").bind(dodge_sign), CONNECT_ONE_SHOT);
         }
         slashes->connect("finished", Callable(this, "_on_slash_finished").bind(damage, target, crit), CONNECT_ONE_SHOT);
 

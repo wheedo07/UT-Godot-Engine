@@ -332,15 +332,17 @@
                 [method change_state] 호출 후 발생합니다.
             </description>
         </signal>
-        
-        <signal name="spared">
-            <param index="0" name="id_number" type="int"/>
+
+        <signal name="dodged">
+            <param index="0" name="to_right" type="bool" />
             <description>
-                적에게 자비가 적용되었을 때 발생합니다.
-                [param id_number]는 적의 ID입니다.
+                적이 회피했을 때 발생하는 시그널입니다.
+                [param to_right]가 true면 오른쪽으로 회피, false면 왼쪽으로 회피했음을 나타냅니다.
+                회피 애니메이션과 동기화하여 추가 효과를 구현할 때 사용할 수 있습니다.
             </description>
         </signal>
-        
+       
+        <!-- 사용 시그널 -->
         <signal name="on_fight_end">
             <description>
                 공격 행동 처리가 완료되었을 때 발생시켜야 하는 시그널입니다.
