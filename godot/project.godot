@@ -10,9 +10,9 @@ config_version=5
 
 [application]
 
-config/name="Undertale: Engine"
+config/name="UT-Godot-Engine"
 config/description="와 샌즈"
-config/version="1.0.8"
+config/version="1.0.9"
 run/main_scene="uid://b72rkv2gjlqgd"
 config/auto_accept_quit=false
 config/features=PackedStringArray("4.5", "Forward Plus")

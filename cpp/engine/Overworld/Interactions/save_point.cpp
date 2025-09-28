@@ -30,6 +30,7 @@ void SavePoint::_ready() {
 
 void SavePoint::_on_interact_save() {
     global->heal(global->get_player_max_hp());
+    global->set_player_hp(global->get_player_max_hp());
     
     TextBox* textbox = Object::cast_to<TextBox>(txt_box->instantiate());
     global->get_scene_container()->get_current_scene()->add_child(textbox);
