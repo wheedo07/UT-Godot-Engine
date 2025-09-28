@@ -368,7 +368,7 @@ void SHOP::_refresh_g_info(bool red) {
 void SHOP::_keeper_dialogue(Ref<Dialogues> dialogues) {
     dialogue_expressions = dialogues->get_dialogues_single(Dialogues::DIALOGUE_EXPRESSIONS);
 
-    global->call_deferred("set_player_text_box", true);
+    global->call_deferred("_set_player_text_box", true);
     keeper_dialogue->call_deferred("type_text_advanced", dialogues);
 }
 
@@ -385,7 +385,7 @@ void SHOP::_on_keeper_dialogue_started_typing(int index) {
 }
 
 void SHOP::_on_keeper_dialogue_finished_all_texts() {
-    global->set_player_text_box(false);
+    global->_set_player_text_box(false);
     if(current_state == VIEWING_DIALOGUE) {
         get_viewport()->set_input_as_handled();
         _in_state(temp_return_state);
@@ -424,7 +424,7 @@ void SHOP::_set_soul_pos() {
 
 void SHOP::_exit() {
     RoomEntranceNode* exit_node = Object::cast_to<RoomEntranceNode>(get_node_internal("Control/room_exit"));
-    global->set_player_text_box(false);
+    global->_set_player_text_box(false);
     exit_node->force_enter();
 }
 

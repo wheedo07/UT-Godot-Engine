@@ -775,6 +775,7 @@ visible = false
 visible = false
 position = Vector2(0, -1.5)
 sprite_frames = SubResource("SpriteFrames_s8p1m")
+speed_scale = 1.3
 
 [node name="leg" type="AnimatedSprite2D" parent="Idle"]
 position = Vector2(22.5, 27)

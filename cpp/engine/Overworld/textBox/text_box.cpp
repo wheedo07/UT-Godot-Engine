@@ -140,7 +140,7 @@ void TextBox::finish_options() {
 
 void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& options, const TypedArray<Dialogues>& text_after_options) {
     global->set_player_in_menu(true);
-    global->set_player_text_box(true);
+    global->_set_player_text_box(true);
     text_after_option = text_after_options;
     if(options.size() >= 4) {
         WARN_PRINT("option 갯수가 4개를 초과했습니다. 4개까지만 표시됩니다.");
@@ -268,7 +268,7 @@ void TextBox::on_finish_dialogue() {
     Text->set_text("");
 
     global->set_player_in_menu(false);
-    global->set_player_text_box(false);
+    global->_set_player_text_box(false);
     
     emit_signal("dialogue_finished");
 }

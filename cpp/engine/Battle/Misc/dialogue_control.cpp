@@ -57,7 +57,7 @@ void DialogueControl::DialogueText(const Ref<Dialogues>& dialogues) {
         ERR_PRINT("bubble_text가 초기화되지 않았습니다");
         return;
     }
-    global->set_battle_text_box(true);
+    global->_set_battle_text_box(true);
 
     Callable call = Callable(this, "_on_ends_typing");
     if(bubble_text->is_connected("ends_typing", call)) bubble_text->disconnect("ends_typing", call);
@@ -105,7 +105,7 @@ void DialogueControl::_on_all_texts_finished() {
     active_tween = create_tween();
     active_tween->tween_property(this, "modulate:a", 0, 0.1);
     
-    global->set_battle_text_box(false);
+    global->_set_battle_text_box(false);
     emit_signal("finished_all_texts_dialogue");
 }
 

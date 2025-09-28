@@ -1,31 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dc10754oip7a4"]
+[gd_scene load_steps=3 format=3 uid="uid://dc10754oip7a4"]
 
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="1_aygu1"]
 [ext_resource type="AudioStream" uid="uid://lp7i5p5u17hl" path="res://sfx/heal.wav" id="2_752qb"]
 
-[sub_resource type="Item" id="Item_vjh6r"]
-item_type = 1
-item_name = "막대기"
-use_message = PackedStringArray("* ?", "* 당신은 막대기를 장착했다")
-item_information = PackedStringArray("* 막대기 - 1\n* 겉보기와 달리 위협적이지 않다")
-throw_message = PackedStringArray("* 당신은 막대기를 바닥에 버렸다")
-
-[sub_resource type="Item" id="Item_2bweu"]
-item_name = "반창고"
-use_message = PackedStringArray("* 당신은 반창고를 사용했다")
-item_information = PackedStringArray("* 반창고 - 10 hp 회복\n* 이미 여러 번 붙였던 것이다")
-throw_message = PackedStringArray("* 반창고를 버렸다")
-heal_amount = 10
-
-[sub_resource type="Item" id="Item_1gesb"]
-item_name = "파이"
-use_message = PackedStringArray("* 당신은 파이를 먹었다")
-item_information = PackedStringArray("* 버터스카치 시나몬 파이 한 조각이다")
-throw_message = PackedStringArray("* 딩신은 파이를 바닥에 버렸다")
-heal_amount = 999
-
 [node name="Global" type="Global"]
-item_list = Array[Item]([SubResource("Item_vjh6r"), SubResource("Item_2bweu"), SubResource("Item_1gesb")])
 savepath = "$home/.Undertale-Engine/file0"
 player_gold = 4374
 player_lv = 15

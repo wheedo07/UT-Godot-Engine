@@ -85,7 +85,7 @@ void BattleMain::_ready() {
         encounter = global->battle_encounter;
     }
 
-    global->set_battle_start(true);
+    global->_set_battle_start(true);
     if(encounter.is_valid()) {
         bg->set_texture(encounter->get_background());
         bg->set_position(encounter->get_offset());

@@ -234,7 +234,7 @@ void Enemy::change_state(int new_state) {
 
 void Enemy::play_dialogue(int index, float duration, bool skip) {
     if(!is_node_ready() || !dialogue) return;
-    global->set_battle_text_box(true);
+    global->_set_battle_text_box(true);
     
     int head_frame = -1;
     int body_frame = -1;
@@ -258,7 +258,7 @@ void Enemy::play_dialogue(int index, float duration, bool skip) {
 
 void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool skip) {
     if(!is_node_ready() || !dialogue) return;
-    global->set_battle_text_box(true);
+    global->_set_battle_text_box(true);
     
     int head_frame = -1;
     int body_frame = -1;

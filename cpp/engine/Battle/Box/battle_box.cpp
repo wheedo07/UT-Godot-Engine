@@ -961,10 +961,10 @@ void BattleBox::rotate_by(float rot, bool relative, float duration) {
 }
 
 void BattleBox::blitter_print(PackedStringArray texts) {
-    global->set_battle_text_box(true);
+    global->_set_battle_text_box(true);
     change_state(BattleState::State_Blittering);
     blitter_text->type_text(texts);
-    blitter_text->connect("finished_all_texts", Callable(global, "set_battle_text_box").bind(false), CONNECT_ONE_SHOT);
+    blitter_text->connect("finished_all_texts", Callable(global, "_set_battle_text_box").bind(false), CONNECT_ONE_SHOT);
 }
 
 Vector2 BattleBox::get_size() {

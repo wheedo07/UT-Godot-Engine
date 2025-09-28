@@ -84,13 +84,56 @@ Global::Global() {
     just_died = true;
     overworld_data["room"] = "";
     overworld_data["room_name"] = "";
-    overworld_data["room_pos"] = Vector2(0.0, 0.0);
+    overworld_data["room_pos"] = Vector2(0, 0);
     playtime = 0;
     cache_playtime = 0;
     quit_time = 0;
     start = false;
     is_Mobile = false;
     battle_encounter = nullptr;
+
+    Item* it0 = memnew(Item);
+    it0->set_item_type(Item::WEAPON);
+    it0->set_item_name(String::utf8("막대기"));
+    it0->set_use_message({
+        String::utf8("* 당신은 막대기를 장착했다")
+    });
+    it0->set_item_information({
+        String::utf8("* 막대기 - 1\n* 겉보기와 달리 위협적이지 않다")
+    });
+    it0->set_throw_message({
+        String::utf8("* 당신은 막대기를 던졌다"),
+        String::utf8("* 하지만 아무 일도 일어나지 않았다")
+    });
+    item_list.append(it0);
+
+    Item* it1 = memnew(Item);
+    it1->set_item_name(String::utf8("반창고"));
+    it1->set_use_message({
+        String::utf8("* 당신은 반창고를 사용했다")
+    });
+    it1->set_item_information({
+        String::utf8("* 반창고 - 10 hp 회복\n* 이미 여러 번 붙였던 것이다")
+    });
+    it1->set_throw_message({
+        String::utf8("* 당신은 반창고를 버렸다")
+    });
+    it1->set_heal_amount(10);
+    item_list.append(it1);
+
+    Item* it2 = memnew(Item);
+    it2->set_item_name(String::utf8("파이"));
+    it2->set_use_message({
+        String::utf8("* 당신은 파이를 사용했다")
+    });
+    it2->set_item_information({
+        String::utf8("* 버터스카치 시나몬 파이 한 조각이다")
+    });
+    it2->set_throw_message({
+        String::utf8("* 당신은 파이를 버렸다")
+    });
+    it2->set_heal_amount(999);
+    item_list.append(it2);
 }
 
 Global::~Global() {}

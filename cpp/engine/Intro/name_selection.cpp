@@ -122,9 +122,9 @@ void NameSelection::react_to_name(const String& text, bool deny) {
 
 void NameSelection::on_typer_finished() {
     if (is_deny) {
-        global->set_player_text_box(true);
+        global->_set_player_text_box(true);
         typer->connect("confirm", Callable(this, "emit_signal").bind("pass_name", false), CONNECT_ONE_SHOT);
-        typer->connect("confirm", Callable(global, "set_player_text_box").bind(false), CONNECT_ONE_SHOT);
+        typer->connect("confirm", Callable(global, "_set_player_text_box").bind(false), CONNECT_ONE_SHOT);
     } else {
         await_confirm();
     }

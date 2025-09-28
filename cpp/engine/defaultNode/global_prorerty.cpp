@@ -7,7 +7,9 @@ void Global::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("_loop_Music"), &Global::_loop_Music);
     ClassDB::bind_method(D_METHOD("_on_kr_tick"), &Global::_on_kr_tick);
-    ClassDB::bind_method(D_METHOD("_set_battle_start"), &Global::set_battle_start);
+    ClassDB::bind_method(D_METHOD("_set_battle_start"), &Global::_set_battle_start);
+    ClassDB::bind_method(D_METHOD("_set_battle_text_box", "value"), &Global::_set_battle_text_box);
+    ClassDB::bind_method(D_METHOD("_set_player_text_box", "value"), &Global::_set_player_text_box);
 
     ClassDB::bind_method(D_METHOD("set_item_list", "value"), &Global::set_item_list);
     ClassDB::bind_method(D_METHOD("get_item_list"), &Global::get_item_list);
@@ -17,9 +19,6 @@ void Global::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("set_boxesinmenu", "value"), &Global::set_boxesinmenu);
     ClassDB::bind_method(D_METHOD("get_boxesinmenu"), &Global::get_boxesinmenu);
-    
-    ClassDB::bind_method(D_METHOD("set_unlockedboxes", "value"), &Global::set_unlockedboxes);
-    ClassDB::bind_method(D_METHOD("get_unlockedboxes"), &Global::get_unlockedboxes);
     
     ClassDB::bind_method(D_METHOD("set_equipment", "value"), &Global::set_equipment);
     ClassDB::bind_method(D_METHOD("get_equipment"), &Global::get_equipment);
@@ -97,12 +96,8 @@ void Global::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_player_move", "value"), &Global::set_player_move);
     ClassDB::bind_method(D_METHOD("get_player_move"), &Global::get_player_move);
-
     ClassDB::bind_method(D_METHOD("get_battle_text_box"), &Global::get_battle_text_box);
-    ClassDB::bind_method(D_METHOD("set_battle_text_box", "value"), &Global::set_battle_text_box);
-
     ClassDB::bind_method(D_METHOD("get_player_text_box"), &Global::get_player_text_box);
-    ClassDB::bind_method(D_METHOD("set_player_text_box", "value"), &Global::set_player_text_box);
 
     ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
     ClassDB::bind_method(D_METHOD("get_Music"), &Global::get_Music);
@@ -162,7 +157,7 @@ bool Global::get_debugmode() const {
     return debugmode;
 }
 
-void Global::set_battle_text_box(bool value) {
+void Global::_set_battle_text_box(bool value) {
     battle_text_box = value;
 }
 
@@ -170,7 +165,7 @@ bool Global::get_battle_text_box() const {
     return battle_text_box;
 }
 
-void Global::set_battle_start(bool value) {
+void Global::_set_battle_start(bool value) {
     battle_start = value;
 }
 
@@ -258,7 +253,7 @@ bool Global::get_player_move() const {
     return player_move;
 }
 
-void Global::set_player_text_box(bool value) {
+void Global::_set_player_text_box(bool value) {
     player_text_box = value;
 }
 

@@ -142,10 +142,10 @@ namespace godot {
     		void set_debugmode(bool value);
     		bool get_debugmode() const;
 
-    		void set_battle_text_box(bool value);
+    		void _set_battle_text_box(bool value);
     		bool get_battle_text_box() const;
 
-    		void set_battle_start(bool value);
+    		void _set_battle_start(bool value);
     		bool get_battle_start() const;
 
     		void set_boxesinmenu(bool value);
@@ -181,7 +181,7 @@ namespace godot {
     		void set_player_move(bool value);
     		bool get_player_move() const;
 
-    		void set_player_text_box(bool value);
+    		void _set_player_text_box(bool value);
     		bool get_player_text_box() const;
 
     		void set_paused(bool value);
