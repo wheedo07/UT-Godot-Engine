@@ -90,7 +90,7 @@ namespace godot {
 			Dictionary input_event;
 			bool is_Mobile;
 
-			void loop_Music();
+			void _loop_Music();
 	        void _on_kr_tick();
 			String xor_encrypt(String data, String key);
 			String xor_decrypt(String data, String key);

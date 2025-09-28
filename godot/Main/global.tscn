@@ -65,4 +65,4 @@ process_mode = 1
 bus = &"Music"
 
 [connection signal="timeout" from="KrTimer" to="." method="_on_kr_tick"]
-[connection signal="finished" from="MusicGlobal" to="." method="loop_Music"]
+[connection signal="finished" from="MusicGlobal" to="." method="_loop_Music"]

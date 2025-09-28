@@ -163,7 +163,7 @@ void OverworldSceneChanger::_on_scene_setup_finished(bool transition) {
         tree->set_current_scene(sc);
         tree->get_main_viewport()->add_child(sc);
     }
-    global->call_deferred("set_battle_start", false);
+    global->call_deferred("_set_battle_start", false);
 
     if (transition) {
         camera->blind(blind_time, 1, 0.35);

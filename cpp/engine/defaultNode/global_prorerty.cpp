@@ -5,9 +5,9 @@ void Global::_bind_methods() {
     ADD_SIGNAL(MethodInfo("saved"));
     ADD_SIGNAL(MethodInfo("fullscreen_toggled", PropertyInfo(Variant::BOOL, "to")));
 
-    ClassDB::bind_method(D_METHOD("loop_Music"), &Global::loop_Music);
+    ClassDB::bind_method(D_METHOD("_loop_Music"), &Global::_loop_Music);
     ClassDB::bind_method(D_METHOD("_on_kr_tick"), &Global::_on_kr_tick);
-    ClassDB::bind_method(D_METHOD("set_battle_start"), &Global::set_battle_start);
+    ClassDB::bind_method(D_METHOD("_set_battle_start"), &Global::set_battle_start);
 
     ClassDB::bind_method(D_METHOD("set_item_list", "value"), &Global::set_item_list);
     ClassDB::bind_method(D_METHOD("get_item_list"), &Global::get_item_list);

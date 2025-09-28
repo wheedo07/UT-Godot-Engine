@@ -159,7 +159,7 @@ PackedStringArray Global::equip_item(int item_id) {
     Ref<Item> item = item_list[item_id];
     PackedStringArray equip_text = item->get_use_message();
     
-    switch (item->get_item_type()) {
+    switch(item->get_item_type()) {
         case Item::WEAPON:
             items.push_back(equipment["weapon"]);
             equipment["weapon"] = item_id;
@@ -355,7 +355,6 @@ String Global::xor_encrypt(String data, String key) {
     PackedByteArray data_bytes = data.to_utf8_buffer();
     PackedByteArray key_bytes = key.to_utf8_buffer();
     
-    // XOR 암호화
     for(int i = 0; i < data_bytes.size(); i++) {
         data_bytes[i] ^= key_bytes[i % key_bytes.size()];
     }
@@ -455,7 +454,7 @@ void Global::toggle_collision_shape_visibility() {
 }
 
 void Global::_on_kr_tick() {
-    if (player_kr > 0) {
+    if(player_kr > 0) {
         player_kr -= 1;
         player_hp -= 1;
     }
@@ -737,7 +736,7 @@ void Global::save_flag(String flag, Variant value) {
     if(!first) save_game(true);
 }
 
-void Global::loop_Music() {
+void Global::_loop_Music() {
     if(Music) Music->play();
 }
 
