@@ -1,5 +1,11 @@
 # UT-Godot-Engine
 
+<div align="center">
+  <img src="./image/undertale_godot.png" alt="UT-Godot-Engine Logo" width="500"/>
+</div>
+
+<br>
+
 ## 📝 개요
 
 **UT-Godot-Engine**은 **Godot Engine**과 **C++ (GDExtension)**을 기반으로 개발된 **Undertale 스타일의 팬게임 개발 프레임워크**입니다.
