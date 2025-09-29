@@ -150,3 +150,28 @@ TranslationServer.set_locale("en")
 
 - **Godot Engine 4.5**
 - **GDExtension (C++17)**
+
+<br>
+
+## 🙏 Credits
+
+### 🤝 기여자 (Contributors)
+
+#### [@wheedo07](https://github.com/wheedo07)
+- 프로젝트 관리 및 개발
+
+#### [@chqh](https://github.com/chqh0311)
+- 엔진 로고 제작
+- 엔진 피드백 및 테스트
+
+### 🎵 특별 감사
+- **Toby Fox** - Original Undertale 게임 제작자
+- **Godot Engine Team** - 훌륭한 게임 엔진 제공
+
+---
+
+<br>
+
+## 📄 라이선스
+
+이 프로젝트는 [MIT License](LICENSE) 하에 배포됩니다.
