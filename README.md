@@ -1,7 +1,7 @@
 # UT-Godot-Engine
 
 <div align="center">
-  <img src="./image/undertale_godot.png" alt="UT-Godot-Engine Logo" width="500"/>
+  <img src="./image/UT-Godot-Engine_logo.png" alt="UT-Godot-Engine Logo" width="500"/>
 </div>
 
 <br>
