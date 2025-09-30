@@ -175,10 +175,14 @@ void Enemy::_bind_methods() {
 
 void Enemy::_ready() {
     if(isEditor) return;
-    hurt_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(hurt_sound_path));
-    dust_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(dust_sound_path));
-    dust = Object::cast_to<GPUParticles2D>(get_node_internal(dust_path));
-    spare = Object::cast_to<GPUParticles2D>(get_node_internal(spare_path));
+    if(!hurt_sound_path.is_empty()) hurt_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(hurt_sound_path));
+    if(!dust_sound_path.is_empty()) dust_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(dust_sound_path));
+    if(!dust_path.is_empty()) dust = Object::cast_to<GPUParticles2D>(get_node_internal(dust_path));
+    if(!spare_path.is_empty()) spare = Object::cast_to<GPUParticles2D>(get_node_internal(spare_path));
+    if(!dialogue_path.is_empty()) dialogue = Object::cast_to<DialogueControl>(get_node_internal(dialogue_path));
+    if(!e_head_path.is_empty()) e_head = Object::cast_to<AnimatedSprite2D>(get_node_internal(e_head_path));
+    if(!e_body_path.is_empty()) e_body = Object::cast_to<AnimatedSprite2D>(get_node_internal(e_body_path));
+    if(!sprites_path.is_empty()) sprites = get_node_internal(sprites_path);
     
     main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
     attacks = main->attacks;
@@ -187,11 +191,6 @@ void Enemy::_ready() {
     box = main->box;
     soul = main->soul_battle;
     bg = main->bg;
-    
-    dialogue = Object::cast_to<DialogueControl>(get_node_internal(dialogue_path));
-    sprites = get_node_internal(sprites_path);
-    if(!e_head_path.is_empty()) e_head = Object::cast_to<AnimatedSprite2D>(get_node_internal(e_head_path));
-    if(!e_body_path.is_empty()) e_body = Object::cast_to<AnimatedSprite2D>(get_node_internal(e_body_path));
     
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
         call("ready");
