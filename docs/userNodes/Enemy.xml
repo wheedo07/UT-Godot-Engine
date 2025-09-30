@@ -54,6 +54,11 @@
         • spare_path: 자비 파티클 (GPUParticles2D)
         • sprites_path: 스프라이트 컨테이너 노드
         • dialogue_path: 대화 제어 노드 (DialogueControl)
+
+        [b]GPUParticles2D 노드[/b]
+        • res://Battle/Enemies/dust.tscn (사망 파티클):
+            - 사망 파티클은 추가로 쉐이더를 추가해야합니다 (res://Battle/Enemies/undertale_dust.tres)
+        • res://Battle/Enemies/spare.tscn (자비 파티클)
     </description>
     <tutorials></tutorials>
     
