@@ -1,28 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bl6var8fnjg77"]
-
-[ext_resource type="Shader" uid="uid://5h6o16kson3k" path="res://Battle/Enemies/undertale_dust.tres" id="1_jjuo6"]
-[ext_resource type="Texture2D" uid="uid://bbwyngu2np0cb" path="res://Game/assets/sprite/image/sans_dust.png" id="2_uw3rw"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ny8xc"]
-shader = ExtResource("1_jjuo6")
-shader_parameter/progress = 0.0
-shader_parameter/particle_lifetime_fraction = 0.5
-shader_parameter/connect_lines = false
-shader_parameter/direction = Vector3(0, -1, 0)
-shader_parameter/spread = 45.0
-shader_parameter/initial_linear_velocity = 40.0
-shader_parameter/linear_accel = 20.0
-shader_parameter/initial_linear_velocity_random = 0.4
-shader_parameter/linear_accel_random = 0.15
-shader_parameter/lifetime_randomness = 0.2
-shader_parameter/sprite = ExtResource("2_uw3rw")
+[gd_scene format=3 uid="uid://bl6var8fnjg77"]
 
 [node name="Dust" type="GPUParticles2D"]
-scale = Vector2(1.6, 1.6)
 emitting = false
 amount = 16000
 one_shot = true
 explosiveness = 1.0
 visibility_rect = Rect2(-6.06821, -19.7972, 119.866, 163.797)
 local_coords = true
-process_material = SubResource("ShaderMaterial_ny8xc")
