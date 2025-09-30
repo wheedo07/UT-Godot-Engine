@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bjg0655hy3vx0"]
+[gd_scene load_steps=10 format=3 uid="uid://bjg0655hy3vx0"]
 
 [ext_resource type="PackedScene" uid="uid://bp62m2pkjek8i" path="res://Game/encounters/body/sans.tscn" id="1_aij3i"]
-[ext_resource type="Shader" uid="uid://5h6o16kson3k" path="res://Battle/Enemies/undertale_dust.tres" id="2_2d17r"]
-[ext_resource type="Texture2D" uid="uid://bbwyngu2np0cb" path="res://Game/assets/sprite/image/sans_dust.png" id="3_jrkr4"]
-[ext_resource type="PackedScene" uid="uid://cvdyy2a8wldbo" path="res://Battle/Enemies/spare.tscn" id="4_l08ll"]
+[ext_resource type="PackedScene" uid="uid://bl6var8fnjg77" path="res://Battle/Enemies/dust.tscn" id="2_6tpl4"]
+[ext_resource type="PackedScene" uid="uid://cvdyy2a8wldbo" path="res://Battle/Enemies/spare.tscn" id="3_vhgwm"]
 [ext_resource type="PackedScene" uid="uid://d3j04wql8n25c" path="res://Battle/Misc/dialogue.tscn" id="5_7gmq6"]
 [ext_resource type="AudioStream" uid="uid://cltec82rumkic" path="res://sfx/impact_wallhit.wav" id="6_a0585"]
 [ext_resource type="AudioStream" uid="uid://ddcjquq3yok8y" path="res://sfx/snd_vaporized.wav" id="7_gctqu"]
@@ -64,20 +63,6 @@ func _on_throws(dir:Vector2, power:int=10):
 	soul.set_gravity_multiplier(power);
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ny8xc"]
-shader = ExtResource("2_2d17r")
-shader_parameter/progress = 0.0
-shader_parameter/particle_lifetime_fraction = 0.5
-shader_parameter/connect_lines = false
-shader_parameter/direction = Vector3(0, -1, 0)
-shader_parameter/spread = 45.0
-shader_parameter/initial_linear_velocity = 40.0
-shader_parameter/linear_accel = 20.0
-shader_parameter/initial_linear_velocity_random = 0.4
-shader_parameter/linear_accel_random = 0.15
-shader_parameter/lifetime_randomness = 0.2
-shader_parameter/sprite = ExtResource("3_jrkr4")
-
 [node name="Enemy" type="Enemy"]
 enemy_name = "sans"
 kr = true
@@ -93,6 +78,7 @@ enemy_states = [SubResource("EnemyState_udyrt")]
 hurt_sound_path = NodePath("Sounds/Hurt")
 dust_sound_path = NodePath("Sounds/Dust")
 dust_path = NodePath("Dust")
+spare_path = NodePath("Spare")
 e_head_path = NodePath("sans/Idle/body/head")
 e_body_path = NodePath("sans/Idle/body")
 sprites_path = NodePath("sans")
@@ -103,19 +89,11 @@ script = SubResource("GDScript_aij3i")
 position = Vector2(1, -70)
 scale = Vector2(1.6, 1.6)
 
-[node name="Dust" type="GPUParticles2D" parent="."]
+[node name="Dust" parent="." instance=ExtResource("2_6tpl4")]
 position = Vector2(-58, -147)
-scale = Vector2(1.6, 1.6)
-emitting = false
-amount = 16000
-one_shot = true
-explosiveness = 1.0
-visibility_rect = Rect2(-6.06821, -19.7972, 119.866, 163.797)
-local_coords = true
-process_material = SubResource("ShaderMaterial_ny8xc")
 
-[node name="Spare" parent="." instance=ExtResource("4_l08ll")]
-position = Vector2(3, -63)
+[node name="Spare" parent="." instance=ExtResource("3_vhgwm")]
+position = Vector2(1, -70)
 
 [node name="Dialogue" parent="." instance=ExtResource("5_7gmq6")]
 character = 1

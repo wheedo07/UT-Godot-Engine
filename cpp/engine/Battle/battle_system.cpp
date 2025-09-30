@@ -23,14 +23,13 @@ void BattleMain::_bind_methods() {
     ADD_SIGNAL(MethodInfo("end_turn"));
     ADD_SIGNAL(MethodInfo("item_used", PropertyInfo(Variant::INT, "id")));
     
-    ClassDB::bind_method(D_METHOD("end_encounter"), &BattleMain::end_encounter);
     ClassDB::bind_method(D_METHOD("enemy_size"), &BattleMain::enemy_size);
     ClassDB::bind_method(D_METHOD("toggle_transparent"), &BattleMain::toggle_transparent);
     ClassDB::bind_method(D_METHOD("kill_enemy", "enemy_id"), &BattleMain::kill_enemy, DEFVAL(0));
     ClassDB::bind_method(D_METHOD("spare_enemy", "enemy_id"), &BattleMain::spare_enemy, DEFVAL(0));
     ClassDB::bind_method(D_METHOD("check_end_encounter"), &BattleMain::check_end_encounter);
     ClassDB::bind_method(D_METHOD("check_enemy_solo"), &BattleMain::check_enemy_solo);
-    
+   
     ClassDB::bind_method(D_METHOD("_no_enemies_handler"), &BattleMain::_no_enemies_handler);
     ClassDB::bind_method(D_METHOD("_on_get_turn"), &BattleMain::_on_get_turn);
     ClassDB::bind_method(D_METHOD("_on_end_turn"), &BattleMain::_on_end_turn);
@@ -44,6 +43,7 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_mercy", "choice"), &BattleMain::_mercy);
     ClassDB::bind_method(D_METHOD("_item", "item_id"), &BattleMain::_item);
     ClassDB::bind_method(D_METHOD("_on_slash_finished", "damage", "target", "crit"), &BattleMain::_on_slash_finished);
+    ClassDB::bind_method(D_METHOD("_on_spare_finished", "enemy"), &BattleMain::_on_spare_finished);
     ClassDB::bind_method(D_METHOD("_on_damage_info_completed", "target"), &BattleMain::_on_damage_info_completed);
     ClassDB::bind_method(D_METHOD("_on_fight_used_completed", "target"), &BattleMain::_on_fight_used_completed);
     ClassDB::bind_method(D_METHOD("_on_blitter_finished_all_texts"), &BattleMain::_on_blitter_finished_all_texts);
@@ -443,7 +443,6 @@ void BattleMain::kill_enemy(int enemy_id) {
         enemy->on_defeat(true);
         enemies[enemy_id] = nullptr;
         enemy_names[enemy_id] = Variant();
-        disconnect("end_turn", Callable(enemy, "_on_get_turn"));
 
         Ref<SceneTreeTimer> timer = get_tree()->create_timer(1.8);
         timer->connect("timeout", Callable(enemy, "queue_free"), CONNECT_ONE_SHOT);
@@ -499,34 +498,35 @@ void BattleMain::spare_enemy(int enemy_id) {
     if (enemy_id < 0 || enemy_id >= enemies.size()) return;
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[enemy_id]);
-    if (enemy) {
-        Dictionary enemy_rewards = enemy->get_rewards();
-        int exp_reward = enemy_rewards.get("exp", 0);
-        rewards["exp"] = int(rewards["exp"]) - exp_reward;
-        
-        enemy->on_defeat(false);
-        Ref<Tween> tween = create_tween()->set_parallel();
-        tween->tween_property(enemy, "modulate:a", 0, 1);
-        Vector2 current_pos = enemy->get_position();
-        tween->tween_property(enemy, "position", Vector2(current_pos.x, current_pos.y - 20), 1.0);
-        tween->chain()->tween_callback(Callable(enemy, "queue_free"));
-        disconnect("end_turn", Callable(enemy, "_on_get_turn"));
+    if(!enemy) return;
+    GPUParticles2D* spare = enemy->get_spare();
 
-        enemies[enemy_id] = nullptr;
-        enemy_names[enemy_id] = Variant();
-        
-        if(box) box->set_enemies(enemies);
-        
-        if(check_end_encounter()) {
-            Ref<SceneTreeTimer> timer = get_tree()->create_timer(1.2);
-            timer->connect("timeout", Callable(this, "end_encounter"), CONNECT_ONE_SHOT);
-        } else {
-            bool solo = check_enemy_solo();
-            for (int i = 0; i < enemies.size(); i++) {
-                Enemy* e = Object::cast_to<Enemy>(enemies[i]);
-                if (e) {
-                    e->set_solo(solo);
-                }
+    Dictionary enemy_rewards = enemy->get_rewards();
+    int exp_reward = enemy_rewards.get("exp", 0);
+    rewards["exp"] = int(rewards["exp"]) - exp_reward;
+    
+    enemy->on_defeat(false);
+    Ref<Tween> tween = create_tween()->set_parallel();
+    tween->tween_property(enemy, "modulate:a", 0, 1);
+    tween->tween_callback(Callable(spare, "set_emitting").bind(true));
+    tween->chain()->tween_callback(Callable(enemy, "queue_free"));
+    
+    enemies[enemy_id] = nullptr;
+    enemy_names[enemy_id] = Variant();
+    
+    if(box) box->set_enemies(enemies);
+    spare->connect("finished", Callable(this, "_on_spare_finished").bind(enemy), CONNECT_ONE_SHOT);
+}
+
+void BattleMain::_on_spare_finished(Enemy* enemy) {
+    if(check_end_encounter()) {
+        end_encounter();
+    }else {
+        bool solo = check_enemy_solo();
+        for(int i=0; i < enemies.size(); i++) {
+            Enemy* e = Object::cast_to<Enemy>(enemies[i]);
+            if (e) {
+                e->set_solo(solo);
             }
         }
     }

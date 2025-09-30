@@ -39,6 +39,7 @@ namespace godot {
             AudioStreamPlayer* hurt_sound;
             AudioStreamPlayer* dust_sound;
             GPUParticles2D* dust;
+            GPUParticles2D* spare;
             Node* non_mask;
             Node* sprites;
             AnimatedSprite2D* e_head;
@@ -66,6 +67,7 @@ namespace godot {
             NodePath e_head_path;
             NodePath sprites_path;
             NodePath dust_path;
+            NodePath spare_path;
             NodePath dialogue_path;
 
             Ref<ActInfo> _info;
@@ -77,7 +79,10 @@ namespace godot {
             
             void set_dust_path(const NodePath& p_path);
             NodePath get_dust_path() const;
-            
+
+            void set_spare_path(const NodePath& p_path);
+            NodePath get_spare_path() const;
+
             void set_e_head_path(const NodePath& p_path);
             NodePath get_e_head_path() const;
             
@@ -130,6 +135,7 @@ namespace godot {
             GDVIRTUAL1(on_defeat, bool);
 
             // 사용 함수
+            Node* get_sprites() const;
             void modify_stats(Dictionary value);
             void change_state(int new_state);
             void play_dialogue(int index, float duration=0, bool skip=true);
@@ -167,7 +173,7 @@ namespace godot {
             Array get_enemy_states() const;
             void set_current_state(int p_current_state);
             int get_current_state() const;
-            Node* get_sprites() const;
+            GPUParticles2D* get_spare() const;
     };
 }
 

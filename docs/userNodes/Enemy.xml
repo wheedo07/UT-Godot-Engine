@@ -47,8 +47,13 @@
             emit_signal("on_fight_end")
         [/codeblock]
 
-        [b]주의사항[/b]
-        res://Battle/Enemies/spare.tscn 파일을 반드시 씬의 포함해야 공격이 정상 작동합니다
+        [b]필수 노드 경로 설정[/b]
+        • hurt_sound_path: 피격 사운드 (AudioStreamPlayer)
+        • dust_sound_path: 사망 사운드 (AudioStreamPlayer)
+        • dust_path: 사망 파티클 (GPUParticles2D)
+        • spare_path: 자비 파티클 (GPUParticles2D)
+        • sprites_path: 스프라이트 컨테이너 노드
+        • dialogue_path: 대화 제어 노드 (DialogueControl)
     </description>
     <tutorials></tutorials>
     
@@ -254,32 +259,38 @@
         </member>
         
         <member name="hurt_sound_path" type="NodePath" setter="set_hurt_sound_path" getter="get_hurt_sound_path" default="NodePath(&quot;&quot;)">
-            피격 사운드를 재생할 [AudioStreamPlayer] 노드의 경로입니다. [color=red](필수)[/color]
+            피격 사운드를 재생할 [AudioStreamPlayer] 노드의 경로입니다.
+            회피시 재생되지 않습니다.
         </member>
         
         <member name="dust_sound_path" type="NodePath" setter="set_dust_sound_path" getter="get_dust_sound_path" default="NodePath(&quot;&quot;)">
-            사망 사운드를 재생할 [AudioStreamPlayer] 노드의 경로입니다. [color=red](필수)[/color]
+            사망 사운드를 재생할 [AudioStreamPlayer] 노드의 경로입니다.
+            기본적으로 먼지 날리는 효과음을 넣습니다.
         </member>
         
         <member name="dust_path" type="NodePath" setter="set_dust_path" getter="get_dust_path" default="NodePath(&quot;&quot;)">
             사망 파티클을 표시할 [GPUParticles2D] 노드의 경로입니다. [color=red](필수)[/color]
         </member>
+
+        <member name="spare_path" type="NodePath" setter="set_spare_path" getter="get_spare_path" default="NodePath(&quot;&quot;)">
+            자비 파티클을 표시할 [GPUParticles2D] 노드의 경로입니다. [color=red](필수)[/color]
+        </member>
         
         <member name="e_head_path" type="NodePath" setter="set_e_head_path" getter="get_e_head_path" default="NodePath(&quot;&quot;)">
-            머리 애니메이션을 제어할 [AnimatedSprite2D] 노드의 경로입니다. [color=red](필수)[/color]
+            머리 애니메이션을 제어할 [AnimatedSprite2D] 노드의 경로입니다.
             대화 중 표정 변경에 사용됩니다.
         </member>
         
         <member name="e_body_path" type="NodePath" setter="set_e_body_path" getter="get_e_body_path" default="NodePath(&quot;&quot;)">
             몸 애니메이션을 제어할 [AnimatedSprite2D] 노드의 경로입니다.
-            대화 중 몸짓 변경에 사용됩니다. [color=red](필수)[/color]
+            대화 중 몸짓 변경에 사용됩니다.
         </member>
         
         <member name="sprites_path" type="NodePath" setter="set_sprites_path" getter="get_sprites_path" default="NodePath(&quot;&quot;)">
             스프라이트 컨테이너 노드의 경로입니다.
             애니메이션 및 이동 효과에 사용됩니다. [color=red](필수)[/color]
         </member>
-        
+
         <member name="dialogue_path" type="NodePath" setter="set_dialogue_path" getter="get_dialogue_path" default="NodePath(&quot;&quot;)">
             대화를 제어할 [DialogueControl] 노드의 경로입니다. [color=red](필수)[/color]
         </member>

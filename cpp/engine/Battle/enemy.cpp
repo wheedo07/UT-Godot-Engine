@@ -32,6 +32,10 @@ Enemy::Enemy() {
     e_body = nullptr;
     hurt_sound = nullptr;
     sprites = nullptr;
+    dust = nullptr;
+    spare = nullptr;
+    dust_sound = nullptr;
+    dialogue = nullptr;
 }
 
 Enemy::~Enemy() {}
@@ -123,11 +127,14 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_sprites_path"), &Enemy::get_sprites_path);
     ClassDB::bind_method(D_METHOD("set_dialogue_path", "p_path"), &Enemy::set_dialogue_path);
     ClassDB::bind_method(D_METHOD("get_dialogue_path"), &Enemy::get_dialogue_path);
+    ClassDB::bind_method(D_METHOD("set_spare_path", "p_path"), &Enemy::set_spare_path);
+    ClassDB::bind_method(D_METHOD("get_spare_path"), &Enemy::get_spare_path);
     
     ADD_GROUP("NodePath", "");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "hurt_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_hurt_sound_path", "get_hurt_sound_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_dust_sound_path", "get_dust_sound_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_dust_path", "get_dust_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "spare_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_spare_path", "get_spare_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "e_head_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AnimatedSprite2D"), "set_e_head_path", "get_e_head_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "e_body_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AnimatedSprite2D"), "set_e_body_path", "get_e_body_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "sprites_path"), "set_sprites_path", "get_sprites_path");
@@ -171,6 +178,7 @@ void Enemy::_ready() {
     hurt_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(hurt_sound_path));
     dust_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(dust_sound_path));
     dust = Object::cast_to<GPUParticles2D>(get_node_internal(dust_path));
+    spare = Object::cast_to<GPUParticles2D>(get_node_internal(spare_path));
     
     main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
     attacks = main->attacks;
@@ -233,7 +241,10 @@ void Enemy::change_state(int new_state) {
 }
 
 void Enemy::play_dialogue(int index, float duration, bool skip) {
-    if(!is_node_ready() || !dialogue) return;
+    if(!dialogue) {
+        ERR_PRINT("Enemy 노드에 필요한 dialogue 노드가 없습니다");
+        return;
+    }
     global->_set_battle_text_box(true);
     
     int head_frame = -1;
@@ -301,7 +312,10 @@ void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float du
 }
 
 void Enemy::_dodge(int dodge_sign) {
-    if (!sprites) return;
+    if(!sprites) {
+        ERR_PRINT("Enemy 노드에 필요한 sprites 노드가 없습니다");
+        return;
+    }
     
     Ref<Tween> tw = create_tween()->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_QUAD);
     tw->tween_property(sprites, "position:x", dodge_sign * 120.0f, 0.4)->as_relative();
@@ -309,7 +323,10 @@ void Enemy::_dodge(int dodge_sign) {
 }
 
 void Enemy::_hurt(int amount) {
-    if (!sprites) return;
+    if(!sprites) {
+        ERR_PRINT("Enemy 노드에 필요한 sprites 노드가 없습니다");
+        return;
+    }
 
     Vector2 vec = sprites->call("get_position");
     
@@ -368,10 +385,11 @@ PackedStringArray Enemy::on_win() {
 }
 
 void Enemy::on_death() {
-    if (!sprites || !dust || !dust_sound) {
+    if (!sprites || !dust) {
+        ERR_PRINT("Enemy 노드에 필요한 sprites, dust 노드가 없습니다");
         return;
     }
-    
+
     Ref<Tween> tween = get_tree()->create_tween();
     tween->set_parallel(true);
     
@@ -382,7 +400,7 @@ void Enemy::on_death() {
     
     dust->restart();
     dust->set_emitting(true);
-    dust_sound->play();
+    if(dust_sound) dust_sound->play();
 }
 
 void Enemy::on_defeat(bool death) {}
@@ -559,6 +577,14 @@ NodePath Enemy::get_dialogue_path() const {
     return dialogue_path;
 }
 
+void Enemy::set_spare_path(const NodePath& p_path) {
+    spare_path = p_path;
+}
+
+NodePath Enemy::get_spare_path() const {
+    return spare_path;
+}
+
 void Enemy::set_property(Object* value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");
 }
@@ -589,4 +615,8 @@ CameraController* Enemy::get_camera() {
 
 TextureRect* Enemy::get_bg() {
     return bg;
+}
+
+GPUParticles2D* Enemy::get_spare() const {
+    return spare;
 }
