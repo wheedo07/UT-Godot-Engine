@@ -622,7 +622,7 @@ void Global::load_game() {
         backup["items"] = items.duplicate(true);
         backup["boxitems"] = boxitems.duplicate(true);
         backup["unlockedboxes"] = unlockedboxes;
-        backup["cells"] = cells.duplicate(true);
+        backup["cells"] = cells.duplicate();
         
         refresh_audio_busses();
     }

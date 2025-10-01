@@ -403,8 +403,9 @@ offset_top = 25.0
 offset_right = 339.0
 offset_bottom = 284.0
 theme = ExtResource("3_k0cus")
+theme_override_font_sizes/normal_font_size = 28
 bbcode_enabled = true
-text = "Toriel's Phone"
+text = "토리엘 전화"
 scroll_active = false
 
 [node name="Soul" parent="Control/StatAndOptions" instance=ExtResource("7_j83rc")]

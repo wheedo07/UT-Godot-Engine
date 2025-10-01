@@ -47,14 +47,20 @@
     <tutorials></tutorials>
 
     <methods>
-        <method name="add_bullet">
-            <return type="Bullet" />
-            <param index="0" name="bullet_scene" type="PackedScene" />
+        <method name="ready" qualifiers="virtual">
+            <return type="void" />
             <description>
-                오버월드에 탄환을 추가합니다.
-                탄환 씬을 인스턴스화하여 자식으로 추가하고, remove_bullets 시그널에 연결합니다.
-                탄환 씬의 루트 노드는 Bullet 클래스여야 하며 fade() 메서드를 가져야 합니다.
-                오버월드 전투 모드에서 사용됩니다.
+                사용자 정의 초기화 훅입니다.
+                C++나 GDScript에서 오버라이드하여 오버월드별 초기화 로직을 구현할 수 있습니다.
+                엔진의 _ready() 함수 내에서 자동으로 호출됩니다.
+            </description>
+        </method>
+        <method name="start_cellphone" qualifiers="virtual">
+            <return type="void" />
+            <param index="0" name="id" type="int" />
+            <description>
+                UI에서 전화를 시작했을때 호출됩니다.
+                id 매개변수는 전화의 인덱스를 나타냅니다. summontextbox()로 텍스트박스를 띄우는 등의 작업을 할 수 있습니다.
             </description>
         </method>
         <method name="player_died" qualifiers="virtual">
@@ -62,14 +68,6 @@
             <description>
                 플레이어가 사망했을 때 표시할 메시지를 반환합니다.
                 기본적으로 기본 사망 메시지를 반환하며, 상속받아 커스터마이징할 수 있습니다.
-            </description>
-        </method>
-        <method name="ready" qualifiers="virtual">
-            <return type="void" />
-            <description>
-                사용자 정의 초기화 훅입니다.
-                C++나 GDScript에서 오버라이드하여 오버월드별 초기화 로직을 구현할 수 있습니다.
-                엔진의 _ready() 함수 내에서 자동으로 호출됩니다.
             </description>
         </method>
         <method name="start_music_fade_in">
@@ -94,6 +92,16 @@
                 오버월드 전투 모드를 토글합니다.
                 전투 모드가 비활성화되어 있으면 활성화하고,
                 활성화되어 있으면 비활성화하며 모든 탄환을 제거합니다.
+            </description>
+        </method>
+        <method name="add_bullet">
+            <return type="Bullet" />
+            <param index="0" name="bullet_scene" type="PackedScene" />
+            <description>
+                오버월드에 탄환을 추가합니다.
+                탄환 씬을 인스턴스화하여 자식으로 추가하고, remove_bullets 시그널에 연결합니다.
+                탄환 씬의 루트 노드는 Bullet 클래스여야 하며 fade() 메서드를 가져야 합니다.
+                오버월드 전투 모드에서 사용됩니다.
             </description>
         </method>
     </methods>

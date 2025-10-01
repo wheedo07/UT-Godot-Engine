@@ -19,6 +19,7 @@ Overworld::~Overworld() {}
 void Overworld::_bind_methods() {
     // 스크립트 메소드
     GDVIRTUAL_BIND(ready);
+    GDVIRTUAL_BIND(start_cellphone, "id");
     GDVIRTUAL_BIND(player_died);
     ClassDB::bind_method(D_METHOD("summontextbox"), &Overworld::summontextbox);
     ClassDB::bind_method(D_METHOD("add_bullet", "bullet_scene"), &Overworld::add_bullet);
@@ -95,6 +96,7 @@ void Overworld::_ready() {
 }
 
 void Overworld::ready() {}
+void Overworld::start_cellphone(int id) {}
 PackedStringArray Overworld::player_died() {
     return { tr("UT_DEFAULT_DIDE") };
 }

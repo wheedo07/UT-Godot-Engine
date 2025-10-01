@@ -31,7 +31,7 @@ UI::UI() {
     enabled_options.resize(3);
     enabled_options[0] = true;
     enabled_options[1] = true;
-    enabled_options[2] = false;
+    enabled_options[2] = true;
     
     options_dict = Dictionary();
     options_dict[0] = tr("UT_UI_ITEM");
@@ -69,6 +69,7 @@ void UI::_bind_methods() {
     ClassDB::bind_method(D_METHOD("soul_move", "action"), &UI::soul_move); 
     ClassDB::bind_method(D_METHOD("_on_animation_finished"), &UI::_on_animation_finished);
     ClassDB::bind_method(D_METHOD("_on_item_dialogue_finished"), &UI::_on_item_dialogue_finished);
+    ClassDB::bind_method(D_METHOD("_on_cell", "ow"), &UI::_on_cell);
     
     ClassDB::bind_method(D_METHOD("set_items_seperation", "seperation"), &UI::set_items_seperation);
     ClassDB::bind_method(D_METHOD("get_items_seperation"), &UI::get_items_seperation);
@@ -270,7 +271,17 @@ void UI::_set_items() {
     Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Items/Items"))->set_text(txt);
 }
 
-void UI::_set_cells() {}
+void UI::_set_cells() {
+    String txt;
+    
+    for (int i = 0; i < global->get_cells().size(); i++) {
+        txt += vformat("%s\n", global->get_cells()[i]);
+    }
+    
+    optionsize[CELL] = Vector2(1, global->get_cells().size());
+    
+    Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Cells/Numbers"))->set_text(txt);
+}
 
 void UI::_close_menu() {
     items->shrink();
@@ -335,7 +346,13 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                 break;
             }
             case CELL: {
-                _in_state(CELL);
+                _close_menu();
+                Overworld* ow = Object::cast_to<Overworld>(global->get_scene_container()->get_current_scene());
+                if(!ow) {
+                    ERR_PRINT("오버월드 씬이 아닙니다.");
+                    break;
+                }
+                call_deferred("_on_cell", ow);
                 break;
             }
             case ITEM_ACTION: {
@@ -512,6 +529,14 @@ void UI::_on_item_dialogue_finished() {
     _write_options();
     _in_state(OPTIONS);
     soul->show();
+}
+
+void UI::_on_cell(Overworld* ow) {
+    if(ow->has_method("start_cellphone")) { // C++ 이랑 GDscript 모두 호환되도록
+        ow->call("start_cellphone", int(soulposition.y));
+    }else {
+        ow->start_cellphone(int(soulposition.y));
+    }
 }
 
 void UI::set_enabled_options(const Array& options) {

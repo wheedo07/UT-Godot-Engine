@@ -115,7 +115,7 @@ void Global::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "savepath"), "set_savepath", "get_savepath");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "boxesinmenu"), "set_boxesinmenu", "get_boxesinmenu");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "equipment"), "set_equipment", "get_equipment");
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "cells"), "set_cells", "get_cells");
+    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "cells"), "set_cells", "get_cells");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "items", PROPERTY_HINT_ARRAY_TYPE, String::num(Variant::INT) + ":"), "set_items", "get_items");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "boxitems"), "set_boxitems", "get_boxitems");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "settings"), "set_settings", "get_settings");
@@ -197,11 +197,11 @@ Dictionary Global::get_equipment() const {
     return equipment;
 }
 
-void Global::set_cells(const Array& value) {
+void Global::set_cells(const PackedStringArray& value) {
     cells = value;
 }
 
-Array Global::get_cells() const {
+PackedStringArray Global::get_cells() const {
     return cells;
 }
 

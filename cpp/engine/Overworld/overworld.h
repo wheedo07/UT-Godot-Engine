@@ -52,8 +52,10 @@ namespace godot {
             void _ready() override;
         
             virtual void ready();
+            virtual void start_cellphone(int id);
             virtual PackedStringArray player_died();
             GDVIRTUAL0(ready);
+            GDVIRTUAL1(start_cellphone, int);
             GDVIRTUAL0R(PackedStringArray, player_died);
 
             void _room_init(const Dictionary& data);

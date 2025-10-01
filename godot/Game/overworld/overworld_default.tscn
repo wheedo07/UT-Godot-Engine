@@ -16,7 +16,13 @@ script/source = "extends Overworld
 
 func ready() -> void:
 	print(\"ready 실행\");
-
+	
+func start_cellphone(id: int) -> void:
+	if(id == 0):
+		summontextbox().character(false, Character.SANS, Dialogues.new().from([
+			\"* 전화 받았습니다\", \"* WA sans\"
+		]).set_expressions([0, 1]));
+		
 func _on_batle():
 	var textbox = summontextbox();
 	textbox.generic(Dialogues.new().from([

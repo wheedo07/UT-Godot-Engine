@@ -12,6 +12,8 @@
 #include "textBox/text_box.h"
 #include "ui_box.h"
 namespace godot {
+    class Overworld;
+
     class UI : public CanvasLayer {
         GDCLASS(UI, CanvasLayer)
         
@@ -51,6 +53,7 @@ namespace godot {
 
             void _on_animation_finished();
             void _on_item_dialogue_finished();
+            void _on_cell(Overworld* ow);
 
         public:
             UI();

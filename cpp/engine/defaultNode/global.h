@@ -40,7 +40,7 @@ namespace godot {
 	        bool boxesinmenu;
 	        int unlockedboxes;
 	        Dictionary equipment;
-	        Array cells;
+	        PackedStringArray cells;
 	        Array items;
 	        Array boxitems;
 	        Dictionary settings;
@@ -157,8 +157,8 @@ namespace godot {
     		void set_equipment(const Dictionary& value);
     		Dictionary get_equipment() const;
 
-    		void set_cells(const Array& value);
-    		Array get_cells() const;
+    		void set_cells(const PackedStringArray& value);
+    		PackedStringArray get_cells() const;
 
     		void set_items(const Array& value);
     		Array get_items() const;

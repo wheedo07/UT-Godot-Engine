@@ -392,8 +392,8 @@ void PlayerOverworld::_on_hurt(int damage, bool heal) {
     num_label->set_global_position(get_global_position() - (num_label->get_size() / 2));
     num_label->set_position(num_label->get_position() + random_offset);
     if(heal) {
-        num_label->set_text("[color=green]" + String::num(damage).replace(".0", ""));
-    }else num_label->set_text(String::num(damage).replace(".0", ""));
+        num_label->set_text("[color=green]" + String::num_int64(damage));
+    }else num_label->set_text(String::num_int64(damage));
 
     Ref<Tween> tween = create_tween()->set_parallel();
     tween->tween_property(num_label, "position:y", num_label->get_position().y - 24, 0.25)->set_ease(Tween::EASE_OUT);
