@@ -19,10 +19,6 @@
         • 탄환 시스템 관리
         • 세이브/로드 시 플레이어 위치 저장/복원
         
-        [b]가상 메서드:[/b]
-        • ready(): 사용자 정의 초기화 훅 (C++/GDScript에서 오버라이드 가능)
-        • player_died(): 플레이어 사망 시 표시할 메시지 정의
-        
         [b]필수 설정:[/b]
         • player_path와 camera_path는 반드시 설정해야 합니다
         • PlayerOverworld와 CameraController 노드가 존재해야 합니다
