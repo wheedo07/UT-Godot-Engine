@@ -500,6 +500,10 @@ void BattleMain::spare_enemy(int enemy_id) {
     Enemy* enemy = Object::cast_to<Enemy>(enemies[enemy_id]);
     if(!enemy) return;
     GPUParticles2D* spare = enemy->get_spare();
+    if(!spare) {
+        ERR_PRINT("Enemy 노드에 필요한 spare 노드가 없습니다");
+        return;
+    }
 
     Dictionary enemy_rewards = enemy->get_rewards();
     int exp_reward = enemy_rewards.get("exp", 0);
