@@ -71,7 +71,6 @@ void UI::_bind_methods() {
     ClassDB::bind_method(D_METHOD("soul_move", "action"), &UI::soul_move); 
     ClassDB::bind_method(D_METHOD("_on_animation_finished"), &UI::_on_animation_finished);
     ClassDB::bind_method(D_METHOD("_on_item_dialogue_finished"), &UI::_on_item_dialogue_finished);
-    ClassDB::bind_method(D_METHOD("_on_cell", "ow"), &UI::_on_cell);
     
     ClassDB::bind_method(D_METHOD("set_items_seperation", "seperation"), &UI::set_items_seperation);
     ClassDB::bind_method(D_METHOD("get_items_seperation"), &UI::get_items_seperation);
@@ -345,11 +344,13 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
             case CELL: {
                 _close_menu();
                 Overworld* ow = Object::cast_to<Overworld>(global->get_scene_container()->get_current_scene());
-                if(!ow) {
-                    ERR_PRINT("오버월드 씬이 아닙니다.");
-                    break;
-                }
-                call_deferred("_on_cell", ow);
+                if(ow) {
+                    if(ow->has_method("start_cellphone")) { // C++ 이랑 GDscript 모두 호환되도록
+                        ow->call("start_cellphone", int(soulposition.y));
+                    }else {
+                        ow->start_cellphone(int(soulposition.y));
+                    }
+                }else ERR_PRINT("현재 씬이 Overworld 씬이 아닙니다!");
                 break;
             }
             case ITEM_ACTION: {
@@ -526,14 +527,6 @@ void UI::_on_item_dialogue_finished() {
     _write_options();
     _in_state(OPTIONS);
     soul->show();
-}
-
-void UI::_on_cell(Overworld* ow) {
-    if(ow->has_method("start_cellphone")) { // C++ 이랑 GDscript 모두 호환되도록
-        ow->call("start_cellphone", int(soulposition.y));
-    }else {
-        ow->start_cellphone(int(soulposition.y));
-    }
 }
 
 void UI::set_enabled_options(const Array& options) {

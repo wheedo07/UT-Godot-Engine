@@ -53,7 +53,6 @@ namespace godot {
 
             void _on_animation_finished();
             void _on_item_dialogue_finished();
-            void _on_cell(Overworld* ow);
 
         public:
             UI();

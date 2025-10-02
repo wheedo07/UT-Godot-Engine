@@ -32,7 +32,7 @@ namespace godot {
         private:
             AnimationState current_anim_state;
             int frame_alert;
-            bool wolrd_encounter;
+            bool wolrd_encounter, is_interact;
             Ref<ShaderMaterial> sprite_material;
             Ref<Tween> hpbar_tween;
             
@@ -89,6 +89,9 @@ namespace godot {
             void set_frame(int index);
             void play_anim(String key, float speed=1, bool back=false);
             void force_direction(const Vector2& dir);
+            void off_interact();
+            void on_interact();
+            bool is_interacting();
             bool is_overworld_encounter();
 
             void on_overwolrd_encounter();

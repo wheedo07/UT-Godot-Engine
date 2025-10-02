@@ -20,6 +20,7 @@ PlayerOverworld::PlayerOverworld() {
     waiting_for_hide_timer = false;
     moving = false;
     wolrd_encounter = false;
+    is_interact = false;
 
     interact_posx[1] = Vector2(5, -5);
     interact_posx[-1] = Vector2(-5, -5);
@@ -41,6 +42,9 @@ void PlayerOverworld::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_frame", "index"), &PlayerOverworld::set_frame);
     ClassDB::bind_method(D_METHOD("play_anim", "key", "speed", "back"), &PlayerOverworld::play_anim, DEFVAL(1), DEFVAL(false));
     ClassDB::bind_method(D_METHOD("force_direction", "dir"), &PlayerOverworld::force_direction);
+    ClassDB::bind_method(D_METHOD("off_interact"), &PlayerOverworld::off_interact);
+    ClassDB::bind_method(D_METHOD("on_interact"), &PlayerOverworld::on_interact);
+    ClassDB::bind_method(D_METHOD("is_interacting"), &PlayerOverworld::is_interacting);
     ClassDB::bind_method(D_METHOD("is_overworld_encounter"), &PlayerOverworld::is_overworld_encounter);
 
     ClassDB::bind_method(D_METHOD("_on_hurt", "damage", "heal"), &PlayerOverworld::_on_hurt, DEFVAL(false));
@@ -286,6 +290,18 @@ void PlayerOverworld::play_anim(String key, float speed, bool back) {
     sprite->play(key, speed, back);
 }
 
+void PlayerOverworld::on_interact() {
+    is_interact = true;
+}
+
+void PlayerOverworld::off_interact() {
+    is_interact = false;
+}
+
+bool PlayerOverworld::is_interacting() {
+    return is_interact;
+}
+
 void PlayerOverworld::_unhandled_input(const Ref<InputEvent>& event) {
     if(isEditor) return;
     
@@ -295,16 +311,14 @@ void PlayerOverworld::_unhandled_input(const Ref<InputEvent>& event) {
             _step();
         }
         
-        if (event->is_action_pressed("ui_accept")) {
+        if(event->is_action_pressed("ui_accept") && !is_interact) {
             get_viewport()->set_input_as_handled();
             
-            for (int i = 0; i < interactables.size(); i++) {
+            for(int i=0; i < interactables.size(); i++) {
                 interactables[i].call("emit_signal", "interacted");
             }
-        }
-        
-        if (event->is_action_pressed("ui_menu") && !global->get_player_text_box() && !global->get_player_in_menu()) {
-            if (!player_menu.is_null()) {
+        }else if(event->is_action_pressed("ui_menu") && !global->get_player_text_box() && !global->get_player_in_menu()) {
+            if(!player_menu.is_null()) {
                 UI* menu = Object::cast_to<UI>(player_menu->instantiate());
                 bool is = global->get_flag("isGenocide");
                 add_child(menu);
@@ -371,14 +385,14 @@ void PlayerOverworld::on_overwolrd_encounter() {
     wolrd_encounter = true;
     sprite->set_use_parent_material(false);
     soul->start();
-    get_node_internal("Interacter/Collision")->set_deferred("disabled", true);
+    on_interact();
 }
 
 void PlayerOverworld::off_overwolrd_encounter() {
     wolrd_encounter = false;
     sprite->set_use_parent_material(true);
     soul->stop();
-    get_node_internal("Interacter/Collision")->set_deferred("disabled", false);
+    off_interact();
 }
 
 void PlayerOverworld::_on_hurt(int damage, bool heal) {
