@@ -12,7 +12,6 @@ UI_Box::~UI_Box() {}
 void UI_Box::_bind_methods() {
     ClassDB::bind_method(D_METHOD("grow"), &UI_Box::grow);
     ClassDB::bind_method(D_METHOD("shrink"), &UI_Box::shrink);
-    ClassDB::bind_method(D_METHOD("hide_box"), &UI_Box::hide_box);
 }
 
 void UI_Box::_ready() {
@@ -64,9 +63,5 @@ void UI_Box::shrink() {
     
     tw->tween_property(this, "modulate", target_modulate, 0.5);
     
-    tw->chain()->tween_callback(Callable(this, "hide_box"));
-}
-
-void UI_Box::hide_box() {
-    set_visible(false);
+    tw->chain()->tween_callback(Callable(this, "hide"));
 }

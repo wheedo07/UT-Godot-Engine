@@ -27,7 +27,6 @@ namespace godot {
 
             void grow();
             void shrink();
-            void hide_box();
     };  
 }
 
