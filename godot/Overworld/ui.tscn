@@ -41,8 +41,6 @@ color = Color(1, 1, 1, 0.470588)
 alpha_curve = SubResource("CurveTexture_0v48g")
 
 [node name="UI" type="UI"]
-items_seperation = Vector2(0, 29)
-option_seperation = Vector2(0, 40)
 
 [node name="Control" type="CanvasGroup" parent="."]
 
@@ -409,7 +407,7 @@ text = "토리엘 전화"
 scroll_active = false
 
 [node name="Soul" parent="Control/StatAndOptions" instance=ExtResource("7_j83rc")]
-position = Vector2(36, 157)
+position = Vector2(36, 155)
 
 [node name="Ghost" type="GPUParticles2D" parent="Control/StatAndOptions/Soul"]
 emitting = false

@@ -43,12 +43,14 @@ using namespace godot;
 #include "Overworld/save_menu.h"
 #include "Overworld/ui_box.h"
 #include "Overworld/ui.h"
+#include "Overworld/ui_dimensional_box.h"
 #include "Overworld/soul_overwolrd.h"
 
 // Interactions
 #include "Overworld/Interactions/interaction_trigger.h"
 #include "Overworld/Interactions/overworld_area_trigger.h"
 #include "Overworld/Interactions/save_point.h"
+#include "Overworld/Interactions/dimensional_box.h"
 #include "Overworld/Interactions/item_interaction.h"
 
 // textBox

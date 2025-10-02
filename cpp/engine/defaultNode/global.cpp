@@ -44,8 +44,6 @@ Global::Global() {
     battle_text_box = false;
     
     // 인벤토리 관련
-    boxesinmenu = false;
-    unlockedboxes = 0;
     equipment["weapon"] = 0;
     equipment["armor"] = 1;
     cells = Array();
@@ -362,9 +360,7 @@ void Global::save_game(bool is_sys) {
     inv["equipment"] = equipment;
     inv["items"] = items;
     inv["cells"] = cells;
-    inv["unlockedboxes"] = unlockedboxes;
     inv["boxinv"] = boxitems;
-    inv["boxinmenu"] = boxesinmenu;
     
     Dictionary savedata;
     flags.merge(flags_tmp, true);
@@ -447,8 +443,6 @@ void Global::resetgame() {
     items = backup["items"];
 
     boxitems = backup["boxitems"];
-    unlockedboxes = backup["unlockedboxes"];
-    boxesinmenu = backup["boxesinmenu"];
     cells = backup["cells"];
 
     battle_start = false;
@@ -621,7 +615,6 @@ void Global::load_game() {
         
         backup["items"] = items.duplicate(true);
         backup["boxitems"] = boxitems.duplicate(true);
-        backup["unlockedboxes"] = unlockedboxes;
         backup["cells"] = cells.duplicate();
         
         refresh_audio_busses();
@@ -687,9 +680,7 @@ void Global::load_game() {
     items = inv.get("items", Array());
 
     // DIM BOXES
-    boxesinmenu = inv.get("boxinmenu", false);
     boxitems = inv.get("boxinv", Array::make(Array(), Array(), Array()));
-    unlockedboxes = inv.get("unlockedboxes", 0);
 
     // CELLS
     cells = inv.get("cells", Array());
@@ -705,7 +696,7 @@ void Global::load_game() {
     player_exp = stats.get("exp", player_exp);
     player_gold = stats.get("gold", player_gold);
     player_kills = stats.get("kills", player_kills);
-    playtime = savedata.get("playtime", 0.0);
+    playtime = savedata.get("playtime", 0);
     cache_playtime = playtime;
 
     // OVERWORLD

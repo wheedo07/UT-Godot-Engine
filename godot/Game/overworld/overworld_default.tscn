@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://b4bh4j4oik4sl"]
+[gd_scene load_steps=19 format=3 uid="uid://b4bh4j4oik4sl"]
 
 [ext_resource type="AudioStream" uid="uid://duh3v5648axhv" path="res://Musics/default/overworld.wav" id="1_rnacv"]
 [ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://Game/assets/sprite/sheet/new_home.png" id="2_ulhiq"]
 [ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Overworld/Characters/player_overworld.tscn" id="3_36w6e"]
 [ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Overworld/Interactions/save_point.tscn" id="5_0u8sj"]
+[ext_resource type="PackedScene" uid="uid://gdudyru0q3di" path="res://Overworld/Interactions/dimensional_box.tscn" id="5_njfgb"]
 [ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Overworld/Characters/sans.tscn" id="6_a8nlu"]
 [ext_resource type="PackedScene" uid="uid://dd758xuvic7xl" path="res://Overworld/Interactions/overworld_area_trigger.tscn" id="7_5tkl3"]
 
@@ -180,6 +181,9 @@ limit_bottom = 160
 
 [node name="Save" parent="TileMap" instance=ExtResource("5_0u8sj")]
 position = Vector2(110, 37)
+
+[node name="Box" parent="TileMap" instance=ExtResource("5_njfgb")]
+position = Vector2(21, 45)
 
 [node name="Sans" parent="TileMap" instance=ExtResource("6_a8nlu")]
 dialogues = Array[Dialogues]([SubResource("Dialogues_8ru6p")])

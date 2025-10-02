@@ -17,9 +17,6 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_savepath", "value"), &Global::set_savepath);
     ClassDB::bind_method(D_METHOD("get_savepath"), &Global::get_savepath);
     
-    ClassDB::bind_method(D_METHOD("set_boxesinmenu", "value"), &Global::set_boxesinmenu);
-    ClassDB::bind_method(D_METHOD("get_boxesinmenu"), &Global::get_boxesinmenu);
-    
     ClassDB::bind_method(D_METHOD("set_equipment", "value"), &Global::set_equipment);
     ClassDB::bind_method(D_METHOD("get_equipment"), &Global::get_equipment);
     
@@ -113,7 +110,6 @@ void Global::_bind_methods() {
 
     // 멤버 변수 프로퍼티 등록
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "savepath"), "set_savepath", "get_savepath");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "boxesinmenu"), "set_boxesinmenu", "get_boxesinmenu");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "equipment"), "set_equipment", "get_equipment");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "cells"), "set_cells", "get_cells");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "items", PROPERTY_HINT_ARRAY_TYPE, String::num(Variant::INT) + ":"), "set_items", "get_items");
@@ -171,22 +167,6 @@ void Global::_set_battle_start(bool value) {
 
 bool Global::get_battle_start() const {
     return battle_start;
-}
-
-void Global::set_boxesinmenu(bool value) {
-    boxesinmenu = value;
-}
-
-bool Global::get_boxesinmenu() const {
-    return boxesinmenu;
-}
-
-void Global::set_unlockedboxes(int value) {
-    unlockedboxes = value;
-}
-
-int Global::get_unlockedboxes() const {
-    return unlockedboxes;
 }
 
 void Global::set_equipment(const Dictionary& value) {

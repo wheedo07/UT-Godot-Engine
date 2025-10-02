@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://gdudyru0q3di"]
+
+[ext_resource type="Texture2D" uid="uid://w17vot502vw3" path="res://Overworld/Interactions/box.png" id="1_wuokp"]
+[ext_resource type="PackedScene" uid="uid://mh5dhu6wa6nf" path="res://Overworld/Interactions/interaction_trigger.tscn" id="2_pdoxm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wuokp"]
+
+[node name="Box" type="DimensionalBox"]
+texture = ExtResource("1_wuokp")
+
+[node name="Area" parent="." instance=ExtResource("2_pdoxm")]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_wuokp")
+debug_color = Color(0.85098, 0.85098, 0.85098, 0.419608)
+
+[connection signal="interacted" from="Area" to="." method="_on_interact_box"]

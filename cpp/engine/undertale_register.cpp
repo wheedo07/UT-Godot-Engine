@@ -57,11 +57,13 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_CLASS(UI_Box);
     GDREGISTER_CLASS(UI);
     GDREGISTER_CLASS(SoulOverworld);
+    GDREGISTER_CLASS(UIdimensionalBox);
 
     // Interactions
     GDREGISTER_CLASS(InteractionTrigger);
     GDREGISTER_CLASS(OverworldAreaTrigger);
     GDREGISTER_CLASS(SavePoint);
+    GDREGISTER_CLASS(DimensionalBox);
     GDREGISTER_CLASS(ItemInteraction);
 
     // textBox

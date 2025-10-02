@@ -37,8 +37,6 @@ namespace godot {
 	        bool first, isEditor;
 	        bool fullscreen;
 	        bool debugmode;
-	        bool boxesinmenu;
-	        int unlockedboxes;
 	        Dictionary equipment;
 	        PackedStringArray cells;
 	        Array items;
@@ -147,12 +145,6 @@ namespace godot {
 
     		void _set_battle_start(bool value);
     		bool get_battle_start() const;
-
-    		void set_boxesinmenu(bool value);
-    		bool get_boxesinmenu() const;
-
-    		void set_unlockedboxes(int value);
-    		int get_unlockedboxes() const;
 
     		void set_equipment(const Dictionary& value);
     		Dictionary get_equipment() const;

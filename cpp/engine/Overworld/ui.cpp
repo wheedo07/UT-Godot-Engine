@@ -46,6 +46,9 @@ UI::UI() {
     pos_history[ITEM_ACTION] = Variant();
     pos_history[CELL] = Variant();
     pos_history[ITEM_USE_DISABLE_MOVEMENT] = Variant();
+
+    items_seperation = Vector2(0, 29);
+    option_seperation = Vector2(0, 40);
 }
 
 UI::~UI() {}
@@ -182,11 +185,6 @@ void UI::_set_enabled_options() {
                 break;
             case 2:
                 enabled_array[i] = global->get_cells().size() > 0 && enabled_options[i];
-                break;
-            case 3:
-                if (global->get_boxesinmenu()) {
-                    enabled_array[i] = global->get_unlockedboxes() > 0;
-                }
                 break;
         }
     }
