@@ -180,10 +180,10 @@ limit_top = -80
 limit_bottom = 160
 
 [node name="Save" parent="TileMap" instance=ExtResource("5_0u8sj")]
-position = Vector2(110, 37)
+position = Vector2(23, 88)
 
 [node name="Box" parent="TileMap" instance=ExtResource("5_njfgb")]
-position = Vector2(21, 45)
+position = Vector2(50, 98)
 
 [node name="Sans" parent="TileMap" instance=ExtResource("6_a8nlu")]
 dialogues = Array[Dialogues]([SubResource("Dialogues_8ru6p")])
