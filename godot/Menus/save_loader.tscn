@@ -1,20 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4c1hkxfxvh2t"]
+[gd_scene load_steps=7 format=3 uid="uid://c4c1hkxfxvh2t"]
 
 [ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="2_4f7u4"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="2_u0ptt"]
 [ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="4_6utps"]
-[ext_resource type="AudioStream" uid="uid://gmni7dkf4qh3" path="res://sfx/warning.ogg" id="5_rfr4t"]
+[ext_resource type="AudioStream" uid="uid://gmni7dkf4qh3" path="res://sfx/warning.ogg" id="5_7rbe8"]
 [ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="5_rk211"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ihriq"]
-shader = ExtResource("2_4f7u4")
-shader_parameter/threshold = 0.7
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kc30e"]
-shader = ExtResource("2_4f7u4")
-shader_parameter/threshold = 0.7
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mkrny"]
 shader = ExtResource("2_4f7u4")
 shader_parameter/threshold = 0.7
 
@@ -75,7 +67,7 @@ text = "HH:MM:SS"
 scroll_active = false
 
 [node name="Location" type="RichTextLabel" parent="Control/Texts"]
-material = SubResource("ShaderMaterial_ihriq")
+material = SubResource("ShaderMaterial_kc30e")
 clip_contents = false
 layout_mode = 0
 offset_left = 28.0
@@ -112,7 +104,7 @@ scroll_active = false
 
 [node name="Reset" type="OptionSelectableSolo" parent="Control/Options"]
 node_left = NodePath("../Load")
-material = SubResource("ShaderMaterial_mkrny")
+material = SubResource("ShaderMaterial_kc30e")
 clip_contents = false
 layout_mode = 1
 anchors_preset = -1
@@ -134,7 +126,7 @@ stream = ExtResource("5_rk211")
 bus = &"SFX"
 
 [node name="warn" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_rfr4t")
+stream = ExtResource("5_7rbe8")
 bus = &"SFX"
 
 [connection signal="disable" from="." to="Control/Options/Load" method="disable"]

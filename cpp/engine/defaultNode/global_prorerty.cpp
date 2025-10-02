@@ -113,7 +113,7 @@ void Global::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "equipment"), "set_equipment", "get_equipment");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "cells"), "set_cells", "get_cells");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "items", PROPERTY_HINT_ARRAY_TYPE, String::num(Variant::INT) + ":"), "set_items", "get_items");
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "boxitems"), "set_boxitems", "get_boxitems");
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "boxitems", PROPERTY_HINT_ARRAY_TYPE, String::num(Variant::INT) + ":"), "set_boxitems", "get_boxitems");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "settings"), "set_settings", "get_settings");
     
     // 플레이어 스탯 프로퍼티

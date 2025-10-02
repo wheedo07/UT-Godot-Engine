@@ -69,7 +69,7 @@ void UIdimensionalBox::_unhandled_input(const Ref<InputEvent>& event) {
                     items.remove_at(soulposition.y);
                     global->set_items(items);
                     global->set_boxitems(boxitems);
-                    if(soulposition.y > items.size()-1) soulposition.y = items.size()-1;
+                    if(soulposition.y > items.size()-1 && items.size() != 0) soulposition.y = items.size()-1;
                     _set_items();
                     soul_move(Vector2(0, 0));
                 }
@@ -81,7 +81,7 @@ void UIdimensionalBox::_unhandled_input(const Ref<InputEvent>& event) {
                     boxitems.remove_at(soulposition.y);
                     global->set_items(items);
                     global->set_boxitems(boxitems);
-                    if(soulposition.y > boxitems.size()-1) soulposition.y = boxitems.size()-1;
+                    if(soulposition.y > boxitems.size()-1 && boxitems.size() != 0) soulposition.y = boxitems.size()-1;
                     _set_items();
                     soul_move(Vector2(0, 0));
                 }
