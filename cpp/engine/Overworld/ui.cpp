@@ -37,7 +37,6 @@ UI::UI() {
     options_dict[0] = tr("UT_UI_ITEM");
     options_dict[1] = tr("UT_UI_STAT");
     options_dict[2] = tr("UT_UI_CALL");
-    options_dict[3] = String::utf8("BOX");
     
     pos_history = Dictionary();
     pos_history[OPTIONS] = Variant();
