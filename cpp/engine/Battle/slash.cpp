@@ -39,7 +39,7 @@ void Slash::_ready() {
     anim_tree = Object::cast_to<AnimationTree>(get_node_internal("AnimationTree"));
     anim_tree_playback = Object::cast_to<AnimationNodeStateMachinePlayback>(anim_tree->get("parameters/playback"));
     
-    particles = Object::cast_to<GPUParticles2D>(get_node_internal("GPUParticles2D3"));
+    particles = Object::cast_to<GPUParticles2D>(get_node_internal("Particles_PUNCH"));
     punch_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("PunchW"));
     sparkle_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Sparkle"));
     press_z_label = Object::cast_to<Label>(get_node_internal("press_z"));
@@ -50,9 +50,8 @@ void Slash::_ready() {
     material->set_param_min(ParticleProcessMaterial::PARAM_SCALE, 0.4);
     particles->set_process_material(material);
     
-    // 크리티컬 히트 효과
-    if (crit) {
-        set_modulate(Color(1.0, 1.0, 0.54)); // Color("fffd8a")
+    if(crit) {
+        set_modulate(Color(1.0, 1.0, 0.54));
     }
     
     active_tween = create_tween();
