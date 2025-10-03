@@ -36,8 +36,6 @@ BattleBox::BattleBox() {
     morph_speed = 200.0f;
     backup_color = Color();
     polygon_point_count = 120;
-    tweening_vertex_index = -1;
-    is_point_tweening = false;
     isPolygonRest = false;
     
     win_text = String("* ") + tr("UT_VICTORY") + String("\n * ") + tr("UT_GET_EXP_GOLD");
@@ -105,8 +103,8 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_soul_choice", "action"), &BattleBox::_soul_choice);
     ClassDB::bind_method(D_METHOD("_set_items"), &BattleBox::_set_items);
     ClassDB::bind_method(D_METHOD("_on_soul_move_cooldown"), &BattleBox::_on_soul_move_cooldown);
-    ClassDB::bind_method(D_METHOD("_on_point_tween_step", "new_position"), &BattleBox::_on_point_tween_step);
-    ClassDB::bind_method(D_METHOD("_on_point_tween_finished"), &BattleBox::_on_point_tween_finished);
+    ClassDB::bind_method(D_METHOD("_on_point_tween_step", "new_position", "vertex_index"), &BattleBox::_on_point_tween_step);
+    ClassDB::bind_method(D_METHOD("_on_point_tween_finished", "vertex_index"), &BattleBox::_on_point_tween_finished);
     ClassDB::bind_method(D_METHOD("_reset_finished"), &BattleBox::_reset_finished);
 
     // 상자 크기
@@ -133,6 +131,8 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("move_closest_point", "target_point", "duration"), &BattleBox::move_closest_point, DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("move_point_by_index", "vertex_index", "target_point", "duration"), &BattleBox::move_point_by_index, DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("move_point_by_offset", "from_point", "offset", "duration"), &BattleBox::move_point_by_offset, DEFVAL(0.3f));
+    ClassDB::bind_method(D_METHOD("move_multiple_points", "vertex_indices", "target_points", "duration"), &BattleBox::move_multiple_points, DEFVAL(0.3f));
+    ClassDB::bind_method(D_METHOD("stop_all_point_tweens"), &BattleBox::stop_all_point_tweens);
 
 
     ClassDB::bind_method(D_METHOD("set_wintext", "value"), &BattleBox::set_wintext);
@@ -731,23 +731,33 @@ bool BattleBox::is_polygon_valid(const PackedVector2Array& poly) {
     return true;
 }
 
-void BattleBox::_on_point_tween_step(Vector2 new_position) {
-    if (tweening_vertex_index >= 0 && tweening_vertex_index < target_shape.size()) {
-        target_shape.set(tweening_vertex_index, new_position);
+void BattleBox::_on_point_tween_step(Vector2 new_position, int vertex_index) {
+    if(vertex_index >= 0 && vertex_index < target_shape.size()) {
+        target_shape.set(vertex_index, new_position);
     }
 }
 
-void BattleBox::_on_point_tween_finished() {
-    is_point_tweening = false;
-    tweening_vertex_index = -1;
+void BattleBox::_on_point_tween_finished(int vertex_index) {
+    // 완료된 트윈 제거
+    active_tweens.erase(vertex_index);
+    
+    // tweening_vertices 배열에서 제거
+    for (int i = 0; i < tweening_vertices.size(); i++) {
+        if (tweening_vertices[i] == vertex_index) {
+            tweening_vertices.remove_at(i);
+            break;
+        }
+    }
+}
+
+bool BattleBox::is_vertex_tweening(int vertex_index) {
+    return active_tweens.has(vertex_index);
 }
 
 void BattleBox::_reset_finished() {
     if(isPolygonMode) {
         isPolygonRest = true;
-        is_point_tweening = false;
-        tweening_vertex_index = -1;
-        if(point_tween.is_valid()) point_tween->kill();
+        stop_all_point_tweens();
 
         Vector2 margin_offset = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
         PackedVector2Array rect_poly;
@@ -779,6 +789,10 @@ void BattleBox::_polygon_reset_finished() {
     isPolygonRest = false;
     polygon->set_disabled(true);
     for(int i=0; i < 4; i++) collisions[i].set("disabled", false);
+    
+    // 모든 활성 트윈 중지
+    stop_all_point_tweens();
+    
     static_shape.clear();
     target_shape.clear();
 }
@@ -1014,19 +1028,20 @@ void BattleBox::polygon_enable() {
 }
 
 int BattleBox::move_closest_point(Vector2 target_point, float duration) {
-    if (!isPolygonMode || target_shape.size() < 3 || is_point_tweening) return -1;
+    if(!isPolygonMode || target_shape.size() < 3) return -1;
     
     Vector2 local_target = to_local(target_point);
     int closest_vertex = find_closest_vertex(target_shape, local_target);
     
-    if (closest_vertex >= 0 && closest_vertex < target_shape.size()) {
+    if(closest_vertex >= 0 && closest_vertex < target_shape.size()) {
         move_point_by_index(closest_vertex, target_point, duration);
     }
     return closest_vertex;
 }
 
 void BattleBox::move_point_by_index(int vertex_index, Vector2 target_point, float duration) {
-   if (!isPolygonMode || vertex_index < 0 || vertex_index >= target_shape.size() || is_point_tweening) return;
+    if (!isPolygonMode || vertex_index < 0 || vertex_index >= target_shape.size()) return;
+    
     Vector2 local_target = to_local(target_point);
     Vector2 constrained_point = local_target;
     Vector2 old_position = target_shape[vertex_index];
@@ -1040,19 +1055,34 @@ void BattleBox::move_point_by_index(int vertex_index, Vector2 target_point, floa
     
     target_shape.set(vertex_index, old_position);
     
-    tweening_vertex_index = vertex_index;
-    is_point_tweening = true;
-    if(point_tween.is_valid()) point_tween->kill();
+    if(is_vertex_tweening(vertex_index)) {
+        Ref<Tween> existing_tween = active_tweens[vertex_index];
+        if (existing_tween.is_valid()) {
+            existing_tween->kill();
+        }
+        active_tweens.erase(vertex_index);
+        
+        for (int i = 0; i < tweening_vertices.size(); i++) {
+            if (tweening_vertices[i] == vertex_index) {
+                tweening_vertices.remove_at(i);
+                break;
+            }
+        }
+    }
     
     Vector2 current_position = target_shape[vertex_index];
-    point_tween = create_tween()->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_QUAD);
-    point_tween->tween_method(Callable(this, "_on_point_tween_step"), current_position, constrained_point, duration);
-    point_tween->connect("finished", Callable(this, "_on_point_tween_finished"), CONNECT_ONE_SHOT);
-    point_tween->play();
+    Ref<Tween> new_tween = create_tween()->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_QUAD);
+    new_tween->tween_method(Callable(this, "_on_point_tween_step").bind(vertex_index), current_position, constrained_point, duration);
+    new_tween->connect("finished", Callable(this, "_on_point_tween_finished").bind(vertex_index), CONNECT_ONE_SHOT);
+
+    active_tweens[vertex_index] = new_tween;
+    tweening_vertices.append(vertex_index);
+    
+    new_tween->play();
 }
 
 int BattleBox::move_point_by_offset(Vector2 from_point, Vector2 offset, float duration) {
-    if (!isPolygonMode || target_shape.size() < 3 || is_point_tweening) return -1;
+    if (!isPolygonMode || target_shape.size() < 3) return -1;
     
     Vector2 local_from = to_local(from_point);
     int closest_vertex = find_closest_vertex(target_shape, local_from);
@@ -1063,6 +1093,31 @@ int BattleBox::move_point_by_offset(Vector2 from_point, Vector2 offset, float du
         move_point_by_index(closest_vertex, target_pos, duration);
     }
     return closest_vertex;
+}
+
+void BattleBox::move_multiple_points(const Array& vertex_indices, const Array& target_points, float duration) {
+    if (vertex_indices.size() != target_points.size()) {
+        ERR_PRINT("vertex_indices와 target_points의 크기가 다릅니다.");
+        return;
+    }
+    
+    for (int i = 0; i < vertex_indices.size(); i++) {
+        int vertex_index = vertex_indices[i];
+        Vector2 target_point = target_points[i];
+        move_point_by_index(vertex_index, target_point, duration);
+    }
+}
+
+void BattleBox::stop_all_point_tweens() {
+    Array keys = active_tweens.keys();
+    for (int i = 0; i < keys.size(); i++) {
+        Ref<Tween> tween = active_tweens[keys[i]];
+        if (tween.is_valid()) {
+            tween->kill();
+        }
+    }
+    active_tweens.clear();
+    tweening_vertices.clear();
 }
 
 PackedVector2Array BattleBox::get_polygon_points() {

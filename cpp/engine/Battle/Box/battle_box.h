@@ -127,15 +127,16 @@ namespace godot {
             PackedVector2Array static_shape;
             PackedVector2Array target_shape;
             CollisionPolygon2D* polygon;
-            Ref<Tween> point_tween;
-            int tweening_vertex_index;
-            bool is_point_tweening, isPolygonRest;
+            Dictionary active_tweens;
+            PackedInt32Array tweening_vertices;
+            bool isPolygonRest;
             int find_closest_edge_to_point(PackedVector2Array& poly, Vector2 point);
             int find_closest_vertex(const PackedVector2Array& poly, const Vector2& point);
             bool is_polygon_valid(const PackedVector2Array& poly);
-            void _on_point_tween_step(Vector2 new_position);
-            void _on_point_tween_finished();
+            void _on_point_tween_step(Vector2 new_position, int vertex_index);
+            void _on_point_tween_finished(int vertex_index);
             void _polygon_reset_finished();
+            bool is_vertex_tweening(int vertex_index);
 
             Array id_to_soul_pos(int id, int x_limit = 2);
             void refresh_options();
@@ -211,6 +212,8 @@ namespace godot {
             int move_closest_point(Vector2 target_point, float duration = 0.3f);
             void move_point_by_index(int vertex_index, Vector2 target_point, float duration = 0.3f);
             int move_point_by_offset(Vector2 from_point, Vector2 offset, float duration = 0.3f);
+            void move_multiple_points(const Array& vertex_indices, const Array& target_points, float duration = 0.3f);
+            void stop_all_point_tweens();
             PackedVector2Array get_polygon_points();
             Vector2 get_vertex_position(int vertex_index);
     };
