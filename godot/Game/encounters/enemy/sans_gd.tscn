@@ -41,11 +41,11 @@ func _on_dodged(to_right: bool):
 	$sans/Idle/leg.hide();
 	$sans/Idle/body.hide();
 	dog.show();
-	dog.play();
+	dog.play(\"dodge\");
 	dog.flip_h = !to_right;
 	await dog.animation_finished;
-	dog.frame = 0;
-
+	dog.play(\"dodge_back\");
+	
 func _on_throws(dir:Vector2, power:int=10):
 	$Timer.start();
 	AnimStates.stop();

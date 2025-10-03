@@ -171,7 +171,27 @@ animations = [{
 "texture": SubResource("AtlasTexture_07v3g")
 }],
 "loop": false,
-"name": &"default",
+"name": &"dodge",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_07v3g")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_1q3k2")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_fgce4")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_eqt56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_adfr6")
+}],
+"loop": false,
+"name": &"dodge_back",
 "speed": 5.0
 }]
 
@@ -775,7 +795,8 @@ visible = false
 visible = false
 position = Vector2(0, -1.5)
 sprite_frames = SubResource("SpriteFrames_s8p1m")
-speed_scale = 1.3
+animation = &"dodge"
+speed_scale = 1.5
 
 [node name="leg" type="AnimatedSprite2D" parent="Idle"]
 position = Vector2(22.5, 27)
