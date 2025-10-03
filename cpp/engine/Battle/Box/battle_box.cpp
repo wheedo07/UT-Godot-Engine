@@ -1013,8 +1013,8 @@ void BattleBox::polygon_enable() {
     }
 }
 
-void BattleBox::move_closest_point(Vector2 target_point, float duration) {
-    if (!isPolygonMode || target_shape.size() < 3 || is_point_tweening) return;
+int BattleBox::move_closest_point(Vector2 target_point, float duration) {
+    if (!isPolygonMode || target_shape.size() < 3 || is_point_tweening) return -1;
     
     Vector2 local_target = to_local(target_point);
     int closest_vertex = find_closest_vertex(target_shape, local_target);
@@ -1022,6 +1022,7 @@ void BattleBox::move_closest_point(Vector2 target_point, float duration) {
     if (closest_vertex >= 0 && closest_vertex < target_shape.size()) {
         move_point_by_index(closest_vertex, target_point, duration);
     }
+    return closest_vertex;
 }
 
 void BattleBox::move_point_by_index(int vertex_index, Vector2 target_point, float duration) {
@@ -1050,17 +1051,18 @@ void BattleBox::move_point_by_index(int vertex_index, Vector2 target_point, floa
     point_tween->play();
 }
 
-void BattleBox::move_point_by_offset(Vector2 from_point, Vector2 offset, float duration) {
-    if (!isPolygonMode || target_shape.size() < 3 || is_point_tweening) return;
+int BattleBox::move_point_by_offset(Vector2 from_point, Vector2 offset, float duration) {
+    if (!isPolygonMode || target_shape.size() < 3 || is_point_tweening) return -1;
     
     Vector2 local_from = to_local(from_point);
     int closest_vertex = find_closest_vertex(target_shape, local_from);
     
-    if (closest_vertex >= 0 && closest_vertex < target_shape.size()) {
+    if(closest_vertex >= 0 && closest_vertex < target_shape.size()) {
         Vector2 current_pos = target_shape[closest_vertex];
         Vector2 target_pos = to_global(current_pos + offset);
         move_point_by_index(closest_vertex, target_pos, duration);
     }
+    return closest_vertex;
 }
 
 PackedVector2Array BattleBox::get_polygon_points() {

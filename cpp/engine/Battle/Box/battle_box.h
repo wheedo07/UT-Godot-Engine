@@ -208,9 +208,9 @@ namespace godot {
             void set_webs(int n, float separation = -1, int margin = 0);
             float get_web_y_pos(int id);
             void polygon_enable();
-            void move_closest_point(Vector2 target_point, float duration = 0.3f);
+            int move_closest_point(Vector2 target_point, float duration = 0.3f);
             void move_point_by_index(int vertex_index, Vector2 target_point, float duration = 0.3f);
-            void move_point_by_offset(Vector2 from_point, Vector2 offset, float duration = 0.3f);
+            int move_point_by_offset(Vector2 from_point, Vector2 offset, float duration = 0.3f);
             PackedVector2Array get_polygon_points();
             Vector2 get_vertex_position(int vertex_index);
     };
