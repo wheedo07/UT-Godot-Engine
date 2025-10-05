@@ -120,7 +120,7 @@ grow_vertical = 0
 material = SubResource("ShaderMaterial_dkeuk")
 clip_contents = false
 layout_mode = 0
-offset_right = 75.0
+offset_right = 111.0
 offset_bottom = 40.0
 theme = ExtResource("3_2u401")
 text = "UT_EXIT"
@@ -165,6 +165,7 @@ offset_bottom = 400.0
 mouse_filter = 2
 theme = ExtResource("3_2u401")
 bbcode_enabled = true
+horizontal_alignment = 1
 visible_characters_behavior = 1
 
 [node name="Click" type="AudioStreamPlayer" parent="Typer"]
@@ -174,9 +175,9 @@ bus = &"SFX"
 [node name="Confirmation" type="HSplitContainer" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 238.0
+offset_left = 228.0
 offset_top = 360.0
-offset_right = 453.0
+offset_right = 471.0
 offset_bottom = 411.0
 split_offset = 120
 

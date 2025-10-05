@@ -112,9 +112,10 @@ void Typing::_create_letters() {
             
             Ref<Theme> theme = loader->load("res://Themes/DTMono24.tres", "Theme");
             option->set_theme(theme);
-            option->add_theme_font_size_override("normal_font_size", 30);
+            option->add_theme_font_size_override("normal_font_size", 28);
+            option->set_use_bbcode(true);
             
-            option->set_text(letter);
+            option->set_text("[shake]"+letter);
             option->set_scroll_active(false);
             
             add_child(option);

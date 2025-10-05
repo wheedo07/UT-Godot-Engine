@@ -80,6 +80,7 @@ offset_top = 194.0
 offset_right = 521.0
 offset_bottom = 377.0
 theme = ExtResource("5_1ttji")
+theme_override_font_sizes/normal_font_size = 28
 bbcode_enabled = true
 scroll_active = false
 scroll_following = true

@@ -110,10 +110,9 @@ void NameSelection::react_to_name(const String& text, bool deny) {
     if (typer->is_connected("finished_all_texts", Callable(this, "on_typer_finished"))) {
         typer->disconnect("finished_all_texts", Callable(this, "on_typer_finished"));
     }
-    String text_center = String("[center]") + text;
     
     Array text_array;
-    text_array.push_back(text_center);
+    text_array.push_back(text);
     typer->type_text(text_array);
     is_deny = deny;
     
