@@ -40,8 +40,7 @@ namespace godot {
             ~BoneSpike();
 
             void ready() override;
-
-            void fire(const Vector2& size, float warn_time = 0.4f, float remain_time = 1.0f, DamageMode mode = MODE_WHITE);
+            void fire(const Vector2& size, float warn_time = 0.4f, float remain_time = 1.0f, DamageMode mode = MODE_NULL);
 
             void set_tweenTrans(Tween::TransitionType value);
             Tween::TransitionType get_tweenTrans() const;

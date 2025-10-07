@@ -17,7 +17,7 @@ BoneSpike::~BoneSpike() {}
 
 void BoneSpike::_bind_methods() {
     ClassDB::bind_method(D_METHOD("fire", "size", "warn_time", "remain_time", "mode"), &BoneSpike::fire, 
-        DEFVAL(0.4f), DEFVAL(1.0f), DEFVAL(MODE_WHITE));
+        DEFVAL(0.4f), DEFVAL(1.0f), DEFVAL(MODE_NULL));
     ClassDB::bind_method(D_METHOD("_on_warn_time_timeout", "size", "remain_time"), &BoneSpike::_on_warn_time_timeout);
     
     ClassDB::bind_method(D_METHOD("set_collision_margin", "margin"), &BoneSpike::set_collision_margin);
