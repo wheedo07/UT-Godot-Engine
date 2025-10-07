@@ -41,7 +41,7 @@ void Intro::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_music"), &Intro::get_music);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "music", PROPERTY_HINT_RESOURCE_TYPE, "AudioStream"), "set_music", "get_music");
     
-    ADD_SIGNAL(MethodInfo("intro_completed"));
+    ADD_SIGNAL(MethodInfo("intro_completed", PropertyInfo(Variant::BOOL, "skipped")));
 }
 
 void Intro::_ready() {
@@ -77,7 +77,7 @@ void Intro::_input(const Ref<InputEvent>& event) {
 void Intro::_play_intro() {
     if (intro_data.size() == 0) {
         intro_completed = true;
-        emit_signal("intro_completed");
+        emit_signal("intro_completed", skip_intro);
         return;
     }
     Dictionary data = intro_data[current_index];
@@ -96,7 +96,7 @@ void Intro::_play_intro() {
 void Intro::process_next_intro() {
     if (current_index >= intro_data.size() || skip_intro) {
         intro_completed = true;
-        emit_signal("intro_completed");
+        emit_signal("intro_completed", skip_intro);
         return;
     }
     Ref<Tween> tw = create_tween();
@@ -126,7 +126,7 @@ void Intro::process_next_intro() {
 void Intro::_on_text_completed() {
     if (skip_intro) {
         intro_completed = true;
-        emit_signal("intro_completed");
+        emit_signal("intro_completed", skip_intro);
         return;
     }
     Dictionary data = intro_data[current_index];
@@ -147,7 +147,7 @@ void Intro::_intro_image_next() {
     current_index++;
     if (current_index >= intro_data.size() || skip_intro) {
         intro_completed = true;
-        emit_signal("intro_completed");
+        emit_signal("intro_completed", skip_intro);
         return;
     }
 
