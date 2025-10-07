@@ -13,6 +13,7 @@ void AttackManager::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("add_attack", "attack"), &AttackManager::add_attack);
     ClassDB::bind_method(D_METHOD("start_attack", "id"), &AttackManager::start_attack);
+    ClassDB::bind_method(D_METHOD("start_attacks"), &AttackManager::start_attacks);
     ClassDB::bind_method(D_METHOD("force_end_attacks"), &AttackManager::force_end_attacks);
     ClassDB::bind_method(D_METHOD("end_attack", "id"), &AttackManager::end_attack);
     ClassDB::bind_method(D_METHOD("check_all_attacks_finished"), &AttackManager::check_all_attacks_finished);
