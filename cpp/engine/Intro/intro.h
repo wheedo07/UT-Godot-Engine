@@ -38,7 +38,7 @@ namespace godot {
             void _intro_image_next();
             void _load_intro_data_from_json();
             void process_next_intro();
-            void _on_intro_completed();
+            void _on_intro_completed(bool skipped);
             void _play_intro();
 
             void set_music(const Ref<AudioStream>& p_music);

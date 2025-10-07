@@ -24,7 +24,7 @@ void Intro::_bind_methods() {
     ClassDB::bind_method(D_METHOD("is_intro_completed"), &Intro::is_intro_completed);
 
     ClassDB::bind_method(D_METHOD("_play_intro"), &Intro::_play_intro);
-    ClassDB::bind_method(D_METHOD("_on_intro_completed"), &Intro::_on_intro_completed);
+    ClassDB::bind_method(D_METHOD("_on_intro_completed", "skipped"), &Intro::_on_intro_completed);
     ClassDB::bind_method(D_METHOD("_intro_image_next"), &Intro::_intro_image_next);
     ClassDB::bind_method(D_METHOD("_on_text_completed"), &Intro::_on_text_completed);
     ClassDB::bind_method(D_METHOD("_on_duration_timeout"), &Intro::_on_duration_timeout);
@@ -162,7 +162,7 @@ void Intro::_intro_image_next() {
     process_next_intro();
 }
 
-void Intro::_on_intro_completed() {
+void Intro::_on_intro_completed(bool skipped) {
     if(intro_completed_path.is_empty()) return;
     camera->blind(0.6, 1);
     camera->connect("finished_tween", Callable(global->get_Music(), "stop"), CONNECT_ONE_SHOT);
