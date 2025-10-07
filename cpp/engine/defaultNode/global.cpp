@@ -27,7 +27,7 @@ Global::Global() {
     KrTimer = nullptr;
     scene_container = nullptr;
     savepath = "user://file0";
-    settingpaths = "user://file9";
+    settingpath = "user://file9";
 
     // 기본 상태 변수
     first = true;
@@ -148,24 +148,46 @@ void Global::_ready() {
     heal_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("heal"));
     Info = Object::cast_to<RichTextLabel>(get_node_internal("Info"));
     KrTimer = Object::cast_to<Timer>(get_node_internal("KrTimer"));
+    init_paths();
+}
+
+void Global::init_paths() {
     String osName = os->get_name();
     is_Mobile = osName == "Android";
-    if(osName == "Web") return;
+
+    if(osName == "Web") {
+        savepath = "user://file0";
+        settingpath = "user://file9";
+    }
     if(is_Mobile) {
         call_deferred("toggle_fullscreen");
         savepath = "user://file0";
-        settingpaths = "user://file9";
+        settingpath = "user://file9";
     }
 
     if(savepath.find("$home") != -1) {
-        if(osName == "Windows") 
-            savepaths = savepath.replace("$home", std::getenv("homepath"));
-            savepaths = std::getenv("homedrive") + savepaths;
-    }else savepaths = savepath;
+        if(osName == "Windows") {
+            const char* homepath = std::getenv("HOMEPATH");
+            if(homepath == nullptr) {
+                const char* userprofile = std::getenv("USERPROFILE");
+                if(userprofile != nullptr) savepath = savepath.replace("$home", userprofile);
+                else savepath = "user://file0";
+            }else savepath = savepath.replace("$home", homepath);
+        }
+    }
 
-    if(savepaths.find("user://") == -1) {
-        String dir = savepaths.replace("file0", "");
-        settingpaths = dir + "file9";
+    if(savepath.find("user://") == -1) {
+        if(osName == "Windows") {
+            const char* drive = std::getenv("HOMEDRIVE");
+            if(drive != nullptr) savepath = String(drive) + savepath;
+            else {
+                savepath = "user://file0";
+                return;
+            }
+        }
+
+        String dir = savepath.replace("file0", "");
+        settingpath = dir + "file9";
         if(fs::exists(dir.utf8().get_data())) return;
 
         if(!fs::create_directories(dir.utf8().get_data()))
@@ -318,8 +340,8 @@ void Global::toggle_fullscreen() {
 
 void Global::save_game(bool is_sys) {
     if (is_sys) {
-        if(savepaths.find("user://") != -1) {
-            Ref<FileAccess> file = FileAccess::open(savepaths, FileAccess::READ_WRITE);
+        if(savepath.find("user://") != -1) {
+            Ref<FileAccess> file = FileAccess::open(savepath, FileAccess::READ_WRITE);
             String data = xor_decrypt(file->get_as_text(), HASH_KEY);
             Dictionary savedata = JSON::parse_string(data);
             savedata["flags"] = flags;
@@ -327,7 +349,7 @@ void Global::save_game(bool is_sys) {
             file->store_string(newdata);
             file->close();
         }else {
-            std::ifstream file_read(savepaths.utf8().get_data());
+            std::ifstream file_read(savepath.utf8().get_data());
             file_read.seekg(3);
             std::stringstream buffer;
             buffer << file_read.rdbuf();
@@ -336,7 +358,7 @@ void Global::save_game(bool is_sys) {
             file_read.close();
             savedata["flags"] = flags;
 
-            std::ofstream file_write(savepaths.utf8().get_data());
+            std::ofstream file_write(savepath.utf8().get_data());
             file_write.write((char*)bom, sizeof(bom));
             file_write << xor_encrypt(JSON::stringify(savedata), HASH_KEY).utf8().get_data() << std::endl;
             file_write.close();
@@ -374,14 +396,14 @@ void Global::save_game(bool is_sys) {
 
     cache_playtime = playtime;
 
-    if(savepaths.find("user://") != -1) {
-        Ref<FileAccess> file = FileAccess::open(savepaths, FileAccess::WRITE);
+    if(savepath.find("user://") != -1) {
+        Ref<FileAccess> file = FileAccess::open(savepath, FileAccess::WRITE);
         String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
         file->store_string(newdata);
         file->close();
     }else {
         String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
-        std::ofstream file_write(savepaths.utf8().get_data());
+        std::ofstream file_write(savepath.utf8().get_data());
         file_write.write((char*)bom, sizeof(bom));
         file_write << newdata.utf8().get_data() << std::endl;
         file_write.close();
@@ -454,11 +476,11 @@ void Global::resetgame() {
     battle_text_box = false;
     paused = false;
     
-    if(savepaths.find("user://") != -1) {
-        String dir = savepaths.replace("file0", "");
+    if(savepath.find("user://") != -1) {
+        String dir = savepath.replace("file0", "");
         Ref<DirAccess> dirAcs = DirAccess::open(dir);
         dirAcs->remove("file0");
-    }else fs::remove(savepaths.utf8().get_data());
+    }else fs::remove(savepath.utf8().get_data());
 }
 
 void Global::toggle_collision_shape_visibility() {
@@ -542,10 +564,10 @@ bool Global::check_level_up() {
 void Global::save_settings() {
     Dictionary setting_data;
     
-    if(settingpaths.find("user://") != -1) {
+    if(settingpath.find("user://") != -1) {
         Ref<FileAccess> file;
-        if (FileAccess::file_exists(settingpaths)) {
-            file = FileAccess::open(settingpaths, FileAccess::READ);
+        if (FileAccess::file_exists(settingpath)) {
+            file = FileAccess::open(settingpath, FileAccess::READ);
             if (!file->eof_reached()) {
                 String content = xor_decrypt(file->get_as_text(), HASH_KEY);
                 if(!content.is_empty()) {
@@ -558,7 +580,7 @@ void Global::save_settings() {
             file->close();
         }
         
-        file = FileAccess::open(settingpaths, FileAccess::WRITE);
+        file = FileAccess::open(settingpath, FileAccess::WRITE);
         if(file.is_valid()) {
             setting_data["settings"] = settings;
             setting_data["g_flags"] = g_flags;
@@ -567,7 +589,7 @@ void Global::save_settings() {
             file->close();
         }
     } else {
-        std::ifstream file_read(settingpaths.utf8().get_data());
+        std::ifstream file_read(settingpath.utf8().get_data());
         if(file_read.is_open()) {
             file_read.seekg(3);
             std::stringstream buffer;
@@ -583,7 +605,7 @@ void Global::save_settings() {
             }
         }
         
-        std::ofstream file_write(settingpaths.utf8().get_data());
+        std::ofstream file_write(settingpath.utf8().get_data());
         if(file_write.is_open()) {
             file_write.write((char*)bom, sizeof(bom));
             setting_data["settings"] = settings;
@@ -621,9 +643,9 @@ void Global::load_game() {
     }
 
     Dictionary settings_data;
-    if(settingpaths.find("user://") != -1) {
-        if(FileAccess::file_exists(settingpaths)) {
-            Ref<FileAccess> settings_file = FileAccess::open(settingpaths, FileAccess::READ);
+    if(settingpath.find("user://") != -1) {
+        if(FileAccess::file_exists(settingpath)) {
+            Ref<FileAccess> settings_file = FileAccess::open(settingpath, FileAccess::READ);
             if(settings_file.is_valid()) {
                 String data = xor_decrypt(settings_file->get_as_text(), HASH_KEY);
                 Variant parsed = JSON::parse_string(data);
@@ -634,7 +656,7 @@ void Global::load_game() {
             }
         }
     } else {
-        std::ifstream settings_file(settingpaths.utf8().get_data());
+        std::ifstream settings_file(settingpath.utf8().get_data());
         if(settings_file.is_open()) {
             settings_file.seekg(3); // BOM 건너뛰기
             std::stringstream buffer;
@@ -654,14 +676,14 @@ void Global::load_game() {
     g_flags.merge(settings_data.get("g_flags", g_flags), true);
 
     Dictionary savedata;
-    if(savepaths.find("user://") != -1) {
-        if(!FileAccess::file_exists(savepaths)) return;
-        Ref<FileAccess> file = FileAccess::open(savepaths, FileAccess::READ);
+    if(savepath.find("user://") != -1) {
+        if(!FileAccess::file_exists(savepath)) return;
+        Ref<FileAccess> file = FileAccess::open(savepath, FileAccess::READ);
         String data = xor_decrypt(file->get_as_text(), HASH_KEY);
         savedata = JSON::parse_string(data);
         file->close();
     }else {
-        std::ifstream file(savepaths.utf8().get_data());
+        std::ifstream file(savepath.utf8().get_data());
         file.seekg(3);
         if(!file.is_open()) return;
         std::stringstream buffer;

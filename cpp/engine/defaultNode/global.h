@@ -27,8 +27,7 @@ namespace godot {
 
         private:
 			String savepath;
-			String savepaths;
-			String settingpaths;
+			String settingpath;
 	        AudioStreamPlayer* heal_sound;
 	        AudioStreamPlayer* Music;
             RichTextLabel* Info;
@@ -92,6 +91,7 @@ namespace godot {
 	        void _on_kr_tick();
 			String xor_encrypt(String data, String key);
 			String xor_decrypt(String data, String key);
+			void init_paths();
         
         public:
             Global();
