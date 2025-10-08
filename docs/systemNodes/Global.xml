@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Global" inherits="CanvasLayer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](사용자 생성 불가능)[/color]
+        Undertale 스타일 게임의 전역 상태와 데이터를 관리하는 핵심 시스템 노드입니다.
+    </brief_description>
+    <description>
+        [b]Global[/b] 클래스는 UT-Godot-Engine의 핵심 시스템 노드로, 플레이어 상태, 게임 진행 상황, 
+        인벤토리, 설정 등을 전역적으로 관리합니다. 모든 씬에서 접근 가능한 싱글톤 객체입니다.
+        
+        [b]주요 기능:[/b]
+        • 플레이어 스탯 관리 (HP, 공격력, 방어력, 레벨, 경험치 등)
+        • 인벤토리 및 아이템 시스템
+        • 장비 시스템 (무기, 방어구)
+        • 차원 박스 (아이템 보관함) 관리
+        • 게임 플래그 및 진행 상황 추적
+        • 세이브/로드 시스템 (암호화 지원)
+        • 게임 설정 관리 (볼륨, 화면 효과 등)
+        • 입력 제어 및 플레이어 상태 관리
+        • 크로스 플랫폼 파일 경로 처리
+        
+        [b]시스템 노드 - 직접 생성 금지[/b]
+        AutoLoad로 등록된 시스템 노드입니다. 직접 생성하지 마시고 [code]global[/code]로 접근하세요.
+        
+        [b]암호화 시스템:[/b]
+        Base64 + XOR 암호화를 통해 세이브 파일을 보호합니다.
+        키: "undertale_engine_by_wheedo07"
+    </description>
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="check_level_up">
+            <return type="bool" />
+            <description>
+                플레이어의 현재 경험치로 레벨업이 가능한지 확인합니다.
+                
+                레벨업 조건을 만족하면 자동으로 레벨, 최대 HP, 공격력을 증가시키고
+                true를 반환합니다. 레벨업이 불가능하면 false를 반환합니다.
+                
+                일반적으로 전투 종료 후나 경험치 획득 시 호출됩니다.
+            </description>
+        </method>
+        <method name="disable_input">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <description>
+                특정 입력 키를 비활성화합니다.
+                
+                [b]매개변수:[/b]
+                • key: 비활성화할 입력 액션 이름 (예: "ui_accept", "ui_cancel")
+                
+                비활성화된 입력은 has_input_disabled()로 확인할 수 있으며,
+                enable_input()으로 다시 활성화할 수 있습니다.
+                
+                컷씬이나 특정 상황에서 입력을 제한할 때 사용합니다.
+            </description>
+        </method>
+        <method name="enable_input">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <description>
+                disable_input()으로 비활성화된 입력 키를 다시 활성화합니다.
+                
+                [b]매개변수:[/b]
+                • key: 활성화할 입력 액션 이름
+                
+                이미 활성화된 키를 다시 활성화해도 문제없습니다.
+            </description>
+        </method>
+        <method name="get_Music">
+            <return type="AudioStreamPlayer" />
+            <description>
+                현재 재생 중인 배경음악의 AudioStreamPlayer 객체를 반환합니다.
+                
+                음악 제어 (정지, 볼륨 조절, 페이드 등)를 위해 사용됩니다.
+                배경음악이 없으면 null을 반환할 수 있습니다.
+            </description>
+        </method>
+        <method name="get_battle_text_box" qualifiers="const">
+            <return type="bool" />
+            <description>
+                전투 중 텍스트 박스가 활성화되어 있는지 확인합니다.
+                
+                전투 텍스트가 표시 중이면 true, 그렇지 않으면 false를 반환합니다.
+                전투 UI 상태 관리에 사용됩니다.
+            </description>
+        </method>
+        <method name="get_flag">
+            <return type="Variant" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="defaultValue" type="Variant" default="false" />
+            <description>
+                일반 게임 플래그 값을 조회합니다.
+                
+                [b]매개변수:[/b]
+                • key: 플래그 키 이름
+                • defaultValue: 플래그가 없을 때 반환할 기본값
+                
+                게임 진행 상황, 이벤트 완료 상태 등을 추적하는 데 사용됩니다.
+                플래그가 존재하지 않으면 defaultValue를 반환합니다.
+            </description>
+        </method>
+        <method name="get_frist" qualifiers="const">
+            <return type="bool" />
+            <description>
+                첫 번째 실행 여부를 확인합니다.
+                
+                게임이 처음 시작되는 것인지 확인할 때 사용합니다.
+                튜토리얼 표시, 초기 설정 등에 활용됩니다.
+            </description>
+        </method>
+        <method name="get_fullscreen" qualifiers="const">
+            <return type="bool" />
+            <description>
+                현재 전체화면 모드 여부를 확인합니다.
+                
+                전체화면이면 true, 창 모드면 false를 반환합니다.
+                화면 모드 UI 업데이트에 사용됩니다.
+            </description>
+        </method>
+        <method name="get_g_flags">
+            <return type="Variant" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="defaultValue" type="Variant" default="false" />
+            <description>
+                전역 게임 플래그 값을 조회합니다.
+                
+                [b]매개변수:[/b]
+                • key: 플래그 키 이름
+                • defaultValue: 플래그가 없을 때 반환할 기본값
+                
+                일반 플래그와 구분되는 특별한 전역 플래그입니다.
+                중요한 게임 상태나 엔딩 관련 정보 저장에 사용됩니다.
+            </description>
+        </method>
+        <method name="get_player_can_move" qualifiers="const">
+            <return type="bool" />
+            <description>
+                플레이어가 이동할 수 있는 상태인지 확인합니다.
+                
+                컷씬, 메뉴, 전투 등의 상황에서 플레이어 이동을 제한할 때 사용됩니다.
+                이동 가능하면 true, 불가능하면 false를 반환합니다.
+            </description>
+        </method>
+        <method name="get_player_in_menu" qualifiers="const">
+            <return type="bool" />
+            <description>
+                플레이어가 현재 메뉴 상태에 있는지 확인합니다.
+                
+                인벤토리, 설정, 차원 박스 등의 메뉴가 열려있으면 true를 반환합니다.
+                게임 일시정지 및 입력 처리 분기에 사용됩니다.
+            </description>
+        </method>
+        <method name="get_player_kr" qualifiers="const">
+            <return type="int" />
+            <description>
+                플레이어의 KR (Karmic Retribution) 값을 반환합니다.
+                
+                Undertale의 독성 데미지 시스템을 구현하는 데 사용됩니다.
+                KR 값이 높을수록 지속적인 데미지를 받습니다.
+            </description>
+        </method>
+        <method name="get_player_move" qualifiers="const">
+            <return type="bool" />
+            <description>
+                플레이어의 이동 상태를 반환합니다.
+                
+                get_player_can_move()와 유사하지만 더 구체적인 이동 상태를 나타냅니다.
+                이동 애니메이션 제어에 주로 사용됩니다.
+            </description>
+        </method>
+        <method name="get_player_position">
+            <return type="Vector2" />
+            <description>
+                플레이어의 현재 위치를 반환합니다.
+                
+                오버월드에서 플레이어 캐릭터의 2D 좌표를 Vector2로 반환합니다.
+                카메라 추적, 충돌 검사, 이벤트 트리거 등에 사용됩니다.
+            </description>
+        </method>
+        <method name="get_player_set_menu" qualifiers="const">
+            <return type="bool" />
+            <description>
+                플레이어의 메뉴 설정 상태를 반환합니다.
+                
+                메뉴 관련 설정이나 상태 변경을 추적하는 데 사용됩니다.
+                get_player_in_menu()와 함께 메뉴 시스템 관리에 활용됩니다.
+            </description>
+        </method>
+        <method name="get_player_text_box" qualifiers="const">
+            <return type="bool" />
+            <description>
+                플레이어 관련 텍스트 박스가 활성화되어 있는지 확인합니다.
+                
+                대화, 아이템 사용 메시지 등이 표시 중이면 true를 반환합니다.
+                텍스트 오버레이 관리 및 입력 제어에 사용됩니다.
+            </description>
+        </method>
+        <method name="get_scene_container" qualifiers="const">
+            <return type="SceneContainer" />
+            <description>
+                게임의 메인 씬 컨테이너를 반환합니다.
+                
+                씬 전환, UI 오버레이, 동적 노드 추가 등에 사용되는
+                루트 컨테이너 노드에 대한 참조를 제공합니다.
+            </description>
+        </method>
+        <method name="has_input_disabled">
+            <return type="bool" />
+            <param index="0" name="key" type="String" />
+            <description>
+                특정 입력 키가 비활성화되어 있는지 확인합니다.
+                
+                [b]매개변수:[/b]
+                • key: 확인할 입력 액션 이름
+                
+                disable_input()으로 비활성화된 입력이면 true를 반환합니다.
+                입력 처리 로직에서 조건 분기에 사용됩니다.
+            </description>
+        </method>
+        <method name="heal">
+            <return type="void" />
+            <param index="0" name="amt" type="int" />
+            <description>
+                플레이어를 지정된 양만큼 회복시킵니다.
+                
+                [b]매개변수:[/b]
+                • amt: 회복할 HP 양 (양수)
+                
+                최대 HP를 초과하여 회복되지 않으며, 0 이하의 값은 무시됩니다.
+                아이템 사용, 세이브 포인트 등에서 사용됩니다.
+            </description>
+        </method>
+        <method name="isMobile">
+            <return type="bool" />
+            <description>
+                현재 플랫폼이 모바일인지 확인합니다.
+                
+                Android 모바일 플랫폼에서 실행 중이면 true를 반환합니다.
+                플랫폼별 UI 조정, 입력 처리 분기에 사용됩니다.
+            </description>
+        </method>
+        <method name="resetgame">
+            <return type="void" />
+            <description>
+                게임을 초기 상태로 리셋합니다.
+                
+                플레이어 스탯, 인벤토리, 플래그 등을 기본값으로 되돌립니다.
+                새 게임 시작 시 호출되며, 세이브 파일은 유지됩니다.
+            </description>
+        </method>
+        <method name="save">
+            <return type="void" />
+            <param index="0" name="room_name" type="String" default="&quot;&quot;" />
+            <description>
+                현재 게임 상태를 파일로 저장합니다.
+                
+                [b]매개변수:[/b]
+                • room_name: 저장할 방/씬 이름 (빈 문자열이면 현재 씬)
+                
+                플레이어 정보, 인벤토리, 플래그, 위치 등을 암호화하여 저장합니다.
+                저장 완료 시 saved 시그널이 방출됩니다.
+            </description>
+        </method>
+        <method name="save_flag">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                플래그를 설정하고 즉시 저장합니다.
+                
+                [b]매개변수:[/b]
+                • key: 플래그 키 이름
+                • value: 저장할 값
+                
+                set_flag()와 달리 설정 후 자동으로 세이브 파일에 기록됩니다.
+                중요한 진행 상황을 즉시 저장할 때 사용합니다.
+            </description>
+        </method>
+        <method name="save_settings">
+            <return type="void" />
+            <description>
+                게임 설정을 파일로 저장합니다.
+                
+                볼륨 설정, 화면 효과 옵션, 전체화면 모드 등의 설정을
+                별도 파일에 암호화하여 저장합니다.
+                
+                설정 변경 시 자동으로 호출되어 설정을 유지합니다.
+            </description>
+        </method>
+        <method name="set_flag">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                일반 게임 플래그를 설정합니다.
+                
+                [b]매개변수:[/b]
+                • key: 플래그 키 이름
+                • value: 설정할 값 (bool, int, string 등)
+                
+                메모리에만 저장되며, 게임 저장 시에 파일에 기록됩니다.
+                이벤트 완료, 퀘스트 진행 등을 추적하는 데 사용됩니다.
+            </description>
+        </method>
+        <method name="set_g_flags">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                전역 게임 플래그를 설정합니다.
+                
+                [b]매개변수:[/b]
+                • key: 플래그 키 이름  
+                • value: 설정할 값
+                
+                일반 플래그와 구분되는 특별한 전역 플래그입니다.
+                엔딩 분기, 히든 컨텐츠 등 중요한 상태를 저장할 때 사용됩니다.
+            </description>
+        </method>
+        <method name="set_player_can_move">
+            <return type="void" />
+            <param index="0" name="value" type="bool" />
+            <description>
+                플레이어의 이동 가능 상태를 설정합니다.
+                
+                [b]매개변수:[/b]
+                • value: true면 이동 가능, false면 이동 불가
+                
+                컷씬, 대화, 메뉴 등에서 플레이어 움직임을 제한할 때 사용됩니다.
+                입력 시스템에서 이 값을 참조하여 이동을 허용/차단합니다.
+            </description>
+        </method>
+        <method name="set_player_in_menu">
+            <return type="void" />
+            <param index="0" name="value" type="bool" />
+            <description>
+                플레이어의 메뉴 상태를 설정합니다.
+                
+                [b]매개변수:[/b]
+                • value: true면 메뉴 상태, false면 게임 상태
+                
+                메뉴 열림/닫힘을 시스템에 알릴 때 사용됩니다.
+                게임 일시정지, 배경음악 조절 등에 영향을 줍니다.
+            </description>
+        </method>
+        <method name="set_player_move">
+            <return type="void" />
+            <param index="0" name="value" type="bool" />
+            <description>
+                플레이어의 이동 상태를 설정합니다.
+                
+                [b]매개변수:[/b]
+                • value: 이동 상태 값
+                
+                set_player_can_move()보다 세밀한 이동 제어에 사용됩니다.
+                이동 애니메이션, 이동 사운드 등을 제어할 때 활용됩니다.
+            </description>
+        </method>
+        <method name="set_player_set_menu">
+            <return type="void" />
+            <param index="0" name="value" type="bool" />
+            <description>
+                플레이어의 메뉴 설정 상태를 설정합니다.
+                
+                [b]매개변수:[/b]
+                • value: 설정 상태 값
+                
+                메뉴 관련 특별한 설정이나 상태를 관리하는 데 사용됩니다.
+                set_player_in_menu()와 함께 메뉴 시스템을 세밀하게 제어합니다.
+            </description>
+        </method>
+        <method name="toggle_fullscreen">
+            <return type="void" />
+            <description>
+                전체화면과 창 모드를 전환합니다.
+                
+                현재 전체화면이면 창 모드로, 창 모드면 전체화면으로 전환됩니다.
+                전환 완료 시 fullscreen_toggled 시그널이 방출됩니다.
+            </description>
+        </method>
+        <method name="true_resetgame">
+            <return type="void" />
+            <description>
+                게임을 완전히 초기화합니다.
+                
+                resetgame()보다 더 완전한 리셋으로, 전역 플래그도 초기화됩니다.
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="boxitems" type="Array" setter="set_boxitems" getter="get_boxitems" default="[]">
+            차원 박스의 아이템들을 저장하는 배열입니다.
+
+            최대 10개의 아이템을 보관할 수 있으며, 각 요소는 item_list의 인덱스입니다.
+        </member>
+        <member name="cells" type="PackedStringArray" setter="set_cells" getter="get_cells" default="PackedStringArray()">
+            전화 제목 목록을 저장하는 배열입니다.
+            Overworld의 전화 시스템에서 사용됩니다.
+        </member>
+        <member name="equipment" type="Dictionary" setter="set_equipment" getter="get_equipment" default="{ &quot;armor&quot;: 1, &quot;weapon&quot;: 0 }">
+            플레이어가 현재 장착하고 있는 장비 정보입니다.
+            
+            • "weapon": 장착된 무기의 item_list 인덱스
+            • "armor": 장착된 방어구의 item_list 인덱스
+            
+            기본값: weapon=0(막대기), armor=1(반창고)
+            장비 변경 시 플레이어의 공격력과 방어력이 자동으로 재계산됩니다.
+        </member>
+        <member name="flags" type="Dictionary" setter="set_flags" getter="get_flags" default="{}">
+            일반 게임 플래그들을 저장하는 딕셔너리입니다.
+            
+            게임 진행 상황, 이벤트 완료 여부, NPC 대화 상태 등을 추적합니다.
+            키는 문자열, 값은 bool, int, string 등 다양한 타입이 가능합니다.
+            
+            예: {"tutorial_done": true, "papyrus_met": true, "room_01_visited": 5}
+        </member>
+        <member name="item_list" type="Array" setter="set_item_list" getter="get_item_list" default="[막대기, 반창고, 파이]">
+            게임에 존재하는 모든 아이템들의 마스터 리스트입니다.
+            
+            각 요소는 Item 객체이며, 인덱스를 통해 참조됩니다.
+            인벤토리, 장비, 차원 박스 등은 이 배열의 인덱스를 저장합니다.
+            
+            기본 아이템:
+            • 0: 막대기 (무기, 공격력+0)
+            • 1: 반창고 (소모품, HP+10)
+            • 2: 파이 (소모품, HP+999)
+        </member>
+        <member name="items" type="Array" setter="set_items" getter="get_items" default="[]">
+            플레이어의 인벤토리 아이템들입니다.
+            
+            최대 8개의 아이템을 보관할 수 있으며, 각 요소는 item_list의 인덱스입니다.
+            아이템 사용, 장비 변경, 차원 박스 이동 등에서 이 배열이 수정됩니다.
+        </member>
+        <member name="player_attack" type="int" setter="set_player_attack" getter="get_player_attack" default="10">
+            플레이어의 공격력입니다.
+            
+            기본 공격력과 장착된 무기의 공격력이 합산됩니다.
+            레벨업이나 장비 변경 시 자동으로 재계산됩니다.
+        </member>
+        <member name="player_defense" type="int" setter="set_player_defense" getter="get_player_defense" default="0">
+            플레이어의 방어력입니다.
+            
+            장착된 방어구의 방어력이 반영되며, 받는 데미지를 감소시킵니다.
+            방어구 변경 시 자동으로 재계산됩니다.
+        </member>
+        <member name="player_exp" type="int" setter="set_player_exp" getter="get_player_exp" default="0">
+            플레이어의 현재 경험치입니다.
+        </member>
+        <member name="player_gold" type="int" setter="set_player_gold" getter="get_player_gold" default="0">
+            플레이어가 보유한 골드(G)입니다.
+        </member>
+        <member name="player_hp" type="int" setter="set_player_hp" getter="get_player_hp" default="20">
+            플레이어의 현재 HP입니다.
+        </member>
+        <member name="player_kills" type="int" setter="set_player_kills" getter="get_player_kills" default="0">
+            플레이어가 처치한 몬스터 수입니다.
+        </member>
+        <member name="player_lv" type="int" setter="set_player_lv" getter="get_player_lv" default="1">
+            플레이어의 레벨(LV)입니다.
+        </member>
+        <member name="player_max_hp" type="int" setter="set_player_max_hp" getter="get_player_max_hp" default="20">
+            플레이어의 최대 HP입니다.
+            
+            레벨업 시 증가하며, 현재 HP의 상한선 역할을 합니다.
+            회복 아이템 사용 시 이 값을 초과하여 회복되지 않습니다.
+        </member>
+        <member name="player_name" type="String" setter="set_player_name" getter="get_player_name" default="&quot;ERROR&quot;">
+            플레이어의 이름입니다.
+            
+            게임 시작 시 입력받으며, 세이브 파일에 표시됩니다.
+        </member>
+        <member name="savepath" type="String" setter="set_savepath" getter="get_savepath" default="&quot;user://file0&quot;">
+            세이브 파일의 경로입니다.
+            [color=red]주의: 세이브 파일 이름은 file0으로 해야합니다[/color] 
+            
+            플랫폼별로 자동 설정되며, 다음과 같은 형태를 가집니다:
+            • Windows: C:/Users/[username]/UNDERTALE/file0
+            • Web/Mobile: user://file0
+            • 기타: user://file0 (폴백)
+        </member>
+        <member name="settings" type="Dictionary" setter="set_settings" getter="get_settings" default="{ &quot;Master&quot;: 100, &quot;Music&quot;: 100, &quot;SFX&quot;: 100, &quot;border&quot;: true, &quot;shake&quot;: true, &quot;vfx&quot;: true }">
+            게임 설정들을 저장하는 딕셔너리입니다.
+            
+            • "Master": 마스터 볼륨 (0-100)
+            • "Music": 배경음악 볼륨 (0-100)
+            • "SFX": 효과음 볼륨 (0-100)
+            • "border": 화면 테두리 표시 여부
+            • "shake": 화면 흔들림 효과 사용 여부
+            • "vfx": 시각 효과 사용 여부
+            
+            설정 변경 시 save_settings()로 자동 저장됩니다.
+        </member>
+    </members>
+
+    <signals>
+        <signal name="fullscreen_toggled">
+            <param index="0" name="to" type="bool" />
+            <description>
+                전체화면 모드가 전환되었을 때 방출되는 시그널입니다.
+                
+                [b]매개변수:[/b]
+                • to: 전환된 모드 (true=전체화면, false=창모드)
+                
+                UI 요소들이 화면 모드 변경에 반응할 때 사용됩니다.
+                toggle_fullscreen() 호출 후에 자동으로 방출됩니다.
+            </description>
+        </signal>
+        <signal name="saved">
+            <description>
+                게임 저장이 완료되었을 때 방출되는 시그널입니다.
+                
+                save() 함수 호출로 세이브 파일 쓰기가 성공했을 때 발생합니다.
+                저장 완료 알림, UI 업데이트, 자동 저장 시스템 등에 활용됩니다.
+            </description>
+        </signal>
+    </signals>
+</class>
