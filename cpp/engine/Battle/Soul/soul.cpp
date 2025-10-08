@@ -612,10 +612,12 @@ void SoulBattle::_kill_able_tween() {
 void SoulBattle::_disable() {
     _kill_able_tween();
     _able_tween = get_tree()->create_tween();
-    _able_tween->tween_property(this, "modulate:a", 0.0, 0.2);
+    _able_tween->tween_property(this, "modulate:a", 0, 0.2f);
+    collision_area->set_disabled(true);
 }
 
 void SoulBattle::enable() {
+    collision_area->set_disabled(false);
     set_process_unhandled_input(true);
     inputs = Vector2(0, 0);
     set_z_index(1);
