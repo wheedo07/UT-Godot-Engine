@@ -35,7 +35,6 @@ void Slash::_bind_methods() {
 }
 
 void Slash::_ready() {
-    if(isEditor) return;
     anim_tree = Object::cast_to<AnimationTree>(get_node_internal("AnimationTree"));
     anim_tree_playback = Object::cast_to<AnimationNodeStateMachinePlayback>(anim_tree->get("parameters/playback"));
     
@@ -61,8 +60,7 @@ void Slash::_ready() {
 }
 
 void Slash::_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
-    if (event->is_action_pressed("ui_accept") && can_punch) {
+    if(event->is_action_pressed("ui_accept") && can_punch) {
         Ref<ParticleProcessMaterial> material = particles->get_process_material();
         float max = material->get_param_max(ParticleProcessMaterial::PARAM_SCALE);
         float min = material->get_param_min(ParticleProcessMaterial::PARAM_SCALE);

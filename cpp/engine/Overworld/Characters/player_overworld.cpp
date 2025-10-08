@@ -86,7 +86,6 @@ void PlayerOverworld::_bind_methods() {
 }
 
 void PlayerOverworld::_ready() {
-    if(isEditor) return;
     sprite = Object::cast_to<AnimatedSprite2D>(get_node_internal("Sprite"));
     interacter = Object::cast_to<Area2D>(get_node_internal("Interacter"));
     alert_sprite = Object::cast_to<AnimatedSprite2D>(get_node_internal("Alert"));
@@ -102,7 +101,7 @@ void PlayerOverworld::_ready() {
 }
 
 void PlayerOverworld::_physics_process(double delta) {
-    if (!global || isEditor) return;
+    if (!global) return;
     
     if (forced_walking) {
         set_direction();
@@ -153,8 +152,6 @@ void PlayerOverworld::_physics_process(double delta) {
 }
 
 void PlayerOverworld::_process(double delta) {
-    if(isEditor) return;
-
     hp_bar->set_max(global->get_player_max_hp());
     hp_bar->set_value(global->get_player_hp());
     
@@ -303,9 +300,7 @@ bool PlayerOverworld::is_interacting() {
 }
 
 void PlayerOverworld::_unhandled_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
-    
-    if (global->get_player_can_move() && !global->get_player_in_menu() && !forced_walking) {
+    if(global->get_player_can_move() && !global->get_player_in_menu() && !forced_walking) {
         if (event->is_action("ui_left") || event->is_action("ui_right") || 
             event->is_action("ui_up") || event->is_action("ui_down")) {
             _step();

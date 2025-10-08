@@ -58,7 +58,6 @@ void SHOP::_bind_methods() {
 }
 
 void SHOP::_ready() {
-    if(isEditor) return;
     Array rects_array;
     rects_array.push_back(get_node_internal("Control/Main"));
     rects_array.push_back(get_node_internal("Control/TextBox"));
@@ -103,7 +102,7 @@ void SHOP::init() {
 }
 
 void SHOP::_unhandled_input(const Ref<InputEvent>& event) {
-    if (!(current_state < VIEWING_DIALOGUE) || isEditor) return;
+    if (!(current_state < VIEWING_DIALOGUE)) return;
 
     if (event->is_action_pressed("ui_down")) {
         if (current_state == SELLING_ITEMS) {

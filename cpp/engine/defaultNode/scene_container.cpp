@@ -28,7 +28,6 @@ void SceneContainer::_bind_methods() {
 }
 
 void SceneContainer::_ready() {
-    if(isEditor) return;
     loader = ResourceLoader::get_singleton();
     camera_scene = loader->load("res://Camera/camera_fx.tscn");
     settings_viewport_container = Object::cast_to<SubViewportContainer>(get_node_internal("SettingsContainer"));

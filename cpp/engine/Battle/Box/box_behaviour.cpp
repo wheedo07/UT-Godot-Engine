@@ -26,13 +26,11 @@ void BattleBoxBehaviour::_bind_methods() {
 }
 
 void BattleBoxBehaviour::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint();
-    if(isEditor) return;
     box = Object::cast_to<BattleBox>(get_node_internal(box_path));
 }
 
 void BattleBoxBehaviour::_input(const Ref<InputEvent>& event) {
-    if(!enabled || isEditor) return;
+    if(!enabled) return;
     input(event);
 }
 

@@ -14,7 +14,6 @@ void BattlePlatform::_bind_methods() {
 }
 
 void BattlePlatform::_ready() {
-    if(isEditor) return;
     platform = Object::cast_to<NinePatchRect>(get_node_internal("Platform"));
     platform_col = Object::cast_to<StaticBody2D>(get_node_internal("StaticBody2D"));
     collision = Object::cast_to<CollisionShape2D>(get_node_internal("StaticBody2D/CollisionShape2D"));
@@ -31,7 +30,6 @@ void BattlePlatform::_ready() {
 }
 
 void BattlePlatform::_physics_process(double delta) {
-    if(isEditor) return;
     if(!velocity.is_zero_approx()) {
         movement= velocity * delta;
         set_position(get_position() + movement);

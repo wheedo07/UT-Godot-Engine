@@ -23,7 +23,6 @@ namespace godot {
             const Color COLOR = Color(0, 0.5, 0); // DARK_GREEN
             const float TIME = 0.2f;
 
-            bool isEditor;
             Timer* hit_timer;
             Line2D* line;
             Area2D* shield;

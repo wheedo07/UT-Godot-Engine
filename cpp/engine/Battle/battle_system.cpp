@@ -64,7 +64,6 @@ void BattleMain::_bind_methods() {
 }
 
 void BattleMain::_ready() {
-    if(isEditor) return;
     camera = Object::cast_to<CameraController>(get_node_internal("Camera"));
     buttons = Object::cast_to<BattleButtons>(get_node_internal("Buttons"));
     box = Object::cast_to<BattleBox>(get_node_internal("BattleBox"));

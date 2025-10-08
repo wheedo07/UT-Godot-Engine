@@ -69,8 +69,6 @@ void Overworld::_bind_methods() {
 
 void Overworld::_ready() {
     ResourceLoader* loader = ResourceLoader::get_singleton();
-    music = music.is_null() ? Ref<AudioStream>(loader->load("res://Musics/default/overworld.wav")) : music;
-    if(isEditor) return;
     text_box = loader->load("res://Overworld/text_box.tscn");
     
     if(player_path.is_empty() || camera_path.is_empty()) {
@@ -104,7 +102,7 @@ PackedStringArray Overworld::player_died() {
 void Overworld::start_music_fade_in() {
     music_player = global->get_Music();
 
-    if(music_player->get_stream() == music && music_player->is_playing()) return;
+    if((music_player->get_stream() == music && music_player->is_playing()) || music.is_null()) return;
 
     music_player->set_stream(music);
     music_player->play();

@@ -44,7 +44,6 @@ void TextBox::_bind_methods() {
 }
 
 void TextBox::_ready() {
-    if(isEditor) return;
     Text = Object::cast_to<TextBoxWriter>(get_node_internal("Control/TextContainer/Text"));
     head = Object::cast_to<AnimatedSprite2D>(get_node_internal("Control/Head"));
     soul = Object::cast_to<MenuSoul>(get_node_internal("Control/Soul"));
@@ -93,7 +92,7 @@ void TextBox::_ready() {
 }
 
 void TextBox::_input(const Ref<InputEvent>& event) {
-    if(!selecting || isEditor) return;
+    if(!selecting) return;
     
     if(event->is_action_pressed("ui_left") && soulpos > 0) {
         selected_option = true;

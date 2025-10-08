@@ -18,7 +18,6 @@ namespace godot {
             float kr;
 
         private:
-            bool isEditor;
             NodePath bullet_path;
 
             void set_bullet_path(NodePath value);

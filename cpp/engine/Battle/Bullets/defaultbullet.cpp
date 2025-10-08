@@ -48,7 +48,7 @@ void DefaultBullet::ready() {
 }
 
 void DefaultBullet::_process(double delta) {
-    if(!is_inside_tree() || isEditor) return;
+    if(!is_inside_tree()) return;
     
     Vector2 sprite_size = get_sprite_size();
     

@@ -44,7 +44,6 @@ void AttackBase::_bind_methods() {
 }
 
 void AttackBase::_ready() {
-    if(isEditor) return;
     main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
     non_mask = main->attacks_parent;
     mask = main->attacks;

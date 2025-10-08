@@ -18,7 +18,6 @@ void YellowBullet::_bind_methods() {
 }
 
 void YellowBullet::_physics_process(double delta) {
-    if(isEditor) return;
     set_position(get_position() + velocity);
 }
 

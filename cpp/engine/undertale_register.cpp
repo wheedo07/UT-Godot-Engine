@@ -13,144 +13,144 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
     // [resources] //
     // Dialogues
-    GDREGISTER_CLASS(DialoguePause);
-    GDREGISTER_CLASS(Dialogue);
-    GDREGISTER_CLASS(Dialogues);
+    GDREGISTER_RUNTIME_CLASS(DialoguePause);
+    GDREGISTER_RUNTIME_CLASS(Dialogue);
+    GDREGISTER_RUNTIME_CLASS(Dialogues);
 
     // Encounters
-    GDREGISTER_CLASS(Encounter);
+    GDREGISTER_RUNTIME_CLASS(Encounter);
 
     // Enemies
-    GDREGISTER_CLASS(ActInfo);
-    GDREGISTER_CLASS(EnemyState);
+    GDREGISTER_RUNTIME_CLASS(ActInfo);
+    GDREGISTER_RUNTIME_CLASS(EnemyState);
 
     // ShopItems
-    GDREGISTER_CLASS(ShopItem);
+    GDREGISTER_RUNTIME_CLASS(ShopItem);
 
     // Item
-    GDREGISTER_CLASS(Item);
+    GDREGISTER_RUNTIME_CLASS(Item);
     // [end] //
 
     // [defaultNode] //
-    GDREGISTER_CLASS(AudioPlayer);
-    GDREGISTER_CLASS(Global);
-    GDREGISTER_CLASS(Settings);
-    GDREGISTER_CLASS(SceneContainer);
-    GDREGISTER_CLASS(OverworldSceneChanger);
+    GDREGISTER_RUNTIME_CLASS(AudioPlayer);
+    GDREGISTER_RUNTIME_CLASS(Global);
+    GDREGISTER_RUNTIME_CLASS(Settings);
+    GDREGISTER_RUNTIME_CLASS(SceneContainer);
+    GDREGISTER_RUNTIME_CLASS(OverworldSceneChanger);
     // [end] //
 
     // [Camera] //
-    GDREGISTER_CLASS(CameraFx);
-    GDREGISTER_CLASS(CameraController);
+    GDREGISTER_RUNTIME_CLASS(CameraFx);
+    GDREGISTER_RUNTIME_CLASS(CameraController);
     // [end] //
 
     // [Text] //
-    GDREGISTER_CLASS(GenericTextTyper);
-    GDREGISTER_CLASS(AdvancedTextTyper);
+    GDREGISTER_RUNTIME_CLASS(GenericTextTyper);
+    GDREGISTER_RUNTIME_CLASS(AdvancedTextTyper);
     // [end] //
 
     // [Overworld] //
-    GDREGISTER_CLASS(Overworld);
-    GDREGISTER_CLASS(BattleTransition);
-    GDREGISTER_CLASS(RoomEntranceNode);
-    GDREGISTER_CLASS(SaveMenu);
-    GDREGISTER_CLASS(UI_Box);
-    GDREGISTER_CLASS(UI);
-    GDREGISTER_CLASS(SoulOverworld);
-    GDREGISTER_CLASS(UIdimensionalBox);
+    GDREGISTER_RUNTIME_CLASS(Overworld);
+    GDREGISTER_RUNTIME_CLASS(BattleTransition);
+    GDREGISTER_RUNTIME_CLASS(RoomEntranceNode);
+    GDREGISTER_RUNTIME_CLASS(SaveMenu);
+    GDREGISTER_RUNTIME_CLASS(UI_Box);
+    GDREGISTER_RUNTIME_CLASS(UI);
+    GDREGISTER_RUNTIME_CLASS(SoulOverworld);
+    GDREGISTER_RUNTIME_CLASS(UIdimensionalBox);
 
     // Interactions
-    GDREGISTER_CLASS(InteractionTrigger);
-    GDREGISTER_CLASS(OverworldAreaTrigger);
-    GDREGISTER_CLASS(SavePoint);
-    GDREGISTER_CLASS(DimensionalBox);
-    GDREGISTER_CLASS(ItemInteraction);
+    GDREGISTER_RUNTIME_CLASS(InteractionTrigger);
+    GDREGISTER_RUNTIME_CLASS(OverworldAreaTrigger);
+    GDREGISTER_RUNTIME_CLASS(SavePoint);
+    GDREGISTER_RUNTIME_CLASS(DimensionalBox);
+    GDREGISTER_RUNTIME_CLASS(ItemInteraction);
 
     // textBox
-    GDREGISTER_CLASS(TextBoxWriter);
-    GDREGISTER_CLASS(TextBoxOptionWriter);
-    GDREGISTER_CLASS(TextBox);
+    GDREGISTER_RUNTIME_CLASS(TextBoxWriter);
+    GDREGISTER_RUNTIME_CLASS(TextBoxOptionWriter);
+    GDREGISTER_RUNTIME_CLASS(TextBox);
 
     // Characters
-    GDREGISTER_CLASS(PlayerOverworld);
-    GDREGISTER_CLASS(EnemyOverworld);
+    GDREGISTER_RUNTIME_CLASS(PlayerOverworld);
+    GDREGISTER_RUNTIME_CLASS(EnemyOverworld);
 
     // Shop
-    GDREGISTER_CLASS(SHOP);
-    GDREGISTER_CLASS(ShopCreate);
+    GDREGISTER_RUNTIME_CLASS(SHOP);
+    GDREGISTER_RUNTIME_CLASS(ShopCreate);
     // [end] //
 
     // [Menus] //
-    GDREGISTER_CLASS(MenuSoul);
-    GDREGISTER_CLASS(OptionSelectable);
-    GDREGISTER_CLASS(OptionSelectableSolo);
-    GDREGISTER_CLASS(SettingBoolButton);
-    GDREGISTER_CLASS(SettingToggleButton);
-    GDREGISTER_CLASS(AudiobusSettings);
-    GDREGISTER_CLASS(ItemSlider);
-    GDREGISTER_CLASS(SaveLoader);
-    GDREGISTER_CLASS(Joystick);
+    GDREGISTER_RUNTIME_CLASS(MenuSoul);
+    GDREGISTER_RUNTIME_CLASS(OptionSelectable);
+    GDREGISTER_RUNTIME_CLASS(OptionSelectableSolo);
+    GDREGISTER_RUNTIME_CLASS(SettingBoolButton);
+    GDREGISTER_RUNTIME_CLASS(SettingToggleButton);
+    GDREGISTER_RUNTIME_CLASS(AudiobusSettings);
+    GDREGISTER_RUNTIME_CLASS(ItemSlider);
+    GDREGISTER_RUNTIME_CLASS(SaveLoader);
+    GDREGISTER_RUNTIME_CLASS(Joystick);
     // [end] //
 
     // [Intro] //
-    GDREGISTER_CLASS(Intro);
-    GDREGISTER_CLASS(Options);
-    GDREGISTER_CLASS(Typing);
-    GDREGISTER_CLASS(NameSelection);
+    GDREGISTER_RUNTIME_CLASS(Intro);
+    GDREGISTER_RUNTIME_CLASS(Options);
+    GDREGISTER_RUNTIME_CLASS(Typing);
+    GDREGISTER_RUNTIME_CLASS(NameSelection);
     // [end] //
 
     // [Battle] //
-    GDREGISTER_CLASS(BattleButtons);
-    GDREGISTER_CLASS(Slash);
-    GDREGISTER_CLASS(BattleHUD);
-    GDREGISTER_CLASS(Enemy);
-    GDREGISTER_CLASS(BattleMain);
+    GDREGISTER_RUNTIME_CLASS(BattleButtons);
+    GDREGISTER_RUNTIME_CLASS(Slash);
+    GDREGISTER_RUNTIME_CLASS(BattleHUD);
+    GDREGISTER_RUNTIME_CLASS(Enemy);
+    GDREGISTER_RUNTIME_CLASS(BattleMain);
 
     // AttackMeter
-    GDREGISTER_CLASS(AttackBar);
-    GDREGISTER_CLASS(DamageIndicator);
-    GDREGISTER_CLASS(AttackMeter);
+    GDREGISTER_RUNTIME_CLASS(AttackBar);
+    GDREGISTER_RUNTIME_CLASS(DamageIndicator);
+    GDREGISTER_RUNTIME_CLASS(AttackMeter);
 
     // Attacks
-    GDREGISTER_CLASS(AttackBase);
-    GDREGISTER_CLASS(AttackManager);
+    GDREGISTER_RUNTIME_CLASS(AttackBase);
+    GDREGISTER_RUNTIME_CLASS(AttackManager);
 
     // Box
-    GDREGISTER_CLASS(Blitter);
-    GDREGISTER_CLASS(ArgsHolder);
-    GDREGISTER_CLASS(BattleBox);
-    GDREGISTER_CLASS(BattleBoxBehaviour);
-    GDREGISTER_CLASS(FightingBoxBehaviour);
-    GDREGISTER_CLASS(ActingBoxBehaviour);
-    GDREGISTER_CLASS(ItemingBoxBehaviour);
-    GDREGISTER_CLASS(MercyingBoxBehaviour);
-    GDREGISTER_CLASS(TargettingBoxBehaviour);
-    GDREGISTER_CLASS(BlitteringBoxBehaviour);
-    GDREGISTER_CLASS(BlitteringCasualBoxBehaviour);
+    GDREGISTER_RUNTIME_CLASS(Blitter);
+    GDREGISTER_RUNTIME_CLASS(ArgsHolder);
+    GDREGISTER_RUNTIME_CLASS(BattleBox);
+    GDREGISTER_RUNTIME_CLASS(BattleBoxBehaviour);
+    GDREGISTER_RUNTIME_CLASS(FightingBoxBehaviour);
+    GDREGISTER_RUNTIME_CLASS(ActingBoxBehaviour);
+    GDREGISTER_RUNTIME_CLASS(ItemingBoxBehaviour);
+    GDREGISTER_RUNTIME_CLASS(MercyingBoxBehaviour);
+    GDREGISTER_RUNTIME_CLASS(TargettingBoxBehaviour);
+    GDREGISTER_RUNTIME_CLASS(BlitteringBoxBehaviour);
+    GDREGISTER_RUNTIME_CLASS(BlitteringCasualBoxBehaviour);
 
     // Bullets
-    GDREGISTER_CLASS(Bullet);
-    GDREGISTER_CLASS(BattleObject);
-    GDREGISTER_CLASS(BattlePlatform);
-    GDREGISTER_CLASS(BulletArea);
-    GDREGISTER_CLASS(DefaultBullet);
-    GDREGISTER_CLASS(Bone);
-    GDREGISTER_CLASS(BoneSpike);
-    GDREGISTER_CLASS(Blaster);
+    GDREGISTER_RUNTIME_CLASS(Bullet);
+    GDREGISTER_RUNTIME_CLASS(BattleObject);
+    GDREGISTER_RUNTIME_CLASS(BattlePlatform);
+    GDREGISTER_RUNTIME_CLASS(BulletArea);
+    GDREGISTER_RUNTIME_CLASS(DefaultBullet);
+    GDREGISTER_RUNTIME_CLASS(Bone);
+    GDREGISTER_RUNTIME_CLASS(BoneSpike);
+    GDREGISTER_RUNTIME_CLASS(Blaster);
 
     // Death
-    GDREGISTER_CLASS(DeathSoul);
-    GDREGISTER_CLASS(DeathScreen);
+    GDREGISTER_RUNTIME_CLASS(DeathSoul);
+    GDREGISTER_RUNTIME_CLASS(DeathScreen);
 
     // Soul
-    GDREGISTER_CLASS(CyanDetection);
-    GDREGISTER_CLASS(GreenShielding);
-    GDREGISTER_CLASS(YellowBullet);
-    GDREGISTER_CLASS(SoulBattle);
+    GDREGISTER_RUNTIME_CLASS(CyanDetection);
+    GDREGISTER_RUNTIME_CLASS(GreenShielding);
+    GDREGISTER_RUNTIME_CLASS(YellowBullet);
+    GDREGISTER_RUNTIME_CLASS(SoulBattle);
 
     // Misc
-    GDREGISTER_CLASS(EnemySpeech);
-    GDREGISTER_CLASS(DialogueControl);
+    GDREGISTER_RUNTIME_CLASS(EnemySpeech);
+    GDREGISTER_RUNTIME_CLASS(DialogueControl);
     // [end] //
     
     register_init();

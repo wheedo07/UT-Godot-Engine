@@ -137,8 +137,6 @@ Global::Global() {
 Global::~Global() {}
 
 void Global::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint();
-    if(isEditor) return;
     Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
 
     os = OS::get_singleton();
@@ -247,7 +245,6 @@ void Global::heal(int amt) {
 }
 
 void Global::_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
     if(event->is_action_pressed("toggle_fullscreen") && !is_Mobile) toggle_fullscreen();
 
     if(event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {
@@ -257,7 +254,6 @@ void Global::_input(const Ref<InputEvent>& event) {
 }
 
 void Global::_unhandled_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
     if(debugmode) {
         if (event->is_action_pressed("refresh_scene") && os->is_debug_build()) {
             print_line(tr("UT_WARN_NODE_LOSS"));
@@ -284,7 +280,6 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
 }
 
 void Global::_process(double delta) {
-    if(isEditor) return;
     Input* input = Input::get_singleton();
     if(input->is_action_pressed("ui_quit")) {
         quit_time += delta;
@@ -321,7 +316,6 @@ void Global::_process(double delta) {
 }
 
 void Global::_notification(int what) {
-    if(isEditor) return;
     if(what == NOTIFICATION_WM_CLOSE_REQUEST || what == NOTIFICATION_WM_GO_BACK_REQUEST) {
         save_settings();
         get_tree()->quit();

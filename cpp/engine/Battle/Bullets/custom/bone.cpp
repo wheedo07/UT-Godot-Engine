@@ -35,7 +35,7 @@ void Bone::ready() {
 }
 
 void Bone::_process(double delta) {
-    if(!is_inside_tree() || isEditor) return;
+    if(!is_inside_tree()) return;
     
     Vector2 size = sprite_rect->get_size();
     Vector2 sprite_pos = sprite_rect->get_position();

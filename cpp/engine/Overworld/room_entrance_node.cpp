@@ -52,8 +52,6 @@ void RoomEntranceNode::force_enter() {
 }
 
 void RoomEntranceNode::_ready() {
-    bool isEditor = Engine::get_singleton()->is_editor_hint();
-    if(isEditor) return;
     facing_direction = facing_direction.normalized();
     
     Ref<PackedScene> area_scene = ResourceLoader::get_singleton()->load("res://Overworld/Interactions/overworld_area_trigger.tscn");

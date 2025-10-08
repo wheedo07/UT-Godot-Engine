@@ -22,7 +22,6 @@ void SavePoint::_bind_methods() {
 }
 
 void SavePoint::_ready() {
-    if(isEditor) return;
     ResourceLoader* loader = ResourceLoader::get_singleton();
     txt_box = loader->load("res://Overworld/text_box.tscn");
     save_menu = loader->load("res://Overworld/save_menu.tscn");

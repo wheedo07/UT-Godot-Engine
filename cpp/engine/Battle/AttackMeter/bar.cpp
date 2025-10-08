@@ -36,7 +36,6 @@ void AttackBar::_bind_methods() {
 }
 
 void AttackBar::_ready() {
-    if(isEditor) return;
     overlay = Object::cast_to<ColorRect>(get_node_internal("Overlay"));
     animation_player = Object::cast_to<AnimationPlayer>(get_node_internal("AnimationPlayer"));
     hit_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("hit"));
@@ -84,7 +83,7 @@ void AttackBar::_on_tween_finished2() {
 }
 
 void AttackBar::_unhandled_input(const Ref<InputEvent>& event) {
-    if(isEditor || hityet) return;
+    if(hityet) return;
     if(event->is_action_pressed("ui_accept")) {
         if (tw.is_valid()) tw->kill();
         

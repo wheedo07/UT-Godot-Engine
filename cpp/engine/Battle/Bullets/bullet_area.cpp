@@ -16,15 +16,12 @@ void BulletArea::_bind_methods() {
 }
 
 void BulletArea::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint();
-    if(isEditor) return;
     bullet = Object::cast_to<Bullet>(get_node_internal(bullet_path));
     bullet->connect("bullet_fade", Callable(this, "set_monitorable").bind(false));
     bullet->connect("bullet_fade", Callable(this, "set_monitoring").bind(false));
 }
 
 void BulletArea::_process(double delta) {
-    if(isEditor) return;
     damage_mode = bullet->damage_mode;
     damage = bullet->get_damage();
     iframes = bullet->get_iframe_grant();

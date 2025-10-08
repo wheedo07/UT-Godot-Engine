@@ -27,7 +27,6 @@ void Options::_bind_methods() {
 }
 
 void Options::_ready() {
-    if(isEditor) return;
     option_nodes = get_children();
     set_process_unhandled_input(false);
 }
@@ -67,7 +66,7 @@ void Options::disable() {
 }
 
 void Options::_unhandled_input(const Ref<InputEvent>& event) {
-    if (!is_visible() || isEditor) return;
+    if (!is_visible()) return;
     
     if (event->is_action_pressed("ui_up") || event->is_action_pressed("ui_down")) {
         disable();

@@ -20,8 +20,6 @@ void Settings::_bind_methods() {
 }
 
 void Settings::_ready() {
-    bool isEditor = Engine::get_singleton()->is_editor_hint();
-    if(isEditor) return;
     Darken = Object::cast_to<Panel>(get_node_internal("Darken"));
     Blur = Object::cast_to<CanvasItem>(get_node_internal("Blur"));
     BusContainer = Object::cast_to<HBoxContainer>(get_node_internal("BusContainer"));

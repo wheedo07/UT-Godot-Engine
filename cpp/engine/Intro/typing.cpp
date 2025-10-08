@@ -47,7 +47,6 @@ void Typing::_bind_methods() {
 }
 
 void Typing::_ready() {
-    if(isEditor) return;
     shift_button = Object::cast_to<OptionSelectable>(get_node_internal("Shift"));
     call_deferred("_create_letters");
 }
@@ -159,7 +158,7 @@ void Typing::_on_shift_pressed(bool shift) {
 }
 
 void Typing::_unhandled_input(const Ref<InputEvent>& event) {
-    if(!is_visible() || isEditor) return;
+    if(!is_visible()) return;
     
     Ref<InputEventKey> key_event = event;
     if (key_event.is_valid()) {

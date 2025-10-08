@@ -23,7 +23,7 @@ namespace godot {
             };
 
         private:
-            bool isEditor, is_pressed;
+            bool is_pressed;
             float deadzone_size, clampzone_size, coolTime;
             int touch_index;
             Dictionary actions_time;

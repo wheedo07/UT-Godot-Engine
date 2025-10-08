@@ -50,7 +50,6 @@ void OverworldAreaTrigger::_bind_methods() {
 }
 
 void OverworldAreaTrigger::_ready() {
-    if(isEditor) return;
     Collision = Object::cast_to<CollisionShape2D>(get_node_internal("Collision"));
     Color debug_color = Color(
         UtilityFunctions::randf(),

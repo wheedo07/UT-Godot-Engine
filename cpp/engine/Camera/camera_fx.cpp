@@ -28,7 +28,7 @@ void CameraFx::_bind_methods() {
 }
 
 void CameraFx::_ready() {
-    if(isEditor || !global) return;
+    if(!global) return;
 
     blinder = Object::cast_to<ColorRect>(get_node_internal("CanvasLayer/Blinder"));
     Fxcher = Object::cast_to<ColorRect>(get_node_internal("FX/Fx"));
@@ -44,7 +44,7 @@ void CameraFx::_ready() {
 }
 
 void CameraFx::_process(double delta) {
-    if(isEditor || !global) return;
+    if(!global) return;
     Dictionary settings = global->get_settings();
 
     Fxmaster->set_shader_parameter("shake_enable", settings["shake"]);

@@ -58,7 +58,6 @@ void OptionSelectableSolo::_bind_methods() {
 }
 
 void OptionSelectableSolo::_ready() {
-    if(isEditor) return;
     OptionSelectable::_ready();
     set_selected(get_initial_selected());
     
@@ -67,7 +66,7 @@ void OptionSelectableSolo::_ready() {
 }
 
 void OptionSelectableSolo::_unhandled_input(const Ref<InputEvent>& event) {
-    if (isEditor || !is_visible_in_tree() || !enabled) return;
+    if(!is_visible_in_tree() || !enabled) return;
     
     if (event->is_action_pressed("ui_down") && !node_down.is_empty()) {
         move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_down)));

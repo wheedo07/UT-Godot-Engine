@@ -1,6 +1,5 @@
-[gd_scene load_steps=19 format=3 uid="uid://b4bh4j4oik4sl"]
+[gd_scene load_steps=18 format=3 uid="uid://b4bh4j4oik4sl"]
 
-[ext_resource type="AudioStream" uid="uid://duh3v5648axhv" path="res://Musics/default/overworld.wav" id="1_rnacv"]
 [ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://Game/assets/sprite/sheet/new_home.png" id="2_ulhiq"]
 [ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Overworld/Characters/player_overworld.tscn" id="3_36w6e"]
 [ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Overworld/Interactions/save_point.tscn" id="5_0u8sj"]
@@ -151,7 +150,6 @@ size = Vector2(1580, 20)
 world_name = "마지막 복도"
 player_path = NodePath("TileMap/PlayerOverworld")
 camera_path = NodePath("TileMap/PlayerOverworld/CameraController")
-music = ExtResource("1_rnacv")
 room_entrances = [NodePath("TileMap/trigger/shop_room")]
 y_sort_enabled = true
 script = SubResource("GDScript_u3m8p")

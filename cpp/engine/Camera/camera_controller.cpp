@@ -53,7 +53,6 @@ void CameraController::_bind_methods() {
 }
 
 void CameraController::_ready() {
-    if(isEditor) return;
     force_update();
     _set_limits();
     
@@ -76,7 +75,7 @@ void CameraController::force_update() {
 }
 
 void CameraController::_process(double delta) {
-    if(isEditor || !camerafx) return;
+    if(!camerafx) return;
     camerafx->set_zoom(zoom);
 }
 

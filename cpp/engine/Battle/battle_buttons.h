@@ -13,7 +13,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            bool enabled, isEditor;
+            bool enabled;
             int choice;
 
             AudioStreamPlayer* move_sound;

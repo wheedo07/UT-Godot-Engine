@@ -25,7 +25,6 @@ void OptionSelectable::_bind_methods() {
 }
 
 void OptionSelectable::_ready() {
-    if(isEditor) return;
     default_color = get_self_modulate();
     
     set_selected(Selected);
@@ -34,7 +33,6 @@ void OptionSelectable::_ready() {
 void OptionSelectable::set_selected(bool new_val) {
     selected = new_val;
 
-    if(isEditor) return;
     if(new_val) {
         set_self_modulate(selected_color);
     } else {

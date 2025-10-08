@@ -95,7 +95,6 @@ bool GenericTextTyper::_get(const StringName& p_name, Variant& r_ret) {
 }
 
 void GenericTextTyper::_ready() {
-    if(isEditor) return;
     if(!click_path.is_empty()) click = Object::cast_to<AudioStreamPlayer>(get_node_internal(click_path));
 }
 

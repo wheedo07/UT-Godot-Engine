@@ -26,7 +26,6 @@ void DeathSoul::_bind_methods() {
 }
 
 void DeathSoul::_ready() {
-    if(isEditor) return;
     shards = Object::cast_to<GPUParticles2D>(get_node_internal("shards"));
     snap_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("snap"));
     shatter_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("shatter"));

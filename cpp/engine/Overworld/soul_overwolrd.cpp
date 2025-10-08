@@ -17,12 +17,11 @@ void SoulOverworld::_bind_methods() {
 }
 
 void SoulOverworld::_ready() {
-    if(isEditor) return;
     area = Object::cast_to<Area2D>(get_node_internal("Area2D"));
 }
 
 void SoulOverworld::_physics_process(double delta) {
-    if(isEditor || !isOn) return;
+    if(!isOn) return;
 
     TypedArray<Area2D> overlapping_areas = area->get_overlapping_areas();
     for(int i=0; i < overlapping_areas.size(); i++) {
@@ -34,7 +33,6 @@ void SoulOverworld::_physics_process(double delta) {
 }
 
 void SoulOverworld::_process(double delta) {
-    if(isEditor) return;
     float delta_frame = ProjectSettings::get_singleton()->get_setting("max_fps", Engine::get_singleton()->get_frames_per_second());
     
     iframes -= delta * delta_frame;

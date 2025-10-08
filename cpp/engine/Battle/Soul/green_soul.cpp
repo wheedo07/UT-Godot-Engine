@@ -21,8 +21,6 @@ void GreenShielding::_draw() {
 }
 
 void GreenShielding::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint();
-    if(isEditor) return;
     hit_timer = Object::cast_to<Timer>(get_node_internal("Timer"));
     line = Object::cast_to<Line2D>(get_node_internal("Shield/Col/Line2D"));
     shield = Object::cast_to<Area2D>(get_node_internal("Shield"));
@@ -32,17 +30,13 @@ void GreenShielding::_ready() {
 }
 
 void GreenShielding::_unhandled_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
-    if (event->is_action_pressed("ui_left")) {
+    if(event->is_action_pressed("ui_left")) {
         _change_shield_rot_deg(0);
-    }
-    else if (event->is_action_pressed("ui_right")) {
+    }else if(event->is_action_pressed("ui_right")) {
         _change_shield_rot_deg(180);
-    }
-    else if (event->is_action_pressed("ui_up")) {
+    }else if(event->is_action_pressed("ui_up")) {
         _change_shield_rot_deg(90);
-    }
-    else if (event->is_action_pressed("ui_down")) {
+    }else if(event->is_action_pressed("ui_down")) {
         _change_shield_rot_deg(270);
     }
 }

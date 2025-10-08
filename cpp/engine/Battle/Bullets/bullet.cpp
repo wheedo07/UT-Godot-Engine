@@ -78,8 +78,6 @@ void Bullet::_bind_methods() {
 }
 
 void Bullet::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint();
-    if(isEditor) return;
     sprite = Object::cast_to<CanvasItem>(get_node_internal(sprite_path));
 
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
@@ -95,8 +93,6 @@ void Bullet::on_hit_yellow() {}
 void Bullet::on_hit_player_shield() {}
 
 void Bullet::_physics_process(double delta) {
-    if(isEditor) return;
-
     // 스프라이트 색상 모드에 따라 설정
     if (damage_mode >= 0 && damage_mode < colors.size()) {
         sprite->set_modulate(colors[damage_mode]);

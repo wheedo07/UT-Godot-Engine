@@ -4,16 +4,16 @@
 #include<godot_cpp/godot.hpp>
 
 void register_init() {
-    GDREGISTER_CLASS(MainNode);
+    GDREGISTER_RUNTIME_CLASS(MainNode);
 
     // overworld Node
-    GDREGISTER_CLASS(TEST_WORLD);
+    GDREGISTER_RUNTIME_CLASS(TEST_WORLD);
 
     // enemy Node
-    GDREGISTER_CLASS(Enemy_SANS);
+    GDREGISTER_RUNTIME_CLASS(Enemy_SANS);
 
     // attackNode
-    GDREGISTER_CLASS(AttackSans);
+    GDREGISTER_RUNTIME_CLASS(AttackSans);
 
     // Bullets Node
 }

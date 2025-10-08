@@ -18,7 +18,6 @@ void SettingBoolButton::_bind_methods() {
 }
 
 void SettingBoolButton::init() {
-    if(isEditor) return;
     Dictionary settings = global->get_settings();
     if (settings.has(setting_name)) {
         Variant value = settings[setting_name];

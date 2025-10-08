@@ -174,7 +174,6 @@ void Enemy::_bind_methods() {
 }
 
 void Enemy::_ready() {
-    if(isEditor) return;
     if(!hurt_sound_path.is_empty()) hurt_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(hurt_sound_path));
     if(!dust_sound_path.is_empty()) dust_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(dust_sound_path));
     if(!dust_path.is_empty()) dust = Object::cast_to<GPUParticles2D>(get_node_internal(dust_path));

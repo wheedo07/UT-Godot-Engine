@@ -12,7 +12,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            bool can_move, isEditor;
+            bool can_move;
             Sprite2D* sprite;
             GPUParticles2D* glow;
 

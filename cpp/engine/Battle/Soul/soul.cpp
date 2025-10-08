@@ -86,7 +86,6 @@ void SoulBattle::_bind_methods() {
 }
 
 void SoulBattle::_ready() {
-    if(isEditor) return;
     sprite = Object::cast_to<Node2D>(get_node_internal("Sprite"));
     ghost = Object::cast_to<GPUParticles2D>(get_node_internal("Sprite/Ghost"));
     afterimage = Object::cast_to<GPUParticles2D>(get_node_internal("Sprite/afterimage"));
@@ -125,7 +124,6 @@ void SoulBattle::_ready() {
 }
 
 void SoulBattle::_physics_process(double delta) {
-    if(isEditor) return;
     if(changed_direction_time > 0) changed_direction_time -= delta;
     sprite->set_scale(Vector2(1, 1));
 
@@ -181,7 +179,6 @@ void SoulBattle::_physics_process(double delta) {
 }
 
 void SoulBattle::_process(double delta) {
-    if(isEditor) return;
     float delta_frame = ProjectSettings::get_singleton()->get_setting("max_fps", Engine::get_singleton()->get_frames_per_second());
     
     iframes -= delta * delta_frame;
@@ -200,8 +197,7 @@ void SoulBattle::_process(double delta) {
 }
 
 void SoulBattle::_unhandled_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
-    if (mode == ORANGE) {
+    if(mode == ORANGE) {
         Vector2 input_list_pressed = Vector2(
             event->is_action_pressed("ui_right") ? 1 : (event->is_action_pressed("ui_left") ? -1 : 0),
             event->is_action_pressed("ui_down") ? 1 : (event->is_action_pressed("ui_up") ? -1 : 0)

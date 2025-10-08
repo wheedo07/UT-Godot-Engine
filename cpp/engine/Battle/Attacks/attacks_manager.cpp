@@ -19,7 +19,6 @@ void AttackManager::_bind_methods() {
 }
 
 void AttackManager::_ready() {
-    if(isEditor) return;
     mask = Object::cast_to<Node2D>(get_node_internal("Mask"));
     top_left = Object::cast_to<Sprite2D>(mask->get_node_internal("TL"));
     bottom_right = Object::cast_to<Sprite2D>(mask->get_node_internal("BR"));

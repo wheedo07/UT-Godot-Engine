@@ -35,7 +35,6 @@ void DialogueControl::_bind_methods() {
 }
 
 void DialogueControl::_ready() {
-    if(isEditor) return;
     bubble_text = Object::cast_to<EnemySpeech>(get_node_internal("TextContainer/Text"));
     if (!bubble_text) {
         ERR_PRINT("TextContainer/Text 노드를 찾을 수 없습니다");

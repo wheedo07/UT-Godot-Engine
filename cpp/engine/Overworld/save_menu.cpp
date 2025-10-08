@@ -21,7 +21,6 @@ void SaveMenu::_bind_methods() {
 }
 
 void SaveMenu::_ready() {
-    if(isEditor) return;
     control_node = Object::cast_to<Control>(get_node_internal("Control"));
     location_label = Object::cast_to<RichTextLabel>(get_node_internal("Control/Texts/Location"));
     name_label = Object::cast_to<RichTextLabel>(get_node_internal("Control/Texts/Name"));
@@ -48,8 +47,7 @@ void SaveMenu::_ready() {
 }
 
 void SaveMenu::_unhandled_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
-    if ((event->is_action_pressed("ui_accept") && saved) || event->is_action_pressed("ui_cancel")) {
+    if((event->is_action_pressed("ui_accept") && saved) || event->is_action_pressed("ui_cancel")) {
         dismiss();
         get_viewport()->set_input_as_handled();
     }

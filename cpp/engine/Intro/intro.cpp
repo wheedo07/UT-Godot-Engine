@@ -45,7 +45,6 @@ void Intro::_bind_methods() {
 }
 
 void Intro::_ready() {
-    if(isEditor) return;
     if(!music.is_null()) {
         global->get_Music()->set_stream(music);
         global->get_Music()->play();

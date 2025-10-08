@@ -11,7 +11,6 @@ void BattleHUD::_bind_methods() {
 }
 
 void BattleHUD::_ready() {
-    if(isEditor) return;
     name_label = Object::cast_to<RichTextLabel>(get_node_internal("Name"));
     lv_label = Object::cast_to<RichTextLabel>(get_node_internal("Lv"));
     hp_bar = Object::cast_to<ProgressBar>(get_node_internal("MarginContainer/HpBar"));
@@ -23,7 +22,7 @@ void BattleHUD::_ready() {
 }
 
 void BattleHUD::_process(double delta) {
-    if (!global || isEditor) return;
+    if (!global) return;
     
     name_label->set_text(global->get_player_name());
     lv_label->set_text("Lv " + String::num_int64(global->get_player_lv()));

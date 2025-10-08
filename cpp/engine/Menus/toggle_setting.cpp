@@ -21,7 +21,6 @@ void SettingToggleButton::_bind_methods() {
 }
 
 void SettingToggleButton::init() {
-    if(isEditor) return;
     Dictionary settings = global->get_settings();
     String value = values[0];
     if (settings.has(setting_name)) {

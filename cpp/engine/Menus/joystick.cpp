@@ -11,7 +11,6 @@
 using namespace godot;
 
 Joystick::Joystick() {
-    isEditor = true;
     is_pressed = false;
     joystick_mode = Joystick_mode::FIXED;
     visibility_mode = Visibility_mode::ALWAYS;
@@ -73,8 +72,6 @@ void Joystick::_bind_methods() {
 }
 
 void Joystick::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint();
-    if(isEditor) return;
     base = Object::cast_to<TextureRect>(get_node_internal("Base"));
     tip = Object::cast_to<TextureRect>(get_node_internal("Base/Tip"));
 
@@ -91,7 +88,6 @@ void Joystick::_ready() {
 }
 
 void Joystick::_process(double delta) {
-    if(isEditor) return;
     Array values = actions_time.values();
     Array keys = actions_time.keys();
     for(int i=0; i < values.size(); i++) {
@@ -105,8 +101,6 @@ void Joystick::_process(double delta) {
 }
 
 void Joystick::_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
-    
     Ref<InputEventScreenTouch> touch_event = event;
     if (touch_event.is_valid()) {
         if (touch_event->is_pressed()) {

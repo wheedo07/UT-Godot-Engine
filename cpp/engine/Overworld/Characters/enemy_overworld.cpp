@@ -60,7 +60,6 @@ void EnemyOverworld::_bind_methods() {
 }
 
 void EnemyOverworld::_ready() {
-    if(isEditor) return;
     text_box = ResourceLoader::get_singleton()->load("res://Overworld/text_box.tscn");
     sprite = Object::cast_to<AnimatedSprite2D>(get_node_internal("Sprite"));
     alert = Object::cast_to<AnimatedSprite2D>(get_node_internal("Alert"));
@@ -68,7 +67,6 @@ void EnemyOverworld::_ready() {
 }
 
 void EnemyOverworld::_physics_process(double delta) {
-    if(isEditor) return;
     Vector2 vel = Vector2(walk_direction) * walk_speed * walk_speed_mod;
     set_velocity(vel);
     

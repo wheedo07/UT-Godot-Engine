@@ -33,7 +33,7 @@ namespace godot {
             RichTextLabel* Info;
             Timer* KrTimer;
 	        SceneContainer* scene_container;
-	        bool first, isEditor;
+	        bool first;
 	        bool fullscreen;
 	        bool debugmode;
 	        Dictionary equipment;

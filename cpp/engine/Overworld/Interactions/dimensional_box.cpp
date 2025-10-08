@@ -11,7 +11,6 @@ void DimensionalBox::_bind_methods() {
 }
 
 void DimensionalBox::_ready() {
-    if(isEditor) return;
     ResourceLoader* loader = ResourceLoader::get_singleton();
     text_scene = loader->load("res://Overworld/text_box.tscn");
     ui_scene = loader->load("res://Overworld/ui_dimensionalBox.tscn");

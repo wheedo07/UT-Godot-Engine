@@ -71,7 +71,6 @@ void ItemInteraction::_bind_methods() {
 }
 
 void ItemInteraction::_ready() {
-    if(isEditor) return;
     text_box = ResourceLoader::get_singleton()->load("res://Overworld/text_box.tscn");
 }
 

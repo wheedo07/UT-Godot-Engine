@@ -30,7 +30,6 @@ namespace godot {
                 MODE_BLUE,
                 MODE_ORANGE
             };
-            bool isEditor;
             MovementMode fire_mode;
             DamageMode damage_mode;
             bool delete_upon_hit_value;

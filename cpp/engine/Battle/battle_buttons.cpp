@@ -31,8 +31,6 @@ void BattleButtons::_bind_methods() {
 }
 
 void BattleButtons::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint(); 
-    if(isEditor) return;
     move_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("choice"));
     select_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("select"));
     
@@ -44,7 +42,7 @@ void BattleButtons::_ready() {
 }
 
 void BattleButtons::_unhandled_input(const Ref<InputEvent>& event) {
-    if(isEditor || !enabled) return;
+    if(!enabled) return;
     
     if(event->is_action_pressed("ui_left")) {
         changepos(-1);

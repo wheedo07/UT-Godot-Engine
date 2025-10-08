@@ -6,7 +6,6 @@ using namespace godot;
 
 CyanDetection::CyanDetection() {
     can_move = false;
-    isEditor = false;
 }
 
 CyanDetection::~CyanDetection() {}
@@ -18,14 +17,11 @@ void CyanDetection::_bind_methods() {
 }
 
 void CyanDetection::_ready() {
-    isEditor = Engine::get_singleton()->is_editor_hint();
-    if(isEditor) return;
     sprite = Object::cast_to<Sprite2D>(get_node_internal("Sprite2D"));
     glow = Object::cast_to<GPUParticles2D>(get_node_internal("Sprite2D/Glow"));
 }
 
 void CyanDetection::_process(double delta) {
-    if(isEditor) return;
     can_move = false;
    
     glow->set_emitting(false);

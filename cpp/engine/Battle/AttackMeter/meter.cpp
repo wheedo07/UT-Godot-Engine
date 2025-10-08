@@ -55,7 +55,6 @@ void AttackMeter::_bind_methods() {
 }
 
 void AttackMeter::_ready() {
-    if(isEditor) return;
     meter = Object::cast_to<Sprite2D>(get_node_internal("Meter"));
 
     bar_scene = ResourceLoader::get_singleton()->load("res://Battle/AttackMeter/bar.tscn");

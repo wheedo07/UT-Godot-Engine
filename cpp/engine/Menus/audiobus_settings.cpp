@@ -31,7 +31,6 @@ void AudiobusSettings::_bind_methods() {
 }
 
 void AudiobusSettings::init() {
-    if(isEditor) return;
     Name = Object::cast_to<RichTextLabel>(get_node_internal("Margin/Name"));
     Info = Object::cast_to<RichTextLabel>(get_node_internal("Margin/Info"));
     VolumeSlider = Object::cast_to<VSlider>(get_node_internal("Margin/VSlider"));

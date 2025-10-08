@@ -92,7 +92,6 @@ void UI::_bind_methods() {
 }
 
 void UI::_ready() {
-    if(isEditor) return;
     soul = Object::cast_to<MenuSoul>(get_node_internal("Control/StatAndOptions/Soul"));
     stats = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Detailed"));
     items = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Items"));
@@ -298,7 +297,7 @@ void UI::_close_menu() {
 
 void UI::_unhandled_input(const Ref<InputEvent>& event) {
     // 텍스트 박스가 활성화되어 있으면 무시
-    if(textbox || isEditor) return;
+    if(textbox) return;
     
     if(event->is_action_pressed("ui_down")) {
         soul_move(Vector2(0, 1));

@@ -14,7 +14,6 @@ void MainNode::_bind_methods() {
 
 void MainNode::_ready() {
     SceneContainer::_ready();
-    if(isEditor) return;
     loader = ResourceLoader::get_singleton();
     sys = this;
 }

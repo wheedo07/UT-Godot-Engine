@@ -23,7 +23,6 @@ void SaveLoader::_bind_methods() {
 }
 
 void SaveLoader::_ready() {
-    if(isEditor) return;
     control_node = Object::cast_to<Control>(get_node_internal("Control"));
     defsize = control_node->get_size();
     

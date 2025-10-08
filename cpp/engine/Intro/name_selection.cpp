@@ -45,7 +45,6 @@ void NameSelection::_bind_methods() {
 }
 
 void NameSelection::_ready() {
-    if(isEditor) return;
     name_label = Object::cast_to<Label>(get_node_internal("Name"));
     no_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("no"));
     typer = Object::cast_to<GenericTextTyper>(get_node_internal("Typer"));
@@ -173,7 +172,7 @@ void NameSelection::on_name_allowed() {
 }
 
 void NameSelection::_input(const Ref<InputEvent>& event) {
-    if(isEditor || !confirmable) return;
+    if(!confirmable) return;
     
     if (event->is_action_pressed("ui_right")) {
         audio_player->play("choice");

@@ -155,8 +155,6 @@ void BattleBox::_bind_methods() {
 }
 
 void BattleBox::_ready() {
-    if(isEditor) return;
-
     choice_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/choice"));
     hp_bar_container = Object::cast_to<MarginContainer>(get_node_internal("Target/HpBars"));
     slider = Object::cast_to<ItemSlider>(get_node_internal("Items/ScrollContainer/Slider"));
@@ -219,7 +217,6 @@ void BattleBox::_ready() {
 }
 
 void BattleBox::_physics_process(double delta) {
-    if(isEditor) return;
     current_size = Vector2(640, 480) - 
                   Vector2(rect_container->get_theme_constant("margin_right"), 
                          rect_container->get_theme_constant("margin_bottom")) - 
@@ -280,7 +277,7 @@ void BattleBox::_physics_process(double delta) {
 }
 
 void BattleBox::_process(double delta) {
-    if(!isPolygonMode || isEditor) return;
+    if(!isPolygonMode) return;
 
     if(static_shape.size() == target_shape.size()) {
         bool all_reached = true;
@@ -305,7 +302,6 @@ void BattleBox::_process(double delta) {
 }
 
 void BattleBox::_unhandled_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
     int state = action_memory[0];
     if (state == BattleState::State_Disabled) return;
     

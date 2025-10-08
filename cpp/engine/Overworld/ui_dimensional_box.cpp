@@ -18,7 +18,6 @@ void UIdimensionalBox::_bind_methods() {
 }
 
 void UIdimensionalBox::_ready() {
-    if(isEditor) return;
     main = Object::cast_to<UI_Box>(get_node_internal("Control/Main"));
     soul = Object::cast_to<MenuSoul>(get_node_internal("Control/Soul"));
     inventory_items = Object::cast_to<RichTextLabel>(get_node_internal("Control/Main/INVENTORY_Item"));
@@ -31,35 +30,25 @@ void UIdimensionalBox::_ready() {
 }
 
 void UIdimensionalBox::_unhandled_input(const Ref<InputEvent>& event) {
-    if(isEditor) return;
-
     if(event->is_action_pressed("ui_up")) {
         soul_move(Vector2(0, -1));
-    }
-    
-    if(event->is_action_pressed("ui_down")) {
+    }else if(event->is_action_pressed("ui_down")) {
         soul_move(Vector2(0, 1));
-    }
-
-    if(event->is_action_pressed("ui_right")) {
+    }else if(event->is_action_pressed("ui_right")) {
         if(current_side == INVENTORY_SIDE) {
             current_side = BOX_SIDE;
             if(soulposition.y > BOX_SIZE-1) soulposition.y = BOX_SIZE-1;
             _set_items();
             soul_move(Vector2(0, 0));
         }
-    }
-    
-    if(event->is_action_pressed("ui_left")) {
+    }else if(event->is_action_pressed("ui_left")) {
         if(current_side == BOX_SIDE) {
             current_side = INVENTORY_SIDE;
             if(soulposition.y > INV_SIZE-1) soulposition.y = INV_SIZE-1;
             _set_items();
             soul_move(Vector2(0, 0));
         }
-    }
-
-    if(event->is_action_pressed("ui_accept")) {
+    }else if(event->is_action_pressed("ui_accept")) {
         Array items = global->get_items();
         Array boxitems = global->get_boxitems();
         if(current_side == INVENTORY_SIDE) {

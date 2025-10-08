@@ -17,7 +17,6 @@ namespace godot {
         
         public:
             BattleBox* box;
-            bool isEditor;
         
         public:
             BattleBoxBehaviour();

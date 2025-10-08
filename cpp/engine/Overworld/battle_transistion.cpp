@@ -4,7 +4,6 @@
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
 #include<godot_cpp/classes/particle_process_material.hpp>
-using namespace godot;
 
 BattleTransition::BattleTransition() {
     current_state = IDLE;
@@ -33,7 +32,6 @@ void BattleTransition::_bind_methods() {
 }
 
 void BattleTransition::_ready() {
-    if(isEditor) return;
     black_rect = Object::cast_to<ColorRect>(get_node_internal("Black"));
     soul = Object::cast_to<Node2D>(get_node_internal("Black/Soul"));
     ghost = Object::cast_to<GPUParticles2D>(get_node_internal("Black/Soul/Ghost"));
