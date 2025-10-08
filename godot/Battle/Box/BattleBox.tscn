@@ -95,7 +95,6 @@ grow_vertical = 2
 
 [node name="RectNoClip" type="Control" parent="BoxContainer/Rect"]
 show_behind_parent = true
-layout_mode = 2
 anchors_preset = 0
 offset_right = 584.0
 offset_bottom = 140.0
@@ -161,7 +160,6 @@ material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
-theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "* 살펴보기
 * 보기"
@@ -172,7 +170,6 @@ material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
-theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "* 때리기
 * 모욕하기"
@@ -199,7 +196,6 @@ material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
-theme_override_font_sizes/normal_font_size = 28
 bbcode_enabled = true
 text = "* Item 1
 * Item 2
@@ -260,7 +256,7 @@ theme_override_constants/margin_top = 5
 layout_mode = 2
 
 [node name="1" type="ProgressBar" parent="Target/HpBars/Control"]
-layout_mode = 2
+layout_mode = 0
 offset_right = 115.0
 offset_bottom = 18.0
 theme_override_styles/background = SubResource("StyleBoxFlat_f8pib")
@@ -270,7 +266,7 @@ allow_greater = true
 show_percentage = false
 
 [node name="2" type="ProgressBar" parent="Target/HpBars/Control"]
-layout_mode = 2
+layout_mode = 0
 offset_top = 30.0
 offset_right = 115.0
 offset_bottom = 48.0
@@ -281,7 +277,7 @@ allow_greater = true
 show_percentage = false
 
 [node name="3" type="ProgressBar" parent="Target/HpBars/Control"]
-layout_mode = 2
+layout_mode = 0
 offset_top = 60.0
 offset_right = 115.0
 offset_bottom = 78.0
@@ -308,7 +304,6 @@ metadata/_edit_group_ = true
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
-theme_override_font_sizes/normal_font_size = 29
 bbcode_enabled = true
 text = "* 자비
 * 도망"
