@@ -35,7 +35,7 @@ namespace godot {
             Node* attacks_parent;
             BattleHUD* hud;
             int turn_number;
-            bool transparent;
+            bool transparent, player_turn;
         
         private:
             AudioStreamPlayer* music_player;

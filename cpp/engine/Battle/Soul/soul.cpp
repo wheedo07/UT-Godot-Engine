@@ -125,12 +125,20 @@ void SoulBattle::_ready() {
 
 void SoulBattle::_physics_process(double delta) {
     if(isEditor) return;
-    if (changed_direction_time > 0) {
-        changed_direction_time -= delta;
-    }
-    
+    if(changed_direction_time > 0) changed_direction_time -= delta;
     sprite->set_scale(Vector2(1, 1));
-    
+
+    TypedArray<Area2D> overlapping_areas = area->get_overlapping_areas();
+    for (int i = 0; i < overlapping_areas.size(); i++) {
+        Area2D* area_node = Object::cast_to<Area2D>(overlapping_areas[i]);
+        if (area_node) {
+            check_bullet(area_node);
+        }
+    }
+
+    hp_label->set_text(vformat("[color=%s]%d/%d", global->get_player_kr() ? "ff00ff" : "ffffff", global->get_player_hp(), global->get_player_max_hp()));
+    if(main->player_turn) return;
+
     if (gravity_direction.x != 0) {
         motion.x = get_velocity().y;
         motion.y = get_velocity().x * gravity_direction.x;
@@ -167,18 +175,8 @@ void SoulBattle::_physics_process(double delta) {
             break;
     }
     if(mode != ORANGE) afterimage->set_emitting(false);
-    
-    _motion_align_gravity_direction();
-    
-    overlapping_areas = area->get_overlapping_areas();
-    for (int i = 0; i < overlapping_areas.size(); i++) {
-        Area2D* area_node = Object::cast_to<Area2D>(overlapping_areas[i]);
-        if (area_node) {
-            check_bullet(area_node);
-        }
-    }
 
-    hp_label->set_text(vformat("[color=%s]%d/%d", global->get_player_kr() ? "ff00ff" : "ffffff", global->get_player_hp(), global->get_player_max_hp()));
+    _motion_align_gravity_direction();
 }
 
 void SoulBattle::_process(double delta) {
@@ -253,6 +251,9 @@ void SoulBattle::check_bullet(Area2D* area) {
 
 void SoulBattle::hurt(BulletArea* area) {
     if(!area) return;
+
+    audio_player->play("hurt");
+    if(global->get_player_hp() <= 1 && main->player_turn) return;
     
     iframes = area->iframes;
     
@@ -281,7 +282,6 @@ void SoulBattle::hurt(BulletArea* area) {
         }else _on_death();
         return;
     }
-    audio_player->play("hurt");
 }
 
 void SoulBattle::_on_death() {
@@ -619,7 +619,6 @@ void SoulBattle::_disable() {
 }
 
 void SoulBattle::enable() {
-    set_physics_process(true);
     set_process_unhandled_input(true);
     inputs = Vector2(0, 0);
     set_z_index(1);
@@ -634,16 +633,12 @@ void SoulBattle::_on_move_soul(const Vector2& newpos) {
         move_tween->kill();
     }
     
-    move_tween = get_tree()->create_tween();
-    move_tween->set_trans(Tween::TRANS_EXPO);
-    move_tween->set_ease(Tween::EASE_OUT);
-    move_tween->set_parallel(true);
+    move_tween = get_tree()->create_tween()->set_trans(Tween::TRANS_EXPO)->set_ease(Tween::EASE_OUT)->set_parallel();
     move_tween->tween_property(this, "position", newpos, TIME);
 }
 
 void SoulBattle::menu_enable() {
     mode = DISABLE_MOVEMENT;
-    set_physics_process(false);
     set_process_unhandled_input(false);
     set_z_index(0);
     collision->set_disabled(true);

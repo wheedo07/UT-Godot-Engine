@@ -7,6 +7,8 @@
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/variant/typed_array.hpp>
 namespace godot {
+    class BattleMain;
+
     class AttackManager : public BackBufferCopy {
         GDCLASS(AttackManager, BackBufferCopy);
         
@@ -21,6 +23,7 @@ namespace godot {
             PackedInt32Array run_attack_id;
             Node2D* mask;
             Array current_attacks;
+            BattleMain* main;
 
             bool check_all_attacks_finished();
         

@@ -14,6 +14,7 @@ BattleMain::BattleMain() {
     transparent = false;
     rewards["gold"] = 0;
     rewards["exp"] = 0;
+    player_turn = true;
 }
 
 BattleMain::~BattleMain() {}
@@ -183,6 +184,7 @@ void BattleMain::_ready() {
             box->set_z_index(-1);
             buttons->disable();
             soul_battle->enable();
+            player_turn = false;
         } else {
             box->blitter_flavour();
             buttons->enable();
@@ -228,16 +230,19 @@ void BattleMain::initialize() {
 
 void BattleMain::_on_player_turn_start() {
     if(transparent) toggle_transparent();
-    soul_battle->menu_enable();
     buttons->enable();
     box->set_z_index(0);
     box->blitter_flavour();
+    player_turn = true;
+    soul_battle->menu_enable();
 }
 
 void BattleMain::_on_enemy_turn_start() {
-    soul_battle->enable();
     box->set_z_index(-1);
     turn_number += 1;
+    attacks->force_end_attacks();
+    player_turn = false;
+    soul_battle->enable();
 }
 
 void BattleMain::_on_damage_info_finished() {

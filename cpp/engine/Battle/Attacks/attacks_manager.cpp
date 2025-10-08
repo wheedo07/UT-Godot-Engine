@@ -1,8 +1,7 @@
 #include "attacks_manager.h"
 #include "attacks.h"
+#include "env.h"
 #include<godot_cpp/variant/utility_functions.hpp>
-#include<godot_cpp/classes/engine.hpp>
-using namespace godot;
 
 AttackManager::AttackManager() {}
 
@@ -20,11 +19,11 @@ void AttackManager::_bind_methods() {
 }
 
 void AttackManager::_ready() {
-    if(Engine::get_singleton()->is_editor_hint()) return;
+    if(isEditor) return;
     mask = Object::cast_to<Node2D>(get_node_internal("Mask"));
-    
     top_left = Object::cast_to<Sprite2D>(mask->get_node_internal("TL"));
     bottom_right = Object::cast_to<Sprite2D>(mask->get_node_internal("BR"));
+    main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
     
     current_attacks = Array();
 }
@@ -84,14 +83,15 @@ void AttackManager::start_attack(int id) {
 
 void AttackManager::force_end_attacks() {
     // 모든 공격 강제 종료
-    for (int i = 0; i < current_attacks.size(); i++) {
+    for (int i=0; i < current_attacks.size(); i++) {
         Node* attack = Object::cast_to<Node>(current_attacks[i]);
+        attack->emit_signal("remove_bullets");
         attack->queue_free();
     }
     
     current_attacks.clear();
     run_attack_id.clear();
-    emit_signal("player_turn");
+    if(!main->player_turn) emit_signal("player_turn");
 }
 
 void AttackManager::end_attack(int id) {
@@ -102,6 +102,7 @@ void AttackManager::end_attack(int id) {
     
     Node* attack = Object::cast_to<Node>(current_attacks[id]);
     if(attack) {
+        attack->emit_signal("remove_bullets");
         attack->queue_free();
         current_attacks[id] = Variant(); 
     }
@@ -109,7 +110,7 @@ void AttackManager::end_attack(int id) {
     if(check_all_attacks_finished()) {
         current_attacks.clear();
         run_attack_id.clear();
-        emit_signal("player_turn");
+        if(!main->player_turn) emit_signal("player_turn");
     }
 }
 
