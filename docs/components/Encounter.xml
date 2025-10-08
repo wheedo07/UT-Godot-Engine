@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Encounter" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        전투 인카운터 정보를 정의하는 리소스 클래스입니다.
+    </brief_description>
+    <description>
+        [b]Encounter[/b] 클래스는 Undertale 스타일 전투의 모든 설정을 담고 있는 Resource입니다.
+        적 구성, 배경, 음악, 도망 확률 등을 정의하여 다양한 전투 상황을 만들 수 있습니다.
+        
+        [b]주요 구성 요소:[/b]
+        • 전투에 참여할 적들의 PackedScene 배열
+        • 전투 배경 텍스처
+        • 전투 배경음악
+        • 도망 성공 확률
+        • 자비 메뉴 옵션들
+        • 적 배치 오프셋
+        
+        [b]사용법:[/b]
+        .tres 파일로 저장하여 관리하며, 전투 시스템에서 로드하여 사용합니다.
+        각 지역이나 스토리 진행에 따라 다른 Encounter를 설정할 수 있습니다.
+    </description>
+    <tutorials></tutorials>
+
+    <members>
+        <member name="background" type="Texture2D" setter="set_background" getter="get_background">
+            전투 중 표시될 배경 이미지입니다.
+            
+            전투 화면의 배경으로 사용되는 텍스처 리소스입니다.
+            지역의 특성이나 전투의 성격에 맞는 배경을 설정할 수 있습니다.
+        </member>
+        <member name="encounter_name" type="StringName" setter="set_encounter_name" getter="get_encounter_name" default="&quot;name&quot;">
+            인카운터의 식별 이름입니다.
+            
+            디버깅이나 로그, 에디터에서 인카운터를 구분하는 데 사용됩니다.
+            실제 게임에서는 표시되지 않으며, 개발자용 식별자 역할을 합니다.
+        </member>
+        <member name="enemies" type="Array" setter="set_enemies" getter="get_enemies" default="[]">
+            전투에 참여할 적들의 PackedScene 배열입니다.
+            
+            각 요소는 Enemy 클래스를 상속받은 노드의 PackedScene이어야 합니다.
+            최대 3마리까지 동시에 전투할 수 있으며, 배열 순서대로 배치됩니다.
+            
+            [b]배치 규칙:[/b]
+            • 1마리: 중앙에 배치
+            • 2마리: 좌우로 분산 배치  
+            • 3마리: 균등하게 분산 배치
+            
+            [b]예시 구성:[/b]
+            • [Froggit.tscn] - 프로깃 단독 전투
+            • [Froggit.tscn, Whimsun.tscn] - 프로깃 + 윔선 전투
+            • [Doggo.tscn, Lesser_Dog.tscn, Greater_Dog.tscn] - 개 삼총사
+            
+            빈 배열인 경우 전투가 즉시 종료됩니다.
+        </member>
+        <member name="flee_chance" type="float" setter="set_flee_chance" getter="get_flee_chance" default="0.2">
+            FLEE 명령 성공 확률입니다. (0.0 ~ 1.0)
+            
+            플레이어가 자비 메뉴에서 2번째 메뉴를 선택했을 때의 도망 성공 확률입니다.
+            확률이 낮을수록 도망이 어려워지며, 실패 시 턴이 적에게 넘어갑니다.
+        </member>
+        <member name="mercy_options" type="PackedStringArray" setter="set_mercy_options" getter="get_mercy_options" default="PackedStringArray(&quot;* UT_SPARE&quot;, &quot;* UT_FLEE&quot;)">
+            자비 메뉴에 표시될 옵션들입니다.
+            
+            MERCY 버튼을 눌렀을 때 나타나는 행동 목록을 정의합니다.
+            기본적으로 SPARE(살려주기)와 FLEE(도망가기) 옵션이 제공됩니다.
+            
+            [b]예시 설정:[/b]
+            • ["* UT_SPARE", "* UT_FLEE"] - 기본 구성
+            • ["* 자비"] - 도망 불가능한 전투
+        </member>
+        <member name="music" type="AudioStream" setter="set_music" getter="get_music">
+            전투 중 재생될 배경음악입니다.
+            
+            전투 시작과 함께 재생되는 AudioStream 리소스입니다.
+            전투의 분위기와 긴장감을 조성하는 중요한 요소입니다.
+            
+            [b]음악 타입별 용도:[/b]
+            • 기본 전투음: 일반적인 몬스터 전투
+            • 보스 전용음: 중요한 보스 캐릭터
+            • 지역 테마음: 특정 지역의 분위기 반영
+            • 감정 테마음: 슬픔, 분노 등 특별한 상황
+            
+            [b]루프 설정:[/b]
+            AudioStream의 loop 속성을 true로 설정하여 전투 중 지속 재생되게 할 수 있습니다.
+            
+            null인 경우 배경음악 없이 전투가 진행됩니다.
+        </member>
+        <member name="offset" type="Vector2" setter="set_offset" getter="get_offset" default="Vector2(0, 0)">
+            적 배치의 오프셋 위치입니다.
+            
+            enemies 배열의 적들이 기본 위치에서 추가로 이동할 거리를 정의합니다.
+            특별한 연출이나 화면 구성을 위해 적의 위치를 조정할 때 사용됩니다.
+            
+            [b]좌표계:[/b]
+            • X축: 양수는 오른쪽, 음수는 왼쪽
+            • Y축: 양수는 아래쪽, 음수는 위쪽
+            
+            [b]사용 예시:[/b]
+            • Vector2(0, -50): 적들을 위쪽으로 50픽셀 이동
+            • Vector2(100, 0): 적들을 오른쪽으로 100픽셀 이동
+            • Vector2(-30, 20): 왼쪽 30픽셀, 아래 20픽셀 이동
+            
+            큰 적이나 특수한 형태의 적에서 화면 밸런스를 맞추는 데 유용합니다.
+        </member>
+    </members>
+</class>

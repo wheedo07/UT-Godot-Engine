@@ -260,7 +260,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
     if(isEditor) return;
     if(debugmode) {
         if (event->is_action_pressed("refresh_scene") && os->is_debug_build()) {
-            UtilityFunctions::print(tr("UT_WARN_NODE_LOSS"));
+            print_line(tr("UT_WARN_NODE_LOSS"));
             player_hp = player_max_hp;
             player_kr = 0;
             player_can_move = true;
@@ -277,7 +277,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
         }
         
         if(event->is_action_pressed("force_save") && (os->is_debug_build() || os->has_feature("debug_op"))) {
-            UtilityFunctions::print(tr("UT_SAVING_GAME"));
+            print_line(tr("UT_SAVING_GAME"));
             save();
         }
     }
