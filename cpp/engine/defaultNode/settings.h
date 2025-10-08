@@ -20,7 +20,6 @@ namespace godot {
         private:
             Ref<Tween> tw;
             const int TRANSTYPE = Tween::TRANS_EXPO;
-            const float TIME = 0.6f;
             Panel* Darken;
             CanvasItem* Blur;
             HBoxContainer* BusContainer;

@@ -4,6 +4,7 @@
 #include<godot_cpp/classes/engine.hpp>
 using namespace godot;
 
+#define SPEED 0.4f
 CyanDetection::CyanDetection() {
     can_move = false;
 }

@@ -5,6 +5,8 @@
 #include<godot_cpp/classes/engine.hpp>
 using namespace godot;
 
+#define RAD 28
+#define TIME 0.2f
 GreenShielding::GreenShielding() {}
 
 GreenShielding::~GreenShielding() {}

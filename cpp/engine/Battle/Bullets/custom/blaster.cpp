@@ -5,6 +5,10 @@
 #include<godot_cpp/classes/audio_stream_player.hpp>
 using namespace godot;
 
+#define SPEED 1000 
+#define GROW_TIME 0.2f
+#define BEAM_COLLISION_MARGIN 6.0f
+#define TIME 0.8f
 Blaster::Blaster() {
     beam = nullptr;
     rect = nullptr;
@@ -55,7 +59,7 @@ Blaster* Blaster::fire(const Vector2& target, float size, float delay, float dur
         distance = target_position - get_global_position();
     else distance = target_position - get_position();
     
-    velocity_tween = create_tween()->set_ease(tween_ease)->set_trans(tween_trans)->set_parallel(true);
+    velocity_tween = create_tween()->set_ease(tween_ease)->set_trans(tween_trans)->set_parallel();
     velocity_tween->tween_property(this, "position", distance, TIME)->as_relative();
     velocity_tween->tween_property(this, "rotation", Math_TAU, TIME)->as_relative();
     velocity_tween->chain()->tween_interval(delay - TIME);

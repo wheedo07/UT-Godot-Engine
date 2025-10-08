@@ -5,6 +5,8 @@
 #include<godot_cpp/classes/viewport.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
 
+#define MOVE_SPEED 210.0f
+#define Time 0.25f
 AttackBar::AttackBar() {
     speed_mult = 1.0f;
     single_bar = false;
@@ -54,10 +56,7 @@ void AttackBar::_ready() {
     tw->set_ease(Tween::EASE_IN_OUT);
     
     float _dist = Math::abs(get_position().x - 320.0f) * 2.0f;
-    tw->tween_property(this, "position:x", _dist * Math::sign(direction), _dist / (MOVE_SPEED * speed_mult))
-      ->as_relative()
-      ->set_trans(movetype);
-    
+    tw->tween_property(this, "position:x", _dist * Math::sign(direction), _dist / (MOVE_SPEED * speed_mult))->as_relative()->set_trans(movetype);
     tw->connect("finished", Callable(this, "_on_tween_finished"), CONNECT_ONE_SHOT);
 }
 

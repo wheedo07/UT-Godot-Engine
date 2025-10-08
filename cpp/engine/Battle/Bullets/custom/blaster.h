@@ -16,12 +16,7 @@ namespace godot {
             static void _bind_methods();
 
         private:
-            const float TIME = 0.8f;
-            const float BEAM_COLLISION_MARGIN = 6.0f;
-            const float GROW_TIME = 0.2f;
-            const int SPEED = 1000;
             Vector2 target_position;
-
             Control* beam;
             NinePatchRect* rect;
             AnimationPlayer* anim_player;

@@ -14,7 +14,6 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            const float TIME = 0.5f;
             const Tween::TransitionType transtype = Tween::TRANS_QUAD;
 
             int targetdef;

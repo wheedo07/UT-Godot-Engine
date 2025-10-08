@@ -5,6 +5,7 @@
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/variant/callable.hpp>
 
+#define TIME 0.5f
 AttackMeter::AttackMeter() {
     targetdef = 0;
     total_bars = 0;

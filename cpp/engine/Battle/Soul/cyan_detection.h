@@ -16,9 +16,6 @@ namespace godot {
             Sprite2D* sprite;
             GPUParticles2D* glow;
 
-            const float SPEED = 0.4f;
-            const float AMT = 0.2f;
-
             void set_property(bool value);
 
         public:

@@ -4,6 +4,7 @@
 #include<godot_cpp/classes/shader_material.hpp>
 using namespace godot;
 
+#define TIME 0.6f
 Settings::Settings() {
     enabled = false;
 }
@@ -33,7 +34,7 @@ void Settings::_ready() {
     AnimPlayer->play("RESET");
 
     TypedArray<Node> settings = Options->get_children();
-    for (int i=0; i < settings.size(); i++) {
+    for(int i=0; i < settings.size(); i++) {
         Node* setting = Object::cast_to<Node>(settings[i]);
         setting->connect("pressed", Callable(this, "on_setting_changed").bind(setting));
     }

@@ -15,11 +15,9 @@ namespace godot {
             static void _bind_methods();
 
         private:
-            const float MOVE_SPEED = 210.0f;
-            const float Time = 0.25f;
             const Tween::TransitionType TRANSTYPE = Tween::TRANS_CUBIC;
-            float speed_mult;
             const Tween::TransitionType movetype = Tween::TRANS_LINEAR;
+            float speed_mult;
             bool single_bar;
 
             int direction;
