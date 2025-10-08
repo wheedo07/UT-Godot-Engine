@@ -70,6 +70,7 @@ namespace godot {
             BattleMain* main;
             Area2D* area;
             CollisionShape2D* collision;
+            CollisionShape2D* collision_area;
             AudioStreamPlayer* wallhit;
             RichTextLabel* hp_label;
 

@@ -93,6 +93,7 @@ void SoulBattle::_ready() {
     shoot = Object::cast_to<AudioStreamPlayer>(get_node_internal("Shoot"));
     mode_change_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Ding"));
     area = Object::cast_to<Area2D>(get_node_internal("Area2D"));
+    collision_area = Object::cast_to<CollisionShape2D>(get_node_internal("Area2D/CollisionShape2D"));
     collision = Object::cast_to<CollisionShape2D>(get_node_internal("CollisionShape2D"));
     wallhit = Object::cast_to<AudioStreamPlayer>(get_node_internal("Wallhit"));
     hp_label = Object::cast_to<RichTextLabel>(get_node_internal("hp_label"));
@@ -629,12 +630,14 @@ void SoulBattle::enable() {
 }
 
 void SoulBattle::_on_move_soul(const Vector2& newpos) {
-    if (move_tween.is_valid() && move_tween->is_valid()) {
+    if(move_tween.is_valid() && move_tween->is_valid()) {
         move_tween->kill();
     }
-    
+   
+    collision_area->set_disabled(true);
     move_tween = get_tree()->create_tween()->set_trans(Tween::TRANS_EXPO)->set_ease(Tween::EASE_OUT)->set_parallel();
     move_tween->tween_property(this, "position", newpos, TIME);
+    move_tween->connect("finished", Callable(collision_area, "set_disabled").bind(false));
 }
 
 void SoulBattle::menu_enable() {
