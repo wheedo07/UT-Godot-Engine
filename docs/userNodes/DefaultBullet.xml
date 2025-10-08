@@ -122,4 +122,13 @@
             [method fire] 또는 [method queue_fire] 호출 시 자동으로 설정됩니다.
         </member>
     </members>
+
+    <signals>
+        <signal name="tween_finished">
+            <description>
+                트윈 이동이 완료되었을 때 발생합니다.
+                [code]MOVEMENT_TWEEN[/code] 모드에서만 발생합니다.
+            </description>
+        </signal>
+    </signals>
 </class>

@@ -11,6 +11,7 @@ DefaultBullet::DefaultBullet() {
 DefaultBullet::~DefaultBullet() {}
 
 void DefaultBullet::_bind_methods() {
+    ADD_SIGNAL(MethodInfo("tween_finished"));
     ClassDB::bind_method(D_METHOD("fire", "target", "movement_type", "speed", "mode"), &DefaultBullet::fire, DEFVAL(100.0f), DEFVAL(MODE_NULL));
     ClassDB::bind_method(D_METHOD("queue_fire", "delay", "target", "movement_type", "speed", "mode"), &DefaultBullet::queue_fire, DEFVAL(100.0f), DEFVAL(MODE_NULL));
     ClassDB::bind_method(D_METHOD("_await_fire", "fire_call", "delay"), &DefaultBullet::_await_fire);
@@ -77,6 +78,7 @@ void DefaultBullet::fire(const Vector2& target, MovementMode movement_type, floa
             velocity_tween->set_trans(tween_trans);
             
             velocity_tween->tween_property(this, "position", distance, distance.length() / speed)->as_relative();
+            velocity_tween->connect("finished", Callable(this, "emit_signal").bind("tween_finished"));
             break;
         }
     }
