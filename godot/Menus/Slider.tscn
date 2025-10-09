@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b6esm7jl8wclu" path="res://Battle/Box/Scroll/arrow.png" id="4_nk5xq"]
 
 [node name="Slider" type="ItemSlider"]
-offset = 10.0
+item_offset = 10.0
 step_size = 10.0
 grabber = NodePath("Grabber")
 metadata/_edit_use_anchors_ = true
