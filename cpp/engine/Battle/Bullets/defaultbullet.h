@@ -54,6 +54,7 @@ namespace godot {
             Tween::EaseType get_tweenEase() const;
 
             Vector2 get_target_position() const;
+            Ref<Tween> get_velocity_tween() const;
     };
 };
 

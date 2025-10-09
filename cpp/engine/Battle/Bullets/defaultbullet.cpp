@@ -36,7 +36,9 @@ void DefaultBullet::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &DefaultBullet::set_property);
     ClassDB::bind_method(D_METHOD("get_target_position"), &DefaultBullet::get_target_position);
+    ClassDB::bind_method(D_METHOD("get_velocity_tween"), &DefaultBullet::get_velocity_tween);
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "target_position", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_target_position");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "velocity_tween", PROPERTY_HINT_RESOURCE_TYPE, "Tween", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_velocity_tween");
 }
 
 void DefaultBullet::_ready() {
@@ -191,4 +193,8 @@ void DefaultBullet::set_property(const Variant& value) {
 
 Vector2 DefaultBullet::get_target_position() const {
     return target_position;
+}
+
+Ref<Tween> DefaultBullet::get_velocity_tween() const {
+    return velocity_tween;
 }
