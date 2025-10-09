@@ -6,6 +6,7 @@ DefaultBullet::DefaultBullet() {
     target_position = Vector2(0, 0);
     tween_trans = Tween::TRANS_QUAD;
     tween_ease = Tween::EASE_IN_OUT;
+    collision = nullptr;
 }
 
 DefaultBullet::~DefaultBullet() {}
@@ -41,16 +42,18 @@ void DefaultBullet::_bind_methods() {
 void DefaultBullet::_ready() {
     Bullet::_ready();
     sprite = get_node_internal(get_sprite_path());
-    collision = Object::cast_to<CollisionShape2D>(get_node_internal(get_collision_path()));
-    
-    Ref<RectangleShape2D> shape = memnew(RectangleShape2D);
-    Vector2 sprite_size = get_sprite_size();
-    shape->set_size(sprite_size);
-    collision->set_shape(shape);
+    if(!collision_path.is_empty()) {
+        collision = Object::cast_to<CollisionShape2D>(get_node_internal(collision_path));
+
+        Ref<RectangleShape2D> shape = memnew(RectangleShape2D);
+        Vector2 sprite_size = get_sprite_size();
+        shape->set_size(sprite_size);
+        collision->set_shape(shape);
+    }
 }
 
 void DefaultBullet::_process(double delta) {
-    if(!is_inside_tree()) return;
+    if(!is_inside_tree() || !collision) return;
     
     Vector2 sprite_size = get_sprite_size();
     
@@ -141,6 +144,8 @@ Vector2 DefaultBullet::get_sprite_size() {
         if (sprite->has_method("get_size")) {
             size = sprite->call("get_size");
         }
+    }else if(sprite->has_method("get_size")) {
+        size = sprite->call("get_size");
     } else {
         size = Vector2(16, 16);
     }
