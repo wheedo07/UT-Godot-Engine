@@ -30,7 +30,8 @@ void EnemySpeech::_ready() {
 
 void EnemySpeech::character_customize() {
     ResourceLoader* loader = ResourceLoader::get_singleton();
-    set_click(Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/"+String(get_character_name()[Variant(current_character)]))));
+    if(get_character_name().has(current_character)) set_click(Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/"+String(get_character_name()[Variant(current_character)]))));
+    else set_click(Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/Generic")));
 
     // 캐릭터 추가시 추가
     switch (current_character) {
