@@ -30,8 +30,8 @@ namespace godot {
             void set_value(int p_value);
             int get_value() const;
 
-            void set_offset(float p_offset);
-            float get_offset() const;
+            void set_item_offset(float p_offset);
+            float get_item_offset() const;
 
             void set_step_size(float p_step_size);
             float get_step_size() const;

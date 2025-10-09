@@ -13,15 +13,15 @@ ItemSlider::~ItemSlider() {}
 void ItemSlider::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_value", "p_value"), &ItemSlider::set_value);
     ClassDB::bind_method(D_METHOD("get_value"), &ItemSlider::get_value);
-    ClassDB::bind_method(D_METHOD("set_offset", "p_offset"), &ItemSlider::set_offset);
-    ClassDB::bind_method(D_METHOD("get_offset"), &ItemSlider::get_offset);
+    ClassDB::bind_method(D_METHOD("set_item_offset", "p_offset"), &ItemSlider::set_item_offset);
+    ClassDB::bind_method(D_METHOD("get_item_offset"), &ItemSlider::get_item_offset);
     ClassDB::bind_method(D_METHOD("set_step_size", "p_step_size"), &ItemSlider::set_step_size);
     ClassDB::bind_method(D_METHOD("get_step_size"), &ItemSlider::get_step_size);
     ClassDB::bind_method(D_METHOD("set_grabber_path", "p_grabber_path"), &ItemSlider::set_grabber_path);
     ClassDB::bind_method(D_METHOD("get_grabber_path"), &ItemSlider::get_grabber_path);
 
     ADD_PROPERTY(PropertyInfo(Variant::INT, "value"), "set_value", "get_value");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "offset"), "set_offset", "get_offset");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "item_offset"), "set_item_offset", "get_item_offset");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "step_size"), "set_step_size", "get_step_size");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "grabber"), "set_grabber_path", "get_grabber_path");
 }
@@ -52,11 +52,11 @@ int ItemSlider::get_value() const {
     return value;
 }
 
-void ItemSlider::set_offset(float p_offset) {
+void ItemSlider::set_item_offset(float p_offset) {
     offset = p_offset;
 }
 
-float ItemSlider::get_offset() const {
+float ItemSlider::get_item_offset() const {
     return offset;
 }
 
