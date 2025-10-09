@@ -34,7 +34,7 @@ namespace godot {
             DefaultBullet();
             ~DefaultBullet();
 
-            void ready() override;
+            void _ready() override;
             void _process(double delta) override;
             Vector2 get_sprite_size();
 

@@ -38,7 +38,8 @@ void DefaultBullet::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "target_position", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_target_position");
 }
 
-void DefaultBullet::ready() {
+void DefaultBullet::_ready() {
+    Bullet::_ready();
     sprite = get_node_internal(get_sprite_path());
     collision = Object::cast_to<CollisionShape2D>(get_node_internal(get_collision_path()));
     
