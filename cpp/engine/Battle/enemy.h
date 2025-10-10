@@ -42,8 +42,7 @@ namespace godot {
             GPUParticles2D* spare;
             Node* non_mask;
             Node* sprites;
-            AnimatedSprite2D* e_head;
-            AnimatedSprite2D* e_body;
+            Array expression_sprites;
 
             // 적 속성
             bool kr;
@@ -63,8 +62,6 @@ namespace godot {
 
             NodePath hurt_sound_path;
             NodePath dust_sound_path;
-            NodePath e_body_path;
-            NodePath e_head_path;
             NodePath sprites_path;
             NodePath dust_path;
             NodePath spare_path;
@@ -83,12 +80,9 @@ namespace godot {
             void set_spare_path(const NodePath& p_path);
             NodePath get_spare_path() const;
 
-            void set_e_head_path(const NodePath& p_path);
-            NodePath get_e_head_path() const;
-            
-            void set_e_body_path(const NodePath& p_path);
-            NodePath get_e_body_path() const;
-            
+            void set_expression_sprites(const Array& p_animated_sprites);
+            Array get_expression_sprites() const;
+
             void set_sprites_path(const NodePath& p_path);
             NodePath get_sprites_path() const;
             
@@ -96,7 +90,7 @@ namespace godot {
             NodePath get_dialogue_path() const;
 
             void _handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip);
-            void _on_finished_all_texts_dialogue(int head, int body);
+            void _on_finished_all_texts_dialogue(PackedInt32Array arr);
             void _hurt(int amount);
             void _dodge(int dodge_sign);
 

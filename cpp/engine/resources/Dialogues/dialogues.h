@@ -17,7 +17,6 @@ namespace godot {
                 DIALOGUE_TEXT,
                 DIALOGUE_EXPRESSIONS,
                 DIALOGUE_EXPRESSION_HEAD,
-                DIALOGUE_EXPRESSION_BODY,
                 DIALOGUE_PAUSES,
                 DIALOGUE_SPEED
             };
@@ -28,7 +27,7 @@ namespace godot {
             void set_dialogues(TypedArray<Dialogue> p_dialogues);
             Array get_dialogues_single(DialogueType dialog_type) const;
             Dialogues* from(const PackedStringArray& text);
-            Dialogues* set_expressions(const Array& heads, const Array& bodies = Array());
+            Dialogues* set_expressions(Array expressions);
             Dialogues* set_speed(const Array& speeds);
     };
 }

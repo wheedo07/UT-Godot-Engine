@@ -28,8 +28,6 @@ Enemy::Enemy() {
     Ref<EnemyState> state = memnew(EnemyState);
     enemy_states.append(state);
 
-    e_head = nullptr;
-    e_body = nullptr;
     hurt_sound = nullptr;
     sprites = nullptr;
     dust = nullptr;
@@ -120,26 +118,25 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_dust_sound_path"), &Enemy::get_dust_sound_path);
     ClassDB::bind_method(D_METHOD("set_dust_path", "p_path"), &Enemy::set_dust_path);
     ClassDB::bind_method(D_METHOD("get_dust_path"), &Enemy::get_dust_path);
-    ClassDB::bind_method(D_METHOD("set_e_head_path", "p_path"), &Enemy::set_e_head_path);
-    ClassDB::bind_method(D_METHOD("get_e_head_path"), &Enemy::get_e_head_path);
-    ClassDB::bind_method(D_METHOD("set_e_body_path", "p_path"), &Enemy::set_e_body_path);
-    ClassDB::bind_method(D_METHOD("get_e_body_path"), &Enemy::get_e_body_path);
     ClassDB::bind_method(D_METHOD("set_sprites_path", "p_path"), &Enemy::set_sprites_path);
     ClassDB::bind_method(D_METHOD("get_sprites_path"), &Enemy::get_sprites_path);
     ClassDB::bind_method(D_METHOD("set_dialogue_path", "p_path"), &Enemy::set_dialogue_path);
     ClassDB::bind_method(D_METHOD("get_dialogue_path"), &Enemy::get_dialogue_path);
     ClassDB::bind_method(D_METHOD("set_spare_path", "p_path"), &Enemy::set_spare_path);
     ClassDB::bind_method(D_METHOD("get_spare_path"), &Enemy::get_spare_path);
+    ClassDB::bind_method(D_METHOD("set_expression_sprites", "p_animated_sprites"), &Enemy::set_expression_sprites);
+    ClassDB::bind_method(D_METHOD("get_expression_sprites"), &Enemy::get_expression_sprites);
     
     ADD_GROUP("NodePath", "");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "hurt_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_hurt_sound_path", "get_hurt_sound_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_dust_sound_path", "get_dust_sound_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_dust_path", "get_dust_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "spare_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_spare_path", "get_spare_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "e_head_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AnimatedSprite2D"), "set_e_head_path", "get_e_head_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "e_body_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AnimatedSprite2D"), "set_e_body_path", "get_e_body_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "sprites_path"), "set_sprites_path", "get_sprites_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dialogue_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "DialogueControl"), "set_dialogue_path", "get_dialogue_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_dust_path", "get_dust_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "spare_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_spare_path", "get_spare_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "hurt_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_hurt_sound_path", "get_hurt_sound_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_dust_sound_path", "get_dust_sound_path");
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "expression_sprites", PROPERTY_HINT_TYPE_STRING,
+        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_NODE_TYPE) + ":AnimatedSprite2D"
+    ), "set_expression_sprites", "get_expression_sprites");
 
     // 사용 함수
     ClassDB::bind_method(D_METHOD("get_solo"), &Enemy::get_solo);
@@ -151,7 +148,7 @@ void Enemy::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("_dodge", "dodge_sign"), &Enemy::_dodge);
     ClassDB::bind_method(D_METHOD("_hurt", "amount"), &Enemy::_hurt);
-    ClassDB::bind_method(D_METHOD("_on_finished_all_texts_dialogue", "head", "body"), &Enemy::_on_finished_all_texts_dialogue);
+    ClassDB::bind_method(D_METHOD("_on_finished_all_texts_dialogue", "arr"), &Enemy::_on_finished_all_texts_dialogue);
     ClassDB::bind_method(D_METHOD("_handle_typing", "text_index", "dialogue_ref", "duration", "skip"), &Enemy::_handle_typing);
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Enemy::set_property);
@@ -180,8 +177,6 @@ void Enemy::_ready() {
     if(!dust_path.is_empty()) dust = Object::cast_to<GPUParticles2D>(get_node_internal(dust_path));
     if(!spare_path.is_empty()) spare = Object::cast_to<GPUParticles2D>(get_node_internal(spare_path));
     if(!dialogue_path.is_empty()) dialogue = Object::cast_to<DialogueControl>(get_node_internal(dialogue_path));
-    if(!e_head_path.is_empty()) e_head = Object::cast_to<AnimatedSprite2D>(get_node_internal(e_head_path));
-    if(!e_body_path.is_empty()) e_body = Object::cast_to<AnimatedSprite2D>(get_node_internal(e_body_path));
     if(!sprites_path.is_empty()) sprites = get_node_internal(sprites_path);
     
     main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
@@ -246,12 +241,12 @@ void Enemy::play_dialogue(int index, float duration, bool skip) {
     }
     global->_set_battle_text_box(true);
     
-    int head_frame = -1;
-    int body_frame = -1;
+    PackedInt32Array originals;
+    for(int i=0; i < expression_sprites.size(); i++) {
+        AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
+        originals.append(expr_sprite->get_frame());
+    }
 
-    if(e_head) head_frame = e_head->get_frame();
-    if(e_body) body_frame = e_body->get_frame();
-    
     if(index >= 0 && index < dialogues.size()) {
         Ref<Dialogues> dialogue_ref = dialogues[index];
         if (dialogue_ref.is_valid()) {
@@ -263,19 +258,22 @@ void Enemy::play_dialogue(int index, float duration, bool skip) {
         }else ERR_PRINT("index의 맞는 Dialogues가 유효 하지 않습니다");
     }
     dialogue->set_key(skip);
-    dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(head_frame, body_frame), CONNECT_ONE_SHOT);
+    dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(originals), CONNECT_ONE_SHOT);
 }
 
 void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool skip) {
-    if(!is_node_ready() || !dialogue) return;
+    if(!dialogue) {
+        ERR_PRINT("Enemy 노드에 필요한 dialogue 노드가 없습니다");
+        return;
+    }
     global->_set_battle_text_box(true);
     
-    int head_frame = -1;
-    int body_frame = -1;
+    PackedInt32Array originals;
+    for(int i=0; i < expression_sprites.size(); i++) {
+        AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
+        originals.append(expr_sprite->get_frame());
+    }
 
-    if(e_head) head_frame = e_head->get_frame();
-    if(e_body) body_frame = e_body->get_frame();
-    
     if (dialogue_ref.is_valid()) {
         EnemySpeech* text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
         Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration, skip);
@@ -284,26 +282,30 @@ void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool 
         dialogue->DialogueText(dialogue_ref);
     }else ERR_PRINT("Dialogues가 유효 하지 않습니다");
     dialogue->set_key(skip);
-    dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(head_frame, body_frame), CONNECT_ONE_SHOT);
+    dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(originals), CONNECT_ONE_SHOT);
 }
 
-void Enemy::_on_finished_all_texts_dialogue(int head, int body) {
-    if(head != -1) e_head->set_frame(head);
-    if(body != -1) e_body->set_frame(body);
+void Enemy::_on_finished_all_texts_dialogue(PackedInt32Array arr) {
+    for(int i=0; i < arr.size(); i++) {
+        AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
+        expr_sprite->set_frame(arr[i]);
+    }
     emit_signal("finished_dialogue");
 }
 
 void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip) {
-    if(e_head) {
-        PackedInt32Array expressions = dialogue_ref->get_dialogues_single(Dialogues::DIALOGUE_EXPRESSION_HEAD);
-        if (text_index < expressions.size() && expressions[text_index] != -1) {
-            e_head->set_frame(expressions[text_index]);
+    Array expressions = dialogue_ref->get_dialogues_single(Dialogues::DIALOGUE_EXPRESSIONS)[0];
+    for(int i=0; i < expressions.size(); i++) {
+        if(expressions[i].get_type() != Variant::INT) {
+            ERR_PRINT("Dialogues의 DIALOGUE_EXPRESSIONS 배열에 int 타입이 아닌 값이 있습니다");
+            break;
         }
-    }
-    if(e_body) {
-        PackedInt32Array body_frames = dialogue_ref->get_dialogues_single(Dialogues::DIALOGUE_EXPRESSION_BODY);
-        if (text_index < body_frames.size() && body_frames[text_index] != -1) {
-            e_body->set_frame(body_frames[text_index]);
+        if(expression_sprites.has(i)) {
+            AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
+            int expr_frame = expressions[i];
+            if(expr_frame != 0 && expr_sprite) {
+                expr_sprite->set_frame(expr_frame);
+            }
         }
     }
 
@@ -549,20 +551,12 @@ NodePath Enemy::get_dust_path() const {
     return dust_path;
 }
 
-void Enemy::set_e_head_path(const NodePath& p_path) {
-    e_head_path = p_path;
+void Enemy::set_expression_sprites(const Array& p_animated_sprites) {
+    expression_sprites = p_animated_sprites;
 }
 
-NodePath Enemy::get_e_head_path() const {
-    return e_head_path;
-}
-
-void Enemy::set_e_body_path(const NodePath& p_path) {
-    e_body_path = p_path;
-}
-
-NodePath Enemy::get_e_body_path() const {
-    return e_body_path;
+Array Enemy::get_expression_sprites() const {
+    return expression_sprites;
 }
 
 void Enemy::set_sprites_path(const NodePath& p_path) {

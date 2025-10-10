@@ -15,7 +15,7 @@ namespace godot {
 		private:
 			String dialog_text;
 			double dialog_speed;
-			Array dialog_expressions;
+			PackedInt64Array dialog_expressions;
 			TypedArray<DialoguePause> pauses;
 		
 		public:
@@ -29,8 +29,8 @@ namespace godot {
     		void set_dialog_speed(float p_speed);
     		float get_dialog_speed() const;
 
-    		void set_dialog_expressions(const TypedArray<int>& p_expressions);
-    		TypedArray<int> get_dialog_expressions() const;
+    		void set_dialog_expressions(Array p_expressions);
+    		Array get_dialog_expressions() const;
 
 			void set_pauses(const TypedArray<DialoguePause>& p_pauses);
 			TypedArray<DialoguePause> get_pauses() const;

@@ -82,7 +82,6 @@ void Overworld::_ready() {
     connect("initialized", Callable(camera, "_set_limits"));
     connect("room_initialized", Callable(camera, "force_update"));
     connect("room_initialized", Callable(camera, "_set_limits"));
-    
     start_music_fade_in();
 
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록

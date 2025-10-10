@@ -29,7 +29,7 @@ shader_parameter/linear_accel_random = 0.15
 shader_parameter/lifetime_randomness = 0.2
 shader_parameter/sprite = ExtResource("4_1sp7y")
 
-[node name="Enemy_SANS" type="Enemy_SANS"]
+[node name="Enemy_SANS" type="Enemy_SANS" node_paths=PackedStringArray("expression_sprites")]
 enemy_name = "샌즈"
 kr = true
 dodging = true
@@ -41,14 +41,13 @@ stats = {
 one_by_one_overrdie = true
 flavour_text = PackedStringArray("* 테스트 전투다")
 enemy_states = [SubResource("EnemyState_udyrt")]
-hurt_sound_path = NodePath("Sounds/Hurt")
-dust_sound_path = NodePath("Sounds/Dust")
-dust_path = NodePath("Dust")
-spare_path = NodePath("Spare")
-e_head_path = NodePath("sans/Idle/body/head")
-e_body_path = NodePath("sans/Idle/body")
 sprites_path = NodePath("sans")
 dialogue_path = NodePath("Dialogue")
+dust_path = NodePath("Dust")
+spare_path = NodePath("Spare")
+hurt_sound_path = NodePath("Sounds/Hurt")
+dust_sound_path = NodePath("Sounds/Dust")
+expression_sprites = [NodePath("sans/Idle/body/head"), NodePath("sans/Idle/body")]
 
 [node name="sans" parent="." instance=ExtResource("1_pvga3")]
 position = Vector2(1, -70)

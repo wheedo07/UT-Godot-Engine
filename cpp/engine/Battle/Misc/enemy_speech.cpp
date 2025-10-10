@@ -29,7 +29,6 @@ void EnemySpeech::character_customize() {
     if(!setting->get_font().is_null()) add_theme_font_override("normal_font", setting->get_font());
     add_theme_font_size_override("normal_font_size", setting->get_text_size());
 
-    if(isEditor) return;
     set_click(setting);
     set_extra_delay(setting->get_extra_delay());
     set_no_sound(setting->get_no_sound());
@@ -97,5 +96,6 @@ void EnemySpeech::handle_confirm_signal() {
 
 void EnemySpeech::set_current_character(String p_character) {
     current_character = p_character;
+    if(isEditor) return;
     character_customize();
 }
