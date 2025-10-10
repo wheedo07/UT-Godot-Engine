@@ -24,6 +24,7 @@ namespace godot {
             int max_hp;
             int damage_amount;
             bool miss;
+            String info;
 
             Ref<Tween> flash_tween;
             Ref<Tween> animation_tween;
@@ -50,8 +51,8 @@ namespace godot {
             void set_miss(bool p_miss);
             bool get_miss() const;
 
-            void set_time(float p_time);
-            float get_time() const;
+            void set_info(String p_info);
+            String get_info() const;
     };
 }
 

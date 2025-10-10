@@ -22,7 +22,8 @@ theme_override_constants/outline_size = 9
 theme_override_fonts/normal_font = ExtResource("3_ehycn")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
-text = "[center]123 MISS"
+text = "123 MISS"
+horizontal_alignment = 1
 
 [node name="Bar" type="ProgressBar" parent="."]
 custom_minimum_size = Vector2(16, 0)

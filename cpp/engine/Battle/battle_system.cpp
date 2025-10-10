@@ -319,6 +319,13 @@ void BattleMain::_on_slash_finished(int damage, int target, bool crit) {
                 clone->set("miss", true);
             } else {
                 clone->set("damage", damage);
+                String info;
+                if(enemy->has_method("on_damage")) { // C++ 이랑 GDscript 모두 호환되도록
+                    info = enemy->call("on_damage", damage);
+                }else {
+                    info = enemy->on_damage(damage);
+                }
+                clone->set("info", info);
                 box->enemies_hp[target] = (float)box->enemies_hp[target] - damage;
             }
             

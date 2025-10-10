@@ -57,6 +57,7 @@ void Enemy::_bind_methods() {
     GDVIRTUAL_BIND(on_act_used, "option");
     GDVIRTUAL_BIND(on_item_used, "option");
     GDVIRTUAL_BIND(on_mercy_used);
+    GDVIRTUAL_BIND(on_damage, "amount");
     GDVIRTUAL_BIND(on_win);
     GDVIRTUAL_BIND(on_defeat, "death");
 
@@ -332,7 +333,8 @@ void Enemy::_hurt(int amount) {
     
     Ref<Tween> hurtsoundtween = create_tween();
     if(hurt_sound) hurtsoundtween->tween_callback(Callable(hurt_sound, "play"))->set_delay(0.4);
-    
+   
+    if(amount <= 0) return;
     Ref<Tween> tw = create_tween();
     tw->set_loops(6);
     
@@ -380,6 +382,10 @@ void Enemy::_on_end_turn() {
 PackedStringArray Enemy::on_win() {
     // 파생 클래스에서 구현
     return { tr("UT_DEFAULT_DIDE") };
+}
+
+String Enemy::on_damage(int amount) {
+    return String();
 }
 
 void Enemy::on_death() {

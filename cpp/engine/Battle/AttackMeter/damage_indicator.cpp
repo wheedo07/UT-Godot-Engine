@@ -3,7 +3,8 @@
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/callback_tweener.hpp>
 #include<godot_cpp/classes/property_tweener.hpp>
-#include<godot_cpp/classes/engine.hpp>
+#include<godot_cpp/classes/reg_ex.hpp>
+#include<godot_cpp/classes/reg_ex_match.hpp>
 using namespace godot;
 
 DamageIndicator::DamageIndicator() {
@@ -24,27 +25,26 @@ void DamageIndicator::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("set_hp", "hp"), &DamageIndicator::set_hp);
     ClassDB::bind_method(D_METHOD("get_hp"), &DamageIndicator::get_hp);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "hp"), "set_hp", "get_hp");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "hp", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_hp", "get_hp");
     
     ClassDB::bind_method(D_METHOD("set_max_hp", "max_hp"), &DamageIndicator::set_max_hp);
     ClassDB::bind_method(D_METHOD("get_max_hp"), &DamageIndicator::get_max_hp);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "max_hp"), "set_max_hp", "get_max_hp");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "max_hp", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_max_hp", "get_max_hp");
     
     ClassDB::bind_method(D_METHOD("set_damage", "damage"), &DamageIndicator::set_damage);
     ClassDB::bind_method(D_METHOD("get_damage"), &DamageIndicator::get_damage);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "damage"), "set_damage", "get_damage");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "damage", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_damage", "get_damage");
     
     ClassDB::bind_method(D_METHOD("set_miss", "miss"), &DamageIndicator::set_miss);
     ClassDB::bind_method(D_METHOD("get_miss"), &DamageIndicator::get_miss);
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "miss"), "set_miss", "get_miss");
-    
-    ClassDB::bind_method(D_METHOD("set_time", "time"), &DamageIndicator::set_time);
-    ClassDB::bind_method(D_METHOD("get_time"), &DamageIndicator::get_time);
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "time"), "set_time", "get_time");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "miss", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_miss", "get_miss");
+
+    ClassDB::bind_method(D_METHOD("set_info", "info"), &DamageIndicator::set_info);
+    ClassDB::bind_method(D_METHOD("get_info"), &DamageIndicator::get_info);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "info", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_info", "get_info");
 }
 
 void DamageIndicator::_ready() {
-    if(Engine::get_singleton()->is_editor_hint()) return;
     text_label = Object::cast_to<RichTextLabel>(get_node_internal("Hp"));
     health_bar = Object::cast_to<ProgressBar>(get_node_internal("Bar"));
     hit_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Hit"));
@@ -69,33 +69,38 @@ void DamageIndicator::_on_frame_processed() {
     Vector2 bar_position = health_bar->get_position();
     bar_position.x = -bar_size.x / 2.0f;
     health_bar->set_position(bar_position);
-    
-    if (miss) {
-        if (text_label) {
-            text_label->set_text("[center][color=gray]MISS");
+  
+        
+    String info_text = info;
+    if(!info_text.is_empty()) {
+        RegEx reg_ex;
+        reg_ex.compile("\\[time=([0-9.]+)\\]");
+        PackedStringArray parts = reg_ex.search_all(info);
+        if (parts.size() > 0) {
+            String time_match = parts[0];
+            String time_value = reg_ex.search(info)->get_string(1);
+            time = time_value.to_float();
+            
+            info_text = reg_ex.sub(info, "");
         }
-        if (health_bar) {
-            health_bar->hide();
-        }
-    } else if (damage_amount > 0) {
-        if (hit_sound) {
-            hit_sound->play();
-        }
-        if (text_label) {
-            text_label->set_text("[center][color=red]" + String::num_int64(damage_amount));
-        }
+    }    
+
+    if(miss) {
+        text_label->set_text("[color=gray]MISS");
+        health_bar->hide();
+    }else if (damage_amount > 0) {
+        hit_sound->play();
+        if(info_text.is_empty()) 
+            text_label->set_text("[color=red]" + String::num_int64(damage_amount));
+        else text_label->set_text(info_text);
         emit_signal("damagetarget", damage_amount);
-    } else {
-        if (hit_sound) {
-            hit_sound->play();
-        }
+    }else {
+        hit_sound->play();
+        if(info_text.is_empty()) 
+            text_label->set_text("[color=green]0");
+        else text_label->set_text(info_text);
+        health_bar->hide();
         emit_signal("damagetarget", damage_amount);
-        if (text_label) {
-            text_label->set_text("[center][color=gray]0");
-        }
-        if (health_bar) {
-            health_bar->hide();
-        }
     }
     
     flash_tween = get_tree()->create_tween();
@@ -172,10 +177,10 @@ bool DamageIndicator::get_miss() const {
     return miss;
 }
 
-void DamageIndicator::set_time(float p_time) {
-    time = p_time;
+void DamageIndicator::set_info(String p_info) {
+    info = p_info;
 }
 
-float DamageIndicator::get_time() const {
-    return time;
+String DamageIndicator::get_info() const {
+    return info;
 }
