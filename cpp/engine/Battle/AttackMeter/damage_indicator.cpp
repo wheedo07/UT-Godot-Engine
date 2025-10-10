@@ -73,17 +73,16 @@ void DamageIndicator::_on_frame_processed() {
         
     String info_text = info;
     if(!info_text.is_empty()) {
-        RegEx reg_ex;
-        reg_ex.compile("\\[time=([0-9.]+)\\]");
-        PackedStringArray parts = reg_ex.search_all(info);
+        Ref<RegEx> reg_ex = RegEx::create_from_string("\\[time=([0-9.]+)\\]");
+        PackedStringArray parts = reg_ex->search_all(info);
         if (parts.size() > 0) {
             String time_match = parts[0];
-            String time_value = reg_ex.search(info)->get_string(1);
+            String time_value = reg_ex->search(info)->get_string(1);
             time = time_value.to_float();
             
-            info_text = reg_ex.sub(info, "");
+            info_text = reg_ex->sub(info, "");
         }
-    }    
+    }
 
     if(miss) {
         text_label->set_text("[color=gray]MISS");
@@ -97,7 +96,7 @@ void DamageIndicator::_on_frame_processed() {
     }else {
         hit_sound->play();
         if(info_text.is_empty()) 
-            text_label->set_text("[color=green]0");
+            text_label->set_text("[color=gray]0");
         else text_label->set_text(info_text);
         health_bar->hide();
         emit_signal("damagetarget", damage_amount);

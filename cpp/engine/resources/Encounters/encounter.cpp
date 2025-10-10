@@ -6,8 +6,8 @@ Encounter::Encounter() {
     offset = Vector2(0,0);
     flee_chance = 0.2f;
     
-    mercy_options.push_back(String("* ") + tr("UT_SPARE"));
-    mercy_options.push_back(String("* ") + tr("UT_FLEE"));
+    mercy_options.push_back("UT_SPARE");
+    mercy_options.push_back("UT_FLEE");
 }
 
 Encounter::~Encounter() {}

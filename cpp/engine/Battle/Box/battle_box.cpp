@@ -396,7 +396,7 @@ void BattleBox::set_mercy_options() {
     PackedStringArray mercy_options = encounter->get_mercy_options();
     
     for (int i = 0; i < mercy_options.size(); i++) {
-        txt += vformat("[color=%s]%s[/color]\n", i == 0 ? spare_color : "white", mercy_options[i]);
+        txt += vformat("[color=%s]%s[/color]\n", i == 0 ? spare_color : "white", tr(mercy_options[i]));
     }
     
     mercy_choices->set_text(txt);
