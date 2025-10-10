@@ -41,7 +41,7 @@ int Options::get_current_pos() const {
 }
 
 void Options::enable(int x) {
-    audio_player->play("choice");
+    stagehand->audio_player->play("choice");
     current_pos = 0;
     
     int option_pos = 0;
@@ -103,7 +103,7 @@ void Options::_unhandled_input(const Ref<InputEvent>& event) {
 }
 
 void Options::refresh_thing(int action) {
-    audio_player->play("choice");
+    stagehand->audio_player->play("choice");
     
     Object::cast_to<OptionSelectable>(option_nodes[current_pos])->set_selected(false);
     

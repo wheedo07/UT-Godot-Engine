@@ -75,7 +75,7 @@ void NameSelection::on_backspace_pressed() {
 
 void NameSelection::on_name_input_text_submitted() {
     if(name_label->get_text().is_empty()) {
-        audio_player->play("hurt");
+        stagehand->audio_player->play("hurt");
         
         SceneTree* tree = get_tree();
         if (tree) {
@@ -86,7 +86,7 @@ void NameSelection::on_name_input_text_submitted() {
     }
     
     emit_signal("disable");
-    audio_player->play("select");
+    stagehand->audio_player->play("select");
     
     name_text = name_label->get_text().to_upper();
     
@@ -175,7 +175,7 @@ void NameSelection::_input(const Ref<InputEvent>& event) {
     if(!confirmable) return;
     
     if (event->is_action_pressed("ui_right")) {
-        audio_player->play("choice");
+        stagehand->audio_player->play("choice");
         
         if (choices.size() >= 2) {
             Object::cast_to<OptionSelectable>(choices[0])->reset();
@@ -185,7 +185,7 @@ void NameSelection::_input(const Ref<InputEvent>& event) {
     }
     
     if (event->is_action_pressed("ui_left")) {
-        audio_player->play("choice");
+        stagehand->audio_player->play("choice");
         
         if (choices.size() >= 2) {
             Object::cast_to<OptionSelectable>(choices[1])->reset();

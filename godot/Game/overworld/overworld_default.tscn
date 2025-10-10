@@ -19,7 +19,7 @@ func ready() -> void:
 	
 func start_cellphone(id: int) -> void:
 	if(id == 0):
-		summontextbox().character(false, Character.SANS, Dialogues.new().from([
+		summontextbox().character(false, \"SANS\", Dialogues.new().from([
 			\"* 전화 받았습니다\", \"* WA sans\"
 		]).set_expressions([0, 1]));
 		

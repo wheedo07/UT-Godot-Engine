@@ -12,8 +12,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            Character custom_character;
-            int text_size;
+            String character_name;
             EnemySpeech* bubble_text;
             bool tween_in_progress;
             Ref<Tween> active_tween;
@@ -34,11 +33,8 @@ namespace godot {
             void _on_tween_finished();
             void _on_all_texts_finished();
 
-            void set_custom_character(Character p_character);
-            Character get_custom_character() const;
-
-            void set_text_size(int size);
-            int get_text_size();
+            void set_character_name(String p_character);
+            String get_character_name() const;
     };
 }
 

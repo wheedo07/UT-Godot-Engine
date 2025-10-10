@@ -78,7 +78,7 @@ void SaveMenu::save() {
     refresh();
     location_label->set_text(sc->get("world_name"));
     
-    audio_player->play("save");
+    stagehand->audio_player->play("save");
     call_deferred("set_saved", true);
 }
 

@@ -3,7 +3,6 @@
 
 #include "text_box_writer.h"
 #include "text_box_options.h"
-#include "engine/Text/character.h"
 #include "engine/Menus/menu_soul.h"
 #include<godot_cpp/classes/canvas_layer.hpp>
 #include<godot_cpp/classes/input_event.hpp>
@@ -27,7 +26,7 @@ namespace godot {
             int optionamt = 0;
             TypedArray<Dialogues> text_after_option;
 
-            Character talking_character = DEFAULT;
+            String talking_character;
 
             bool selected_option = false;
             bool text_typing_completed = false;
@@ -44,18 +43,18 @@ namespace godot {
             MenuSoul* soul;
             Array Options;
 
-            void on_option_selected(int option);
-            void on_text_typing_finished();
-            void on_option_typing_finished(int option_index, const PackedStringArray& options); 
-            void on_all_texts_finished(const PackedStringArray& options);
+            void _on_option_selected(int option);
+            void _on_text_typing_finished();
+            void _on_option_typing_finished(int option_index, const PackedStringArray& options); 
+            void _on_all_texts_finished(const PackedStringArray& options);
 
-            void setup_options_typing(const PackedStringArray& options);
-            void setup_soul_selection(const PackedStringArray& options);
-            void finish_dialogue();
-            void on_finish_dialogue();
+            void _setup_options_typing(const PackedStringArray& options);
+            void _setup_soul_selection(const PackedStringArray& options);
+            void _finish_dialogue();
+            void _on_finish_dialogue();
             void abstract(const Ref<Dialogues>& text, const PackedStringArray& options = PackedStringArray(), 
             const TypedArray<Dialogues>& text_after_options = TypedArray<Dialogues>());
-            void set_head_frame(const Array& expr);
+            void _set_head_frame(const Array& expr);
             void finish_options();
             void _on_skip();
             void _on_confirm();
@@ -71,11 +70,11 @@ namespace godot {
             // 사용 함수
             void generic(const Ref<Dialogues>& text, const PackedStringArray& options = PackedStringArray(), 
             const TypedArray<Dialogues>& text_after_options = TypedArray<Dialogues>());
-            void character(bool head_hide, Character chr, const Ref<Dialogues>& dialogues, const PackedStringArray& options = PackedStringArray(), 
+            void character(bool head_hide, String chr, const Ref<Dialogues>& dialogues, const PackedStringArray& options = PackedStringArray(), 
             const TypedArray<Dialogues>& dialogues_after_options = TypedArray<Dialogues>());
             void set_key(bool is);
 
-            void on_text_click_played();
+            void _on_text_click_played();
     };
 }
 

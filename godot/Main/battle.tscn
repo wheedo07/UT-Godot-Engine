@@ -13,18 +13,15 @@
 [node name="Background" parent="." instance=ExtResource("9_0orpf")]
 
 [node name="HUD" parent="." instance=ExtResource("8_pj1aw")]
-unique_name_in_owner = true
 offset_left = 32.0
 offset_top = 400.0
 offset_right = 718.0
 offset_bottom = 424.0
 
 [node name="Enemies" type="Node2D" parent="."]
-unique_name_in_owner = true
 position = Vector2(317, 240)
 
 [node name="BattleBox" parent="." instance=ExtResource("5_1exqf")]
-unique_name_in_owner = true
 
 [node name="SoulLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -34,19 +31,15 @@ unique_name_in_owner = true
 position = Vector2(324, 323)
 
 [node name="Buttons" parent="." instance=ExtResource("3_m5l1o")]
-unique_name_in_owner = true
 z_index = -1
 position = Vector2(0, 453)
 
 [node name="Camera" type="CameraController" parent="."]
-unique_name_in_owner = true
 position = Vector2(320, 240)
 
 [node name="Attacks" type="Node2D" parent="."]
-unique_name_in_owner = true
 
 [node name="BoxClipper" parent="Attacks" instance=ExtResource("4_elftc")]
-unique_name_in_owner = true
 
 [node name="lvlup" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_ldyum")

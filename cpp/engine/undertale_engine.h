@@ -24,6 +24,7 @@ using namespace godot;
 // [end] //
 
 // [defaultNode] //
+#include "defaultNode/stagehand.h"
 #include "defaultNode/audio_player.h"
 #include "defaultNode/global.h"
 #include "defaultNode/settings.h"
@@ -70,6 +71,7 @@ using namespace godot;
 // [Text] //
 #include "Text/text_typer.h"
 #include "Text/advanced_text_typer.h"
+#include "Text/character_setting.h"
 // [end] //
 
 // [Menus] // 

@@ -1,7 +1,6 @@
 #ifndef ENEMY_SPEECH_H
 #define ENEMY_SPEECH_H
 
-#include "engine/Text/character.h"
 #include "engine/Text/advanced_text_typer.h"
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/font.hpp>
@@ -13,7 +12,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            Character current_character;
+            String current_character;
             void on_tween_finished_extended();
             void handle_confirm_signal();
         
@@ -27,8 +26,7 @@ namespace godot {
             void process_next_dialogue();
             void type_text_advanced(const Ref<Dialogues>& dialogues) override;
 
-            void set_current_character(Character p_character);
-            Character get_current_character() const;
+            void set_current_character(String p_character);
     };
 }
 

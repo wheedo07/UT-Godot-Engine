@@ -70,27 +70,27 @@ void OptionSelectableSolo::_unhandled_input(const Ref<InputEvent>& event) {
     
     if (event->is_action_pressed("ui_down") && !node_down.is_empty()) {
         move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_down)));
-        audio_player->play("choice");
+        stagehand->audio_player->play("choice");
     }
     
     if (event->is_action_pressed("ui_up") && !node_up.is_empty()) {
         move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_up)));
-        audio_player->play("choice");
+        stagehand->audio_player->play("choice");
     }
     
     if (event->is_action_pressed("ui_left") && !node_left.is_empty()) {
         move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_left)));
-        audio_player->play("choice");
+        stagehand->audio_player->play("choice");
     }
     
     if (event->is_action_pressed("ui_right") && !node_right.is_empty()) {
         move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_right)));
-        audio_player->play("choice");
+        stagehand->audio_player->play("choice");
     }
     
     if (event->is_action_pressed("ui_accept")) {
         if(!node_accept.is_empty()) move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_accept)));
-        audio_player->play("select");
+        stagehand->audio_player->play("choice");
         emit_signal("accept_pressed");
     }
 }

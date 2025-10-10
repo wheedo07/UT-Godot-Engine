@@ -23,7 +23,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-audio_player="*res://Main/audio_player.tscn"
+stagehand="*res://Main/stagehand.tscn"
 scene_changer="*res://Main/overworld_scene_changer.tscn"
 global="*res://Main/global.tscn"
 

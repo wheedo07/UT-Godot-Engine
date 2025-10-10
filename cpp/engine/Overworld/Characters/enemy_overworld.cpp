@@ -8,7 +8,7 @@
 using namespace godot;
 
 EnemyOverworld::EnemyOverworld() {
-    character = SANS;
+    character = "";
     walk_speed = 60;
     walk_speed_mod = 1.0f;
     counter = 0;
@@ -48,8 +48,7 @@ void EnemyOverworld::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_frame_alert", "value"), &EnemyOverworld::set_frame_alert);
     ClassDB::bind_method(D_METHOD("get_frame_alert"), &EnemyOverworld::get_frame_alert);
 
-    bind_enum(get_class_static(), "set_character", "get_character");
-   
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "character"), "set_character", "get_character");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "walk_speed", PROPERTY_HINT_RANGE, "0,400,1"), 
         "set_walk_speed", "get_walk_speed");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "frame_alert"), "set_frame_alert", "get_frame_alert");
@@ -201,11 +200,11 @@ int EnemyOverworld::get_walk_speed() const {
     return walk_speed;
 }
 
-void EnemyOverworld::set_character(Character p_character) {
+void EnemyOverworld::set_character(String p_character) {
     character = p_character;
 }
 
-Character EnemyOverworld::get_character() const {
+String EnemyOverworld::get_character() const {
     return character;
 }
 

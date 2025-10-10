@@ -5,8 +5,7 @@
 DialogueControl::DialogueControl() {
     bubble_text = nullptr;
     tween_in_progress = false;
-    custom_character = DEFAULT;
-    text_size = 14;
+    character_name = "DEFAULT";
 }
 
 DialogueControl::~DialogueControl() {
@@ -16,22 +15,15 @@ void DialogueControl::_bind_methods() {
     ADD_SIGNAL(MethodInfo("set_expression", PropertyInfo(Variant::ARRAY, "expressions")));
     ADD_SIGNAL(MethodInfo("finished_all_texts_dialogue"));
     
-    ClassDB::bind_method(D_METHOD("DialogueText", "dialogues"), &DialogueControl::DialogueText);
-    ClassDB::bind_method(D_METHOD("set_key", "is"), &DialogueControl::set_key);
-
     ClassDB::bind_method(D_METHOD("_on_text_click_played", "is", "duration"), &DialogueControl::_on_text_click_played, DEFVAL(true), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("_on_text_expression_set", "expr"), &DialogueControl::_on_text_expression_set);
     ClassDB::bind_method(D_METHOD("_on_tween_finished"), &DialogueControl::_on_tween_finished);
     ClassDB::bind_method(D_METHOD("_on_all_texts_finished"), &DialogueControl::_on_all_texts_finished);
     ClassDB::bind_method(D_METHOD("_on_ends_typing"), &DialogueControl::_on_ends_typing);
     
-    ClassDB::bind_method(D_METHOD("set_custom_character", "character"), &DialogueControl::set_custom_character);
-    ClassDB::bind_method(D_METHOD("get_custom_character"), &DialogueControl::get_custom_character);
-    bind_enum(get_class_static(), "set_custom_character", "get_custom_character");
-
-    ClassDB::bind_method(D_METHOD("set_text_size", "size"), &DialogueControl::set_text_size);
-    ClassDB::bind_method(D_METHOD("get_text_size"), &DialogueControl::get_text_size);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "text_size", PROPERTY_HINT_RANGE, "8,32,1"), "set_text_size", "get_text_size");
+    ClassDB::bind_method(D_METHOD("set_character_name", "character"), &DialogueControl::set_character_name);
+    ClassDB::bind_method(D_METHOD("get_character_name"), &DialogueControl::get_character_name);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "character_name"), "set_character_name", "get_character_name");
 }
 
 void DialogueControl::_ready() {
@@ -43,9 +35,8 @@ void DialogueControl::_ready() {
     
     bubble_text->set_text("");
     set_modulate(Color(1.0, 1.0, 1.0, 0.0));
-    bubble_text->set_current_character(custom_character);
+    bubble_text->set_current_character(character_name);
     bubble_text->character_customize();
-    bubble_text->add_theme_font_size_override("normal_font_size", text_size);
     
     bubble_text->connect("expression_set", Callable(this, "_on_text_expression_set"));
     bubble_text->connect("finished_speech", Callable(this, "_on_all_texts_finished"));
@@ -112,27 +103,15 @@ void DialogueControl::_on_text_expression_set(const Array& expr) {
     emit_signal("set_expression", expr);
 }
 
-void DialogueControl::set_custom_character(Character p_character) {
-    custom_character = p_character;
+void DialogueControl::set_character_name(String p_character) {
+    character_name = p_character;
     
     if (bubble_text) {
-        bubble_text->set_current_character(custom_character);
+        bubble_text->set_current_character(character_name);
         bubble_text->character_customize();
     }
 }
 
-Character DialogueControl::get_custom_character() const {
-    return custom_character;
-}
-
-void DialogueControl::set_text_size(int size) {
-    text_size = size;
-
-    if (bubble_text) {
-        bubble_text->add_theme_font_size_override("normal_font_size", text_size);
-    }
-}
-
-int DialogueControl::get_text_size() {
-    return text_size;
+String DialogueControl::get_character_name() const {
+    return character_name;
 }

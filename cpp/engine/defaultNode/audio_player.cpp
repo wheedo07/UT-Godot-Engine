@@ -18,7 +18,7 @@ void AudioPlayer::_ready() {
     TypedArray<Node> children = get_children();
     for (int i = 0; i < children.size(); i++) {
         Node* child = Object::cast_to<Node>(children[i]);
-        if (!child || !Object::cast_to<AudioStreamPlayer>(child)) continue;
+        if(!child || !child->is_class("AudioStreamPlayer")) continue;
         audio_stream_players[child->get_name()] = Object::cast_to<AudioStreamPlayer>(child);
     }
 }

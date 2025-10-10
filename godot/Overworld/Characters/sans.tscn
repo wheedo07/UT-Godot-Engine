@@ -183,6 +183,7 @@ animations = [{
 }]
 
 [node name="Sans" type="EnemyOverworld" groups=["sans"]]
+character = "SANS"
 y_sort_enabled = true
 slide_on_ceiling = false
 wall_min_slide_angle = 0.785398

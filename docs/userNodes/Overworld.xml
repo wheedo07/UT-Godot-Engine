@@ -62,7 +62,7 @@
         <method name="player_died" qualifiers="virtual">
             <return type="PackedStringArray" />
             <description>
-                플레이어가 사망했을 때 표시할 메시지를 반환합니다.
+                플레이어가 오버월드내에서 사망했을 때 표시할 메시지를 반환합니다.
                 기본적으로 기본 사망 메시지를 반환하며, 상속받아 커스터마이징할 수 있습니다.
             </description>
         </method>

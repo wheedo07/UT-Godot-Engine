@@ -12,41 +12,6 @@ region = Rect2(170, 48, 38, 38)
 
 [resource]
 animations = [{
-"frames": [],
-"loop": true,
-"name": &"Alphys",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"Asgore",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"Flowey",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"FloweyEvil",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"Gaster",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"Mettaton",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"Papyrus",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_eq34n")
@@ -55,21 +20,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_wcyjg")
 }],
 "loop": false,
-"name": &"Sans",
+"name": &"SANS",
 "speed": 0.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"Toriel",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"Undyne",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"UndyneTheUndying",
-"speed": 5.0
 }]

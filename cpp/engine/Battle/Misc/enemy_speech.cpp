@@ -1,11 +1,10 @@
 #include "enemy_speech.h"
+#include "env.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/viewport.hpp>
-#include<godot_cpp/classes/engine.hpp>
-using namespace godot;
 
 EnemySpeech::EnemySpeech() {
-    current_character = DEFAULT;
+    current_character = "DEFAULT";
 }
 
 EnemySpeech::~EnemySpeech() {}
@@ -16,40 +15,24 @@ void EnemySpeech::_bind_methods() {
     ClassDB::bind_method(D_METHOD("character_customize"), &EnemySpeech::character_customize);
     ClassDB::bind_method(D_METHOD("handle_confirm_signal"), &EnemySpeech::handle_confirm_signal);
     ClassDB::bind_method(D_METHOD("on_tween_finished_extended"), &EnemySpeech::on_tween_finished_extended);
-
-    ClassDB::bind_method(D_METHOD("set_current_character", "character"), &EnemySpeech::set_current_character);
-    ClassDB::bind_method(D_METHOD("get_current_character"), &EnemySpeech::get_current_character);
-    bind_enum(get_class_static(), "set_current_character", "get_current_character");
 }
 
 void EnemySpeech::_ready() {
-    if(Engine::get_singleton()->is_editor_hint()) return;
     GenericTextTyper::_ready();
     connect("confirm", Callable(this, "handle_confirm_signal"));
 }
 
 void EnemySpeech::character_customize() {
-    ResourceLoader* loader = ResourceLoader::get_singleton();
-    if(get_character_name().has(current_character)) set_click(Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/"+String(get_character_name()[Variant(current_character)]))));
-    else set_click(Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/Generic")));
+    CharacterSetting* setting = stagehand->get_character(current_character);
+    if(!setting) return;
 
-    // 캐릭터 추가시 추가
-    switch (current_character) {
-        case SANS:
-            add_theme_font_override("normal_font", loader->load("res://Text/Fonts/character/sans.ttf"));
-            break;
-        case GASTER:
-        case GASTER_TEXT:
-            set_click(Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/Gaster")));
-            if(current_character == GASTER_TEXT) add_theme_font_override("normal_font", loader->load("res://Text/Fonts/character/gaster.otf"));
-            break;
-        case TEMMIE:
-            set_click(Object::cast_to<AudioStreamPlayer>(get_node_internal("Sounds/Generic")));
-            set_entire_text_bbcode("[shake amp=6]");
-            break;
-        default:
-            break;
-    }
+    if(!setting->get_font().is_null()) add_theme_font_override("normal_font", setting->get_font());
+    add_theme_font_size_override("normal_font_size", setting->get_text_size());
+
+    if(isEditor) return;
+    set_click(setting);
+    set_extra_delay(setting->get_extra_delay());
+    set_no_sound(setting->get_no_sound());
 }
 
 void EnemySpeech::type_text_advanced(const Ref<Dialogues>& dialogues) {
@@ -112,11 +95,7 @@ void EnemySpeech::handle_confirm_signal() {
     process_next_dialogue();
 }
 
-void EnemySpeech::set_current_character(Character p_character) {
+void EnemySpeech::set_current_character(String p_character) {
     current_character = p_character;
     character_customize();
-}
-
-Character EnemySpeech::get_current_character() const {
-    return current_character;
 }

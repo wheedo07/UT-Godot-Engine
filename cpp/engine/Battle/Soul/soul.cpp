@@ -249,7 +249,7 @@ void SoulBattle::check_bullet(Area2D* area) {
 void SoulBattle::hurt(BulletArea* area) {
     if(!area) return;
 
-    audio_player->play("hurt");
+    stagehand->audio_player->play("hurt");
     if(global->get_player_hp() <= 1 && main->player_turn) return;
     
     iframes = area->iframes;

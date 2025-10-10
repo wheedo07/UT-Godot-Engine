@@ -114,7 +114,7 @@ process_material = SubResource("ShaderMaterial_vhgwm")
 position = Vector2(1, -70)
 
 [node name="Dialogue" parent="." instance=ExtResource("5_7gmq6")]
-character = 1
+character_name = "SANS_BATTLE"
 offset_left = 69.0
 offset_top = -144.0
 offset_right = 231.0

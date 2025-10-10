@@ -93,7 +93,7 @@ void SoulOverworld::hurt(BulletArea* bullet_area) {
 
     int damage_amount = Math::max(bullet_area->damage - defense, 1);
     global->set_player_hp(global->get_player_hp() - damage_amount);
-    audio_player->play("hurt");
+    stagehand->audio_player->play("hurt");
     emit_signal("hurt", damage_amount);
 
     if(global->get_player_hp() <= 0 && !global->get_debugmode()) {

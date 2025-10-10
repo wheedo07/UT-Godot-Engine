@@ -39,7 +39,7 @@ void SceneContainer::_ready() {
 
     global = Object::cast_to<Global>(get_node_internal("/root/global"));
     scene_changer = Object::cast_to<OverworldSceneChanger>(get_node_internal("/root/scene_changer"));
-    audio_player = Object::cast_to<AudioPlayer>(get_node_internal("/root/audio_player"));
+    stagehand = Object::cast_to<Stagehand>(get_node_internal("/root/stagehand"));
 
     global->load_game();
     global->set_scene_container(this);

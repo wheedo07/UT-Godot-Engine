@@ -32,6 +32,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     // [end] //
 
     // [defaultNode] //
+    GDREGISTER_RUNTIME_CLASS(Stagehand);
     GDREGISTER_RUNTIME_CLASS(AudioPlayer);
     GDREGISTER_RUNTIME_CLASS(Global);
     GDREGISTER_RUNTIME_CLASS(Settings);
@@ -47,6 +48,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     // [Text] //
     GDREGISTER_RUNTIME_CLASS(GenericTextTyper);
     GDREGISTER_RUNTIME_CLASS(AdvancedTextTyper);
+    GDREGISTER_RUNTIME_CLASS(CharacterSetting);
     // [end] //
 
     // [Overworld] //

@@ -3,5 +3,5 @@
 MainNode* sys = nullptr;
 Global* global = nullptr;
 OverworldSceneChanger* scene_changer = nullptr;
-AudioPlayer* audio_player = nullptr;
+Stagehand* stagehand = nullptr;
 bool isEditor = true;

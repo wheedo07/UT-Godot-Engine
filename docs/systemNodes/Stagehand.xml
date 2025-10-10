@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Stagehand" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](사용자 생성 불가능)[/color]
+        Undertale 캐릭터 설정 및 [AudioPlayer] 시스템 노드를 포함하는 노드입니다.
+    </brief_description>
+    <description>
+        Stagehand 클래스는 Undertale 스타일의 캐릭터 설정 및 오디오 관리를 위한 시스템 노드입니다.
+        이 노드는 CharacterSetting 노드와 AudioPlayer 노드를 자식으로 포함하며, 게임 내 캐릭터의 대화 스타일과 사운드 효과를 통합 관리합니다.
+        
+        [b]주요 기능:[/b]
+        • CharacterSetting 노드를 통한 캐릭터별 대화 스타일 설정
+        • AudioPlayer 노드를 통한 사운드 효과 및 음악 재생 관리
+        • 게임 내 다양한 상황에 맞춘 캐릭터 음성 및 효과음 지원
+
+        [b]주의사항[/b]
+        • % 접두사가 붙은 노드는 기본적으로 필요한 노드로 수정하지 않는 것이 좋습니다.
+        
+        [b]시스템 노드 - 직접 생성 금지[/b]
+        이 노드는 Main 씬에서 자동으로 생성되므로 직접 생성하지 마십시오.
+    </description>
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="get_character">
+            <return type="CharacterSetting" />
+            <param index="0" name="name" type="String" />
+            <description>
+                지정된 이름의 CharacterSetting 노드를 반환합니다.
+                존재하지 않는 이름을 요청할 경우 오류와 함께 null을 반환합니다.
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="audio_player" type="AudioPlayer" setter="set_property" getter="get_audio_player">
+            오디오 재생을 관리하는 AudioPlayer 노드입니다.
+            이 객체를 통해 접근할수 있습니다.
+        </member>
+    </members>
+</class>
