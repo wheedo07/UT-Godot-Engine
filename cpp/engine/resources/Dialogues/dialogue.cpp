@@ -23,7 +23,7 @@ void Dialogue::_bind_methods() {
 
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "dialog_text", PROPERTY_HINT_MULTILINE_TEXT), "set_dialog_text", "get_dialog_text");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "dialog_speed"), "set_dialog_speed", "get_dialog_speed");
-    ADD_PROPERTY(PropertyInfo(Variant::PACKED_INT64_ARRAY, "dialog_expressions"), "set_dialog_expressions", "get_dialog_expressions");
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dialog_expressions", PROPERTY_HINT_ARRAY_TYPE, String::num(Variant::INT) + ":"), "set_dialog_expressions", "get_dialog_expressions");
 }
 
 void Dialogue::set_dialog_text(const String& p_text) {

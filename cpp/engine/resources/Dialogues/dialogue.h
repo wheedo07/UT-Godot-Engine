@@ -15,7 +15,7 @@ namespace godot {
 		private:
 			String dialog_text;
 			double dialog_speed;
-			PackedInt64Array dialog_expressions;
+			Array dialog_expressions;
 			TypedArray<DialoguePause> pauses;
 		
 		public:
