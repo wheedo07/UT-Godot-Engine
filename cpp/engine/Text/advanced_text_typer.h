@@ -25,25 +25,23 @@ namespace godot {
 
             Ref<Dialogues> queued_dialogues;
             Array expressions;
+
+            int get_actual_character_count(const String& text, int byte_position);
         
         public:
             AdvancedTextTyper();
             ~AdvancedTextTyper();
 
             virtual void _ready() override;
-
-            void on_tween_finished_advanced();
-            void type_text(const PackedStringArray& text) override;
             virtual void type_text_advanced(const Ref<Dialogues>& dialogues);
 
+            void type_text(const PackedStringArray& text) override;
+            void type_buffer_text(const String& txt);
+            void _on_tween_finished_advanced();
             void type_buffer(const Ref<Dialogues>& dialogues, int index);
             void process_next_buffer();
-
-            void type_buffer_text(const String& txt);
-
-            void playclick_advanced();
-
-            void on_confirm_advanced();
+            void _playclick_advanced();
+            void _on_confirm_advanced();
             
             int get_current_dialogue_index() const;
             void set_current_dialogue_index(int p_index);

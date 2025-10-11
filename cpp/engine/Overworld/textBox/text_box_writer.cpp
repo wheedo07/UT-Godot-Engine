@@ -63,7 +63,7 @@ void TextBoxWriter::process_next_dialogue() {
 }
 
 void TextBoxWriter::on_tween_finished_extended() {
-    on_tween_finished_advanced();
+    _on_tween_finished_advanced();
     
     current_dialogue_finished = true;
     waiting_for_confirm = true;

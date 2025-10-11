@@ -59,32 +59,6 @@
                 현재 처리 중인 [Dialogues] 리소스를 반환합니다.
             </description>
         </method>
-        
-        <method name="playclick_advanced">
-            <return type="void"/>
-            <description>
-                고급 타이핑 시스템용 클릭 사운드 재생 메서드입니다.
-                일시정지([DialoguePause]) 처리와 표현 상태 변경을 포함합니다.
-                내부적으로 사용되는 메서드입니다. [color=red](사용 금지)[/color]
-            </description>
-        </method>
-        
-        <method name="on_confirm_advanced">
-            <return type="void"/>
-            <description>
-                고급 타이핑 시스템용 확인 이벤트 처리 메서드입니다.
-                현재 대사가 완료되면 다음 대사로 진행합니다.
-                내부적으로 사용되는 메서드입니다. [color=red](사용 금지)[/color]
-            </description>
-        </method>
-        
-        <method name="on_tween_finished_advanced">
-            <return type="void"/>
-            <description>
-                고급 타이핑 트윈 완료 시 호출되는 메서드입니다.
-                내부적으로 사용되는 메서드입니다. [color=red](사용 금지)[/color]
-            </description>
-        </method>
     </methods>
     
     <members>
