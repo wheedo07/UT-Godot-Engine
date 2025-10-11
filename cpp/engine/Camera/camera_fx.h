@@ -21,6 +21,7 @@ namespace godot {
             Ref<ShaderMaterial> Fxmaster;
             Ref<ShaderMaterial> transition_shader;
             bool vfx, isTransition;
+            float transition_speed;
             Vector2 origin_zoom;
 
             void fx_stop();
@@ -36,7 +37,7 @@ namespace godot {
 
             // 사용함수
             void kill();
-            void transition(String path, float duration=2, bool isblind=false);
+            void transition(String path, float duration=2, float speed=1, bool isblind=false);
             void blind(float time = 0.1f, float targetopacity = 1, float duration = 0);
             void blinder_color(Color color = Color(0, 0, 0, 1));
             void add_shake(float amt = 0.1f, float speed = 30, float time = 0.4f, float duration = 0.15f);

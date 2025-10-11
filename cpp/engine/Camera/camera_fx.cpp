@@ -6,6 +6,7 @@
 CameraFx::CameraFx() {
     origin_zoom = Vector2(0,0);
     isTransition = false;
+    transition_speed = 1;
 }
 
 CameraFx::~CameraFx() {}
@@ -15,7 +16,7 @@ void CameraFx::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_timeout_transition", "isblind"), &CameraFx::_on_timeout_transition);
 
     ClassDB::bind_method(D_METHOD("kill"), &CameraFx::kill);
-    ClassDB::bind_method(D_METHOD("transition", "path", "duration", "isblind"), &CameraFx::transition, DEFVAL(2), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("transition", "path", "duration", "speed", "isblind"), &CameraFx::transition, DEFVAL(2), DEFVAL(1), DEFVAL(false));
     ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0.1f), DEFVAL(1), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("blinder_color", "color"), &CameraFx::blinder_color, DEFVAL(Color(0, 0, 0, 1)));
     ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(30), DEFVAL(0.4f), DEFVAL(0.15f));
@@ -60,7 +61,8 @@ void CameraFx::_process(double delta) {
 
     if(transition_shader.is_valid()) {
         if(isTransition) {
-            transition_shader->set_shader_parameter("progress", float(transition_shader->get_shader_parameter("progress")) + delta);
+            transition_shader->set_shader_parameter("progress", 
+                float(transition_shader->get_shader_parameter("progress")) + delta * transition_speed);
         }
     }
 }
@@ -92,13 +94,18 @@ void CameraFx::blind(float time, float targetopacity, float duration) {
     tween[index] = blindertween;
 }
 
-void CameraFx::transition(String path, float duration, bool isblind) {
+void CameraFx::transition(String path, float duration, float speed, bool isblind) {
+    if(isTransition) {
+        ERR_PRINT("현재 트랜지션이 진행중입니다.");
+        return;
+    }
     Ref<Tween> blindertween = tween[0];
     if(blindertween.is_valid()) blindertween->kill();
     Color mod = blinder->get_modulate();
     mod.a = 1;
     blinder->set_modulate(mod);
     transition_shader = ResourceLoader::get_singleton()->load(path);
+    transition_speed = speed;
     blinder->set_material(transition_shader);
     Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration);
     timer->connect("timeout", Callable(this, "_on_timeout_transition").bind(isblind), CONNECT_ONE_SHOT);
