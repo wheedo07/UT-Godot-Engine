@@ -77,9 +77,13 @@
         </signal>
         
         <signal name="click_played">
+            <param index="0" name="index" type="int"/>
+            <param index="1" name="max" type="int"/>
             <description>
                 타이핑 클릭 사운드가 재생될 때마다 발생합니다.
                 각 글자가 타이핑될 때 추가적인 효과를 구현할 때 사용할 수 있습니다.
+                [param index]는 현재 타이핑된 글자의 인덱스(0부터 시작)입니다.
+                [param max]는 현재 대사의 총 글자 수입니다.
             </description>
         </signal>
         

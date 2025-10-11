@@ -62,13 +62,13 @@ void AttackManager::start_attacks() {
 
 void AttackManager::start_attack(int id) {
     if(id < 0 || id >= current_attacks.size()) {
-        ERR_PRINT(vformat("attack ID %d가 없습니다", id));
+        ERR_PRINT(vformat(String::utf8("attack ID %d가 없습니다"), id));
         return;
     }
     
     AttackBase* attack = Object::cast_to<AttackBase>(current_attacks[id]);
     if(!attack) {
-        ERR_PRINT(vformat("attack ID %d가 없습니다", id));
+        ERR_PRINT(vformat(String::utf8("attack ID %d가 없습니다"), id));
         return;
     }
     

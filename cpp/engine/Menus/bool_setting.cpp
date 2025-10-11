@@ -22,7 +22,7 @@ void SettingBoolButton::init() {
     if (settings.has(setting_name)) {
         Variant value = settings[setting_name];
         set_pressed(value);
-    }else ERR_PRINT(vformat("%s 설정이 존재하지 않습니다", setting_name));
+    }else ERR_PRINT(vformat(String::utf8("%s 설정이 존재하지 않습니다"), setting_name));
 }
 
 void SettingBoolButton::_on_toggled(bool val) {

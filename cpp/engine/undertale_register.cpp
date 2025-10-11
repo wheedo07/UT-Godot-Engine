@@ -13,22 +13,22 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
     // [resources] //
     // Dialogues
-    GDREGISTER_RUNTIME_CLASS(DialoguePause);
-    GDREGISTER_RUNTIME_CLASS(Dialogue);
-    GDREGISTER_RUNTIME_CLASS(Dialogues);
+    GDREGISTER_CLASS(DialoguePause);
+    GDREGISTER_CLASS(Dialogue);
+    GDREGISTER_CLASS(Dialogues);
 
     // Encounters
-    GDREGISTER_RUNTIME_CLASS(Encounter);
+    GDREGISTER_CLASS(Encounter);
 
     // Enemies
-    GDREGISTER_RUNTIME_CLASS(ActInfo);
-    GDREGISTER_RUNTIME_CLASS(EnemyState);
+    GDREGISTER_CLASS(ActInfo);
+    GDREGISTER_CLASS(EnemyState);
 
     // ShopItems
-    GDREGISTER_RUNTIME_CLASS(ShopItem);
+    GDREGISTER_CLASS(ShopItem);
 
     // Item
-    GDREGISTER_RUNTIME_CLASS(Item);
+    GDREGISTER_CLASS(Item);
     // [end] //
 
     // [defaultNode] //

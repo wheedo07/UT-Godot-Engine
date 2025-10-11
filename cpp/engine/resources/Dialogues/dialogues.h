@@ -1,6 +1,6 @@
 #ifndef DIALOGUES_H
 #define DIALOGUES_H
-#include <godot_cpp/classes/resource.hpp>
+#include<godot_cpp/classes/resource.hpp>
 #include "dialogue.h"
 namespace godot {
     class Dialogues : public Resource {
@@ -16,7 +16,6 @@ namespace godot {
             enum DialogueType {
                 DIALOGUE_TEXT,
                 DIALOGUE_EXPRESSIONS,
-                DIALOGUE_EXPRESSION_HEAD,
                 DIALOGUE_PAUSES,
                 DIALOGUE_SPEED
             };
@@ -26,9 +25,10 @@ namespace godot {
             TypedArray<Dialogue> get_dialogues();
             void set_dialogues(TypedArray<Dialogue> p_dialogues);
             Array get_dialogues_single(DialogueType dialog_type) const;
-            Dialogues* from(const PackedStringArray& text);
-            Dialogues* set_expressions(Array expressions);
-            Dialogues* set_speed(const Array& speeds);
+            Ref<Dialogues> from(const PackedStringArray& text);
+            Ref<Dialogues> set_expressions(Array expressions);
+            Ref<Dialogues> set_pauses(Array pauses);
+            Ref<Dialogues> set_speed(const Array& speeds);
     };
 }
 VARIANT_ENUM_CAST(godot::Dialogues::DialogueType);

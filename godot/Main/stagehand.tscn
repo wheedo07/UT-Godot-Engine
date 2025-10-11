@@ -31,6 +31,7 @@ bus = &"SFX"
 [node name="choice" type="AudioStreamPlayer" parent="AudioPlayer"]
 unique_name_in_owner = true
 stream = ExtResource("4_s7wao")
+volume_db = -2.0
 bus = &"SFX"
 
 [node name="Character" type="Node" parent="."]

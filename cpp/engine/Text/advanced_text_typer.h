@@ -16,7 +16,7 @@ namespace godot {
             bool type_buffer_text_complete;
         
         private:
-            TypedArray<DialoguePause> pauses;
+            Array pauses;
             int text_size_counter = 0;
             int pauses_done_counter = 0;
 

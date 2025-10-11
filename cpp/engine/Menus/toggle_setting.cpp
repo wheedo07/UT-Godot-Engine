@@ -25,7 +25,7 @@ void SettingToggleButton::init() {
     String value = values[0];
     if (settings.has(setting_name)) {
         value = settings[setting_name];
-    }else ERR_PRINT(vformat("%s 설정이 존재하지 않습니다", setting_name));
+    }else ERR_PRINT(vformat(String::utf8("%s 설정이 존재하지 않습니다"), setting_name));
     current_index = values.find(value);
     set_text(value);
 }

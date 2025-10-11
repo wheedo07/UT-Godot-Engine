@@ -13,7 +13,6 @@ TextBox::TextBox() {
     soul_position = Vector2(0, 0);
     selecting = false;
     optionamt = 0;
-    talking_character = "";
 }
 
 TextBox::~TextBox() {}
@@ -48,7 +47,6 @@ void TextBox::_ready() {
     soul = Object::cast_to<MenuSoul>(get_node_internal("Control/Soul"));
     text_container = Object::cast_to<MarginContainer>(get_node_internal("Control/TextContainer"));
     Text->set_text("");
-    Text->connect("skip", Callable(this, "_on_skip"));
     
     Options.resize(4);
     for(int i = 0; i < 4; i++) {
@@ -75,7 +73,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
     
     if(event->is_action_pressed("ui_left") && soulpos > 0) {
         selected_option = true;
-        get_node_internal("Control/Soul/choice")->call("play");
+        stagehand->audio_player->play("choice");
         soulpos--;
         soul_position = Options[soulpos].call("get_global_position");
         soul->move_global(soul_position);
@@ -83,7 +81,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
     
     if(event->is_action_pressed("ui_right") && soulpos < optionamt-1) {
         selected_option = true;
-        get_node_internal("Control/Soul/choice")->call("play");
+        stagehand->audio_player->play("choice");
         soulpos++;
         soul_position = Options[soulpos].call("get_global_position");
         soul->move_global(soul_position);
@@ -92,7 +90,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
     if(event->is_action_pressed("ui_accept") && selected_option) {
         get_viewport()->set_input_as_handled();
         selecting = false;
-        get_node_internal("Control/Soul/select")->call("play");
+        stagehand->audio_player->play("select");
         finish_options();
     }
 }
@@ -100,7 +98,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
 void TextBox::finish_options() {
     soul->hide();
     
-    for (int i = 0; i < 4; i++) {
+    for(int i=0; i < 4; i++) {
         Options[i].call("set_text", "");
         Options[i].call("hide");
     }
@@ -136,10 +134,16 @@ void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& opti
 void TextBox::generic(const Ref<Dialogues>& text, const PackedStringArray& options, const TypedArray<Dialogues>& text_after_options) {
     CharacterSetting* setting = stagehand->get_character("DEFAULT");
     if(!setting) {
-        ERR_PRINT("DEFAULT가 없습니다 대화를 강제종료 합니다");
+        ERR_PRINT("DEFAULT가 없습니다 대화를 진행할수 없습니다");
         return;
     }
-    for (int i = 0; i < 5; i++) {
+
+    Text->add_theme_font_size_override("normal_font_size", setting->get_text_size());
+    if(!setting->get_font().is_null()) Text->add_theme_font_override("normal_font", setting->get_font());
+    Text->set_no_sound(setting->get_no_sound());
+    Text->set_extra_delay(setting->get_extra_delay());
+
+    for(int i=0; i < 5; i++) {
         if (i == 0) {
             Text->set_click(setting);
         } else if (i <= 4) {
@@ -154,18 +158,18 @@ void TextBox::generic(const Ref<Dialogues>& text, const PackedStringArray& optio
 void TextBox::character(bool head_hide, String chr, const Ref<Dialogues>& dialogues, const PackedStringArray& options, const TypedArray<Dialogues>& dialogues_after_options) {
     CharacterSetting* setting = stagehand->get_character(chr);
     if(!setting) {
-        ERR_PRINT(vformat("%s라는 캐릭터가 없습니다 대화를 강제종료 합니다", chr));
+        ERR_PRINT(vformat(String::utf8("%s 라는 캐릭터가 없습니다 대화를 진행할수 없습니다"), chr));
         return;
     }
 
-    if (head_hide) {
+    if(head_hide) {
         head->hide();
-    } else {
+    }else {
         head->show();
         text_container->set_size(Vector2(470, 143));
         text_container->set_position(Vector2(108, 5));
         head->set_animation(chr);
-        Text->connect("expression_set", Callable(this, "_set_head_frame"));
+        Text->connect("expression_textbox_set", Callable(this, "_set_head_frame"));
     }
 
     Text->add_theme_font_size_override("normal_font_size", setting->get_text_size());
@@ -173,21 +177,20 @@ void TextBox::character(bool head_hide, String chr, const Ref<Dialogues>& dialog
     Text->set_no_sound(setting->get_no_sound());
     Text->set_extra_delay(setting->get_extra_delay());
     
-    for (int i = 0; i < 5; i++) {
-        if (i == 0) {
+    for(int i = 0; i < 5; i++) {
+        if(i == 0) {
             Text->set_click(setting);
-        } else if (i <= 4) {
+        }else if (i <= 4) {
             TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i-1]);
             option->set_click(setting);
         }
     }
-    talking_character = chr;
-    
+
     abstract(dialogues, options, dialogues_after_options);
 }
 
-void TextBox::_set_head_frame(const Array& expr) {
-    head->set_frame(expr[0]);
+void TextBox::_set_head_frame(int expr) {
+    head->set_frame(expr);
 }
 
 void TextBox::_on_text_click_played() {
@@ -228,7 +231,7 @@ void TextBox::_setup_soul_selection(const PackedStringArray& options) {
     optionamt = options.size();
     soulpos = 0;
     
-    get_node_internal("Control/Soul/choice")->call("play");
+    stagehand->audio_player->play("choice");
     
     Vector2 option_pos = Options[0].call("get_global_position");
     soul->set_global_position(option_pos);

@@ -65,12 +65,12 @@ Node* SceneContainer::get_current_scene() const {
 
 Error SceneContainer::change_scene_to_file(const String& path) {
     if (!loader->exists(path)) {
-        ERR_PRINT(vformat("change 씬 파일 없음: %s", path));
+        ERR_PRINT(vformat(String::utf8("change 씬 파일 없음: %s"), path));
         return ERR_INVALID_PARAMETER;
     }
     Ref<PackedScene> scene_resource = loader->load(path);
     if (scene_resource.is_null()) {
-        ERR_PRINT(vformat("씬 로드 실패: %s", path));
+        ERR_PRINT(vformat(String::utf8("씬 로드 실패: %s"), path));
         return ERR_INVALID_DATA;
     }
     return change_scene_to_packed(scene_resource);
@@ -82,7 +82,7 @@ Error SceneContainer::change_scene_to_packed(const Ref<PackedScene>& file) {
     if(ObjectDB::get_instance(current_scene->get_instance_id())) {
         main_viewport->add_child(current_scene);
     }else {
-        ERR_PRINT(vformat("씬 인스턴스화 실패: %s", file->get_path()));
+        ERR_PRINT(vformat(String::utf8("씬 인스턴스화 실패: %s"), file->get_path()));
         return ERR_BUG;
     }
     call_deferred("emit_signal", "change_scene");

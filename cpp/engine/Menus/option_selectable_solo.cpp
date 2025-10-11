@@ -90,7 +90,7 @@ void OptionSelectableSolo::_unhandled_input(const Ref<InputEvent>& event) {
     
     if (event->is_action_pressed("ui_accept")) {
         if(!node_accept.is_empty()) move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_accept)));
-        stagehand->audio_player->play("choice");
+        stagehand->audio_player->play("select");
         emit_signal("accept_pressed");
     }
 }

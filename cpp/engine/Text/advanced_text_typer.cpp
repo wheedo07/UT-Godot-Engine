@@ -21,7 +21,7 @@ void AdvancedTextTyper::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::INT, "current_dialogue_index", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_current_dialogue_index", "get_current_dialogue_index");
 
     ADD_SIGNAL(MethodInfo("advanced_finished_all_texts"));
-    ADD_SIGNAL(MethodInfo("click_played"));
+    ADD_SIGNAL(MethodInfo("click_played", PropertyInfo(Variant::INT, "index"), PropertyInfo(Variant::INT, "max")));
     ADD_SIGNAL(MethodInfo("expression_set", PropertyInfo(Variant::ARRAY, "expr")));
 }
 
@@ -96,7 +96,7 @@ void AdvancedTextTyper::_on_confirm_advanced() {
 
 int AdvancedTextTyper::get_actual_character_count(const String& text, int byte_position) {
     int char_count = 0;
-    for (int i = 0; i < byte_position && i < text.length(); i++) {
+    for(int i=0; i < byte_position && i < text.length(); i++) {
         char_count++;
     }
     return char_count;
@@ -144,7 +144,7 @@ void AdvancedTextTyper::_playclick_advanced() {
     if (get_no_sound().find(char_str) == -1 && get_click()) {
         get_click()->play();
     }
-    emit_signal("click_played");
+    emit_signal("click_played", text_size_counter, cached_text.length());
 }
 
 int AdvancedTextTyper::get_current_dialogue_index() const {

@@ -41,7 +41,7 @@ AudioPlayer* Stagehand::get_audio_player() const {
 CharacterSetting* Stagehand::get_character(String name) {
     CharacterSetting** character = characters.getptr(name);
     if (!character) {
-        ERR_PRINT(vformat("%s 라고 하는 이름의 캐릭터가 없습니다", name));
+        ERR_PRINT(vformat(String::utf8("%s 라고 하는 이름의 캐릭터가 없습니다"), name));
         return nullptr;
     }
     return *character;

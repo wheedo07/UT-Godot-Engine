@@ -29,7 +29,7 @@ namespace godot {
             void _on_text_click_played(bool is=true, double duration=0);
             void set_key(bool is);
 
-            void _on_text_expression_set(const Array& expr);
+            void _on_text_expression_set(Array expr);
             void _on_tween_finished();
             void _on_all_texts_finished();
 

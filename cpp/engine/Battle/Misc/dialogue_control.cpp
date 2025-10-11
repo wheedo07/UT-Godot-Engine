@@ -12,7 +12,7 @@ DialogueControl::~DialogueControl() {
 }
 
 void DialogueControl::_bind_methods() {
-    ADD_SIGNAL(MethodInfo("set_expression", PropertyInfo(Variant::ARRAY, "expressions")));
+    ADD_SIGNAL(MethodInfo("set_expression", PropertyInfo(Variant::NIL, "expressions")));
     ADD_SIGNAL(MethodInfo("finished_all_texts_dialogue"));
     
     ClassDB::bind_method(D_METHOD("_on_text_click_played", "is", "duration"), &DialogueControl::_on_text_click_played, DEFVAL(true), DEFVAL(0));
@@ -28,7 +28,7 @@ void DialogueControl::_bind_methods() {
 
 void DialogueControl::_ready() {
     bubble_text = Object::cast_to<EnemySpeech>(get_node_internal("TextContainer/Text"));
-    if (!bubble_text) {
+    if(!bubble_text) {
         ERR_PRINT("TextContainer/Text 노드를 찾을 수 없습니다");
         return;
     }
@@ -43,7 +43,7 @@ void DialogueControl::_ready() {
 }
 
 void DialogueControl::DialogueText(const Ref<Dialogues>& dialogues) {
-    if (!bubble_text) {
+    if(!bubble_text) {
         ERR_PRINT("bubble_text가 초기화되지 않았습니다");
         return;
     }
@@ -99,7 +99,7 @@ void DialogueControl::_on_all_texts_finished() {
     emit_signal("finished_all_texts_dialogue");
 }
 
-void DialogueControl::_on_text_expression_set(const Array& expr) {
+void DialogueControl::_on_text_expression_set(Array expr) {
     emit_signal("set_expression", expr);
 }
 

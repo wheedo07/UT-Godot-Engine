@@ -8,12 +8,14 @@ namespace godot {
         GDCLASS(TextBoxWriter, AdvancedTextTyper)
         
         protected:
-        static void _bind_methods();
+            static void _bind_methods();
         
         private:
-            bool is_last_dialogue = false;
-            bool current_dialogue_finished = false;
-            bool waiting_for_confirm = false;
+            bool is_last_dialogue;
+            bool current_dialogue_finished;
+            bool waiting_for_confirm;
+
+            void _on_click_played(int index, int max);
         
         public:
             TextBoxWriter();

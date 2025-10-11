@@ -15,13 +15,13 @@ void TextBoxWriter::_bind_methods() {
     ClassDB::bind_method(D_METHOD("on_tween_finished_extended"), &TextBoxWriter::on_tween_finished_extended);
     ClassDB::bind_method(D_METHOD("process_next_dialogue"), &TextBoxWriter::process_next_dialogue);
     ClassDB::bind_method(D_METHOD("handle_confirm_signal"), &TextBoxWriter::handle_confirm_signal);
+    ClassDB::bind_method(D_METHOD("_on_click_played", "index", "max"), &TextBoxWriter::_on_click_played);
     
     ADD_SIGNAL(MethodInfo("finished_all_texts_textbox"));
+    ADD_SIGNAL(MethodInfo("expression_textbox_set", PropertyInfo(Variant::INT, "expr")));
 }
 
-void TextBoxWriter::_ready() {
-    connect("confirm", Callable(this, "handle_confirm_signal"));
-}
+void TextBoxWriter::_ready() {}
 
 void TextBoxWriter::type_text_advanced(const Ref<Dialogues>& dialogues) {
     set_typing(true);
@@ -33,11 +33,6 @@ void TextBoxWriter::type_text_advanced(const Ref<Dialogues>& dialogues) {
 void TextBoxWriter::process_next_dialogue() {
     if (get_current_dialogue_index() < get_queued_dialogues()->get_dialogues().size()) {
         emit_signal("started_typing", get_current_dialogue_index());
-        
-        Array expressions = get_queued_dialogues()->get_dialogues_single(Dialogues::DIALOGUE_EXPRESSIONS);
-        if (expressions.size() > get_current_dialogue_index()) {
-            emit_signal("expression_set", expressions[get_current_dialogue_index()]);
-        }
         
         TypedArray<Dialogue> dialogues_array = get_queued_dialogues()->get_dialogues();
         if(dialogues_array.size() > get_current_dialogue_index()) {
@@ -67,6 +62,19 @@ void TextBoxWriter::on_tween_finished_extended() {
     
     current_dialogue_finished = true;
     waiting_for_confirm = true;
+}
+
+void TextBoxWriter::_on_click_played(int index, int max) {
+    Array expressions = get_queued_dialogues()->get_dialogues_single(Dialogues::DIALOGUE_EXPRESSIONS);
+    if(expressions.size() > get_current_dialogue_index()) {
+        Array expr_array = expressions[get_current_dialogue_index()];
+        if(expr_array.size() > 0) {
+            float progress = (float)index / (float)max;
+            int target_index = (int)(progress * (expr_array.size() - 1));
+            target_index = UtilityFunctions::clamp(target_index, 0, expr_array.size() - 1);
+            emit_signal("expression_textbox_set", expr_array[target_index]);
+        }
+    }
 }
 
 void TextBoxWriter::handle_confirm_signal() {

@@ -26,8 +26,6 @@ namespace godot {
             int optionamt = 0;
             TypedArray<Dialogues> text_after_option;
 
-            String talking_character;
-
             bool selected_option = false;
             bool text_typing_completed = false;
             bool options_typing_completed = false;
@@ -54,7 +52,7 @@ namespace godot {
             void _on_finish_dialogue();
             void abstract(const Ref<Dialogues>& text, const PackedStringArray& options = PackedStringArray(), 
             const TypedArray<Dialogues>& text_after_options = TypedArray<Dialogues>());
-            void _set_head_frame(const Array& expr);
+            void _set_head_frame(int expr);
             void finish_options();
             void _on_skip();
             void _on_confirm();

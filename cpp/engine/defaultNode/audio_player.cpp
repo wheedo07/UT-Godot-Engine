@@ -26,7 +26,7 @@ void AudioPlayer::_ready() {
 void AudioPlayer::play(const String& audio_name) {
     AudioStreamPlayer** player = audio_stream_players.getptr(audio_name);
     if (!player) {
-        ERR_PRINT(vformat("%s 라고 하는 이름의 오디오 플레이어가 없습니다", audio_name));
+        ERR_PRINT(vformat(String::utf8("%s 라고 하는 이름의 오디오 플레이어가 없습니다"), audio_name));
         return;
     }
     (*player)->play();
@@ -36,7 +36,7 @@ void AudioPlayer::play(const String& audio_name) {
 void AudioPlayer::loop_play(const String& audio_name) {
     AudioStreamPlayer** player = audio_stream_players.getptr(audio_name);
     if (!player) {
-        ERR_PRINT(vformat("%s 라고 하는 이름의 오디오 플레이어가 없습니다", audio_name));
+        ERR_PRINT(vformat(String::utf8("%s 라고 하는 이름의 오디오 플레이어가 없습니다"), audio_name));
         return;
     }
     (*player)->play();

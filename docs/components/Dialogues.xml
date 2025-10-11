@@ -173,6 +173,47 @@
                 • 너무 느린 속도(0.3 이상)는 플레이어 경험을 해칠 수 있습니다
             </description>
         </method>
+
+        <method name="set_pauses">
+            <return type="Dialogues" />
+            <param index="0" name="pauses" type="Array" />
+            <description>
+                [b]매개변수:[/b]
+                • pauses: 각 대화에 적용할 일시정지 설정 배열
+                
+                [b]입력 형식:[/b]
+                각 요소는 다음 중 하나의 형태를 가질 수 있습니다:
+                • Dictionary: { "index": int, "duration": float } 형태의 단일 일시정지
+                • Array[Dictionary]: 여러 개의 일시정지를 포함하는 배열
+                
+                [b]사용 예시:[/b]
+                [codeblock]
+                # 각 대화에 단일 일시정지 설정
+                dialogues.set_pauses([
+                    {"index": 3, "duration": 0.5},   # 첫 번째 대화: 3번째 글자 후 0.5초 일시정지
+                    {"index": 2, "duration": 1.0},   # 두 번째 대화: 2번째 글자 후 1.0초 일시정지
+                    {}                               # 세 번째 대화: 일시정지 없음
+                ])
+                
+                # 각 대화에 여러 일시정지 설정
+                dialogues.set_pauses([
+                    [ {"index": 2, "duration": 0.3}, {"index": 5, "duration": 0.7} ], # 첫 번째 대화
+                    [ {"index": 4, "duration": 1.0} ],                               # 두 번째 대화
+                    []                                                              # 세 번째 대화: 일시정지 없음
+                ])
+                [/codeblock]
+                
+                [b]반환값:[/b]
+                자기 자신을 반환하므로 메서드 체이닝이 가능합니다.
+                
+                [b]기본값 처리:[/b]
+                pauses 배열이 대화 수보다 적으면, 나머지 대화는 일시정지가 설정되지 않습니다.
+                
+                [b]주의사항:[/b]
+                • 유효하지 않은 인덱스나 음수 지속시간은 무시됩니다
+                • pauses 배열 크기가 대화 수보다 많으면, 초과 요소는 무시됩니다
+            </description>
+        </method>
     </methods>
 
     <members>
@@ -232,17 +273,7 @@
             
             [b]반환 형태:[/b] Array[Array] (각 대화의 표정 배열들의 배열)
         </constant>
-        <constant name="DIALOGUE_EXPRESSION_HEAD" value="2" enum="DialogueType">
-            각 대화의 첫 번째 표정만을 나타내는 타입입니다.
-            
-            get_dialogues_single() 메서드에서 사용하여 각 대화의 시작 표정 (dialog_expressions[0])만을 
-            추출할 때 사용됩니다.
-            
-            [b]반환 형태:[/b] Array[int] (각 대화의 첫 번째 표정 인덱스들)
-            
-            [b]용도:[/b] 대화 시작 시 캐릭터 표정 설정에 유용합니다.
-        </constant>
-        <constant name="DIALOGUE_PAUSES" value="3" enum="DialogueType">
+        <constant name="DIALOGUE_PAUSES" value="2" enum="DialogueType">
             일시정지 설정이 있는 대화들의 일시정지 배열을 나타내는 타입입니다.
             
             get_dialogues_single() 메서드에서 사용하여 pauses 배열이 비어있지 않은 대화들의 
@@ -252,7 +283,7 @@
             
             [b]주의:[/b] 일시정지가 없는 대화는 결과에 포함되지 않습니다.
         </constant>
-        <constant name="DIALOGUE_SPEED" value="4" enum="DialogueType">
+        <constant name="DIALOGUE_SPEED" value="3" enum="DialogueType">
             대화의 타이핑 속도를 나타내는 타입입니다.
             
             get_dialogues_single() 메서드에서 사용하여 모든 대화의 dialog_speed 값들을 

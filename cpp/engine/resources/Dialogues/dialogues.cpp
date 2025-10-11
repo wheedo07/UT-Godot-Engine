@@ -1,5 +1,5 @@
 #include "dialogues.h"
-#include <godot_cpp/variant/utility_functions.hpp>
+#include<godot_cpp/variant/utility_functions.hpp>
 using namespace godot;
 
 Dialogues::Dialogues() {}
@@ -9,13 +9,13 @@ Dialogues::~Dialogues() {}
 void Dialogues::_bind_methods() {
     BIND_ENUM_CONSTANT(DIALOGUE_TEXT);
     BIND_ENUM_CONSTANT(DIALOGUE_EXPRESSIONS);
-    BIND_ENUM_CONSTANT(DIALOGUE_EXPRESSION_HEAD);
     BIND_ENUM_CONSTANT(DIALOGUE_PAUSES);
     BIND_ENUM_CONSTANT(DIALOGUE_SPEED);
 
     ClassDB::bind_method(D_METHOD("get_dialogues_single", "dialog_type"), &Dialogues::get_dialogues_single);
     ClassDB::bind_method(D_METHOD("from", "text"), &Dialogues::from);
-    ClassDB::bind_method(D_METHOD("set_expressions", "expressions"), &Dialogues::set_expressions, DEFVAL(Array()));
+    ClassDB::bind_method(D_METHOD("set_expressions", "expressions"), &Dialogues::set_expressions);
+    ClassDB::bind_method(D_METHOD("set_pauses", "pauses"), &Dialogues::set_pauses);
     ClassDB::bind_method(D_METHOD("set_speed", "speeds"), &Dialogues::set_speed);
     ClassDB::bind_method(D_METHOD("get_dialogues"), &Dialogues::get_dialogues);
     ClassDB::bind_method(D_METHOD("set_dialogues", "p_dialogues"), &Dialogues::set_dialogues);
@@ -37,9 +37,6 @@ Array Dialogues::get_dialogues_single(DialogueType dialog_type) const {
                 case DIALOGUE_EXPRESSIONS:
                     arr.push_back(dialog->get_dialog_expressions());
                     break;
-                case DIALOGUE_EXPRESSION_HEAD:
-                    arr.push_back(dialog->get_dialog_expressions()[0]);
-                    break;
                 case DIALOGUE_SPEED:
                     arr.push_back(dialog->get_dialog_speed());
                     break;
@@ -55,7 +52,7 @@ Array Dialogues::get_dialogues_single(DialogueType dialog_type) const {
     return arr;
 }
 
-Dialogues* Dialogues::from(const PackedStringArray& text) {
+Ref<Dialogues> Dialogues::from(const PackedStringArray& text) {
     for(String t : text) {
         Ref<Dialogue> dialog = memnew(Dialogue);
         dialog->set_dialog_text(t);
@@ -64,10 +61,10 @@ Dialogues* Dialogues::from(const PackedStringArray& text) {
     return this;
 }
 
-Dialogues* Dialogues::set_expressions(Array expressions) {
-    for(int i = 0; i < dialogues.size(); i++) {
+Ref<Dialogues> Dialogues::set_expressions(Array expressions) {
+    for(int i=0; i < dialogues.size(); i++) {
         Ref<Dialogue> dialog = dialogues[i];
-        if(i < expressions.size()) {
+        if(dialog.is_valid() && i < expressions.size()) {
             if(expressions[i].get_type() == Variant::ARRAY) {
                 dialog->set_dialog_expressions(expressions[i]);
             }else {
@@ -80,11 +77,49 @@ Dialogues* Dialogues::set_expressions(Array expressions) {
     return this;
 }
 
-Dialogues* Dialogues::set_speed(const Array& speeds) {
-    for (int i = 0; i < dialogues.size(); i++) {
+Ref<Dialogues> Dialogues::set_speed(const Array& speeds) {
+    for(int i=0; i < dialogues.size(); i++) {
         Ref<Dialogue> dialog = dialogues[i];
         if (dialog.is_valid()) {
             dialog->set_dialog_speed(i < speeds.size() ? (float)speeds[i] : 0.1f);
+        }
+    }
+    return this;
+}
+
+Ref<Dialogues> Dialogues::set_pauses(Array pauses) {
+    for(int i = 0; i < dialogues.size(); i++) {
+        Ref<Dialogue> dialog = dialogues[i];
+        if (dialog.is_valid() && i < pauses.size()) {
+            Array pause_array;
+            
+            if(pauses[i].get_type() == Variant::ARRAY) {
+                Array input_array = pauses[i];
+                for(int j = 0; j < input_array.size(); j++) {
+                    Ref<DialoguePause> pause_res = memnew(DialoguePause);
+                    
+                    if(input_array[j].get_type() == Variant::DICTIONARY) {
+                        Dictionary pause_dict = input_array[j];
+                        pause_res->set_pause_index(pause_dict.get("index", 0));
+                        pause_res->set_pause_duration(pause_dict.get("duration", 0.5));
+                    } else {
+                        pause_res->set_pause_index((int)input_array[j]);
+                        pause_res->set_pause_duration(0.5);
+                    }
+                    pause_array.push_back(pause_res);
+                }
+            } else if(pauses[i].get_type() == Variant::DICTIONARY) {
+                Ref<DialoguePause> pause_res = memnew(DialoguePause);
+                Dictionary pause_dict = pauses[i];
+                pause_res->set_pause_index(pause_dict.get("index", 0));
+                pause_res->set_pause_duration(pause_dict.get("duration", 0.5));
+                pause_array.push_back(pause_res);
+            } else {
+                ERR_PRINT("문제 발생: pauses 배열의 요소는 Dictionary 또는 Array[Dictionary]여야 합니다.");
+                continue;
+            }
+            
+            dialog->set_pauses(pause_array);
         }
     }
     return this;
