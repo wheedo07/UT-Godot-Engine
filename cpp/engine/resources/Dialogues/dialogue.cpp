@@ -11,9 +11,6 @@ Dialogue::Dialogue() {
 Dialogue::~Dialogue() {}
 
 void Dialogue::_bind_methods() {
-    BIND_ENUM_CONSTANT(CHAR);
-    BIND_ENUM_CONSTANT(INDEX_LIST);
-
     ClassDB::bind_method(D_METHOD("set_dialog_text", "text"), &Dialogue::set_dialog_text);
     ClassDB::bind_method(D_METHOD("get_dialog_text"), &Dialogue::get_dialog_text);
     ClassDB::bind_method(D_METHOD("set_dialog_speed", "speed"), &Dialogue::set_dialog_speed);

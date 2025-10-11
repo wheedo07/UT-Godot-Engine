@@ -19,7 +19,6 @@ namespace godot {
 			Array pauses;
 		
 		public:
-			enum PauseType {CHAR, INDEX_LIST};
 			Dialogue();
 			~Dialogue();
 
@@ -36,6 +35,5 @@ namespace godot {
 			Array get_pauses() const;
 	};
 }
-VARIANT_ENUM_CAST(godot::Dialogue::PauseType);
 
 #endif
