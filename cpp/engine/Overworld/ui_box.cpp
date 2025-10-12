@@ -40,11 +40,7 @@ void UI_Box::grow() {
     tw->set_ease(Tween::EASE_OUT);
     tw->set_parallel(true);
     
-    Color current_modulate = get_modulate();
-    Color target_modulate = current_modulate;
-    target_modulate.a = 1.0;
-    
-    tw->tween_property(this, "modulate", target_modulate, 0.5);
+    tw->tween_property(this, "modulate:a", 1, 0.5);
 }
 
 void UI_Box::shrink() {
@@ -57,11 +53,6 @@ void UI_Box::shrink() {
     tw->set_ease(Tween::EASE_OUT);
     tw->set_parallel(true);
     
-    Color current_modulate = get_modulate();
-    Color target_modulate = current_modulate;
-    target_modulate.a = 0.0;
-    
-    tw->tween_property(this, "modulate", target_modulate, 0.5);
-    
+    tw->tween_property(this, "modulate:a", 0, 0.5);
     tw->chain()->tween_callback(Callable(this, "hide"));
 }

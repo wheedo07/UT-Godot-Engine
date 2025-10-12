@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bevhjdbngyvd7"]
+[gd_scene load_steps=15 format=3 uid="uid://bevhjdbngyvd7"]
 
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="1_2uijs"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_elsrr"]
@@ -6,9 +6,7 @@
 [ext_resource type="Theme" uid="uid://bevcq3qnk3n8h" path="res://Themes/hud.tres" id="4_c2gxs"]
 [ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="5_6t6nw"]
 [ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="6_7ksvh"]
-[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="7_a71x2"]
 [ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="7_j83rc"]
-[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="8_yyivw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u2syl"]
 shader = ExtResource("5_6t6nw")
@@ -138,7 +136,7 @@ offset_top = 19.0
 offset_right = 262.0
 offset_bottom = 144.0
 theme = ExtResource("3_k0cus")
-theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/normal_font_size = 33
 bbcode_enabled = true
 text = "[color=white]아이템[/color]
 [color=white]스텟[/color]
@@ -414,7 +412,8 @@ text = "토리엘 전화"
 scroll_active = false
 
 [node name="Soul" parent="Control/StatAndOptions" instance=ExtResource("7_j83rc")]
-position = Vector2(36, 155)
+visible = false
+position = Vector2(36, 150)
 
 [node name="Ghost" type="GPUParticles2D" parent="Control/StatAndOptions/Soul"]
 emitting = false
@@ -423,11 +422,3 @@ texture = ExtResource("6_7ksvh")
 lifetime = 0.5
 one_shot = true
 process_material = SubResource("ParticleProcessMaterial_pxrid")
-
-[node name="choice" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_a71x2")
-bus = &"SFX"
-
-[node name="select" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_yyivw")
-bus = &"SFX"

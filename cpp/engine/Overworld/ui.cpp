@@ -8,6 +8,7 @@
 #include<godot_cpp/classes/label.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
 #include<godot_cpp/classes/gpu_particles2d.hpp>
+#include<godot_cpp/classes/translation_server.hpp>
 
 UI::UI() {
     sizethingys = Dictionary();
@@ -34,9 +35,9 @@ UI::UI() {
     enabled_options[2] = true;
     
     options_dict = Dictionary();
-    options_dict[0] = tr("UT_UI_ITEM");
-    options_dict[1] = tr("UT_UI_STAT");
-    options_dict[2] = tr("UT_UI_CALL");
+    options_dict[0] = "UT_UI_ITEM";
+    options_dict[1] = "UT_UI_STAT";
+    options_dict[2] = "UT_UI_CALL";
     
     pos_history = Dictionary();
     pos_history[OPTIONS] = Variant();
@@ -47,7 +48,7 @@ UI::UI() {
     pos_history[ITEM_USE_DISABLE_MOVEMENT] = Variant();
 
     items_seperation = Vector2(0, 29);
-    option_seperation = Vector2(0, 40);
+    option_seperation = Vector2(0, 42);
 }
 
 UI::~UI() {}
@@ -115,9 +116,11 @@ void UI::_ready() {
     _write_options();
     _set_enabled_options();
     soul_move(Vector2(0,0));
-    
-    get_node_internal("Control/StatAndOptions/Options")->call("grow");
     get_node_internal("Control/StatAndOptions/Stats")->call("grow");
+  
+    UI_Box* option_box = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Options"));
+    option_box->grow();
+    option_box->get_tw()->connect("finished", Callable(soul, "show"), CONNECT_ONE_SHOT);
 }
 
 void UI::_in_state(States state) {
@@ -197,7 +200,7 @@ void UI::_write_options() {
         bool is_enabled = enabled_options[i];
         String color = is_enabled ? "white" : "gray";
         String option_text = options_dict[i];
-        txt += vformat("[color=%s]%s[/color]\n", color, option_text);
+        txt += vformat("[color=%s]%s[/color]\n", color, tr(option_text));
     }
     
     Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"))->set_text(txt);
@@ -315,8 +318,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
     if(event->is_action_pressed("ui_accept")) {
         Object::cast_to<GPUParticles2D>(get_node_internal("Control/StatAndOptions/Soul/Ghost"))->restart();
         Object::cast_to<GPUParticles2D>(get_node_internal("Control/StatAndOptions/Soul/Ghost"))->set_emitting(true);
-        
-        Object::cast_to<AudioStreamPlayer>(get_node_internal("select"))->play();
+        stagehand->audio_player->play("select");
         
         switch (current_state) {
             case OPTIONS: {
@@ -444,7 +446,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
 }
 
 bool UI::soul_move(const Vector2& action) {
-    Object::cast_to<AudioStreamPlayer>(get_node_internal("choice"))->play();
+    stagehand->audio_player->play("choice");
     Vector2 vec = optionsize[current_state];
 
     if (soulposition.x + action.x > vec.x - 1) return false;
@@ -459,7 +461,11 @@ bool UI::soul_move(const Vector2& action) {
         case OPTIONS: {
             RichTextLabel* options_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"));
             soultarget = options_node->get_global_position() + soulposition * option_seperation;
-            target = soultarget + Vector2(-12, 22);
+            if(TranslationServer::get_singleton()->get_locale() == "ko") {
+                target = soultarget + Vector2(-12, 17);
+            }else {
+                target = soultarget + Vector2(-12, 20);
+            }
             break;
         }
         case ITEM: {
