@@ -326,7 +326,7 @@ void BattleMain::_on_slash_finished(int damage, int target, bool crit) {
                     info = enemy->on_damage(damage > 0 ? damage : 0);
                 }
                 clone->set("info", info);
-                box->enemies_hp[target] = (float)box->enemies_hp[target] - damage;
+                if(damage > 0) box->enemies_hp[target] = (float)box->enemies_hp[target] - damage;
             }
             
             box->add_child(clone);
