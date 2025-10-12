@@ -120,7 +120,7 @@ void UI::_ready() {
     UI_Box* option_box = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Options"));
     option_box->grow();
     stats_box->grow();
-    option_box->get_tw()->tween_property(soul, "self_modulate:a", 1, 0.5);
+    option_box->get_tw()->tween_property(soul, "self_modulate:a", 1, 1.2);
 }
 
 void UI::_in_state(States state) {
@@ -461,7 +461,8 @@ bool UI::soul_move(const Vector2& action) {
         case OPTIONS: {
             RichTextLabel* options_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"));
             soultarget = options_node->get_global_position() + soulposition * option_seperation;
-            if(TranslationServer::get_singleton()->get_locale() == "ko_KR") {
+            String locale = TranslationServer::get_singleton()->get_locale();
+            if(locale == "ko_KR" || locale == "ko") {
                 target = soultarget + Vector2(-12, 17);
             }else {
                 target = soultarget + Vector2(-12, 20);
