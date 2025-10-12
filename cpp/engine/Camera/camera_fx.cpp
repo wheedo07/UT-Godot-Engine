@@ -16,7 +16,7 @@ void CameraFx::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_timeout_transition", "isblind"), &CameraFx::_on_timeout_transition);
 
     ClassDB::bind_method(D_METHOD("kill"), &CameraFx::kill);
-    ClassDB::bind_method(D_METHOD("transition", "path", "duration", "speed", "isblind"), &CameraFx::transition, DEFVAL(2), DEFVAL(1), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("transition", "path", "duration", "speed", "isblind"), &CameraFx::transition, DEFVAL(2), DEFVAL(1), DEFVAL(true));
     ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0.1f), DEFVAL(1), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("blinder_color", "color"), &CameraFx::blinder_color, DEFVAL(Color(0, 0, 0, 1)));
     ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(30), DEFVAL(0.4f), DEFVAL(0.15f));
@@ -108,10 +108,9 @@ void CameraFx::transition(String path, float duration, float speed, bool isblind
     transition_speed = speed;
     blinder->set_material(transition_shader);
 
-    isTransition = true;
-    if(duration == 0) return;
     Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration);
     timer->connect("timeout", Callable(this, "_on_timeout_transition").bind(isblind), CONNECT_ONE_SHOT);
+    isTransition = true;
 }
 
 void CameraFx::blinder_color(Color color) {
@@ -229,8 +228,6 @@ void CameraFx::_on_timeout_transition(bool isblind) {
     if(isblind) {
         blind(0.5, mod.a ? 0 : 1);
     }else {
-        mod.a = mod.a ? 0 : 1;
-        blinder->set_modulate(mod);
         emit_signal("finished_tween");
     }
 }
