@@ -13,7 +13,9 @@ CameraFx::~CameraFx() {}
 
 void CameraFx::_bind_methods() {
     ADD_SIGNAL(MethodInfo("finished_tween"));
+    ADD_SIGNAL(MethodInfo("finished_transition"));
     ClassDB::bind_method(D_METHOD("_on_timeout_transition", "isblind"), &CameraFx::_on_timeout_transition);
+    ClassDB::bind_method(D_METHOD("_on_finished_blind"), &CameraFx::_on_finished_blind);
 
     ClassDB::bind_method(D_METHOD("kill"), &CameraFx::kill);
     ClassDB::bind_method(D_METHOD("transition", "path", "duration", "speed", "isblind"), &CameraFx::transition, DEFVAL(2), DEFVAL(1), DEFVAL(true));
@@ -89,7 +91,7 @@ void CameraFx::blind(float time, float targetopacity, float duration) {
 	blindertween = create_tween()->set_trans(Tween::TRANS_SINE);
 	blindertween->tween_property(blinder, "modulate:a", targetopacity, time);
     if(duration != 0) blindertween->connect("finished", Callable(this, "blind").bind(0, 0, duration), CONNECT_ONE_SHOT);
-    else blindertween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
+    else blindertween->connect("finished", Callable(this, "_on_finished_blind"), CONNECT_ONE_SHOT);
 
     tween[index] = blindertween;
 }
@@ -219,15 +221,22 @@ void CameraFx::fx_stop() {
     Fxmaster->set_shader_parameter("inter_enable", false);
 }
 
+void CameraFx::_on_finished_blind() {
+    if(isTransition) {
+        isTransition = false;
+        emit_signal("finished_transition");
+    }else emit_signal("finished_tween");
+}
+
 void CameraFx::_on_timeout_transition(bool isblind) {
     if(!transition_shader.is_valid()) return;
-    isTransition = false;
     transition_shader.unref();
     blinder->set_material(memnew(Material));
     Color mod = blinder->get_modulate();
     if(isblind) {
         blind(0.5, mod.a ? 0 : 1);
     }else {
-        emit_signal("finished_tween");
+        isTransition = false;
+        emit_signal("finished_transition");
     }
 }

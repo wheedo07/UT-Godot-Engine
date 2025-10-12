@@ -26,6 +26,7 @@ namespace godot {
 
             void fx_stop();
             void _on_timeout_transition(bool isblind);
+            void _on_finished_blind();
 
         public:
             ColorRect* blinder;

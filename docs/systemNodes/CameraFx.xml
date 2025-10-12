@@ -157,5 +157,12 @@
                 완료될 때마다 발생하므로, 효과 체인을 구성할 때 유용합니다.
             </description>
         </signal>
+        <signal name="finished_transition">
+            <description>
+                화면 전환 효과가 완료되었을 때 방출되는 시그널입니다.
+                transition() 메서드로 시작된 전환이 끝나면 발생합니다.
+                isblind 매개변수에 따라 블라인드 효과가 적용된 후에 방출됩니다.
+            </description>
+        </signal>
     </signals>
 </class>
