@@ -15,7 +15,6 @@ void UI_Box::_bind_methods() {
 }
 
 void UI_Box::_ready() {
-    if(Engine::get_singleton()->is_editor_hint()) return;
     defsize = get_size();
     
     Color modulate_color = get_modulate();

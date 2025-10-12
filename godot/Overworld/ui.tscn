@@ -412,7 +412,7 @@ text = "토리엘 전화"
 scroll_active = false
 
 [node name="Soul" parent="Control/StatAndOptions" instance=ExtResource("7_j83rc")]
-visible = false
+self_modulate = Color(1, 1, 1, 0)
 position = Vector2(36, 150)
 
 [node name="Ghost" type="GPUParticles2D" parent="Control/StatAndOptions/Soul"]
