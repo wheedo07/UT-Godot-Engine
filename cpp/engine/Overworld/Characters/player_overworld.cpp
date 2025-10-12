@@ -300,7 +300,7 @@ bool PlayerOverworld::is_interacting() {
 }
 
 void PlayerOverworld::_unhandled_input(const Ref<InputEvent>& event) {
-    if(global->get_player_can_move() && !global->get_player_in_menu() && !forced_walking) {
+    if(global->get_player_can_move() && !global->get_player_in_menu() && !global->get_player_text_box() && !forced_walking) {
         if (event->is_action("ui_left") || event->is_action("ui_right") || 
             event->is_action("ui_up") || event->is_action("ui_down")) {
             _step();
@@ -310,9 +310,12 @@ void PlayerOverworld::_unhandled_input(const Ref<InputEvent>& event) {
             get_viewport()->set_input_as_handled();
             
             for(int i=0; i < interactables.size(); i++) {
-                interactables[i].call("emit_signal", "interacted");
+                if(interactables[i].call("has_signal", "interacted")) {
+                    interactables[i].call("emit_signal", "interacted");
+                    break;
+                }
             }
-        }else if(event->is_action_pressed("ui_menu") && !global->get_player_text_box() && !global->get_player_in_menu()) {
+        }else if(event->is_action_pressed("ui_menu") && !global->get_player_in_menu()) {
             if(!player_menu.is_null()) {
                 UI* menu = Object::cast_to<UI>(player_menu->instantiate());
                 bool is = global->get_flag("isGenocide");
