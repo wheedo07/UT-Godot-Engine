@@ -107,9 +107,11 @@ void CameraFx::transition(String path, float duration, float speed, bool isblind
     transition_shader = ResourceLoader::get_singleton()->load(path);
     transition_speed = speed;
     blinder->set_material(transition_shader);
+
+    isTransition = true;
+    if(duration == 0) return;
     Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration);
     timer->connect("timeout", Callable(this, "_on_timeout_transition").bind(isblind), CONNECT_ONE_SHOT);
-    isTransition = true;
 }
 
 void CameraFx::blinder_color(Color color) {
