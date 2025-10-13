@@ -25,15 +25,14 @@ namespace godot {
             Tween::EaseType tween_ease;
 
             void set_property(const Variant& value);
+            void _blast(float duration, float up_delay);
 
         public:
             Blaster();
             ~Blaster();
 
             void ready() override;
-
-            Blaster* fire(const Vector2& target, float size = 1.0f, float delay = 0.5f, float duration = 0.5f);
-            void _blast(float duration);
+            Blaster* fire(const Vector2& target, float size = 1.0f, float delay = 0.5f, float duration = 0.5f, float up_delay = 0.1f);
 
             void set_tweenTrans(Tween::TransitionType value);
             Tween::TransitionType get_tweenTrans() const;

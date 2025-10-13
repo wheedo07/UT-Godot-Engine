@@ -21,9 +21,9 @@ Blaster::Blaster() {
 Blaster::~Blaster() {}
 
 void Blaster::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("fire", "target", "size", "delay", "duration"), &Blaster::fire, 
-                         DEFVAL(1.0f), DEFVAL(0.5f), DEFVAL(0.5f));
-    ClassDB::bind_method(D_METHOD("_blast", "duration"), &Blaster::_blast);
+    ClassDB::bind_method(D_METHOD("fire", "target", "size", "delay", "duration", "up_delay"), &Blaster::fire, 
+                         DEFVAL(1.0f), DEFVAL(0.5f), DEFVAL(0.5f), DEFVAL(0.1f));
+    ClassDB::bind_method(D_METHOD("_blast", "duration", "up_delay"), &Blaster::_blast);
 
     ClassDB::bind_method(D_METHOD("set_tweenTrans", "value"), &Blaster::set_tweenTrans);
     ClassDB::bind_method(D_METHOD("get_tweenTrans"), &Blaster::get_tweenTrans);
@@ -49,7 +49,7 @@ void Blaster::ready() {
     collision->set_shape(shape);
 }
 
-Blaster* Blaster::fire(const Vector2& target, float size, float delay, float duration) {
+Blaster* Blaster::fire(const Vector2& target, float size, float delay, float duration, float up_delay) {
     Object::cast_to<AudioStreamPlayer>(get_node_internal("load"))->play();
     set_scale(Vector2(Math::max(size, 1.0f), Math::max(size, 1.5f)));
     
@@ -66,12 +66,12 @@ Blaster* Blaster::fire(const Vector2& target, float size, float delay, float dur
     velocity_tween->chain()->tween_callback(Callable(anim_player, "play").bind("prepare"));
     velocity_tween->tween_interval(0.15);
     velocity_tween->chain()->tween_callback(Callable(Object::cast_to<AudioStreamPlayer>(get_node_internal("fire")), "play"));
-    velocity_tween->tween_callback(Callable(this, "_blast").bind(duration));
+    velocity_tween->tween_callback(Callable(this, "_blast").bind(duration, up_delay));
     
     return this;
 }
 
-void Blaster::_blast(float duration) {
+void Blaster::_blast(float duration, float up_delay) {
     Ref<RectangleShape2D> shape = collision->get_shape();
     
     Vector2 beam_size = beam->get_size();
@@ -99,7 +99,7 @@ void Blaster::_blast(float duration) {
     tw_remove->tween_property(collision, "scale:x", 0, GROW_TIME);
     tw_remove->tween_callback(Callable(collision, "set_disabled").bind(true))->set_delay(GROW_TIME / 2.0f);
     tw_remove->tween_property(beam, "scale:x", 0, GROW_TIME);
-    tw_remove->chain()->tween_callback(Callable(this, "queue_free"))->set_delay(1.8);
+    tw_remove->chain()->tween_callback(Callable(this, "queue_free"))->set_delay(1.8 + up_delay);
 
     Ref<Tween> tw = create_tween()->set_trans(Tween::TRANS_QUAD)->set_parallel(true);
     tw->tween_property(beam, "scale:x", 1.0f, GROW_TIME);
@@ -110,6 +110,7 @@ void Blaster::_blast(float duration) {
     Ref<Tween> tw_move = create_tween()->set_trans(Tween::TRANS_SINE);
     Vector2 up_vector = Vector2(0, -1);
     Vector2 relative_pos = up_vector.rotated(get_rotation()) * SPEED;
+    tw_move->chain()->tween_interval(up_delay);
     tw_move->tween_property(this, "position", relative_pos, 1.0f)->as_relative();
 }
 
