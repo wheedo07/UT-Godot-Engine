@@ -231,9 +231,9 @@ void CameraFx::_on_finished_blind() {
 void CameraFx::_on_timeout_transition(bool isblind, float blindtime) {
     if(!transition_shader.is_valid()) return;
     transition_shader.unref();
-    blinder->set_material(memnew(Material));
     Color mod = blinder->get_modulate();
     if(isblind) {
+        blinder->set_material(memnew(Material));
         blind(blindtime, mod.a ? 0 : 1);
     }else {
         isTransition = false;
