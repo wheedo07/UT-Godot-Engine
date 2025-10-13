@@ -31,7 +31,7 @@ if env["target"] in ["editor", "template_debug"]:
     sources.append(doc_data)
 
 library = env.SharedLibrary(
-    "godot/bin/exe/lib.UndertaleEngine{}{}".format(env["suffix"], env["SHLIBSUFFIX"]).replace(".template", ""),
+    "godot/bin/lib/lib.UndertaleEngine{}{}".format(env["suffix"], env["SHLIBSUFFIX"]).replace(".template", ""),
     source=sources,
 )
 
