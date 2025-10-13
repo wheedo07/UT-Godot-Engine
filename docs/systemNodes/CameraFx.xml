@@ -118,6 +118,7 @@
             <param index="1" name="duration" type="float" default="2" />
             <param index="2" name="speed" type="float" default="1"/>
             <param index="3" name="isblind" type="bool" default="true" />
+            <param index="4" name="blindtime" type="float" default="0.3" />
             <description>
                 res://Shaders/default/transition.gdshader 쉐이더를 사용하여 화면 전환을 수행합니다.
                 
@@ -126,6 +127,7 @@
                 • duration: 전환 지속 시간 (초)
                 • speed: 전환 속도 조절 (기본값 1, 0.5는 절반 속도, 2는 두 배 속도)
                 • isblind: 전환 완료 후 블라인드 효과 적용 여부
+                • blindtime: 블라인드 페이드 시간 (isblind가 true일 때만 적용)
                 
                 전환 중에는 셰이더의 progress 매개변수가 자동으로 증가합니다.
             </description>

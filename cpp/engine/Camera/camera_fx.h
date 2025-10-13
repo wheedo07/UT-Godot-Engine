@@ -25,7 +25,7 @@ namespace godot {
             Vector2 origin_zoom;
 
             void fx_stop();
-            void _on_timeout_transition(bool isblind);
+            void _on_timeout_transition(bool isblind, float blindtime);
             void _on_finished_blind();
 
         public:
@@ -38,7 +38,7 @@ namespace godot {
 
             // 사용함수
             void kill();
-            void transition(String path, float duration=2, float speed=1, bool isblind=true);
+            void transition(String path, float duration=2, float speed=1, bool isblind=true, float blindtime=0.3f);
             void blind(float time = 0.1f, float targetopacity = 1, float duration = 0);
             void blinder_color(Color color = Color(0, 0, 0, 1));
             void add_shake(float amt = 0.1f, float speed = 30, float time = 0.4f, float duration = 0.15f);
