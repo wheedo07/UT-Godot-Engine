@@ -22,7 +22,7 @@ void BulletArea::_ready() {
 }
 
 void BulletArea::_process(double delta) {
-    damage_mode = bullet->damage_mode;
+    damage_mode = bullet->get_mode();
     damage = bullet->get_damage();
     iframes = bullet->get_iframe_grant();
     kr = bullet->get_kr_amount();
