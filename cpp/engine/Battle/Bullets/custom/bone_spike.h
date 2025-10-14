@@ -24,6 +24,8 @@ namespace godot {
             CollisionShape2D* collision;
             Panel* mode_hint;
             NinePatchRect* sprite_rect;
+            AudioStreamPlayer* alert_sound;
+            AudioStreamPlayer* spike_sound;
 
             Tween::TransitionType tween_trans;
             Tween::EaseType tween_ease;
@@ -39,7 +41,7 @@ namespace godot {
             BoneSpike();
             ~BoneSpike();
 
-            void ready() override;
+            void _ready() override;
             void fire(const Vector2& size, float warn_time = 0.4f, float remain_time = 1.0f, DamageMode mode = MODE_NULL);
 
             void set_tweenTrans(Tween::TransitionType value);

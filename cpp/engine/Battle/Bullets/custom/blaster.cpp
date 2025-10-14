@@ -38,7 +38,8 @@ void Blaster::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "target_position", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_target_position");
 }
 
-void Blaster::ready() {
+void Blaster::_ready() {
+    Bullet::_ready();
     beam = Object::cast_to<Control>(get_node_internal("Sprite/Beam"));
     rect = Object::cast_to<NinePatchRect>(get_node_internal("Sprite/Beam/NinePatchRect"));
     anim_player = Object::cast_to<AnimationPlayer>(get_node_internal("AnimationPlayer"));

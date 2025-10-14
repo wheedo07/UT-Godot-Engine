@@ -23,7 +23,8 @@ void Bone::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "w_tween", PROPERTY_HINT_NONE, "Tween", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_w_tween", "get_w_tween");
 }
 
-void Bone::ready() {
+void Bone::_ready() {
+    Bullet::_ready();
     sprite_rect = Object::cast_to<NinePatchRect>(get_node_internal(get_sprite_path()));
     collision = Object::cast_to<CollisionShape2D>(get_node_internal(get_collision_path()));
     area = Object::cast_to<BulletArea>(get_node_internal("Area2D"));

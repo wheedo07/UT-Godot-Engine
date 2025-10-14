@@ -32,7 +32,7 @@ namespace godot {
             Bone();
             ~Bone();
             
-            void ready() override;
+            void _ready() override;
             void _process(double delta) override;
            
             // 사용 함수

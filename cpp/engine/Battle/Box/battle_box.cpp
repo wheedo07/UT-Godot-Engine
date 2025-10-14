@@ -132,7 +132,6 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("move_multiple_points", "vertex_indices", "target_points", "duration"), &BattleBox::move_multiple_points, DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("stop_all_point_tweens"), &BattleBox::stop_all_point_tweens);
 
-
     ClassDB::bind_method(D_METHOD("set_wintext", "value"), &BattleBox::set_wintext);
     ClassDB::bind_method(D_METHOD("get_wintext"), &BattleBox::get_wintext);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "wintext", PROPERTY_HINT_MULTILINE_TEXT), "set_wintext", "get_wintext");

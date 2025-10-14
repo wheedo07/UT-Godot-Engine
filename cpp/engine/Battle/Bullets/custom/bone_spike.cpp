@@ -33,11 +33,14 @@ void BoneSpike::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut"), "set_tweenEase", "get_tweenEase");
 }
 
-void BoneSpike::ready() {
+void BoneSpike::_ready() {
+    Bullet::_ready();
     warning = Object::cast_to<ReferenceRect>(get_node_internal("Warning"));
     mode_hint = Object::cast_to<Panel>(get_node_internal("Warning/Panel"));
     sprite_rect = Object::cast_to<NinePatchRect>(get_node_internal(get_sprite_path()));
     collision = Object::cast_to<CollisionShape2D>(get_node_internal("Area2D/CollisionShape2D"));
+    alert_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Alert"));
+    spike_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Spike"));
 }
 
 void BoneSpike::fire(const Vector2& size, float warn_time, float remain_time, DamageMode mode) {
@@ -47,8 +50,7 @@ void BoneSpike::fire(const Vector2& size, float warn_time, float remain_time, Da
     warning->set_size(size);
     Panel* panel = Object::cast_to<Panel>(warning->get_child(0));
     panel->set_modulate(get_colors()[mode]);
-    
-    Object::cast_to<AudioStreamPlayer>(get_node_internal("Alert"))->play();
+    alert_sound->play(); 
     
     Ref<Tween> alert_tween = create_tween()->set_trans(Tween::TRANS_EXPO)->set_ease(Tween::EASE_OUT);
     Ref<Tween> alert_tween2 = create_tween()->set_trans(Tween::TRANS_EXPO)->set_ease(Tween::EASE_IN);
@@ -56,9 +58,7 @@ void BoneSpike::fire(const Vector2& size, float warn_time, float remain_time, Da
     alert_tween2->tween_property(warning, "modulate:a", 0, warn_time * 7.0f / 8.0f);
     alert_tween->tween_property(mode_hint, "self_modulate:a", 0, 4.0f * warn_time / 5.0f);
     
-    SceneTree* tree = get_tree();
-    Ref<SceneTreeTimer> timer = tree->create_timer(warn_time, false);
-    
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(warn_time, false);
     timer->connect("timeout", Callable(this, "_on_warn_time_timeout").bind(size, remain_time));
 }
 
@@ -77,7 +77,7 @@ void BoneSpike::_on_warn_time_timeout(const Vector2& size, float remain_time) {
 }
 
 void BoneSpike::spike(float remain_time) {
-    Object::cast_to<AudioStreamPlayer>(get_node_internal("Spike"))->play();
+    spike_sound->play();
 
     Ref<Tween> tw = create_tween()->set_ease(tween_ease)->set_trans(tween_trans)->set_parallel();
     tw->tween_property(sprite_rect, "size:y", warning->get_size().y, SpikeTime);
