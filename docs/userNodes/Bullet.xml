@@ -96,6 +96,13 @@
                 자기 자신을 반환하므로 메서드 체이닝이 가능합니다.
             </description>
         </method>
+
+        <method name="get_mode">
+            <return type="int" enum="Bullet.DamageMode"/>
+            <description>
+                현재 설정된 탄환의 데미지 모드를 반환합니다.
+            </description>
+        </method>
         
         <method name="kill">
             <return type="void"/>
