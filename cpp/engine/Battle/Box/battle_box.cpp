@@ -109,12 +109,8 @@ void BattleBox::_bind_methods() {
 
     // 상자 크기
     ClassDB::bind_method(D_METHOD("get_size"), &BattleBox::get_size);
-    // 상자 왼쪽위 모서리 위치
-    ClassDB::bind_method(D_METHOD("get_tl_anchor"), &BattleBox::get_tl_anchor);
-    // 상자 오른쪽아래 모서리 위치
-    ClassDB::bind_method(D_METHOD("get_br_anchor"), &BattleBox::get_br_anchor);
     // 상자 위치
-    ClassDB::bind_method(D_METHOD("get_box_position"), &BattleBox::get_box_position);
+    ClassDB::bind_method(D_METHOD("get_box_position", "relative_to"), &BattleBox::get_box_position, DEFVAL(RELATIVE_TOP_LEFT));
     ClassDB::bind_method(D_METHOD("reset_box", "duration"), &BattleBox::reset_box, DEFVAL(0.5f));
     ClassDB::bind_method(D_METHOD("change_size", "new_size", "relative", "duration"), &BattleBox::change_size, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative", "duration"), &BattleBox::change_position, DEFVAL(false), DEFVAL(0.6f));
@@ -983,16 +979,24 @@ Vector2 BattleBox::get_size() {
     return rect->get_size();
 }
 
-Vector2 BattleBox::get_tl_anchor() {
-    return anchor_targets[0];
-}
-
-Vector2 BattleBox::get_br_anchor() {
-    return anchor_targets[1];
-}
-
-Vector2 BattleBox::get_box_position() {
-    return anchor_targets[0];
+Vector2 BattleBox::get_box_position(RelativePosition relative_to) {
+    Vector2 anchor_targets_0 = anchor_targets[0];
+    Vector2 anchor_targets_1 = anchor_targets[1];
+    Vector2 intended_size = anchor_targets_1 - anchor_targets_0;
+    
+    switch (relative_to) {
+        case RELATIVE_TOP_LEFT:
+            return anchor_targets_0;
+        case RELATIVE_TOP_RIGHT:
+            return anchor_targets_0 + intended_size.x * Vector2(1, 0);
+        case RELATIVE_BOTTOM_LEFT:
+            return anchor_targets_0 + intended_size.y * Vector2(0, 1);
+        case RELATIVE_BOTTOM_RIGHT:
+            return anchor_targets_1;
+        case RELATIVE_CENTER:
+            return anchor_targets_0 + intended_size / 2.0;
+    }
+    return Variant();
 }
 
 void BattleBox::polygon_enable() {

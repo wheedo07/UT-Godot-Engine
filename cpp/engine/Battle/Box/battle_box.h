@@ -203,9 +203,7 @@ namespace godot {
             void box_show();
             void box_hide();
             Vector2 get_size();
-            Vector2 get_box_position();
-            Vector2 get_tl_anchor();
-            Vector2 get_br_anchor();
+            Vector2 get_box_position(RelativePosition relative_to = RELATIVE_TOP_LEFT);
             void clear_webs();
             void set_webs(int n, float separation = -1, int margin = 0);
             float get_web_y_pos(int id);
