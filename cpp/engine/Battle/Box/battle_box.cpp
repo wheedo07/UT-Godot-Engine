@@ -114,8 +114,8 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("reset_box", "duration"), &BattleBox::reset_box, DEFVAL(0.5f));
     ClassDB::bind_method(D_METHOD("change_size", "new_size", "relative", "duration"), &BattleBox::change_size, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative", "duration"), &BattleBox::change_position, DEFVAL(false), DEFVAL(0.6f));
-    ClassDB::bind_method(D_METHOD("advanced_change_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative", "duration"), &BattleBox::advanced_change_size, 
-        DEFVAL(Vector2()), DEFVAL(Vector2(100, 100)), DEFVAL(false), DEFVAL(false), DEFVAL(0.6f));
+    ClassDB::bind_method(D_METHOD("advanced_change_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative", "duration"), &BattleBox::advanced_change_size
+    , DEFVAL(false), DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("rotate_by", "rot", "relative", "duration"), &BattleBox::rotate_by, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("box_show"), &BattleBox::box_show);
     ClassDB::bind_method(D_METHOD("box_hide"), &BattleBox::box_hide);

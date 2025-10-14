@@ -195,8 +195,8 @@ namespace godot {
             void change_size(const Vector2& new_size, bool relative = false, float duration=0.6f);
             void change_position(const Vector2& new_position, bool relative = false, float duration=0.6f);
             void advanced_change_size(RelativePosition relative_to, 
-                const Vector2& new_position = Vector2(), 
-                const Vector2& new_size = Vector2(100, 100), 
+                const Vector2& new_position,
+                const Vector2& new_size,
                 bool position_relative = false, 
                 bool size_relative = false, float duration = 0.6f);
             void rotate_by(float rot, bool relative = false, float duration = 0.6f);
