@@ -203,6 +203,7 @@ namespace godot {
             void box_show();
             void box_hide();
             Vector2 get_size();
+            Vector2 get_box_position();
             Vector2 get_tl_anchor();
             Vector2 get_br_anchor();
             void clear_webs();

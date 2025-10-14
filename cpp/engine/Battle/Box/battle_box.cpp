@@ -113,6 +113,8 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_tl_anchor"), &BattleBox::get_tl_anchor);
     // 상자 오른쪽아래 모서리 위치
     ClassDB::bind_method(D_METHOD("get_br_anchor"), &BattleBox::get_br_anchor);
+    // 상자 위치
+    ClassDB::bind_method(D_METHOD("get_box_position"), &BattleBox::get_box_position);
     ClassDB::bind_method(D_METHOD("reset_box", "duration"), &BattleBox::reset_box, DEFVAL(0.5f));
     ClassDB::bind_method(D_METHOD("change_size", "new_size", "relative", "duration"), &BattleBox::change_size, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative", "duration"), &BattleBox::change_position, DEFVAL(false), DEFVAL(0.6f));
@@ -987,6 +989,10 @@ Vector2 BattleBox::get_tl_anchor() {
 
 Vector2 BattleBox::get_br_anchor() {
     return anchor_targets[1];
+}
+
+Vector2 BattleBox::get_box_position() {
+    return anchor_targets[0];
 }
 
 void BattleBox::polygon_enable() {
