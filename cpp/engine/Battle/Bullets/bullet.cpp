@@ -44,6 +44,7 @@ void Bullet::_bind_methods() {
     BIND_ENUM_CONSTANT(MODE_ORANGE);
 
     ClassDB::bind_method(D_METHOD("set_mode", "mode"), &Bullet::set_mode, DEFVAL(MODE_BLUE));
+    ClassDB::bind_method(D_METHOD("get_mode"), &Bullet::get_mode);
     ClassDB::bind_method(D_METHOD("fade"), &Bullet::fade);
     ClassDB::bind_method(D_METHOD("kill"), &Bullet::kill);
     ClassDB::bind_method(D_METHOD("on_exit_screen"), &Bullet::on_exit_screen);
@@ -107,6 +108,10 @@ void Bullet::_physics_process(double delta) {
 Bullet* Bullet::set_mode(DamageMode mode) {
     if(mode != MODE_NULL) damage_mode = mode;
     return this;
+}
+
+Bullet::DamageMode Bullet::get_mode() {
+    return damage_mode;
 }
 
 void Bullet::kill() {

@@ -2,8 +2,6 @@
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/timer.hpp>
 #include<godot_cpp/classes/tween.hpp>
-#include<godot_cpp/classes/audio_stream_player.hpp>
-#include<godot_cpp/classes/canvas_item.hpp>
 #define SpikeTime 0.3f
 using namespace godot;
 
@@ -48,9 +46,8 @@ void BoneSpike::fire(const Vector2& size, float warn_time, float remain_time, Da
     
     sprite_rect->set_size(size);
     warning->set_size(size);
-    Panel* panel = Object::cast_to<Panel>(warning->get_child(0));
-    panel->set_modulate(get_colors()[mode]);
-    alert_sound->play(); 
+    mode_hint->set_modulate(get_colors()[get_mode()]);
+    alert_sound->play();
     
     Ref<Tween> alert_tween = create_tween()->set_trans(Tween::TRANS_EXPO)->set_ease(Tween::EASE_OUT);
     Ref<Tween> alert_tween2 = create_tween()->set_trans(Tween::TRANS_EXPO)->set_ease(Tween::EASE_IN);

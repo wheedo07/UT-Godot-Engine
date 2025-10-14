@@ -31,11 +31,11 @@ namespace godot {
                 MODE_ORANGE
             };
             MovementMode fire_mode;
-            DamageMode damage_mode;
             bool delete_upon_hit_value;
             Ref<Tween> velocity_tween;
 
         private:
+            DamageMode damage_mode;
             int damage_value;
             int iframe_grant_value;
             int kr_amount_value;
@@ -65,6 +65,7 @@ namespace godot {
             GDVIRTUAL0(on_hit_player_shield);
 
             Bullet* set_mode(DamageMode mode = MODE_BLUE);
+            DamageMode get_mode();
             void kill();
             void fade();
 
