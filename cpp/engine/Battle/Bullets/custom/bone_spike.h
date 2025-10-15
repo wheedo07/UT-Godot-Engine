@@ -31,7 +31,6 @@ namespace godot {
             Tween::EaseType tween_ease;
 
             void _on_warn_time_timeout(const Vector2& size, float remain_time);
-            void _on_spike_finished();
             void spike(float remain_time);
 
             void set_collision_margin(float p_collision_margin);
