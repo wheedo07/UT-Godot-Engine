@@ -23,7 +23,7 @@ namespace godot {
 		public:
 			Dictionary game_over;
 			Object* battle_encounter;
-	        bool start;
+	        bool start, isSetting;
 
         private:
 			String savepath;
@@ -120,6 +120,7 @@ namespace godot {
 			void set_g_flags(String key, Variant value);
 	        bool check_level_up();
 	        void toggle_fullscreen();
+			void change_setting(String setting_name, Variant to);
 
 	        void save_game(bool is_sys);
 	        void load_game();

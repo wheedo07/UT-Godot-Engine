@@ -53,7 +53,7 @@ Global::Global() {
     // 설정
     settings["shake"] = true;
     settings["vfx"] = true;
-    settings["border"] = true;
+    settings["border"] = false;
     settings["SFX"] = 100;
     settings["Music"] = 100;
     settings["Master"] = 100;
@@ -87,6 +87,7 @@ Global::Global() {
     cache_playtime = 0;
     quit_time = 0;
     start = false;
+    isSetting = false;
     is_Mobile = false;
     battle_encounter = nullptr;
 
@@ -301,7 +302,7 @@ void Global::_process(double delta) {
             save_settings();
             get_tree()->quit();
         }
-    }else if(debugmode) {
+    }else if(debugmode && !isSetting) {
         Info->set_text(vformat(String("[rainbow]")+tr("UT_DEBUG_MODE")+String("[/rainbow]\nFPS: %s")
         + (os->is_debug_build() ? String("\n[R] ")+ tr("UT_RELOAD_SCENE") : String("")),
             Engine::get_singleton()->get_frames_per_second()));
@@ -794,4 +795,12 @@ void Global::alert(String text, String title) {
     display->window_set_flag(DisplayServer::WINDOW_FLAG_ALWAYS_ON_TOP, false);
     os->alert(text, title);
     display->window_set_flag(DisplayServer::WINDOW_FLAG_ALWAYS_ON_TOP, true);
+}
+
+void Global::change_setting(String key, Variant value) {
+    settings[key] = value;
+    if(key == "SFX" || key == "Music" || key == "Master") {
+        refresh_audio_busses();
+    }
+    get_scene_container()->_on_settings_setting_changed(key, value);
 }

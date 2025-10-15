@@ -677,7 +677,6 @@ void BattleMain::_on_transparent() {
         bg->show();
         enemies_node->show();
         box->box_show();
-        global->enable_input("ui_close");
         global->enable_input("toggle_fullscreen");
     }else {
         display->window_set_flag(DisplayServer::WINDOW_FLAG_TRANSPARENT, true);
@@ -692,7 +691,6 @@ void BattleMain::_on_transparent() {
         box->box_hide();
         box->change_size(Vector2(640, 330));
         global->toggle_fullscreen();
-        global->disable_input("ui_close");
         global->disable_input("toggle_fullscreen");
     }
     transparent = !transparent;

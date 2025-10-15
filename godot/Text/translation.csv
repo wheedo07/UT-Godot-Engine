@@ -40,8 +40,10 @@ UT_SETTING_BORDER,테두리,Border
 UT_SETTING_MASTER,메인,Master
 UT_SETTING_SFX,효과음,SFX
 UT_SETTING_BGM,배경음악,BGM
-UT_SETTING_PAUSED,[center]--일시정지--,[center]--Paused--
+UT_SETTING_DEBUG,--디버그--,--DEBUG--
+UT_SETTING_PROOCESS,게임 프레임 가속,Accelerate game frames
 UT_SETTING_MUTE,잠시 음소거,Temporarily muted
+UT_SETTING_EDIT,.tscn 또는 Encounter의 리소스 경로,Resource path for .tscn or Encounter
 UT_DEFAULT_DIDE,Z 키를 눌러 로드합니다,Press the Z key to load
 UT_SAVING_GAME,게임이 강제로 저장되었습니다,The game has been force saved
 UT_HP_FULL,* 당신의 체력은 가득찼다,* Your HP was maxed up

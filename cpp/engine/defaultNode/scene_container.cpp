@@ -152,7 +152,7 @@ void SceneContainer::_refresh_window() {
 }
 
 void SceneContainer::_on_settings_setting_changed(const String& setting_name, const Variant& to) {
-    if (setting_name == "border") {
+    if(setting_name == "border") {
         _refresh_window();
         _just_toggled_border = true;
         border->set_visible(to);
