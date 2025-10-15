@@ -21,9 +21,11 @@ Blaster::Blaster() {
 Blaster::~Blaster() {}
 
 void Blaster::_bind_methods() {
+    ADD_SIGNAL(MethodInfo("finished_blast"));
     ClassDB::bind_method(D_METHOD("fire", "target", "size", "delay", "duration", "up_delay"), &Blaster::fire, 
                          DEFVAL(1.0f), DEFVAL(0.5f), DEFVAL(0.5f), DEFVAL(0.1f));
     ClassDB::bind_method(D_METHOD("_blast", "duration", "up_delay"), &Blaster::_blast);
+    ClassDB::bind_method(D_METHOD("_on_blast_finished"), &Blaster::_on_blast_finished);
 
     ClassDB::bind_method(D_METHOD("set_tweenTrans", "value"), &Blaster::set_tweenTrans);
     ClassDB::bind_method(D_METHOD("get_tweenTrans"), &Blaster::get_tweenTrans);
@@ -100,7 +102,7 @@ void Blaster::_blast(float duration, float up_delay) {
     tw_remove->tween_property(collision, "scale:x", 0, GROW_TIME);
     tw_remove->tween_callback(Callable(collision, "set_disabled").bind(true))->set_delay(GROW_TIME / 2.0f);
     tw_remove->tween_property(beam, "scale:x", 0, GROW_TIME);
-    tw_remove->chain()->tween_callback(Callable(this, "queue_free"))->set_delay(1.8 + up_delay);
+    tw_remove->chain()->tween_callback(Callable(this, "_on_blast_finished"))->set_delay(1.8 + up_delay);
 
     Ref<Tween> tw = create_tween()->set_trans(Tween::TRANS_QUAD)->set_parallel(true);
     tw->tween_property(beam, "scale:x", 1.0f, GROW_TIME);
@@ -113,6 +115,11 @@ void Blaster::_blast(float duration, float up_delay) {
     Vector2 relative_pos = up_vector.rotated(get_rotation()) * SPEED;
     tw_move->chain()->tween_interval(up_delay);
     tw_move->tween_property(this, "position", relative_pos, 1.0f)->as_relative();
+}
+
+void Blaster::_on_blast_finished() {
+    emit_signal("finished_blast");
+    kill();
 }
 
 void Blaster::set_tweenTrans(Tween::TransitionType value) {

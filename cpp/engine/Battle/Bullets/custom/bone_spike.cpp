@@ -14,9 +14,11 @@ BoneSpike::BoneSpike() {
 BoneSpike::~BoneSpike() {}
 
 void BoneSpike::_bind_methods() {
+    ADD_SIGNAL(MethodInfo("finished_spike"));
     ClassDB::bind_method(D_METHOD("fire", "size", "warn_time", "remain_time", "mode"), &BoneSpike::fire, 
         DEFVAL(0.4f), DEFVAL(1.0f), DEFVAL(MODE_NULL));
     ClassDB::bind_method(D_METHOD("_on_warn_time_timeout", "size", "remain_time"), &BoneSpike::_on_warn_time_timeout);
+    ClassDB::bind_method(D_METHOD("_on_spike_finished"), &BoneSpike::_on_spike_finished);
     
     ClassDB::bind_method(D_METHOD("set_collision_margin", "margin"), &BoneSpike::set_collision_margin);
     ClassDB::bind_method(D_METHOD("get_collision_margin"), &BoneSpike::get_collision_margin);
@@ -89,7 +91,12 @@ void BoneSpike::spike(float remain_time) {
     tw->tween_property(shape.ptr(), "size:y", 0, SpikeTime*2);
     tw->tween_property(collision, "position:y", 0, SpikeTime*2);
     tw->tween_property(sprite_rect, "position:y", 33, SpikeTime*2);
-    tw->tween_callback(Callable(this, "queue_free"));
+    tw->tween_callback(Callable(this, "_on_spike_finished"));
+}
+
+void BoneSpike::_on_spike_finished() {
+    emit_signal("finished_spike");
+    kill();
 }
 
 void BoneSpike::set_collision_margin(float p_collision_margin) {

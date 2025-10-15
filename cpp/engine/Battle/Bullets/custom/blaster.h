@@ -26,6 +26,7 @@ namespace godot {
 
             void set_property(const Variant& value);
             void _blast(float duration, float up_delay);
+            void _on_blast_finished();
 
         public:
             Blaster();
