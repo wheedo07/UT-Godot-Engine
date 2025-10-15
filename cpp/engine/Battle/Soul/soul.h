@@ -152,6 +152,9 @@ namespace godot {
 
             void set_special_bullet_mode(int p_mode);
             int get_special_bullet_mode() const;
+
+            void set_speed(float p_speed);
+            float get_speed() const;
     };
 }
 VARIANT_ENUM_CAST(godot::SoulBattle::SoulMode);

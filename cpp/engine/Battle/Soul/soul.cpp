@@ -81,8 +81,11 @@ void SoulBattle::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("set_special_bullet_mode", "mode"), &SoulBattle::set_special_bullet_mode);
     ClassDB::bind_method(D_METHOD("get_special_bullet_mode"), &SoulBattle::get_special_bullet_mode);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "special_bullet_mode", PROPERTY_HINT_ENUM, "ARROW_KEYS,VELOCITY,ARROW_KEYS_AND_MOVING"), 
-                "set_special_bullet_mode", "get_special_bullet_mode");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "special_bullet_mode", PROPERTY_HINT_ENUM, "ARROW_KEYS,VELOCITY,ARROW_KEYS_AND_MOVING"), "set_special_bullet_mode", "get_special_bullet_mode");
+
+    ClassDB::bind_method(D_METHOD("set_speed", "speed"), &SoulBattle::set_speed);
+    ClassDB::bind_method(D_METHOD("get_speed"), &SoulBattle::get_speed);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
 }
 
 void SoulBattle::_ready() {
@@ -675,4 +678,12 @@ SoulBattle::SoulMode SoulBattle::get_mode() const {
 
 void SoulBattle::set_gravity_multiplier(float value) {
     gravity_multiplier = value;
+}
+
+void SoulBattle::set_speed(float p_speed) {
+    speed = p_speed;
+}
+
+float SoulBattle::get_speed() const {
+    return speed;
 }
