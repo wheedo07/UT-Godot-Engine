@@ -76,6 +76,35 @@
                 배경음악이 없으면 null을 반환할 수 있습니다.
             </description>
         </method>
+        <method name="alert">
+            <return type="void" />
+            <param index="0" name="text" type="String" />
+            <param index="1" name="title" type="String" default="&quot;Alert&quot;" />
+            <description>
+                경고 메시지 박스를 화면에 표시합니다.
+                
+                [b]매개변수:[/b]
+                • text: 표시할 메시지 내용
+                • title: 메시지 박스의 제목 (기본값: "Alert")
+                
+                게임 내 오류, 중요 알림 등을 플레이어에게 전달할 때 사용됩니다.
+                메시지 박스는 모달로 동작하여 플레이어가 확인할 때까지 진행이 멈춥니다.
+            </description>
+        </method>
+        <method name="change_setting">
+            <return type="void" />
+            <param index="0" name="setting_name" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                게임 설정 값을 변경합니다.
+                
+                [b]매개변수:[/b]
+                • setting_name: 변경할 설정 이름 (예: "Master", "Music", "SFX", "border", "shake", "vfx")
+                • value: 설정할 값 (볼륨은 0-100, 효과는 bool)
+                
+                설정 변경 시 관련 시스템에 즉시 반영됩니다.
+            </description>
+        </method>
         <method name="get_battle_text_box" qualifiers="const">
             <return type="bool" />
             <description>
