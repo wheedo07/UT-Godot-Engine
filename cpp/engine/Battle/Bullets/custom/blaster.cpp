@@ -100,9 +100,9 @@ void Blaster::_blast(float duration, float up_delay) {
     tw_remove->chain();
     tw_remove->tween_property(beam, "modulate:a", 0, GROW_TIME)->set_trans(Tween::TRANS_LINEAR);
     tw_remove->tween_property(collision, "scale:x", 0, GROW_TIME);
-    tw_remove->tween_callback(Callable(collision, "set_disabled").bind(true))->set_delay(GROW_TIME / 2.0f);
+    tw_remove->tween_callback(Callable(this, "_on_blast_finished"))->set_delay(GROW_TIME / 2.0f);
     tw_remove->tween_property(beam, "scale:x", 0, GROW_TIME);
-    tw_remove->chain()->tween_callback(Callable(this, "_on_blast_finished"))->set_delay(1.8 + up_delay);
+    tw_remove->chain()->tween_callback(Callable(this, "kill"))->set_delay(1.8 + up_delay);
 
     Ref<Tween> tw = create_tween()->set_trans(Tween::TRANS_QUAD)->set_parallel(true);
     tw->tween_property(beam, "scale:x", 1.0f, GROW_TIME);
@@ -118,8 +118,8 @@ void Blaster::_blast(float duration, float up_delay) {
 }
 
 void Blaster::_on_blast_finished() {
+    collision->set_disabled(true);
     emit_signal("finished_blast");
-    kill();
 }
 
 void Blaster::set_tweenTrans(Tween::TransitionType value) {
