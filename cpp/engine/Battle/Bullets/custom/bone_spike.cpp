@@ -2,7 +2,7 @@
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/timer.hpp>
 #include<godot_cpp/classes/tween.hpp>
-#define SpikeTime 0.3f
+#define SpikeTime 0.2f
 using namespace godot;
 
 BoneSpike::BoneSpike() {
