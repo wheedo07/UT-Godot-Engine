@@ -33,7 +33,7 @@ namespace godot {
             ~Blaster();
 
             void _ready() override;
-            Blaster* fire(const Vector2& target, float size = 1.0f, float delay = 0.5f, float duration = 0.5f, float up_delay = 0.1f);
+            Blaster* fire(const Vector2& target, float size = 1.0f, float time = 0.7f, float delay = 0.5f, float duration = 0.5f, float up_delay = 0.1f);
 
             void set_tweenTrans(Tween::TransitionType value);
             Tween::TransitionType get_tweenTrans() const;

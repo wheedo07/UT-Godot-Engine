@@ -8,7 +8,6 @@ using namespace godot;
 #define SPEED 1000 
 #define GROW_TIME 0.2f
 #define BEAM_COLLISION_MARGIN 6.0f
-#define TIME 0.8f
 Blaster::Blaster() {
     beam = nullptr;
     rect = nullptr;
@@ -22,8 +21,7 @@ Blaster::~Blaster() {}
 
 void Blaster::_bind_methods() {
     ADD_SIGNAL(MethodInfo("finished_blast"));
-    ClassDB::bind_method(D_METHOD("fire", "target", "size", "delay", "duration", "up_delay"), &Blaster::fire, 
-                         DEFVAL(1.0f), DEFVAL(0.5f), DEFVAL(0.5f), DEFVAL(0.1f));
+    ClassDB::bind_method(D_METHOD("fire", "target", "size", "time", "delay", "duration", "up_delay"), &Blaster::fire, DEFVAL(1.0f), DEFVAL(0.7f), DEFVAL(0.5f), DEFVAL(0.5f), DEFVAL(0.1f));
     ClassDB::bind_method(D_METHOD("_blast", "duration", "up_delay"), &Blaster::_blast);
     ClassDB::bind_method(D_METHOD("_on_blast_finished"), &Blaster::_on_blast_finished);
 
@@ -52,7 +50,7 @@ void Blaster::_ready() {
     collision->set_shape(shape);
 }
 
-Blaster* Blaster::fire(const Vector2& target, float size, float delay, float duration, float up_delay) {
+Blaster* Blaster::fire(const Vector2& target, float size, float time, float delay, float duration, float up_delay) {
     Object::cast_to<AudioStreamPlayer>(get_node_internal("load"))->play();
     set_scale(Vector2(Math::max(size, 1.0f), Math::max(size, 1.5f)));
     
@@ -63,9 +61,9 @@ Blaster* Blaster::fire(const Vector2& target, float size, float delay, float dur
     else distance = target_position - get_position();
     
     velocity_tween = create_tween()->set_ease(tween_ease)->set_trans(tween_trans)->set_parallel();
-    velocity_tween->tween_property(this, "position", distance, TIME)->as_relative();
-    velocity_tween->tween_property(this, "rotation", Math_TAU, TIME)->as_relative();
-    velocity_tween->chain()->tween_interval(delay - TIME);
+    velocity_tween->tween_property(this, "position", distance, time)->as_relative();
+    velocity_tween->tween_property(this, "rotation", Math_TAU, time)->as_relative();
+    velocity_tween->chain()->tween_interval(delay - time);
     velocity_tween->chain()->tween_callback(Callable(anim_player, "play").bind("prepare"));
     velocity_tween->tween_interval(0.15);
     velocity_tween->chain()->tween_callback(Callable(Object::cast_to<AudioStreamPlayer>(get_node_internal("fire")), "play"));
