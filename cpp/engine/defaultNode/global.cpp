@@ -1,4 +1,5 @@
 #include "global.h"
+#include "engine/Battle/battle_system.h"
 #include<sstream>
 #include<fstream>
 #include<filesystem>
@@ -22,7 +23,7 @@ unsigned char bom[] = {0xEF, 0xBB, 0xBF};
 #define HASH_KEY "undertale_engine_by_wheedo07"
 Global::Global() {
     Music = nullptr;
-    heal_sound = nullptr;
+    speedup_sound = nullptr;
     Info = nullptr;
     KrTimer = nullptr;
     scene_container = nullptr;
@@ -144,7 +145,7 @@ void Global::_ready() {
     display = DisplayServer::get_singleton();
     marshalls = Marshalls::get_singleton();
     Music = Object::cast_to<AudioStreamPlayer>(get_node_internal("MusicGlobal"));
-    heal_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("heal"));
+    speedup_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("speed_up"));
     Info = Object::cast_to<RichTextLabel>(get_node_internal("Info"));
     KrTimer = Object::cast_to<Timer>(get_node_internal("KrTimer"));
     init_paths();
@@ -238,7 +239,6 @@ PackedStringArray Global::equip_item(int item_id) {
 }
 
 void Global::heal(int amt) {
-    heal_sound->play();
     if(player_hp + amt > player_max_hp) {
         amt = player_max_hp - player_hp;
     }
@@ -284,6 +284,21 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             print_line(tr("UT_SAVING_GAME"));
             save();
             get_viewport()->set_input_as_handled();
+        }else if(event->is_action_pressed("debug_turn") && (os->is_debug_build() || os->has_feature("debug_op"))) {
+            if(!battle_start) return;
+            Node* current_scene = get_scene_container()->get_current_scene();
+            if(current_scene->is_class("BattleMain")) {
+                BattleMain* battle = Object::cast_to<BattleMain>(current_scene);
+                if(battle->player_turn) {
+                    battle->buttons->disable();
+                    battle->buttons->reset();
+                    battle->box->_disable();
+                    battle->emit_signal("end_turn");
+                }else {
+                    battle->attacks->force_end_attacks();
+                }
+            }
+            get_viewport()->set_input_as_handled();
         }
     }
 }
@@ -291,20 +306,24 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
 void Global::_process(double delta) {
     Input* input = Input::get_singleton();
     Engine* engine = Engine::get_singleton();
+
     if(input->is_action_pressed("ui_quit")) {
         quit_time += delta;
     }else if(input->is_action_just_released("speed_up") && debugmode && !isSetting && 
             (os->is_debug_build() || os->has_feature("debug_op"))) { 
         engine->set_time_scale(Math::min(engine->get_time_scale() + 0.1, 5.0));
         speed_time = 0.6 * engine->get_time_scale();
+        speedup_sound->play();
     }else if(input->is_action_just_released("speed_down") && debugmode && !isSetting && 
             (os->is_debug_build() || os->has_feature("debug_op"))) {
         engine->set_time_scale(Math::max(engine->get_time_scale() - 0.1, 1.0));
         speed_time = 0.6 * engine->get_time_scale();
+        speedup_sound->play();
     }else if(input->is_action_just_released("speed_reset") && debugmode && !isSetting && 
             (os->is_debug_build() || os->has_feature("debug_op"))) {
         engine->set_time_scale(1);
         speed_time = 0.6 * engine->get_time_scale();
+        speedup_sound->play();
     }else {
         if(tw_label.is_valid() && tw_label->is_valid()) tw_label->kill();
         Info->set_modulate(Color(1,1,1,1));

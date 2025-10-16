@@ -29,6 +29,7 @@ void SavePoint::_ready() {
 
 void SavePoint::_on_interact_save() {
     global->heal(global->get_player_max_hp());
+    stagehand->audio_player->play("heal");
     global->set_player_hp(global->get_player_max_hp());
     
     TextBox* textbox = Object::cast_to<TextBox>(txt_box->instantiate());

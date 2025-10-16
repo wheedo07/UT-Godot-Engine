@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dc10754oip7a4"]
 
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="1_aygu1"]
-[ext_resource type="AudioStream" uid="uid://lp7i5p5u17hl" path="res://sfx/heal.wav" id="2_752qb"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="2_1gesb"]
 
 [sub_resource type="Item" id="Item_1gesb"]
 item_type = 1
@@ -55,9 +55,9 @@ theme = ExtResource("1_aygu1")
 bbcode_enabled = true
 metadata/_edit_lock_ = true
 
-[node name="heal" type="AudioStreamPlayer" parent="."]
+[node name="speed_up" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("2_752qb")
+stream = ExtResource("2_1gesb")
 bus = &"SFX"
 
 [node name="KrTimer" type="Timer" parent="."]

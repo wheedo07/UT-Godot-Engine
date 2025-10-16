@@ -29,7 +29,7 @@ namespace godot {
         private:
 			String savepath;
 			String settingpath;
-	        AudioStreamPlayer* heal_sound;
+	        AudioStreamPlayer* speedup_sound;
 	        AudioStreamPlayer* Music;
             RichTextLabel* Info;
             Timer* KrTimer;

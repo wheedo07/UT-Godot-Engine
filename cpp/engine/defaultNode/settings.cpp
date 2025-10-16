@@ -179,6 +179,7 @@ void Settings::_scene_input(String text) {
         String type = res->get_class();
         if(type == "Encounter") {
             scene_changer->load_battle(res, false);
+            print_line(tr("UT_WARN_NODE_LOSS"));
         }else if(type == "PackedScene") {
             Ref<PackedScene> scene = loader->load(text);
             Node* node = scene->instantiate();
@@ -191,6 +192,7 @@ void Settings::_scene_input(String text) {
                 }
             }
             global->get_scene_container()->change_scene_to_file(text);
+            print_line(tr("UT_WARN_NODE_LOSS"));
         }else {
             global->alert(String::utf8("해당 경로의 리소스는 씬이나 인카운터가 아닙니다."), "Error");
         }

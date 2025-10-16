@@ -35,7 +35,7 @@ func start_attack() -> void:
 		
 		_b = bone.instantiate() as Bone
 		add_bullet(_b);
-		_b.position = box.get_tl_anchor() + Vector2.ONE * 14;
+		_b.position = box.get_box_position() + Vector2.ONE * 14;
 		_b.rotation_degrees = 270;
 		_b.set_mode(Bullet.MODE_ORANGE);
 		_b.queue_fire(1.0, Vector2(_b.position.x, 340 - i * 8), Bullet.MovementMode.MOVEMENT_TWEEN, 130.0);
