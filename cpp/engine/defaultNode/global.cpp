@@ -34,6 +34,7 @@ Global::Global() {
     first = true;
     fullscreen = false;
     debugmode = false;
+    collision_visible = false;
 
     battle_start = false;
     player_in_menu = false;
@@ -249,8 +250,8 @@ void Global::_input(const Ref<InputEvent>& event) {
     if(event->is_action_pressed("toggle_fullscreen") && !is_Mobile) toggle_fullscreen();
 
     if(event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {
-        toggle_collision_shape_visibility();
         debugmode = !debugmode;
+        if(!debugmode && collision_visible) toggle_collision_shape_visibility();
     }
 }
 
@@ -281,6 +282,11 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             else print_line(tr("UT_GAME_RESUMED"));
             get_viewport()->set_input_as_handled();
         }else if(event->is_action_pressed("force_save") && (os->is_debug_build() || os->has_feature("debug_op"))) {
+            String path = get_scene_container()->get_current_scene()->get_scene_file_path();
+            if(path.find("res://Game") == -1) {
+                print_line(tr("UT_CANT_HERE"));
+                return;
+            }
             print_line(tr("UT_SAVING_GAME"));
             save();
             get_viewport()->set_input_as_handled();
@@ -298,6 +304,9 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
                     battle->attacks->force_end_attacks();
                 }
             }
+            get_viewport()->set_input_as_handled();
+        }else if(event->is_action_pressed("toggle_collision") && os->is_debug_build()) {
+            toggle_collision_shape_visibility();
             get_viewport()->set_input_as_handled();
         }
     }
@@ -532,6 +541,7 @@ void Global::resetgame() {
 void Global::toggle_collision_shape_visibility() {
     SceneTree* tree = get_tree();
     tree->set_debug_collisions_hint(!tree->is_debugging_collisions_hint());
+    collision_visible = tree->is_debugging_collisions_hint();
     call_deferred("_update_collision_visibility");
 }
 

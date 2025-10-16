@@ -169,11 +169,16 @@ void Settings::_on_path_list_loaded() {
 
 void Settings::_scene_input(String text) {
     if(!enabled || !global) return;
+    if(text.find("res://Game") == -1) {
+        global->alert(tr("UT_CANT_HERE"), "Error");
+        return;
+    }
+
     ResourceLoader* loader = ResourceLoader::get_singleton();
     if(loader->exists(text)) {
         Ref<Resource> res = loader->load(text);
         if(res.is_null()) {
-            global->alert(String::utf8("해당 경로에 리소스가 없습니다."), "Error");
+            global->alert(tr("UT_RES_LOAD_FAIL"), "Error");
             return;
         }
         String type = res->get_class();
@@ -185,7 +190,7 @@ void Settings::_scene_input(String text) {
             Node* node = scene->instantiate();
             for(String cls : class_exclude) {
                 if(node->is_class(cls)) {
-                    global->alert(String::utf8("해당 경로의 리소스는 씬이나 인카운터가 아닙니다."), "Error");
+                    global->alert(tr("UT_RES_SCENE_FAIL"), "Error");
                     node->queue_free();
                     node = nullptr;
                     return;
@@ -194,10 +199,10 @@ void Settings::_scene_input(String text) {
             global->get_scene_container()->change_scene_to_file(text);
             print_line(tr("UT_WARN_NODE_LOSS"));
         }else {
-            global->alert(String::utf8("해당 경로의 리소스는 씬이나 인카운터가 아닙니다."), "Error");
+            global->alert(tr("UT_RES_SCENE_FAIL"), "Error");
         }
     }else {
-        global->alert(String::utf8("해당 경로에 리소스가 없습니다."), "Error");
+        global->alert(tr("UT_RES_LOAD_FAIL"), "Error");
     }
 }
 

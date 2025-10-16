@@ -36,7 +36,7 @@ namespace godot {
 	        SceneContainer* scene_container;
 	        bool first;
 	        bool fullscreen;
-	        bool debugmode;
+	        bool debugmode, collision_visible;
 	        Dictionary equipment;
 	        PackedStringArray cells;
 	        Array items;
