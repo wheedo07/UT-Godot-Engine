@@ -107,6 +107,12 @@ void Settings::toggle() {
         process_edit->set_editable(false);
         debug_edit->set_editable(false);
         debug_edit2->set_disabled(true);
+
+        Control* focused = get_viewport()->gui_get_focus_owner();
+        if(focused && focused->is_inside_tree()) {
+            focused->release_focus();
+        }
+        get_viewport()->set_input_as_handled();
     }
 }
 
@@ -115,6 +121,7 @@ void Settings::_unhandled_input(const Ref<InputEvent>& event) {
     if(event->is_action_pressed("ui_setting") && global->get_debugmode() &&
         (os->is_debug_build() || os->has_feature("debug_op"))) {
         toggle();
+        get_viewport()->set_input_as_handled();
     } 
 }
 
