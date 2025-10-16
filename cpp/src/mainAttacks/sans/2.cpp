@@ -67,7 +67,7 @@ void AttackSans::turn_2() {
                     Blaster* bl = create_blaster(Masking::RELATIVE_BOX);
                     bl->set_position(Vector2(spawn_position.x, spawn_position.y-100));
                     bl->set_rotation_degrees(UFus::rad_to_deg(*current_angle) + 90);
-                    bl->fire(spawn_position, 1.5, 0.3, 0.4);
+                    bl->fire(spawn_position, 1.5, 0.6, 0.3, 0.4);
                     *time = 0;
                 }else *time += delta;
             }, 15);

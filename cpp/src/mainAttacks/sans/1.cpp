@@ -45,26 +45,26 @@ void AttackSans::turn_1() {
             Blaster* bl = create_blaster(Masking::ABSOLUTE);
             bl->set_rotation_degrees(42);
             bl->set_position(Vector2(328, 495));
-            bl->fire(Vector2(328, 395), 1.3, 0.5, 0.8);
+            bl->fire(Vector2(328, 395), 1.3, 0.6, 0.5, 0.8);
 
             Blaster* bl2 = create_blaster(Masking::ABSOLUTE);
             bl2->set_rotation_degrees(-50);
             bl2->set_position(Vector2(328, 495));
-            bl2->fire(Vector2(328, 395), 1.3, 0.5, 0.8);
+            bl2->fire(Vector2(328, 395), 1.3, 0.6, 0.5, 0.8);
 
             Blaster* bl3 = create_blaster(Masking::ABSOLUTE);
             bl3->set_rotation_degrees(42);
             bl3->set_position(Vector2(328, 134));
-            bl3->fire(Vector2(328, 234), 1.3, 0.5, 0.8);
+            bl3->fire(Vector2(328, 234), 1.3, 0.6, 0.5, 0.8);
 
             Blaster* bl4 = create_blaster(Masking::ABSOLUTE);
             bl4->set_rotation_degrees(-50);
             bl4->set_position(Vector2(328, 134));
-            bl4->fire(Vector2(328, 234), 1.3, 0.5, 0.8);
+            bl4->fire(Vector2(328, 234), 1.3, 0.6, 0.5, 0.8);
 
             Blaster* bl5 = create_blaster(Masking::ABSOLUTE);
             bl5->set_position(Vector2(320, -100));
-            bl5->fire(Vector2(320, 100), 0.5, 0.5, 0.8);
+            bl5->fire(Vector2(320, 100), 0.5, 0.6, 0.5, 0.8);
         }, 0.5},
         {[this]() {
             end_attack();
