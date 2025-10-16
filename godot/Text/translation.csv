@@ -51,3 +51,4 @@ UT_HP_HEAL,* 당신은 체력을 %d 회복했다,* You gained %d HP
 UT_DEF_UP,* 당신의 방어력이 +%d 올라갔다,* Your DEF increased by +%d
 UT_ATK_UP,* 당신의 공격력이 +%d 올라갔다,* Your ATK increased by +%d
 UT_USE_BOX,* 박스를 사용하시겠습니까?,* Use the box?
+UT_FRAMES,게임 프레임,Game Frames

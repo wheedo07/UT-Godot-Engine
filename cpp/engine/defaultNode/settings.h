@@ -10,6 +10,8 @@
 #include<godot_cpp/classes/input.hpp>
 #include<godot_cpp/classes/input_event.hpp>
 #include<godot_cpp/classes/spin_box.hpp>
+#include<godot_cpp/classes/option_button.hpp>
+#include<godot_cpp/classes/thread.hpp>
 namespace godot {
     class Settings : public CanvasLayer {
         GDCLASS(Settings, CanvasLayer);
@@ -18,6 +20,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
+            Ref<Thread> load_thread;
             Ref<Tween> tw;
             const Tween::TransitionType TRANSTYPE = Tween::TRANS_EXPO;
             Panel* Darken;
@@ -26,10 +29,17 @@ namespace godot {
             AnimationPlayer* AnimPlayer;
             VBoxContainer* Options;
             SpinBox* process_edit;
-            bool enabled = false;
+            OptionButton* debug_edit2;
+            bool enabled;
+            PackedStringArray path_list;
+            PackedStringArray class_exclude;
 
             void _scene_input(String text);
             void _change_process(double value);
+            void _change_debug(int index);
+            void _get_path_list();
+            void _scan_directory(const String& path, PackedStringArray& paths);
+            void _on_path_list_loaded();
         
         public:
             Settings();

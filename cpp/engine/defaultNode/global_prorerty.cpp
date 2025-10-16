@@ -7,6 +7,8 @@ void Global::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("_loop_Music"), &Global::_loop_Music);
     ClassDB::bind_method(D_METHOD("_on_kr_tick"), &Global::_on_kr_tick);
+    ClassDB::bind_method(D_METHOD("_update_collision_visibility"), &Global::_update_collision_visibility);
+
     ClassDB::bind_method(D_METHOD("_set_battle_start"), &Global::_set_battle_start);
     ClassDB::bind_method(D_METHOD("_set_battle_text_box", "value"), &Global::_set_battle_text_box);
     ClassDB::bind_method(D_METHOD("_set_player_text_box", "value"), &Global::_set_player_text_box);

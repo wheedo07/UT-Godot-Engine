@@ -48,6 +48,12 @@ void SceneContainer::_ready() {
 
     if(global->isMobile()) {
         mobile->show();
+        OS* os = OS::get_singleton();
+        if(os->is_debug_build() || os->has_feature("debug_op")) {
+            mobile->get_node_internal("setting")->call("show");
+        }else {
+            mobile->get_node_internal("setting")->call("hide");
+        }
     }else mobile->hide();
 
     reload_camera();

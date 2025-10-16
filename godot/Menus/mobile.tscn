@@ -54,4 +54,4 @@ action = "ui_menu"
 position = Vector2(583, 5)
 scale = Vector2(0.4, 0.4)
 texture_normal = ExtResource("5_xd2ic")
-action = "ui_close"
+action = "ui_setting"

@@ -2,19 +2,36 @@
 #include "env.h"
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/shader_material.hpp>
+#include<godot_cpp/classes/dir_access.hpp>
+#include<godot_cpp/classes/os.hpp>
 
 #define TIME 0.6f
 Settings::Settings() {
     enabled = false;
+    class_exclude = {
+        "Enemy",
+        "Bullet",
+        "AttackBase",
+        "BulletArea",
+
+    };
 }
 
-Settings::~Settings() {}
+Settings::~Settings() {
+    if(load_thread.is_valid() && load_thread->is_started()) {
+        load_thread->wait_to_finish();
+    }
+}
 
 void Settings::_bind_methods() {
     ClassDB::bind_method(D_METHOD("toggle"), &Settings::toggle);
     ClassDB::bind_method(D_METHOD("on_setting_changed", "btn"), &Settings::on_setting_changed);
     ClassDB::bind_method(D_METHOD("_scene_input", "text"), &Settings::_scene_input);
+    ClassDB::bind_method(D_METHOD("_change_debug", "index"), &Settings::_change_debug);
     ClassDB::bind_method(D_METHOD("_change_process", "value"), &Settings::_change_process);
+    ClassDB::bind_method(D_METHOD("_get_path_list"), &Settings::_get_path_list);
+    ClassDB::bind_method(D_METHOD("_on_path_list_loaded"), &Settings::_on_path_list_loaded);
+
     ADD_SIGNAL(MethodInfo("init"));
     ADD_SIGNAL(MethodInfo("setting_changed", 
         PropertyInfo(Variant::STRING, "setting_name"),
@@ -28,6 +45,7 @@ void Settings::_ready() {
     AnimPlayer = Object::cast_to<AnimationPlayer>(get_node_internal("AnimationPlayer"));
     Options = Object::cast_to<VBoxContainer>(get_node_internal("Options/VBoxContainer"));
     process_edit = Object::cast_to<SpinBox>(get_node_internal("Options2/NinePatchRect/process_edit"));
+    debug_edit2 = Object::cast_to<OptionButton>(get_node_internal("Options2/NinePatchRect/debug_edit2"));
 
     AnimPlayer->set_speed_scale(1.0f / TIME);
     Darken->set_modulate(Color(1, 1, 1, 0));
@@ -39,6 +57,12 @@ void Settings::_ready() {
     for(int i=0; i < settings.size(); i++) {
         Node* setting = Object::cast_to<Node>(settings[i]);
         setting->connect("pressed", Callable(this, "on_setting_changed").bind(setting));
+    }
+
+    OS* os = OS::get_singleton();
+    if(os->is_debug_build() || os->has_feature("debug_op")) {
+        load_thread.instantiate();
+        load_thread->start(Callable(this, "_get_path_list"));
     }
 }
 
@@ -93,6 +117,52 @@ void Settings::on_setting_changed(Node* btn) {
     emit_signal("setting_changed", btn->call("get_setting_name"), btn->call("is_pressed"));
 }
 
+void Settings::_get_path_list() {
+    PackedStringArray paths;
+    _scan_directory("res://Game/", paths);
+    paths.sort();
+    
+    path_list = paths;
+    
+    call_deferred("_on_path_list_loaded");
+}
+
+void Settings::_scan_directory(const String& path, PackedStringArray& paths) {
+    Ref<DirAccess> dir = DirAccess::open(path);
+    if (dir.is_null()) return;
+    
+    dir->list_dir_begin();
+    String file = dir->get_next();
+    
+    while(file != "") {
+        if (file != "." && file != "..") {
+            String full_path = path + file;
+            
+            if(dir->current_is_dir()) {
+                _scan_directory(full_path + "/", paths);
+            } else {
+                String ext = file.get_extension().to_lower();
+                if(ext == "tscn" || ext == "tres" || ext == "scn") {
+                    paths.push_back(full_path);
+                }
+            }
+        }
+        file = dir->get_next();
+    }
+    dir->list_dir_end();
+}
+
+void Settings::_on_path_list_loaded() {
+    if(load_thread.is_valid() && load_thread->is_started()) {
+        load_thread->wait_to_finish();
+    }
+   
+    for(int i=0; i < path_list.size(); i++) {
+        debug_edit2->add_item(vformat("%s (%s)", path_list[i].get_file(), path_list[i].get_basename().get_file()), i);
+    }
+    debug_edit2->set_disabled(path_list.size() == 0);
+}
+
 void Settings::_scene_input(String text) {
     if(!enabled || !global) return;
     ResourceLoader* loader = ResourceLoader::get_singleton();
@@ -106,6 +176,16 @@ void Settings::_scene_input(String text) {
         if(type == "Encounter") {
             scene_changer->load_battle(res, false);
         }else if(type == "PackedScene") {
+            Ref<PackedScene> scene = loader->load(text);
+            Node* node = scene->instantiate();
+            for(String cls : class_exclude) {
+                if(node->is_class(cls)) {
+                    global->alert(String::utf8("해당 경로의 리소스는 씬이나 인카운터가 아닙니다."), "Error");
+                    node->queue_free();
+                    node = nullptr;
+                    return;
+                }
+            }
             global->get_scene_container()->change_scene_to_file(text);
         }else {
             global->alert(String::utf8("해당 경로의 리소스는 씬이나 인카운터가 아닙니다."), "Error");
@@ -118,4 +198,11 @@ void Settings::_scene_input(String text) {
 void Settings::_change_process(double value) {
     if(!enabled || !global) return;
     Engine::get_singleton()->set_time_scale(value);
+}
+
+void Settings::_change_debug(int index) {
+    if(!enabled || !global) return;
+    if(index < 0 || index >= path_list.size()) return;
+    String text = path_list[index];
+    _scene_input(text);
 }

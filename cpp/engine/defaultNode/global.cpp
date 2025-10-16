@@ -86,6 +86,7 @@ Global::Global() {
     playtime = 0;
     cache_playtime = 0;
     quit_time = 0;
+    speed_time = 0;
     start = false;
     isSetting = false;
     is_Mobile = false;
@@ -256,7 +257,7 @@ void Global::_input(const Ref<InputEvent>& event) {
 
 void Global::_unhandled_input(const Ref<InputEvent>& event) {
     if(debugmode) {
-        if (event->is_action_pressed("refresh_scene") && os->is_debug_build()) {
+        if (event->is_action_pressed("refresh_scene") && os->is_debug_build() && !isSetting) {
             print_line(tr("UT_WARN_NODE_LOSS"));
             player_hp = player_max_hp;
             player_kr = 0;
@@ -276,6 +277,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
         if(event->is_action_pressed("force_save") && (os->is_debug_build() || os->has_feature("debug_op"))) {
             print_line(tr("UT_SAVING_GAME"));
             save();
+            get_viewport()->set_input_as_handled();
         }
     }
 }
@@ -284,17 +286,27 @@ void Global::_process(double delta) {
     Input* input = Input::get_singleton();
     if(input->is_action_pressed("ui_quit")) {
         quit_time += delta;
+    }else if(input->is_action_just_released("speed_up") && debugmode && !isSetting && 
+        (os->is_debug_build() || os->has_feature("debug_op"))) { 
+        Engine* engine = Engine::get_singleton();
+        engine->set_time_scale(Math::min(engine->get_time_scale() + 0.1, 5.0));
+        speed_time = 0.6 * engine->get_time_scale();
+    }else if(input->is_action_just_released("speed_down") && debugmode && !isSetting && 
+        (os->is_debug_build() || os->has_feature("debug_op"))) {
+        Engine* engine = Engine::get_singleton();
+        engine->set_time_scale(Math::max(engine->get_time_scale() - 0.1, 1.0));
+        speed_time = 0.6 * engine->get_time_scale();
     }else {
-        if(tw_quit.is_valid() && tw_quit->is_valid()) tw_quit->kill();
+        if(tw_label.is_valid() && tw_label->is_valid()) tw_label->kill();
         Info->set_modulate(Color(1,1,1,1));
         quit_time = 0;
     }
 
     if(quit_time != 0) {
-        if(!tw_quit.is_valid() || !tw_quit->is_valid()) {
-            tw_quit = create_tween()->set_loops();
-            tw_quit->tween_property(Info, "modulate:a", 0.35, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
-            tw_quit->tween_property(Info, "modulate:a", 1, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
+        if(!tw_label.is_valid() || !tw_label->is_valid()) {
+            tw_label = create_tween()->set_loops();
+            tw_label->tween_property(Info, "modulate:a", 0.35, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
+            tw_label->tween_property(Info, "modulate:a", 1, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
         }
 
         Info->set_text(String::utf8("[color=red]")+tr("UT_EXITING"));
@@ -302,6 +314,12 @@ void Global::_process(double delta) {
             save_settings();
             get_tree()->quit();
         }
+    }else if(speed_time != 0 && debugmode) {
+        Info->set_text(vformat(String::utf8("[color=yellow]")+tr("UT_FRAMES")+String("[/color]: %sx")
+            + (os->is_debug_build() ? String("\n[R] ")+ tr("UT_RELOAD_SCENE") : String("")),
+            Engine::get_singleton()->get_time_scale()));
+        speed_time -= delta;
+        if(speed_time <= 0) speed_time = 0;
     }else if(debugmode && !isSetting) {
         Info->set_text(vformat(String("[rainbow]")+tr("UT_DEBUG_MODE")+String("[/rainbow]\nFPS: %s")
         + (os->is_debug_build() ? String("\n[R] ")+ tr("UT_RELOAD_SCENE") : String("")),
@@ -470,6 +488,7 @@ void Global::resetgame() {
     player_text_box = false;
     battle_text_box = false;
     paused = false;
+    start = false;
     
     if(savepath.find("user://") != -1) {
         String dir = savepath.replace("file0", "");
@@ -481,9 +500,12 @@ void Global::resetgame() {
 void Global::toggle_collision_shape_visibility() {
     SceneTree* tree = get_tree();
     tree->set_debug_collisions_hint(!tree->is_debugging_collisions_hint());
-    
+    call_deferred("_update_collision_visibility");
+}
+
+void Global::_update_collision_visibility() {
     TypedArray<Node> node_stack;
-    node_stack.push_back(tree->get_root());
+    node_stack.push_back(get_tree()->get_root());
 
     while(!node_stack.is_empty()) {
         Node* node = Object::cast_to<Node>(node_stack.pop_back());
