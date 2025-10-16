@@ -63,7 +63,7 @@ Blaster* Blaster::fire(const Vector2& target, float size, float time, float dela
     velocity_tween = create_tween()->set_ease(tween_ease)->set_trans(tween_trans)->set_parallel();
     velocity_tween->tween_property(this, "position", distance, time)->as_relative();
     velocity_tween->tween_property(this, "rotation", Math_TAU, time)->as_relative();
-    velocity_tween->chain()->tween_interval(delay + time);
+    velocity_tween->chain()->tween_interval(delay - time);
     velocity_tween->chain()->tween_callback(Callable(anim_player, "play").bind("prepare"));
     velocity_tween->tween_interval(0.15);
     velocity_tween->chain()->tween_callback(Callable(Object::cast_to<AudioStreamPlayer>(get_node_internal("fire")), "play"));

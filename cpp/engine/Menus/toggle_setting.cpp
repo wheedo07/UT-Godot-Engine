@@ -31,7 +31,7 @@ void SettingToggleButton::init() {
 }
 
 void SettingToggleButton::_on_pressed() {
-    if(!get_tree()->is_paused()) return;
+    if(!global->isSetting) return;
     current_index = (current_index + 1) % values.size();
     String value = values[current_index];
     Dictionary settings = global->get_settings();

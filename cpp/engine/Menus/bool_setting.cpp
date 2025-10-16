@@ -26,7 +26,7 @@ void SettingBoolButton::init() {
 }
 
 void SettingBoolButton::_on_toggled(bool val) {
-    if(!get_tree()->is_paused()) return;
+    if(!global->isSetting) return;
     Dictionary settings = global->get_settings();
         
     if (settings.has(setting_name)) {

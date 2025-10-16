@@ -48,7 +48,7 @@ void AudiobusSettings::init() {
 }
 
 void AudiobusSettings::_on_volume_slider_value_changed(float value) {
-    if(!get_tree()->is_paused()) return;
+    if(!global->isSetting) return;
     Vector2 slider_pos = VolumeSlider->get_position();
     Vector2 slider_size = VolumeSlider->get_size();
     

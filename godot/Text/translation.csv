@@ -52,3 +52,5 @@ UT_DEF_UP,* 당신의 방어력이 +%d 올라갔다,* Your DEF increased by +%d
 UT_ATK_UP,* 당신의 공격력이 +%d 올라갔다,* Your ATK increased by +%d
 UT_USE_BOX,* 박스를 사용하시겠습니까?,* Use the box?
 UT_FRAMES,게임 프레임,Game Frames
+UT_GAME_PAUSED,게임이 일시정지되었습니다,Game has been paused
+UT_GAME_RESUMED,게임이 재개되었습니다,Game has been resumed

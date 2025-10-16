@@ -3,7 +3,6 @@
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/shader_material.hpp>
 #include<godot_cpp/classes/dir_access.hpp>
-#include<godot_cpp/classes/os.hpp>
 
 #define TIME 0.6f
 Settings::Settings() {
@@ -13,7 +12,6 @@ Settings::Settings() {
         "Bullet",
         "AttackBase",
         "BulletArea",
-
     };
 }
 
@@ -45,7 +43,9 @@ void Settings::_ready() {
     AnimPlayer = Object::cast_to<AnimationPlayer>(get_node_internal("AnimationPlayer"));
     Options = Object::cast_to<VBoxContainer>(get_node_internal("Options/VBoxContainer"));
     process_edit = Object::cast_to<SpinBox>(get_node_internal("Options2/NinePatchRect/process_edit"));
+    debug_edit = Object::cast_to<LineEdit>(get_node_internal("Options2/NinePatchRect/debug_edit"));
     debug_edit2 = Object::cast_to<OptionButton>(get_node_internal("Options2/NinePatchRect/debug_edit2"));
+    os = OS::get_singleton();
 
     AnimPlayer->set_speed_scale(1.0f / TIME);
     Darken->set_modulate(Color(1, 1, 1, 0));
@@ -59,7 +59,6 @@ void Settings::_ready() {
         setting->connect("pressed", Callable(this, "on_setting_changed").bind(setting));
     }
 
-    OS* os = OS::get_singleton();
     if(os->is_debug_build() || os->has_feature("debug_op")) {
         load_thread.instantiate();
         load_thread->start(Callable(this, "_get_path_list"));
@@ -100,16 +99,23 @@ void Settings::toggle() {
 
     if(enabled) {
         AnimPlayer->play("toggle");
-    } else {
+        process_edit->set_editable(true);
+        debug_edit->set_editable(true);
+        debug_edit2->set_disabled(path_list.size() == 0);
+    }else {
         AnimPlayer->play_backwards("toggle");
+        process_edit->set_editable(false);
+        debug_edit->set_editable(false);
+        debug_edit2->set_disabled(true);
     }
 }
 
 void Settings::_unhandled_input(const Ref<InputEvent>& event) {
     if(!global) return;
-    if(event->is_action_pressed("ui_setting") && global->get_debugmode()) {
+    if(event->is_action_pressed("ui_setting") && global->get_debugmode() &&
+        (os->is_debug_build() || os->has_feature("debug_op"))) {
         toggle();
-    }
+    } 
 }
 
 void Settings::on_setting_changed(Node* btn) {
@@ -123,7 +129,6 @@ void Settings::_get_path_list() {
     paths.sort();
     
     path_list = paths;
-    
     call_deferred("_on_path_list_loaded");
 }
 
@@ -158,9 +163,8 @@ void Settings::_on_path_list_loaded() {
     }
    
     for(int i=0; i < path_list.size(); i++) {
-        debug_edit2->add_item(vformat("%s (%s)", path_list[i].get_file(), path_list[i].get_basename().get_file()), i);
+        debug_edit2->add_item(path_list[i].get_file(), i);
     }
-    debug_edit2->set_disabled(path_list.size() == 0);
 }
 
 void Settings::_scene_input(String text) {

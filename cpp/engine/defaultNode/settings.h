@@ -12,6 +12,8 @@
 #include<godot_cpp/classes/spin_box.hpp>
 #include<godot_cpp/classes/option_button.hpp>
 #include<godot_cpp/classes/thread.hpp>
+#include<godot_cpp/classes/os.hpp>
+#include<godot_cpp/classes/line_edit.hpp>
 namespace godot {
     class Settings : public CanvasLayer {
         GDCLASS(Settings, CanvasLayer);
@@ -23,12 +25,14 @@ namespace godot {
             Ref<Thread> load_thread;
             Ref<Tween> tw;
             const Tween::TransitionType TRANSTYPE = Tween::TRANS_EXPO;
+            OS* os;
             Panel* Darken;
             CanvasItem* Blur;
             HBoxContainer* BusContainer;
             AnimationPlayer* AnimPlayer;
             VBoxContainer* Options;
             SpinBox* process_edit;
+            LineEdit* debug_edit;
             OptionButton* debug_edit2;
             bool enabled;
             PackedStringArray path_list;

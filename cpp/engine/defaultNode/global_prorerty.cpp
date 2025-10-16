@@ -245,14 +245,6 @@ bool Global::get_player_text_box() const {
     return player_text_box;
 }
 
-void Global::set_paused(bool value) {
-    paused = value;
-}
-
-bool Global::get_paused() const {
-    return paused;
-}
-
 void Global::set_player_name(const String& value) {
     player_name = value;
 }

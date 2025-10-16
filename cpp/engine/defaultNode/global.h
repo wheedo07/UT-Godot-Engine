@@ -50,7 +50,6 @@ namespace godot {
 	        bool player_move;
 	        bool player_text_box;
 	        bool battle_text_box;
-	        bool paused;
 
 	        String player_name;
 	        int player_gold;
@@ -83,7 +82,7 @@ namespace godot {
             DisplayServer* display;
 			Marshalls* marshalls;
 
-			double quit_time, speed_time;
+			double quit_time, speed_time, paused_time;
 			Ref<Tween> tw_label;
 			Dictionary input_event;
 			bool is_Mobile;
@@ -181,9 +180,6 @@ namespace godot {
 
     		void _set_player_text_box(bool value);
     		bool get_player_text_box() const;
-
-    		void set_paused(bool value);
-    		bool get_paused() const;
 
     		void set_player_name(const String& value);
     		String get_player_name() const;

@@ -294,6 +294,7 @@ theme = ExtResource("6_me24t")
 theme_override_font_sizes/font_size = 15
 placeholder_text = "UT_SETTING_EDIT"
 alignment = 1
+editable = false
 keep_editing_on_text_submit = true
 right_icon = ExtResource("7_7c5sw")
 caret_blink_interval = 9.02
@@ -304,6 +305,7 @@ offset_left = 17.0
 offset_top = 59.0
 offset_right = 296.0
 offset_bottom = 91.0
+tooltip_text = "UT_SETTING_EDIT"
 theme = ExtResource("6_me24t")
 disabled = true
 alignment = 1
@@ -321,6 +323,7 @@ max_value = 5.0
 step = 0.1
 value = 1.0
 alignment = 2
+editable = false
 suffix = "x"
 
 [node name="process_label" type="RichTextLabel" parent="Options2/NinePatchRect"]

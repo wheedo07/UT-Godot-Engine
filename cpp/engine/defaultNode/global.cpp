@@ -33,7 +33,6 @@ Global::Global() {
     first = true;
     fullscreen = false;
     debugmode = false;
-    paused = false;
 
     battle_start = false;
     player_in_menu = false;
@@ -257,12 +256,13 @@ void Global::_input(const Ref<InputEvent>& event) {
 
 void Global::_unhandled_input(const Ref<InputEvent>& event) {
     if(debugmode) {
-        if (event->is_action_pressed("refresh_scene") && os->is_debug_build() && !isSetting) {
+        if(event->is_action_pressed("refresh_scene") && os->is_debug_build() && !isSetting) {
             print_line(tr("UT_WARN_NODE_LOSS"));
             player_hp = player_max_hp;
             player_kr = 0;
             player_can_move = true;
             player_in_menu = false;
+            Engine::get_singleton()->set_time_scale(1);
             Node* current_scene = get_scene_container()->get_current_scene();
             if(get_tree()->get_current_scene()->is_class("SceneContainer")) {
                 if(current_scene->is_class("BattleMain")) {
@@ -272,9 +272,15 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
                 return;
             }
             get_tree()->reload_current_scene();
-        }
-        
-        if(event->is_action_pressed("force_save") && (os->is_debug_build() || os->has_feature("debug_op"))) {
+        }else if(event->is_action_pressed("stop_game") && os->is_debug_build()) {
+            if(paused_time != 0) return;
+            paused_time = 0.1;
+            SceneTree* tree = get_tree();
+            tree->set_pause(!tree->is_paused());
+            if(tree->is_paused()) print_line(tr("UT_GAME_PAUSED"));
+            else print_line(tr("UT_GAME_RESUMED"));
+            get_viewport()->set_input_as_handled();
+        }else if(event->is_action_pressed("force_save") && (os->is_debug_build() || os->has_feature("debug_op"))) {
             print_line(tr("UT_SAVING_GAME"));
             save();
             get_viewport()->set_input_as_handled();
@@ -284,17 +290,20 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
 
 void Global::_process(double delta) {
     Input* input = Input::get_singleton();
+    Engine* engine = Engine::get_singleton();
     if(input->is_action_pressed("ui_quit")) {
         quit_time += delta;
     }else if(input->is_action_just_released("speed_up") && debugmode && !isSetting && 
-        (os->is_debug_build() || os->has_feature("debug_op"))) { 
-        Engine* engine = Engine::get_singleton();
+            (os->is_debug_build() || os->has_feature("debug_op"))) { 
         engine->set_time_scale(Math::min(engine->get_time_scale() + 0.1, 5.0));
         speed_time = 0.6 * engine->get_time_scale();
     }else if(input->is_action_just_released("speed_down") && debugmode && !isSetting && 
-        (os->is_debug_build() || os->has_feature("debug_op"))) {
-        Engine* engine = Engine::get_singleton();
+            (os->is_debug_build() || os->has_feature("debug_op"))) {
         engine->set_time_scale(Math::max(engine->get_time_scale() - 0.1, 1.0));
+        speed_time = 0.6 * engine->get_time_scale();
+    }else if(input->is_action_just_released("speed_reset") && debugmode && !isSetting && 
+            (os->is_debug_build() || os->has_feature("debug_op"))) {
+        engine->set_time_scale(1);
         speed_time = 0.6 * engine->get_time_scale();
     }else {
         if(tw_label.is_valid() && tw_label->is_valid()) tw_label->kill();
@@ -317,15 +326,20 @@ void Global::_process(double delta) {
     }else if(speed_time != 0 && debugmode) {
         Info->set_text(vformat(String::utf8("[color=yellow]")+tr("UT_FRAMES")+String("[/color]: %sx")
             + (os->is_debug_build() ? String("\n[R] ")+ tr("UT_RELOAD_SCENE") : String("")),
-            Engine::get_singleton()->get_time_scale()));
+            engine->get_time_scale()));
         speed_time -= delta;
         if(speed_time <= 0) speed_time = 0;
     }else if(debugmode && !isSetting) {
         Info->set_text(vformat(String("[rainbow]")+tr("UT_DEBUG_MODE")+String("[/rainbow]\nFPS: %s")
         + (os->is_debug_build() ? String("\n[R] ")+ tr("UT_RELOAD_SCENE") : String("")),
-            Engine::get_singleton()->get_frames_per_second()));
+            engine->get_frames_per_second()));
     } else {
         Info->set_text("");
+    }
+
+    if(paused_time != 0) {
+        paused_time -= delta;
+        if(paused_time <= 0) paused_time = 0;
     }
 
     if(start) playtime += delta;
@@ -487,7 +501,6 @@ void Global::resetgame() {
     player_move = true;
     player_text_box = false;
     battle_text_box = false;
-    paused = false;
     start = false;
     
     if(savepath.find("user://") != -1) {
