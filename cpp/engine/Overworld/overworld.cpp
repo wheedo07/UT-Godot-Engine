@@ -100,7 +100,11 @@ PackedStringArray Overworld::player_died() {
 void Overworld::start_music_fade_in() {
     music_player = global->get_Music();
 
-    if((music_player->get_stream() == music && music_player->is_playing()) || music.is_null()) return;
+    if(music.is_null()) {
+        music_player->stop();
+        return;
+    }
+    if(music_player->get_stream() == music && music_player->is_playing()) return;
 
     music_player->set_stream(music);
     music_player->play();
