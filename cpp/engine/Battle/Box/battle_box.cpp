@@ -94,6 +94,7 @@ void BattleBox::_bind_methods() {
     ADD_SIGNAL(MethodInfo("item", PropertyInfo(Variant::INT, "item_choice")));
     ADD_SIGNAL(MethodInfo("mercy", PropertyInfo(Variant::INT, "target")));
     ADD_SIGNAL(MethodInfo("tween_finished"));
+    ADD_SIGNAL(MethodInfo("blitter_end"));
 
     ClassDB::bind_method(D_METHOD("_set_targets", "show_hp_bar"), &BattleBox::_set_targets, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("_backout"), &BattleBox::_backout);
@@ -968,9 +969,14 @@ void BattleBox::rotate_by(float rot, bool relative, float duration) {
 }
 
 void BattleBox::blitter_print(PackedStringArray texts) {
+    if(!main->player_turn) {
+        ERR_PRINT("플레이어 턴이 아닐 때는 박스의 대사를 출력할 수 없습니다.");
+        return;
+    }
     global->_set_battle_text_box(true);
     change_state(BattleState::State_Blittering);
     blitter_text->type_text(texts);
+    blitter_text->connect("finished_all_texts", Callable(this, "emit_signal").bind("blitter_end"), CONNECT_ONE_SHOT);
     blitter_text->connect("finished_all_texts", Callable(global, "_set_battle_text_box").bind(false), CONNECT_ONE_SHOT);
 }
 

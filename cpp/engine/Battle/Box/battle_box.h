@@ -158,7 +158,6 @@ namespace godot {
             int get_polygon_point_count() const;
         
         public:
-
             BattleBox();
             ~BattleBox();
             

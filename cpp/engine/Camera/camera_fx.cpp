@@ -21,7 +21,7 @@ void CameraFx::_bind_methods() {
     ClassDB::bind_method(D_METHOD("transition", "path", "duration", "speed", "isblind", "blindtime"), &CameraFx::transition, DEFVAL(2), DEFVAL(1), DEFVAL(true), DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0.1f), DEFVAL(1), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("blinder_color", "color"), &CameraFx::blinder_color, DEFVAL(Color(0, 0, 0, 1)));
-    ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(100), DEFVAL(0.4f), DEFVAL(0.15f));
+    ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.2f), DEFVAL(100), DEFVAL(0.4f), DEFVAL(0.15f));
     ClassDB::bind_method(D_METHOD("stop_shake"), &CameraFx::stop_shake);
     ClassDB::bind_method(D_METHOD("tween_zoom", "amount", "time", "position"), &CameraFx::tween_zoom, DEFVAL(Vector2(1, 1)), DEFVAL(0.5f), DEFVAL(Vector2(320, 240)));
 
@@ -89,8 +89,10 @@ void CameraFx::blind(float time, float targetopacity, float duration) {
     blindertween.unref();
 	blindertween = create_tween()->set_trans(Tween::TRANS_SINE);
 	blindertween->tween_property(blinder, "modulate:a", targetopacity, time);
-    if(duration != 0) blindertween->connect("finished", Callable(this, "blind").bind(0, 0, duration), CONNECT_ONE_SHOT);
-    else blindertween->connect("finished", Callable(this, "_on_finished_blind"), CONNECT_ONE_SHOT);
+    if(duration != 0) {
+        blindertween->tween_interval(duration);
+        blindertween->connect("finished", Callable(this, "blind").bind(time, 0, 0), CONNECT_ONE_SHOT);
+    }else blindertween->connect("finished", Callable(this, "_on_finished_blind"), CONNECT_ONE_SHOT);
 
     tween[index] = blindertween;
 }
@@ -131,10 +133,11 @@ void CameraFx::add_shake(float amt, float speed, float time, float duration) {
     shaker_tween->tween_property(shaker, "material:shader_parameter/FactorA", Vector2(speed, speed), time);
     
     if(duration != 0) {
-        shaker_tween->connect("finished", Callable(this, "add_shake").bind(0, 0, duration, 0), CONNECT_ONE_SHOT);
-    } else {
+        shaker_tween->chain();
+        shaker_tween->tween_property(shaker, "material:shader_parameter/ShakeStrength", 0, time)->set_delay(duration);
+        shaker_tween->tween_property(shaker, "material:shader_parameter/magnitude", Vector2(0, 0), time)->set_delay(duration);
         shaker_tween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
-    }
+    }else shaker_tween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
     
     tween[index] = shaker_tween;
 }
@@ -145,6 +148,7 @@ void CameraFx::stop_shake() {
     if(shaker_tween.is_valid()) {
         shaker_tween->kill();
         shaker_tween.unref();
+        emit_signal("finished_tween");
     }
     
     shaker_shader->set_shader_parameter("ShakeStrength", 0);

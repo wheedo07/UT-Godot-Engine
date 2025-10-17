@@ -113,7 +113,7 @@
         
         <method name="add_shake">
             <return type="void" />
-            <param index="0" name="amt" type="float" default="0.1" />
+            <param index="0" name="amt" type="float" default="0.2" />
             <param index="1" name="speed" type="float" default="100.0" />
             <param index="2" name="time" type="float" default="0.4" />
             <param index="3" name="duration" type="float" default="0.15" />
@@ -124,7 +124,7 @@
                 • [code]amt[/code]: 흔들림 강도 (0.0 ~ 1.0, 권장: 0.05 ~ 0.2)
                 • [code]speed[/code]: 흔들림 주파수/속도 (높을수록 빠름)
                 • [code]time[/code]: 효과 전환 시간 (초)
-                • [code]duration[/code]: 흔들림 지속 시간. 0이면 한 번만 실행
+                • [code]duration[/code]: 흔들림 지속 시간. 0이면 계속 흔들림
                 
                 완료 시 [signal finished_tween] 시그널이 방출됩니다.
                 

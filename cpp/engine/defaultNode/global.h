@@ -24,7 +24,7 @@ namespace godot {
 		public:
 			Dictionary game_over;
 			Object* battle_encounter;
-	        bool start, isSetting;
+	        bool start, isSetting, isDebugTurn;
 
         private:
 			String savepath;

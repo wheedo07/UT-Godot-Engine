@@ -90,6 +90,7 @@ Global::Global() {
     speed_time = 0;
     start = false;
     isSetting = false;
+    isDebugTurn = true;
     is_Mobile = false;
     battle_encounter = nullptr;
 
@@ -291,7 +292,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             save();
             get_viewport()->set_input_as_handled();
         }else if(event->is_action_pressed("debug_turn") && (os->is_debug_build() || os->has_feature("debug_op"))) {
-            if(!battle_start) return;
+            if(!battle_start || !isDebugTurn) return;
             Node* current_scene = get_scene_container()->get_current_scene();
             if(current_scene->is_class("BattleMain")) {
                 BattleMain* battle = Object::cast_to<BattleMain>(current_scene);

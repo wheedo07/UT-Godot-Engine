@@ -47,10 +47,7 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_spare_finished", "enemy"), &BattleMain::_on_spare_finished);
     ClassDB::bind_method(D_METHOD("_on_damage_info_completed", "target"), &BattleMain::_on_damage_info_completed);
     ClassDB::bind_method(D_METHOD("_on_fight_used_completed", "target"), &BattleMain::_on_fight_used_completed);
-    ClassDB::bind_method(D_METHOD("_on_blitter_finished_all_texts"), &BattleMain::_on_blitter_finished_all_texts);
-    ClassDB::bind_method(D_METHOD("_on_timer_timeout", "action"), &BattleMain::_on_timer_timeout);
-    ClassDB::bind_method(D_METHOD("_on_camera_blind_completed"), &BattleMain::_on_camera_blind_completed);
-    ClassDB::bind_method(D_METHOD("_finish_encounter"), &BattleMain::_finish_encounter);
+    ClassDB::bind_method(D_METHOD("_on_action", "action"), &BattleMain::_on_action);
     ClassDB::bind_method(D_METHOD("_on_transparent"), &BattleMain::_on_transparent);
     ClassDB::bind_method(D_METHOD("_on_end"), &BattleMain::_on_end, DEFVAL(false), DEFVAL(-1));
     
@@ -81,148 +78,147 @@ void BattleMain::_ready() {
     attack_scene = loader->load("res://Battle/AttackMeter/meter.tscn");
     slash_scene = loader->load("res://Battle/Slashes/slashes.tscn");
     damage_info_scene = loader->load("res://Battle/AttackMeter/damage.tscn");
+
     if(!encounter.is_valid() && global->battle_encounter && global->battle_encounter->is_class("Encounter")) {
         encounter = global->battle_encounter;
     }
 
     global->_set_battle_start(true);
     if(encounter.is_valid()) {
-        bg->set_texture(encounter->get_background());
-        bg->set_position(encounter->get_offset());
-        Array enemy_scenes = encounter->get_enemies().duplicate();
-
-        Ref<AudioStream> music = encounter->get_music();
-        if(music_player && music.is_valid()) {
-            music_player->set_stream(music);
-            music_player->play();
-        }else {
-            music_player->stop();
-        }
-        
-        if (enemy_scenes.size() == 0) {
-            soul_battle->hide();
-            get_tree()->connect("process_frame", Callable(this, "_no_enemies_handler"), CONNECT_ONE_SHOT);
-            return;
-        }
-
-        enemy_names = enemy_scenes;
-
-        for (int i = 0; i < enemy_scenes.size(); i++) {
-            Ref<PackedScene> enemy_scene = enemy_scenes[i];
-            if (enemy_scene.is_valid()) {
-                Node* enemy_instance = enemy_scene->instantiate();
-                if (enemy_instance) {
-                    enemies_node->add_child(enemy_instance);
-                    Enemy* enemy = Object::cast_to<Enemy>(enemy_instance);
-                    if (enemy) {
-                        if (enemy_scenes.size() == 2) {
-                            enemy->set_position(Vector2(i == 0 ? -100 : 100, 0));
-                        } else if (enemy_scenes.size() == 3 && i != 1) {
-                            enemy->set_position(Vector2(i == 0 ? -200 : 200, 0));
-                        }
-                    }
-                }
-            }
-        }
-
-        bool is_first_turn = false;
-        
-        for (int i = 0; i < enemies_node->get_child_count(); i++) {
-            Enemy* enemy = Object::cast_to<Enemy>(enemies_node->get_child(i));
-            enemies.append(enemy);
-        }
-        
-        box->set_enemies(enemies);
-        
-        for(int i=0; i < enemies.size(); i++) {
-            Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-            // 복수 적 처리
-            if(enemies.size() > 1) {
-                enemy->set_solo(false);
-            }
-            
-            if(enemy->get_kr()) {
-                kr = true;
-                hud->set_kr();
-            }
-            
-            enemy->set_id(i);
-            enemy->connect("changed_state", Callable(box, "_set_targets"));
-            
-            Dictionary stats = enemy->get_stats();
-            enemies_max_hp.append(stats.get("max_hp", 1));
-            enemies_def.append(stats.get("def", 0));
-            
-            Blitter* blitter_text = box->get_blitter_text();
-            PackedStringArray flavor_texts = enemy->get_flavour_text();
-            if(i == 0) {
-                if(flavor_texts.size() > 0) {
-                    blitter_text->set_flavour_texts(flavor_texts);
-                }else {
-                    PackedStringArray default_text = { "* " + enemy->get_enemy_name() + String::utf8("가 나타났다") };
-                    blitter_text->set_flavour_texts(default_text);
-                }
-            }
-            
-            Dictionary rwrds = enemy->get_rewards();
-            rewards["gold"] = int(rewards["gold"]) + int(rwrds.get("gold", 0));
-            rewards["exp"] = int(rewards["exp"]) + int(rwrds.get("exp", 0));
-            
-            connect("item_used", Callable(enemy, "on_item_used"));
-
-            // C++ 이랑 GDscript 모두 호환되도록
-            connect("end_turn", Callable(this, "_on_get_turn"));
-            
-            if (enemy->get_is_first_turn()) {
-                call_deferred("_on_get_turn");
-                is_first_turn = true;
-            }
-        }
-        
-        if(is_first_turn) {
-            box->set_z_index(-1);
-            buttons->disable();
-            soul_battle->enable();
-            player_turn = false;
-        } else {
-            box->blitter_flavour();
-            buttons->enable();
-        }
-        
-        Node* tl = box->get_node_internal("BoxContainer/TL");
-        Node* br = box->get_node_internal("BoxContainer/BR");
-        tl->call("set_remote_node", tl->call("get_path_to", attacks->top_left));
-        br->call("set_remote_node", tl->call("get_path_to", attacks->bottom_right));
-        
         initialize();
-    }
-}
-
-void BattleMain::_no_enemies_handler() {
-    box->change_state(BattleBox::BattleState::State_BlitteringCasual);
-    Blitter* blitter_text = box->get_blitter_text();
-    PackedStringArray texts;
-    texts.push_back(String("* ")+tr("UT_NOBODY_CAME"));
-    blitter_text->type_text(texts);
-    blitter_text->connect("finished_all_texts", Callable(this, "_on_blitter_finished_all_texts"), CONNECT_ONE_SHOT);
-}
-
-void BattleMain::_on_blitter_finished_all_texts() {
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(1.0);
-    timer->connect("timeout", Callable(this, "_on_timer_timeout").bind("no_enemies_exit"), CONNECT_ONE_SHOT);
-}
-
-void BattleMain::_on_timer_timeout(const String& action) {
-    if (action == "no_enemies_exit") {
-        soul_battle->queue_free();
-        scene_changer->load_cached_scene();
+    }else {
+        ERR_PRINT("Encounter가 설정되지 않았습니다.");
     }
 }
 
 void BattleMain::initialize() {
-    CameraFx* camera_node = global->get_scene_container()->get_camera();
-    camera_node->blind(0, 1, 0);
-    camera_node->connect("finished_tween", Callable(camera_node, "blind").bind(0.5, 0), CONNECT_ONE_SHOT);
+    bg->set_texture(encounter->get_background());
+    bg->set_position(encounter->get_offset());
+    Array enemy_scenes = encounter->get_enemies().duplicate();
+    
+    Ref<AudioStream> music = encounter->get_music();
+    if(music_player && music.is_valid()) {
+        music_player->set_stream(music);
+        music_player->play();
+    }else {
+        music_player->stop();
+    }
+    
+    if (enemy_scenes.size() == 0) {
+        soul_battle->hide();
+        get_tree()->connect("process_frame", Callable(this, "_no_enemies_handler"), CONNECT_ONE_SHOT);
+        return;
+    }
+    
+    enemy_names = enemy_scenes;
+    
+    for (int i = 0; i < enemy_scenes.size(); i++) {
+        Ref<PackedScene> enemy_scene = enemy_scenes[i];
+        if (enemy_scene.is_valid()) {
+            Node* enemy_instance = enemy_scene->instantiate();
+            if (enemy_instance) {
+                enemies_node->add_child(enemy_instance);
+                Enemy* enemy = Object::cast_to<Enemy>(enemy_instance);
+                if (enemy) {
+                    if (enemy_scenes.size() == 2) {
+                        enemy->set_position(Vector2(i == 0 ? -100 : 100, 0));
+                    } else if (enemy_scenes.size() == 3 && i != 1) {
+                        enemy->set_position(Vector2(i == 0 ? -200 : 200, 0));
+                    }
+                }
+            }
+        }
+    }
+    
+    bool is_first_turn = false;
+    
+    for (int i = 0; i < enemies_node->get_child_count(); i++) {
+        Enemy* enemy = Object::cast_to<Enemy>(enemies_node->get_child(i));
+        enemies.append(enemy);
+    }
+    
+    box->set_enemies(enemies);
+    
+    for(int i=0; i < enemies.size(); i++) {
+        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        // 복수 적 처리
+        if(enemies.size() > 1) {
+            enemy->set_solo(false);
+        }
+        
+        if(enemy->get_kr()) {
+            kr = true;
+            hud->set_kr();
+        }
+        
+        enemy->set_id(i);
+        enemy->connect("changed_state", Callable(box, "_set_targets"));
+        
+        Dictionary stats = enemy->get_stats();
+        enemies_max_hp.append(stats.get("max_hp", 1));
+        enemies_def.append(stats.get("def", 0));
+        
+        Blitter* blitter_text = box->get_blitter_text();
+        PackedStringArray flavor_texts = enemy->get_flavour_text();
+        if(i == 0) {
+            if(flavor_texts.size() > 0) {
+                blitter_text->set_flavour_texts(flavor_texts);
+            }else {
+                PackedStringArray default_text = { "* " + enemy->get_enemy_name() + String::utf8("가 나타났다") };
+                blitter_text->set_flavour_texts(default_text);
+            }
+        }
+        
+        Dictionary rwrds = enemy->get_rewards();
+        rewards["gold"] = int(rewards["gold"]) + int(rwrds.get("gold", 0));
+        rewards["exp"] = int(rewards["exp"]) + int(rwrds.get("exp", 0));
+        
+        connect("item_used", Callable(enemy, "on_item_used"));
+        
+        // C++ 이랑 GDscript 모두 호환되도록
+        connect("end_turn", Callable(this, "_on_get_turn"));
+        
+        if (enemy->get_is_first_turn()) {
+            call_deferred("_on_get_turn");
+            is_first_turn = true;
+        }
+    }
+    
+    if(is_first_turn) {
+        box->set_z_index(-1);
+        buttons->disable();
+        soul_battle->enable();
+        player_turn = false;
+    } else {
+        box->blitter_flavour();
+        buttons->enable();
+    }
+    
+    Node* tl = box->get_node_internal("BoxContainer/TL");
+    Node* br = box->get_node_internal("BoxContainer/BR");
+    tl->call("set_remote_node", tl->call("get_path_to", attacks->top_left));
+    br->call("set_remote_node", tl->call("get_path_to", attacks->bottom_right));
+    
+    CameraFx* fx = camera->get_global_camera();
+    fx->blind(0, 1, 0);
+    fx->connect("finished_tween", Callable(fx, "blind").bind(0.5f, 0), CONNECT_ONE_SHOT);
+}
+
+void BattleMain::_no_enemies_handler() {
+    box->blitter_print({"* " + tr("UT_NOBODY_CAME")});
+    box->connect("blitter_end", Callable(this, "_on_action").bind("no_enemies_exit"), CONNECT_ONE_SHOT);
+}
+
+void BattleMain::_on_action(const String& action) {
+    if(action == "no_enemies_exit") {
+        soul_battle->queue_free();
+        scene_changer->load_cached_scene();
+    }else if(action == "end_battle") {
+        global->set_temp_atk(0);
+        global->set_temp_def(0);
+        soul_battle->queue_free();
+        scene_changer->load_cached_scene();
+    }
 }
 
 void BattleMain::_on_player_turn_start() {
@@ -232,6 +228,9 @@ void BattleMain::_on_player_turn_start() {
     box->blitter_flavour();
     player_turn = true;
     soul_battle->menu_enable();
+
+    // 디버그 관련
+    global->isDebugTurn = true;
 }
 
 void BattleMain::_on_enemy_turn_start() {
@@ -240,6 +239,9 @@ void BattleMain::_on_enemy_turn_start() {
     attacks->force_end_attacks();
     player_turn = false;
     soul_battle->enable();
+
+    // 디버그 관련
+    global->isDebugTurn = true;
 }
 
 void BattleMain::_on_damage_info_finished() {
@@ -259,7 +261,7 @@ PackedStringArray BattleMain::_on_death_player() {
 }
 
 void BattleMain::_fight(int target) {
-    if (!attack_scene.is_valid() || !box) return;
+    if(!attack_scene.is_valid() || !box) return;
 
     Node* clone = attack_scene->instantiate();
     if (clone) {
@@ -272,14 +274,14 @@ void BattleMain::_fight(int target) {
 }
 
 void BattleMain::_hit(int damage, int target, bool crit) {
-    if (!slash_scene.is_valid() || !box || target < 0 || target >= enemies.size()) return;
+    if(!slash_scene.is_valid() || !box || target < 0 || target >= enemies.size()) return;
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
-    if (!enemy) return;
+    if(!enemy) return;
     
     Slash* slashes = Object::cast_to<Slash>(slash_scene->instantiate());
-    if (slashes) {
-        if (enemy->get_dodging()) {
+    if(slashes) {
+        if(enemy->get_dodging()) {
             int dodge_sign = (UtilityFunctions::randi_range(0, 1) * 2) - 1;
             slashes->connect("started", Callable(enemy, "emit_signal").bind("dodged", dodge_sign == 1), CONNECT_ONE_SHOT);
             slashes->connect("started", Callable(enemy, "_dodge").bind(dodge_sign), CONNECT_ONE_SHOT);
@@ -409,16 +411,10 @@ void BattleMain::_mercy(int choice) {
         case 1: {
             CameraFx* camera_node = global->get_scene_container()->get_camera();
             camera_node->blind(0, 1);
-            camera_node->connect("finished_tween", Callable(this, "_on_camera_blind_completed"), CONNECT_ONE_SHOT);
+            camera_node->connect("finished_tween", Callable(this, "_on_action").bind("end_battle"), CONNECT_ONE_SHOT);
             break;
         }
     }
-}
-
-void BattleMain::_on_camera_blind_completed() {
-    global->set_temp_atk(0);
-    global->set_temp_def(0);
-    scene_changer->load_cached_scene();
 }
 
 void BattleMain::_on_end(bool mercy, int id) {
@@ -572,16 +568,8 @@ void BattleMain::end_encounter() {
         PackedStringArray texts;
         texts.push_back(win_text);
         blitter_text->type_text(texts);
-        blitter_text->connect("finished_all_texts", Callable(this, "_finish_encounter"), CONNECT_ONE_SHOT);
+        blitter_text->connect("finished_all_texts", Callable(this, "_on_action").bind("end_battle"), CONNECT_ONE_SHOT);
     }
-}
-
-void BattleMain::_finish_encounter() {
-    global->set_temp_atk(0);
-    global->set_temp_def(0);
-    
-    soul_battle->queue_free();
-    scene_changer->load_cached_scene();
 }
 
 int BattleMain::enemy_size() {

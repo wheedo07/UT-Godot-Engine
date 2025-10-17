@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b4bh4j4oik4sl"]
+[gd_scene load_steps=18 format=3 uid="uid://c33x0gque7l30"]
 
 [ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://Game/assets/sprite/sheet/new_home.png" id="2_ulhiq"]
 [ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Overworld/Characters/player_overworld.tscn" id="3_36w6e"]
