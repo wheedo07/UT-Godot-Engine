@@ -42,7 +42,7 @@ namespace godot {
             void blinder_color(Color color = Color(0, 0, 0, 1));
             void add_shake(float amt = 0.1f, float speed = 100, float time = 0.4f, float duration = 0.15f);
             void stop_shake();
-            void tween_zoom(Vector2 amount, float time = 0.5f, Vector2 offset = Vector2(0, 0));
+            void tween_zoom(Vector2 amount, float time = 0.5f, Vector2 position = Vector2(320, 240));
             // VFX
             void glitch(float time = 0, float targetrate = 1);
             void rgbsplit(float time = 0, float targetrate = 1);

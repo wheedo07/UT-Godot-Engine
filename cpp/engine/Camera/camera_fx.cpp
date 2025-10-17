@@ -23,7 +23,7 @@ void CameraFx::_bind_methods() {
     ClassDB::bind_method(D_METHOD("blinder_color", "color"), &CameraFx::blinder_color, DEFVAL(Color(0, 0, 0, 1)));
     ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(100), DEFVAL(0.4f), DEFVAL(0.15f));
     ClassDB::bind_method(D_METHOD("stop_shake"), &CameraFx::stop_shake);
-    ClassDB::bind_method(D_METHOD("tween_zoom", "amount", "time", "offset"), &CameraFx::tween_zoom, DEFVAL(Vector2(1, 1)), DEFVAL(0.5f), DEFVAL(Vector2(0, 0)));    
+    ClassDB::bind_method(D_METHOD("tween_zoom", "amount", "time", "position"), &CameraFx::tween_zoom, DEFVAL(Vector2(1, 1)), DEFVAL(0.5f), DEFVAL(Vector2(320, 240)));
 
     // VFX
     ClassDB::bind_method(D_METHOD("glitch", "time", "targetrate"), &CameraFx::glitch, DEFVAL(0), DEFVAL(1));
@@ -151,7 +151,7 @@ void CameraFx::stop_shake() {
     shaker_shader->set_shader_parameter("magnitude", Vector2(0, 0));
 }
 
-void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 offset) {
+void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 position) {
     int index = 2;
     if(origin_zoom.is_zero_approx()) origin_zoom = get_zoom();
     Ref<Tween> zoomtween = tween[index];
@@ -159,7 +159,7 @@ void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 offset) {
     zoomtween.unref();
     zoomtween = create_tween()->set_parallel();
     zoomtween->tween_property(this, "zoom", amount, time);
-    zoomtween->tween_property(this, "position", offset, time);
+    zoomtween->tween_property(this, "position", position, time);
     zoomtween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
     tween[index] = zoomtween;
 }
