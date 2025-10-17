@@ -154,40 +154,34 @@ void NameSelection::on_name_allowed() {
     typer->hide();
     global->set_player_name(name_label->get_text());
     
-    CameraFx* camerafx = global->get_scene_container()->get_camera();
-    Ref<Tween> tween = create_tween()->set_trans(Tween::TRANS_CUBIC)->set_ease(Tween::EASE_OUT);
-    tween->set_parallel(true);
-    
+    CameraFx* camerafx = camera->get_global_camera();
+    Ref<Tween> tween = create_tween()->set_trans(Tween::TRANS_CUBIC)->set_ease(Tween::EASE_OUT)->set_parallel();
     tween->tween_property(prompt, "modulate:a", 0, 0.3);
-    
-    camerafx->tween_zoom(Vector2(5,5), 6);
-    tween->tween_property(color_rect, "modulate:a", 1, 6);
-    tween->set_ease(Tween::EASE_IN);
-    
-    tween->tween_property(name_label, "position:y", 235, 1);
+    tween->tween_property(camerafx, "zoom", Vector2(5, 5), 6);
+    tween->tween_property(camera, "global_position:y", 100, 1);
+    tween->tween_property(color_rect, "modulate:a", 1, 6)->set_ease(Tween::EASE_IN);
     tween->tween_callback(Callable(cymbal, "play"))->set_delay(0.89);
-    
-    tween->connect("finished", Callable(camerafx, "kill"), CONNECT_ONE_SHOT);
+
     tween->connect("finished", Callable(scene_changer, "enter_room_default"), CONNECT_ONE_SHOT);
 }
 
 void NameSelection::_input(const Ref<InputEvent>& event) {
     if(!confirmable) return;
     
-    if (event->is_action_pressed("ui_right")) {
+    if(event->is_action_pressed("ui_right")) {
         stagehand->audio_player->play("choice");
         
-        if (choices.size() >= 2) {
+        if(choices.size() >= 2) {
             Object::cast_to<OptionSelectable>(choices[0])->reset();
             Object::cast_to<OptionSelectable>(choices[1])->set_selected(true);
             soul_pos = 1;
         }
     }
     
-    if (event->is_action_pressed("ui_left")) {
+    if(event->is_action_pressed("ui_left")) {
         stagehand->audio_player->play("choice");
         
-        if (choices.size() >= 2) {
+        if(choices.size() >= 2) {
             Object::cast_to<OptionSelectable>(choices[1])->reset();
             Object::cast_to<OptionSelectable>(choices[0])->set_selected(true);
             soul_pos = 0;

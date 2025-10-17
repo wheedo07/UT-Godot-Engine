@@ -15,16 +15,15 @@ namespace godot {
         
         private:
             ColorRect* glitcher;
-            ColorRect* Fxcher;
+            ColorRect* shaker;
             TypedArray<Node> VFX;
             Array tween;
-            Ref<ShaderMaterial> Fxmaster;
+            Ref<ShaderMaterial> shaker_shader;
             Ref<ShaderMaterial> transition_shader;
             bool vfx, isTransition;
             float transition_speed;
             Vector2 origin_zoom;
 
-            void fx_stop();
             void _on_timeout_transition(bool isblind, float blindtime);
             void _on_finished_blind();
 
@@ -41,7 +40,7 @@ namespace godot {
             void transition(String path, float duration=2, float speed=1, bool isblind=true, float blindtime=0.3f);
             void blind(float time = 0.1f, float targetopacity = 1, float duration = 0);
             void blinder_color(Color color = Color(0, 0, 0, 1));
-            void add_shake(float amt = 0.1f, float speed = 30, float time = 0.4f, float duration = 0.15f);
+            void add_shake(float amt = 0.1f, float speed = 100, float time = 0.4f, float duration = 0.15f);
             void stop_shake();
             void tween_zoom(Vector2 amount, float time = 0.5f, Vector2 offset = Vector2(0, 0));
             // VFX

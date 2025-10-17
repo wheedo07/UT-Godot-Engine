@@ -112,7 +112,6 @@ void Settings::toggle() {
         if(focused && focused->is_inside_tree()) {
             focused->release_focus();
         }
-        get_viewport()->set_input_as_handled();
     }
 }
 
@@ -121,8 +120,9 @@ void Settings::_unhandled_input(const Ref<InputEvent>& event) {
     if(event->is_action_pressed("ui_setting") && global->get_debugmode() &&
         (os->is_debug_build() || os->has_feature("debug_op"))) {
         toggle();
-        get_viewport()->set_input_as_handled();
-    } 
+    }else if(event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {
+        if(enabled && global->get_debugmode()) toggle();
+    }
 }
 
 void Settings::on_setting_changed(Node* btn) {
@@ -133,6 +133,8 @@ void Settings::on_setting_changed(Node* btn) {
 void Settings::_get_path_list() {
     PackedStringArray paths;
     _scan_directory("res://Game/", paths);
+    paths.push_back("res://Intro/intro.tscn");
+    paths.push_back("res://Intro/name_selection.tscn");
     paths.sort();
     
     path_list = paths;
@@ -170,7 +172,7 @@ void Settings::_on_path_list_loaded() {
     }
    
     for(int i=0; i < path_list.size(); i++) {
-        debug_edit2->add_item(path_list[i].get_file(), i);
+        debug_edit2->add_item(vformat("%s ( %s )", path_list[i].get_file(), path_list[i].get_base_dir()), i);
     }
 }
 
@@ -180,37 +182,7 @@ void Settings::_scene_input(String text) {
         global->alert(tr("UT_CANT_HERE"), "Error");
         return;
     }
-
-    ResourceLoader* loader = ResourceLoader::get_singleton();
-    if(loader->exists(text)) {
-        Ref<Resource> res = loader->load(text);
-        if(res.is_null()) {
-            global->alert(tr("UT_RES_LOAD_FAIL"), "Error");
-            return;
-        }
-        String type = res->get_class();
-        if(type == "Encounter") {
-            scene_changer->load_battle(res, false);
-            print_line(tr("UT_WARN_NODE_LOSS"));
-        }else if(type == "PackedScene") {
-            Ref<PackedScene> scene = loader->load(text);
-            Node* node = scene->instantiate();
-            for(String cls : class_exclude) {
-                if(node->is_class(cls)) {
-                    global->alert(tr("UT_RES_SCENE_FAIL"), "Error");
-                    node->queue_free();
-                    node = nullptr;
-                    return;
-                }
-            }
-            global->get_scene_container()->change_scene_to_file(text);
-            print_line(tr("UT_WARN_NODE_LOSS"));
-        }else {
-            global->alert(tr("UT_RES_SCENE_FAIL"), "Error");
-        }
-    }else {
-        global->alert(tr("UT_RES_LOAD_FAIL"), "Error");
-    }
+    _load_scene(text);
 }
 
 void Settings::_change_process(double value) {
@@ -222,5 +194,38 @@ void Settings::_change_debug(int index) {
     if(!enabled || !global) return;
     if(index < 0 || index >= path_list.size()) return;
     String text = path_list[index];
-    _scene_input(text);
+    _load_scene(text);
+}
+
+void Settings::_load_scene(String path) {
+    ResourceLoader* loader = ResourceLoader::get_singleton();
+    if(loader->exists(path)) {
+        Ref<Resource> res = loader->load(path);
+        if(res.is_null()) {
+            global->alert(tr("UT_RES_LOAD_FAIL"), "Error");
+            return;
+        }
+        String type = res->get_class();
+        if(type == "Encounter") {
+            scene_changer->load_battle(res, false);
+            print_line(tr("UT_WARN_NODE_LOSS"));
+        }else if(type == "PackedScene") {
+            Ref<PackedScene> scene = loader->load(path);
+            Node* node = scene->instantiate();
+            for(String cls : class_exclude) {
+                if(node->is_class(cls)) {
+                    global->alert(tr("UT_RES_SCENE_FAIL"), "Error");
+                    node->queue_free();
+                    node = nullptr;
+                    return;
+                }
+            }
+            global->get_scene_container()->change_scene_to_file(path);
+            print_line(tr("UT_WARN_NODE_LOSS"));
+        }else {
+            global->alert(tr("UT_RES_SCENE_FAIL"), "Error");
+        }
+    }else {
+        global->alert(tr("UT_RES_LOAD_FAIL"), "Error");
+    }
 }

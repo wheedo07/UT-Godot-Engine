@@ -21,7 +21,7 @@ void CameraFx::_bind_methods() {
     ClassDB::bind_method(D_METHOD("transition", "path", "duration", "speed", "isblind", "blindtime"), &CameraFx::transition, DEFVAL(2), DEFVAL(1), DEFVAL(true), DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0.1f), DEFVAL(1), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("blinder_color", "color"), &CameraFx::blinder_color, DEFVAL(Color(0, 0, 0, 1)));
-    ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(30), DEFVAL(0.4f), DEFVAL(0.15f));
+    ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.1f), DEFVAL(100), DEFVAL(0.4f), DEFVAL(0.15f));
     ClassDB::bind_method(D_METHOD("stop_shake"), &CameraFx::stop_shake);
     ClassDB::bind_method(D_METHOD("tween_zoom", "amount", "time", "offset"), &CameraFx::tween_zoom, DEFVAL(Vector2(1, 1)), DEFVAL(0.5f), DEFVAL(Vector2(0, 0)));    
 
@@ -34,13 +34,13 @@ void CameraFx::_ready() {
     if(!global) return;
 
     blinder = Object::cast_to<ColorRect>(get_node_internal("CanvasLayer/Blinder"));
-    Fxcher = Object::cast_to<ColorRect>(get_node_internal("FX/Fx"));
+    shaker = Object::cast_to<ColorRect>(get_node_internal("CanvasLayer2/Shaker"));
     glitcher = Object::cast_to<ColorRect>(get_node_internal("Glitch/Glitch"));
     VFX.push_back(glitcher);
 
     tween.resize(5);
     tween.fill(Ref<Tween>());
-    Fxmaster = Fxcher->get_material();
+    shaker_shader = shaker->get_material();
 
     Dictionary settings = global->get_settings();
     vfx = settings["vfx"];
@@ -50,7 +50,7 @@ void CameraFx::_process(double delta) {
     if(!global) return;
     Dictionary settings = global->get_settings();
 
-    Fxmaster->set_shader_parameter("shake_enable", settings["shake"]);
+    shaker_shader->set_shader_parameter("enabled", settings["shake"]);
 
     bool tv = settings["vfx"];
     if(tv != vfx) {
@@ -70,7 +70,6 @@ void CameraFx::_process(double delta) {
 }
 
 void CameraFx::kill() {
-    fx_stop();
     if(!origin_zoom.is_zero_approx()) set_zoom(origin_zoom);
     for(int i=0; i < tween.size(); i++) {
         Ref<Tween> tw = tween[i];
@@ -121,58 +120,35 @@ void CameraFx::blinder_color(Color color) {
 
 void CameraFx::add_shake(float amt, float speed, float time, float duration) {
     int index = 1;
-    Ref<Tween> Fxtween = tween[index];
-    if(Fxtween.is_valid()) Fxtween->kill();
-    
-    bool is_shake_active = Fxmaster->get_shader_parameter("shake_enable");
-    float current_magnitude = 0;
-    float current_speed = 0;
-    
-    if(is_shake_active) {
-        current_magnitude = Fxmaster->get_shader_parameter("shake_magnitude");
-        current_speed = Fxmaster->get_shader_parameter("shake_speed");
-        
-        if (amt <= current_magnitude && duration == 0) {
-            return;
-        }
-        
-        if(Fxtween.is_valid()) {
-            Fxtween->kill();
-        }
-    }
-    
-    Fxtween.unref();
-    Fxtween = create_tween()->set_parallel()->set_trans(Tween::TRANS_SINE);
-    
-    float ramp_up_time = time * 0.2;
-    
-    float target_magnitude = (is_shake_active) ? amt + current_magnitude * 0.5f : amt;
-    target_magnitude = MIN(target_magnitude, amt * 2.0f);
-    
-    Fxtween->tween_property(Fxcher, "material:shader_parameter/shake_speed", speed, ramp_up_time);
-    Fxmaster->set_shader_parameter("shake_magnitude", target_magnitude);
-    Fxmaster->set_shader_parameter("shake_hspeed", target_magnitude);
-    Fxmaster->set_shader_parameter("shake_vspeed", target_magnitude);
-    
-    if (duration != 0) {
-        float fade_start = duration * 0.7;
-        float fade_duration = duration * 0.3;
-        
-        Fxtween->chain();
-        Fxtween->tween_property(Fxcher, "material:shader_parameter/shake_magnitude", 0, fade_duration)->set_delay(fade_start);
-        Fxtween->tween_property(Fxcher, "material:shader_parameter/shake_speed", 10.0f, fade_duration)->set_delay(fade_start);
+    Ref<Tween> shaker_tween = tween[index];
+    if(shaker_tween.is_valid()) shaker_tween->kill();
+    shaker_tween.unref();
+   
+    shaker_shader->set_shader_parameter("magnitude", Vector2(0.01, 0.01));
 
-        Fxtween->connect("finished", Callable(this, "stop_shake"), CONNECT_ONE_SHOT);
-        Fxtween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
+    shaker_tween = create_tween()->set_parallel();
+    shaker_tween->tween_property(shaker, "material:shader_parameter/ShakeStrength", amt, time);
+    shaker_tween->tween_property(shaker, "material:shader_parameter/FactorA", Vector2(speed, speed), time);
+    
+    if(duration != 0) {
+        shaker_tween->connect("finished", Callable(this, "add_shake").bind(0, 0, duration, 0), CONNECT_ONE_SHOT);
+    } else {
+        shaker_tween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
     }
-    tween[index] = Fxtween;
+    
+    tween[index] = shaker_tween;
 }
 
 void CameraFx::stop_shake() {
-    Fxmaster->set_shader_parameter("shake_speed", 0);
-    Fxmaster->set_shader_parameter("shake_magnitude", 0);
-    Fxmaster->set_shader_parameter("shake_hspeed", 0);
-    Fxmaster->set_shader_parameter("shake_vspeed", 0);
+    int index = 1;
+    Ref<Tween> shaker_tween = tween[index];
+    if(shaker_tween.is_valid()) {
+        shaker_tween->kill();
+        shaker_tween.unref();
+    }
+    
+    shaker_shader->set_shader_parameter("ShakeStrength", 0);
+    shaker_shader->set_shader_parameter("magnitude", Vector2(0, 0));
 }
 
 void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 offset) {
@@ -183,7 +159,7 @@ void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 offset) {
     zoomtween.unref();
     zoomtween = create_tween()->set_parallel();
     zoomtween->tween_property(this, "zoom", amount, time);
-    zoomtween->tween_property(this, "offset", offset, time);
+    zoomtween->tween_property(this, "position", offset, time);
     zoomtween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
     tween[index] = zoomtween;
 }
@@ -211,14 +187,6 @@ void CameraFx::rgbsplit(float time, float targetrate) {
 	glitchtween->tween_property(glitcher, "material:shader_parameter/shake_color_rate", targetrate * 0.01, time);
     glitchtween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
     tween[index] = glitchtween;
-}
-
-void CameraFx::fx_stop() {
-    Fxmaster->set_shader_parameter("shake_enable", false);
-    Fxmaster->set_shader_parameter("lens_enable", false);
-    Fxmaster->set_shader_parameter("swirl_enable", false);
-    Fxmaster->set_shader_parameter("sine_enable", false);
-    Fxmaster->set_shader_parameter("inter_enable", false);
 }
 
 void CameraFx::_on_finished_blind() {

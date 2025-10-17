@@ -221,10 +221,8 @@ void BattleMain::_on_timer_timeout(const String& action) {
 
 void BattleMain::initialize() {
     CameraFx* camera_node = global->get_scene_container()->get_camera();
-    Color modulate = camera_node->blinder->get_modulate();
-    modulate.a = 1;
-    camera_node->blinder->set_modulate(modulate);
-    camera_node->blind(0.5, 0);
+    camera_node->blind(0, 1, 0);
+    camera_node->connect("finished_tween", Callable(camera_node, "blind").bind(0.5, 0), CONNECT_ONE_SHOT);
 }
 
 void BattleMain::_on_player_turn_start() {

@@ -131,9 +131,9 @@ show_behind_parent = true
 material = SubResource("ShaderMaterial_538qr")
 clip_contents = false
 layout_mode = 0
-offset_left = 48.0
+offset_left = 45.0
 offset_top = 19.0
-offset_right = 262.0
+offset_right = 259.0
 offset_bottom = 144.0
 theme = ExtResource("3_k0cus")
 theme_override_font_sizes/normal_font_size = 33
@@ -413,7 +413,7 @@ scroll_active = false
 
 [node name="Soul" parent="Control/StatAndOptions" instance=ExtResource("7_j83rc")]
 self_modulate = Color(1, 1, 1, 0)
-position = Vector2(36, 145)
+position = Vector2(33, 145)
 
 [node name="Ghost" type="GPUParticles2D" parent="Control/StatAndOptions/Soul"]
 emitting = false

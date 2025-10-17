@@ -44,6 +44,7 @@ namespace godot {
             void _get_path_list();
             void _scan_directory(const String& path, PackedStringArray& paths);
             void _on_path_list_loaded();
+            void _load_scene(String path);
         
         public:
             Settings();
