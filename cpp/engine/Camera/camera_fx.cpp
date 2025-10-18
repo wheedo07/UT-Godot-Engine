@@ -7,7 +7,7 @@ CameraFx::CameraFx() {
     origin_zoom = Vector2(0,0);
     isTransition = false;
     transition_speed = 1;
-    shake_strengthPx = Vector2(3, 2.5);
+    shake_strengthPx = Vector2(2, 1.5);
 }
 
 CameraFx::~CameraFx() {}
@@ -26,8 +26,9 @@ void CameraFx::_bind_methods() {
     ClassDB::bind_method(D_METHOD("transition", "path", "duration", "speed", "isblind", "blindtime"), &CameraFx::transition, DEFVAL(2), DEFVAL(1), DEFVAL(true), DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("blind", "time", "targetopacity", "duration"), &CameraFx::blind, DEFVAL(0.1f), DEFVAL(1), DEFVAL(0));
     ClassDB::bind_method(D_METHOD("blinder_color", "color"), &CameraFx::blinder_color, DEFVAL(Color(0, 0, 0, 1)));
-    ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(0.2f), DEFVAL(100), DEFVAL(0.4f), DEFVAL(0.2f));
+    ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(1), DEFVAL(100), DEFVAL(0.1f), DEFVAL(0.01f));
     ClassDB::bind_method(D_METHOD("stop_shake"), &CameraFx::stop_shake);
+    ClassDB::bind_method(D_METHOD("default_shake_strength"), &CameraFx::default_shake_strength);
     ClassDB::bind_method(D_METHOD("tween_zoom", "amount", "time", "position"), &CameraFx::tween_zoom, DEFVAL(Vector2(1, 1)), DEFVAL(0.5f), DEFVAL(Vector2(320, 240)));
 
     // VFX
@@ -138,9 +139,8 @@ void CameraFx::add_shake(float amt, float speed, float time, float duration) {
     
     if(duration != 0) {
         shaker_tween->chain();
-        shaker_tween->tween_interval(duration);
-        shaker_tween->tween_property(shaker, "material:shader_parameter/frequency", 0, time);
-        shaker_tween->tween_property(shaker, "material:shader_parameter/strength_scale", 0, time);
+        shaker_tween->tween_property(shaker, "material:shader_parameter/frequency", 0, time)->set_delay(duration);
+        shaker_tween->tween_property(shaker, "material:shader_parameter/strength_scale", 0, time)->set_delay(duration);
     }
     shaker_tween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
     
@@ -215,6 +215,10 @@ void CameraFx::_on_timeout_transition(bool isblind, float blindtime) {
         isTransition = false;
         emit_signal("finished_transition");
     }
+}
+
+void CameraFx::default_shake_strength() {
+    set_shake_strength(Vector2(2, 1.5));
 }
 
 void CameraFx::set_shake_strength(Vector2 value) {

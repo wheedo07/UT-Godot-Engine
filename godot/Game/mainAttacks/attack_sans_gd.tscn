@@ -13,6 +13,8 @@ func start_attack() -> void:
 	throws.emit(Vector2.DOWN);
 	var h_tween;
 	var _b: Bone;
+	var camerafx = camera.get_global_camera();
+	camerafx.shake_strength -= Vector2.ONE;
 	for i in 5:
 		$summon.play();
 		_b = bone.instantiate() as Bone;
@@ -41,11 +43,11 @@ func start_attack() -> void:
 		_b.queue_fire(1.0, Vector2(_b.position.x, 340 - i * 8), Bullet.MovementMode.MOVEMENT_TWEEN, 130.0);
 		_b.queue_fire(0.2, Vector2(_b.position.x,0), Bullet.MovementMode.MOVEMENT_TWEEN, 100.0);
 		h_tween = _b.create_tween().set_trans(Tween.TRANS_LINEAR)
-		var camerafx = camera.get_global_camera();
 		h_tween.tween_callback(_b.tween_height.bind(339, 0.4));
-		h_tween.tween_callback(camerafx.add_shake.bind(0.25)).set_delay(0.4);
+		h_tween.tween_callback(camerafx.add_shake.bind(1)).set_delay(0.4);
 		h_tween.tween_callback($wallhit.play);
 		await get_tree().create_timer(0.6, false).timeout
+	camerafx.default_shake_strength();
 	await get_tree().create_timer(6.9, false).timeout
 	
 	for i in 5:

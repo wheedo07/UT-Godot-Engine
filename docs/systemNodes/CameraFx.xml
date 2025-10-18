@@ -113,31 +113,34 @@
         
         <method name="add_shake">
             <return type="void" />
-            <param index="0" name="amt" type="float" default="0.2" />
+            <param index="0" name="amt" type="float" default="1.0" />
             <param index="1" name="speed" type="float" default="100.0" />
-            <param index="2" name="time" type="float" default="0.4" />
-            <param index="3" name="duration" type="float" default="0.15" />
+            <param index="2" name="time" type="float" default="0.1" />
+            <param index="3" name="duration" type="float" default="0.01" />
             <description>
                 화면 흔들림 효과를 추가합니다. 셰이더 기반으로 부드러운 흔들림을 제공합니다.
                 
                 [b]매개변수:[/b]
-                • [code]amt[/code]: 흔들림 강도 (0.0 ~ 1.0, 권장: 0.05 ~ 0.2)
+                • [code]amt[/code]: 흔들림 강도 (1.0 ~ ? 높을수록 강함)
                 • [code]speed[/code]: 흔들림 주파수/속도 (높을수록 빠름)
                 • [code]time[/code]: 효과 전환 시간 (초)
                 • [code]duration[/code]: 흔들림 지속 시간. 0이면 계속 흔들림
+
+                shake_strength 멤버 변수를 통해 기본 흔들림 강도를 조절할 수 있습니다.
                 
                 완료 시 [signal finished_tween] 시그널이 방출됩니다.
                 
                 [b]사용 예시:[/b]
                 [codeblock]
-                # 폭발 효과 (강하고 짧은 흔들림)
-                camera_fx.add_shake(0.15, 150, 0.2, 0.3)
+                # 기본 흔들림 효과 추가
+                camera_fx.add_shake(1.0, 100, 0.3, 5.0)
                 
-                # 지진 효과 (약하고 긴 흔들림)
-                camera_fx.add_shake(0.05, 50, 0.5, 2.0)
-                
-                # 한 번만 흔들기
-                camera_fx.add_shake(0.1, 100, 0.3, 0)
+                # 강한 흔들림 효과
+                camera_fx.add_shake(2.0, 150, 0.2, 3.0)
+
+                # 약한 흔들림 효과
+                camera_fx.shake_strength -= Vector2.ONE
+                camera_fx.add_shake(1, 80, 0.4, 4.0)
                 [/codeblock]
             </description>
         </method>
@@ -156,6 +159,23 @@
                 # 특정 조건에서 즉시 중단
                 if player_died:
                     camera_fx.stop_shake()
+                [/codeblock]
+            </description>
+        </method>
+
+        <method name="default_shake_strength">
+            <return type="void" />
+            <description>
+                화면 흔들림 효과의 강도를 기본값인 Vector2(2, 1.5)로 재설정합니다.
+                흔들림 강도를 조절한 후 원래 상태로 되돌리고 싶을 때 사용합니다.
+                
+                [b]사용 예시:[/b]
+                [codeblock]
+                # 흔들림 강도 증가
+                camera_fx.shake_strength += Vector2(5, 4)
+                
+                # 기본 흔들림 강도로 복원
+                camera_fx.default_shake_strength()
                 [/codeblock]
             </description>
         </method>

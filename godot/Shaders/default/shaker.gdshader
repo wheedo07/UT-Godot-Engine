@@ -6,7 +6,7 @@ uniform sampler2D SCREEN_TEX : hint_screen_texture, filter_nearest;
 
 uniform vec2 strength_px = vec2(3.0, 2.5);           // 축별 최대 흔들림(픽셀)
 uniform float frequency = 12.0;                      // 흔들림 속도(Hz 느낌)
-uniform float strength_scale = 0;                  // 전체 강도 스케일(0~1 애니메이션용)
+uniform float strength_scale = 0;
 
 /* (다른 느낌 원하면 변경) */
 uniform vec2 phase = vec2(0.0, 1.7);
