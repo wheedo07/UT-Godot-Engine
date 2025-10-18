@@ -68,6 +68,7 @@ namespace godot {
             NodePath dialogue_path;
 
             Ref<ActInfo> _info;
+            bool isReady;
             void set_hurt_sound_path(const NodePath& p_path);
             NodePath get_hurt_sound_path() const;
             

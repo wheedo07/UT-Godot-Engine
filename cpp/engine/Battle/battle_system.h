@@ -51,6 +51,7 @@ namespace godot {
             Array enemies;
             Array enemies_def;
             Array enemies_max_hp;
+            Array enemies_script;
             bool kr;
             int completed_enemies, completed_size;
 
@@ -88,6 +89,7 @@ namespace godot {
             void _mercy(int choice);
             void _item(int item_id);
             void _modify_stats(int id, Dictionary stats);
+            void _enemy_script_off();
 
             // 사용 함수
             void toggle_transparent();

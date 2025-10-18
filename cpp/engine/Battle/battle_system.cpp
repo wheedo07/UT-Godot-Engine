@@ -104,7 +104,7 @@ void BattleMain::initialize() {
         music_player->stop();
     }
     
-    if (enemy_scenes.size() == 0) {
+    if(enemy_scenes.size() == 0) {
         soul_battle->hide();
         get_tree()->connect("process_frame", Callable(this, "_no_enemies_handler"), CONNECT_ONE_SHOT);
         return;
@@ -130,15 +130,13 @@ void BattleMain::initialize() {
         }
     }
     
-    bool is_first_turn = false;
-    
-    for (int i = 0; i < enemies_node->get_child_count(); i++) {
+    for(int i=0; i < enemies_node->get_child_count(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies_node->get_child(i));
         enemies.append(enemy);
     }
-    
     box->set_enemies(enemies);
     
+    bool is_first_turn = false;
     for(int i=0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
         // 복수 적 처리
@@ -175,10 +173,7 @@ void BattleMain::initialize() {
         
         connect("item_used", Callable(enemy, "on_item_used"));
         
-        // C++ 이랑 GDscript 모두 호환되도록
-        connect("end_turn", Callable(this, "_on_get_turn"));
-        
-        if (enemy->get_is_first_turn()) {
+        if(enemy->get_is_first_turn() && !is_first_turn) {
             call_deferred("_on_get_turn");
             is_first_turn = true;
         }
@@ -218,6 +213,13 @@ void BattleMain::_on_action(const String& action) {
         global->set_temp_def(0);
         soul_battle->queue_free();
         scene_changer->load_cached_scene();
+    }else if(action == "script_off") {
+        for(int i=0; i < enemies.size(); i++) {
+            Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+            enemy->set_script(enemies_script[i]);
+            enemy->request_ready();
+            enemies_node->add_child(enemy);
+        }
     }
 }
 
@@ -242,6 +244,17 @@ void BattleMain::_on_enemy_turn_start() {
 
     // 디버그 관련
     global->isDebugTurn = true;
+}
+
+void BattleMain::_enemy_script_off() {
+    enemies_script.clear();
+    for(int i=0; i < enemies.size(); i++) {
+        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        enemies_script.append(enemy->get_script());
+        enemy->set_script(Variant());
+        enemies_node->remove_child(enemy);
+    }
+    get_tree()->connect("process_frame", Callable(this, "_on_action").bind("script_off"), CONNECT_ONE_SHOT);
 }
 
 void BattleMain::_on_damage_info_finished() {
@@ -600,14 +613,13 @@ bool BattleMain::is_kr() {
 }
 
 void BattleMain::_on_get_turn() {
-    for (int i = 0; i < enemies.size(); i++) {
+    for(int i=0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-        if(enemy) {
-            if (enemy->has_method("_on_get_turn")) { // C++ 이랑 GDscript 모두 호환되도록
-                enemy->call("_on_get_turn");
-            } else {
-                enemy->_on_get_turn();
-            }
+        if(turn_number == 0 && !enemy->get_is_first_turn()) continue;
+        if(enemy->has_method("_on_get_turn")) { // C++ 이랑 GDscript 모두 호환되도록
+            enemy->call("_on_get_turn");
+        } else {
+            enemy->_on_get_turn();
         }
     }
 }

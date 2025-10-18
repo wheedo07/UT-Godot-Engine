@@ -34,6 +34,7 @@ Enemy::Enemy() {
     spare = nullptr;
     dust_sound = nullptr;
     dialogue = nullptr;
+    isReady = false;
 }
 
 Enemy::~Enemy() {}
@@ -186,12 +187,14 @@ void Enemy::_ready() {
     box = main->box;
     soul = main->soul_battle;
     bg = main->bg;
-    
+
+    if(isReady) return;
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
         call("ready");
     }else {
         ready();
     }
+    isReady = true;
 }
 
 void Enemy::modify_stats(Dictionary value) {

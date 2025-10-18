@@ -140,7 +140,6 @@ void OverworldSceneChanger::_on_scene_setup_finished(bool transition) {
     SceneContainer* tree = global->get_scene_container();
     tree->unload_current_scene();
 
-        
     Ref<PackedScene> scene;
     if(!current_node) scene = loader->load(default_scene);
 

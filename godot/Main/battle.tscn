@@ -52,6 +52,7 @@ offset_bottom = 483.0
 color = Color(0, 0, 0, 1)
 
 [connection signal="end_turn" from="." to="." method="_on_enemy_turn_start"]
+[connection signal="end_turn" from="." to="." method="_on_get_turn"]
 [connection signal="act" from="BattleBox" to="." method="_act"]
 [connection signal="exit_menu" from="BattleBox" to="SoulLayer/Soul_Battle" method="_disable"]
 [connection signal="exit_menu" from="BattleBox" to="Buttons" method="reset"]

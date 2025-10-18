@@ -302,6 +302,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
                     battle->box->_disable();
                     battle->emit_signal("end_turn");
                 }else {
+                    battle->_enemy_script_off();
                     battle->attacks->force_end_attacks();
                 }
             }
