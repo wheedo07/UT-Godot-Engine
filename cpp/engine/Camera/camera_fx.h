@@ -23,8 +23,6 @@ namespace godot {
             Ref<ShaderMaterial> transition_shader;
             bool vfx, isTransition;
             float transition_speed;
-            Vector2 origin_zoom;
-
             Vector2 shake_strengthPx;
 
             void _on_timeout_transition(bool isblind, float blindtime);
@@ -45,7 +43,6 @@ namespace godot {
             void add_shake(float amt = 1, float speed = 100, float time = 0.4f, float duration = 0.01f);
             void stop_shake();
             void default_shake_strength();
-            void tween_zoom(Vector2 amount, float time = 0.5f, Vector2 position = Vector2(320, 240));
             void show_blinder();
             // VFX
             void glitch(float time = 0, float targetrate = 1);

@@ -195,37 +195,6 @@
             </description>
         </method>
         
-        <method name="tween_zoom">
-            <return type="void" />
-            <param index="0" name="amount" type="Vector2" default="Vector2(1, 1)" />
-            <param index="1" name="time" type="float" default="0.5" />
-            <param index="2" name="position" type="Vector2" default="Vector2(320, 240)" />
-            <description>
-                카메라 줌과 위치를 동시에 부드럽게 전환합니다.
-                첫 호출 시 원본 줌 값을 저장하고, kill() 호출 시 복원됩니다.
-                
-                [b]매개변수:[/b]
-                • [code]amount[/code]: 목표 줌 배율 (Vector2(2, 2) = 2배 확대)
-                • [code]time[/code]: 줌 전환 시간 (초)
-                • [code]position[/code]: 줌 중심 위치 (화면 좌표)
-                
-                완료 시 [signal finished_tween] 시그널이 방출됩니다.
-                
-                [b]사용 예시:[/b]
-                [codeblock]
-                # 중앙으로 2배 줌인
-                camera_fx.tween_zoom(Vector2(2, 2), 1.0, Vector2(320, 240))
-                
-                # 원래대로 줌아웃
-                camera_fx.tween_zoom(Vector2(1, 1), 0.5)
-                
-                # 특정 위치로 줌인
-                var target_pos = enemy.global_position
-                camera_fx.tween_zoom(Vector2(1.5, 1.5), 0.8, target_pos)
-                [/codeblock]
-            </description>
-        </method>
-        
         <method name="glitch">
             <return type="void" />
             <param index="0" name="time" type="float" default="0.0" />

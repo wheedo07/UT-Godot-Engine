@@ -4,7 +4,6 @@
 #include<godot_cpp/variant/utility_functions.hpp>
 
 CameraFx::CameraFx() {
-    origin_zoom = Vector2(0,0);
     isTransition = false;
     transition_speed = 1;
     shake_strengthPx = Vector2(2, 1.5);
@@ -30,7 +29,6 @@ void CameraFx::_bind_methods() {
     ClassDB::bind_method(D_METHOD("stop_shake"), &CameraFx::stop_shake);
     ClassDB::bind_method(D_METHOD("default_shake_strength"), &CameraFx::default_shake_strength);
     ClassDB::bind_method(D_METHOD("show_blinder"), &CameraFx::show_blinder);
-    ClassDB::bind_method(D_METHOD("tween_zoom", "amount", "time", "position"), &CameraFx::tween_zoom, DEFVAL(Vector2(1, 1)), DEFVAL(0.5f), DEFVAL(Vector2(320, 240)));
 
     // VFX
     ClassDB::bind_method(D_METHOD("glitch", "time", "targetrate"), &CameraFx::glitch, DEFVAL(0), DEFVAL(1));
@@ -45,7 +43,7 @@ void CameraFx::_ready() {
     glitcher = Object::cast_to<ColorRect>(get_node_internal("Glitch/Glitch"));
     VFX.push_back(glitcher);
 
-    tween.resize(5);
+    tween.resize(4);
     tween.fill(Ref<Tween>());
     shaker_shader = shaker->get_material();
 
@@ -77,7 +75,6 @@ void CameraFx::_process(double delta) {
 }
 
 void CameraFx::kill() {
-    if(!origin_zoom.is_zero_approx()) set_zoom(origin_zoom);
     for(int i=0; i < tween.size(); i++) {
         Ref<Tween> tw = tween[i];
         if(tw.is_valid()) tw->kill();
@@ -160,19 +157,6 @@ void CameraFx::stop_shake() {
     shaker_shader->set_shader_parameter("strength_scale", 0);
 }
 
-void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 position) {
-    int index = 2;
-    if(origin_zoom.is_zero_approx()) origin_zoom = get_zoom();
-    Ref<Tween> zoomtween = tween[index];
-    if(zoomtween.is_valid()) zoomtween->kill();
-    zoomtween.unref();
-    zoomtween = create_tween()->set_parallel();
-    zoomtween->tween_property(this, "zoom", amount, time);
-    zoomtween->tween_property(this, "position", position, time);
-    zoomtween->connect("finished", Callable(this, "emit_signal").bind("finished_tween"), CONNECT_ONE_SHOT);
-    tween[index] = zoomtween;
-}
-
 void CameraFx::default_shake_strength() {
     set_shake_strength(Vector2(2, 1.5));
 }
@@ -184,7 +168,7 @@ void CameraFx::show_blinder() {
 }
 
 void CameraFx::glitch(float time, float targetrate) {
-    int index = 3;
+    int index = 2;
     Ref<Tween> glitchtween = tween[index];
     if(glitchtween.is_valid()) glitchtween->kill();
     glitchtween.unref();
@@ -198,7 +182,7 @@ void CameraFx::glitch(float time, float targetrate) {
 }
 
 void CameraFx::rgbsplit(float time, float targetrate) {
-    int index = 4;
+    int index = 3;
     Ref<Tween> glitchtween = tween[index];
     if(glitchtween.is_valid()) glitchtween->kill();
     glitchtween.unref();
