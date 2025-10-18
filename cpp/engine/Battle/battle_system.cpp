@@ -200,8 +200,8 @@ void BattleMain::initialize() {
     br->call("set_remote_node", tl->call("get_path_to", attacks->bottom_right));
     
     CameraFx* fx = camera->get_global_camera();
-    fx->blind(0, 1, 0);
-    fx->connect("finished_tween", Callable(fx, "blind").bind(0.5f, 0), CONNECT_ONE_SHOT);
+    fx->show_blinder();
+    fx->blind(0.5, 0);
 }
 
 void BattleMain::_no_enemies_handler() {

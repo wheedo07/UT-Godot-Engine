@@ -14,6 +14,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
+            ColorRect* blinder;
             ColorRect* glitcher;
             ColorRect* shaker;
             TypedArray<Node> VFX;
@@ -30,7 +31,6 @@ namespace godot {
             void _on_finished_blind();
 
         public:
-            ColorRect* blinder;
             CameraFx();
             ~CameraFx();
 
@@ -46,6 +46,7 @@ namespace godot {
             void stop_shake();
             void default_shake_strength();
             void tween_zoom(Vector2 amount, float time = 0.5f, Vector2 position = Vector2(320, 240));
+            void show_blinder();
             // VFX
             void glitch(float time = 0, float targetrate = 1);
             void rgbsplit(float time = 0, float targetrate = 1);

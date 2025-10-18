@@ -29,6 +29,7 @@ void CameraFx::_bind_methods() {
     ClassDB::bind_method(D_METHOD("add_shake", "amt", "speed", "time", "duration"), &CameraFx::add_shake, DEFVAL(1), DEFVAL(100), DEFVAL(0.1f), DEFVAL(0.01f));
     ClassDB::bind_method(D_METHOD("stop_shake"), &CameraFx::stop_shake);
     ClassDB::bind_method(D_METHOD("default_shake_strength"), &CameraFx::default_shake_strength);
+    ClassDB::bind_method(D_METHOD("show_blinder"), &CameraFx::show_blinder);
     ClassDB::bind_method(D_METHOD("tween_zoom", "amount", "time", "position"), &CameraFx::tween_zoom, DEFVAL(Vector2(1, 1)), DEFVAL(0.5f), DEFVAL(Vector2(320, 240)));
 
     // VFX
@@ -172,6 +173,16 @@ void CameraFx::tween_zoom(Vector2 amount, float time, Vector2 position) {
     tween[index] = zoomtween;
 }
 
+void CameraFx::default_shake_strength() {
+    set_shake_strength(Vector2(2, 1.5));
+}
+
+void CameraFx::show_blinder() {
+    Color mod = blinder->get_modulate();
+    mod.a = 1;
+    blinder->set_modulate(mod);
+}
+
 void CameraFx::glitch(float time, float targetrate) {
     int index = 3;
     Ref<Tween> glitchtween = tween[index];
@@ -215,10 +226,6 @@ void CameraFx::_on_timeout_transition(bool isblind, float blindtime) {
         isTransition = false;
         emit_signal("finished_transition");
     }
-}
-
-void CameraFx::default_shake_strength() {
-    set_shake_strength(Vector2(2, 1.5));
 }
 
 void CameraFx::set_shake_strength(Vector2 value) {

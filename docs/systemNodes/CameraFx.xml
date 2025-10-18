@@ -179,6 +179,21 @@
                 [/codeblock]
             </description>
         </method>
+
+        <method name="show_blinder">
+            <return type="void" />
+            <description>
+                블라인더를 즉시 화면에 표시합니다. 
+                블라인더의 현재 불투명도 설정에 따라 화면이 가려집니다.
+                
+                [b]사용 예시:[/b]
+                [codeblock]
+                # 블라인더 색상을 빨간색으로 설정하고 즉시 표시
+                camera_fx.blinder_color(Color.RED)
+                camera_fx.show_blinder()
+                [/codeblock]
+            </description>
+        </method>
         
         <method name="tween_zoom">
             <return type="void" />
