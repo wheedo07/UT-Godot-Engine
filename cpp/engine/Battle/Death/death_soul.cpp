@@ -46,7 +46,7 @@ void DeathSoul::die() {
     
     die_in_progress = true;
     
-    global->get_scene_container()->get_camera()->add_shake(0.8f, 200, 0.2f);
+    global->get_scene_container()->get_camera()->add_shake(1, 200, 0);
     
     set_animation("death");
     snap_sound->play();
@@ -62,7 +62,7 @@ void DeathSoul::_on_first_timer_timeout() {
     Color self_modulate_color = get_self_modulate();
     self_modulate_color.a = 0;
     set_self_modulate(self_modulate_color);
-    global->get_scene_container()->get_camera()->add_shake(2);
+    global->get_scene_container()->get_camera()->add_shake(0.5f, 150, 0.2f);
     
     second_timer = get_tree()->create_timer(2.0f);
     second_timer->connect("timeout", Callable(this, "_on_second_timer_timeout"));

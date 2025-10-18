@@ -43,7 +43,7 @@ func start_attack() -> void:
 		h_tween = _b.create_tween().set_trans(Tween.TRANS_LINEAR)
 		var camerafx = camera.get_global_camera();
 		h_tween.tween_callback(_b.tween_height.bind(339, 0.4));
-		h_tween.tween_callback(camerafx.add_shake.bind(0.04, 200, 0.1)).set_delay(0.4);
+		h_tween.tween_callback(camerafx.add_shake.bind(0.25)).set_delay(0.4);
 		h_tween.tween_callback($wallhit.play);
 		await get_tree().create_timer(0.6, false).timeout
 	await get_tree().create_timer(6.9, false).timeout

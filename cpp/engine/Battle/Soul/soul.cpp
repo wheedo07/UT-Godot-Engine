@@ -476,8 +476,7 @@ void SoulBattle::blue() {
             gravity_multiplier = 1.0f;
             
             wallhit->play();
-           
-            global->get_scene_container()->get_camera()->add_shake(0.05f);
+            global->get_scene_container()->get_camera()->add_shake(0.25f);
         }
         
         if(inputs.y != 0) {

@@ -24,6 +24,8 @@ namespace godot {
             float transition_speed;
             Vector2 origin_zoom;
 
+            Vector2 shake_strengthPx;
+
             void _on_timeout_transition(bool isblind, float blindtime);
             void _on_finished_blind();
 
@@ -40,12 +42,15 @@ namespace godot {
             void transition(String path, float duration=2, float speed=1, bool isblind=true, float blindtime=0.3f);
             void blind(float time = 0.1f, float targetopacity = 1, float duration = 0);
             void blinder_color(Color color = Color(0, 0, 0, 1));
-            void add_shake(float amt = 0.2f, float speed = 100, float time = 0.4f, float duration = 0.15f);
+            void add_shake(float amt = 0.2f, float speed = 100, float time = 0.4f, float duration = 0.2f);
             void stop_shake();
             void tween_zoom(Vector2 amount, float time = 0.5f, Vector2 position = Vector2(320, 240));
             // VFX
             void glitch(float time = 0, float targetrate = 1);
             void rgbsplit(float time = 0, float targetrate = 1);
+
+            void set_shake_strength(Vector2 value);
+            Vector2 get_shake_strength() const;
     };
 }
 

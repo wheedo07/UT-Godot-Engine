@@ -51,7 +51,7 @@ void DeathScreen::_setup_death_animation() {
     if(isCustom) return;
 
     stagehand->audio_player->play("hurt");
-    camera->add_shake(0.3f);
+    camera->add_shake(0.7f, 100, 0.1f);
 
     tween = create_tween()->set_trans(Tween::TRANS_QUAD)->set_parallel();
     tween->tween_interval(0.4);
