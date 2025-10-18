@@ -244,6 +244,24 @@
             </description>
         </method>
     </methods>
+
+    <members>
+        <member name="shake_strength" setter="set_shake_strength" getter="get_shake_strength" type="Vector2" default="Vector2(3, 2.5)">
+            화면 흔들림 효과의 강도를 제어하는 벡터입니다.
+            x 값은 수평 흔들림 강도, y 값은 수직 흔들림 강도를 나타냅니다.
+            기본값은 Vector2(3, 2.5)로 설정되어 있으며,
+            이 값을 조절하여 흔들림의 세기를 미세하게 튜닝할 수 있습니다.
+            
+            [b]사용 예시:[/b]
+            [codeblock]
+            # 흔들림 강도 증가
+            camera_fx.shake_strength = Vector2(5, 4)
+            
+            # 흔들림 강도 감소
+            camera_fx.shake_strength -= Vector2.ONE
+            [/codeblock]
+        </member>
+    </members>
     
     <signals>
         <signal name="finished_tween">
