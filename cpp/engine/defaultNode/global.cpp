@@ -27,8 +27,8 @@ Global::Global() {
     Info = nullptr;
     KrTimer = nullptr;
     scene_container = nullptr;
-    savepath = "user://file0";
-    settingpath = "user://file9";
+    savepath = "user://file9";
+    settingpath = "user://undertale.ini";
 
     // 기본 상태 변수
     first = true;
@@ -158,13 +158,14 @@ void Global::init_paths() {
     is_Mobile = osName == "Android";
 
     if(osName == "Web") {
-        savepath = "user://file0";
-        settingpath = "user://file9";
-    }
-    if(is_Mobile) {
+        savepath = "user://file9";
+        settingpath = "user://undertale.ini";
+        return;
+    }else if(is_Mobile) {
         call_deferred("toggle_fullscreen");
-        savepath = "user://file0";
-        settingpath = "user://file9";
+        savepath = "user://file9";
+        settingpath = "user://undertale.ini";
+        return;
     }
 
     if(savepath.find("$home") != -1) {
@@ -173,7 +174,7 @@ void Global::init_paths() {
             if(homepath == nullptr) {
                 const char* userprofile = std::getenv("USERPROFILE");
                 if(userprofile != nullptr) savepath = savepath.replace("$home", userprofile);
-                else savepath = "user://file0";
+                else savepath = "user://file9";
             }else savepath = savepath.replace("$home", homepath);
         }
     }
@@ -183,13 +184,13 @@ void Global::init_paths() {
             const char* drive = std::getenv("HOMEDRIVE");
             if(drive != nullptr) savepath = String(drive) + savepath;
             else {
-                savepath = "user://file0";
+                savepath = "user://file9";
                 return;
             }
         }
 
-        String dir = savepath.replace("file0", "");
-        settingpath = dir + "file9";
+        String dir = savepath.replace("file9", "");
+        settingpath = dir + "undertale.ini";
         if(fs::exists(dir.utf8().get_data())) return;
 
         if(!fs::create_directories(dir.utf8().get_data()))
@@ -534,9 +535,9 @@ void Global::resetgame() {
     start = false;
     
     if(savepath.find("user://") != -1) {
-        String dir = savepath.replace("file0", "");
+        String dir = savepath.replace("file9", "");
         Ref<DirAccess> dirAcs = DirAccess::open(dir);
-        dirAcs->remove("file0");
+        dirAcs->remove("file9");
     }else fs::remove(savepath.utf8().get_data());
 }
 

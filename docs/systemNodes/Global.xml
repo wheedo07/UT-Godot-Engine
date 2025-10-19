@@ -500,14 +500,14 @@
             
             게임 시작 시 입력받으며, 세이브 파일에 표시됩니다.
         </member>
-        <member name="savepath" type="String" setter="set_savepath" getter="get_savepath" default="&quot;user://file0&quot;">
+        <member name="savepath" type="String" setter="set_savepath" getter="get_savepath" default="&quot;user://file9&quot;">
             세이브 파일의 경로입니다.
-            [color=red]주의: 세이브 파일 이름은 file0으로 해야합니다[/color] 
+            [color=red]주의: 세이브 파일 이름은 file9으로 해야합니다[/color] 
             
             플랫폼별로 자동 설정되며, 다음과 같은 형태를 가집니다:
-            • Windows: C:/Users/[username]/UNDERTALE/file0
-            • Web/Mobile: user://file0
-            • 기타: user://file0 (폴백)
+            • Windows: C:/Users/[username]/UNDERTALE/file9
+            • Web/Mobile: user://file9
+            • 기타: user://file9 (폴백)
         </member>
         <member name="settings" type="Dictionary" setter="set_settings" getter="get_settings" default="{ &quot;Master&quot;: 100, &quot;Music&quot;: 100, &quot;SFX&quot;: 100, &quot;border&quot;: true, &quot;shake&quot;: true, &quot;vfx&quot;: true }">
             게임 설정들을 저장하는 딕셔너리입니다.

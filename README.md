@@ -111,7 +111,7 @@ TranslationServer.set_locale("en")
 
 #### 🛠 개발 규칙
   - 개발 및 디버깅 시 임베딩을 끈 상태로 실행하세요. 해상도/전체화면 설정이 적용되지 않을 수 있습니다.
-  - `res://Main/global.tscn`의 `savepath` 변수에 저장 파일이름은 `file0`으로 설정되어야 합니다.
+  - `res://Main/global.tscn`의 `savepath` 변수에 저장 파일이름은 `file9`으로 설정되어야 합니다.
   - `res://Main/main_node.tscn`는 프로젝트의 진입점입니다. 이 씬은 절대 삭제하거나 이름을 변경하지 마세요.
   - `res://Main` 폴더 내에서 건들수 있는 파일은 `stagehand.tscn`, `overworld_scene_changer.tscn`, `text_box_head.tres` 뿐입니다.
   - `res://Main/stagehand.tscn`에서 건들면 안돼는 노드는 % 접두사를 붙여놨습니다.

@@ -26,7 +26,7 @@ heal_amount = 999
 
 [node name="Global" type="Global"]
 item_list = Array[Item]([SubResource("Item_1gesb"), SubResource("Item_5rwar"), SubResource("Item_dgeo2")])
-savepath = "$home/.Undertale-Engine/file0"
+savepath = "$home/.Undertale-Engine/file9"
 cells = PackedStringArray("샌즈에게 전화")
 player_gold = 4374
 player_lv = 15
