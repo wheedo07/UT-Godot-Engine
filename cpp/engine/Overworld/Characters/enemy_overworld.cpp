@@ -28,7 +28,7 @@ void EnemyOverworld::_bind_methods() {
     ClassDB::bind_method(D_METHOD("force_direction", "dir"), &EnemyOverworld::force_direction);
     ClassDB::bind_method(D_METHOD("show_alert", "duration"), &EnemyOverworld::show_alert, DEFVAL(0.35f));
     ClassDB::bind_method(D_METHOD("set_frame", "index"), &EnemyOverworld::set_frame);
-    ClassDB::bind_method(D_METHOD("play_anim", "key", "speed", "back"), &EnemyOverworld::play_anim, DEFVAL(1), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("play_anim", "key", "speed"), &EnemyOverworld::play_anim, DEFVAL(1));
 
     ClassDB::bind_method(D_METHOD("_set_canmove", "value"), &EnemyOverworld::_set_canmove);
     ClassDB::bind_method(D_METHOD("_on_area_interacted"), &EnemyOverworld::_on_area_interacted);
@@ -121,9 +121,9 @@ void EnemyOverworld::set_frame(int index) {
     sprite->set_frame(index);
 }
 
-void EnemyOverworld::play_anim(String key, float speed, bool back) {
+void EnemyOverworld::play_anim(String key, float speed) {
     sprite->connect("animation_finished", Callable(this, "emit_signal").bind("animation_finished"), CONNECT_ONE_SHOT);
-    sprite->play(key, speed, back);
+    sprite->play(key, speed);
 }
 
 void EnemyOverworld::set_walk_direction(const Vector2i& direction) {

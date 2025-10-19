@@ -87,7 +87,7 @@ namespace godot {
             void start_walking(const Vector2i& direction = Vector2i());
             void show_alert(float duration=0.35f);
             void set_frame(int index);
-            void play_anim(String key, float speed=1, bool back=false);
+            void play_anim(String key, float speed=1);
             void force_direction(const Vector2& dir);
             void off_interact();
             void on_interact();
