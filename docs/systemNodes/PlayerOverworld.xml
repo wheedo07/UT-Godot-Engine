@@ -50,6 +50,7 @@
             <return type="void" />
             <param index="0" name="key" type="String" />
             <param index="1" name="speed" type="float" default="1" />
+            <param index="2" name="from_end" type="bool" default="false" />
             <description>
                 지정된 애니메이션을 재생합니다.
                 애니메이션 완료 시 animation_finished 시그널이 방출됩니다.
@@ -57,6 +58,7 @@
                 [b]매개변수:[/b]
                 • key: 애니메이션 이름
                 • speed: 재생 속도 (1.0이 기본)
+                • from_end: true로 설정 하고 speed가 음수일 경우 애니메이션이 반대로 재생됩니다
             </description>
         </method>
         <method name="set_frame">

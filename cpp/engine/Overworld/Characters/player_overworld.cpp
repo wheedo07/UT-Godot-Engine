@@ -40,7 +40,7 @@ void PlayerOverworld::_bind_methods() {
     ClassDB::bind_method(D_METHOD("start_walking", "direction"), &PlayerOverworld::start_walking, DEFVAL(Vector2i()));
     ClassDB::bind_method(D_METHOD("show_alert", "duration"), &PlayerOverworld::show_alert, DEFVAL(0.35f));
     ClassDB::bind_method(D_METHOD("set_frame", "index"), &PlayerOverworld::set_frame);
-    ClassDB::bind_method(D_METHOD("play_anim", "key", "speed"), &PlayerOverworld::play_anim, DEFVAL(1));
+    ClassDB::bind_method(D_METHOD("play_anim", "key", "speed", "from_end"), &PlayerOverworld::play_anim, DEFVAL(1), DEFVAL(false));
     ClassDB::bind_method(D_METHOD("force_direction", "dir"), &PlayerOverworld::force_direction);
     ClassDB::bind_method(D_METHOD("off_interact"), &PlayerOverworld::off_interact);
     ClassDB::bind_method(D_METHOD("on_interact"), &PlayerOverworld::on_interact);
@@ -282,9 +282,9 @@ void PlayerOverworld::set_frame(int index) {
     sprite->set_frame(index);
 }
 
-void PlayerOverworld::play_anim(String key, float speed) {
+void PlayerOverworld::play_anim(String key, float speed, bool from_end) {
     sprite->connect("animation_finished", Callable(this, "emit_signal").bind("animation_finished"), CONNECT_ONE_SHOT);
-    sprite->play(key, speed);
+    sprite->play(key, speed, from_end);
 }
 
 void PlayerOverworld::on_interact() {
