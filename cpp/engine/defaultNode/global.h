@@ -115,6 +115,9 @@ namespace godot {
 	        void resetgame();
 	        void true_resetgame();
 			void save(String room_name="");
+			void save_file(int slot, Dictionary save_data);
+			Dictionary load_file(int slot);
+			bool exists_file(int slot);
 			bool isMobile();
 	        void save_settings();
 			void save_flag(String key, Variant value);
@@ -126,7 +129,8 @@ namespace godot {
 	        void toggle_fullscreen();
 			void change_setting(String setting_name, Variant to);
 
-	        void save_game(bool is_sys);
+	        void _save_game_data(String custom_path = "", Dictionary save_data = Dictionary());
+			void _save_flags_data();
 	        void load_game();
 	        PackedStringArray item_use_text(int item_id);
 	        PackedStringArray equip_item(int item_id);

@@ -396,77 +396,92 @@ void Global::toggle_fullscreen() {
     emit_signal("fullscreen_toggled", fullscreen);
 }
 
-void Global::save_game(bool is_sys) {
-    if (is_sys) {
-        if(savepath.find("user://") != -1) {
-            Ref<FileAccess> file = FileAccess::open(savepath, FileAccess::READ_WRITE);
-            String data = xor_decrypt(file->get_as_text(), HASH_KEY);
-            Dictionary savedata = JSON::parse_string(data);
-            savedata["flags"] = flags;
-            String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
-            file->store_string(newdata);
-            file->close();
-        }else {
-            std::ifstream file_read(savepath.utf8().get_data());
-            file_read.seekg(3);
-            std::stringstream buffer;
-            buffer << file_read.rdbuf();
-            String data = xor_decrypt(String::utf8(buffer.str().data()), HASH_KEY);
-            Dictionary savedata = JSON::parse_string(data);
-            file_read.close();
-            savedata["flags"] = flags;
-
-            std::ofstream file_write(savepath.utf8().get_data());
-            file_write.write((char*)bom, sizeof(bom));
-            file_write << xor_encrypt(JSON::stringify(savedata), HASH_KEY).utf8().get_data() << std::endl;
-            file_write.close();
-        }
-        return;
-    }
-    first = false;
-    
-    Dictionary stats;
-    stats["gold"] = player_gold;
-    stats["exp"] = player_exp;
-    stats["name"] = player_name;
-    stats["lv"] = player_lv;
-    stats["hp"] = player_hp;
-    stats["max_hp"] = player_max_hp;
-    stats["def"] = player_defense;
-    stats["atk"] = player_attack;
-    stats["kills"] = player_kills;
-    
-    Dictionary inv;
-    inv["equipment"] = equipment;
-    inv["items"] = items;
-    inv["cells"] = cells;
-    inv["boxinv"] = boxitems;
-    
-    Dictionary savedata;
-    flags.merge(flags_tmp, true);
-    flags_tmp = Dictionary();
-    savedata["stats"] = stats;
-    savedata["inv"] = inv;
-    savedata["overworld"] = overworld_data;
-    savedata["flags"] = flags;
-    savedata["playtime"] = playtime;
-    savedata["first"] = first;
-
-    cache_playtime = playtime;
-
+void Global::_save_flags_data() {
     if(savepath.find("user://") != -1) {
-        Ref<FileAccess> file = FileAccess::open(savepath, FileAccess::WRITE);
+        Ref<FileAccess> file = FileAccess::open(savepath, FileAccess::READ_WRITE);
+        String data = xor_decrypt(file->get_as_text(), HASH_KEY);
+        Dictionary savedata = JSON::parse_string(data);
+        savedata["flags"] = flags;
         String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
         file->store_string(newdata);
         file->close();
     }else {
-        String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
+        std::ifstream file_read(savepath.utf8().get_data());
+        file_read.seekg(3);
+        std::stringstream buffer;
+        buffer << file_read.rdbuf();
+        String data = xor_decrypt(String::utf8(buffer.str().data()), HASH_KEY);
+        Dictionary savedata = JSON::parse_string(data);
+        file_read.close();
+        savedata["flags"] = flags;
+
         std::ofstream file_write(savepath.utf8().get_data());
         file_write.write((char*)bom, sizeof(bom));
-        file_write << newdata.utf8().get_data() << std::endl;
+        file_write << xor_encrypt(JSON::stringify(savedata), HASH_KEY).utf8().get_data() << std::endl;
         file_write.close();
     }
-    save_settings();
+}
+
+void Global::_save_game_data(String custom_path, Dictionary save_data) {
+    if(!custom_path.is_empty()) {
+        if(custom_path.find("user://") != -1) {
+            Ref<FileAccess> file = FileAccess::open(custom_path, FileAccess::WRITE);
+            String newdata = xor_encrypt(JSON::stringify(save_data), HASH_KEY);
+            file->store_string(newdata);
+            file->close();
+        }else {
+            String newdata = xor_encrypt(JSON::stringify(save_data), HASH_KEY);
+            std::ofstream file_write(custom_path.utf8().get_data());
+            file_write.write((char*)bom, sizeof(bom));
+            file_write << newdata.utf8().get_data() << std::endl;
+            file_write.close();
+        }
+    }else {
+        first = false;
+        
+        Dictionary stats;
+        stats["gold"] = player_gold;
+        stats["exp"] = player_exp;
+        stats["name"] = player_name;
+        stats["lv"] = player_lv;
+        stats["hp"] = player_hp;
+        stats["max_hp"] = player_max_hp;
+        stats["def"] = player_defense;
+        stats["atk"] = player_attack;
+        stats["kills"] = player_kills;
+        
+        Dictionary inv;
+        inv["equipment"] = equipment;
+        inv["items"] = items;
+        inv["cells"] = cells;
+        inv["boxinv"] = boxitems;
+        
+        Dictionary savedata;
+        flags.merge(flags_tmp, true);
+        flags_tmp = Dictionary();
+        savedata["stats"] = stats;
+        savedata["inv"] = inv;
+        savedata["overworld"] = overworld_data;
+        savedata["flags"] = flags;
+        savedata["playtime"] = playtime;
+        savedata["first"] = first;
+        
+        cache_playtime = playtime;
+        
+        if(savepath.find("user://") != -1) {
+            Ref<FileAccess> file = FileAccess::open(savepath, FileAccess::WRITE);
+            String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
+            file->store_string(newdata);
+            file->close();
+        }else {
+            String newdata = xor_encrypt(JSON::stringify(savedata), HASH_KEY);
+            std::ofstream file_write(savepath.utf8().get_data());
+            file_write.write((char*)bom, sizeof(bom));
+            file_write << newdata.utf8().get_data() << std::endl;
+            file_write.close();
+        }
+        save_settings();
+    }
     emit_signal("saved");
 }
 
@@ -494,6 +509,14 @@ String Global::xor_decrypt(String data, String key) {
 
 void Global::true_resetgame() {
     resetgame();
+    for(int i=0; i < 8; i++) {
+        if(!exists_file(i)) return;
+        String path = savepath.replace("file9", vformat("file%s", i));
+        if(path.find("user://") != -1) {
+            Ref<DirAccess> dirAcs = DirAccess::open(savepath.replace("file9", ""));
+            dirAcs->remove(vformat("file%s", i));
+        }else fs::remove(path.utf8().get_data());
+    }
     g_flags = Dictionary();
     save_settings();
 }
@@ -838,20 +861,68 @@ bool Global::has_input_disabled(String key) {
 }
 
 void Global::save(String room_name) {
-    overworld_data["room_pos"] = player_position;
     if(room_name.is_empty()) {
         overworld_data["room_name"] = scene_container->get_current_scene()->get_name();
-    } else {
+    }else {
         overworld_data["room_name"] = room_name;
     }
-    save_game(false);
+    _save_game_data();
+}
+
+void Global::save_file(int slot, Dictionary save_data) {
+    if(slot < 0 || slot > 8) {
+        ERR_PRINT("잘못된 슬롯 번호입니다!, 0~8 사이여야 합니다.");
+        return;
+    }
+    String path = savepath.replace("file9", vformat("file%s", slot));
+    _save_game_data(path, save_data);
+}
+
+bool Global::exists_file(int slot) {
+    if(slot < 0 || slot > 8) {
+        ERR_PRINT("잘못된 슬롯 번호입니다!, 0~8 사이여야 합니다.");
+        return false;
+    }
+    String path = savepath.replace("file9", vformat("file%s", slot));
+    if(path.find("user://") != -1) {
+        return FileAccess::file_exists(path);
+    }else {
+        return fs::exists(path.utf8().get_data());
+    }
+}
+
+Dictionary Global::load_file(int slot) {
+    if(slot < 0 || slot > 8) {
+        ERR_PRINT("잘못된 슬롯 번호입니다!, 0~8 사이여야 합니다.");
+        return Dictionary();
+    }
+    String path = savepath.replace("file9", vformat("file%s", slot));
+    Dictionary savedata;
+    if(path.find("user://") != -1) {
+        if(!FileAccess::file_exists(path)) return Dictionary();
+        Ref<FileAccess> file = FileAccess::open(path, FileAccess::READ);
+        String data = xor_decrypt(file->get_as_text(), HASH_KEY);
+        savedata = JSON::parse_string(data);
+        file->close();
+    }else {
+        std::ifstream file(path.utf8().get_data());
+        if(!file.is_open()) return Dictionary();
+        if(!file.good()) return Dictionary();
+        file.seekg(3);
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        String data = xor_decrypt(String::utf8(buffer.str().data()), HASH_KEY);
+        file.close();
+        savedata = JSON::parse_string(data);
+    }
+    return savedata;
 }
 
 void Global::save_flag(String flag, Variant value) {
     Dictionary new_flag;
     new_flag[flag] = value;
     flags.merge(new_flag, true);
-    if(!first) save_game(true);
+    if(!first) _save_flags_data();
 }
 
 void Global::_loop_Music() {

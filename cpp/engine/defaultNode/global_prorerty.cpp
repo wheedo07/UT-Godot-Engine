@@ -78,6 +78,9 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("toggle_fullscreen"), &Global::toggle_fullscreen);
     ClassDB::bind_method(D_METHOD("alert", "text", "title"), &Global::alert, DEFVAL("Alert!"));
     ClassDB::bind_method(D_METHOD("change_setting", "setting_name", "to"), &Global::change_setting);
+    ClassDB::bind_method(D_METHOD("save_file", "slot", "save_data"), &Global::save_file);
+    ClassDB::bind_method(D_METHOD("load_file", "slot"), &Global::load_file);
+    ClassDB::bind_method(D_METHOD("exists_file", "slot"), &Global::exists_file);
 
     ClassDB::bind_method(D_METHOD("save_flag", "key", "value"), &Global::save_flag);
     ClassDB::bind_method(D_METHOD("set_flag", "key", "value"), &Global::set_flag);

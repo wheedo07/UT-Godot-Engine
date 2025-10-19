@@ -70,11 +70,7 @@ void SaveMenu::save() {
     save_option->set_text(String("[color=yellow]")+tr("UT_FILE_SAVED"));
     soul_node->set_visible(false);
    
-    Dictionary overworld_data = global->get_overworld_data();
-    overworld_data["room_name"] = sc->get("world_name");
-    global->set_overworld_data(overworld_data);
-
-    global->save_game(false);
+    global->save(sc->get("world_name"));
     refresh();
     location_label->set_text(sc->get("world_name"));
     

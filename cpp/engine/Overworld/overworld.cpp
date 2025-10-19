@@ -196,11 +196,7 @@ void Overworld::_on_saved() {
     Dictionary overworld_data = global->get_overworld_data();
     Vector2 player_pos = player->get_global_position();
     
-    Array pos_array;
-    pos_array.push_back(player_pos.x);
-    pos_array.push_back(player_pos.y);
-    
-    overworld_data["room_pos"] = pos_array;
+    overworld_data["room_pos"] = Array::make(player_pos.x, player_pos.y);
     global->set_overworld_data(overworld_data);
 }
 

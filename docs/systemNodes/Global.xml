@@ -99,7 +99,7 @@
                 게임 설정 값을 변경합니다.
                 
                 [b]매개변수:[/b]
-                • setting_name: 변경할 설정 이름 (예: "Master", "Music", "SFX", "border", "shake", "vfx")
+                • setting_name: 변경할 설정 이름 ("Master", "Music", "SFX", "border", "shake", "vfx")
                 • value: 설정할 값 (볼륨은 0-100, 효과는 bool)
                 
                 설정 변경 시 관련 시스템에 즉시 반영됩니다.
@@ -291,6 +291,51 @@
                 저장 완료 시 saved 시그널이 방출됩니다.
             </description>
         </method>
+        <method name="save_file">
+            <return type="void" />
+            <param index="0" name="slot" type="int" />
+            <param index="1" name="save_data" type="Dictionary" />
+            <description>
+                지정된 슬롯에 게임 데이터를 저장합니다.
+                
+                [b]매개변수:[/b]
+                • slot: 저장할 슬롯 번호 (0-8)
+                • save_data: 저장할 게임 데이터 딕셔너리
+                
+                세이브 파일 이름은 'file0~file8' 형식이며,
+                플랫폼별 경로에 따라 자동으로 저장됩니다.
+            </description>
+        </method>
+        <method name="load_file">
+            <return type="Dictionary" />
+            <param index="0" name="slot" type="int" />
+            <description>
+                지정된 슬롯에서 게임 데이터를 로드합니다.
+                
+                [b]매개변수:[/b]
+                • slot: 로드할 슬롯 번호 (0-8)
+                
+                세이브 파일 이름은 'file0~file8' 형식이며,
+                플랫폼별 경로에 따라 자동으로 로드됩니다.
+                
+                로드된 게임 데이터 딕셔너리를 반환합니다.
+            </description>
+        </method>
+        <method name="exists_file">
+            <return type="bool" />
+            <param index="0" name="slot" type="int" />
+            <description>
+                지정된 슬롯에 세이브 파일이 존재하는지 확인합니다.
+                
+                [b]매개변수:[/b]
+                • slot: 확인할 슬롯 번호 (0-8)
+                
+                세이브 파일 이름은 'file0~file8' 형식이며,
+                플랫폼별 경로에 따라 자동으로 확인됩니다.
+                
+                파일이 존재하면 true, 없으면 false를 반환합니다.
+            </description>
+        </method>
         <method name="save_flag">
             <return type="void" />
             <param index="0" name="key" type="String" />
@@ -413,7 +458,8 @@
             <description>
                 게임을 완전히 초기화합니다.
                 
-                resetgame()보다 더 완전한 리셋으로, 전역 플래그도 초기화됩니다.
+                resetgame()보다 더 완전한 리셋으로, 전역 플래그, save_file 등
+                설정값을 제외한 모든 게임 상태를 초기화합니다.
             </description>
         </method>
     </methods>
