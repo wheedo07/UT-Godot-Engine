@@ -79,6 +79,8 @@ void Item::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::INT, "heal_amount"), "set_heal_amount", "get_heal_amount");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "attack_amount"), "set_attack_amount", "get_attack_amount");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "defense_amount"), "set_defense_amount", "get_defense_amount");
+
+    ClassDB::bind_method(D_METHOD("get_item_name_tr"), &Item::get_item_name_tr);
 }
 
 void Item::set_item_type(ItemType p_type) {
@@ -95,6 +97,10 @@ void Item::set_item_name(const String& p_name) {
 
 String Item::get_item_name() const {
     return item_name;
+}
+
+String Item::get_item_name_tr() const {
+    return tr(item_name);
 }
 
 void Item::set_weapon_speed(float p_speed) {

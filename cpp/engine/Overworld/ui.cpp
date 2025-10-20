@@ -245,8 +245,8 @@ void UI::_set_detailed() {
     Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Detailed/Stats"))->set_text(stats_text);
     
     String equipment_text = vformat(tr("UT_UI_WEAPON")+String(": %s \n")+tr("UT_UI_ARMOR")+String(": %s"),
-        weapon_item->get_item_name(),
-        armor_item->get_item_name()
+        weapon_item->get_item_name_tr(),
+        armor_item->get_item_name_tr()
     );
     Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Detailed/Equipment"))->set_text(equipment_text);
     
@@ -261,7 +261,7 @@ void UI::_set_items() {
     
     for (int i = 0; i < global->get_items().size(); i++) {
         Ref<Item> item = global->get_item_list()[global->get_items()[i]];
-        txt += vformat("%s\n", item->get_item_name());
+        txt += vformat("%s\n", item->get_item_name_tr());
     }
     
     optionsize[ITEM] = Vector2(1, global->get_items().size());

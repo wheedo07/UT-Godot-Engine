@@ -29,6 +29,10 @@ String ActInfo::get_act() const {
     return act;
 }
 
+String ActInfo::get_act_tr() const {
+    return tr(act);
+}
+
 void ActInfo::set_description(const PackedStringArray& p_description) {
     description = p_description;
 }

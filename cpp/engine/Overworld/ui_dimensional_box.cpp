@@ -92,7 +92,7 @@ void UIdimensionalBox::_set_items() {
     for(int i=0; i < INV_SIZE; i++) {
         if(i < items.size()) {
             Ref<Item> item = global->get_item_list()[items[i]];
-            invtext += vformat("%s\n", item->get_item_name());
+            invtext += vformat("%s\n", item->get_item_name_tr());
         } else {
             invtext += vformat("%s\n", "[color=red]--------------------------[/color]");
         }
@@ -101,7 +101,7 @@ void UIdimensionalBox::_set_items() {
     for(int i=0; i < BOX_SIZE; i++) {
         if(i < boxitems.size()) {
             Ref<Item> item = global->get_item_list()[boxitems[i]];
-            boxtext += vformat("%s\n", item->get_item_name());
+            boxtext += vformat("%s\n", item->get_item_name_tr());
         } else {
             boxtext += vformat("%s\n", "[color=red]--------------------------[/color]");
         }

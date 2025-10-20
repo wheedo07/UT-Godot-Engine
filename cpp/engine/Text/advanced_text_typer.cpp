@@ -49,7 +49,7 @@ void AdvancedTextTyper::type_buffer(const Ref<Dialogues>& dialogues, int index) 
     Array txts = dialogues->get_dialogues_single(Dialogues::DIALOGUE_TEXT);
     Array speeds = dialogues->get_dialogues_single(Dialogues::DIALOGUE_SPEED);
     set_interval(speeds[index]);
-    type_buffer_text(txts[index]);
+    type_buffer_text(tr(txts[index]));
 }
 
 void AdvancedTextTyper::process_next_buffer() {

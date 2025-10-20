@@ -162,7 +162,7 @@ void BattleMain::initialize() {
             if(flavor_texts.size() > 0) {
                 blitter_text->set_flavour_texts(flavor_texts);
             }else {
-                PackedStringArray default_text = { "* " + enemy->get_enemy_name() + String::utf8("가 나타났다") };
+                PackedStringArray default_text = { "* " + tr(enemy->get_enemy_name()) + String::utf8("가 나타났다") };
                 blitter_text->set_flavour_texts(default_text);
             }
         }

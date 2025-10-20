@@ -21,18 +21,11 @@ void Blitter::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("_on_confirm_pressed"), &Blitter::_on_confirm_pressed);
     ClassDB::bind_method(D_METHOD("_continue_typing_next_line"), &Blitter::_continue_typing_next_line);
-    
-    ClassDB::bind_method(D_METHOD("get_flavour_texts"), &Blitter::get_flavour_texts);
-    ClassDB::bind_method(D_METHOD("set_flavour_texts", "texts"), &Blitter::set_flavour_texts);
-    
-    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "flavour_texts"), "set_flavour_texts", "get_flavour_texts");
 }
 
 void Blitter::_ready() {
-    if(Engine::get_singleton()->is_editor_hint()) return;
     GenericTextTyper::_ready();
     container = Object::cast_to<MarginContainer>(get_parent());
-    
     default_volume = get_click()->get_volume_db();
     
     connect("confirm", Callable(this, "_on_confirm_pressed"));
@@ -73,7 +66,7 @@ void Blitter::type_text(const Variant text) {
     
     if (current_texts.size() > 0) {
         emit_signal("started_typing", 0);
-        _type_one_line(current_texts[0]);
+        _type_one_line(tr(current_texts[0]));
     } else {
         emit_signal("finished_all_texts");
     }
@@ -88,7 +81,7 @@ void Blitter::_continue_typing_next_line() {
     
     if (current_text_index < current_texts.size()) {
         emit_signal("started_typing", current_text_index);
-        _type_one_line(current_texts[current_text_index]);
+        _type_one_line(tr(current_texts[current_text_index]));
     } else {
         is_typing = false;
         emit_signal("finished_all_texts");

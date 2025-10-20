@@ -19,6 +19,16 @@
     </description>
     <tutorials></tutorials>
 
+    <methods>
+        <method name="get_item_name_tr">
+            <return type="String"/>
+            <description>
+                아이템 이름의 번역된 버전을 반환합니다.
+                이 메서드는 아이템의 이름을 현재 로케일에 맞게 번역된 문자열로 반환합니다. 
+            </description>
+        </method>
+    </methods>
+
     <members>
         <member name="attack_amount" type="int" setter="set_attack_amount" getter="get_attack_amount" default="0">
             무기나 방어구의 공격력 증가량입니다.
@@ -57,6 +67,7 @@
             무기의 타입입니다. 각 타입마다 고유한 애니메이션을 가집니다.
         </member>
     </members>
+
     <constants>
         <constant name="KNIFE" value="0" enum="WeaponType">
             기본적인 베기 공격을 수행합니다.

@@ -348,7 +348,7 @@ void BattleBox::_set_targets(bool show_hp_bar) {
         if (enemy) {
             Ref<EnemyState> state = enemy->get_enemy_states()[enemy->get_current_state()];
             bool sparable = state->get_sparable(); 
-            targets += vformat("[color=%s]* %s[/color]\n", sparable ? "yellow" : "white", enemy->get_enemy_name());
+            targets += vformat("[color=%s]* %s[/color]\n", sparable ? "yellow" : "white", tr(enemy->get_enemy_name()));
         } else {
             targets += "[color=white][/color]\n";
         }
@@ -393,10 +393,9 @@ void BattleBox::set_mercy_options() {
     Ref<Encounter> encounter = main->get_encounter();
     PackedStringArray mercy_options = encounter->get_mercy_options();
     
-    for (int i = 0; i < mercy_options.size(); i++) {
+    for(int i=0; i < mercy_options.size(); i++) {
         txt += vformat("[color=%s]%s[/color]\n", i == 0 ? spare_color : "white", tr(mercy_options[i]));
     }
-    
     mercy_choices->set_text(txt);
     
     choices_extends.resize(mercy_options.size());
@@ -431,22 +430,20 @@ void BattleBox::set_options() {
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[current_target_id]);
     
-    for (int i = 0; i < 6; i++) {
+    for(int i=0; i < 6; i++) {
         Ref<ActInfo> act = enemy->_get_act_info(i);
-        if(!act.is_null()) acts.append(act->get_act());
+        if(!act.is_null()) acts.append(act->get_act_tr());
     }
-    
     choices_extends = id_to_soul_pos(acts.size());
     
     String acts_p1 = "";
     String acts_p2 = "";
-    
-    for (int i = 0; i < acts.size(); i++) {
+    for(int i=0; i < acts.size(); i++) {
         if(i == 0) acts_p1 = "";
         if(i == 1) acts_p2 = "";
         if (i % 2 == 0) {
             acts_p1 += String(acts[i]) + "\n";
-        } else {
+        }else {
             acts_p2 += String(acts[i]) + "\n";
         }
     }
@@ -466,7 +463,7 @@ void BattleBox::_set_items() {
     
     for (int i = start_idx; i < end_idx; i++) {
         Ref<Item> item = item_list[global_items[i]];
-        items.push_back(item->get_item_name() + "\n");
+        items.push_back(item->get_item_name_tr() + "\n");
     }
     int size = global_items.size() - 1;
     int x = soul_pos_to_id(soul_position, true);
@@ -594,9 +591,13 @@ void BattleBox::blitter_act() {
     if (enemy && blitter_text) {
         Ref<ActInfo> act_info = enemy->_get_act_info(target_id);
         PackedStringArray description = act_info->get_description();
-        
-        blitter_text->type_text(description);
-        blitter_text->connect("finished_all_texts", Callable(this, "emit_signal").bind("act", current_target_id, target_id), CONNECT_ONE_SHOT);
+
+        if(description.size() == 0) {
+            emit_signal("act", current_target_id, target_id);
+        }else {
+            blitter_text->type_text(description);
+            blitter_text->connect("finished_all_texts", Callable(this, "emit_signal").bind("act", current_target_id, target_id), CONNECT_ONE_SHOT);
+        }
     }
 }
 

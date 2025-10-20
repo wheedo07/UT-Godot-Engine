@@ -69,10 +69,11 @@ void SaveMenu::save() {
     return_option->set_visible(false);
     save_option->set_text(String("[color=yellow]")+tr("UT_FILE_SAVED"));
     soul_node->set_visible(false);
-   
-    global->save(sc->get("world_name"));
+  
+    String world_name = tr(sc->get("world_name"));
+    global->save(world_name);
     refresh();
-    location_label->set_text(sc->get("world_name"));
+    location_label->set_text(world_name);
     
     stagehand->audio_player->play("save");
     call_deferred("set_saved", true);

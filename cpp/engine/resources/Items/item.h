@@ -32,6 +32,7 @@ namespace godot {
             
             void set_item_name(const String& p_name);
             String get_item_name() const;
+            String get_item_name_tr() const;
             
             void set_weapon_speed(float p_speed);
             float get_weapon_speed() const;

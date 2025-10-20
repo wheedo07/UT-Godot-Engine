@@ -19,6 +19,7 @@ namespace godot {
             
             void set_act(const String& p_act);
             String get_act() const;
+            String get_act_tr() const;
             
             void set_description(const PackedStringArray& p_description);
             PackedStringArray get_description() const;

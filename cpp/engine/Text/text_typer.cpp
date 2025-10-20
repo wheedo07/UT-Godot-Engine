@@ -181,7 +181,7 @@ void GenericTextTyper::_process_typing() {
     if (current_line_index < queued_texts.size()) {
         if (!line_typing) {
             emit_signal("started_typing", current_line_index);
-            if (_type_one_line(queued_texts[current_line_index])) {
+            if (_type_one_line(tr(queued_texts[current_line_index]))) {
                 line_typing = true;
             }
         }

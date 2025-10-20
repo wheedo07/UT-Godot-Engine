@@ -470,7 +470,7 @@ String SHOP::_get_sell_items(int id, int size) const {
             Ref<ShopItem> shop_item = sellferings[j];
             if (int(items[item_index]) == shop_item->get_item()) {
                 Ref<Item> item_data = item_list[items[item_index]];
-                txt += vformat("%s - %dG\n", item_data->get_item_name(), shop_item->get_cost());
+                txt += vformat("%s - %dG\n", item_data->get_item_name_tr(), shop_item->get_cost());
                 break;
             }
         }
@@ -490,7 +490,7 @@ void SHOP::_write_shop_items() {
     for (int i = 0; i < offerings.size(); i++) {
         Ref<ShopItem> shop_item = offerings[i];
         Ref<Item> item_data = item_list[shop_item->get_item()];
-        txt += vformat("%sG - %s\n", shop_item->get_cost(), item_data->get_item_name());
+        txt += vformat("%sG - %s\n", shop_item->get_cost(), item_data->get_item_name_tr());
     }
     items->set_text(txt);
     items->set_size(Vector2(items->get_size().x, offerings.size() * 43.5f));
