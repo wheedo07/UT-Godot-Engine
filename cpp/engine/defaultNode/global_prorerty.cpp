@@ -142,8 +142,8 @@ void Global::_bind_methods() {
     // 숨겨진 변수 바인딩
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "overworld_data", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_overworld_data", "get_overworld_data");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_can_move", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_can_move", "get_player_can_move");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_set_menu", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_set_menu", "get_player_set_menu");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_move", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_move", "get_player_move");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_set_menu", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_set_menu", "get_player_set_menu");
 }
 
 void Global::set_first(bool value) {

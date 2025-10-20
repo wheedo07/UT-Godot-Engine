@@ -116,7 +116,7 @@ void PlayerOverworld::_physics_process(double delta) {
     }else if (global->get_player_can_move() && !global->get_player_in_menu() && global->get_player_move()) {
         bool moving_old = moving;
         refresh_direction();
-        if (moving && !moving_old) {
+        if(moving && !moving_old) {
             sprite->play(current_animation_name);
         }
         

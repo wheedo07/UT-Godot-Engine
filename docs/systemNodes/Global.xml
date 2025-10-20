@@ -162,15 +162,6 @@
                 중요한 게임 상태나 엔딩 관련 정보 저장에 사용됩니다.
             </description>
         </method>
-        <method name="get_player_can_move" qualifiers="const">
-            <return type="bool" />
-            <description>
-                플레이어가 이동할 수 있는 상태인지 확인합니다.
-                
-                컷씬, 메뉴, 전투 등의 상황에서 플레이어 이동을 제한할 때 사용됩니다.
-                이동 가능하면 true, 불가능하면 false를 반환합니다.
-            </description>
-        </method>
         <method name="get_player_in_menu" qualifiers="const">
             <return type="bool" />
             <description>
@@ -183,19 +174,10 @@
         <method name="get_player_kr" qualifiers="const">
             <return type="int" />
             <description>
-                플레이어의 KR (Karmic Retribution) 값을 반환합니다.
+                플레이어의 KR (karma) 값을 반환합니다.
                 
                 Undertale의 독성 데미지 시스템을 구현하는 데 사용됩니다.
                 KR 값이 높을수록 지속적인 데미지를 받습니다.
-            </description>
-        </method>
-        <method name="get_player_move" qualifiers="const">
-            <return type="bool" />
-            <description>
-                플레이어의 이동 상태를 반환합니다.
-                
-                get_player_can_move()와 유사하지만 더 구체적인 이동 상태를 나타냅니다.
-                이동 애니메이션 제어에 주로 사용됩니다.
             </description>
         </method>
         <method name="get_player_position">
@@ -205,15 +187,8 @@
                 
                 오버월드에서 플레이어 캐릭터의 2D 좌표를 Vector2로 반환합니다.
                 카메라 추적, 충돌 검사, 이벤트 트리거 등에 사용됩니다.
-            </description>
-        </method>
-        <method name="get_player_set_menu" qualifiers="const">
-            <return type="bool" />
-            <description>
-                플레이어의 메뉴 설정 상태를 반환합니다.
-                
-                메뉴 관련 설정이나 상태 변경을 추적하는 데 사용됩니다.
-                get_player_in_menu()와 함께 메뉴 시스템 관리에 활용됩니다.
+
+                정확하지 않을 수 있으므로 참고용으로만 활용하세요.
             </description>
         </method>
         <method name="get_player_text_box" qualifiers="const">
@@ -393,58 +368,6 @@
                 엔딩 분기, 히든 컨텐츠 등 중요한 상태를 저장할 때 사용됩니다.
             </description>
         </method>
-        <method name="set_player_can_move">
-            <return type="void" />
-            <param index="0" name="value" type="bool" />
-            <description>
-                플레이어의 이동 가능 상태를 설정합니다.
-                
-                [b]매개변수:[/b]
-                • value: true면 이동 가능, false면 이동 불가
-                
-                컷씬, 대화, 메뉴 등에서 플레이어 움직임을 제한할 때 사용됩니다.
-                입력 시스템에서 이 값을 참조하여 이동을 허용/차단합니다.
-            </description>
-        </method>
-        <method name="_set_player_in_menu">
-            <return type="void" />
-            <param index="0" name="value" type="bool" />
-            <description>
-                플레이어의 메뉴 상태를 설정합니다.
-                
-                [b]매개변수:[/b]
-                • value: true면 메뉴 상태, false면 게임 상태
-                
-                메뉴 열림/닫힘을 시스템에 알릴 때 사용됩니다.
-                게임 일시정지, 배경음악 조절 등에 영향을 줍니다.
-            </description>
-        </method>
-        <method name="set_player_move">
-            <return type="void" />
-            <param index="0" name="value" type="bool" />
-            <description>
-                플레이어의 이동 상태를 설정합니다.
-                
-                [b]매개변수:[/b]
-                • value: 이동 상태 값
-                
-                set_player_can_move()보다 세밀한 이동 제어에 사용됩니다.
-                이동 애니메이션, 이동 사운드 등을 제어할 때 활용됩니다.
-            </description>
-        </method>
-        <method name="set_player_set_menu">
-            <return type="void" />
-            <param index="0" name="value" type="bool" />
-            <description>
-                플레이어의 메뉴 설정 상태를 설정합니다.
-                
-                [b]매개변수:[/b]
-                • value: 설정 상태 값
-                
-                메뉴 관련 특별한 설정이나 상태를 관리하는 데 사용됩니다.
-                _set_player_in_menu()와 함께 메뉴 시스템을 세밀하게 제어합니다.
-            </description>
-        </method>
         <method name="toggle_fullscreen">
             <return type="void" />
             <description>
@@ -567,6 +490,33 @@
             • "vfx": 시각 효과 사용 여부
             
             설정 변경 시 save_settings()로 자동 저장됩니다.
+        </member>
+        <member name="overworld_data" type="Dictionary" setter="set_overworld_data" getter="get_overworld_data" default="{ &quot;room_name&quot;: &quot;&quot;, &quot;room&quot;: &quot;&quot;, &quot;room_pos&quot;: Vector2(0, 0) }">
+            [methods save] 에서 저장한 오버월드 관련 데이터입니다.
+            씬 전환 시 오버월드 상태를 복원하는 데 사용됩니다.
+
+            • room_name: 현재 방 이름
+            • room: 오버월드 방 경로 (씬 경로)
+            • room_pos: 플레이어 위치 (Vector2)
+        </member>
+        <member name="player_can_move" type="bool" setter="set_player_can_move" getter="get_player_can_move" default="true">
+            플레이어가 현재 이동할 수 있는지 여부입니다.
+
+            자동으로 메뉴, 전투, 컷씬 등에서 제어됩니다.
+        </member>
+        <member name="player_move" type="bool" setter="set_player_move" getter="get_player_move" default="true">
+            플레이어의 이동 상태를 나타냅니다.
+            [member player_can_move] 는 시스템에서 자동 제어되지만,
+            [member player_move] 는 수동으로 설정할 수 있습니다.
+
+            강제로 이동을 제한할 때 사용합니다.
+        </member>
+        <member name="player_set_menu" type="bool" setter="set_player_set_menu" getter="get_player_set_menu" default="false">
+            플레이어가 메뉴 상태에 있는지 여부입니다.
+            [method get_player_in_menu] 에서 이 값을 함께 확인합니다.
+            수동으로 메뉴 상태를 설정할 때 사용됩니다.
+
+            강제로 키보드 입력을 막을때 사용됩니다.
         </member>
     </members>
 
