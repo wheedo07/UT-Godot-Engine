@@ -254,6 +254,10 @@ void Global::_input(const Ref<InputEvent>& event) {
     if(event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {
         debugmode = !debugmode;
         if(!debugmode && collision_visible) toggle_collision_shape_visibility();
+        if(!debugmode) Engine::get_singleton()->set_time_scale(1);
+        if(!debugmode && get_tree()->is_paused()) {
+            get_tree()->set_pause(false);
+        }
     }
 }
 
