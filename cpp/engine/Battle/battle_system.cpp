@@ -162,7 +162,7 @@ void BattleMain::initialize() {
             if(flavor_texts.size() > 0) {
                 blitter_text->set_flavour_texts(flavor_texts);
             }else {
-                PackedStringArray default_text = { "* " + tr(enemy->get_enemy_name()) + String::utf8("가 나타났다") };
+                PackedStringArray default_text = { "* " + tr(enemy->get_enemy_name()) + String::utf8("!!") };
                 blitter_text->set_flavour_texts(default_text);
             }
         }
@@ -200,7 +200,7 @@ void BattleMain::initialize() {
 }
 
 void BattleMain::_no_enemies_handler() {
-    box->blitter_print({"* " + tr("UT_NOBODY_CAME")});
+    box->blitter_print({ tr("UT_NOBODY_CAME") });
     box->connect("blitter_end", Callable(this, "_on_action").bind("no_enemies_exit"), CONNECT_ONE_SHOT);
 }
 
@@ -561,7 +561,7 @@ void BattleMain::end_encounter() {
     global->set_player_gold(global->get_player_gold() + int(rewards["gold"]));
     global->set_player_exp(global->get_player_exp() + int(rewards["exp"]));
     
-    String win_text = box->get("wintext");
+    String win_text = tr(box->get("wintext"));
     win_text = vformat(win_text,
         rewards["exp"],
         rewards["gold"]
@@ -569,7 +569,7 @@ void BattleMain::end_encounter() {
     
     // 레벨업 처리
     if(global->check_level_up()) {
-        win_text += String(" \n* ")+tr("UT_LOVE_INCREASED");
+        win_text += String(" \n")+tr("UT_LOVE_INCREASED");
         if (lvlup_sound) {
             lvlup_sound->play();
         }
@@ -578,8 +578,7 @@ void BattleMain::end_encounter() {
     box->change_state(BattleBox::State_BlitteringCasual);
     Blitter* blitter_text = box->get_blitter_text();
     if (blitter_text) {
-        PackedStringArray texts;
-        texts.push_back(win_text);
+        PackedStringArray texts = { win_text };
         blitter_text->type_text(texts);
         blitter_text->connect("finished_all_texts", Callable(this, "_on_action").bind("end_battle"), CONNECT_ONE_SHOT);
     }

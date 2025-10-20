@@ -38,14 +38,14 @@ BattleBox::BattleBox() {
     polygon_point_count = 120;
     isPolygonRest = false;
     
-    win_text = String("* ") + tr("UT_VICTORY") + String("\n * ") + tr("UT_GET_EXP_GOLD");
+    win_text = "UT_VICTORY";
     
     TransType = Tween::TRANS_QUAD;
     EaseType = Tween::EASE_OUT;
     
-    mercy_texts.push_back(String("* ")+tr("UT_MERCY"));
-    mercy_texts.push_back(String("* ")+tr("UT_ESCAPED"));
-    mercy_texts.push_back(String("* ")+tr("UT_CANNOT_ESCAPE"));
+    mercy_texts.push_back("UT_MERCY");
+    mercy_texts.push_back("UT_ESCAPED");
+    mercy_texts.push_back("UT_CANNOT_ESCAPE");
     
     anchor_targets.resize(2);
     anchor_targets[0] = Vector2(220, 140);

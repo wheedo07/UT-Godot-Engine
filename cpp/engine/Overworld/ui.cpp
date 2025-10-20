@@ -272,8 +272,8 @@ void UI::_set_items() {
 void UI::_set_cells() {
     String txt;
     
-    for (int i = 0; i < global->get_cells().size(); i++) {
-        txt += vformat("%s\n", global->get_cells()[i]);
+    for(int i=0; i < global->get_cells().size(); i++) {
+        txt += vformat("%s\n", tr(global->get_cells()[i]));
     }
     
     optionsize[CELL] = Vector2(1, global->get_cells().size());
