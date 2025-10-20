@@ -35,7 +35,7 @@ func _on_batle():
 			scene_changer.load_battle(sansGd_tres);
 	);
 	await textbox.dialogue_finished;
-	global.set_player_can_move(true);
+	global.player_can_move = true;
 	
 func _on_encounter():
 	toggle_encounter();
@@ -63,7 +63,7 @@ func _on_camera():
 	var camerafx = camera.get_global_camera();
 	camerafx.transition(\"res://Game/transition/test.tres\", 2, 1, true);
 	await camerafx.finished_tween;
-	global.set_player_can_move(true);
+	global.player_can_move = true;
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_37vgg"]
