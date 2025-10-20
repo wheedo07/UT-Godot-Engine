@@ -31,7 +31,7 @@ void SaveMenu::_ready() {
     soul_node = Object::cast_to<MenuSoul>(get_node_internal("Control/Options/MenuSoul"));
     defsize = control_node->get_size();
 
-    global->set_player_in_menu(true);
+    global->_set_player_in_menu(true);
     sc = global->get_scene_container()->get_current_scene();
     
     if(sc->has_method("_on_saved")) {
@@ -57,7 +57,7 @@ void SaveMenu::dismiss() {
     emit_signal("choiced");
     
     set_process_unhandled_input(false);
-    global->call_deferred("set_player_in_menu", false);
+    global->call_deferred("_set_player_in_menu", false);
     set_visible(false);
     queue_free();
 }
@@ -70,7 +70,7 @@ void SaveMenu::save() {
     save_option->set_text(String("[color=yellow]")+tr("UT_FILE_SAVED"));
     soul_node->set_visible(false);
   
-    String world_name = tr(sc->get("world_name"));
+    String world_name = sc->get("world_name");
     global->save(world_name);
     refresh();
     location_label->set_text(world_name);

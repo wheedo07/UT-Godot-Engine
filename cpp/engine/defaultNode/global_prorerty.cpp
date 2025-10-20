@@ -8,11 +8,12 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_loop_Music"), &Global::_loop_Music);
     ClassDB::bind_method(D_METHOD("_on_kr_tick"), &Global::_on_kr_tick);
     ClassDB::bind_method(D_METHOD("_update_collision_visibility"), &Global::_update_collision_visibility);
-
     ClassDB::bind_method(D_METHOD("_set_battle_start"), &Global::_set_battle_start);
     ClassDB::bind_method(D_METHOD("_set_battle_text_box", "value"), &Global::_set_battle_text_box);
     ClassDB::bind_method(D_METHOD("_set_player_text_box", "value"), &Global::_set_player_text_box);
+    ClassDB::bind_method(D_METHOD("_set_player_in_menu", "value"), &Global::_set_player_in_menu);
 
+    // 사용자가 설정할 변수 바인딩
     ClassDB::bind_method(D_METHOD("set_item_list", "value"), &Global::set_item_list);
     ClassDB::bind_method(D_METHOD("get_item_list"), &Global::get_item_list);
 
@@ -63,6 +64,21 @@ void Global::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_flags", "value"), &Global::set_flags);
     ClassDB::bind_method(D_METHOD("get_flags"), &Global::get_flags);
+    //
+
+    // 숨겨진 변수 바인딩
+    ClassDB::bind_method(D_METHOD("set_overworld_data", "value"), &Global::set_overworld_data);
+    ClassDB::bind_method(D_METHOD("get_overworld_data"), &Global::get_overworld_data);
+
+    ClassDB::bind_method(D_METHOD("set_player_can_move", "value"), &Global::set_player_can_move);
+    ClassDB::bind_method(D_METHOD("get_player_can_move"), &Global::get_player_can_move);
+
+    ClassDB::bind_method(D_METHOD("set_player_set_menu", "value"), &Global::set_player_set_menu);
+    ClassDB::bind_method(D_METHOD("get_player_set_menu"), &Global::get_player_set_menu);
+
+    ClassDB::bind_method(D_METHOD("set_player_move", "value"), &Global::set_player_move);
+    ClassDB::bind_method(D_METHOD("get_player_move"), &Global::get_player_move);
+    //
 
     // gdscript에서 호출을 위한 메서드 바인딩
     ClassDB::bind_method(D_METHOD("disable_input", "key"), &Global::disable_input);
@@ -81,41 +97,29 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("save_file", "slot", "save_data"), &Global::save_file);
     ClassDB::bind_method(D_METHOD("load_file", "slot"), &Global::load_file);
     ClassDB::bind_method(D_METHOD("exists_file", "slot"), &Global::exists_file);
-
     ClassDB::bind_method(D_METHOD("save_flag", "key", "value"), &Global::save_flag);
     ClassDB::bind_method(D_METHOD("set_flag", "key", "value"), &Global::set_flag);
     ClassDB::bind_method(D_METHOD("get_flag", "key", "defaultValue"), &Global::get_flag, DEFVAL(false));
-
     ClassDB::bind_method(D_METHOD("get_g_flags", "key", "defaultValue"), &Global::get_g_flags, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("set_g_flags", "key", "value"), &Global::set_g_flags);
 
+    // 상태 확인을 위한 메서드 바인딩
     ClassDB::bind_method(D_METHOD("get_player_in_menu"), &Global::get_player_in_menu);
-    ClassDB::bind_method(D_METHOD("set_player_in_menu", "value"), &Global::set_player_in_menu);
-
-    ClassDB::bind_method(D_METHOD("get_player_can_move"), &Global::get_player_can_move);
-    ClassDB::bind_method(D_METHOD("set_player_can_move", "value"), &Global::set_player_can_move);
-
-    ClassDB::bind_method(D_METHOD("get_player_set_menu"), &Global::get_player_set_menu);
-    ClassDB::bind_method(D_METHOD("set_player_set_menu", "value"), &Global::set_player_set_menu);
-
-    ClassDB::bind_method(D_METHOD("set_player_move", "value"), &Global::set_player_move);
-    ClassDB::bind_method(D_METHOD("get_player_move"), &Global::get_player_move);
     ClassDB::bind_method(D_METHOD("get_battle_text_box"), &Global::get_battle_text_box);
     ClassDB::bind_method(D_METHOD("get_player_text_box"), &Global::get_player_text_box);
-
+    ClassDB::bind_method(D_METHOD("get_frist"), &Global::get_first);
+    ClassDB::bind_method(D_METHOD("get_player_kr"), &Global::get_player_kr);
+    ClassDB::bind_method(D_METHOD("get_player_position"), &Global::get_player_position);
+    ClassDB::bind_method(D_METHOD("get_fullscreen"), &Global::get_fullscreen);
     ClassDB::bind_method(D_METHOD("get_scene_container"), &Global::get_scene_container);
     ClassDB::bind_method(D_METHOD("get_Music"), &Global::get_Music);
-    ClassDB::bind_method(D_METHOD("get_fullscreen"), &Global::get_fullscreen);
-    ClassDB::bind_method(D_METHOD("get_player_position"), &Global::get_player_position);
-    ClassDB::bind_method(D_METHOD("get_player_kr"), &Global::get_player_kr);
-    ClassDB::bind_method(D_METHOD("get_frist"), &Global::get_first);
 
+    // 사용자 설정 변수 바인딩
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "item_list", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":Item")
     , "set_item_list", "get_item_list");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "flags"), "set_flags", "get_flags");
 
-    // 멤버 변수 프로퍼티 등록
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "savepath"), "set_savepath", "get_savepath");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "equipment"), "set_equipment", "get_equipment");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "cells"), "set_cells", "get_cells");
@@ -123,7 +127,6 @@ void Global::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "boxitems", PROPERTY_HINT_ARRAY_TYPE, String::num(Variant::INT) + ":"), "set_boxitems", "get_boxitems");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "settings"), "set_settings", "get_settings");
     
-    // 플레이어 스탯 프로퍼티
     ADD_GROUP("Player Stats", "player_");
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "player_name"), "set_player_name", "get_player_name");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_gold"), "set_player_gold", "get_player_gold");
@@ -134,6 +137,13 @@ void Global::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_defense"), "set_player_defense", "get_player_defense");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_attack"), "set_player_attack", "get_player_attack");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_kills"), "set_player_kills", "get_player_kills");
+    //
+
+    // 숨겨진 변수 바인딩
+    ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "overworld_data", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_overworld_data", "get_overworld_data");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_can_move", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_can_move", "get_player_can_move");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_set_menu", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_set_menu", "get_player_set_menu");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_move", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_move", "get_player_move");
 }
 
 void Global::set_first(bool value) {
@@ -216,7 +226,7 @@ Dictionary Global::get_settings() const {
     return settings;
 }
 
-void Global::set_player_in_menu(bool value) {
+void Global::_set_player_in_menu(bool value) {
     player_in_menu = value;
 }
 

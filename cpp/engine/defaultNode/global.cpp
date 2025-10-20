@@ -744,7 +744,7 @@ void Global::load_game() {
                 settings_file->close();
             }
         }
-    } else {
+    }else {
         std::ifstream settings_file(settingpath.utf8().get_data());
         if(settings_file.is_open()) {
             settings_file.seekg(3); // BOM 건너뛰기
@@ -866,7 +866,9 @@ bool Global::has_input_disabled(String key) {
 
 void Global::save(String room_name) {
     if(room_name.is_empty()) {
-        overworld_data["room_name"] = scene_container->get_current_scene()->get_name();
+        if(scene_container->get_current_scene()->is_class("Overworld")) {
+            overworld_data["room_name"] = scene_container->get_current_scene()->get("room_name");
+        }else overworld_data["room_name"] = scene_container->get_current_scene()->get_name();
     }else {
         overworld_data["room_name"] = room_name;
     }

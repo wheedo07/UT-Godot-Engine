@@ -23,7 +23,7 @@ void UIdimensionalBox::_ready() {
     inventory_items = Object::cast_to<RichTextLabel>(get_node_internal("Control/Main/INVENTORY_Item"));
     box_items = Object::cast_to<RichTextLabel>(get_node_internal("Control/Main/BOX_Item"));
 
-    global->call_deferred("set_player_in_menu", true);
+    global->call_deferred("_set_player_in_menu", true);
     main->grow();
     _set_items();
     soul_move(Vector2(0, 0));
@@ -112,7 +112,7 @@ void UIdimensionalBox::_set_items() {
 }
 
 void UIdimensionalBox::_close_box() {
-    global->set_player_in_menu(false);
+    global->_set_player_in_menu(false);
     soul->hide();
     main->shrink();
     main->get_tw()->connect("finished", Callable(this, "queue_free"), CONNECT_ONE_SHOT);

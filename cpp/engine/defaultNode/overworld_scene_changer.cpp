@@ -102,7 +102,7 @@ void OverworldSceneChanger::_set_player_data(Node* current_scene) {
     }
     
     global->call_deferred("set_player_can_move", true);
-    global->call_deferred("set_player_in_menu", false);
+    global->call_deferred("_set_player_in_menu", false);
     
     data = data_default.duplicate();
 }
@@ -119,7 +119,7 @@ void OverworldSceneChanger::_scene_setup_thing(bool transition) {
     }
     CameraFx* camera = global->get_scene_container()->get_camera();
     
-    global->set_player_in_menu(false);
+    global->_set_player_in_menu(false);
     global->set_player_can_move(true);
     
     if (transition) {
@@ -215,7 +215,7 @@ void OverworldSceneChanger::_load_battle_scene(const String& scene_path, const R
         return;
     }
     
-    global->set_player_in_menu(false);
+    global->_set_player_in_menu(false);
     global->set_player_can_move(true);
     
     Ref<PackedScene> battle_scene = loader->load(scene_path);

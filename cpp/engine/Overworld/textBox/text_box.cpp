@@ -115,7 +115,7 @@ void TextBox::finish_options() {
 }
 
 void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& options, const TypedArray<Dialogues>& text_after_options) {
-    global->set_player_in_menu(true);
+    global->_set_player_in_menu(true);
     global->_set_player_text_box(true);
     text_after_option = text_after_options;
     if(options.size() >= 4) {
@@ -253,7 +253,7 @@ void TextBox::_finish_dialogue() {
 void TextBox::_on_finish_dialogue() {
     Text->set_text("");
 
-    global->set_player_in_menu(false);
+    global->_set_player_in_menu(false);
     global->_set_player_text_box(false);
     
     emit_signal("dialogue_finished");

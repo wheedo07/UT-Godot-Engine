@@ -110,7 +110,7 @@ void UI::_ready() {
     if(global->get_player_position().y >= 240) {
         stats_box->set_position(Vector2(0, 280));
     }
-    global->set_player_in_menu(true);
+    global->_set_player_in_menu(true);
     
     _set_overview();
     _write_options();
@@ -286,7 +286,7 @@ void UI::_close_menu() {
     stats->shrink();
     cells->shrink();
     
-    global->set_player_in_menu(false);
+    global->_set_player_in_menu(false);
     set_process_unhandled_input(false);
     
     get_node_internal("Control/StatAndOptions/Stats")->call("shrink");
@@ -529,7 +529,7 @@ void UI::_on_animation_finished() {
 
 void UI::_on_item_dialogue_finished() {
     textbox = nullptr;
-    global->set_player_in_menu(true);
+    global->_set_player_in_menu(true);
     _write_options();
     _in_state(OPTIONS);
     soul->show();

@@ -128,7 +128,19 @@ namespace godot {
 	        bool check_level_up();
 	        void toggle_fullscreen();
 			void change_setting(String setting_name, Variant to);
+    		AudioStreamPlayer* get_Music();
+			Vector2 get_player_position();
+    		SceneContainer* get_scene_container() const;
+    		bool get_first() const;
+    		bool get_fullscreen() const;
 
+			// ClassDB에 등혹 안할 함수
+			void set_player_position(Vector2 value);
+    		void set_scene_container(SceneContainer* value);
+    		void set_first(bool value);
+    		void set_fullscreen(bool value);
+
+			// 내부용 함수
 	        void _save_game_data(String custom_path = "", Dictionary save_data = Dictionary());
 			void _save_flags_data();
 	        void load_game();
@@ -136,24 +148,32 @@ namespace godot {
 	        PackedStringArray equip_item(int item_id);
 	        void refresh_audio_busses();
 	        void toggle_collision_shape_visibility();
+    		void set_debugmode(bool value);
+    		bool get_debugmode() const;
+    		void _set_battle_text_box(bool value);
+    		bool get_battle_text_box() const;
+    		void _set_battle_start(bool value);
+    		bool get_battle_start() const;
+    		void _set_player_text_box(bool value);
+    		bool get_player_text_box() const;
+			void set_just_died(bool value);
+			bool get_just_died();
+			void set_cache_playtime(double value);
+			double get_cache_playtime();
+			void set_temp_atk(int value);
+			int get_temp_atk();
+			void set_temp_def(int value);
+			int get_temp_def();
+    		void _set_player_in_menu(bool value);
+    		bool get_player_in_menu() const;
 
+		public:
+			// 사용자가 설정할 getter/setter 함수
 	        void set_item_list(TypedArray<Item> value);
 	        TypedArray<Item> get_item_list() const;
 
-    		void set_first(bool value);
-    		bool get_first() const;
-
-    		void set_fullscreen(bool value);
-    		bool get_fullscreen() const;
-
-    		void set_debugmode(bool value);
-    		bool get_debugmode() const;
-
-    		void _set_battle_text_box(bool value);
-    		bool get_battle_text_box() const;
-
-    		void _set_battle_start(bool value);
-    		bool get_battle_start() const;
+			void set_savepath(String value);
+			String get_savepath();
 
     		void set_equipment(const Dictionary& value);
     		Dictionary get_equipment() const;
@@ -169,21 +189,6 @@ namespace godot {
 
     		void set_settings(const Dictionary& value);
     		Dictionary get_settings() const;
-
-    		void set_player_in_menu(bool value);
-    		bool get_player_in_menu() const;
-
-    		void set_player_set_menu(bool value);
-    		bool get_player_set_menu() const;
-
-    		void set_player_can_move(bool value);
-    		bool get_player_can_move() const;
-
-    		void set_player_move(bool value);
-    		bool get_player_move() const;
-
-    		void _set_player_text_box(bool value);
-    		bool get_player_text_box() const;
 
     		void set_player_name(const String& value);
     		String get_player_name() const;
@@ -215,34 +220,21 @@ namespace godot {
     		void set_player_kills(int value);
     		int get_player_kills() const;
 
-			void set_player_position(Vector2 value);
-			Vector2 get_player_position();
-
-    		void set_scene_container(SceneContainer* value);
-    		SceneContainer* get_scene_container() const;
-
-    		AudioStreamPlayer* get_Music();
-
-			void set_just_died(bool value);
-			bool get_just_died();
-
-			void set_overworld_data(Dictionary value);
-			Dictionary get_overworld_data();
-
-			void set_cache_playtime(double value);
-			double get_cache_playtime();
-
-			void set_temp_atk(int value);
-			int get_temp_atk();
-
-			void set_temp_def(int value);
-			int get_temp_def();
-
 			void set_flags(Dictionary value);
 			Dictionary get_flags();
 
-			void set_savepath(String value);
-			String get_savepath();
+			// 숨겨진 getter/setter 함수
+			void set_overworld_data(Dictionary value);
+			Dictionary get_overworld_data();
+
+    		void set_player_can_move(bool value);
+    		bool get_player_can_move() const;
+
+    		void set_player_set_menu(bool value);
+    		bool get_player_set_menu() const;
+
+    		void set_player_move(bool value);
+    		bool get_player_move() const;
     };
 }
 

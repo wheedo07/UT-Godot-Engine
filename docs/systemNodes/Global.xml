@@ -285,7 +285,7 @@
                 현재 게임 상태를 파일로 저장합니다.
                 
                 [b]매개변수:[/b]
-                • room_name: 저장할 방/씬 이름 (빈 문자열이면 현재 씬)
+                • room_name: 저장할 방/씬 이름 (빈 문자열이면 현재 노드 이름, 오버월드에서는 현재 방 이름)
                 
                 플레이어 정보, 인벤토리, 플래그, 위치 등을 암호화하여 저장합니다.
                 저장 완료 시 saved 시그널이 방출됩니다.
@@ -304,6 +304,7 @@
                 
                 세이브 파일 이름은 'file0~file8' 형식이며,
                 플랫폼별 경로에 따라 자동으로 저장됩니다.
+                저장 완료 시 saved 시그널이 방출됩니다.
             </description>
         </method>
         <method name="load_file">
@@ -405,7 +406,7 @@
                 입력 시스템에서 이 값을 참조하여 이동을 허용/차단합니다.
             </description>
         </method>
-        <method name="set_player_in_menu">
+        <method name="_set_player_in_menu">
             <return type="void" />
             <param index="0" name="value" type="bool" />
             <description>
@@ -441,7 +442,7 @@
                 • value: 설정 상태 값
                 
                 메뉴 관련 특별한 설정이나 상태를 관리하는 데 사용됩니다.
-                set_player_in_menu()와 함께 메뉴 시스템을 세밀하게 제어합니다.
+                _set_player_in_menu()와 함께 메뉴 시스템을 세밀하게 제어합니다.
             </description>
         </method>
         <method name="toggle_fullscreen">

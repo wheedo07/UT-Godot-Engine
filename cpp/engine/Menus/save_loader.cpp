@@ -68,7 +68,7 @@ void SaveLoader::reset() {
 }
 
 void SaveLoader::_hide() {
-    global->set_player_in_menu(false);
+    global->_set_player_in_menu(false);
     
     Ref<Tween> tween = control_node->create_tween();
     tween->set_parallel(true);
@@ -80,7 +80,7 @@ void SaveLoader::_hide() {
 }
 
 void SaveLoader::_show() {
-    global->set_player_in_menu(true);
+    global->_set_player_in_menu(true);
     
     Ref<Tween> tween = control_node->create_tween();
     tween->set_parallel(true);
