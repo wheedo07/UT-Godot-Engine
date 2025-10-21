@@ -24,6 +24,7 @@ void Blitter::_bind_methods() {
 }
 
 void Blitter::_ready() {
+    if(Engine::get_singleton()->is_editor_hint()) return;
     GenericTextTyper::_ready();
     container = Object::cast_to<MarginContainer>(get_parent());
     default_volume = get_click()->get_volume_db();

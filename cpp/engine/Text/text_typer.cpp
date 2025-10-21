@@ -95,14 +95,17 @@ bool GenericTextTyper::_get(const StringName& p_name, Variant& r_ret) {
 }
 
 void GenericTextTyper::_ready() {
+    if(isEditor) return;
     if(!click_path.is_empty()) click = Object::cast_to<AudioStreamPlayer>(get_node_internal(click_path));
 }
 
 void GenericTextTyper::_process(double delta) {
+    if(isEditor) return;
     if(typing) _process_typing();
 }
 
 void GenericTextTyper::_unhandled_input(const Ref<InputEvent>& event) {
+    if(isEditor) return;
     if(global->get_player_text_box() || global->get_battle_start()) {
         if(event->is_action_pressed("ui_cancel") && visible_tween.is_valid() && visible_tween->is_valid()) {
             emit_signal("skip");

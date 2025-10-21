@@ -1,4 +1,5 @@
 #include "advanced_text_typer.h"
+#include<godot_cpp/classes/engine.hpp>
 #include<godot_cpp/variant/utility_functions.hpp>
 using namespace godot;
 
@@ -26,6 +27,7 @@ void AdvancedTextTyper::_bind_methods() {
 }
 
 void AdvancedTextTyper::_ready() {
+    if(Engine::get_singleton()->is_editor_hint()) return;
     GenericTextTyper::_ready();
     connect("confirm", Callable(this, "_on_confirm_advanced"));
 }

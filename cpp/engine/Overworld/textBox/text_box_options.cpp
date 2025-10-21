@@ -15,7 +15,7 @@ void TextBoxOptionWriter::_bind_methods() {
 }
 
 void TextBoxOptionWriter::_ready() {
-    GenericTextTyper::_ready();
+    if(Engine::get_singleton()->is_editor_hint()) return;
     set_process_unhandled_input(false);
 }
 

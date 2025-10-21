@@ -67,33 +67,6 @@
         <member name="interval" type="float" setter="set_interval" getter="get_interval" default="0.1">
             글자 간 타이핑 간격(초)입니다. 값이 클수록 타이핑 속도가 느려집니다.
         </member>
-        
-        <member name="queued_texts_handling" type="int" setter="set_queued_texts_handling" getter="get_queued_texts_handling" default="0" enum="GenericTextTyper.TextQueueMode">
-            여러 텍스트 처리 모드입니다.
-            • [code]AWAIT_FINISH[/code]: 현재 타이핑 완료 후 다음 텍스트 처리
-            • [code]OVERRIDE_CURRENT[/code]: 현재 타이핑 중단 후 새 텍스트로 교체
-            • [code]VOID_QUEUED[/code]: 타이핑 중이면 대기열 텍스트 무시
-        </member>
-        
-        <member name="entire_text_bbcode" type="String" setter="set_entire_text_bbcode" getter="get_entire_text_bbcode" default="&quot;&quot;">
-            모든 텍스트 앞에 추가할 BBCode 텍스트입니다.
-            텍스트 전체에 적용할 스타일을 설정할 때 사용합니다.
-            [b]주의:[/b] BBCode Enabled를 활성화해야 합니다.
-        </member>
-        
-        <member name="extra_delay" type="String" setter="set_extra_delay" getter="get_extra_delay" default="&quot;@#$%^&amp;+=_-~`&lt;&gt;\&quot;|\\*{}()[].,!?&quot;">
-            추가 지연이 적용될 문자들입니다.
-            이 문자열에 포함된 문자 뒤에는 추가 지연이 발생합니다.
-        </member>
-        
-        <member name="no_sound" type="String" setter="set_no_sound" getter="get_no_sound" default="&quot;@#$%^&amp;+=_-~`&lt;&gt;\&quot;|\\*{}()[].,!? &quot;">
-            타이핑 소리가 나지 않는 문자들입니다.
-            공백과 특수문자에서 소리가 나지 않도록 설정되어 있습니다.
-        </member>
-        
-        <member name="delay" type="float" setter="set_delay" getter="get_delay" default="0.0">
-            각 라인 완료 후 다음 라인으로 넘어가기 전의 추가 지연 시간(초)입니다.
-        </member>
     </members>
     
     <signals>

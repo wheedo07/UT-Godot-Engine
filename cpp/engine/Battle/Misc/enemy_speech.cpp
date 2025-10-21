@@ -18,6 +18,7 @@ void EnemySpeech::_bind_methods() {
 }
 
 void EnemySpeech::_ready() {
+    if(isEditor) return;
     GenericTextTyper::_ready();
     connect("confirm", Callable(this, "handle_confirm_signal"));
 }

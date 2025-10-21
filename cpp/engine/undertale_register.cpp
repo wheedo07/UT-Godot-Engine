@@ -46,8 +46,8 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     // [end] //
 
     // [Text] //
-    GDREGISTER_RUNTIME_CLASS(GenericTextTyper);
-    GDREGISTER_RUNTIME_CLASS(AdvancedTextTyper);
+    GDREGISTER_CLASS(GenericTextTyper);
+    GDREGISTER_CLASS(AdvancedTextTyper);
     GDREGISTER_RUNTIME_CLASS(CharacterSetting);
     // [end] //
 
@@ -69,8 +69,8 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_RUNTIME_CLASS(ItemInteraction);
 
     // textBox
-    GDREGISTER_RUNTIME_CLASS(TextBoxWriter);
-    GDREGISTER_RUNTIME_CLASS(TextBoxOptionWriter);
+    GDREGISTER_CLASS(TextBoxWriter);
+    GDREGISTER_CLASS(TextBoxOptionWriter);
     GDREGISTER_RUNTIME_CLASS(TextBox);
 
     // Characters
@@ -118,7 +118,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_RUNTIME_CLASS(AttackManager);
 
     // Box
-    GDREGISTER_RUNTIME_CLASS(Blitter);
+    GDREGISTER_CLASS(Blitter);
     GDREGISTER_RUNTIME_CLASS(ArgsHolder);
     GDREGISTER_RUNTIME_CLASS(BattleBox);
     GDREGISTER_RUNTIME_CLASS(BattleBoxBehaviour);
@@ -151,7 +151,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_RUNTIME_CLASS(SoulBattle);
 
     // Misc
-    GDREGISTER_RUNTIME_CLASS(EnemySpeech);
+    GDREGISTER_CLASS(EnemySpeech);
     GDREGISTER_RUNTIME_CLASS(DialogueControl);
     // [end] //
     

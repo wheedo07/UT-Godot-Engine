@@ -49,9 +49,9 @@ namespace godot {
             bool _set(const StringName& p_name, const Variant& p_value);
             bool _get(const StringName& p_name, Variant& r_ret);
 
+            virtual void _ready() override;
             virtual void _process(double delta) override;
             virtual void _unhandled_input(const Ref<InputEvent>& event) override;
-            virtual void _ready() override;
             virtual void type_text(const PackedStringArray& text);
             void set_click_path(const NodePath& p_path);
             NodePath get_click_path() const;
