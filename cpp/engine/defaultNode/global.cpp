@@ -791,7 +791,7 @@ void Global::load_game() {
     items = inv.get("items", Array());
 
     // DIM BOXES
-    boxitems = inv.get("boxinv", Array::make(Array(), Array(), Array()));
+    boxitems = inv.get("boxinv", Array());
 
     // CELLS
     cells = inv.get("cells", Array());
