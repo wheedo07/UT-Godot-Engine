@@ -29,7 +29,7 @@ void NameSelection::_bind_methods() {
     ADD_SIGNAL(MethodInfo("choice", PropertyInfo(Variant::INT, "id")));
 
     // 스크립트 메소드
-    GDVIRTUAL_BIND(check_names, "name");
+    GDVIRTUAL_BIND(check_names, "player_name");
    
     // 사용 함수
     ClassDB::bind_method(D_METHOD("react_to_name", "text", "deny"), &NameSelection::react_to_name, DEFVAL(false));
@@ -203,6 +203,6 @@ void NameSelection::on_pass_name(bool is) {
 }
 
 // 수정 필요 할시 수정
-void NameSelection::check_names(String name) {
+void NameSelection::check_names(String player_name) {
     react_to_name(String::utf8("이것이 이름입니까?"));
 }

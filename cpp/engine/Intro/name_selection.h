@@ -46,7 +46,7 @@ namespace godot {
             void check_names(String name);
             GDVIRTUAL1(check_names, String);
 
-            void on_check_name(String name);
+            void on_check_name(String player_name);
             void on_name_allowed();
 
             void on_name_input_text_changed(const String& new_text);

@@ -10,10 +10,10 @@
 resource_name = "NameSelection_gd"
 script/source = "extends NameSelection
 
-func check_names(name: String) -> void:
-	if(name == \"SANS\"):
+func check_names(player_name: String) -> void:
+	if(player_name == \"SANS\"):
 		react_to_name(\"NO!!!\", true);
-	elif(name == \"GASTER\"):
+	elif(player_name == \"GASTER\"):
 		global.alert(\"NO\", \"ERROR\");
 	else:
 		react_to_name(\"이것이 이름입니까?\");

@@ -462,7 +462,7 @@ bool UI::soul_move(const Vector2& action) {
             RichTextLabel* options_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"));
             soultarget = options_node->get_global_position() + soulposition * option_seperation;
             String locale = TranslationServer::get_singleton()->get_locale();
-            if(locale == "ko_KR" || locale == "ko") {
+            if(locale.begins_with("ko")) {
                 target = soultarget + Vector2(-12, 17);
             }else {
                 target = soultarget + Vector2(-12, 20);
