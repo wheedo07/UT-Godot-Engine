@@ -829,16 +829,17 @@ void Global::load_game() {
 }
 
 void Global::refresh_audio_busses() {
-    AudioServer::get_singleton()->set_bus_volume_db(
-        AudioServer::get_singleton()->get_bus_index("SFX"), 
+    AudioServer* audio = AudioServer::get_singleton();
+    audio->set_bus_volume_db(
+        audio->get_bus_index("SFX"), 
         UtilityFunctions::linear_to_db(float(settings.get("SFX", 100)) / 100.0f)
     );
-    AudioServer::get_singleton()->set_bus_volume_db(
-        AudioServer::get_singleton()->get_bus_index("Music"), 
+    audio->set_bus_volume_db(
+        audio->get_bus_index("Music"), 
         UtilityFunctions::linear_to_db(float(settings.get("Music", 100)) / 100.0f)
     );
-    AudioServer::get_singleton()->set_bus_volume_db(
-        AudioServer::get_singleton()->get_bus_index("Master"), 
+    audio->set_bus_volume_db(
+        audio->get_bus_index("Master"), 
         UtilityFunctions::linear_to_db(float(settings.get("Master", 100)) / 100.0f)
     );
 }

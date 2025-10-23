@@ -57,8 +57,9 @@ void SceneContainer::_ready() {
     }else mobile->hide();
 
     reload_camera();
-    change_scene_to_file("res://Intro/intro.tscn");
     _on_settings_setting_changed("border", global->get_settings()["border"]);
+    global->refresh_audio_busses();
+    change_scene_to_file("res://Intro/intro.tscn");
 }
 
 void SceneContainer::set_current_scene(Node* p_scene) {

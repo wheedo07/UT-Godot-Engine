@@ -488,8 +488,6 @@
             • "border": 화면 테두리 표시 여부
             • "shake": 화면 흔들림 효과 사용 여부
             • "vfx": 시각 효과 사용 여부
-            
-            설정 변경 시 save_settings()로 자동 저장됩니다.
         </member>
         <member name="overworld_data" type="Dictionary" setter="set_overworld_data" getter="get_overworld_data" default="{ &quot;room_name&quot;: &quot;&quot;, &quot;room&quot;: &quot;&quot;, &quot;room_pos&quot;: Vector2(0, 0) }">
             [methods save] 에서 저장한 오버월드 관련 데이터입니다.
