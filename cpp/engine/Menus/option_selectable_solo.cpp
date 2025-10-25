@@ -54,6 +54,7 @@ void OptionSelectableSolo::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "node_accept", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "OptionSelectable"), "set_node_accept", "get_node_accept");
     
     ADD_SIGNAL(MethodInfo("accept_pressed"));
+    ADD_SIGNAL(MethodInfo("select_pressed"));
     ADD_SIGNAL(MethodInfo("move_soul_request", PropertyInfo(Variant::VECTOR2, "pos")));
 }
 
@@ -108,16 +109,15 @@ void OptionSelectableSolo::set_selected(bool new_val) {
 }
 
 void OptionSelectableSolo::reset() {
+    enabled = false;
     set_selected(false);
 }
 
 void OptionSelectableSolo::enable() {
-    enabled = true;
     set_selected(true);
 }
 
 void OptionSelectableSolo::disable() {
-    enabled = false;
     set_selected(false);
 }
 
@@ -128,6 +128,9 @@ void OptionSelectableSolo::move_soul(OptionSelectable* node) {
     
     set_selected(false);
     node->set_selected(true);
+    if(node->has_signal("select_pressed")) {
+        node->emit_signal("select_pressed");
+    }
 }
 
 void OptionSelectableSolo::set_node_up(NodePath p_node) {
