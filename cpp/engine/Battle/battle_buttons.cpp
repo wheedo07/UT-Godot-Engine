@@ -132,7 +132,7 @@ void BattleButtons::glow_choice(int id) {
 void BattleButtons::enable() {
     enabled = true;
     
-    if (buttons.size() > choice) {
+    if(buttons.size() > choice) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[choice]);
         if (button) {
             Vector2 button_pos = button->get_global_position();
@@ -146,11 +146,6 @@ void BattleButtons::enable() {
 
 void BattleButtons::disable() {
     enabled = false;
-    for(int i=0; i < buttons.size(); i++) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
-        button->set_modulate(Color(1,1,1,1));
-        button->set_scale(Vector2(1,1));
-    }
 }
 
 void BattleButtons::reset() {
@@ -159,6 +154,12 @@ void BattleButtons::reset() {
         if (button) {
             button->set_frame(0);
         }
+    }
+
+    for(int i=0; i < buttons.size(); i++) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
+        button->set_modulate(Color(1,1,1,1));
+        button->set_scale(Vector2(1,1));
     }
 }
 
