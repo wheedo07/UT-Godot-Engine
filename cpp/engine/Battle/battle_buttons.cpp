@@ -90,7 +90,8 @@ void BattleButtons::changepos(int action) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[choice]);
         if (button) {
             Vector2 button_pos = button->get_global_position();
-            emit_signal("movesoul", button_pos - Vector2(38, 0));
+            Vector2 offset = current_button_set.is_valid() ? current_button_set->get_soul_offset() : Vector2(38, 0);
+            emit_signal("movesoul", button_pos - offset);
         }
     }
     
@@ -98,18 +99,31 @@ void BattleButtons::changepos(int action) {
 }
 
 void BattleButtons::glow_choice(int id) {
-    for (int i = 0; i < buttons.size(); i++) {
+    if(tween.is_valid()) tween->kill();
+    tween = create_tween()->set_parallel();
+
+    bool active_scale = current_button_set.is_valid() && current_button_set->is_active_scale();
+    for(int i=0; i < buttons.size(); i++) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
-        if (button) {
-            button->set_frame(0);
+        button->set_frame(0);
+
+        if(active_scale) {
+            if(i == id) {
+                tween->tween_property(button, "scale", Vector2(1.2, 1.2), 0.2);
+                button->set_modulate(Color(1,1,1,1));
+            }else {
+                tween->tween_property(button, "scale", Vector2(1, 1), 0.2);
+                button->set_modulate(Color(1,1,1, 0.5));
+            }
+        }else {
+            button->set_modulate(Color(1,1,1,1));
+            button->set_scale(Vector2(1,1));
         }
     }
     
-    if (id >= 0 && id < buttons.size()) {
+    if(id >= 0 && id < buttons.size()) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
-        if (button) {
-            button->set_frame(1);
-        }
+        button->set_frame(1);
     }
 }
 
@@ -120,7 +134,7 @@ void BattleButtons::enable() {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[choice]);
         if (button) {
             Vector2 button_pos = button->get_global_position();
-            Vector2 offset = current_button_set.is_null() ? Vector2(38, 0) : current_button_set->get_soul_offset();
+            Vector2 offset = current_button_set.is_valid() ? current_button_set->get_soul_offset() : Vector2(38, 0);
             emit_signal("movesoul", button_pos - offset);
         }
     }

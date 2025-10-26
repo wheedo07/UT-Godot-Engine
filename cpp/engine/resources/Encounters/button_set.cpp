@@ -3,6 +3,7 @@ using namespace godot;
 
 ButtonSet::ButtonSet() {
     soul_offset = Vector2(38, 0);
+    active_scale = false;
 }
 
 ButtonSet::~ButtonSet() {}
@@ -26,7 +27,11 @@ void ButtonSet::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_soul_offset", "offset"), &ButtonSet::set_soul_offset);
     ClassDB::bind_method(D_METHOD("get_soul_offset"), &ButtonSet::get_soul_offset);
+    ClassDB::bind_method(D_METHOD("set_active_scale", "active"), &ButtonSet::set_active_scale);
+    ClassDB::bind_method(D_METHOD("is_active_scale"), &ButtonSet::is_active_scale);
+    ADD_GROUP("Button Options", "");
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "soul_offset"), "set_soul_offset", "get_soul_offset");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "active_scale"), "set_active_scale", "is_active_scale");
 }
 
 void ButtonSet::set_fight_button(const Ref<SpriteFrames>& p_frames) {
@@ -67,4 +72,12 @@ void ButtonSet::set_soul_offset(const Vector2& p_offset) {
 
 Vector2 ButtonSet::get_soul_offset() const {
     return soul_offset;
+}
+
+void ButtonSet::set_active_scale(bool p_active) {
+    active_scale = p_active;
+}
+
+bool ButtonSet::is_active_scale() const {
+    return active_scale;
 }

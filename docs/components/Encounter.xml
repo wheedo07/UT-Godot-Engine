@@ -66,7 +66,7 @@
             
             [b]예시 설정:[/b]
             • ["* UT_SPARE", "* UT_FLEE"] - 기본 구성
-            • ["* 자비"] - 도망 불가능한 전투
+            • ["* UT_SPARE"] - 도망 불가능한 전투
         </member>
         <member name="music" type="AudioStream" setter="set_music" getter="get_music">
             전투 중 재생될 배경음악입니다.
@@ -101,6 +101,33 @@
             • Vector2(-30, 20): 왼쪽 30픽셀, 아래 20픽셀 이동
             
             큰 적이나 특수한 형태의 적에서 화면 밸런스를 맞추는 데 유용합니다.
+        </member>
+
+        <member name="button_set" type="ButtonSet" setter="set_button_set" getter="get_button_set">
+            전투 UI에 사용할 버튼 옵션들 입니다.
+            
+            ButtonSet 리소스를 지정하여 전투 중 표시되는 버튼의 스타일과 구성을 정의합니다.
+            다양한 버튼 세트를 사용하여 전투 UI의 분위기와 기능을 맞춤 설정할 수 있습니다.
+            
+            [b]사용 예시:[/b]
+            • 기본 버튼 세트: 일반적인 전투 상황에 적합
+            • 특별한 버튼 세트: 특정 몬스터나 이벤트에 맞춘 독특한 디자인
+            
+            null인 경우 기본 버튼 세트가 사용됩니다.
+        </member>
+
+        <member name="board_color" type="Color" setter="set_board_color" getter="get_board_color" default="Color(1, 1, 1, 1)">
+            전투 보드의 기본 색상입니다.
+            
+            전투 화면에서 플레이어의 소울이 위치하는 보드의 배경 색상을 정의합니다.
+            보드의 분위기와 시각적 효과를 조절하는 데 사용됩니다.
+        </member>
+
+        <member name="board_border_color" type="Color" setter="set_board_border_color" getter="get_board_border_color" default="Color(0, 0, 0, 1)">
+            전투 보드의 테두리 색상입니다.
+            
+            전투 화면에서 플레이어의 소울이 위치하는 보드의 테두리 색상을 정의합니다.
+            보드의 경계와 시각적 구분을 강화하는 데 사용됩니다.
         </member>
     </members>
 </class>

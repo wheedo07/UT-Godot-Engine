@@ -5,6 +5,8 @@
 #include<godot_cpp/classes/animated_sprite2d.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
 #include<godot_cpp/classes/input_event.hpp>
+#include<godot_cpp/classes/tween.hpp>
+#include<godot_cpp/classes/property_tweener.hpp>
 #include "engine/resources/Encounters/button_set.h"
 namespace godot {
     class BattleButtons : public Node2D {
@@ -19,6 +21,7 @@ namespace godot {
 
             AudioStreamPlayer* move_sound;
             AudioStreamPlayer* select_sound;
+            Ref<Tween> tween;
             Ref<ButtonSet> current_button_set;
             Array buttons;
         

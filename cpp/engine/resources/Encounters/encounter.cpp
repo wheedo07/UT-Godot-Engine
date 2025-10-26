@@ -54,7 +54,7 @@ void Encounter::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_board_color"), &Encounter::get_board_color);
     ClassDB::bind_method(D_METHOD("set_board_border_color", "color"), &Encounter::set_board_border_color);
     ClassDB::bind_method(D_METHOD("get_board_border_color"), &Encounter::get_board_border_color);
-    ADD_GROUP("battle_ui", "");
+    ADD_GROUP("Battle UI", "");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "button_set", PROPERTY_HINT_RESOURCE_TYPE, "ButtonSet"), "set_button_set", "get_button_set");
     ADD_PROPERTY(PropertyInfo(Variant::COLOR, "board_color"), "set_board_color", "get_board_color");
     ADD_PROPERTY(PropertyInfo(Variant::COLOR, "board_border_color"), "set_board_border_color", "get_board_border_color");
