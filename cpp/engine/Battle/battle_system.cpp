@@ -93,11 +93,11 @@ void BattleMain::_ready() {
 
 void BattleMain::_process(double delta) {
     bg->set_position(encounter->get_offset());
-    buttons->set_button(encounter->get_button_set());
 }
 
 void BattleMain::initialize() {
     bg->set_texture(encounter->get_background());
+    buttons->set_button(encounter->get_button_set());
     Array enemy_scenes = encounter->get_enemies().duplicate();
     
     Ref<AudioStream> music = encounter->get_music();

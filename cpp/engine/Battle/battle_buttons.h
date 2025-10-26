@@ -19,6 +19,7 @@ namespace godot {
 
             AudioStreamPlayer* move_sound;
             AudioStreamPlayer* select_sound;
+            Ref<ButtonSet> current_button_set;
             Array buttons;
         
         public:

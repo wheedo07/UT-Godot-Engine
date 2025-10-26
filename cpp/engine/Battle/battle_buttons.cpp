@@ -56,24 +56,25 @@ void BattleButtons::_unhandled_input(const Ref<InputEvent>& event) {
 }
 
 void BattleButtons::set_button(Ref<ButtonSet> button_set) {
-    if(!button_set.is_valid()) return;
+    current_button_set = button_set;
+    if(button_set.is_null()) return;
     for(int i=0; i < buttons.size(); i++) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
         switch(i) {
             case 0:
-                if(button_set->get_fight_button().is_valid())
+                if(!button_set->get_fight_button().is_null())
                     button->set_sprite_frames(button_set->get_fight_button());
                 break;
             case 1:
-                if(button_set->get_act_button().is_valid())
+                if(!button_set->get_act_button().is_null())
                     button->set_sprite_frames(button_set->get_act_button());
                 break;
             case 2:
-                if(button_set->get_item_button().is_valid())
+                if(!button_set->get_item_button().is_null())
                     button->set_sprite_frames(button_set->get_item_button());
                 break;
             case 3:
-                if(button_set->get_mercy_button().is_valid())
+                if(!button_set->get_mercy_button().is_null())
                     button->set_sprite_frames(button_set->get_mercy_button());
                 break;
         }
@@ -119,7 +120,8 @@ void BattleButtons::enable() {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[choice]);
         if (button) {
             Vector2 button_pos = button->get_global_position();
-            emit_signal("movesoul", button_pos - Vector2(38, 0));
+            Vector2 offset = current_button_set.is_null() ? Vector2(38, 0) : current_button_set->get_soul_offset();
+            emit_signal("movesoul", button_pos - offset);
         }
     }
     

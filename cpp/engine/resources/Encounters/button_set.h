@@ -15,6 +15,7 @@ namespace godot {
             Ref<SpriteFrames> act_button;
             Ref<SpriteFrames> item_button;
             Ref<SpriteFrames> mercy_button;
+            Vector2 soul_offset;
         
         public:
             ButtonSet();
@@ -31,6 +32,9 @@ namespace godot {
 
             void set_mercy_button(const Ref<SpriteFrames>& p_frames);
             Ref<SpriteFrames> get_mercy_button() const;
+
+            void set_soul_offset(const Vector2& p_offset);
+            Vector2 get_soul_offset() const;
     };
 }
 
