@@ -158,6 +158,7 @@ mouse_filter = 2
 [node name="Typer" type="GenericTextTyper" parent="."]
 click_path = NodePath("Click")
 interval = 0.05
+material = SubResource("ShaderMaterial_anwqw")
 layout_mode = 0
 offset_top = 216.0
 offset_right = 640.0
@@ -182,12 +183,14 @@ offset_bottom = 411.0
 split_offset = 120
 
 [node name="YES" type="OptionSelectable" parent="Confirmation"]
+material = SubResource("ShaderMaterial_anwqw")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_2u401")
 text = "UT_YES"
 
 [node name="NO" type="OptionSelectable" parent="Confirmation"]
+material = SubResource("ShaderMaterial_anwqw")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_2u401")

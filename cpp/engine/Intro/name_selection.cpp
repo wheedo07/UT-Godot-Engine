@@ -4,6 +4,7 @@
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/variant/callable.hpp>
 #include<godot_cpp/classes/engine.hpp>
+#include<godot_cpp/classes/translation_server.hpp>
 
 NameSelection::NameSelection() {
     name_text = "";
@@ -109,10 +110,7 @@ void NameSelection::react_to_name(const String& text, bool deny) {
     if (typer->is_connected("finished_all_texts", Callable(this, "on_typer_finished"))) {
         typer->disconnect("finished_all_texts", Callable(this, "on_typer_finished"));
     }
-    
-    Array text_array;
-    text_array.push_back(text);
-    typer->type_text(text_array);
+    typer->type_text({ text });
     is_deny = deny;
     
     typer->connect("finished_all_texts", Callable(this, "on_typer_finished"), Object::CONNECT_ONE_SHOT);
@@ -134,6 +132,10 @@ void NameSelection::await_confirm() {
     Object::cast_to<OptionSelectable>(choices[1])->reset(); 
     Object::cast_to<OptionSelectable>(choices[0])->set_selected(true);
     soul_pos = 0;
+
+    if(TranslationServer::get_singleton()->get_locale().begins_with("en")) {
+        confirmation->set_position(Vector2(240, 360));
+    }
     
     confirmation->show();
     confirmable = true;

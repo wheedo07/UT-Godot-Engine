@@ -112,10 +112,7 @@ void Intro::process_next_intro() {
         intro_text->set_interval(sleep);
         
         intro_text->connect("finished_all_texts", Callable(this, "_on_text_completed"), CONNECT_ONE_SHOT);
-        
-        PackedStringArray text_array;
-        text_array.push_back(text);
-        intro_text->type_text(text_array);
+        intro_text->type_text({ text });
     } else {
         intro_text->set_text("");
         _on_text_completed();
