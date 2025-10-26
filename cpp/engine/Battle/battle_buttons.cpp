@@ -99,10 +99,12 @@ void BattleButtons::changepos(int action) {
 }
 
 void BattleButtons::glow_choice(int id) {
-    if(tween.is_valid()) tween->kill();
-    tween = create_tween()->set_parallel();
-
     bool active_scale = current_button_set.is_valid() && current_button_set->is_active_scale();
+    if(active_scale) {
+        if(tween.is_valid()) tween->kill();
+        tween = create_tween()->set_parallel();
+    }
+
     for(int i=0; i < buttons.size(); i++) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
         button->set_frame(0);
@@ -144,6 +146,11 @@ void BattleButtons::enable() {
 
 void BattleButtons::disable() {
     enabled = false;
+    for(int i=0; i < buttons.size(); i++) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
+        button->set_modulate(Color(1,1,1,1));
+        button->set_scale(Vector2(1,1));
+    }
 }
 
 void BattleButtons::reset() {
