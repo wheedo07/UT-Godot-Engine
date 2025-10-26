@@ -91,11 +91,13 @@ namespace godot {
             void _item(int item_id);
             void _modify_stats(int id, Dictionary stats);
             void _enemy_script_off();
+            PackedStringArray _on_death_player();
 
             // 사용 함수
             void toggle_transparent();
             void end_encounter();
             int enemy_size();
+            bool is_kr();
             void kill_enemy(int enemy_id = 0);
             void spare_enemy(int enemy_id = 0);
             bool check_end_encounter();
@@ -103,9 +105,6 @@ namespace godot {
             
             void set_encounter(const Ref<Encounter>& p_encounter);
             Ref<Encounter> get_encounter() const;
-            
-            bool is_kr();
-            PackedStringArray _on_death_player();
     };
 }
 

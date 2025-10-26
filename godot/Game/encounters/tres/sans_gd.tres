@@ -1,8 +1,20 @@
-[gd_resource type="Encounter" load_steps=2 format=3 uid="uid://bp7davgg4c2yg"]
+[gd_resource type="Encounter" load_steps=5 format=3 uid="uid://bp7davgg4c2yg"]
 
+[ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://Game/assets/sprite/sheet/sans_sheet.png" id="1_q2s51"]
 [ext_resource type="PackedScene" uid="uid://bjg0655hy3vx0" path="res://Game/encounters/enemy/sans_gd.tscn" id="2_q2s51"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7lixq"]
+atlas = ExtResource("1_q2s51")
+region = Rect2(2218, 61, 614, 94)
+
+[sub_resource type="ButtonSet" id="ButtonSet_kdk86"]
+soul_offset = Vector2(42, 0)
+active_scale = true
 
 [resource]
 encounter_name = &"SANS_GD"
 enemies = Array[PackedScene]([ExtResource("2_q2s51")])
+background = SubResource("AtlasTexture_7lixq")
+offset = Vector2(0, -40)
 flee_chance = 0.5
+button_set = SubResource("ButtonSet_kdk86")

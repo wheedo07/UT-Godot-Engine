@@ -25,6 +25,7 @@ void BattleMain::_bind_methods() {
     ADD_SIGNAL(MethodInfo("item_used", PropertyInfo(Variant::INT, "id")));
     
     ClassDB::bind_method(D_METHOD("enemy_size"), &BattleMain::enemy_size);
+    ClassDB::bind_method(D_METHOD("is_kr"), &BattleMain::is_kr);
     ClassDB::bind_method(D_METHOD("toggle_transparent"), &BattleMain::toggle_transparent);
     ClassDB::bind_method(D_METHOD("kill_enemy", "enemy_id"), &BattleMain::kill_enemy, DEFVAL(0));
     ClassDB::bind_method(D_METHOD("spare_enemy", "enemy_id"), &BattleMain::spare_enemy, DEFVAL(0));
