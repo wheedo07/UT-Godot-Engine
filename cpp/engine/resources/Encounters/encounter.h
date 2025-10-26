@@ -2,6 +2,7 @@
 #define ENCOUNTER_H
 
 #include<godot_cpp/classes/resource.hpp>
+#include "button_set.h"
 #include<godot_cpp/classes/texture2d.hpp>
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/classes/audio_stream.hpp>
@@ -20,7 +21,10 @@ namespace godot {
             Ref<AudioStream> music;
             PackedStringArray mercy_options;
             float flee_chance;
-            static const int enemysizelimit = 3;
+
+            Ref<ButtonSet> button_set;
+            Color board_color;
+            Color board_border_color;
         
         public:
             Encounter();
@@ -46,6 +50,15 @@ namespace godot {
             
             void set_flee_chance(float p_chance);
             float get_flee_chance() const;
+
+            void set_button_set(const Ref<ButtonSet>& p_set);
+            Ref<ButtonSet> get_button_set() const;
+
+            void set_board_color(const Color& p_color);
+            Color get_board_color() const;
+
+            void set_board_border_color(const Color& p_color);
+            Color get_board_border_color() const;
     };
 }
 

@@ -1,4 +1,5 @@
 #include "encounter.h"
+#define Enemysize_Limit 3
 using namespace godot;
 
 Encounter::Encounter() {
@@ -8,6 +9,9 @@ Encounter::Encounter() {
     
     mercy_options.push_back("UT_SPARE");
     mercy_options.push_back("UT_FLEE");
+
+    board_color = Color(0, 0, 0, 0.8);
+    board_border_color = Color(1, 1, 1, 1);
 }
 
 Encounter::~Encounter() {}
@@ -15,39 +19,45 @@ Encounter::~Encounter() {}
 void Encounter::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_encounter_name", "name"), &Encounter::set_encounter_name);
     ClassDB::bind_method(D_METHOD("get_encounter_name"), &Encounter::get_encounter_name);
-    
-    ClassDB::bind_method(D_METHOD("set_background", "background"), &Encounter::set_background);
-    ClassDB::bind_method(D_METHOD("get_background"), &Encounter::get_background);
-
-    ClassDB::bind_method(D_METHOD("set_offset", "offset"), &Encounter::set_offset);
-    ClassDB::bind_method(D_METHOD("get_offset"), &Encounter::get_offset);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING_NAME, "encounter_name"), "set_encounter_name", "get_encounter_name");
     
     ClassDB::bind_method(D_METHOD("set_enemies", "enemies"), &Encounter::set_enemies);
     ClassDB::bind_method(D_METHOD("get_enemies"), &Encounter::get_enemies);
-    
-    ClassDB::bind_method(D_METHOD("set_music", "music"), &Encounter::set_music);
-    ClassDB::bind_method(D_METHOD("get_music"), &Encounter::get_music);
-    
-    ClassDB::bind_method(D_METHOD("set_mercy_options", "options"), &Encounter::set_mercy_options);
-    ClassDB::bind_method(D_METHOD("get_mercy_options"), &Encounter::get_mercy_options);
-    
-    ClassDB::bind_method(D_METHOD("set_flee_chance", "chance"), &Encounter::set_flee_chance);
-    ClassDB::bind_method(D_METHOD("get_flee_chance"), &Encounter::get_flee_chance);
-
-    ADD_PROPERTY(PropertyInfo(Variant::STRING_NAME, "encounter_name"), "set_encounter_name", "get_encounter_name");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "enemies", PROPERTY_HINT_TYPE_STRING, 
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + "/" + ":PackedScene")
     , "set_enemies", "get_enemies");
+
+    ClassDB::bind_method(D_METHOD("set_background", "background"), &Encounter::set_background);
+    ClassDB::bind_method(D_METHOD("get_background"), &Encounter::get_background);
+    ClassDB::bind_method(D_METHOD("set_offset", "offset"), &Encounter::set_offset);
+    ClassDB::bind_method(D_METHOD("get_offset"), &Encounter::get_offset);
     ADD_GROUP("background", "");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "background", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_background", "get_background");
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "offset"), "set_offset", "get_offset");
 
+    ClassDB::bind_method(D_METHOD("set_mercy_options", "options"), &Encounter::set_mercy_options);
+    ClassDB::bind_method(D_METHOD("get_mercy_options"), &Encounter::get_mercy_options);
+    ClassDB::bind_method(D_METHOD("set_flee_chance", "chance"), &Encounter::set_flee_chance);
+    ClassDB::bind_method(D_METHOD("get_flee_chance"), &Encounter::get_flee_chance);
     ADD_GROUP("mercy", "");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "mercy_options", PROPERTY_HINT_ARRAY_TYPE, "String"), "set_mercy_options", "get_mercy_options");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "flee_chance", PROPERTY_HINT_RANGE, "0,1"), "set_flee_chance", "get_flee_chance");
 
+    ClassDB::bind_method(D_METHOD("set_music", "music"), &Encounter::set_music);
+    ClassDB::bind_method(D_METHOD("get_music"), &Encounter::get_music);
     ADD_GROUP("Music", "");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "music", PROPERTY_HINT_RESOURCE_TYPE, "AudioStream"), "set_music", "get_music");
+
+    ClassDB::bind_method(D_METHOD("set_button_set", "button_set"), &Encounter::set_button_set);
+    ClassDB::bind_method(D_METHOD("get_button_set"), &Encounter::get_button_set);
+    ClassDB::bind_method(D_METHOD("set_board_color", "color"), &Encounter::set_board_color);
+    ClassDB::bind_method(D_METHOD("get_board_color"), &Encounter::get_board_color);
+    ClassDB::bind_method(D_METHOD("set_board_border_color", "color"), &Encounter::set_board_border_color);
+    ClassDB::bind_method(D_METHOD("get_board_border_color"), &Encounter::get_board_border_color);
+    ADD_GROUP("battle_ui", "");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "button_set", PROPERTY_HINT_RESOURCE_TYPE, "ButtonSet"), "set_button_set", "get_button_set");
+    ADD_PROPERTY(PropertyInfo(Variant::COLOR, "board_color"), "set_board_color", "get_board_color");
+    ADD_PROPERTY(PropertyInfo(Variant::COLOR, "board_border_color"), "set_board_border_color", "get_board_border_color");
 }
 
 void Encounter::set_encounter_name(const StringName& p_name) {
@@ -75,7 +85,7 @@ Vector2 Encounter::get_offset() const {
 }
 
 void Encounter::set_enemies(const TypedArray<PackedScene>& p_enemies) {
-    if (p_enemies.size() <= enemysizelimit) {
+    if (p_enemies.size() <= Enemysize_Limit) {
         enemies = p_enemies;
     }
 }
@@ -106,4 +116,28 @@ void Encounter::set_flee_chance(float p_chance) {
 
 float Encounter::get_flee_chance() const {
     return flee_chance;
+}
+
+void Encounter::set_button_set(const Ref<ButtonSet>& p_set) {
+    button_set = p_set;
+}
+
+Ref<ButtonSet> Encounter::get_button_set() const {
+    return button_set;
+}
+
+void Encounter::set_board_color(const Color& p_color) {
+    board_color = p_color;
+}
+
+Color Encounter::get_board_color() const {
+    return board_color;
+}
+
+void Encounter::set_board_border_color(const Color& p_color) {
+    board_border_color = p_color;
+}
+
+Color Encounter::get_board_border_color() const {
+    return board_border_color;
 }

@@ -275,8 +275,10 @@ void BattleBox::_physics_process(double delta) {
 }
 
 void BattleBox::_process(double delta) {
-    if(!isPolygonMode) return;
+    background->set_color(main->get_encounter()->get_board_color());
+    border->set_default_color(main->get_encounter()->get_board_border_color());
 
+    if(!isPolygonMode) return;
     if(static_shape.size() == target_shape.size()) {
         bool all_reached = true;
         

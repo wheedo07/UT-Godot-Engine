@@ -55,6 +55,31 @@ void BattleButtons::_unhandled_input(const Ref<InputEvent>& event) {
     }
 }
 
+void BattleButtons::set_button(Ref<ButtonSet> button_set) {
+    if(!button_set.is_valid()) return;
+    for(int i=0; i < buttons.size(); i++) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
+        switch(i) {
+            case 0:
+                if(button_set->get_fight_button().is_valid())
+                    button->set_sprite_frames(button_set->get_fight_button());
+                break;
+            case 1:
+                if(button_set->get_act_button().is_valid())
+                    button->set_sprite_frames(button_set->get_act_button());
+                break;
+            case 2:
+                if(button_set->get_item_button().is_valid())
+                    button->set_sprite_frames(button_set->get_item_button());
+                break;
+            case 3:
+                if(button_set->get_mercy_button().is_valid())
+                    button->set_sprite_frames(button_set->get_mercy_button());
+                break;
+        }
+    }
+}
+
 void BattleButtons::changepos(int action) {
     move_sound->play();
     

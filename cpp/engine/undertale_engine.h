@@ -10,6 +10,7 @@ using namespace godot;
 #include "resources/Dialogues/dialogues.h"
 
 // Encounters
+#include "resources/Encounters/button_set.h"
 #include "resources/Encounters/encounter.h"
 
 // Enemies

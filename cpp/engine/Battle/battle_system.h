@@ -81,6 +81,7 @@ namespace godot {
             ~BattleMain();
             
             void _ready() override;
+            void _process(double delta) override;
             
             void _fight(int target);
             void _hit(int damage, int target, bool crit = false);

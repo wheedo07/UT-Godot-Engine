@@ -5,6 +5,7 @@
 #include<godot_cpp/classes/animated_sprite2d.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
 #include<godot_cpp/classes/input_event.hpp>
+#include "engine/resources/Encounters/button_set.h"
 namespace godot {
     class BattleButtons : public Node2D {
         GDCLASS(BattleButtons, Node2D);
@@ -26,6 +27,7 @@ namespace godot {
 
             void _ready() override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
+            void set_button(Ref<ButtonSet> button_set);
 
             void changepos(int action);
             void glow_choice(int id);

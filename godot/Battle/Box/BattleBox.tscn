@@ -70,7 +70,7 @@ layout_mode = 2
 color = Color(0, 0, 0, 0)
 
 [node name="background" type="Polygon2D" parent="BoxContainer/Rect"]
-color = Color(0, 0, 0, 0.7)
+color = Color(0, 0, 0, 0.8)
 polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)
 
 [node name="Webs" type="Control" parent="BoxContainer/Rect"]
@@ -212,7 +212,6 @@ layout_mode = 2
 
 [node name="Slider" parent="Items/ScrollContainer" instance=ExtResource("5_20ij6")]
 value = 1
-offset = 9.0
 step_size = 9.0
 layout_mode = 1
 anchors_preset = -1
