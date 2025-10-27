@@ -96,7 +96,6 @@ void BattleButtons::changepos(int action) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[new_choice]);
         bool is_enabled = enableds[new_choice];
         if(is_enabled) {
-            choice = new_choice;
             Vector2 button_pos = button->get_global_position();
             Vector2 offset = current_button_set.is_valid() ? current_button_set->get_soul_offset() : Vector2(38, 0);
             emit_signal("movesoul", button_pos - offset);
@@ -104,12 +103,13 @@ void BattleButtons::changepos(int action) {
         }
     }
     
-    glow_choice(choice);
+    glow_choice(new_choice);
 }
 
 void BattleButtons::glow_choice(int id) {
     bool id_enabled = (id >=0 && id < enableds.size()) ? bool(enableds[id]) : true;
     if(!id_enabled) return;
+    choice = id;
 
     bool active_scale = current_button_set.is_valid() && current_button_set->is_active_scale();
     if(active_scale) {
@@ -135,10 +135,8 @@ void BattleButtons::glow_choice(int id) {
         }
     }
     
-    if(id >= 0 && id < buttons.size()) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
-        button->set_frame(1);
-    }
+    AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+    button->set_frame(1);
 }
 
 void BattleButtons::play(int id, String anim, float custom_speed, bool from_end) {
