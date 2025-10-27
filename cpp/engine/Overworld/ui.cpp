@@ -49,7 +49,7 @@ UI::UI() {
     pos_history[CELL] = Variant();
     pos_history[ITEM_USE_DISABLE_MOVEMENT] = Variant();
 
-    items_seperation = Vector2(0, 38);
+    items_seperation = Vector2(0, 37);
     option_seperation = Vector2(0, 42);
 }
 

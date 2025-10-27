@@ -96,9 +96,9 @@ horizontal_alignment = 1
 [node name="BOX_Item" type="RichTextLabel" parent="Control/Main"]
 material = SubResource("ShaderMaterial_bso01")
 layout_mode = 0
-offset_left = 324.0
+offset_left = 317.0
 offset_top = 72.0
-offset_right = 547.0
+offset_right = 540.0
 offset_bottom = 380.0
 theme = ExtResource("3_t0e86")
 theme_override_font_sizes/normal_font_size = 28

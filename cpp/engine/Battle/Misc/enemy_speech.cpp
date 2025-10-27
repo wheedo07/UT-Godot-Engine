@@ -33,6 +33,7 @@ void EnemySpeech::character_customize() {
     set_click(setting);
     set_extra_delay(setting->get_extra_delay());
     set_no_sound(setting->get_no_sound());
+    set_entire_text_bbcode(setting->get_entire_text_bbcode());
 }
 
 void EnemySpeech::type_text_advanced(const Ref<Dialogues>& dialogues) {

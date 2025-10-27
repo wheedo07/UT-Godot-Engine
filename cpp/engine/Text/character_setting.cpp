@@ -3,6 +3,7 @@ using namespace godot;
 
 CharacterSetting::CharacterSetting() {
     text_size = 28;
+    entire_text_bbcode = "";
     extra_delay = "@#$%^&+=_-~`<>\"|\\*{}()[].,!?";
     no_sound = "@#$%^&+=_-~`<>\"|\\*{}()[].,!? ";
 }
@@ -12,16 +13,20 @@ CharacterSetting::~CharacterSetting() {}
 void CharacterSetting::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_font", "value"), &CharacterSetting::set_font);
     ClassDB::bind_method(D_METHOD("get_font"), &CharacterSetting::get_font);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "font", PROPERTY_HINT_RESOURCE_TYPE, "Font"), "set_font", "get_font");
+
     ClassDB::bind_method(D_METHOD("set_text_size", "value"), &CharacterSetting::set_text_size);
     ClassDB::bind_method(D_METHOD("get_text_size"), &CharacterSetting::get_text_size);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "text_size"), "set_text_size", "get_text_size");
+
+    ClassDB::bind_method(D_METHOD("set_entire_text_bbcode", "value"), &CharacterSetting::set_entire_text_bbcode);
+    ClassDB::bind_method(D_METHOD("get_entire_text_bbcode"), &CharacterSetting::get_entire_text_bbcode);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "entire_text_bbcode", PROPERTY_HINT_MULTILINE_TEXT), "set_entire_text_bbcode", "get_entire_text_bbcode");
+
     ClassDB::bind_method(D_METHOD("set_extra_delay", "value"), &CharacterSetting::set_extra_delay);
     ClassDB::bind_method(D_METHOD("get_extra_delay"), &CharacterSetting::get_extra_delay);
     ClassDB::bind_method(D_METHOD("set_no_sound", "value"), &CharacterSetting::set_no_sound);
     ClassDB::bind_method(D_METHOD("get_no_sound"), &CharacterSetting::get_no_sound);
-
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "font", PROPERTY_HINT_RESOURCE_TYPE, "Font"), "set_font", "get_font");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "text_size"), "set_text_size", "get_text_size");
-
     ADD_GROUP("advanced", "");
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "extra_delay"), "set_extra_delay", "get_extra_delay");
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "no_sound"), "set_no_sound", "get_no_sound");
@@ -57,4 +62,12 @@ String CharacterSetting::get_extra_delay() {
 
 void CharacterSetting::set_extra_delay(String value) {
     extra_delay = value;
+}
+
+void CharacterSetting::set_entire_text_bbcode(String value) {
+    entire_text_bbcode = value;
+}
+
+String CharacterSetting::get_entire_text_bbcode() {
+    return entire_text_bbcode;
 }

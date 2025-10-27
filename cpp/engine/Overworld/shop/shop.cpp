@@ -8,12 +8,12 @@ SHOP::SHOP() {
     
     soul_positions = Dictionary();
     Array pos_array1;
-    pos_array1.push_back(Vector2(38, 38));
+    pos_array1.push_back(Vector2(38, 36));
     pos_array1.push_back(Vector2(0, 44));
     soul_positions[0] = pos_array1;
     
     Array pos_array2;
-    pos_array2.push_back(Vector2(52, 34));
+    pos_array2.push_back(Vector2(52, 29));
     pos_array2.push_back(Vector2(0, 43));
     soul_positions[1] = pos_array2;
 

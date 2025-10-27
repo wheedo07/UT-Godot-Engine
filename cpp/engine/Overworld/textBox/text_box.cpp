@@ -13,6 +13,9 @@ TextBox::TextBox() {
     soul_position = Vector2(0, 0);
     selecting = false;
     optionamt = 0;
+    soul_offset = Vector2(0, -5);
+    last_skip_time = 0;
+    last_confirm_time = 0;
 }
 
 TextBox::~TextBox() {}
@@ -21,6 +24,10 @@ void TextBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("generic", "text", "options", "text_after_options"), &TextBox::generic, DEFVAL(PackedStringArray()), DEFVAL(TypedArray<Dialogues>()));
     ClassDB::bind_method(D_METHOD("character", "head_hide", "chr", "text", "options", "text_after_options"), &TextBox::character, DEFVAL(PackedStringArray()), DEFVAL(TypedArray<Dialogues>()));
     ClassDB::bind_method(D_METHOD("set_key", "is"), &TextBox::set_key);
+
+    ClassDB::bind_method(D_METHOD("set_soul_offset", "offset"), &TextBox::set_soul_offset);
+    ClassDB::bind_method(D_METHOD("get_soul_offset"), &TextBox::get_soul_offset);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "soul_offset"), "set_soul_offset", "get_soul_offset");
 
     ClassDB::bind_method(D_METHOD("_set_head_frame", "expr"), &TextBox::_set_head_frame);
     ClassDB::bind_method(D_METHOD("_on_text_click_played"), &TextBox::_on_text_click_played);
@@ -76,7 +83,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
         stagehand->audio_player->play("choice");
         soulpos--;
         soul_position = Options[soulpos].call("get_global_position");
-        soul->move_global(soul_position);
+        soul->move_global(soul_position + soul_offset);
     }
     
     if(event->is_action_pressed("ui_right") && soulpos < optionamt-1) {
@@ -84,7 +91,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
         stagehand->audio_player->play("choice");
         soulpos++;
         soul_position = Options[soulpos].call("get_global_position");
-        soul->move_global(soul_position);
+        soul->move_global(soul_position + soul_offset);
     }
     
     if(event->is_action_pressed("ui_accept") && selected_option) {
@@ -142,6 +149,7 @@ void TextBox::generic(const Ref<Dialogues>& text, const PackedStringArray& optio
     if(!setting->get_font().is_null()) Text->add_theme_font_override("normal_font", setting->get_font());
     Text->set_no_sound(setting->get_no_sound());
     Text->set_extra_delay(setting->get_extra_delay());
+    Text->set_entire_text_bbcode(setting->get_entire_text_bbcode());
 
     for(int i=0; i < 5; i++) {
         if (i == 0) {
@@ -176,6 +184,7 @@ void TextBox::character(bool head_hide, String chr, const Ref<Dialogues>& dialog
     if(!setting->get_font().is_null()) Text->add_theme_font_override("normal_font", setting->get_font());
     Text->set_no_sound(setting->get_no_sound());
     Text->set_extra_delay(setting->get_extra_delay());
+    Text->set_entire_text_bbcode(setting->get_entire_text_bbcode());
     
     for(int i = 0; i < 5; i++) {
         if(i == 0) {
@@ -234,7 +243,7 @@ void TextBox::_setup_soul_selection(const PackedStringArray& options) {
     stagehand->audio_player->play("choice");
     
     Vector2 option_pos = Options[0].call("get_global_position");
-    soul->set_global_position(option_pos);
+    soul->set_global_position(option_pos + soul_offset);
     selecting = true;
 
     Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.35);
@@ -305,4 +314,12 @@ void TextBox::_on_confirm() {
         skip_count++;
         emit_signal("typing_skip", skip_count);
     }
+}
+
+void TextBox::set_soul_offset(const Vector2& offset) {
+    soul_offset = offset;
+}
+
+Vector2 TextBox::get_soul_offset() const {
+    return soul_offset;
 }

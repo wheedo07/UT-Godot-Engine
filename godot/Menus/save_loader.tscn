@@ -31,6 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Name" type="RichTextLabel" parent="Control/Texts"]
+material = SubResource("ShaderMaterial_kc30e")
 clip_contents = false
 layout_mode = 0
 offset_left = 28.0
@@ -43,6 +44,7 @@ text = "Chara"
 scroll_active = false
 
 [node name="Lv" type="RichTextLabel" parent="Control/Texts"]
+material = SubResource("ShaderMaterial_kc30e")
 clip_contents = false
 layout_mode = 0
 offset_left = 165.0
@@ -55,6 +57,7 @@ text = "LV2"
 scroll_active = false
 
 [node name="Time" type="RichTextLabel" parent="Control/Texts"]
+material = SubResource("ShaderMaterial_kc30e")
 clip_contents = false
 layout_mode = 0
 offset_left = 270.0

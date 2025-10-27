@@ -51,7 +51,7 @@ bus = &"SFX"
 
 [node name="SANS" type="CharacterSetting" parent="Character"]
 font = ExtResource("6_s7wao")
-text_size = 26.0
+entire_text_bbcode = "[b]"
 stream = ExtResource("6_ttt7e")
 max_polyphony = 3
 bus = &"SFX"
@@ -59,6 +59,7 @@ bus = &"SFX"
 [node name="SANS_BATTLE" type="CharacterSetting" parent="Character"]
 font = ExtResource("6_s7wao")
 text_size = 14.0
+entire_text_bbcode = "[b]"
 stream = ExtResource("6_ttt7e")
 max_polyphony = 3
 bus = &"SFX"

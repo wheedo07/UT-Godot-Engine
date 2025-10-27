@@ -19,11 +19,12 @@ namespace godot {
         
         private:
             int soulpos, skip_count;
-            Vector2 soul_position = Vector2(0, 0);
-            bool selecting = false;
-            double last_skip_time = 0.0;
-            double last_confirm_time = 0.0;
-            int optionamt = 0;
+            Vector2 soul_position;
+            Vector2 soul_offset;
+            bool selecting;
+            double last_skip_time;
+            double last_confirm_time;
+            int optionamt;
             TypedArray<Dialogues> text_after_option;
 
             bool selected_option = false;
@@ -71,6 +72,9 @@ namespace godot {
             void character(bool head_hide, String chr, const Ref<Dialogues>& dialogues, const PackedStringArray& options = PackedStringArray(), 
             const TypedArray<Dialogues>& dialogues_after_options = TypedArray<Dialogues>());
             void set_key(bool is);
+
+            void set_soul_offset(const Vector2& offset);
+            Vector2 get_soul_offset() const;
 
             void _on_text_click_played();
     };

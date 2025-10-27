@@ -52,6 +52,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_aygu1")
+theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
 metadata/_edit_lock_ = true
 

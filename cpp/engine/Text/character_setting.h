@@ -14,6 +14,8 @@ namespace godot {
         private:
             Ref<Font> font;
             float text_size;
+            String entire_text_bbcode;
+
             String extra_delay;
             String no_sound;
         
@@ -32,6 +34,9 @@ namespace godot {
 
             void set_no_sound(String value);
             String get_no_sound();
+
+            void set_entire_text_bbcode(String value);
+            String get_entire_text_bbcode();
     };
 }
 
