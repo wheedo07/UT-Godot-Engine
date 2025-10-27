@@ -1,5 +1,6 @@
 #include "ui.h"
 #include "env.h"
+#include "engine/Menus/item_slider.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/resource_loader.hpp>
 #include<godot_cpp/classes/panel.hpp>
@@ -9,6 +10,7 @@
 #include<godot_cpp/classes/audio_stream_player.hpp>
 #include<godot_cpp/classes/gpu_particles2d.hpp>
 #include<godot_cpp/classes/translation_server.hpp>
+#define MAX_ITEMS_PER_PAGE 6
 
 UI::UI() {
     sizethingys = Dictionary();
@@ -47,7 +49,7 @@ UI::UI() {
     pos_history[CELL] = Variant();
     pos_history[ITEM_USE_DISABLE_MOVEMENT] = Variant();
 
-    items_seperation = Vector2(0, 29);
+    items_seperation = Vector2(0, 38);
     option_seperation = Vector2(0, 42);
 }
 
@@ -97,6 +99,7 @@ void UI::_ready() {
     stats = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Detailed"));
     items = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Items"));
     cells = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Cells"));
+    item_slider = Object::cast_to<ItemSlider>(get_node_internal("Control/StatAndOptions/Items/Items/Slider"));
     
     item_actions = Dictionary();
     item_actions[0.0] = get_node_internal("Control/StatAndOptions/Items/Use");
@@ -257,16 +260,42 @@ void UI::_set_detailed() {
 }
 
 void UI::_set_items() {
-    String txt;
+    Array items_array = global->get_items();
+    int total_items = items_array.size();
     
-    for (int i = 0; i < global->get_items().size(); i++) {
-        Ref<Item> item = global->get_item_list()[global->get_items()[i]];
-        txt += vformat("%s\n", item->get_item_name_tr());
+    if(total_items == 0) {
+        optionsize[ITEM] = Vector2(1, 1);
+        return;
     }
     
-    optionsize[ITEM] = Vector2(1, global->get_items().size());
+    total_item_pages = (total_items + MAX_ITEMS_PER_PAGE - 1) / MAX_ITEMS_PER_PAGE;
     
+    if(current_item_page >= total_item_pages) {
+        current_item_page = total_item_pages - 1;
+    }
+    if(current_item_page < 0) {
+        current_item_page = 0;
+    }
+
+    int start_index = current_item_page * MAX_ITEMS_PER_PAGE;
+    int end_index = MIN(start_index + MAX_ITEMS_PER_PAGE, total_items);
+    
+    String txt;
+    int displayed_items = 0;
+    
+    for(int i = start_index; i < end_index; i++) {
+        Ref<Item> item = global->get_item_list()[items_array[i]];
+        txt += vformat("%s\n", item->get_item_name_tr());
+        displayed_items++;
+    }
+    optionsize[ITEM] = Vector2(1, displayed_items);
     Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Items/Items"))->set_text(txt);
+
+    float slider_value = 0.0f;
+    if(total_item_pages > 1) {
+        slider_value = (float)current_item_page / (float)(total_item_pages - 1) * 20.0f;
+    }
+    item_slider->set_value(Math::round(slider_value));
 }
 
 void UI::_set_cells() {
@@ -298,14 +327,40 @@ void UI::_close_menu() {
     tw_property->get_tw()->connect("finished", Callable(this, "_on_animation_finished"));
 }
 
+int UI::get_actual_item_index(int display_index) const {
+    return current_item_page * MAX_ITEMS_PER_PAGE + display_index;
+}
+
 void UI::_unhandled_input(const Ref<InputEvent>& event) {
     // 텍스트 박스가 활성화되어 있으면 무시
     if(textbox) return;
     
     if(event->is_action_pressed("ui_down")) {
+        if(current_state == ITEM) {
+            Vector2 vec = optionsize[ITEM];
+            if(soulposition.y >= vec.y - 1 && current_item_page < total_item_pages - 1) {
+                current_item_page++;
+                soulposition.y = 0;
+                _set_items();
+                soul_move(Vector2(0, 0));
+                return;
+            }
+        }
         soul_move(Vector2(0, 1));
     }
     if(event->is_action_pressed("ui_up")) {
+        if(current_state == ITEM) {
+            if(soulposition.y <= 0 && current_item_page > 0) {
+                current_item_page--;
+                soulposition.y = 0;
+                _set_items();
+
+                Vector2 vec = optionsize[ITEM];
+                soulposition.y = vec.y - 1;
+                soul_move(Vector2(0, 0));
+                return;
+            }
+        }
         soul_move(Vector2(0, -1));
     }
     if(event->is_action_pressed("ui_right")) {
@@ -338,7 +393,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                 break;
             }
             case ITEM: {
-                soulposition_item.y = soulposition.y;
+                soulposition_item.y = get_actual_item_index(int(soulposition.y)); 
                 _in_state(ITEM_ACTION);
                 break;
             }
@@ -356,29 +411,29 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
             }
             case ITEM_ACTION: {
                 soul->hide();
+                int item_index = int(soulposition_item.y);
+                
                 switch (int(soulposition.x)) {
                     case 0: {
                         _in_state(ITEM_USE_DISABLE_MOVEMENT);
-                        Ref<Item> item = global->get_item_list()[global->get_items()[soulposition_item.y]];
+                        Ref<Item> item = global->get_item_list()[global->get_items()[item_index]];
                         textbox = Object::cast_to<TextBox>(textboxscene->instantiate());
                         global->get_scene_container()->get_current_scene()->add_child(textbox);
                         textbox->connect("dialogue_finished", Callable(this, "_on_item_dialogue_finished"), CONNECT_ONE_SHOT);
                         Ref<Dialogues> dialogues = memnew(Dialogues);
                         
                         if (item->get_item_type() != Item::CONSUMABLE) {
-                            // 장비 아이템인 경우
-                            PackedStringArray txt = global->equip_item(global->get_items()[soulposition_item.y]);
+                            PackedStringArray txt = global->equip_item(global->get_items()[item_index]);
                             Array items = global->get_items();
-                            items.remove_at(soulposition_item.y);
+                            items.remove_at(item_index);
                             global->set_items(items);
                             _set_items();
                             dialogues->from(txt);
                             textbox->generic(dialogues);
                         } else {
-                            // 소비 아이템인 경우
-                            PackedStringArray txt = global->item_use_text(global->get_items()[soulposition_item.y]);
+                            PackedStringArray txt = global->item_use_text(global->get_items()[item_index]);
                             Array items = global->get_items();
-                            items.remove_at(soulposition_item.y);
+                            items.remove_at(item_index);
                             global->set_items(items);
                             _set_items();
                             dialogues->from(txt);
@@ -390,7 +445,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                         _in_state(ITEM_USE_DISABLE_MOVEMENT);
                         textbox = Object::cast_to<TextBox>(textboxscene->instantiate());
                         global->get_scene_container()->get_current_scene()->add_child(textbox);
-                        Ref<Item> item = global->get_item_list()[global->get_items()[soulposition_item.y]];
+                        Ref<Item> item = global->get_item_list()[global->get_items()[item_index]];
                         PackedStringArray info = item->get_item_information();
                         Ref<Dialogues> dialogues = memnew(Dialogues);
                         dialogues->from(info);
@@ -400,16 +455,16 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                     }
                     case 2: {
                         _in_state(ITEM_USE_DISABLE_MOVEMENT);
-                        Ref<Item> item = global->get_item_list()[global->get_items()[soulposition_item.y]];
+                        Ref<Item> item = global->get_item_list()[global->get_items()[item_index]];
                         PackedStringArray txt = item->get_throw_message();
                         textbox = Object::cast_to<TextBox>(textboxscene->instantiate());
                         global->get_scene_container()->get_current_scene()->add_child(textbox);
-                        _set_items();
                         Ref<Dialogues> dialogues = memnew(Dialogues);
                         dialogues->from(txt);
                         Array items = global->get_items();
-                        items.remove_at(soulposition_item.y);
+                        items.remove_at(item_index);
                         global->set_items(items);
+                        _set_items();
                         textbox->generic(dialogues);
                         textbox->connect("dialogue_finished", Callable(this, "_on_item_dialogue_finished"), CONNECT_ONE_SHOT);
                         break;
@@ -417,7 +472,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                 }
                 _set_overview();
                 break;
-            }
+            } 
             default:
                 break;
         }
@@ -461,30 +516,25 @@ bool UI::soul_move(const Vector2& action) {
         case OPTIONS: {
             RichTextLabel* options_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"));
             soultarget = options_node->get_global_position() + soulposition * option_seperation;
-            String locale = TranslationServer::get_singleton()->get_locale();
-            if(locale.begins_with("ko")) {
-                target = soultarget + Vector2(-12, 17);
-            }else {
-                target = soultarget + Vector2(-12, 20);
-            }
+            target = soultarget + Vector2(-12, 15);
             break;
         }
         case ITEM: {
             RichTextLabel* items_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Items/Items"));
             soultarget = items_node->get_global_position() + soulposition * items_seperation;
-            target = soultarget + Vector2(-12, 15);
+            target = soultarget + Vector2(-12, 13);
             break;
         }
         case ITEM_ACTION: {
             Node* action_node = Object::cast_to<Node>(item_actions[soulposition.x]);
             soultarget = action_node->call("get_global_position");
-            target = soultarget + Vector2(-12, 18);
+            target = soultarget + Vector2(-12, 13);
             break;
         }
         case CELL: {
             RichTextLabel* numbers_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Cells/Numbers"));
             soultarget = numbers_node->get_global_position() + soulposition * items_seperation;
-            target = soultarget + Vector2(-12, 15);
+            target = soultarget + Vector2(-12, 13);
             break;
         }
         default:

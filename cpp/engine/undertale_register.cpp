@@ -90,7 +90,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_RUNTIME_CLASS(SettingBoolButton);
     GDREGISTER_RUNTIME_CLASS(SettingToggleButton);
     GDREGISTER_RUNTIME_CLASS(AudiobusSettings);
-    GDREGISTER_RUNTIME_CLASS(ItemSlider);
+    GDREGISTER_CLASS(ItemSlider);
     GDREGISTER_RUNTIME_CLASS(SaveLoader);
     GDREGISTER_RUNTIME_CLASS(Joystick);
     // [end] //

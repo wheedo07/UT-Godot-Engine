@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://bevhjdbngyvd7"]
+[gd_scene load_steps=16 format=3 uid="uid://bevhjdbngyvd7"]
 
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="1_2uijs"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_elsrr"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_k0cus"]
 [ext_resource type="Theme" uid="uid://bevcq3qnk3n8h" path="res://Themes/hud.tres" id="4_c2gxs"]
 [ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="5_6t6nw"]
+[ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="6_1dquw"]
 [ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Battle/Soul/soul.png" id="6_7ksvh"]
 [ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="7_j83rc"]
 
@@ -136,7 +137,7 @@ offset_top = 19.0
 offset_right = 259.0
 offset_bottom = 144.0
 theme = ExtResource("3_k0cus")
-theme_override_font_sizes/normal_font_size = 33
+theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "[color=white]아이템[/color]
 [color=white]스텟[/color]
@@ -320,6 +321,7 @@ offset_top = 25.0
 offset_right = 339.0
 offset_bottom = 284.0
 theme = ExtResource("3_k0cus")
+theme_override_constants/paragraph_separation = 9
 theme_override_font_sizes/normal_font_size = 28
 bbcode_enabled = true
 text = "Monster Candy
@@ -331,6 +333,20 @@ Amongus
 Amongus
 Amongus"
 scroll_active = false
+
+[node name="Slider" parent="Control/StatAndOptions/Items/Items" instance=ExtResource("6_1dquw")]
+item_offset = 15.0
+step_size = 9.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.88779867
+anchor_top = 0.09228033
+anchor_right = 0.9589851
+anchor_bottom = 0.9185352
+offset_left = -10.900604
+offset_top = -23.900602
+offset_right = -10.900604
+offset_bottom = -23.900604
 
 [node name="Use" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
 show_behind_parent = true
@@ -406,6 +422,7 @@ offset_top = 25.0
 offset_right = 339.0
 offset_bottom = 284.0
 theme = ExtResource("3_k0cus")
+theme_override_constants/paragraph_separation = 9
 theme_override_font_sizes/normal_font_size = 28
 bbcode_enabled = true
 text = "토리엘 전화"

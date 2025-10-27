@@ -27,13 +27,13 @@ void ItemSlider::_bind_methods() {
 }
 
 void ItemSlider::_ready() {
-    if (!grabber_path.is_empty()) {
+    if(!grabber_path.is_empty()) {
         grabber_node = get_node_internal(grabber_path);
     }else ERR_PRINT("grabber_path 값 비어있음!");
 }
 
 void ItemSlider::_process(double delta) {
-    if (grabber_node) {
+    if(grabber_node) {
         Vector2 current_pos = grabber_node->call("get_position");
         float target_y = offset + step_size * value;
         float new_y = UtilityFunctions::lerp(current_pos.y, target_y, float(delta * speed));

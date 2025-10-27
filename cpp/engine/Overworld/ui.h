@@ -13,6 +13,7 @@
 #include "ui_box.h"
 namespace godot {
     class Overworld;
+    class ItemSlider;
 
     class UI : public CanvasLayer {
         GDCLASS(UI, CanvasLayer)
@@ -32,11 +33,13 @@ namespace godot {
 
         private:
             Dictionary sizethingys;
+            int current_item_page, total_item_pages;
 
             MenuSoul* soul;
             UI_Box* stats;
             UI_Box* items;
             UI_Box* cells;
+            ItemSlider* item_slider;
             Dictionary item_actions;
 
             Vector2 soulposition;
@@ -53,6 +56,7 @@ namespace godot {
 
             void _on_animation_finished();
             void _on_item_dialogue_finished();
+            int get_actual_item_index(int display_index) const;
 
         public:
             UI();
