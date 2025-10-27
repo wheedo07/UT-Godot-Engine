@@ -303,7 +303,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
                 BattleMain* battle = Object::cast_to<BattleMain>(current_scene);
                 if(battle->player_turn) {
                     battle->buttons->disable();
-                    battle->buttons->reset();
+                    battle->buttons->_reset();
                     battle->box->_disable();
                     battle->emit_signal("end_turn");
                 }else {

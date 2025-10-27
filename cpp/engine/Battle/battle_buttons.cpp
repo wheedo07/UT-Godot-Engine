@@ -7,27 +7,30 @@ using namespace godot;
 BattleButtons::BattleButtons() {
     enabled = false; 
     choice = 0;
+
+    button_enabled.resize(4);
+    for(int i=0; i < 4; i++) {
+        button_enabled[i] = true;
+    }
 }
 
 BattleButtons::~BattleButtons() {}
 
 void BattleButtons::_bind_methods() {
+    ADD_SIGNAL(MethodInfo("animation_finished"));
     ADD_SIGNAL(MethodInfo("movesoul", PropertyInfo(Variant::VECTOR2, "newpos")));
     ADD_SIGNAL(MethodInfo("selectbutton", PropertyInfo(Variant::INT, "id")));
+    ClassDB::bind_method(D_METHOD("_enable"), &BattleButtons::_enable);
+    ClassDB::bind_method(D_METHOD("_reset"), &BattleButtons::_reset);
+
+    ClassDB::bind_method(D_METHOD("set_button_enabled", "enabled"), &BattleButtons::set_button_enabled);
+    ClassDB::bind_method(D_METHOD("get_button_enabled"), &BattleButtons::get_button_enabled);
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "button_enabled", PROPERTY_HINT_ARRAY_TYPE, "bool"), "set_button_enabled", "get_button_enabled");
     
-    ClassDB::bind_method(D_METHOD("changepos", "action"), &BattleButtons::changepos);
     ClassDB::bind_method(D_METHOD("glow_choice", "id"), &BattleButtons::glow_choice);
-    ClassDB::bind_method(D_METHOD("enable"), &BattleButtons::enable);
-    ClassDB::bind_method(D_METHOD("disable"), &BattleButtons::disable);
-    ClassDB::bind_method(D_METHOD("reset"), &BattleButtons::reset);
-    
-    ClassDB::bind_method(D_METHOD("set_enabled", "enabled"), &BattleButtons::set_enabled);
-    ClassDB::bind_method(D_METHOD("get_enabled"), &BattleButtons::get_enabled);
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "enabled"), "set_enabled", "get_enabled");
-    
-    ClassDB::bind_method(D_METHOD("set_choice", "choice"), &BattleButtons::set_choice);
-    ClassDB::bind_method(D_METHOD("get_choice"), &BattleButtons::get_choice);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "choice"), "set_choice", "get_choice");
+    ClassDB::bind_method(D_METHOD("play", "id", "anim", "custom_speed", "from_end"), &BattleButtons::play, DEFVAL(1.0), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("hide_button", "id"), &BattleButtons::hide_button);
+    ClassDB::bind_method(D_METHOD("show_button", "id"), &BattleButtons::show_button);
 }
 
 void BattleButtons::_ready() {
@@ -82,16 +85,16 @@ void BattleButtons::set_button(Ref<ButtonSet> button_set) {
 }
 
 void BattleButtons::changepos(int action) {
-    move_sound->play();
-    
     choice = ((choice + action) % 4 + 4) % 4;
     
     if (buttons.size() > choice) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[choice]);
-        if (button) {
+        bool is_enabled = button_enabled[choice];
+        if(is_enabled) {
             Vector2 button_pos = button->get_global_position();
             Vector2 offset = current_button_set.is_valid() ? current_button_set->get_soul_offset() : Vector2(38, 0);
             emit_signal("movesoul", button_pos - offset);
+            move_sound->play();
         }
     }
     
@@ -99,6 +102,9 @@ void BattleButtons::changepos(int action) {
 }
 
 void BattleButtons::glow_choice(int id) {
+    bool id_enabled = (id >=0 && id < button_enabled.size()) ? bool(button_enabled[id]) : true;
+    if(!id_enabled) return;
+
     bool active_scale = current_button_set.is_valid() && current_button_set->is_active_scale();
     if(active_scale) {
         if(tween.is_valid()) tween->kill();
@@ -129,7 +135,29 @@ void BattleButtons::glow_choice(int id) {
     }
 }
 
-void BattleButtons::enable() {
+void BattleButtons::play(int id, String anim, float custom_speed, bool from_end) {
+    if(id >= 0 && id < buttons.size()) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        button->play(anim, custom_speed, from_end);
+        button->connect("animation_finished", Callable(this, "emit_signal").bind("animation_finished"));
+    }else ERR_PRINT("에러: BattleButtons::play - 잘못된 버튼 ID");
+}
+
+void BattleButtons::hide_button(int id) {
+    if(id >= 0 && id < buttons.size()) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        button->hide();
+    }else ERR_PRINT("에러: BattleButtons::hide_button - 잘못된 버튼 ID");
+}
+
+void BattleButtons::show_button(int id) {
+    if(id >= 0 && id < buttons.size()) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        button->show();
+    }else ERR_PRINT("에러: BattleButtons::show_button - 잘못된 버튼 ID");
+}
+
+void BattleButtons::_enable() {
     enabled = true;
     
     if(buttons.size() > choice) {
@@ -148,7 +176,7 @@ void BattleButtons::disable() {
     enabled = false;
 }
 
-void BattleButtons::reset() {
+void BattleButtons::_reset() {
     for (int i = 0; i < buttons.size(); i++) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
         if (button) {
@@ -163,18 +191,10 @@ void BattleButtons::reset() {
     }
 }
 
-void BattleButtons::set_enabled(bool p_enabled) {
-    enabled = p_enabled;
+void BattleButtons::set_button_enabled(Array enabled) {
+    button_enabled = enabled;
 }
 
-bool BattleButtons::get_enabled() const {
-    return enabled;
-}
-
-void BattleButtons::set_choice(int p_choice) {
-    choice = p_choice;
-}
-
-int BattleButtons::get_choice() const {
-    return choice;
+Array BattleButtons::get_button_enabled() const {
+    return button_enabled;
 }

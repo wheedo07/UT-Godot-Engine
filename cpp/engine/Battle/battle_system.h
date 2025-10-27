@@ -70,11 +70,11 @@ namespace godot {
             void _on_end(bool mercy=false, int id=-1);
             void _on_get_turn();
             void _on_end_turn();
+            void _on_transparent();
 
             void set_property(Variant value);
             int get_turn_number();
-
-            void _on_transparent();
+            BattleButtons* get_buttons();
 
         public:
             BattleMain();

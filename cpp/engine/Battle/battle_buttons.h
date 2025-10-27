@@ -24,25 +24,30 @@ namespace godot {
             Ref<Tween> tween;
             Ref<ButtonSet> current_button_set;
             Array buttons;
+            Array button_enabled;
         
+            void changepos(int action);
+
         public:
             BattleButtons();
             ~BattleButtons();
 
             void _ready() override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
+
             void set_button(Ref<ButtonSet> button_set);
-
-            void changepos(int action);
-            void glow_choice(int id);
-            void enable();
+            void _enable();
             void disable();
-            void reset();
+            void _reset();
 
-            void set_enabled(bool p_enabled);
-            bool get_enabled() const;
-            void set_choice(int p_choice);
-            int get_choice() const;
+            // 사용함수
+            void glow_choice(int id);
+            void play(int id, String anim, float custom_speed = 1, bool from_end=false);
+            void hide_button(int id);
+            void show_button(int id);
+
+            void set_button_enabled(Array enabled);
+            Array get_button_enabled() const;
     };
 }
 

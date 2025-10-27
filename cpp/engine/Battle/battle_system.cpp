@@ -59,6 +59,9 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_property", "value"), &BattleMain::set_property);
     ClassDB::bind_method(D_METHOD("get_turn_number"), &BattleMain::get_turn_number);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "turn_number", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_turn_number");
+
+    ClassDB::bind_method(D_METHOD("get_buttons"), &BattleMain::get_buttons);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "buttons", PROPERTY_HINT_NONE, "BattleButtons", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_buttons");
 }
 
 void BattleMain::_ready() {
@@ -191,7 +194,7 @@ void BattleMain::initialize() {
         player_turn = false;
     } else {
         box->blitter_flavour();
-        buttons->enable();
+        buttons->_enable();
     }
     
     Node* tl = box->get_node_internal("BoxContainer/TL");
@@ -230,7 +233,7 @@ void BattleMain::_on_action(const String& action) {
 
 void BattleMain::_on_player_turn_start() {
     if(transparent) toggle_transparent();
-    buttons->enable();
+    buttons->_enable();
     box->set_z_index(0);
     box->blitter_flavour();
     player_turn = true;
@@ -641,14 +644,6 @@ void BattleMain::_on_end_turn() {
     }
 }
 
-void BattleMain::set_property(Variant value) {
-    ERR_PRINT("이 속성은 초기화 할수 없습니다");
-}
-
-int BattleMain::get_turn_number() {
-    return turn_number;
-}
-
 void BattleMain::toggle_transparent() {
     if(global->isMobile()) {
         ERR_PRINT("투명 모드는 모바일에서 지원되지 않습니다");
@@ -696,4 +691,16 @@ void BattleMain::_on_transparent() {
         global->disable_input("toggle_fullscreen");
     }
     transparent = !transparent;
+}
+
+void BattleMain::set_property(Variant value) {
+    ERR_PRINT("이 속성은 초기화 할수 없습니다");
+}
+
+int BattleMain::get_turn_number() {
+    return turn_number;
+}
+
+BattleButtons* BattleMain::get_buttons() {
+    return buttons;
 }
