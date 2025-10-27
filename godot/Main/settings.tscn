@@ -30,7 +30,7 @@ shader_parameter/threshold = 0.7
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_me24t"]
 shader = ExtResource("4_rygnh")
-shader_parameter/threshold = 0.50000002375
+shader_parameter/threshold = 0.5
 
 [sub_resource type="Animation" id="Animation_qnifu"]
 length = 0.001
@@ -150,8 +150,6 @@ material = SubResource("ShaderMaterial_owj1f")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 36.0
-offset_right = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -329,9 +327,9 @@ suffix = "x"
 [node name="process_label" type="RichTextLabel" parent="Options2/NinePatchRect"]
 material = SubResource("ShaderMaterial_me24t")
 layout_mode = 0
-offset_left = 51.0
+offset_left = 8.0
 offset_top = 108.0
-offset_right = 260.0
+offset_right = 305.0
 offset_bottom = 148.0
 theme = ExtResource("2_rnrpm")
 theme_override_font_sizes/normal_font_size = 22
