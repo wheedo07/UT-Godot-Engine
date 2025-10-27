@@ -6,6 +6,8 @@
 #include<godot_cpp/classes/progress_bar.hpp>
 #include<godot_cpp/classes/margin_container.hpp>
 namespace godot {
+    class BattleMain;
+
     class BattleHUD : public HBoxContainer {
         GDCLASS(BattleHUD, HBoxContainer);
         
@@ -13,6 +15,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
+            BattleMain* main;
             RichTextLabel* name_label;
             RichTextLabel* lv_label;
             ProgressBar* hp_bar;

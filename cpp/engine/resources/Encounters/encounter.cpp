@@ -12,6 +12,9 @@ Encounter::Encounter() {
 
     board_color = Color(0, 0, 0, 0.8);
     board_border_color = Color(1, 1, 1, 1);
+
+    kr_text = "KR";
+    kr_color = Color(1, 0, 1);
 }
 
 Encounter::~Encounter() {}
@@ -54,10 +57,16 @@ void Encounter::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_board_color"), &Encounter::get_board_color);
     ClassDB::bind_method(D_METHOD("set_board_border_color", "color"), &Encounter::set_board_border_color);
     ClassDB::bind_method(D_METHOD("get_board_border_color"), &Encounter::get_board_border_color);
+    ClassDB::bind_method(D_METHOD("set_kr_text", "text"), &Encounter::set_kr_text);
+    ClassDB::bind_method(D_METHOD("get_kr_text"), &Encounter::get_kr_text);
+    ClassDB::bind_method(D_METHOD("set_kr_color", "color"), &Encounter::set_kr_color);
+    ClassDB::bind_method(D_METHOD("get_kr_color"), &Encounter::get_kr_color);
     ADD_GROUP("Battle UI", "");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "button_set", PROPERTY_HINT_RESOURCE_TYPE, "ButtonSet"), "set_button_set", "get_button_set");
     ADD_PROPERTY(PropertyInfo(Variant::COLOR, "board_color"), "set_board_color", "get_board_color");
     ADD_PROPERTY(PropertyInfo(Variant::COLOR, "board_border_color"), "set_board_border_color", "get_board_border_color");
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "kr_text"), "set_kr_text", "get_kr_text");
+    ADD_PROPERTY(PropertyInfo(Variant::COLOR, "kr_color"), "set_kr_color", "get_kr_color");
 }
 
 void Encounter::set_encounter_name(const StringName& p_name) {
@@ -140,4 +149,20 @@ void Encounter::set_board_border_color(const Color& p_color) {
 
 Color Encounter::get_board_border_color() const {
     return board_border_color;
+}
+
+void Encounter::set_kr_text(const String& p_text) {
+    kr_text = p_text;
+}
+
+String Encounter::get_kr_text() const {
+    return kr_text;
+}
+
+void Encounter::set_kr_color(const Color& p_color) {
+    kr_color = p_color;
+}
+
+Color Encounter::get_kr_color() const {
+    return kr_color;
 }

@@ -1,5 +1,6 @@
 #include "hud.h"
 #include "env.h"
+#include "battle_system.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 
 BattleHUD::BattleHUD() {}
@@ -18,12 +19,15 @@ void BattleHUD::_ready() {
     hp_bar_container = Object::cast_to<MarginContainer>(get_node_internal("MarginContainer"));
     kr_text = Object::cast_to<RichTextLabel>(get_node_internal("KrText/KR"));
     hp_label = Object::cast_to<RichTextLabel>(get_node_internal("Hp"));
-    _process(0);
+    main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
 }
 
 void BattleHUD::_process(double delta) {
-    if (!global) return;
-    
+    if(!global) return;
+    Color kr_color = main->get_encounter()->get_kr_color();
+    kr_bar->set_modulate(kr_color);
+    kr_text->set_text(main->get_encounter()->get_kr_text());
+
     name_label->set_text(global->get_player_name());
     lv_label->set_text("Lv " + String::num_int64(global->get_player_lv()));
     
@@ -39,8 +43,7 @@ void BattleHUD::_process(double delta) {
     
     String hp_text = "";
     if(global->get_player_kr() > 0) {
-        Color magenta = Color(1, 0, 1);
-        hp_text = "[color=" + magenta.to_html() + "]";
+        hp_text = "[color=" + kr_color.to_html() + "]";
     }
     
     hp_text += String::num_int64(global->get_player_hp()) + " / " + String::num_int64(global->get_player_max_hp());

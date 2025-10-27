@@ -25,6 +25,8 @@ namespace godot {
             Ref<ButtonSet> button_set;
             Color board_color;
             Color board_border_color;
+            String kr_text;
+            Color kr_color;
         
         public:
             Encounter();
@@ -59,6 +61,12 @@ namespace godot {
 
             void set_board_border_color(const Color& p_color);
             Color get_board_border_color() const;
+
+            void set_kr_text(const String& p_text);
+            String get_kr_text() const;
+
+            void set_kr_color(const Color& p_color);
+            Color get_kr_color() const;
     };
 }
 
