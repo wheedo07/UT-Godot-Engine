@@ -8,9 +8,9 @@ BattleButtons::BattleButtons() {
     enabled = false; 
     choice = 0;
 
-    button_enabled.resize(4);
+    enableds.resize(4);
     for(int i=0; i < 4; i++) {
-        button_enabled[i] = true;
+        enableds[i] = true;
     }
 }
 
@@ -25,7 +25,7 @@ void BattleButtons::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_button_enabled", "enabled"), &BattleButtons::set_button_enabled);
     ClassDB::bind_method(D_METHOD("get_button_enabled"), &BattleButtons::get_button_enabled);
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "button_enabled", PROPERTY_HINT_ARRAY_TYPE, "bool"), "set_button_enabled", "get_button_enabled");
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "enableds", PROPERTY_HINT_ARRAY_TYPE, "bool"), "set_button_enabled", "get_button_enabled");
     
     ClassDB::bind_method(D_METHOD("glow_choice", "id"), &BattleButtons::glow_choice);
     ClassDB::bind_method(D_METHOD("play", "id", "anim", "custom_speed", "from_end"), &BattleButtons::play, DEFVAL(1.0), DEFVAL(false));
@@ -85,12 +85,18 @@ void BattleButtons::set_button(Ref<ButtonSet> button_set) {
 }
 
 void BattleButtons::changepos(int action) {
-    choice = ((choice + action) % 4 + 4) % 4;
+    int new_choice = choice;
+    for(int i=0; i < 4 && (new_choice < buttons.size() && !bool(enableds[new_choice])); i++) {
+        new_choice += action;
+        if(new_choice < 0) new_choice = buttons.size() -1;
+        if(new_choice >= buttons.size()) new_choice = 0;
+    }
     
-    if (buttons.size() > choice) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[choice]);
-        bool is_enabled = button_enabled[choice];
+    if(buttons.size() > new_choice) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[new_choice]);
+        bool is_enabled = enableds[new_choice];
         if(is_enabled) {
+            choice = new_choice;
             Vector2 button_pos = button->get_global_position();
             Vector2 offset = current_button_set.is_valid() ? current_button_set->get_soul_offset() : Vector2(38, 0);
             emit_signal("movesoul", button_pos - offset);
@@ -102,7 +108,7 @@ void BattleButtons::changepos(int action) {
 }
 
 void BattleButtons::glow_choice(int id) {
-    bool id_enabled = (id >=0 && id < button_enabled.size()) ? bool(button_enabled[id]) : true;
+    bool id_enabled = (id >=0 && id < enableds.size()) ? bool(enableds[id]) : true;
     if(!id_enabled) return;
 
     bool active_scale = current_button_set.is_valid() && current_button_set->is_active_scale();
@@ -192,9 +198,9 @@ void BattleButtons::_reset() {
 }
 
 void BattleButtons::set_button_enabled(Array enabled) {
-    button_enabled = enabled;
+    enableds = enabled;
 }
 
 Array BattleButtons::get_button_enabled() const {
-    return button_enabled;
+    return enableds;
 }

@@ -24,7 +24,7 @@ namespace godot {
             Ref<Tween> tween;
             Ref<ButtonSet> current_button_set;
             Array buttons;
-            Array button_enabled;
+            Array enableds;
         
             void changepos(int action);
 
