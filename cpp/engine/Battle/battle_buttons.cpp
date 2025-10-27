@@ -85,11 +85,15 @@ void BattleButtons::set_button(Ref<ButtonSet> button_set) {
 }
 
 void BattleButtons::changepos(int action) {
-    int new_choice = choice;
+    int new_choice = choice + action;
+        
+    if(new_choice < 0) new_choice = buttons.size() - 1;
+    else if(new_choice >= buttons.size()) new_choice = 0;
+
     for(int i=0; i < 4 && (new_choice < buttons.size() && !bool(enableds[new_choice])); i++) {
         new_choice += action;
-        if(new_choice < 0) new_choice = buttons.size() -1;
-        if(new_choice >= buttons.size()) new_choice = 0;
+        if(new_choice < 0) new_choice = buttons.size() - 1;
+        else if(new_choice >= buttons.size()) new_choice = 0;
     }
     
     if(buttons.size() > new_choice) {
