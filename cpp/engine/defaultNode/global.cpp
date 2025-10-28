@@ -325,7 +325,12 @@ void Global::_process(double delta) {
 
     if(input->is_action_pressed("ui_quit")) {
         quit_time += delta;
-    }else if(input->is_action_just_released("speed_up") && debugmode && !isSetting && 
+    }else {
+        if(tw_label.is_valid() && tw_label->is_valid()) tw_label->kill();
+        quit_time = 0;
+    }
+    
+    if(input->is_action_just_released("speed_up") && debugmode && !isSetting && 
             (os->is_debug_build() || os->has_feature("debug_op"))) { 
         engine->set_time_scale(Math::min(engine->get_time_scale() + 0.1, 5.0));
         speed_time = 0.6 * engine->get_time_scale();
@@ -340,17 +345,12 @@ void Global::_process(double delta) {
         engine->set_time_scale(1);
         speed_time = 0.6 * engine->get_time_scale();
         speedup_sound->play();
-    }else {
-        if(tw_label.is_valid() && tw_label->is_valid()) tw_label->kill();
-        Info->set_modulate(Color(1,1,1,1));
-        quit_time = 0;
     }
 
     if(quit_time != 0) {
         if(!tw_label.is_valid() || !tw_label->is_valid()) {
             tw_label = create_tween()->set_loops();
-            tw_label->tween_property(Info, "modulate:a", 0.35, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
-            tw_label->tween_property(Info, "modulate:a", 1, 0.6)->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
+            tw_label->tween_callback(Callable(Info, "add_text").bind("."))->set_delay(0.5);
         }
 
         Info->set_text(String::utf8("[color=red]")+tr("UT_EXITING"));

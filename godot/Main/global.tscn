@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dc10754oip7a4"]
+[gd_scene load_steps=7 format=3 uid="uid://dc10754oip7a4"]
 
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="1_aygu1"]
 [ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="2_1gesb"]
@@ -24,6 +24,8 @@ item_information = PackedStringArray("* 버터스카치 시나몬 파이 한 조
 throw_message = PackedStringArray("* 당신은 파이를 버렸다")
 heal_amount = 999
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dgeo2"]
+
 [node name="Global" type="Global"]
 item_list = Array[Item]([SubResource("Item_1gesb"), SubResource("Item_5rwar"), SubResource("Item_dgeo2")])
 savepath = "$home/.Undertale-Engine/file9"
@@ -41,6 +43,7 @@ layer = 10
 
 [node name="Info" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_dgeo2")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
