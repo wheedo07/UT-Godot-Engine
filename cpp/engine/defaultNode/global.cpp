@@ -391,9 +391,12 @@ void Global::_notification(int what) {
 }
 
 void Global::toggle_fullscreen() {
-    if (!fullscreen) {
+    int fullscreen_scale = get_scene_container()->get_fullscreen_scale();
+    Vector2 scale = Vector2(!fullscreen ? fullscreen_scale : 1, !fullscreen ? fullscreen_scale : 1);
+    Info->set_scale(scale);
+    if(!fullscreen) {
         display->window_set_mode(DisplayServer::WINDOW_MODE_FULLSCREEN);
-    } else {
+    }else {
         display->window_set_mode(DisplayServer::WINDOW_MODE_WINDOWED);
     }
     fullscreen = !fullscreen;
