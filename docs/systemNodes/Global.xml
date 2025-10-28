@@ -470,10 +470,15 @@
             
             게임 시작 시 입력받으며, 세이브 파일에 표시됩니다.
         </member>
-        <member name="savepath" type="String" setter="set_savepath" getter="get_savepath" default="&quot;user://file9&quot;">
-            세이브 파일의 경로입니다.
-            [color=red]주의: 세이브 파일 이름은 file9으로 해야합니다[/color] 
-            
+        <member name="saveDir" type="String" setter="set_saveDir" getter="get_saveDir" default="&quot;user://&quot;">
+            세이브 파일의 디렉토리 경로입니다.
+            세이브 파일은 file9이라는 이름으로 저장됩니다.
+
+            [b]디렉토리 경로를 지정하기 위해 특정 예약어를 사용할 수 있습니다.[/b]
+            • "$home": 사용자 홈 디렉토리 (예: C:/Users/[username]/)
+            • "$appdata": 애플리케이션 데이터 디렉토리 (예: C:/Users/[username]/AppData/Roaming/)
+            예약어 하나씩만 사용할 수 있으며, 다른 예약어와 조합할 수 없습니다.
+
             플랫폼별로 자동 설정되며, 다음과 같은 형태를 가집니다:
             • Windows: C:/Users/[username]/UNDERTALE/file9
             • Web/Mobile: user://file9

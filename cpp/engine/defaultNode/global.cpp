@@ -27,8 +27,7 @@ Global::Global() {
     Info = nullptr;
     KrTimer = nullptr;
     scene_container = nullptr;
-    savepath = "user://file9";
-    settingpath = "user://undertale.ini";
+    saveDir = "user://";
 
     // 기본 상태 변수
     first = true;
@@ -157,6 +156,10 @@ void Global::init_paths() {
     String osName = os->get_name();
     is_Mobile = osName == "Android";
 
+    if(!saveDir.ends_with("/")) saveDir += "/";
+    savepath = saveDir + "file9";
+    settingpath = saveDir + "undertale.ini";
+
     if(osName == "Web") {
         savepath = "user://file9";
         settingpath = "user://undertale.ini";
@@ -177,6 +180,15 @@ void Global::init_paths() {
                 else savepath = "user://file9";
             }else savepath = savepath.replace("$home", homepath);
         }
+    }else if(savepath.find("$appdata") != -1) {
+        if(osName == "Windows") {
+            const char* appdata = std::getenv("APPDATA");
+            if(appdata != nullptr) savepath = savepath.replace("$appdata", appdata);
+            else {
+                savepath = "user://file9";
+                return;
+            }
+        }
     }
 
     if(savepath.find("user://") == -1) {
@@ -189,11 +201,10 @@ void Global::init_paths() {
             }
         }
 
-        String dir = savepath.replace("file9", "");
-        settingpath = dir + "undertale.ini";
-        if(fs::exists(dir.utf8().get_data())) return;
+        settingpath = saveDir + "undertale.ini";
+        if(fs::exists(saveDir.utf8().get_data())) return;
 
-        if(!fs::create_directories(dir.utf8().get_data()))
+        if(!fs::create_directories(saveDir.utf8().get_data()))
             ERR_PRINT("디렉토리 생성 실패!");
     }
 }
@@ -520,7 +531,7 @@ void Global::true_resetgame() {
         if(!exists_file(i)) return;
         String path = savepath.replace("file9", vformat("file%s", i));
         if(path.find("user://") != -1) {
-            Ref<DirAccess> dirAcs = DirAccess::open(savepath.replace("file9", ""));
+            Ref<DirAccess> dirAcs = DirAccess::open(saveDir);
             dirAcs->remove(vformat("file%s", i));
         }else fs::remove(path.utf8().get_data());
     }
@@ -565,8 +576,7 @@ void Global::resetgame() {
     start = false;
     
     if(savepath.find("user://") != -1) {
-        String dir = savepath.replace("file9", "");
-        Ref<DirAccess> dirAcs = DirAccess::open(dir);
+        Ref<DirAccess> dirAcs = DirAccess::open(saveDir);
         dirAcs->remove("file9");
     }else fs::remove(savepath.utf8().get_data());
 }

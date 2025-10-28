@@ -17,8 +17,8 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_item_list", "value"), &Global::set_item_list);
     ClassDB::bind_method(D_METHOD("get_item_list"), &Global::get_item_list);
 
-    ClassDB::bind_method(D_METHOD("set_savepath", "value"), &Global::set_savepath);
-    ClassDB::bind_method(D_METHOD("get_savepath"), &Global::get_savepath);
+    ClassDB::bind_method(D_METHOD("set_saveDir", "value"), &Global::set_saveDir);
+    ClassDB::bind_method(D_METHOD("get_saveDir"), &Global::get_saveDir);
     
     ClassDB::bind_method(D_METHOD("set_equipment", "value"), &Global::set_equipment);
     ClassDB::bind_method(D_METHOD("get_equipment"), &Global::get_equipment);
@@ -120,11 +120,11 @@ void Global::_bind_methods() {
     , "set_item_list", "get_item_list");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "flags"), "set_flags", "get_flags");
 
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "savepath"), "set_savepath", "get_savepath");
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "saveDir"), "set_saveDir", "get_saveDir");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "equipment"), "set_equipment", "get_equipment");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "cells"), "set_cells", "get_cells");
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "items", PROPERTY_HINT_ARRAY_TYPE, String::num(Variant::INT) + ":"), "set_items", "get_items");
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "boxitems", PROPERTY_HINT_ARRAY_TYPE, String::num(Variant::INT) + ":"), "set_boxitems", "get_boxitems");
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "items", PROPERTY_HINT_ARRAY_TYPE, "int"), "set_items", "get_items");
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "boxitems", PROPERTY_HINT_ARRAY_TYPE, "int"), "set_boxitems", "get_boxitems");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "settings"), "set_settings", "get_settings");
     
     ADD_GROUP("Player Stats", "player_");
@@ -426,12 +426,12 @@ int Global::get_temp_def() {
     return temp_def;
 }
 
-void Global::set_savepath(String value) {
-    savepath = value;
+void Global::set_saveDir(String value) {
+    saveDir = value;
 }
 
-String Global::get_savepath() {
-    return savepath;
+String Global::get_saveDir() {
+    return saveDir;
 }
 
 void Global::set_g_flags(String key, Variant value) {

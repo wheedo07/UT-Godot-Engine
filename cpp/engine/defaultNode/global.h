@@ -27,6 +27,7 @@ namespace godot {
 	        bool start, isSetting, isDebugTurn;
 
         private:
+	        String saveDir;
 			String savepath;
 			String settingpath;
 	        AudioStreamPlayer* speedup_sound;
@@ -172,8 +173,8 @@ namespace godot {
 	        void set_item_list(TypedArray<Item> value);
 	        TypedArray<Item> get_item_list() const;
 
-			void set_savepath(String value);
-			String get_savepath();
+			void set_saveDir(String value);
+			String get_saveDir();
 
     		void set_equipment(const Dictionary& value);
     		Dictionary get_equipment() const;
