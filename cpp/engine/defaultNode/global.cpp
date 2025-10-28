@@ -206,7 +206,11 @@ void Global::init_paths() {
             }
         }
 
+        saveDir = savepath.get_base_dir() + "/";
         settingpath = saveDir + "undertale.ini";
+    }
+
+    if(saveDir.find("user://") == -1) {
         if(fs::exists(saveDir.utf8().get_data())) return;
 
         if(!fs::create_directories(saveDir.utf8().get_data()))
@@ -532,7 +536,7 @@ String Global::xor_decrypt(String data, String key) {
 
 void Global::true_resetgame() {
     resetgame();
-    for(int i=0; i < 8; i++) {
+    for(int i=0; i < 9; i++) {
         if(!exists_file(i)) return;
         String path = savepath.replace(SAVE_FILE, vformat("file%s", i));
         if(path.find("user://") != -1) {
