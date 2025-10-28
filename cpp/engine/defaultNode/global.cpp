@@ -20,7 +20,12 @@ using namespace godot;
 namespace fs = std::filesystem;
 unsigned char bom[] = {0xEF, 0xBB, 0xBF};
 
+#define SAVE_FILE "file9"
 #define HASH_KEY "undertale_engine_by_wheedo07"
+String user_file_path() {
+    return String("user://") + String(SAVE_FILE);
+}
+
 Global::Global() {
     Music = nullptr;
     speedup_sound = nullptr;
@@ -157,16 +162,16 @@ void Global::init_paths() {
     is_Mobile = osName == "Android";
 
     if(!saveDir.ends_with("/")) saveDir += "/";
-    savepath = saveDir + "file9";
+    savepath = saveDir + SAVE_FILE;
     settingpath = saveDir + "undertale.ini";
 
     if(osName == "Web") {
-        savepath = "user://file9";
+        savepath = user_file_path();
         settingpath = "user://undertale.ini";
         return;
     }else if(is_Mobile) {
         call_deferred("toggle_fullscreen");
-        savepath = "user://file9";
+        savepath = user_file_path();
         settingpath = "user://undertale.ini";
         return;
     }
@@ -177,7 +182,7 @@ void Global::init_paths() {
             if(homepath == nullptr) {
                 const char* userprofile = std::getenv("USERPROFILE");
                 if(userprofile != nullptr) savepath = savepath.replace("$home", userprofile);
-                else savepath = "user://file9";
+                else savepath = user_file_path();
             }else savepath = savepath.replace("$home", homepath);
         }
     }else if(savepath.find("$appdata") != -1) {
@@ -185,7 +190,7 @@ void Global::init_paths() {
             const char* appdata = std::getenv("APPDATA");
             if(appdata != nullptr) savepath = savepath.replace("$appdata", appdata);
             else {
-                savepath = "user://file9";
+                savepath = user_file_path();
                 return;
             }
         }
@@ -196,7 +201,7 @@ void Global::init_paths() {
             const char* drive = std::getenv("HOMEDRIVE");
             if(drive != nullptr) savepath = String(drive) + savepath;
             else {
-                savepath = "user://file9";
+                savepath = user_file_path();
                 return;
             }
         }
@@ -529,7 +534,7 @@ void Global::true_resetgame() {
     resetgame();
     for(int i=0; i < 8; i++) {
         if(!exists_file(i)) return;
-        String path = savepath.replace("file9", vformat("file%s", i));
+        String path = savepath.replace(SAVE_FILE, vformat("file%s", i));
         if(path.find("user://") != -1) {
             Ref<DirAccess> dirAcs = DirAccess::open(saveDir);
             dirAcs->remove(vformat("file%s", i));
@@ -577,7 +582,7 @@ void Global::resetgame() {
     
     if(savepath.find("user://") != -1) {
         Ref<DirAccess> dirAcs = DirAccess::open(saveDir);
-        dirAcs->remove("file9");
+        dirAcs->remove(SAVE_FILE);
     }else fs::remove(savepath.utf8().get_data());
 }
 
@@ -894,7 +899,7 @@ void Global::save_file(int slot, Dictionary save_data) {
         ERR_PRINT("잘못된 슬롯 번호입니다!, 0~8 사이여야 합니다.");
         return;
     }
-    String path = savepath.replace("file9", vformat("file%s", slot));
+    String path = savepath.replace(SAVE_FILE, vformat("file%s", slot));
     _save_game_data(path, save_data);
 }
 
@@ -903,7 +908,7 @@ bool Global::exists_file(int slot) {
         ERR_PRINT("잘못된 슬롯 번호입니다!, 0~8 사이여야 합니다.");
         return false;
     }
-    String path = savepath.replace("file9", vformat("file%s", slot));
+    String path = savepath.replace(SAVE_FILE, vformat("file%s", slot));
     if(path.find("user://") != -1) {
         return FileAccess::file_exists(path);
     }else {
@@ -916,7 +921,7 @@ Dictionary Global::load_file(int slot) {
         ERR_PRINT("잘못된 슬롯 번호입니다!, 0~8 사이여야 합니다.");
         return Dictionary();
     }
-    String path = savepath.replace("file9", vformat("file%s", slot));
+    String path = savepath.replace(SAVE_FILE, vformat("file%s", slot));
     Dictionary savedata;
     if(path.find("user://") != -1) {
         if(!FileAccess::file_exists(path)) return Dictionary();
