@@ -128,8 +128,8 @@ void NameSelection::_on_check_name(String name) {
 
 void NameSelection::react_to_name(const String& text, bool deny) {
     tween_namepos = create_tween()->set_parallel()->set_trans(Tween::TRANS_CUBIC)->set_ease(Tween::EASE_OUT);
-    tween_namepos->tween_property(name_label, "scale", Vector2(3,3), 8);
-    tween_namepos->tween_property(name_label, "position", Vector2(-630, 120), 8);
+    tween_namepos->tween_property(name_label, "scale", Vector2(3,3), 10);
+    tween_namepos->tween_property(name_label, "position", Vector2(-630, 120), 10);
 
     tween_shake = create_tween()->set_loops()->set_parallel()->set_trans(Tween::TRANS_SINE)->set_ease(Tween::EASE_IN_OUT);
     tween_shake->tween_property(name, "rotation_degrees", -0.5, 0.1);
@@ -182,7 +182,7 @@ void NameSelection::on_name_allowed() {
     global->set_player_name(name_label->get_text());
     cymbal->play();
 
-    tween->connect("finished", Callable(scene_changer, "enter_room_default"), CONNECT_ONE_SHOT);
+    cymbal->connect("finished", Callable(scene_changer, "enter_room_default"), CONNECT_ONE_SHOT);
 }
 
 void NameSelection::_on_pass_name(bool is) {
