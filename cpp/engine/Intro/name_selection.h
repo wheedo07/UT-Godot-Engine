@@ -23,10 +23,12 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            String name_text;
-            bool confirmable, is_deny;
+            bool confirmable;
             int soul_pos;
+            Ref<Tween> tween_namepos;
+            Ref<Tween> tween_shake;
 
+            Control* name;
             Label* name_label;
             AudioStreamPlayer* no_sound;
             GenericTextTyper* typer;
@@ -34,8 +36,16 @@ namespace godot {
             HSplitContainer* confirmation;
             ColorRect* color_rect;
             AudioStreamPlayer* cymbal;
-            Node* prompt;
+            RichTextLabel* prompt;
             CameraController* camera;
+
+            void _on_typer_finished(bool is_deny);
+            void _on_choice_made(int id);
+            void _on_check_name(String player_name);
+            void _on_name_input_text_changed(const String& new_text);
+            void _on_backspace_pressed();
+            void _on_name_input_text_submitted();
+            void _on_pass_name(bool is);
 
         public:
             NameSelection();
@@ -46,19 +56,9 @@ namespace godot {
             void check_names(String name);
             GDVIRTUAL1(check_names, String);
 
-            void on_check_name(String player_name);
-            void on_name_allowed();
-
-            void on_name_input_text_changed(const String& new_text);
-            void on_backspace_pressed();
-            void on_name_input_text_submitted();
+            // 사용 함수
             void react_to_name(const String& text, bool deny = false);
-            void await_confirm();
-
-            void on_typer_finished();
-            void on_choice_made(int id);
-
-            void on_pass_name(bool is);
+            void on_name_allowed();
     };
     
 }

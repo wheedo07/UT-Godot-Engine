@@ -151,7 +151,6 @@ void CameraFx::stop_shake() {
     if(shaker_tween.is_valid()) {
         shaker_tween->kill();
         shaker_tween.unref();
-        emit_signal("finished_tween");
     }
     
     shaker_shader->set_shader_parameter("strength_scale", 0);

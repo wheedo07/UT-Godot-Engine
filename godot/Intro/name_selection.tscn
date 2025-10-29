@@ -59,16 +59,28 @@ theme = ExtResource("3_2u401")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 scroll_active = false
+horizontal_alignment = 1
 
-[node name="Name" type="Label" parent="."]
+[node name="Name" type="Control" parent="."]
 material = SubResource("ShaderMaterial_anwqw")
 layout_mode = 1
-anchors_preset = -1
 anchor_top = 0.18
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 25.0
-offset_bottom = 25.0
+offset_top = 24.599998
+offset_right = 1.0
+offset_bottom = 53.600098
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("3_2u401")
+
+[node name="Label" type="Label" parent="Name"]
+material = SubResource("ShaderMaterial_anwqw")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
@@ -157,17 +169,21 @@ mouse_filter = 2
 
 [node name="Typer" type="GenericTextTyper" parent="."]
 click_path = NodePath("Click")
-interval = 0.05
-material = SubResource("ShaderMaterial_anwqw")
-layout_mode = 0
-offset_top = 216.0
-offset_right = 640.0
-offset_bottom = 400.0
-mouse_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.125
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
 theme = ExtResource("3_2u401")
+theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
+scroll_active = false
 horizontal_alignment = 1
-visible_characters_behavior = 1
 
 [node name="Click" type="AudioStreamPlayer" parent="Typer"]
 stream = ExtResource("4_wgfxx")
@@ -176,18 +192,11 @@ bus = &"SFX"
 [node name="Confirmation" type="HSplitContainer" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 228.0
-offset_top = 360.0
-offset_right = 471.0
-offset_bottom = 411.0
-split_offset = 120
-
-[node name="YES" type="OptionSelectable" parent="Confirmation"]
-material = SubResource("ShaderMaterial_anwqw")
-clip_contents = false
-layout_mode = 2
-theme = ExtResource("3_2u401")
-text = "UT_YES"
+offset_left = 119.0
+offset_top = 404.0
+offset_right = 528.0
+offset_bottom = 455.0
+split_offset = 230
 
 [node name="NO" type="OptionSelectable" parent="Confirmation"]
 material = SubResource("ShaderMaterial_anwqw")
@@ -195,6 +204,15 @@ clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_2u401")
 text = "UT_NO"
+horizontal_alignment = 1
+
+[node name="YES" type="OptionSelectable" parent="Confirmation"]
+material = SubResource("ShaderMaterial_anwqw")
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("3_2u401")
+text = "UT_YES"
+horizontal_alignment = 1
 
 [node name="no" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_kots0")
@@ -208,16 +226,16 @@ bus = &"SFX"
 [connection signal="disable" from="." to="Letters" method="hide"]
 [connection signal="disable" from="." to="Options" method="hide"]
 [connection signal="enable" from="." to="Prompt" method="show"]
-[connection signal="enable" from="." to="Name" method="show"]
+[connection signal="enable" from="." to="Name/Label" method="show"]
 [connection signal="enable" from="." to="Letters" method="show"]
 [connection signal="enable" from="." to="Options" method="disable"]
 [connection signal="enable" from="." to="Options" method="show"]
 [connection signal="enable" from="." to="Letters" method="enable_input" binds= [0]]
-[connection signal="pass_name" from="." to="." method="on_pass_name"]
-[connection signal="backspace_key" from="Letters" to="." method="on_backspace_pressed"]
-[connection signal="enter_key" from="Letters" to="." method="on_name_input_text_submitted"]
+[connection signal="pass_name" from="." to="." method="_on_pass_name"]
+[connection signal="backspace_key" from="Letters" to="." method="_on_backspace_pressed"]
+[connection signal="enter_key" from="Letters" to="." method="_on_name_input_text_submitted"]
 [connection signal="exited_letter" from="Letters" to="Options" method="enable"]
-[connection signal="letter_input" from="Letters" to="." method="on_name_input_text_changed"]
-[connection signal="backspace" from="Options" to="." method="on_backspace_pressed"]
-[connection signal="confirm_name" from="Options" to="." method="on_name_input_text_submitted"]
+[connection signal="letter_input" from="Letters" to="." method="_on_name_input_text_changed"]
+[connection signal="backspace" from="Options" to="." method="_on_backspace_pressed"]
+[connection signal="confirm_name" from="Options" to="." method="_on_name_input_text_submitted"]
 [connection signal="enter_typing" from="Options" to="Letters" method="enable_input"]
