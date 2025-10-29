@@ -20,6 +20,18 @@
                 선택된 버튼은 프레임 1로 변경되며, [ButtonSet]의 active_scale이 true인 경우 크기가 1.2배로 확대되고 다른 버튼들은 반투명하게 됩니다.
             </description>
         </method>
+
+        <method name="show_button">
+            <return type="void" />
+            <param index="0" name="id" type="int" />
+            <description>
+                지정된 ID의 버튼을 표시합니다.
+                [method hide_button]으로 숨겨진 버튼을 다시 보이게 만듭니다.
+                버튼 ID는 0(Fight), 1(Act), 2(Item), 3(Mercy)입니다.
+                유효하지 않은 ID가 전달되면 에러 메시지를 출력합니다.
+            </description>
+        </method>
+
         <method name="hide_button">
             <return type="void" />
             <param index="0" name="id" type="int" />
@@ -29,6 +41,7 @@
                 유효하지 않은 ID가 전달되면 에러 메시지를 출력합니다.
             </description>
         </method>
+
         <method name="play">
             <return type="void" />
             <param index="0" name="id" type="int" />
@@ -46,14 +59,28 @@
                 • from_end: 애니메이션을 끝에서부터 역재생할지 여부
             </description>
         </method>
-        <method name="show_button">
+        
+        <method name="stop">
             <return type="void" />
             <param index="0" name="id" type="int" />
             <description>
-                지정된 ID의 버튼을 표시합니다.
-                [method hide_button]으로 숨겨진 버튼을 다시 보이게 만듭니다.
+                지정된 ID의 버튼에서 재생 중인 애니메이션을 즉시 중지합니다.
                 버튼 ID는 0(Fight), 1(Act), 2(Item), 3(Mercy)입니다.
                 유효하지 않은 ID가 전달되면 에러 메시지를 출력합니다.
+            </description>
+        </method>
+
+        <method name="set_animation">
+            <return type="void" />
+            <param index="0" name="id" type="int" />
+            <param index="1" name="anim" type="String" />
+            <description>
+                지정된 ID의 버튼에 애니메이션을 설정합니다.
+                이 메서드는 애니메이션을 즉시 재생하지 않고, 버튼의 현재 애니메이션을 변경합니다.
+                
+                매개변수:
+                • id: 버튼 ID (0~3)
+                • anim: 설정할 애니메이션 이름
             </description>
         </method>
     </methods>

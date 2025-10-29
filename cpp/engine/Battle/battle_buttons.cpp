@@ -29,6 +29,8 @@ void BattleButtons::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("glow_choice", "id"), &BattleButtons::glow_choice);
     ClassDB::bind_method(D_METHOD("play", "id", "anim", "custom_speed", "from_end"), &BattleButtons::play, DEFVAL(1.0), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("stop", "id"), &BattleButtons::stop);
+    ClassDB::bind_method(D_METHOD("set_animation", "id", "anim"), &BattleButtons::set_animation);
     ClassDB::bind_method(D_METHOD("hide_button", "id"), &BattleButtons::hide_button);
     ClassDB::bind_method(D_METHOD("show_button", "id"), &BattleButtons::show_button);
 }
@@ -149,6 +151,20 @@ void BattleButtons::play(int id, String anim, float custom_speed, bool from_end)
         button->play(anim, custom_speed, from_end);
         button->connect("animation_finished", Callable(this, "emit_signal").bind("animation_finished"));
     }else ERR_PRINT("에러: BattleButtons::play - 잘못된 버튼 ID");
+}
+
+void BattleButtons::stop(int id) {
+    if(id >= 0 && id < buttons.size()) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        button->stop();
+    }else ERR_PRINT("에러: BattleButtons::stop - 잘못된 버튼 ID");
+}
+
+void BattleButtons::set_animation(int id, String anim) {
+    if(id >= 0 && id < buttons.size()) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        button->set_animation(anim);
+    }else ERR_PRINT("에러: BattleButtons::set_animation - 잘못된 버튼 ID");
 }
 
 void BattleButtons::hide_button(int id) {

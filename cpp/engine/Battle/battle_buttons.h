@@ -43,6 +43,8 @@ namespace godot {
             // 사용함수
             void glow_choice(int id);
             void play(int id, String anim, float custom_speed = 1, bool from_end=false);
+            void stop(int id);
+            void set_animation(int id, String anim);
             void hide_button(int id);
             void show_button(int id);
 
