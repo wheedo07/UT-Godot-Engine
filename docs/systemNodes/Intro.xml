@@ -5,9 +5,8 @@
         게임 시작 시 인트로 시퀀스를 재생하는 시스템 노드입니다.
     </brief_description>
     <description>
-        Intro 클래스는 게임 시작 시 인트로 시퀀스를 자동으로 재생하는 시스템 노드입니다.
-        JSON 파일에서 인트로 데이터를 로드하여 이미지와 텍스트를 순차적으로 표시하며, 
-        배경 음악과 함께 영화적인 인트로 경험을 제공합니다.
+        Intro 클래스는 게임 시작시 제일 먼저 실행되는 씬에 노드로
+        JSON 파일에서 인트로 데이터를 로드하여 이미지와 텍스트를 순차적으로 표시합니다
         
         [b]주요 기능:[/b]
         • JSON 기반 인트로 데이터 관리
@@ -32,6 +31,14 @@
         [b]기본 자식 노드 삭제 금지[/b]
         이 노드는 시스템 노드로, 기본 자식 노드를 삭제하거나 변경하지 마십시오.
         삭제 시 인트로 기능이 정상 작동하지 않을 수 있습니다.
+
+        [b]인트로를 사용하지 않는 경우:[/b]
+        인트로 사용하지 않는다면
+        [codeblock]
+        func ready():
+            global.get_scene_container().change_scene_to_file("경로");
+        [/codeblock]
+        등을 사용하여 바로 메인 씬으로 전환하는 방식을 권장합니다.
     </description>
     <tutorials></tutorials>
 
@@ -39,7 +46,7 @@
         <method name="ready" qualifiers="virtual">
             <return type="void" />
             <description>
-                가상 메서드로, 상속받은 클래스에서 오버라이드하여 추가 초기화 로직을 구현할 수 있습니다.
+                가상 메서드로, 상속받은 클래스에서 오버라이드하여 [b]게임 자체[/b] 초기화 로직을 구현할 수 있습니다.
             </description>
         </method>
         <method name="is_intro_completed" qualifiers="const">
