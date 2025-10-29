@@ -138,13 +138,14 @@ TranslationServer.set_locale("en")
 - **`CameraController`** - 프레임워크용 카메라
 - **`ShopCreate`** - 상점 제작 노드
 - **`OptionSelectableSolo`** - 옵션 선택 제작
+- **`CharacterSetting`** - 캐릭터 설정 노드 (`res://Main/stagehand.tscn`에서 사용)
 
 > 💡 **팁**: 각 노드의 상세한 사용법과 예제 코드는 Godot 에디터의 "도움말" → "클래스 참조"에서 확인할 수 있습니다.
 
 <br>
 
 ### 📖 공식 문서
-- **노드 API 문서**: Godot 에디터 내 "도움말" 탭
+- **노드 API 문서**: Godot 에디터 내 "도움말" 탭 (F1)에서 확인
 
 <br>
 
@@ -168,7 +169,6 @@ TranslationServer.set_locale("en")
 
 ### 🎵 특별 감사
 - **Toby Fox** - Original Undertale 게임 제작자
-- **Godot Engine Team** - 훌륭한 게임 엔진 제공
 
 ---
 
