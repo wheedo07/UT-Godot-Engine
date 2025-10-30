@@ -24,7 +24,7 @@ void DefaultBullet::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_collision_path", "collision_path"), &DefaultBullet::set_collision_path);
     ClassDB::bind_method(D_METHOD("get_collision_path"), &DefaultBullet::get_collision_path);
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "collision_path"), "set_collision_path", "get_collision_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "collision_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "CollisionShape2D"), "set_collision_path", "get_collision_path");
 
     ClassDB::bind_method(D_METHOD("set_tweenTrans", "value"), &DefaultBullet::set_tweenTrans);
     ClassDB::bind_method(D_METHOD("get_tweenTrans"), &DefaultBullet::get_tweenTrans);
