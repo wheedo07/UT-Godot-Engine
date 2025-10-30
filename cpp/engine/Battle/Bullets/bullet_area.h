@@ -19,6 +19,9 @@ namespace godot {
 
         private:
             NodePath bullet_path;
+            bool player_hit;
+
+            void _on_yellow_bullet_hit();
 
             void set_bullet_path(NodePath value);
             NodePath get_bullet_path() const;
@@ -30,7 +33,8 @@ namespace godot {
             void _ready() override;
             void _process(double delta) override;
 
-            void _on_yellow_bullet_hit();
+            // 사용 함수
+            bool is_player_hit();
     };
 }
 

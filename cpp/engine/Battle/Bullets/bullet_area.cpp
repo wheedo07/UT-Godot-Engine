@@ -4,11 +4,14 @@ using namespace godot;
 
 BulletArea::BulletArea() {
     bullet_path = NodePath();
+    player_hit = false;
 }
 
 BulletArea::~BulletArea() {}
 
 void BulletArea::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("is_player_hit"), &BulletArea::is_player_hit);
+
     ClassDB::bind_method(D_METHOD("_on_yellow_bullet_hit"), &BulletArea::_on_yellow_bullet_hit);
     ClassDB::bind_method(D_METHOD("set_bullet_path", "value"), &BulletArea::set_bullet_path);
     ClassDB::bind_method(D_METHOD("get_bullet_path"), &BulletArea::get_bullet_path);
@@ -30,11 +33,12 @@ void BulletArea::_process(double delta) {
     if(is_monitoring()) {
         TypedArray<Area2D> overlapping_areas = get_overlapping_areas();
         for(int i = 0; i < overlapping_areas.size(); i++) {
-            Node* overlap_node = Object::cast_to<Node>(overlapping_areas[i]);
+            Area2D* overlap_node = Object::cast_to<Area2D>(overlapping_areas[i]);
             
             if(overlap_node && overlap_node->is_in_group("soul") && (damage_mode <= Bullet::MODE_GREEN)) {
+                player_hit = true;
                 if(bullet->delete_upon_hit_value) {
-                    bullet->kill();;
+                    bullet->kill();
                 }else {
                     if(bullet->has_method("on_hit_player")) { // C++ 이랑 GDscript 모두 호환되도록
                         bullet->call("on_hit_player");
@@ -42,9 +46,13 @@ void BulletArea::_process(double delta) {
                         bullet->on_hit_player();
                     }
                 }
-            }
+            }else player_hit = false;
         }
     }
+}
+
+bool BulletArea::is_player_hit() {
+    return player_hit;
 }
 
 void BulletArea::_on_yellow_bullet_hit() {
