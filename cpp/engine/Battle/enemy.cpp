@@ -336,8 +336,10 @@ void Enemy::_hurt(int amount) {
     
     float defaultpos = vec.x;
     
-    Ref<Tween> hurtsoundtween = create_tween();
-    if(hurt_sound) hurtsoundtween->tween_callback(Callable(hurt_sound, "play"))->set_delay(0.4);
+    if(hurt_sound) {
+        Ref<Tween> hurtsoundtween = create_tween();
+        hurtsoundtween->tween_callback(Callable(hurt_sound, "play"))->set_delay(0.4);
+    }
    
     if(amount <= 0) return;
     Ref<Tween> tw = create_tween();
@@ -347,9 +349,8 @@ void Enemy::_hurt(int amount) {
     tw->tween_interval(0.02);
     tw->tween_property(sprites, "position:x", 4.0f, 0.02)->as_relative();
     tw->tween_interval(0.02);
-    
-    Ref<Tween> chain_tw = tw->chain();
-    chain_tw->tween_property(sprites, "position:x", defaultpos, 0.03);
+    tw->chain();
+    tw->tween_property(sprites, "position:x", defaultpos, 0.03);
 }
 
 void Enemy::ready() {
