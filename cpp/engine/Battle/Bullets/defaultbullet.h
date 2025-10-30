@@ -36,6 +36,8 @@ namespace godot {
 
             void _ready() override;
             void _process(double delta) override;
+            virtual void _update(double delta);
+            GDVIRTUAL1(_update, double);
             Vector2 get_sprite_size();
 
             void fire(const Vector2& target, MovementMode movement_type, float speed = 100.0f, DamageMode mode = MODE_NULL);

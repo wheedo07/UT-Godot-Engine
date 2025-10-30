@@ -91,6 +91,15 @@
                 연속적인 [method queue_fire] 호출로 순차적인 발사 패턴을 만들 수 있습니다.
             </description>
         </method>
+
+        <method name="_update" qualifiers="virtual">
+            <return type="void"/>
+            <param index="0" name="delta" type="double"/>
+            <description>
+                매 프레임 호출되는 업데이트 메서드입니다.
+                커스텀 총알 동작을 구현할때 [method _process] 함수 대신 이 메서드를 오버라이드하여 사용하세요.
+            </description>
+        </method>
     </methods>
     
     <members>
