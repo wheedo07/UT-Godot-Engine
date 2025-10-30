@@ -129,14 +129,31 @@ Vector2 DefaultBullet::get_sprite_size() {
     String class_name = sprite->get_class();
     Vector2 size;
     Vector2 scale = Vector2(1, 1);
+    Vector2 offset = Vector2(0, 0);
+    bool centered = true;
     
-    if (class_name == "Sprite2D" || class_name == "AnimatedSprite2D") {
-        if (sprite->has_method("get_texture")) {
+    if(class_name == "Sprite2D") {
+        if(sprite->has_method("get_texture")) {
             Variant texture = sprite->call("get_texture");
-            if (texture.get_type() != Variant::NIL) {
+            if(texture.get_type() != Variant::NIL) {
                 size = texture.call("get_size");
             }
-        } else if (sprite->has_method("get_sprite_frames")) {
+        }
+        
+        if(sprite->has_method("get_offset")) {
+            offset = sprite->call("get_offset");
+        }
+        
+        if(sprite->has_method("is_centered")) {
+            centered = sprite->call("is_centered");
+        }
+        
+        if(sprite->has_method("get_scale")) {
+            scale = sprite->call("get_scale");
+        }
+        
+    }else if(class_name == "AnimatedSprite2D") {
+        if (sprite->has_method("get_sprite_frames")) {
             Variant frames = sprite->call("get_sprite_frames");
             if (frames.get_type() != Variant::NIL) {
                 String anim = sprite->call("get_animation");
@@ -148,20 +165,44 @@ Vector2 DefaultBullet::get_sprite_size() {
             }
         }
         
-        if (sprite->has_method("get_scale")) {
+        if(sprite->has_method("get_offset")) {
+            offset = sprite->call("get_offset");
+        }
+        
+        if(sprite->has_method("is_centered")) {
+            centered = sprite->call("is_centered");
+        }
+        
+        if(sprite->has_method("get_scale")) {
             scale = sprite->call("get_scale");
         }
-    } else if (class_name == "TextureRect" || class_name == "NinePatchRect") {
+        
+    }else if(class_name == "TextureRect" || class_name == "NinePatchRect") {
         if (sprite->has_method("get_size")) {
             size = sprite->call("get_size");
         }
+
+        return size;
     }else if(sprite->has_method("get_size")) {
         size = sprite->call("get_size");
-    } else {
-        size = Vector2(16, 16);
-    }
+    }else size = Vector2(16, 16);
     
-    return Vector2(size.x * scale.x, size.y * scale.y);
+    Vector2 scaled_size = Vector2(size.x * scale.x, size.y * scale.y);
+    Vector2 scaled_offset = Vector2(offset.x * scale.x, offset.y * scale.y);
+    
+    Vector2 actual_size;
+    if(centered) {
+        Vector2 half_size = scaled_size * 0.5;
+        Vector2 min_point = -half_size + scaled_offset;
+        Vector2 max_point = half_size + scaled_offset;
+        
+        actual_size = Vector2(
+            Math::abs(max_point.x - min_point.x),
+            Math::abs(max_point.y - min_point.y)
+        );
+    }else actual_size = scaled_size + Vector2(Math::abs(scaled_offset.x), Math::abs(scaled_offset.y));
+    
+    return actual_size;
 }
 
 void DefaultBullet::set_collision_margin(float p_collision_margin) {
