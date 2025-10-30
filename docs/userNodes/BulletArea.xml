@@ -40,6 +40,17 @@
         • 충돌 감지는 자동으로 처리되므로 별도 설정이 필요하지 않습니다.
     </description>
     <tutorials></tutorials>
+
+    <methods>
+        <method name="is_player_hit">
+            <return type="bool"/>
+            <description>
+                플레이어가 현재 이 [BulletArea]에 충돌한 상태인지 여부를 반환합니다.
+                이 메서드는 내부적으로 충돌 상태를 추적하며, 플레이어가 충돌한 경우 true를 반환하고,
+                그렇지 않은 경우 false를 반환합니다.
+            </description>
+        </method>
+    </methods>
     
     <members>
         <member name="bullet_path" type="NodePath" setter="set_bullet_path" getter="get_bullet_path" default="NodePath(&quot;&quot;)">
