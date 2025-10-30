@@ -56,10 +56,11 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_encounter"), &BattleMain::get_encounter);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "encounter", PROPERTY_HINT_RESOURCE_TYPE, "Encounter"), "set_encounter", "get_encounter");
 
-    ClassDB::bind_method(D_METHOD("set_property", "value"), &BattleMain::set_property);
+    ClassDB::bind_method(D_METHOD("set_turn_number", "value"), &BattleMain::set_turn_number);
     ClassDB::bind_method(D_METHOD("get_turn_number"), &BattleMain::get_turn_number);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "turn_number", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_turn_number");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "turn_number", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_turn_number", "get_turn_number");
 
+    ClassDB::bind_method(D_METHOD("set_property", "value"), &BattleMain::set_property);
     ClassDB::bind_method(D_METHOD("get_buttons"), &BattleMain::get_buttons);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "buttons", PROPERTY_HINT_NONE, "BattleButtons", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_buttons");
 }
@@ -695,6 +696,10 @@ void BattleMain::_on_transparent() {
 
 void BattleMain::set_property(Variant value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");
+}
+
+void BattleMain::set_turn_number(int value) {
+    turn_number = value;
 }
 
 int BattleMain::get_turn_number() {

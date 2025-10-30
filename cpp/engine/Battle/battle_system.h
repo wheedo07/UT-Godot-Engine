@@ -73,6 +73,7 @@ namespace godot {
             void _on_transparent();
 
             void set_property(Variant value);
+            void set_turn_number(int value);
             int get_turn_number();
             BattleButtons* get_buttons();
 
