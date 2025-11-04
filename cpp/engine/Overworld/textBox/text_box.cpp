@@ -128,6 +128,11 @@ void TextBox::_reset_state() {
     head->hide();
     soul->hide();
 
+    Callable calls = Callable(this, "_set_head_frame");
+    if(Text->is_connected("expression_textbox_set", calls)) {
+        Text->disconnect("expression_textbox_set", calls);
+    }
+
     Array selected_option = get_signal_connection_list("selected_option");
     for(int i=0; i < selected_option.size(); i++) {
         Dictionary calls = selected_option[i];
