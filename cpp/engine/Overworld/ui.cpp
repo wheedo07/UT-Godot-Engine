@@ -105,8 +105,6 @@ void UI::_ready() {
     item_actions[0.0] = get_node_internal("Control/StatAndOptions/Items/Use");
     item_actions[1.0] = get_node_internal("Control/StatAndOptions/Items/Info");
     item_actions[2.0] = get_node_internal("Control/StatAndOptions/Items/Drop");
-    
-    textboxscene = ResourceLoader::get_singleton()->load("res://Overworld/text_box.tscn");
     soultarget = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"))->get_global_position();
 
     UI_Box* stats_box = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Stats"));
@@ -413,12 +411,11 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                 soul->hide();
                 int item_index = int(soulposition_item.y);
                 
+                textbox = stagehand->get_textbox();
                 switch (int(soulposition.x)) {
                     case 0: {
                         _in_state(ITEM_USE_DISABLE_MOVEMENT);
                         Ref<Item> item = global->get_item_list()[global->get_items()[item_index]];
-                        textbox = Object::cast_to<TextBox>(textboxscene->instantiate());
-                        global->get_scene_container()->get_current_scene()->add_child(textbox);
                         textbox->connect("dialogue_finished", Callable(this, "_on_item_dialogue_finished"), CONNECT_ONE_SHOT);
                         Ref<Dialogues> dialogues = memnew(Dialogues);
                         
@@ -443,8 +440,6 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                     }
                     case 1: {
                         _in_state(ITEM_USE_DISABLE_MOVEMENT);
-                        textbox = Object::cast_to<TextBox>(textboxscene->instantiate());
-                        global->get_scene_container()->get_current_scene()->add_child(textbox);
                         Ref<Item> item = global->get_item_list()[global->get_items()[item_index]];
                         PackedStringArray info = item->get_item_information();
                         Ref<Dialogues> dialogues = memnew(Dialogues);
@@ -457,8 +452,6 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                         _in_state(ITEM_USE_DISABLE_MOVEMENT);
                         Ref<Item> item = global->get_item_list()[global->get_items()[item_index]];
                         PackedStringArray txt = item->get_throw_message();
-                        textbox = Object::cast_to<TextBox>(textboxscene->instantiate());
-                        global->get_scene_container()->get_current_scene()->add_child(textbox);
                         Ref<Dialogues> dialogues = memnew(Dialogues);
                         dialogues->from(txt);
                         Array items = global->get_items();

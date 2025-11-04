@@ -11,11 +11,16 @@ TextBox::TextBox() {
     soulpos = 0;
     skip_count = 0;
     soul_position = Vector2(0, 0);
-    selecting = false;
     optionamt = 0;
     soul_offset = Vector2(0, -5);
     last_skip_time = 0;
     last_confirm_time = 0;
+    selecting = false;
+    selected_option = false;
+    text_typing_completed = false;
+    options_typing_completed = false;
+    selection_completed = false;
+    post_selection_typing_completed = false;
 }
 
 TextBox::~TextBox() {}
@@ -39,9 +44,9 @@ void TextBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_setup_soul_selection", "options"), &TextBox::_setup_soul_selection);
     ClassDB::bind_method(D_METHOD("_setup_options_timer"), &TextBox::_setup_options_timer);
     ClassDB::bind_method(D_METHOD("_finish_dialogue"), &TextBox::_finish_dialogue);
-    ClassDB::bind_method(D_METHOD("_on_finish_dialogue"), &TextBox::_on_finish_dialogue);
     ClassDB::bind_method(D_METHOD("_on_skip"), &TextBox::_on_skip);
     ClassDB::bind_method(D_METHOD("_on_confirm"), &TextBox::_on_confirm);
+    ClassDB::bind_method(D_METHOD("_reset_state"), &TextBox::_reset_state);
     
     ADD_SIGNAL(MethodInfo("selected_option", PropertyInfo(Variant::INT, "option")));
     ADD_SIGNAL(MethodInfo("typing_skip", PropertyInfo(Variant::INT, "count")));
@@ -53,6 +58,11 @@ void TextBox::_ready() {
     head = Object::cast_to<AnimatedSprite2D>(get_node_internal("Control/Head"));
     soul = Object::cast_to<MenuSoul>(get_node_internal("Control/Soul"));
     text_container = Object::cast_to<MarginContainer>(get_node_internal("Control/TextContainer"));
+    default_settings["font"] = Text->get_theme_font("normal_font");
+    default_settings["text_size"] = Text->get_theme_font_size("normal_font_size");
+    default_settings["no_sound"] = Text->get_no_sound();
+    default_settings["extra_delay"] = Text->get_extra_delay();
+    default_settings["entire_text_bbcode"] = Text->get_entire_text_bbcode();
     Text->set_text("");
     
     Options.resize(4);
@@ -68,11 +78,7 @@ void TextBox::_ready() {
         option->set_text("");
         Options[i] = option;
     }
-    
-    selected_option = 0;
-    if(global->get_player_position().y >= 240) {
-        get_node_internal("Control")->call("set_position", Vector2(33, 10));
-    }
+    _reset_state();
 }
 
 void TextBox::_input(const Ref<InputEvent>& event) {
@@ -102,6 +108,59 @@ void TextBox::_input(const Ref<InputEvent>& event) {
     }
 }
 
+void TextBox::_reset_state() {
+    soulpos = 0;
+    skip_count = 0;
+    selecting = false;
+    selected_option = false;
+    text_typing_completed = false;
+    options_typing_completed = false;
+    selection_completed = false;
+    post_selection_typing_completed = false;
+    
+    Text->set_text("");
+    Text->add_theme_font_override("normal_font", default_settings["font"]);
+    Text->add_theme_font_size_override("normal_font_size", default_settings["text_size"]);
+    Text->set_no_sound(default_settings["no_sound"]);
+    Text->set_extra_delay(default_settings["extra_delay"]);
+    Text->set_entire_text_bbcode(default_settings["entire_text_bbcode"]);
+
+    head->hide();
+    soul->hide();
+
+    Array selected_option = get_signal_connection_list("selected_option");
+    for(int i=0; i < selected_option.size(); i++) {
+        Dictionary calls = selected_option[i];
+        disconnect("selected_option", calls["callable"]);
+    }
+
+    Array dialogue_finished = get_signal_connection_list("dialogue_finished");
+    for(int i=0; i < dialogue_finished.size(); i++) {
+        Dictionary calls = dialogue_finished[i];
+        disconnect("dialogue_finished", calls["callable"]);
+    }
+
+    Array typing_skip = get_signal_connection_list("typing_skip");
+    for(int i=0; i < typing_skip.size(); i++) {
+        Dictionary calls = typing_skip[i];
+        disconnect("typing_skip", calls["callable"]);
+    }
+    
+    for(int i = 0; i < 4; i++) {
+        Options[i].call("hide");
+    }
+    hide();
+}
+
+TextBox* TextBox::_create() {
+    selected_option = 0;
+    if(global->get_player_position().y >= 240) {
+        get_node_internal("Control")->call("set_position", Vector2(33, 10));
+    }
+    show();
+    return this;
+}
+
 void TextBox::finish_options() {
     soul->hide();
     
@@ -122,6 +181,8 @@ void TextBox::finish_options() {
 }
 
 void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& options, const TypedArray<Dialogues>& text_after_options) {
+    show();
+
     global->_set_player_in_menu(true);
     global->_set_player_text_box(true);
     text_after_option = text_after_options;
@@ -149,12 +210,11 @@ void TextBox::generic(const Ref<Dialogues>& text, const PackedStringArray& optio
     if(!setting->get_font().is_null()) Text->add_theme_font_override("normal_font", setting->get_font());
     Text->set_no_sound(setting->get_no_sound());
     Text->set_extra_delay(setting->get_extra_delay());
-    Text->set_entire_text_bbcode(setting->get_entire_text_bbcode());
 
     for(int i=0; i < 5; i++) {
-        if (i == 0) {
+        if(i == 0) {
             Text->set_click(setting);
-        } else if (i <= 4) {
+        }else if(i <= 4) {
             TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i-1]);
             option->set_click(setting);
         }
@@ -255,13 +315,11 @@ void TextBox::_setup_options_timer() {
 }
 
 void TextBox::_finish_dialogue() {
-    call_deferred("_on_finish_dialogue");
-    queue_free();
+    call_deferred("_reset_state");
+    _on_finish_dialogue();
 }
 
 void TextBox::_on_finish_dialogue() {
-    Text->set_text("");
-
     global->_set_player_in_menu(false);
     global->_set_player_text_box(false);
     

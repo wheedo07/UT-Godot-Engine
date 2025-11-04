@@ -5,6 +5,8 @@
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/variant/packed_string_array.hpp>
 namespace godot {
+    class Dialogues;
+
     class SavePoint : public AnimatedSprite2D {
         GDCLASS(SavePoint, AnimatedSprite2D)
         
@@ -12,9 +14,8 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            Ref<PackedScene> txt_box;
             Ref<PackedScene> save_menu;
-            PackedStringArray save_text;
+            Ref<Dialogues> dialogues;
         
         public:
             SavePoint();
@@ -24,9 +25,9 @@ namespace godot {
 
             void _on_interact_save();
 
-            void on_dialogue_finished();
-            void set_save_text(const PackedStringArray& p_text);
-            PackedStringArray get_save_text() const;
+            void _on_dialogue_finished();
+            void set_dialogue(Ref<Dialogues> value);
+            Ref<Dialogues> get_dialogue() const;
     };
 }
 

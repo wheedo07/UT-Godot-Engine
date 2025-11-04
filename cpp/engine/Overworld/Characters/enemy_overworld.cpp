@@ -59,7 +59,6 @@ void EnemyOverworld::_bind_methods() {
 }
 
 void EnemyOverworld::_ready() {
-    text_box = ResourceLoader::get_singleton()->load("res://Overworld/text_box.tscn");
     sprite = Object::cast_to<AnimatedSprite2D>(get_node_internal("Sprite"));
     alert = Object::cast_to<AnimatedSprite2D>(get_node_internal("Alert"));
     encounter = Object::cast_to<AudioStreamPlayer>(get_node_internal("encounter"));
@@ -168,14 +167,7 @@ void EnemyOverworld::_on_area_interacted() {
         return;
     }
     
-    Node* instance = text_box->instantiate();
-    if (!instance) {
-        ERR_PRINT("EnemyOverworld: 에러(1)");
-        return;
-    }
-    add_child(instance);
-    
-    TextBox* ct = Object::cast_to<TextBox>(instance);
+    TextBox* ct = stagehand->get_textbox();
     ct->connect("dialogue_finished", Callable(this, "emit_signal").bind("character_finished"), CONNECT_ONE_SHOT);
     if(ct) {
         ct->character(false, character, dialogues[current_index]);

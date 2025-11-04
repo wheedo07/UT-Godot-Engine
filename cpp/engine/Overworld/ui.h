@@ -9,11 +9,11 @@
 #include<godot_cpp/variant/dictionary.hpp>
 #include<godot_cpp/variant/packed_string_array.hpp>
 #include "engine/Menus/menu_soul.h"
-#include "textBox/text_box.h"
 #include "ui_box.h"
 namespace godot {
     class Overworld;
     class ItemSlider;
+    class TextBox;
 
     class UI : public CanvasLayer {
         GDCLASS(UI, CanvasLayer)
@@ -45,7 +45,6 @@ namespace godot {
             Vector2 soulposition;
             Vector2 soulposition_item;
             Dictionary optionsize;
-            Ref<PackedScene> textboxscene;
             TextBox* textbox;
             Vector2 soultarget;
             States current_state;

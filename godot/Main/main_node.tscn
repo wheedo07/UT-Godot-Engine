@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b72rkv2gjlqgd"]
+[gd_scene load_steps=8 format=3 uid="uid://b72rkv2gjlqgd"]
 
 [ext_resource type="Shader" uid="uid://cwal68u742e4u" path="res://Shaders/blur.gdshader" id="1_4tsh2"]
 [ext_resource type="PackedScene" uid="uid://dlix5icrmdrty" path="res://Menus/mobile.tscn" id="2_pcttb"]
+[ext_resource type="PackedScene" uid="uid://dy0t6jldvkcc1" path="res://Overworld/text_box.tscn" id="2_wvq84"]
 [ext_resource type="PackedScene" uid="uid://x1g53cac1aq7" path="res://Main/settings.tscn" id="3_cwtq4"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1a676"]
@@ -78,6 +79,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="TextBox" parent="SubViewportContainer/MainViewport" instance=ExtResource("2_wvq84")]
+visible = false
 
 [node name="SettingsContainer" type="SubViewportContainer" parent="."]
 process_mode = 3

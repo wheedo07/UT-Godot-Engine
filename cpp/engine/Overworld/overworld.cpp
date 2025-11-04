@@ -21,7 +21,6 @@ void Overworld::_bind_methods() {
     GDVIRTUAL_BIND(ready);
     GDVIRTUAL_BIND(start_cellphone, "id");
     GDVIRTUAL_BIND(player_died);
-    ClassDB::bind_method(D_METHOD("summontextbox"), &Overworld::summontextbox);
     ClassDB::bind_method(D_METHOD("add_bullet", "bullet_scene"), &Overworld::add_bullet);
     ClassDB::bind_method(D_METHOD("start_music_fade_in"), &Overworld::start_music_fade_in);
     ClassDB::bind_method(D_METHOD("toggle_encounter"), &Overworld::toggle_encounter);
@@ -67,9 +66,6 @@ void Overworld::_bind_methods() {
 }
 
 void Overworld::_ready() {
-    ResourceLoader* loader = ResourceLoader::get_singleton();
-    text_box = loader->load("res://Overworld/text_box.tscn");
-    
     if(player_path.is_empty() || camera_path.is_empty()) {
         ERR_PRINT("player_path 경로 또는 camera_path 경로 비어있음!");
         return;
@@ -198,18 +194,6 @@ void Overworld::_on_saved() {
     
     overworld_data["room_pos"] = Array::make(player_pos.x, player_pos.y);
     global->set_overworld_data(overworld_data);
-}
-
-TextBox* Overworld::summontextbox() {
-    if (text_box.is_null()) {
-        ERR_PRINT("Overworld: TextBox가 로드가 안됐습니다");
-        return nullptr;
-    }
-    
-    Node* instance = text_box->instantiate();
-    add_child(instance);
-    
-    return Object::cast_to<TextBox>(instance);
 }
 
 void Overworld::set_world_name(const String& p_name) {

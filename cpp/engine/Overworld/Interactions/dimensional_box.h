@@ -11,7 +11,6 @@ namespace godot {
             static void _bind_methods();
 
         private:
-            Ref<PackedScene> text_scene;
             Ref<PackedScene> ui_scene;
 
             void _on_textbox_select(int option);

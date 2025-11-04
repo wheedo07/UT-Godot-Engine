@@ -26,15 +26,13 @@ namespace godot {
             double last_confirm_time;
             int optionamt;
             TypedArray<Dialogues> text_after_option;
+            Dictionary default_settings;
 
-            bool selected_option = false;
-            bool text_typing_completed = false;
-            bool options_typing_completed = false;
-            bool selection_completed = false;
-            bool post_selection_typing_completed = false;
-
-            Dictionary char_sound;
-            Dictionary char_font;
+            bool selected_option;
+            bool text_typing_completed;
+            bool options_typing_completed;
+            bool selection_completed;
+            bool post_selection_typing_completed;
 
             TextBoxWriter* Text;
             AnimatedSprite2D* head;
@@ -58,6 +56,7 @@ namespace godot {
             void _on_skip();
             void _on_confirm();
             void _setup_options_timer();
+            void _reset_state();
         
         public:
             TextBox();
@@ -77,6 +76,7 @@ namespace godot {
             Vector2 get_soul_offset() const;
 
             void _on_text_click_played();
+            TextBox* _create();
     };
 }
 

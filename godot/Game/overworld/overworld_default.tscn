@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c33x0gque7l30"]
+[gd_scene load_steps=20 format=3 uid="uid://c33x0gque7l30"]
 
 [ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://Game/assets/sprite/sheet/new_home.png" id="2_ulhiq"]
 [ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Overworld/Characters/player_overworld.tscn" id="3_36w6e"]
@@ -19,12 +19,12 @@ func ready() -> void:
 	
 func start_cellphone(id: int) -> void:
 	if(id == 0):
-		summontextbox().character(false, \"SANS\", Dialogues.new().from([
+		stagehand.textbox.character(false, \"SANS\", Dialogues.new().from([
 			\"* 전화 받았습니다\", \"* WA sans\"
 		]).set_expressions([0, 1]));
 		
 func _on_batle():
-	var textbox = summontextbox();
+	var textbox = stagehand.textbox;
 	textbox.generic(Dialogues.new().from([
 		\"* 테스트 전투가 시작됩니다\", \"* 어떤 전투를 하겠습니까?\"
 	]), [\"전투1\", \"전투2\", \"안한다\"]);
@@ -131,6 +131,12 @@ sources/2 = SubResource("TileSetAtlasSource_2556i")
 sources/4 = SubResource("TileSetAtlasSource_vj3m7")
 sources/5 = SubResource("TileSetAtlasSource_qf4dj")
 
+[sub_resource type="Dialogue" id="Dialogue_6lau7"]
+dialog_text = "* 의지"
+
+[sub_resource type="Dialogues" id="Dialogues_njfgb"]
+dialogues = Array[Dialogue]([SubResource("Dialogue_6lau7")])
+
 [sub_resource type="Dialogue" id="Dialogue_xp77p"]
 dialog_text = "* 안녕 꼬마 여긴 테스트 방이야"
 
@@ -178,6 +184,7 @@ limit_top = -80
 limit_bottom = 160
 
 [node name="Save" parent="TileMap" instance=ExtResource("5_0u8sj")]
+dialogue = SubResource("Dialogues_njfgb")
 position = Vector2(23, 88)
 
 [node name="Box" parent="TileMap" instance=ExtResource("5_njfgb")]

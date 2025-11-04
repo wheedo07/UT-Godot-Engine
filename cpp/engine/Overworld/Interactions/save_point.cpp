@@ -2,48 +2,39 @@
 #include "env.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/resource_loader.hpp>
-#include<godot_cpp/classes/node.hpp>
 
-SavePoint::SavePoint() {
-    save_text.push_back(String::utf8("* 의지!!!"));
-}
+SavePoint::SavePoint() {}
 
 SavePoint::~SavePoint() {}
 
 void SavePoint::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_interact_save"), &SavePoint::_on_interact_save);
+    ClassDB::bind_method(D_METHOD("_on_dialogue_finished"), &SavePoint::_on_dialogue_finished);
 
-    ClassDB::bind_method(D_METHOD("on_dialogue_finished"), &SavePoint::on_dialogue_finished);
-    ClassDB::bind_method(D_METHOD("set_save_text", "text"), &SavePoint::set_save_text);
-    ClassDB::bind_method(D_METHOD("get_save_text"), &SavePoint::get_save_text);
-    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "save_text", PROPERTY_HINT_TYPE_STRING,
-        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
-    "set_save_text", "get_save_text");
+    ClassDB::bind_method(D_METHOD("set_dialogue", "dialogue"), &SavePoint::set_dialogue);
+    ClassDB::bind_method(D_METHOD("get_dialogue"), &SavePoint::get_dialogue);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dialogue", PROPERTY_HINT_RESOURCE_TYPE, "Dialogues"), "set_dialogue", "get_dialogue");
 }
 
 void SavePoint::_ready() {
     ResourceLoader* loader = ResourceLoader::get_singleton();
-    txt_box = loader->load("res://Overworld/text_box.tscn");
     save_menu = loader->load("res://Overworld/save_menu.tscn");
 }
 
 void SavePoint::_on_interact_save() {
     global->heal(global->get_player_max_hp());
     stagehand->audio_player->play("heal");
-    global->set_player_hp(global->get_player_max_hp());
-    
-    TextBox* textbox = Object::cast_to<TextBox>(txt_box->instantiate());
-    global->get_scene_container()->get_current_scene()->add_child(textbox);
-    
-    Ref<Dialogues> dialogues = memnew(Dialogues);
-    dialogues->from(save_text);
-    
-    textbox->connect("dialogue_finished", Callable(this, "on_dialogue_finished"), CONNECT_ONE_SHOT);
-    
-    textbox->generic(dialogues);
+   
+    if(dialogues.is_null()) {
+        _on_dialogue_finished();
+    }else {
+        TextBox* textbox = stagehand->get_textbox();
+        textbox->connect("dialogue_finished", Callable(this, "_on_dialogue_finished"), CONNECT_ONE_SHOT);
+        textbox->generic(dialogues);
+    }
 }
 
-void SavePoint::on_dialogue_finished() {
+void SavePoint::_on_dialogue_finished() {
     Node* current_scene = global->get_scene_container()->get_current_scene();
     
     Node* save_menu_instance = save_menu->instantiate();
@@ -52,10 +43,10 @@ void SavePoint::on_dialogue_finished() {
     }
 }
 
-void SavePoint::set_save_text(const PackedStringArray& p_text) {
-    save_text = p_text;
+void SavePoint::set_dialogue(Ref<Dialogues> value) {
+    dialogues = value;
 }
 
-PackedStringArray SavePoint::get_save_text() const {
-    return save_text;
+Ref<Dialogues> SavePoint::get_dialogue() const {
+    return dialogues;
 }

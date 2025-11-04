@@ -27,7 +27,6 @@ namespace godot {
             String current_animation_name;
             AnimationState current_anim_state;
             TypedArray<Dialogues> dialogues;
-            Ref<PackedScene> text_box;
             String character;
 
             int counter;

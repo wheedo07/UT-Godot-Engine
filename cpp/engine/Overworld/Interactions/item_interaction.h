@@ -27,15 +27,11 @@ namespace godot {
             int item_id;
             bool one_item;
 
-            Ref<PackedScene> text_box;
-
             void _on_text_box_selected_option(int decision);
             
         public:
             ItemInteraction();
             ~ItemInteraction();
-            
-            void _ready() override;
             
             void discover();
             void disable_item();

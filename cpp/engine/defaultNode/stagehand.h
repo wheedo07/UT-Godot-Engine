@@ -4,8 +4,8 @@
 #include<godot_cpp/classes/node.hpp>
 #include "audio_player.h"
 #include "engine/Text/character_setting.h"
+#include "engine/Overworld/textBox/text_box.h"
 namespace godot {
-
     class Stagehand : public Node {
         GDCLASS(Stagehand, Node)
 
@@ -14,9 +14,12 @@ namespace godot {
        
         public:
             AudioPlayer* audio_player;
-            HashMap<String, CharacterSetting*> characters;
+            TextBox* get_textbox();
 
         private:
+            HashMap<String, CharacterSetting*> characters;
+            TextBox* textbox;
+
             void set_property(Variant value);
             AudioPlayer* get_audio_player() const;
 

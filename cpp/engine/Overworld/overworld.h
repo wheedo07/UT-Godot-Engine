@@ -16,10 +16,10 @@
 #include "engine/Overworld/Characters/player_overworld.h"
 #include "engine/Camera/camera_fx.h"
 #include "engine/Overworld/room_entrance_node.h"
-#include "engine/Overworld/textBox/text_box.h"
 #include "engine/Camera/camera_controller.h"
 namespace godot {
     class Bullet;
+    class TextBox;
 
     class Overworld : public Node2D {
         GDCLASS(Overworld, Node2D)
@@ -38,7 +38,6 @@ namespace godot {
             NodePath camera_path;
             Ref<AudioStream> music;
             TypedArray<RoomEntranceNode> room_entrances;
-            Ref<PackedScene> text_box;
 
             void set_property(Object* value);
             PlayerOverworld* get_player();
@@ -62,7 +61,6 @@ namespace godot {
             void _on_saved();
 
             // 사용 함수
-            TextBox* summontextbox();
             Bullet* add_bullet(Ref<PackedScene> bullet_scene);
             void toggle_encounter();
             void start_music_fade_in();

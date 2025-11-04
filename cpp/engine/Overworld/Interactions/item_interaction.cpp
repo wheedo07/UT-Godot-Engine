@@ -70,13 +70,8 @@ void ItemInteraction::_bind_methods() {
     ADD_SIGNAL(MethodInfo("took_item"));
 }
 
-void ItemInteraction::_ready() {
-    text_box = ResourceLoader::get_singleton()->load("res://Overworld/text_box.tscn");
-}
-
 void ItemInteraction::discover() {
-    TextBox* txtbox = Object::cast_to<TextBox>(text_box->instantiate());
-    add_child(txtbox);
+    TextBox* txtbox = stagehand->get_textbox();
     
     bool inventory_full = global->get_items().size() == 8;
     
