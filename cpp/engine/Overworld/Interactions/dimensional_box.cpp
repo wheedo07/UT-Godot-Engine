@@ -16,7 +16,7 @@ void DimensionalBox::_ready() {
 }
 
 void DimensionalBox::_on_interact_box() {
-    TextBox* textbox = stagehand->get_textbox();
+    TextBox* textbox = stagehand->summontextbox();
     textbox->connect("selected_option", Callable(this, "_on_textbox_select"), CONNECT_ONE_SHOT);
 
     Ref<Dialogues> dialogues = memnew(Dialogues);

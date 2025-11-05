@@ -48,7 +48,6 @@ namespace godot {
             void _setup_options_typing(const PackedStringArray& options);
             void _setup_soul_selection(const PackedStringArray& options);
             void _finish_dialogue();
-            void _on_finish_dialogue();
             void abstract(const Ref<Dialogues>& text, const PackedStringArray& options = PackedStringArray(), 
             const TypedArray<Dialogues>& text_after_options = TypedArray<Dialogues>());
             void _set_head_frame(int expr);

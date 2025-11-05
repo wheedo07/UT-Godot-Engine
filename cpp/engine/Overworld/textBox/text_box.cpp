@@ -111,6 +111,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
 void TextBox::_reset_state() {
     soulpos = 0;
     skip_count = 0;
+    selected_option = 0;
     selecting = false;
     selected_option = false;
     text_typing_completed = false;
@@ -158,7 +159,7 @@ void TextBox::_reset_state() {
 }
 
 TextBox* TextBox::_create() {
-    selected_option = 0;
+    _reset_state();
     if(global->get_player_position().y >= 240) {
         get_node_internal("Control")->call("set_position", Vector2(33, 10));
     }
@@ -186,8 +187,11 @@ void TextBox::finish_options() {
 }
 
 void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& options, const TypedArray<Dialogues>& text_after_options) {
-    show();
-
+    if(!is_visible()) {
+        _reset_state();
+        ERR_PRINT("TextBox가 활성화되어 있지 않습니다. stagehand.summontextbox() 함수를 사용하여 활성화 해주세요.");
+        return;
+    }
     global->_set_player_in_menu(true);
     global->_set_player_text_box(true);
     text_after_option = text_after_options;
@@ -320,14 +324,9 @@ void TextBox::_setup_options_timer() {
 }
 
 void TextBox::_finish_dialogue() {
-    call_deferred("_reset_state");
-    _on_finish_dialogue();
-}
-
-void TextBox::_on_finish_dialogue() {
     global->_set_player_in_menu(false);
     global->_set_player_text_box(false);
-    
+    hide();
     emit_signal("dialogue_finished");
 }
 

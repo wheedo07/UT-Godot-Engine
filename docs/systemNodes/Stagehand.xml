@@ -30,16 +30,19 @@
                 존재하지 않는 이름을 요청할 경우 오류와 함께 null을 반환합니다.
             </description>
         </method>
+
+        <method name="summontextbox">
+            <return type="TextBox" />
+            <description>
+                오버월드에 사용되는 TextBox 노드를 초기화 하여 생성합니다.
+                반환된 TextBox 노드는 대화 시스템에서 사용할 수 있습니다.
+            </description>
+        </method>
     </methods>
 
     <members>
         <member name="audio_player" type="AudioPlayer" setter="set_property" getter="get_audio_player">
             오디오 재생을 관리하는 AudioPlayer 노드입니다.
-            이 객체를 통해 접근할수 있습니다.
-        </member>
-
-        <member name="textbox" type="TextBox" setter="set_property" getter="get_textbox">
-            오버월드 텍스트 박스를 관리하는 TextBox 노드입니다.
             이 객체를 통해 접근할수 있습니다.
         </member>
     </members>

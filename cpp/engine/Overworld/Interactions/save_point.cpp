@@ -28,7 +28,7 @@ void SavePoint::_on_interact_save() {
     if(dialogues.is_null()) {
         _on_dialogue_finished();
     }else {
-        TextBox* textbox = stagehand->get_textbox();
+        TextBox* textbox = stagehand->summontextbox();
         textbox->connect("dialogue_finished", Callable(this, "_on_dialogue_finished"), CONNECT_ONE_SHOT);
         textbox->generic(dialogues);
     }

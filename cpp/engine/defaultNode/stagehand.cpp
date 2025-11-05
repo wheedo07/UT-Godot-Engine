@@ -11,12 +11,11 @@ Stagehand::~Stagehand() {}
 
 void Stagehand::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_character", "name"), &Stagehand::get_character);
+    ClassDB::bind_method(D_METHOD("summontextbox"), &Stagehand::summontextbox);
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Stagehand::set_property);
     ClassDB::bind_method(D_METHOD("get_audio_player"), &Stagehand::get_audio_player);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "audio_player", PROPERTY_HINT_NONE, "AudioPlayer", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_audio_player");
-    ClassDB::bind_method(D_METHOD("get_textbox"), &Stagehand::get_textbox);
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "textbox", PROPERTY_HINT_NONE, "TextBox", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_textbox");
 }
 
 void Stagehand::_ready() {
@@ -51,7 +50,7 @@ AudioPlayer* Stagehand::get_audio_player() const {
     return audio_player;
 }
 
-TextBox* Stagehand::get_textbox() {
+TextBox* Stagehand::summontextbox() {
     if(!textbox) textbox = Object::cast_to<TextBox>(global->get_scene_container()->get_node_internal("SubViewportContainer/MainViewport/TextBox"));
     return textbox->_create();
 }

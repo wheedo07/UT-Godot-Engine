@@ -14,7 +14,7 @@ namespace godot {
        
         public:
             AudioPlayer* audio_player;
-            TextBox* get_textbox();
+            TextBox* summontextbox();
 
         private:
             HashMap<String, CharacterSetting*> characters;

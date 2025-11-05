@@ -121,8 +121,9 @@ void EnemyOverworld::set_frame(int index) {
 }
 
 void EnemyOverworld::play_anim(String key, float speed, bool from_end) {
+    Callable calls = Callable(this, "emit_signal").bind("animation_finished");
+    if(sprite->is_connected("animation_finished", calls)) sprite->disconnect("animation_finished", calls);
     sprite->connect("animation_finished", Callable(this, "emit_signal").bind("animation_finished"), CONNECT_ONE_SHOT);
-    sprite->play(key, speed, from_end);
 }
 
 void EnemyOverworld::set_walk_direction(const Vector2i& direction) {
@@ -167,7 +168,7 @@ void EnemyOverworld::_on_area_interacted() {
         return;
     }
     
-    TextBox* ct = stagehand->get_textbox();
+    TextBox* ct = stagehand->summontextbox();
     ct->connect("dialogue_finished", Callable(this, "emit_signal").bind("character_finished"), CONNECT_ONE_SHOT);
     if(ct) {
         ct->character(false, character, dialogues[current_index]);

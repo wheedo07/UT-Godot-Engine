@@ -411,7 +411,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                 soul->hide();
                 int item_index = int(soulposition_item.y);
                 
-                textbox = stagehand->get_textbox();
+                textbox = stagehand->summontextbox();
                 switch (int(soulposition.x)) {
                     case 0: {
                         _in_state(ITEM_USE_DISABLE_MOVEMENT);
