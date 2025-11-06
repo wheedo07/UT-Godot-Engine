@@ -22,17 +22,12 @@ namespace godot {
             Vector2 soul_position;
             Vector2 soul_offset;
             bool selecting;
+            bool selected_option;
             double last_skip_time;
             double last_confirm_time;
             int optionamt;
             TypedArray<Dialogues> text_after_option;
             Dictionary default_settings;
-
-            bool selected_option;
-            bool text_typing_completed;
-            bool options_typing_completed;
-            bool selection_completed;
-            bool post_selection_typing_completed;
 
             TextBoxWriter* Text;
             AnimatedSprite2D* head;
@@ -41,10 +36,8 @@ namespace godot {
             Array Options;
 
             void _on_option_selected(int option);
-            void _on_text_typing_finished();
             void _on_option_typing_finished(int option_index, const PackedStringArray& options); 
             void _on_all_texts_finished(const PackedStringArray& options);
-
             void _setup_options_typing(const PackedStringArray& options);
             void _setup_soul_selection(const PackedStringArray& options);
             void _finish_dialogue();

@@ -17,10 +17,6 @@ TextBox::TextBox() {
     last_confirm_time = 0;
     selecting = false;
     selected_option = false;
-    text_typing_completed = false;
-    options_typing_completed = false;
-    selection_completed = false;
-    post_selection_typing_completed = false;
 }
 
 TextBox::~TextBox() {}
@@ -37,7 +33,6 @@ void TextBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_set_head_frame", "expr"), &TextBox::_set_head_frame);
     ClassDB::bind_method(D_METHOD("_on_text_click_played"), &TextBox::_on_text_click_played);
     ClassDB::bind_method(D_METHOD("_on_option_selected", "option"), &TextBox::_on_option_selected);
-    ClassDB::bind_method(D_METHOD("_on_text_typing_finished"), &TextBox::_on_text_typing_finished);
     ClassDB::bind_method(D_METHOD("_on_option_typing_finished", "option_index", "options"), &TextBox::_on_option_typing_finished);
     ClassDB::bind_method(D_METHOD("_on_all_texts_finished", "options"), &TextBox::_on_all_texts_finished);
     ClassDB::bind_method(D_METHOD("_setup_options_typing", "options"), &TextBox::_setup_options_typing);
@@ -47,7 +42,7 @@ void TextBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_skip"), &TextBox::_on_skip);
     ClassDB::bind_method(D_METHOD("_on_confirm"), &TextBox::_on_confirm);
     ClassDB::bind_method(D_METHOD("_reset_state"), &TextBox::_reset_state);
-    
+
     ADD_SIGNAL(MethodInfo("selected_option", PropertyInfo(Variant::INT, "option")));
     ADD_SIGNAL(MethodInfo("typing_skip", PropertyInfo(Variant::INT, "count")));
     ADD_SIGNAL(MethodInfo("dialogue_finished"));
@@ -114,10 +109,6 @@ void TextBox::_reset_state() {
     selected_option = 0;
     selecting = false;
     selected_option = false;
-    text_typing_completed = false;
-    options_typing_completed = false;
-    selection_completed = false;
-    post_selection_typing_completed = false;
     
     Text->set_text("");
     Text->add_theme_font_override("normal_font", default_settings["font"]);
@@ -207,8 +198,6 @@ void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& opti
     }
     
     Text->call_deferred("type_text_advanced", text);
-    text_typing_completed = false;
-    Text->connect("finished_all_texts_textbox", Callable(this, "_on_text_typing_finished"), CONNECT_ONE_SHOT);
     Text->connect("finished_all_texts_textbox", Callable(this, "_on_all_texts_finished").bind(options), CONNECT_ONE_SHOT);
 }
 
@@ -286,22 +275,14 @@ void TextBox::set_key(bool is) {
 }
 
 void TextBox::_setup_options_typing(const PackedStringArray& options) {
-    options_typing_completed = false;
-    int complete_count = 0;
-    
-    for (int i = 0; i < Math::min<float>(options.size(), 4); i++) {
-        if (Options[i]) {
-            Options[i].call("show");
-        }
-    }
-    
-    for (int i = 0; i < Math::min<float>(options.size(), 4); i++) {
+    for(int i=0; i < MIN(options.size(), 4); i++) {
         Ref<Dialogues> option_dialogue = memnew(Dialogues); 
         Array option_text;
         option_text.append(options[i]);
         option_dialogue->from(option_text);
 
         TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
+        option->show();
         option->connect("finished_typing_options", Callable(this, "_on_option_typing_finished").bind(i, options), CONNECT_ONE_SHOT);
         Ref<SceneTreeTimer> timer = get_tree()->create_timer(i * 0.1);
         timer->connect("timeout", Callable(option, "type_text_advanced").bind(option_dialogue), CONNECT_ONE_SHOT);
@@ -336,23 +317,16 @@ void TextBox::_finish_dialogue() {
 
 void TextBox::_on_option_selected(int option) {
     soulpos = option;
-    selection_completed = true;
-}
-
-void TextBox::_on_text_typing_finished() {
-    text_typing_completed = true;
 }
 
 void TextBox::_on_option_typing_finished(int option_index, const PackedStringArray& options) {
     if (option_index == options.size() - 1) {
-        options_typing_completed = true;
         call_deferred("_setup_soul_selection", options);
     }
 }
 
 void TextBox::_on_all_texts_finished(const PackedStringArray& options) {
-    post_selection_typing_completed = true;
-    if (!options.is_empty()) {
+    if(!options.is_empty()) {
         _setup_options_typing(options);
         return;
     }

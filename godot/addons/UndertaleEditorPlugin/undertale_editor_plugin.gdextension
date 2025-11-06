@@ -1,8 +1,0 @@
-[configuration]
-
-entry_symbol = "undertale_editorPlugin_main_init"
-compatibility_minimum = "4.5"
-
-[libraries]
-
-windows.editor.x86_64 = "lib/lib.UndertaleEditorPlugin.windows_debug.x86_64.dll"
