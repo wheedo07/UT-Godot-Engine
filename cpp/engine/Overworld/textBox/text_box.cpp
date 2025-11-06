@@ -157,6 +157,7 @@ void TextBox::_reset_state() {
     for(int i = 0; i < 4; i++) {
         Options[i].call("hide");
     }
+    set_key(true);
     hide();
 }
 

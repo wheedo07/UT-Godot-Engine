@@ -14,25 +14,36 @@ env = SConscript("godot-cpp/SConstruct")
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=["cpp/"])
-sources = Glob("cpp/engine/engine_main.cpp")
-sources += Glob("cpp/engine/undertale_register.cpp")
-sources += Glob("cpp/src/register_types.cpp")
-sources += Glob("cpp/env.cpp")
-sources += Glob("cpp/engine/*/*/*/*.cpp")
-sources += Glob("cpp/engine/*/*/*.cpp")
-sources += Glob("cpp/engine/*/*.cpp")
-sources += Glob("cpp/src/*/*.cpp")
-sources += Glob("cpp/src/*/*/*.cpp")
-sources += Glob("cpp/src/*/*/*/*.cpp")
+editorPlugin = False
 
-if env["target"] in ["editor", "template_debug"]:
-    sources_doc = Glob("docs/*/*.xml")
-    doc_data = env.GodotCPPDocData("cpp/engine/engine_doc.gen.cpp", sources_doc)
-    sources.append(doc_data)
+if editorPlugin:
+    sources = Glob("cpp/editorPlugin/*.cpp")
+    sources += Glob("cpp/editorPlugin/*/*.cpp")
 
-library = env.SharedLibrary(
-    "godot/bin/lib/lib.UndertaleEngine{}{}".format(env["suffix"], env["SHLIBSUFFIX"]).replace(".template", ""),
-    source=sources,
-)
+    library = env.SharedLibrary(
+        "godot/addons/UndertaleEditorPlugin/lib/lib.UndertaleEditorPlugin{}{}".format(env["suffix"], env["SHLIBSUFFIX"]).replace(".template", ""),
+        source=sources,
+    )
+else:
+    sources = Glob("cpp/engine/engine_main.cpp")
+    sources += Glob("cpp/engine/undertale_register.cpp")
+    sources += Glob("cpp/src/register_types.cpp")
+    sources += Glob("cpp/env.cpp")
+    sources += Glob("cpp/engine/*/*/*/*.cpp")
+    sources += Glob("cpp/engine/*/*/*.cpp")
+    sources += Glob("cpp/engine/*/*.cpp")
+    sources += Glob("cpp/src/*/*.cpp")
+    sources += Glob("cpp/src/*/*/*.cpp")
+    sources += Glob("cpp/src/*/*/*/*.cpp")
+
+    if env["target"] in ["editor", "template_debug"]:
+        sources_doc = Glob("docs/*/*.xml")
+        doc_data = env.GodotCPPDocData("cpp/engine/engine_doc.gen.cpp", sources_doc)
+        sources.append(doc_data)
+
+    library = env.SharedLibrary(
+        "godot/bin/lib/lib.UndertaleEngine{}{}".format(env["suffix"], env["SHLIBSUFFIX"]).replace(".template", ""),
+        source=sources,
+    )
 
 Default(library)
