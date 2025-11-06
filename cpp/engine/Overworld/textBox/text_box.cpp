@@ -125,6 +125,8 @@ void TextBox::_reset_state() {
     Text->set_no_sound(default_settings["no_sound"]);
     Text->set_extra_delay(default_settings["extra_delay"]);
     Text->set_entire_text_bbcode(default_settings["entire_text_bbcode"]);
+    text_container->set_position(Vector2(0, 5));
+    text_container->set_size(Vector2(578, 143));
 
     head->hide();
     soul->hide();
@@ -160,9 +162,10 @@ void TextBox::_reset_state() {
 
 TextBox* TextBox::_create() {
     _reset_state();
+    Control* control = Object::cast_to<Control>(get_node_internal("Control"));
     if(global->get_player_position().y >= 240) {
-        get_node_internal("Control")->call("set_position", Vector2(33, 10));
-    }
+        control->set_position(Vector2(33, 10));
+    }else control->set_position(Vector2(33, 322));
     show();
     return this;
 }
