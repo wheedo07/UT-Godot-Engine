@@ -27,8 +27,20 @@ void EnemySpeech::character_customize() {
     CharacterSetting* setting = stagehand->get_character(current_character);
     if(!setting) return;
 
-    if(!setting->get_font().is_null()) add_theme_font_override("normal_font", setting->get_font());
-    add_theme_font_size_override("normal_font_size", setting->get_text_size());
+    if(!setting->get_font().is_null()) {
+        add_theme_font_override("normal_font", setting->get_font());
+        add_theme_font_override("bold_font", setting->get_font());
+        add_theme_font_override("italics_font", setting->get_font());
+        add_theme_font_override("bold_italics_font", setting->get_font());
+        add_theme_font_override("mono_font", setting->get_font());
+    }
+    
+    float font_size = setting->get_text_size();
+    add_theme_font_size_override("normal_font_size", font_size);
+    add_theme_font_size_override("bold_font_size", font_size);
+    add_theme_font_size_override("italics_font_size", font_size);
+    add_theme_font_size_override("bold_italics_font_size", font_size);
+    add_theme_font_size_override("mono_font_size", font_size);
 
     set_click(setting);
     set_extra_delay(setting->get_extra_delay());

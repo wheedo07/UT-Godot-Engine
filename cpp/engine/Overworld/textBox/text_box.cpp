@@ -111,8 +111,7 @@ void TextBox::_reset_state() {
     selected_option = false;
     
     Text->set_text("");
-    Text->add_theme_font_override("normal_font", default_settings["font"]);
-    Text->add_theme_font_size_override("normal_font_size", default_settings["text_size"]);
+    _set_all_fonts(default_settings["font"], default_settings["text_size"]);
     Text->set_no_sound(default_settings["no_sound"]);
     Text->set_extra_delay(default_settings["extra_delay"]);
     Text->set_entire_text_bbcode(default_settings["entire_text_bbcode"]);
@@ -208,8 +207,7 @@ void TextBox::generic(const Ref<Dialogues>& text, const PackedStringArray& optio
         return;
     }
 
-    Text->add_theme_font_size_override("normal_font_size", setting->get_text_size());
-    if(!setting->get_font().is_null()) Text->add_theme_font_override("normal_font", setting->get_font());
+    _set_all_fonts(setting->get_font(), setting->get_text_size());
     Text->set_no_sound(setting->get_no_sound());
     Text->set_extra_delay(setting->get_extra_delay());
 
@@ -242,8 +240,7 @@ void TextBox::character(bool head_hide, String chr, const Ref<Dialogues>& dialog
         Text->connect("expression_textbox_set", Callable(this, "_set_head_frame"));
     }
 
-    Text->add_theme_font_size_override("normal_font_size", setting->get_text_size());
-    if(!setting->get_font().is_null()) Text->add_theme_font_override("normal_font", setting->get_font());
+    _set_all_fonts(setting->get_font(), setting->get_text_size());
     Text->set_no_sound(setting->get_no_sound());
     Text->set_extra_delay(setting->get_extra_delay());
     Text->set_entire_text_bbcode(setting->get_entire_text_bbcode());
@@ -320,7 +317,7 @@ void TextBox::_on_option_selected(int option) {
 }
 
 void TextBox::_on_option_typing_finished(int option_index, const PackedStringArray& options) {
-    if (option_index == options.size() - 1) {
+    if(option_index == options.size() - 1) {
         call_deferred("_setup_soul_selection", options);
     }
 }
@@ -353,6 +350,39 @@ void TextBox::_on_confirm() {
     if(current_time - last_skip_time < 0.5) {
         skip_count++;
         emit_signal("typing_skip", skip_count);
+    }
+}
+
+void TextBox::_set_all_fonts(Ref<Font> font, float font_size) {
+    if(!font.is_null()) {
+        Text->add_theme_font_override("normal_font", font);
+        Text->add_theme_font_override("bold_font", font);
+        Text->add_theme_font_override("bold_italics_font", font);
+        Text->add_theme_font_override("italics_font", font);
+        Text->add_theme_font_override("mono_font", font);
+    }
+
+    Text->add_theme_font_size_override("normal_font_size", font_size);
+    Text->add_theme_font_size_override("bold_font_size", font_size);
+    Text->add_theme_font_size_override("bold_italics_font_size", font_size);
+    Text->add_theme_font_size_override("italics_font_size", font_size);
+    Text->add_theme_font_size_override("mono_font_size", font_size);
+    
+    for(int i = 0; i < 4; i++) {
+        TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
+        if(!font.is_null()) {
+            option->add_theme_font_override("normal_font", font);
+            option->add_theme_font_override("bold_font", font);
+            option->add_theme_font_override("bold_italics_font", font);
+            option->add_theme_font_override("italics_font", font);
+            option->add_theme_font_override("mono_font", font);
+        }
+
+        option->add_theme_font_size_override("normal_font_size", font_size);
+        option->add_theme_font_size_override("bold_font_size", font_size);
+        option->add_theme_font_size_override("bold_italics_font_size", font_size);
+        option->add_theme_font_size_override("italics_font_size", font_size);
+        option->add_theme_font_size_override("mono_font_size", font_size);
     }
 }
 

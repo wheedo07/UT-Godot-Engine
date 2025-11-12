@@ -49,6 +49,7 @@ namespace godot {
             void _on_confirm();
             void _setup_options_timer();
             void _reset_state();
+            void _set_all_fonts(Ref<Font> font, float font_size);
         
         public:
             TextBox();
