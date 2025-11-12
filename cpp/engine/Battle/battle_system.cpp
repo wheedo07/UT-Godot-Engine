@@ -20,9 +20,16 @@ BattleMain::BattleMain() {
 BattleMain::~BattleMain() {}
 
 void BattleMain::_bind_methods() {
-    ADD_SIGNAL(MethodInfo("damage_info_finished"));
     ADD_SIGNAL(MethodInfo("end_turn"));
+
+    // 배틀 액션 신호
+    ADD_SIGNAL(MethodInfo("fight_used", PropertyInfo(Variant::INT, "target")));
+    ADD_SIGNAL(MethodInfo("act_used", PropertyInfo(Variant::INT, "target"), PropertyInfo(Variant::INT, "option")));
     ADD_SIGNAL(MethodInfo("item_used", PropertyInfo(Variant::INT, "id")));
+    ADD_SIGNAL(MethodInfo("mercy_used", PropertyInfo(Variant::INT, "choice")));
+    ADD_SIGNAL(MethodInfo("enemy_killed", PropertyInfo(Variant::INT, "enemy_id")));
+    ADD_SIGNAL(MethodInfo("enemy_spared", PropertyInfo(Variant::INT, "enemy_id")));
+    ADD_SIGNAL(MethodInfo("damage_info_finished"));
     
     ClassDB::bind_method(D_METHOD("enemy_size"), &BattleMain::enemy_size);
     ClassDB::bind_method(D_METHOD("is_kr"), &BattleMain::is_kr);
@@ -180,8 +187,6 @@ void BattleMain::initialize() {
         rewards["gold"] = int(rewards["gold"]) + int(rwrds.get("gold", 0));
         rewards["exp"] = int(rewards["exp"]) + int(rwrds.get("exp", 0));
         
-        connect("item_used", Callable(enemy, "on_item_used"));
-        
         if(enemy->get_is_first_turn() && !is_first_turn) {
             call_deferred("_on_get_turn");
             is_first_turn = true;
@@ -287,6 +292,7 @@ void BattleMain::_fight(int target) {
 
     Node* clone = attack_scene->instantiate();
     if (clone) {
+        emit_signal("fight_used", target);
         clone->set("target", target);
         clone->connect("damagetarget", Callable(this, "_hit"), CONNECT_ONE_SHOT);
         clone->connect("missed", Callable(this, "_miss"), CONNECT_ONE_SHOT);
@@ -401,7 +407,8 @@ void BattleMain::_miss(int target) {
 }
 
 void BattleMain::_act(int target, int option) {
-    if (target < 0 || target >= enemies.size()) return;
+    if(target < 0 || target >= enemies.size()) return;
+    emit_signal("act_used", target, option);
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
     if (enemy) {
@@ -413,6 +420,7 @@ void BattleMain::_act(int target, int option) {
 }
 
 void BattleMain::_mercy(int choice) {
+    emit_signal("mercy_used", choice);
     switch (choice) {
         case -1:
             emit_signal("end_turn");
@@ -450,8 +458,9 @@ void BattleMain::_on_end(bool mercy, int id) {
 }
 
 void BattleMain::_item(int item_id) {
+    emit_signal("item_used", item_id);
     completed_size = enemy_size();
-    for (int i = 0; i < enemies.size(); i++) {
+    for(int i = 0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) {
             enemy->connect("on_item_end", Callable(this, "_on_end"), CONNECT_ONE_SHOT);
@@ -463,10 +472,11 @@ void BattleMain::_item(int item_id) {
 }
 
 void BattleMain::kill_enemy(int enemy_id) {
-    if (enemy_id < 0 || enemy_id >= enemies.size()) return;
+    if(enemy_id < 0 || enemy_id >= enemies.size()) return;
+    emit_signal("enemy_killed", enemy_id);
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[enemy_id]);
-    if (enemy) {
+    if(enemy) {
         enemy->on_defeat(true);
         enemies[enemy_id] = nullptr;
         enemy_names[enemy_id] = Variant();
@@ -523,6 +533,7 @@ bool BattleMain::check_end_encounter() {
 
 void BattleMain::spare_enemy(int enemy_id) {
     if (enemy_id < 0 || enemy_id >= enemies.size()) return;
+    emit_signal("enemy_spared", enemy_id);
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[enemy_id]);
     if(!enemy) return;
