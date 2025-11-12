@@ -39,6 +39,8 @@ namespace godot {
             void scroll_texture(Vector2 speed=Vector2(0,0));
             Ref<PropertyTweener> tween_height(float new_height, float time);
             Ref<PropertyTweener> tween_width(float new_width, float time);
+            void set_height(float height);
+            void set_width(float width);
 
             Ref<Tween> get_h_tween();
             void set_h_tween(Ref<Tween> value);

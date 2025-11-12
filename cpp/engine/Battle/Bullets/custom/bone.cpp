@@ -14,6 +14,8 @@ void Bone::_bind_methods() {
     ClassDB::bind_method(D_METHOD("scroll_texture", "speed"), &Bone::scroll_texture, DEFVAL(Vector2(0,0)));
     ClassDB::bind_method(D_METHOD("tween_height", "new_height", "time"), &Bone::tween_height);
     ClassDB::bind_method(D_METHOD("tween_width", "new_width", "time"), &Bone::tween_width);
+    ClassDB::bind_method(D_METHOD("set_height", "height"), &Bone::set_height);
+    ClassDB::bind_method(D_METHOD("set_width", "width"), &Bone::set_width);
 
     ClassDB::bind_method(D_METHOD("get_h_tween"), &Bone::get_h_tween);
     ClassDB::bind_method(D_METHOD("set_h_tween", "value"), &Bone::set_h_tween);
@@ -88,6 +90,18 @@ Ref<PropertyTweener> Bone::tween_width(float new_width, float time) {
     if (w_tween.is_valid()) w_tween->kill();
     w_tween = create_tween();
     return w_tween->tween_property(sprite_rect, "size:x", new_width, time);
+}
+
+void Bone::set_height(float height) {
+    Vector2 size = sprite_rect->get_size();
+    size.y = height;
+    sprite_rect->set_size(size);
+}
+
+void Bone::set_width(float width) {
+    Vector2 size = sprite_rect->get_size();
+    size.x = width;
+    sprite_rect->set_size(size);
 }
 
 Ref<Tween> Bone::get_h_tween() {
