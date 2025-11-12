@@ -118,6 +118,9 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("advanced_change_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative", "duration"), &BattleBox::advanced_change_size
     , DEFVAL(false), DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("rotate_by", "rot", "relative", "duration"), &BattleBox::rotate_by, DEFVAL(false), DEFVAL(0.6f));
+    ClassDB::bind_method(D_METHOD("set_box_position", "new_position", "relative_to", "relative"), &BattleBox::set_box_position, DEFVAL(RELATIVE_TOP_LEFT), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("set_box_size", "new_size", "relative_to", "relative"), &BattleBox::set_box_size, DEFVAL(RELATIVE_TOP_LEFT), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("set_box_rotation", "rot", "relative"), &BattleBox::set_box_rotation, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("box_show"), &BattleBox::box_show);
     ClassDB::bind_method(D_METHOD("box_hide"), &BattleBox::box_hide);
     ClassDB::bind_method(D_METHOD("clear_webs"), &BattleBox::clear_webs);
@@ -811,7 +814,7 @@ void BattleBox::reset_box(float duration) {
     Ref<ArgsHolder> args = memnew(ArgsHolder);
     args->set_duration(duration);
     clear_webs();
-    tween_size(args);
+    _tween_size(args);
     tw->connect("finished", Callable(this, "_reset_finished"));
 }
 
@@ -890,7 +893,7 @@ void BattleBox::change_size(const Vector2& new_size, bool relative, float durati
     
     Ref<ArgsHolder> args = memnew(ArgsHolder);
     args->set_duration(duration);
-    tween_size(args);
+    _tween_size(args);
 }
 
 void BattleBox::change_position(const Vector2& new_position, bool relative, float duration) {
@@ -909,7 +912,7 @@ void BattleBox::change_position(const Vector2& new_position, bool relative, floa
     
     Ref<ArgsHolder> args = memnew(ArgsHolder);
     args->set_duration(duration);
-    tween_size(args);
+    _tween_size(args);
 }
 
 void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2& new_position, 
@@ -930,7 +933,6 @@ void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2
     if (final_size.y < min_size.y) final_size.y = min_size.y;
     
     Vector2 final_position;
-    
     switch (relative_to) {
         case RELATIVE_TOP_LEFT:
             final_position = position_relative ? new_position + anchor_targets[0] : new_position;
@@ -954,12 +956,11 @@ void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2
             break;
     }
     anchor_targets_0 = anchor_targets[0];
-    
     anchor_targets[1] = anchor_targets_0 + final_size;
     
     Ref<ArgsHolder> args = memnew(ArgsHolder);
     args->set_duration(duration);
-    tween_size(args);
+    _tween_size(args);
 }
 
 void BattleBox::rotate_by(float rot, bool relative, float duration) {
@@ -969,6 +970,92 @@ void BattleBox::rotate_by(float rot, bool relative, float duration) {
     args->args.append(relative);
     
     call_deferred("_real_rotate_by", args);
+}
+
+void BattleBox::set_box_size(Vector2 new_size, RelativePosition relative_to, bool relative) {
+    if(isPolygonMode) {
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        return;
+    }
+    Vector2 anchor_targets_0 = anchor_targets[0];
+    Vector2 anchor_targets_1 = anchor_targets[1];
+    Vector2 intended_size = anchor_targets_1 - anchor_targets_0;
+    Vector2 final_size = relative ? new_size + intended_size : new_size;
+    
+    Vector2 min_size = rect_container->get_custom_minimum_size();
+    if (final_size.x < min_size.x) final_size.x = min_size.x;
+    if (final_size.y < min_size.y) final_size.y = min_size.y;
+    
+    Vector2 final_position;
+    switch (relative_to) {
+        case RELATIVE_TOP_LEFT:
+            final_position = anchor_targets_0;
+            anchor_targets[0] = final_position;
+            break;
+        case RELATIVE_TOP_RIGHT:
+            final_position = anchor_targets_0 + intended_size.x * Vector2(1, 0);
+            anchor_targets[0] = final_position - final_size.x * Vector2(1, 0);
+            break;
+        case RELATIVE_BOTTOM_LEFT:
+            final_position = anchor_targets_0 + intended_size.y * Vector2(0, 1);
+            anchor_targets[0] = final_position - final_size.y * Vector2(0, 1);
+            break;
+        case RELATIVE_BOTTOM_RIGHT:
+            final_position = anchor_targets_1;
+            anchor_targets[0] = final_position - final_size;
+            break;
+        case RELATIVE_CENTER:
+            final_position = anchor_targets_0 + intended_size / 2.0;
+            anchor_targets[0] = final_position - final_size / 2.0;
+            break;
+    }
+    anchor_targets_0 = anchor_targets[0];
+    anchor_targets[1] = anchor_targets_0 + final_size;
+
+   _box_set_size();
+}
+
+void BattleBox::set_box_position(Vector2 new_position, RelativePosition relative_to, bool relative) {
+    if(isPolygonMode) {
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        return;
+    }
+
+    Vector2 anchor_targets_0 = anchor_targets[0];
+    Vector2 anchor_targets_1 = anchor_targets[1];
+    Vector2 intended_size = anchor_targets_1 - anchor_targets_0;
+    Vector2 final_position;
+    switch (relative_to) {
+        case RELATIVE_TOP_LEFT:
+            final_position = relative ? new_position + anchor_targets_0 : new_position;
+            anchor_targets[0] = final_position;
+            break;
+        case RELATIVE_TOP_RIGHT:
+            final_position = relative ? new_position + anchor_targets_0 + intended_size.x * Vector2(1, 0) : new_position;
+            anchor_targets[0] = final_position - intended_size.x * Vector2(1, 0);
+            break;
+        case RELATIVE_BOTTOM_LEFT:
+            final_position = relative ? new_position + anchor_targets_0 + intended_size.y * Vector2(0, 1) : new_position;
+            anchor_targets[0] = final_position - intended_size.y * Vector2(0, 1);
+            break;
+        case RELATIVE_BOTTOM_RIGHT:
+            final_position = relative ? new_position + anchor_targets_1 : new_position;
+            anchor_targets[0] = final_position - intended_size;
+            break;
+        case RELATIVE_CENTER:
+            final_position = relative ? new_position + anchor_targets_0 + intended_size / 2.0 : new_position;
+            anchor_targets[0] = final_position - intended_size / 2.0;
+            break;
+    }
+    anchor_targets_0 = anchor_targets[0];
+    anchor_targets[1] = anchor_targets_0 + intended_size;
+
+   _box_set_size();
+}
+
+void BattleBox::set_box_rotation(float rot, bool relative) {
+    float final_rotation = relative ? rect_container->get_rotation() + rot : rot;
+    rect_container->set_rotation(final_rotation);
 }
 
 void BattleBox::blitter_print(PackedStringArray texts) {
@@ -1177,7 +1264,7 @@ void BattleBox::_real_rotate_by(Ref<ArgsHolder> args) {
     tw->play();
 }
 
-void BattleBox::tween_size(Ref<ArgsHolder> args) {
+void BattleBox::_tween_size(Ref<ArgsHolder> args) {
     tw = create_tween()->set_parallel(true);
     tw->set_ease(EaseType);
     tw->set_trans(TransType);
@@ -1207,6 +1294,31 @@ void BattleBox::tween_size(Ref<ArgsHolder> args) {
     
     tw->play();
     tw->connect("finished", Callable(this, "emit_signal").bind("tween_finished"));
+}
+
+void BattleBox::_box_set_size() {
+    float margin_left = rect_container->get_theme_constant("margin_left");
+    float margin_top = rect_container->get_theme_constant("margin_top");
+    float margin_right = rect_container->get_theme_constant("margin_right");
+    float margin_bottom = rect_container->get_theme_constant("margin_bottom");
+   
+    Vector2 current_corner0 = Vector2(margin_left, margin_top);
+    Vector2 current_corner1 = Vector2(640 - margin_right, 480 - margin_bottom);
+
+    Vector2 anchor_targets_0 = anchor_targets[0];
+    Vector2 anchor_targets_1 = anchor_targets[1];
+
+    rect_container->add_theme_constant_override("margin_left", 
+                      margin_left + (anchor_targets_0.x - current_corner0.x));
+    
+    rect_container->add_theme_constant_override("margin_top", 
+                      margin_top + (anchor_targets_0.y - current_corner0.y));
+                      
+    rect_container->add_theme_constant_override("margin_right", 
+                      margin_right + (current_corner1.x - anchor_targets_1.x));
+                      
+    rect_container->add_theme_constant_override("margin_bottom", 
+                      margin_bottom + (current_corner1.y - anchor_targets_1.y));
 }
 
 RemoteTransform2D* BattleBox::get_tl() const {

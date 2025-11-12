@@ -143,7 +143,8 @@ namespace godot {
             void refresh_nodes();
             void _on_use_button(int choice);
             
-            void tween_size(Ref<ArgsHolder> args);
+            void _tween_size(Ref<ArgsHolder> args);
+            void _box_set_size();
             void _real_rotate_by(Ref<ArgsHolder> args);
             void _on_soul_move_cooldown();
             void _reset_finished();
@@ -199,10 +200,16 @@ namespace godot {
                 bool position_relative = false, 
                 bool size_relative = false, float duration = 0.6f);
             void rotate_by(float rot, bool relative = false, float duration = 0.6f);
+
+            // 바로 적용하는 Change 함수
+            void set_box_size(Vector2 new_size, RelativePosition relative_to=RELATIVE_TOP_LEFT, bool relative=false);
+            void set_box_position(Vector2 new_position, RelativePosition relative_to=RELATIVE_TOP_LEFT, bool relative=false);
+            void set_box_rotation(float rot, bool relative=false);
+
             void box_show();
             void box_hide();
             Vector2 get_size();
-            Vector2 get_box_position(RelativePosition relative_to = RELATIVE_TOP_LEFT);
+            Vector2 get_box_position(RelativePosition relative_to=RELATIVE_TOP_LEFT);
             void clear_webs();
             void set_webs(int n, float separation = -1, int margin = 0);
             float get_web_y_pos(int id);
