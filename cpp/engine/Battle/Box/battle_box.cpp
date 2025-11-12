@@ -34,7 +34,6 @@ BattleBox::BattleBox() {
     current_web = 0;
     isPolygonMode = false;
     morph_speed = 200.0f;
-    backup_color = Color();
     polygon_point_count = 120;
     isPolygonRest = false;
     
@@ -1233,17 +1232,15 @@ Vector2 BattleBox::get_vertex_position(int vertex_index) {
 }
 
 void BattleBox::box_show() {
-    if(backup_color == Color()) backup_color = background->get_color();
     get_node_internal("BoxContainer/Panel")->call("show");
     border->show();
-    background->set_color(backup_color);
+    background->show();
 }
 
 void BattleBox::box_hide() {
-    if(backup_color == Color()) backup_color = background->get_color();
     get_node_internal("BoxContainer/Panel")->call("hide");
     border->hide();
-    background->set_color(Color(0, 0, 0, 0));
+    background->hide();
 }
 
 void BattleBox::_real_rotate_by(Ref<ArgsHolder> args) {

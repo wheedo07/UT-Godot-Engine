@@ -118,7 +118,6 @@ namespace godot {
             BattleBoxBehaviour* current_state_node;
             RichTextLabel* column1;
             RichTextLabel* column2;
-            Color backup_color;
 
             // Polygon mode 관련 변수 && 함수
             int polygon_point_count;
