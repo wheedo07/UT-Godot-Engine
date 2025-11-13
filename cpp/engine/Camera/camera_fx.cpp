@@ -29,6 +29,7 @@ void CameraFx::_bind_methods() {
     ClassDB::bind_method(D_METHOD("stop_shake"), &CameraFx::stop_shake);
     ClassDB::bind_method(D_METHOD("default_shake_strength"), &CameraFx::default_shake_strength);
     ClassDB::bind_method(D_METHOD("show_blinder"), &CameraFx::show_blinder);
+    ClassDB::bind_method(D_METHOD("hide_blinder"), &CameraFx::hide_blinder);
 
     // VFX
     ClassDB::bind_method(D_METHOD("glitch", "time", "targetrate"), &CameraFx::glitch, DEFVAL(0), DEFVAL(1));
@@ -84,6 +85,7 @@ void CameraFx::kill() {
         transition_shader.unref();
     }
     blinder->set_material(memnew(Material));
+    hide_blinder();
     stop_shake();
 }
 
@@ -163,6 +165,12 @@ void CameraFx::default_shake_strength() {
 void CameraFx::show_blinder() {
     Color mod = blinder->get_modulate();
     mod.a = 1;
+    blinder->set_modulate(mod);
+}
+
+void CameraFx::hide_blinder() {
+    Color mod = blinder->get_modulate();
+    mod.a = 0;
     blinder->set_modulate(mod);
 }
 

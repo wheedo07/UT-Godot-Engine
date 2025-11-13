@@ -194,6 +194,20 @@
                 [/codeblock]
             </description>
         </method>
+
+        <method name="hide_blinder">
+            <return type="void" />
+            <description>
+                블라인더를 즉시 화면에서 숨깁니다. 
+                블라인더의 불투명도를 0으로 설정하여 화면이 완전히 보이도록 만듭니다.
+                
+                [b]사용 예시:[/b]
+                [codeblock]
+                # 블라인더 숨기기
+                camera_fx.hide_blinder()
+                [/codeblock]
+            </description>
+        </method>
         
         <method name="glitch">
             <return type="void" />

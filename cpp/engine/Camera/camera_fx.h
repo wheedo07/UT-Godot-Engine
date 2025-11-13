@@ -44,6 +44,7 @@ namespace godot {
             void stop_shake();
             void default_shake_strength();
             void show_blinder();
+            void hide_blinder();
             // VFX
             void glitch(float time = 0, float targetrate = 1);
             void rgbsplit(float time = 0, float targetrate = 1);
