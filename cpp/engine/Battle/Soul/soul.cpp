@@ -68,7 +68,7 @@ void SoulBattle::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_gravity_direction", "new_direction", "force_blue_mode"), 
                          &SoulBattle::set_gravity_direction, DEFVAL(true));
     ClassDB::bind_method(D_METHOD("set_gravity_multiplier", "value"), &SoulBattle::set_gravity_multiplier);
-    ClassDB::bind_method(D_METHOD("show_hpText", "hide"), &SoulBattle::show_hpText);
+    ClassDB::bind_method(D_METHOD("show_hpText", "hide"), &SoulBattle::show_hpText, DEFVAL(false));
 
     ClassDB::bind_method(D_METHOD("_fade_tw_calle", "node_ref", "parent_ref"), &SoulBattle::_fade_tw_calle);
     ClassDB::bind_method(D_METHOD("_disable"), &SoulBattle::_disable);
