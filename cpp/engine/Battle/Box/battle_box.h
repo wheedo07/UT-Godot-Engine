@@ -201,7 +201,7 @@ namespace godot {
             void rotate_by(float rot, bool relative = false, float duration = 0.6f);
 
             // 바로 적용하는 Change 함수
-            void set_box_size(Vector2 new_size, RelativePosition relative_to=RELATIVE_TOP_LEFT, bool relative=false);
+            void set_box_size(Vector2 new_size, RelativePosition relative_to=RELATIVE_CENTER, bool relative=false);
             void set_box_position(Vector2 new_position, RelativePosition relative_to=RELATIVE_TOP_LEFT, bool relative=false);
             void set_box_rotation(float rot, bool relative=false);
 

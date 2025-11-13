@@ -120,7 +120,7 @@ void BattleBox::_bind_methods() {
     , DEFVAL(false), DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("rotate_by", "rot", "relative", "duration"), &BattleBox::rotate_by, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("set_box_position", "new_position", "relative_to", "relative"), &BattleBox::set_box_position, DEFVAL(RELATIVE_TOP_LEFT), DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("set_box_size", "new_size", "relative_to", "relative"), &BattleBox::set_box_size, DEFVAL(RELATIVE_TOP_LEFT), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("set_box_size", "new_size", "relative_to", "relative"), &BattleBox::set_box_size, DEFVAL(RELATIVE_CENTER), DEFVAL(false));
     ClassDB::bind_method(D_METHOD("set_box_rotation", "rot", "relative"), &BattleBox::set_box_rotation, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("box_show"), &BattleBox::box_show);
     ClassDB::bind_method(D_METHOD("box_hide"), &BattleBox::box_hide);
