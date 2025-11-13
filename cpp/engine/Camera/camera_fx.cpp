@@ -82,8 +82,8 @@ void CameraFx::kill() {
     if(isTransition) {
         isTransition = false;
         transition_shader.unref();
-        blinder->set_material(memnew(Material));
     }
+    blinder->set_material(memnew(Material));
     stop_shake();
 }
 
