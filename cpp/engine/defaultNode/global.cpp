@@ -290,6 +290,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             player_can_move = true;
             player_in_menu = false;
             Engine::get_singleton()->set_time_scale(1);
+            get_tree()->set_pause(false);
             Node* current_scene = get_scene_container()->get_current_scene();
             if(get_tree()->get_current_scene()->is_class("SceneContainer")) {
                 if(current_scene->is_class("BattleMain")) {
