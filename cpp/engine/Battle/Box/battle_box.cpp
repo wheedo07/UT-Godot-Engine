@@ -111,6 +111,8 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_size"), &BattleBox::get_size);
     // 상자 위치
     ClassDB::bind_method(D_METHOD("get_box_position", "relative_to"), &BattleBox::get_box_position, DEFVAL(RELATIVE_TOP_LEFT));
+    // 상자 회전 각도
+    ClassDB::bind_method(D_METHOD("get_box_rotation"), &BattleBox::get_box_rotation);
     ClassDB::bind_method(D_METHOD("reset_box", "duration"), &BattleBox::reset_box, DEFVAL(0.5f));
     ClassDB::bind_method(D_METHOD("change_size", "new_size", "relative", "duration"), &BattleBox::change_size, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative", "duration"), &BattleBox::change_position, DEFVAL(false), DEFVAL(0.6f));
@@ -1091,6 +1093,10 @@ Vector2 BattleBox::get_box_position(RelativePosition relative_to) {
             return anchor_targets_0 + intended_size / 2.0;
     }
     return Variant();
+}
+
+float BattleBox::get_box_rotation() {
+    return rect_container->get_rotation();
 }
 
 void BattleBox::polygon_enable() {

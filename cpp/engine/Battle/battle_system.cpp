@@ -674,7 +674,7 @@ void BattleMain::toggle_transparent() {
 void BattleMain::_on_transparent() {
     DisplayServer* display = DisplayServer::get_singleton();
     SceneContainer* scene = global->get_scene_container();
-    soul_battle->toggle_hpText();
+    soul_battle->show_hpText(transparent);
     if(transparent) {
         display->window_set_flag(DisplayServer::WINDOW_FLAG_TRANSPARENT, false);
         get_tree()->get_root()->set_transparent_background(false);

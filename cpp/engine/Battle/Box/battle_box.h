@@ -209,6 +209,7 @@ namespace godot {
             void box_hide();
             Vector2 get_size();
             Vector2 get_box_position(RelativePosition relative_to=RELATIVE_TOP_LEFT);
+            float get_box_rotation();
             void clear_webs();
             void set_webs(int n, float separation = -1, int margin = 0);
             float get_web_y_pos(int id);
