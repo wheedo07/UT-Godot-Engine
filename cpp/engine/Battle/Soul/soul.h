@@ -54,13 +54,13 @@ namespace godot {
             float gravity;
             float gravity_multiplier;
 
-            int soul_type;
+            SoulType soul_type;
             SoulMode mode;
             Vector2 inputs;
             int slow_down;
 
             Vector2 gravity_direction;
-            int special_bullet_mode;
+            SpecialBulletMode special_bullet_mode;
 
             Node2D* sprite;
             GPUParticles2D* ghost;
@@ -147,11 +147,11 @@ namespace godot {
             void menu_enable();
             void _on_move_soul(const Vector2& newpos);
 
-            void set_soul_type(int p_soul_type);
-            int get_soul_type() const;
+            void set_soul_type(SoulType p_soul_type);
+            SoulType get_soul_type() const;
 
-            void set_special_bullet_mode(int p_mode);
-            int get_special_bullet_mode() const;
+            void set_special_bullet_mode(SpecialBulletMode p_mode);
+            SpecialBulletMode get_special_bullet_mode() const;
 
             void set_speed(float p_speed);
             float get_speed() const;

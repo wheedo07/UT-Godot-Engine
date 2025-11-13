@@ -656,19 +656,19 @@ void SoulBattle::enable_tween() {
     _able_tween->tween_property(this, "modulate:a", 1.0, 0.2);
 }
 
-void SoulBattle::set_soul_type(int p_soul_type) {
+void SoulBattle::set_soul_type(SoulType p_soul_type) {
     soul_type = p_soul_type;
 }
 
-int SoulBattle::get_soul_type() const {
+SoulBattle::SoulType SoulBattle::get_soul_type() const {
     return soul_type;
 }
 
-void SoulBattle::set_special_bullet_mode(int p_mode) {
+void SoulBattle::set_special_bullet_mode(SpecialBulletMode p_mode) {
     special_bullet_mode = p_mode;
 }
 
-int SoulBattle::get_special_bullet_mode() const {
+SoulBattle::SpecialBulletMode SoulBattle::get_special_bullet_mode() const {
     return special_bullet_mode;
 }
 
