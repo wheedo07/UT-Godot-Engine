@@ -140,7 +140,7 @@ namespace godot {
             void set_mode(SoulMode new_mode = RED);
             void set_gravity_multiplier(float value);
             void set_gravity_direction(const Vector2& new_direction, bool force_blue_mode = true);
-            void toggle_hpText();
+            void show_hpText(bool hide=false);
 
             void _disable();
             void enable();

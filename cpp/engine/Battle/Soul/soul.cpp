@@ -68,7 +68,7 @@ void SoulBattle::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_gravity_direction", "new_direction", "force_blue_mode"), 
                          &SoulBattle::set_gravity_direction, DEFVAL(true));
     ClassDB::bind_method(D_METHOD("set_gravity_multiplier", "value"), &SoulBattle::set_gravity_multiplier);
-    ClassDB::bind_method(D_METHOD("toggle_hpText"), &SoulBattle::toggle_hpText);
+    ClassDB::bind_method(D_METHOD("show_hpText", "hide"), &SoulBattle::show_hpText);
 
     ClassDB::bind_method(D_METHOD("_fade_tw_calle", "node_ref", "parent_ref"), &SoulBattle::_fade_tw_calle);
     ClassDB::bind_method(D_METHOD("_disable"), &SoulBattle::_disable);
@@ -392,8 +392,8 @@ void SoulBattle::set_gravity_direction(const Vector2& new_direction, bool force_
     if(force_blue_mode) set_mode(BLUE);
 }
 
-void SoulBattle::toggle_hpText() {
-    hp_label->set_visible(!hp_label->is_visible());
+void SoulBattle::show_hpText(bool hide) {
+    hp_label->set_visible(!hide);
 }
 
 void SoulBattle::set_gravity_direction_silent(const Vector2& new_direction) {
