@@ -28,7 +28,7 @@ using namespace godot;
 #include "defaultNode/stagehand.h"
 #include "defaultNode/audio_player.h"
 #include "defaultNode/global.h"
-#include "defaultNode/settings.h"
+#include "defaultNode/debugmenu.h"
 #include "defaultNode/scene_container.h"
 #include "defaultNode/overworld_scene_changer.h"
 // [end] //

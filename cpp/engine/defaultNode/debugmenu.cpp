@@ -1,11 +1,11 @@
-#include "settings.h"
+#include "debugmenu.h"
 #include "env.h"
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/shader_material.hpp>
 #include<godot_cpp/classes/dir_access.hpp>
 
 #define TIME 0.6f
-Settings::Settings() {
+DebugMenu::DebugMenu() {
     enabled = false;
     class_exclude = {
         "Enemy",
@@ -15,20 +15,20 @@ Settings::Settings() {
     };
 }
 
-Settings::~Settings() {
+DebugMenu::~DebugMenu() {
     if(load_thread.is_valid() && load_thread->is_started()) {
         load_thread->wait_to_finish();
     }
 }
 
-void Settings::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("toggle"), &Settings::toggle);
-    ClassDB::bind_method(D_METHOD("on_setting_changed", "btn"), &Settings::on_setting_changed);
-    ClassDB::bind_method(D_METHOD("_scene_input", "text"), &Settings::_scene_input);
-    ClassDB::bind_method(D_METHOD("_change_debug", "index"), &Settings::_change_debug);
-    ClassDB::bind_method(D_METHOD("_change_process", "value"), &Settings::_change_process);
-    ClassDB::bind_method(D_METHOD("_get_path_list"), &Settings::_get_path_list);
-    ClassDB::bind_method(D_METHOD("_on_path_list_loaded"), &Settings::_on_path_list_loaded);
+void DebugMenu::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("toggle"), &DebugMenu::toggle);
+    ClassDB::bind_method(D_METHOD("on_setting_changed", "btn"), &DebugMenu::on_setting_changed);
+    ClassDB::bind_method(D_METHOD("_scene_input", "text"), &DebugMenu::_scene_input);
+    ClassDB::bind_method(D_METHOD("_change_debug", "index"), &DebugMenu::_change_debug);
+    ClassDB::bind_method(D_METHOD("_change_process", "value"), &DebugMenu::_change_process);
+    ClassDB::bind_method(D_METHOD("_get_path_list"), &DebugMenu::_get_path_list);
+    ClassDB::bind_method(D_METHOD("_on_path_list_loaded"), &DebugMenu::_on_path_list_loaded);
 
     ADD_SIGNAL(MethodInfo("init"));
     ADD_SIGNAL(MethodInfo("setting_changed", 
@@ -36,7 +36,7 @@ void Settings::_bind_methods() {
         PropertyInfo(Variant::NIL, "to")));
 }
 
-void Settings::_ready() {
+void DebugMenu::_ready() {
     Darken = Object::cast_to<Panel>(get_node_internal("Darken"));
     Blur = Object::cast_to<CanvasItem>(get_node_internal("Blur"));
     BusContainer = Object::cast_to<HBoxContainer>(get_node_internal("BusContainer"));
@@ -65,7 +65,7 @@ void Settings::_ready() {
     }
 }
 
-void Settings::toggle() {
+void DebugMenu::toggle() {
     enabled = !enabled;
     global->isSetting = enabled;
     process_edit->set_value(Engine::get_singleton()->get_time_scale());
@@ -115,7 +115,7 @@ void Settings::toggle() {
     }
 }
 
-void Settings::_unhandled_input(const Ref<InputEvent>& event) {
+void DebugMenu::_unhandled_input(const Ref<InputEvent>& event) {
     if(!global) return;
     if(event->is_action_pressed("ui_setting") && global->get_debugmode() &&
         (os->is_debug_build() || os->has_feature("debug_op"))) {
@@ -125,23 +125,25 @@ void Settings::_unhandled_input(const Ref<InputEvent>& event) {
     }
 }
 
-void Settings::on_setting_changed(Node* btn) {
+void DebugMenu::on_setting_changed(Node* btn) {
     if(!enabled) return;
     emit_signal("setting_changed", btn->call("get_setting_name"), btn->call("is_pressed"));
 }
 
-void Settings::_get_path_list() {
+void DebugMenu::_get_path_list() {
     PackedStringArray paths;
     _scan_directory("res://Game/", paths);
-    paths.push_back("res://Intro/intro.tscn");
-    paths.push_back("res://Intro/name_selection.tscn");
+    if(paths.size() != 0) {
+        paths.push_back("res://Intro/intro.tscn");
+        paths.push_back("res://Intro/name_selection.tscn");
+    }
     paths.sort();
     
     path_list = paths;
     call_deferred("_on_path_list_loaded");
 }
 
-void Settings::_scan_directory(const String& path, PackedStringArray& paths) {
+void DebugMenu::_scan_directory(const String& path, PackedStringArray& paths) {
     Ref<DirAccess> dir = DirAccess::open(path);
     if (dir.is_null()) return;
     
@@ -166,7 +168,7 @@ void Settings::_scan_directory(const String& path, PackedStringArray& paths) {
     dir->list_dir_end();
 }
 
-void Settings::_on_path_list_loaded() {
+void DebugMenu::_on_path_list_loaded() {
     if(load_thread.is_valid() && load_thread->is_started()) {
         load_thread->wait_to_finish();
     }
@@ -176,7 +178,7 @@ void Settings::_on_path_list_loaded() {
     }
 }
 
-void Settings::_scene_input(String text) {
+void DebugMenu::_scene_input(String text) {
     if(!enabled || !global) return;
     if(text.find("res://Game") == -1) {
         global->alert(tr("UT_CANT_HERE"), "Error");
@@ -185,19 +187,19 @@ void Settings::_scene_input(String text) {
     _load_scene(text);
 }
 
-void Settings::_change_process(double value) {
+void DebugMenu::_change_process(double value) {
     if(!enabled || !global) return;
     Engine::get_singleton()->set_time_scale(value);
 }
 
-void Settings::_change_debug(int index) {
+void DebugMenu::_change_debug(int index) {
     if(!enabled || !global) return;
     if(index < 0 || index >= path_list.size()) return;
     String text = path_list[index];
     _load_scene(text);
 }
 
-void Settings::_load_scene(String path) {
+void DebugMenu::_load_scene(String path) {
     ResourceLoader* loader = ResourceLoader::get_singleton();
     if(loader->exists(path)) {
         Ref<Resource> res = loader->load(path);

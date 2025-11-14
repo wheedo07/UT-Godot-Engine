@@ -1,5 +1,6 @@
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#ifndef DEBUGMENU_H
+#define DEBUGMENU_H
+
 #include<godot_cpp/classes/canvas_layer.hpp>
 #include<godot_cpp/classes/panel.hpp>
 #include<godot_cpp/classes/h_box_container.hpp>
@@ -15,8 +16,8 @@
 #include<godot_cpp/classes/os.hpp>
 #include<godot_cpp/classes/line_edit.hpp>
 namespace godot {
-    class Settings : public CanvasLayer {
-        GDCLASS(Settings, CanvasLayer);
+    class DebugMenu : public CanvasLayer {
+        GDCLASS(DebugMenu, CanvasLayer);
 
         protected:
             static void _bind_methods();
@@ -47,8 +48,8 @@ namespace godot {
             void _load_scene(String path);
         
         public:
-            Settings();
-            ~Settings();
+            DebugMenu();
+            ~DebugMenu();
 
             void _ready() override;
 			void _unhandled_input(const Ref<InputEvent>& event) override;

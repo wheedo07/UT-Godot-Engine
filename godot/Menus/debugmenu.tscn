@@ -133,7 +133,7 @@ _data = {
 &"toggle": SubResource("Animation_ooyau")
 }
 
-[node name="Settings" type="Settings"]
+[node name="DebugMenu" type="DebugMenu"]
 layer = 10
 
 [node name="Darken" type="Panel" parent="."]
