@@ -401,6 +401,7 @@ void BattleMain::_miss(int target) {
         clone->set("max_hp", enemies_max_hp[target]);
         clone->set("miss", true);
         box->add_child(clone);
+        clone->connect("finished", Callable(this, "emit_signal").bind("damage_info_finished"), CONNECT_ONE_SHOT);
         clone->connect("finished", Callable(box, "_disable"), CONNECT_ONE_SHOT);
         clone->connect("finished", Callable(this, "emit_signal").bind("end_turn"), CONNECT_ONE_SHOT);
     }
