@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cl1bmaj47viix"]
+[gd_scene load_steps=23 format=3 uid="uid://cl1bmaj47viix"]
 
 [ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://Game/assets/sprite/sheet/sans_sheet.png" id="1_o2qip"]
 [ext_resource type="Texture2D" uid="uid://bpomr3hq2pq4m" path="res://Battle/Bullets/Blaster/Blaster.png" id="3_5o75v"]
@@ -103,8 +103,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ocpxa"]
-
 [sub_resource type="Animation" id="Animation_e4153"]
 length = 0.001
 tracks/0/type = "value"
@@ -155,9 +153,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_84xda"]
 _data = {
-"RESET": SubResource("Animation_e4153"),
-"fire": SubResource("Animation_jroe6"),
-"prepare": SubResource("Animation_cc6rv")
+&"RESET": SubResource("Animation_e4153"),
+&"fire": SubResource("Animation_jroe6"),
+&"prepare": SubResource("Animation_cc6rv")
 }
 
 [node name="Blaster" type="Blaster"]
@@ -199,12 +197,12 @@ bullet_path = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 32)
-shape = SubResource("RectangleShape2D_ocpxa")
+disabled = true
 debug_color = Color(1, 0.678431, 0.686275, 0.419608)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_84xda")
+&"": SubResource("AnimationLibrary_84xda")
 }
 
 [node name="load" type="AudioStreamPlayer" parent="."]

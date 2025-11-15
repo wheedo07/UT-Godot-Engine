@@ -83,6 +83,7 @@ void Blaster::_blast(float duration, float up_delay) {
     collision_pos.y += beam_size.y / 2.0f;
     collision->set_position(collision_pos);
     beam->show();
+    collision->set_disabled(false);
     
     anim_player->play("fire");
     
