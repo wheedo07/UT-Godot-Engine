@@ -44,7 +44,7 @@ void SceneContainer::_ready() {
     global->load_game();
     global->set_scene_container(this);
     global->connect("fullscreen_toggled", Callable(this, "_on_fullscreen_toggle"));
-    settings_viewport_container->get_node_internal("SubViewport/Settings")->emit_signal("init");
+    settings_viewport_container->get_node_internal("SubViewport/DebugMenu")->emit_signal("init");
 
     if(global->isMobile()) {
         mobile->show();
