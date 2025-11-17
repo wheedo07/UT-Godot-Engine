@@ -123,7 +123,8 @@ void EnemyOverworld::set_frame(int index) {
 void EnemyOverworld::play_anim(String key, float speed, bool from_end) {
     Callable calls = Callable(this, "emit_signal").bind("animation_finished");
     if(sprite->is_connected("animation_finished", calls)) sprite->disconnect("animation_finished", calls);
-    sprite->connect("animation_finished", Callable(this, "emit_signal").bind("animation_finished"), CONNECT_ONE_SHOT);
+    sprite->connect("animation_finished", calls, CONNECT_ONE_SHOT);
+    sprite->play(key, speed, from_end);
 }
 
 void EnemyOverworld::set_walk_direction(const Vector2i& direction) {
