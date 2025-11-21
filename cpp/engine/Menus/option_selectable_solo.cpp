@@ -70,27 +70,27 @@ void OptionSelectableSolo::_unhandled_input(const Ref<InputEvent>& event) {
     if(!is_visible_in_tree() || !enabled) return;
     
     if (event->is_action_pressed("ui_down") && !node_down.is_empty()) {
-        move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_down)));
+        move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_down)));
         stagehand->audio_player->play("choice");
     }
     
     if (event->is_action_pressed("ui_up") && !node_up.is_empty()) {
-        move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_up)));
+        move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_up)));
         stagehand->audio_player->play("choice");
     }
     
     if (event->is_action_pressed("ui_left") && !node_left.is_empty()) {
-        move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_left)));
+        move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_left)));
         stagehand->audio_player->play("choice");
     }
     
     if (event->is_action_pressed("ui_right") && !node_right.is_empty()) {
-        move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_right)));
+        move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_right)));
         stagehand->audio_player->play("choice");
     }
     
     if (event->is_action_pressed("ui_accept")) {
-        if(!node_accept.is_empty()) move_soul(Object::cast_to<OptionSelectable>(get_node_internal(node_accept)));
+        if(!node_accept.is_empty()) move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_accept)));
         stagehand->audio_player->play("select");
         emit_signal("accept_pressed");
     }
@@ -121,16 +121,13 @@ void OptionSelectableSolo::disable() {
     set_selected(false);
 }
 
-void OptionSelectableSolo::move_soul(OptionSelectable* node) {
+void OptionSelectableSolo::move_soul(OptionSelectableSolo* node) {
     get_viewport()->set_input_as_handled();
-    
-    emit_signal("move_soul_request", node->get_global_position() + soul_offset);
+    node->emit_signal("move_soul_request", node->get_global_position() + node->get("soul_offset"));
     
     set_selected(false);
     node->set_selected(true);
-    if(node->has_signal("select_pressed")) {
-        node->emit_signal("select_pressed");
-    }
+    node->emit_signal("select_pressed");
 }
 
 void OptionSelectableSolo::set_node_up(NodePath p_node) {

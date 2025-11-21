@@ -182,8 +182,18 @@ void Global::init_paths() {
             if(homepath == nullptr) {
                 const char* userprofile = std::getenv("USERPROFILE");
                 if(userprofile != nullptr) savepath = savepath.replace("$home", userprofile);
-                else savepath = user_file_path();
+                else {
+                    savepath = user_file_path();
+                    return;
+                }
             }else savepath = savepath.replace("$home", homepath);
+
+            const char* drive = std::getenv("HOMEDRIVE");
+            if(drive != nullptr) savepath = String(drive) + savepath;
+            else {
+                savepath = user_file_path();
+                return;
+            }
         }
     }else if(savepath.find("$appdata") != -1) {
         if(osName == "Windows") {
@@ -197,15 +207,6 @@ void Global::init_paths() {
     }
 
     if(savepath.find("user://") == -1) {
-        if(osName == "Windows") {
-            const char* drive = std::getenv("HOMEDRIVE");
-            if(drive != nullptr) savepath = String(drive) + savepath;
-            else {
-                savepath = user_file_path();
-                return;
-            }
-        }
-
         saveDir = savepath.get_base_dir() + "/";
         settingpath = saveDir + "undertale.ini";
     }
