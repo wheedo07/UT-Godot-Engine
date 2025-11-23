@@ -189,8 +189,8 @@ void GenericTextTyper::_process_typing() {
             }
         }
     } else {
-        emit_signal("finished_all_texts");
         typing = false;
+        emit_signal("finished_all_texts");
     }
 }
 
