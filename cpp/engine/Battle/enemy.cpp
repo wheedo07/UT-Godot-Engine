@@ -302,8 +302,7 @@ void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float du
     Array expressions = dialogue_ref->get_dialogues_single(Dialogues::DIALOGUE_EXPRESSIONS)[text_index];
     for(int i=0; i < expressions.size(); i++) {
         if(expressions[i].get_type() != Variant::INT) {
-            ERR_PRINT("Dialogues의 DIALOGUE_EXPRESSIONS 배열에 int 타입이 아닌 값이 있습니다");
-            break;
+            expressions[i] = 0;
         }
         if(expression_sprites.size() > i) {
             AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
