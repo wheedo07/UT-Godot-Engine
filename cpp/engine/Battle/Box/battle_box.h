@@ -103,7 +103,6 @@ namespace godot {
             MarginContainer* blitter;
             MarginContainer* hp_bar_container;
             Blitter* blitter_text;
-            BattleMain* main;
             MarginContainer* rect_container;
             ColorRect* rect;
             Line2D* border;
@@ -158,6 +157,7 @@ namespace godot {
             int get_polygon_point_count() const;
         
         public:
+            BattleMain* main;
             BattleBox();
             ~BattleBox();
             
