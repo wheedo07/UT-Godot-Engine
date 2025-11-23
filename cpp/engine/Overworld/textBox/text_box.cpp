@@ -258,7 +258,7 @@ void TextBox::character(bool head_hide, String chr, const Ref<Dialogues>& dialog
 }
 
 void TextBox::_set_head_frame(int expr) {
-    head->set_frame(expr);
+    if(expr != -1) head->set_frame(expr);
 }
 
 void TextBox::_on_text_click_played() {

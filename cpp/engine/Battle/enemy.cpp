@@ -308,9 +308,7 @@ void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float du
         if(expression_sprites.size() > i) {
             AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
             int expr_frame = expressions[i];
-            if(expr_frame != 0 && expr_sprite) {
-                expr_sprite->set_frame(expr_frame);
-            }
+            if(expr_frame != -1) expr_sprite->set_frame(expr_frame);
         }
     }
 
