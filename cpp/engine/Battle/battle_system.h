@@ -52,7 +52,7 @@ namespace godot {
             Array enemies_def;
             Array enemies_max_hp;
             Array enemies_script;
-            bool kr;
+            bool kr, is_first_turn;
             int completed_enemies, completed_size;
 
             void initialize();

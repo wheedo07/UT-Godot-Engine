@@ -11,6 +11,7 @@ BattleMain::BattleMain() {
     completed_enemies = 0;
     completed_size = 0;
     kr = false;
+    is_first_turn = false;
     transparent = false;
     rewards["gold"] = 0;
     rewards["exp"] = 0;
@@ -152,7 +153,6 @@ void BattleMain::initialize() {
     }
     box->set_enemies(enemies);
     
-    bool is_first_turn = false;
     for(int i=0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
         // 복수 적 처리
@@ -635,13 +635,14 @@ bool BattleMain::is_kr() {
 void BattleMain::_on_get_turn() {
     for(int i=0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-        if(turn_number == 0 && !enemy->get_is_first_turn()) continue;
+        if(is_first_turn && !enemy->get_is_first_turn()) continue;
         if(enemy->has_method("_on_get_turn")) { // C++ 이랑 GDscript 모두 호환되도록
             enemy->call("_on_get_turn");
         } else {
             enemy->_on_get_turn();
         }
     }
+    is_first_turn = false;
 }
 
 void BattleMain::_on_end_turn() {
