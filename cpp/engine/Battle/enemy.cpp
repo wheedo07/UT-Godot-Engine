@@ -144,12 +144,12 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_sprites"), &Enemy::get_sprites);
     ClassDB::bind_method(D_METHOD("modify_stats", "value"), &Enemy::modify_stats);
     ClassDB::bind_method(D_METHOD("change_state", "new_state"), &Enemy::change_state);
-    ClassDB::bind_method(D_METHOD("play_dialogue", "index", "duration", "skip"), &Enemy::play_dialogue, DEFVAL(0), DEFVAL(true));
-    ClassDB::bind_method(D_METHOD("play_set_dialogue", "dialogue_ref", "duration", "skip"), &Enemy::play_set_dialogue, DEFVAL(0), DEFVAL(true));
+    ClassDB::bind_method(D_METHOD("play_dialogue", "index", "duration", "skip", "keep_expression"), &Enemy::play_dialogue, DEFVAL(0), DEFVAL(true), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("play_set_dialogue", "dialogue_ref", "duration", "skip", "keep_expression"), &Enemy::play_set_dialogue, DEFVAL(true), DEFVAL(false));
 
     ClassDB::bind_method(D_METHOD("_dodge", "dodge_sign"), &Enemy::_dodge);
     ClassDB::bind_method(D_METHOD("_hurt", "amount"), &Enemy::_hurt);
-    ClassDB::bind_method(D_METHOD("_on_finished_all_texts_dialogue", "arr"), &Enemy::_on_finished_all_texts_dialogue);
+    ClassDB::bind_method(D_METHOD("_on_finished_all_texts_dialogue", "arr", "keep_expression"), &Enemy::_on_finished_all_texts_dialogue);
     ClassDB::bind_method(D_METHOD("_handle_typing", "text_index", "dialogue_ref", "duration", "skip"), &Enemy::_handle_typing);
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Enemy::set_property);
@@ -237,7 +237,7 @@ void Enemy::change_state(int new_state) {
     emit_signal("changed_state");
 }
 
-void Enemy::play_dialogue(int index, float duration, bool skip) {
+void Enemy::play_dialogue(int index, float duration, bool skip, bool keep_expression) {
     if(!dialogue) {
         ERR_PRINT("Enemy 노드에 필요한 dialogue 노드가 없습니다");
         return;
@@ -261,10 +261,10 @@ void Enemy::play_dialogue(int index, float duration, bool skip) {
         }else ERR_PRINT("index의 맞는 Dialogues가 유효 하지 않습니다");
     }
     dialogue->set_key(skip);
-    dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(originals), CONNECT_ONE_SHOT);
+    dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(originals, keep_expression), CONNECT_ONE_SHOT);
 }
 
-void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool skip) {
+void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool skip, bool keep_expression) {
     if(!dialogue) {
         ERR_PRINT("Enemy 노드에 필요한 dialogue 노드가 없습니다");
         return;
@@ -285,13 +285,15 @@ void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool 
         dialogue->DialogueText(dialogue_ref);
     }else ERR_PRINT("Dialogues가 유효 하지 않습니다");
     dialogue->set_key(skip);
-    dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(originals), CONNECT_ONE_SHOT);
+    dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(originals, keep_expression), CONNECT_ONE_SHOT);
 }
 
-void Enemy::_on_finished_all_texts_dialogue(PackedInt32Array arr) {
-    for(int i=0; i < arr.size(); i++) {
-        AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
-        expr_sprite->set_frame(arr[i]);
+void Enemy::_on_finished_all_texts_dialogue(PackedInt32Array arr, bool keep_expression) {
+    if(!keep_expression) {
+        for(int i=0; i < arr.size(); i++) {
+            AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
+            expr_sprite->set_frame(arr[i]);
+        }
     }
     emit_signal("finished_dialogue");
 }

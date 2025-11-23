@@ -91,7 +91,7 @@ namespace godot {
             NodePath get_dialogue_path() const;
 
             void _handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip);
-            void _on_finished_all_texts_dialogue(PackedInt32Array arr);
+            void _on_finished_all_texts_dialogue(PackedInt32Array arr, bool keep_expression);
             void _hurt(int amount);
             void _dodge(int dodge_sign);
 
@@ -135,8 +135,8 @@ namespace godot {
             Node* get_sprites() const;
             void modify_stats(Dictionary value);
             void change_state(int new_state);
-            void play_dialogue(int index, float duration=0, bool skip=true);
-            void play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration=0, bool skip=true);
+            void play_dialogue(int index, float duration=0, bool skip=true, bool keep_expression=false);
+            void play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration=0, bool skip=true, bool keep_expression=false);
 
             Ref<ActInfo> _get_act_info(int act_choice);
             void on_death();
