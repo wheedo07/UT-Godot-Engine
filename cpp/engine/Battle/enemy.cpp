@@ -145,7 +145,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("modify_stats", "value"), &Enemy::modify_stats);
     ClassDB::bind_method(D_METHOD("change_state", "new_state"), &Enemy::change_state);
     ClassDB::bind_method(D_METHOD("play_dialogue", "index", "duration", "skip", "keep_expression"), &Enemy::play_dialogue, DEFVAL(0), DEFVAL(true), DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("play_set_dialogue", "dialogue_ref", "duration", "skip", "keep_expression"), &Enemy::play_set_dialogue, DEFVAL(true), DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("play_set_dialogue", "dialogue_ref", "duration", "skip", "keep_expression"), &Enemy::play_set_dialogue, DEFVAL(0), DEFVAL(true), DEFVAL(false));
 
     ClassDB::bind_method(D_METHOD("_dodge", "dodge_sign"), &Enemy::_dodge);
     ClassDB::bind_method(D_METHOD("_hurt", "amount"), &Enemy::_hurt);
