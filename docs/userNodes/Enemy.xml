@@ -169,10 +169,12 @@
             <param index="0" name="index" type="int"/>
             <param index="1" name="duration" type="float" default="0"/>
             <param index="2" name="skip" type="bool" default="true"/>
+            <param index="3" name="keep_expression" type="bool" default="false"/>
             <description>
                 지정된 인덱스의 대사를 재생합니다.
                 [param index]는 [member dialogues] 배열의 인덱스입니다.
                 [param duration]은 추가 지연 시간, [param skip]은 스킵 가능 여부입니다.
+                [param keep_expression]이 true면 대화 후에도 표정을 유지합니다.
             </description>
         </method>
         
@@ -181,9 +183,11 @@
             <param index="0" name="dialogue_ref" type="Dialogues"/>
             <param index="1" name="duration" type="float" default="0"/>
             <param index="2" name="skip" type="bool" default="true"/>
+            <param index="3" name="keep_expression" type="bool" default="false"/>
             <description>
                 지정된 [Dialogues] 리소스를 직접 재생합니다.
                 [param duration]은 추가 지연 시간, [param skip]은 스킵 가능 여부입니다.
+                [param keep_expression]이 true면 대화 후에도 표정을 유지합니다.
             </description>
         </method>
         
