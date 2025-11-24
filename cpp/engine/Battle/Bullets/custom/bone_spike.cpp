@@ -29,7 +29,7 @@ void BoneSpike::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_tweenEase", "value"), &BoneSpike::set_tweenEase);
     ClassDB::bind_method(D_METHOD("get_tweenEase"), &BoneSpike::get_tweenEase);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut"), "set_tweenEase", "get_tweenEase");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut,OutIn"), "set_tweenEase", "get_tweenEase");
 }
 
 void BoneSpike::_ready() {

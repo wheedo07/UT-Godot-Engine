@@ -149,7 +149,7 @@ void BattleBox::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_ease_type", "type"), &BattleBox::set_ease_type);
     ClassDB::bind_method(D_METHOD("get_ease_type"), &BattleBox::get_ease_type);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut"), "set_ease_type", "get_ease_type");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut,OutIn"), "set_ease_type", "get_ease_type");
 
     ClassDB::bind_method(D_METHOD("set_transition_type", "type"), &BattleBox::set_transition_type);
     ClassDB::bind_method(D_METHOD("get_transition_type"), &BattleBox::get_transition_type);
