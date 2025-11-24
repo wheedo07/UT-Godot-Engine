@@ -194,7 +194,6 @@ void BattleMain::initialize() {
     }
     
     if(is_first_turn) {
-        box->set_z_index(-1);
         buttons->disable();
         soul_battle->enable();
         player_turn = false;
@@ -240,7 +239,6 @@ void BattleMain::_on_action(const String& action) {
 void BattleMain::_on_player_turn_start() {
     if(transparent) toggle_transparent();
     buttons->_enable();
-    box->set_z_index(0);
     box->blitter_flavour();
     player_turn = true;
     soul_battle->menu_enable();
@@ -250,7 +248,6 @@ void BattleMain::_on_player_turn_start() {
 }
 
 void BattleMain::_on_enemy_turn_start() {
-    box->set_z_index(-1);
     turn_number += 1;
     attacks->force_end_attacks();
     player_turn = false;
@@ -375,6 +372,7 @@ void BattleMain::_on_damage_info_completed(int target, bool miss) {
 }
 
 void BattleMain::_on_fight_used_completed(int target) {
+    if(box) 
     box->_disable();
     
     if (float(box->enemies_hp[target]) < 0) {
