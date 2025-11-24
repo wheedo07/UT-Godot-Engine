@@ -54,7 +54,7 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_item", "item_id"), &BattleMain::_item);
     ClassDB::bind_method(D_METHOD("_on_slash_finished", "damage", "target", "crit"), &BattleMain::_on_slash_finished);
     ClassDB::bind_method(D_METHOD("_on_spare_finished", "enemy"), &BattleMain::_on_spare_finished);
-    ClassDB::bind_method(D_METHOD("_on_damage_info_completed", "target"), &BattleMain::_on_damage_info_completed);
+    ClassDB::bind_method(D_METHOD("_on_damage_info_completed", "target", "miss"), &BattleMain::_on_damage_info_completed);
     ClassDB::bind_method(D_METHOD("_on_fight_used_completed", "target"), &BattleMain::_on_fight_used_completed);
     ClassDB::bind_method(D_METHOD("_on_action", "action"), &BattleMain::_on_action);
     ClassDB::bind_method(D_METHOD("_on_transparent"), &BattleMain::_on_transparent);
@@ -234,9 +234,6 @@ void BattleMain::_on_action(const String& action) {
             enemy->request_ready();
             enemies_node->add_child(enemy);
         }
-    }else if(action == "miss") {
-        emit_signal("damage_info_finished");
-        emit_signal("end_turn");
     }
 }
 
@@ -361,24 +358,24 @@ void BattleMain::_on_slash_finished(int damage, int target, bool crit) {
             }
             
             box->add_child(clone);
-            clone->connect("finished", Callable(this, "_on_damage_info_completed").bind(target), CONNECT_ONE_SHOT);
+            clone->connect("finished", Callable(this, "_on_damage_info_completed").bind(target, false), CONNECT_ONE_SHOT);
         }
     }
 }
 
-void BattleMain::_on_damage_info_completed(int target) {
+void BattleMain::_on_damage_info_completed(int target, bool miss) {
     emit_signal("damage_info_finished");
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
     if (!enemy) return;
     enemy->connect("on_fight_end", Callable(this, "_on_fight_used_completed").bind(target), CONNECT_ONE_SHOT);
     if(enemy->has_method("on_fight_used")) { // C++ 이랑 GDscript 모두 호환되도록
-        enemy->call("on_fight_used");
-    }else enemy->on_fight_used();
+        enemy->call("on_fight_used", miss);
+    }else enemy->on_fight_used(miss);
 }
 
 void BattleMain::_on_fight_used_completed(int target) {
-    if (box) box->_disable();
+    box->_disable();
     
     if (float(box->enemies_hp[target]) < 0) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
@@ -404,8 +401,7 @@ void BattleMain::_miss(int target) {
         clone->set("max_hp", enemies_max_hp[target]);
         clone->set("miss", true);
         box->add_child(clone);
-        clone->connect("finished", Callable(this, "_on_action").bind("miss"), CONNECT_ONE_SHOT);
-        clone->connect("finished", Callable(box, "_disable"), CONNECT_ONE_SHOT);
+        clone->connect("finished", Callable(this, "_on_damage_info_completed").bind(target, true), CONNECT_ONE_SHOT);
     }
 }
 

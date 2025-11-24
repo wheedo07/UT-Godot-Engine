@@ -111,7 +111,7 @@ namespace godot {
             void _ready() override;
 
             virtual void ready();
-            virtual void on_fight_used();
+            virtual void on_fight_used(bool miss);
             virtual void on_act_used(int option);
             virtual void on_item_used(int option);
             virtual void on_mercy_used();
@@ -121,7 +121,7 @@ namespace godot {
             virtual PackedStringArray on_win();
             virtual void on_defeat(bool death);
             GDVIRTUAL0(ready);
-            GDVIRTUAL0(on_fight_used);
+            GDVIRTUAL1(on_fight_used, bool);
             GDVIRTUAL1(on_act_used, int);
             GDVIRTUAL1(on_item_used, int);
             GDVIRTUAL0(on_mercy_used);

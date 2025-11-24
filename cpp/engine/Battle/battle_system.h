@@ -64,7 +64,7 @@ namespace godot {
             void _no_enemies_handler();
             
             void _on_slash_finished(int damage, int target, bool crit);
-            void _on_damage_info_completed(int target);
+            void _on_damage_info_completed(int target, bool miss);
             void _on_fight_used_completed(int target);
             void _on_action(const String& action);
             void _on_end(bool mercy=false, int id=-1);

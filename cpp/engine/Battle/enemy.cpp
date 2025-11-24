@@ -52,7 +52,7 @@ void Enemy::_bind_methods() {
     GDVIRTUAL_BIND(ready);
     GDVIRTUAL_BIND(_on_get_turn);
     GDVIRTUAL_BIND(_on_end_turn);
-    GDVIRTUAL_BIND(on_fight_used);
+    GDVIRTUAL_BIND(on_fight_used, "miss");
     GDVIRTUAL_BIND(on_act_used, "option");
     GDVIRTUAL_BIND(on_item_used, "option");
     GDVIRTUAL_BIND(on_mercy_used);
@@ -356,7 +356,7 @@ void Enemy::ready() {
     // 파생 클래스에서 구현
 }
 
-void Enemy::on_fight_used() {
+void Enemy::on_fight_used(bool miss) {
     // 파생 클래스에서 구현
     emit_signal("on_fight_end");
 }
