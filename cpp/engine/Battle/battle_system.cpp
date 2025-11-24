@@ -234,6 +234,9 @@ void BattleMain::_on_action(const String& action) {
             enemy->request_ready();
             enemies_node->add_child(enemy);
         }
+    }else if(action == "miss") {
+        emit_signal("damage_info_finished");
+        emit_signal("end_turn");
     }
 }
 
@@ -401,9 +404,8 @@ void BattleMain::_miss(int target) {
         clone->set("max_hp", enemies_max_hp[target]);
         clone->set("miss", true);
         box->add_child(clone);
-        clone->connect("finished", Callable(this, "emit_signal").bind("damage_info_finished"), CONNECT_ONE_SHOT);
+        clone->connect("finished", Callable(this, "_on_action").bind("miss"), CONNECT_ONE_SHOT);
         clone->connect("finished", Callable(box, "_disable"), CONNECT_ONE_SHOT);
-        clone->connect("finished", Callable(this, "emit_signal").bind("end_turn"), CONNECT_ONE_SHOT);
     }
 }
 
