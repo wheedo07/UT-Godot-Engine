@@ -1089,19 +1089,33 @@ Vector2 BattleBox::get_box_position(RelativePosition relative_to) {
     Vector2 anchor_targets_1 = anchor_targets[1];
     Vector2 intended_size = anchor_targets_1 - anchor_targets_0;
     
+    float rotation = rect_container->get_rotation();
+    Vector2 center = anchor_targets_0 + intended_size / 2.0;
+    
+    Vector2 local_position;
     switch (relative_to) {
         case RELATIVE_TOP_LEFT:
-            return anchor_targets_0;
+            local_position = anchor_targets_0;
+            break;
         case RELATIVE_TOP_RIGHT:
-            return anchor_targets_0 + intended_size.x * Vector2(1, 0);
+            local_position = anchor_targets_0 + intended_size.x * Vector2(1, 0);
+            break;
         case RELATIVE_BOTTOM_LEFT:
-            return anchor_targets_0 + intended_size.y * Vector2(0, 1);
+            local_position = anchor_targets_0 + intended_size.y * Vector2(0, 1);
+            break;
         case RELATIVE_BOTTOM_RIGHT:
-            return anchor_targets_1;
+            local_position = anchor_targets_1;
+            break;
         case RELATIVE_CENTER:
-            return anchor_targets_0 + intended_size / 2.0;
+            return center;
     }
-    return Variant();
+    
+    Vector2 offset = local_position - center;
+    Vector2 rotated_offset = Vector2(
+        offset.x * cos(rotation) - offset.y * sin(rotation),
+        offset.x * sin(rotation) + offset.y * cos(rotation)
+    );
+    return center + rotated_offset;
 }
 
 float BattleBox::get_box_rotation() {
