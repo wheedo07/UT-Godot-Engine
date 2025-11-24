@@ -155,6 +155,10 @@ namespace godot {
             float get_morph_speed() const;
             void set_polygon_point_count(int value);
             int get_polygon_point_count() const;
+            void set_ease_type(Tween::EaseType type);
+            Tween::EaseType get_ease_type() const;
+            void set_transition_type(Tween::TransitionType type);
+            Tween::TransitionType get_transition_type() const;
         
         public:
             BattleMain* main;

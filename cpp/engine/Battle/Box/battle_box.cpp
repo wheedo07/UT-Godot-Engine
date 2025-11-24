@@ -147,6 +147,15 @@ void BattleBox::_bind_methods() {
         String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_mercy_texts", "get_mercy_texts");
 
+    ClassDB::bind_method(D_METHOD("set_ease_type", "type"), &BattleBox::set_ease_type);
+    ClassDB::bind_method(D_METHOD("get_ease_type"), &BattleBox::get_ease_type);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut"), "set_ease_type", "get_ease_type");
+
+    ClassDB::bind_method(D_METHOD("set_transition_type", "type"), &BattleBox::set_transition_type);
+    ClassDB::bind_method(D_METHOD("get_transition_type"), &BattleBox::get_transition_type);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenTrans", PROPERTY_HINT_ENUM, "Linear,Sine,Quint,Quart,Quad,Expo,Elastic,Cubic,Circ,Bounce,Back,Spring"), "set_transition_type", "get_transition_type");
+
+    ADD_GROUP("Polygon Box Properties", "");
     ClassDB::bind_method(D_METHOD("set_morph_speed", "value"), &BattleBox::set_morph_speed);
     ClassDB::bind_method(D_METHOD("get_morph_speed"), &BattleBox::get_morph_speed);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "morph_speed", PROPERTY_HINT_RANGE, "0.1,500,0.1"), "set_morph_speed", "get_morph_speed");
@@ -1374,4 +1383,20 @@ void BattleBox::set_polygon_point_count(int value) {
 
 int BattleBox::get_polygon_point_count() const {
     return polygon_point_count;
+}
+
+void BattleBox::set_ease_type(Tween::EaseType value) {
+    EaseType = value;
+}
+
+Tween::EaseType BattleBox::get_ease_type() const {
+    return EaseType;
+}
+
+void BattleBox::set_transition_type(Tween::TransitionType value) {
+    TransType = value;
+}
+
+Tween::TransitionType BattleBox::get_transition_type() const {
+    return TransType;
 }
