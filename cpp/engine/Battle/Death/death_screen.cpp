@@ -27,6 +27,7 @@ void DeathScreen::_bind_methods() {
 }
 
 void DeathScreen::_ready() {
+    global->get_scene_container()->get_camera()->kill();
     death_soul = Object::cast_to<DeathSoul>(get_node_internal(soul_path));
     if(!isCustom) {
         camera = global->get_scene_container()->get_camera();
