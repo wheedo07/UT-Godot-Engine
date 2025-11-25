@@ -6,6 +6,8 @@
 #include<godot_cpp/classes/tween.hpp>
 #include<godot_cpp/classes/property_tweener.hpp>
 #include<godot_cpp/classes/shader_material.hpp>
+#include<godot_cpp/core/binder_common.hpp>
+#include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
     class CameraFx : public Camera2D {
         GDCLASS(CameraFx, Camera2D)
@@ -35,6 +37,7 @@ namespace godot {
             void _ready() override;
             void _process(double delta) override;
             virtual void ready();
+            GDVIRTUAL0(ready);
 
             // 사용함수
             void kill();

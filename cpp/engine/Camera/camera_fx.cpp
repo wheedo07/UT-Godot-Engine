@@ -12,6 +12,8 @@ CameraFx::CameraFx() {
 CameraFx::~CameraFx() {}
 
 void CameraFx::_bind_methods() {
+    GDVIRTUAL_BIND(ready);
+
     ADD_SIGNAL(MethodInfo("finished_tween"));
     ADD_SIGNAL(MethodInfo("finished_transition"));
     ADD_SIGNAL(MethodInfo("killed"));
