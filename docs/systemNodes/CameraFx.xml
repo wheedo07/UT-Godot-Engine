@@ -24,6 +24,32 @@
     <tutorials></tutorials>
 
     <methods>
+        <method name="ready" qualifiers="virtual">
+            <return type="void" />
+            <description>
+                가상 메서드로, 상속받은 클래스에서 오버라이드하여 카메라 효과를 추가하거나 초기화 로직을 구현할 수 있습니다.
+            </description>
+        </method>
+
+        <method name="register_vfx">
+            <return type="void" />
+            <param index="0" name="vfx_path" type="NodePath" />
+            <description>
+                추가적인 VFX 노드를 등록하여 CameraFx에서 관리할 수 있도록 합니다.
+                등록된 VFX 노드는 설정에 따라 자동으로 활성화/비활성화됩니다.
+                보통 [meethod ready] 에서 호출하여 초기화합니다.
+                
+                [b]매개변수:[/b]
+                • [code]vfx_path[/code]: 등록할 VFX 노드의 경로
+                
+                [b]사용 예시:[/b]
+                [codeblock]
+                # Glitch 효과 노드 등록
+                camera_fx.register_vfx("Glitch/Glitch")
+                [/codeblock]
+            </description>
+        </method>
+
         <method name="kill">
             <return type="void" />
             <description>
@@ -294,6 +320,12 @@
                 화면 전환 효과가 완료되었을 때 방출되는 시그널입니다.
                 transition() 메서드로 시작된 전환이 끝나면 발생합니다.
                 isblind 매개변수에 따라 블라인드 효과가 적용된 후에 방출됩니다.
+            </description>
+        </signal>
+        <signal name="killed">
+            <description>
+                kill() 메서드가 호출되어 모든 카메라 효과가 중단되었을 때 방출되는 시그널입니다.
+                이 신호를 연결하여 커스텀 효과를 정리하거나 후처리 로직을 구현할 수 있습니다.
             </description>
         </signal>
     </signals>

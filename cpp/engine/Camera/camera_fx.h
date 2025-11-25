@@ -34,6 +34,7 @@ namespace godot {
 
             void _ready() override;
             void _process(double delta) override;
+            virtual void ready();
 
             // 사용함수
             void kill();
@@ -48,6 +49,8 @@ namespace godot {
             // VFX
             void glitch(float time = 0, float targetrate = 1);
             void rgbsplit(float time = 0, float targetrate = 1);
+            // VFX 설정
+            void register_vfx(NodePath vfx_path);
 
             void set_shake_strength(Vector2 value);
             Vector2 get_shake_strength() const;

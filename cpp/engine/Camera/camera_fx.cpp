@@ -14,6 +14,7 @@ CameraFx::~CameraFx() {}
 void CameraFx::_bind_methods() {
     ADD_SIGNAL(MethodInfo("finished_tween"));
     ADD_SIGNAL(MethodInfo("finished_transition"));
+    ADD_SIGNAL(MethodInfo("killed"));
     ClassDB::bind_method(D_METHOD("_on_timeout_transition", "isblind", "blindtime"), &CameraFx::_on_timeout_transition);
     ClassDB::bind_method(D_METHOD("_on_finished_blind"), &CameraFx::_on_finished_blind);
 
@@ -34,6 +35,7 @@ void CameraFx::_bind_methods() {
     // VFX
     ClassDB::bind_method(D_METHOD("glitch", "time", "targetrate"), &CameraFx::glitch, DEFVAL(0), DEFVAL(1));
     ClassDB::bind_method(D_METHOD("rgbsplit", "time", "targetrate"), &CameraFx::rgbsplit, DEFVAL(0), DEFVAL(1));
+    ClassDB::bind_method(D_METHOD("register_vfx", "vfx_path"), &CameraFx::register_vfx);
 }
 
 void CameraFx::_ready() {
@@ -42,7 +44,6 @@ void CameraFx::_ready() {
     blinder = Object::cast_to<ColorRect>(get_node_internal("CanvasLayer/Blinder"));
     shaker = Object::cast_to<ColorRect>(get_node_internal("CanvasLayer2/Shaker"));
     glitcher = Object::cast_to<ColorRect>(get_node_internal("Glitch/Glitch"));
-    VFX.push_back(glitcher);
 
     tween.resize(4);
     tween.fill(Ref<Tween>());
@@ -50,6 +51,17 @@ void CameraFx::_ready() {
 
     Dictionary settings = global->get_settings();
     vfx = settings["vfx"];
+
+    register_vfx("Glitch/Glitch");
+    if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
+        call("ready");
+    }else {
+        ready();
+    }
+}
+
+void CameraFx::ready() {
+    // Override 용
 }
 
 void CameraFx::_process(double delta) {
@@ -75,6 +87,11 @@ void CameraFx::_process(double delta) {
     }
 }
 
+void CameraFx::register_vfx(NodePath vfx_path) {
+    Node* vfx_node = get_node_internal(vfx_path);
+    VFX.push_back(glitcher);
+}
+
 void CameraFx::kill() {
     for(int i=0; i < tween.size(); i++) {
         Ref<Tween> tw = tween[i];
@@ -87,6 +104,7 @@ void CameraFx::kill() {
     blinder->set_material(memnew(Material));
     hide_blinder();
     stop_shake();
+    emit_signal("killed");
 }
 
 void CameraFx::blind(float time, float targetopacity, float duration) {
