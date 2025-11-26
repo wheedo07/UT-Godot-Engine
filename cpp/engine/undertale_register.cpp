@@ -16,6 +16,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_CLASS(DialoguePause);
     GDREGISTER_CLASS(Dialogue);
     GDREGISTER_CLASS(Dialogues);
+    GDREGISTER_CLASS(DialogueLocalization);
 
     // Encounters
     GDREGISTER_CLASS(ButtonSet);

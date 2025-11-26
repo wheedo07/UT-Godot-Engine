@@ -13,21 +13,20 @@ script/source = "extends Overworld
 @onready var sansCpp_tres = preload(\"res://Game/encounters/tres/sans_cpp.tres\");
 @onready var sansGd_tres = preload(\"res://Game/encounters/tres/sans_gd.tres\");
 @onready var bone = preload(\"res://Battle/Bullets/Bone/bone.tscn\");
+@onready var locale := DialogueLocalization.new().load(\"res://Game/assets/locale/dialogue/example.json\");
 
 func ready() -> void:
 	print(\"ready 실행\");
 	
 func start_cellphone(id: int) -> void:
 	if(id == 0):
-		stagehand.summontextbox().character(false, \"SANS\", Dialogues.new().from([
-			\"* 전화 받았습니다\", \"* WA sans\"
-		]).set_expressions([0, 1]));
+		stagehand.summontextbox().character(false, \"SANS\", locale.
+		get_localized_dialogues_default(\"SANS_CALL\"));
 		
 func _on_batle():
 	var textbox = stagehand.summontextbox();
-	textbox.generic(Dialogues.new().from([
-		\"* 테스트 전투가 시작됩니다\", \"* 어떤 전투를 하겠습니까?\"
-	]), [\"전투1\", \"전투2\", \"안한다\"]);
+	textbox.generic(locale.get_localized_dialogues_default(\"Battle_Start\"),
+	[\"LO_FIGHT1\", \"LO_FIGHT2\", \"LO_CLOSE\"]);
 	textbox.connect(\"selected_option\", func(i:int):
 		if i == 0:
 			scene_changer.load_battle(sansCpp_tres);
@@ -153,7 +152,7 @@ size = Vector2(20, 199)
 size = Vector2(1580, 20)
 
 [node name="Overworld" type="Overworld" node_paths=PackedStringArray("room_entrances")]
-world_name = "마지막 복도"
+world_name = "LO_ROOM_NAME"
 player_path = NodePath("TileMap/PlayerOverworld")
 camera_path = NodePath("TileMap/PlayerOverworld/CameraController")
 room_entrances = [NodePath("TileMap/trigger/shop_room")]

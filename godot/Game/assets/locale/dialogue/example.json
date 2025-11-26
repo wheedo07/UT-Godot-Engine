@@ -1,0 +1,28 @@
+{
+    "SANS_CALL" : {
+        "ko": {
+            "text": [ "* 전화 받았습니다", "* WA sans" ],
+            "speed": [ 0.08, 0.1 ]
+        },
+        "en": {
+            "text": [ "* Call answered", "* WA sans" ],
+            "speed": [ 0.08, 0.1 ]
+        },
+        "expressions": [ 0, 1 ]
+    },
+
+    "Battle_Start": {
+        "ko": {
+            "text": [ "* 테스트 전투가 시작됩니다", "* 어떤 전투를 하겠습니까?" ],
+            "pauses": [
+                { "index": 6, "duration": 1 }
+            ]
+        },
+        "en": {
+            "text": [ "* Test battle begins", "* Which battle would you like?" ],
+            "pauses": [
+                { "index": 7, "duration": 1 }
+            ]
+        }
+    }
+}

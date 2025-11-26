@@ -7,6 +7,7 @@
 #include<godot_cpp/classes/input_event_action.hpp>
 #include<godot_cpp/classes/file_access.hpp>
 #include<godot_cpp/classes/json.hpp>
+#include<godot_cpp/classes/translation_server.hpp>
 
 Intro::Intro() {
     skip_intro = false;
@@ -15,19 +16,20 @@ Intro::Intro() {
     intro_data = Array();
     intro_json_path = "res://Intro/intro_data.json";
     intro_completed_path = "";
+    enable_auto = true;
 }
 
 Intro::~Intro() {}
 
 void Intro::_bind_methods() {
     GDVIRTUAL_BIND(ready);
+    ClassDB::bind_method(D_METHOD("next"), &Intro::next);
     ClassDB::bind_method(D_METHOD("is_intro_completed"), &Intro::is_intro_completed);
 
     ClassDB::bind_method(D_METHOD("_play_intro"), &Intro::_play_intro);
     ClassDB::bind_method(D_METHOD("_on_intro_completed", "skipped"), &Intro::_on_intro_completed);
     ClassDB::bind_method(D_METHOD("_intro_image_next"), &Intro::_intro_image_next);
     ClassDB::bind_method(D_METHOD("_on_text_completed"), &Intro::_on_text_completed);
-    ClassDB::bind_method(D_METHOD("_on_duration_timeout"), &Intro::_on_duration_timeout);
 
     ClassDB::bind_method(D_METHOD("set_intro_json_path", "path"), &Intro::set_intro_json_path);
     ClassDB::bind_method(D_METHOD("get_intro_json_path"), &Intro::get_intro_json_path);
@@ -40,6 +42,10 @@ void Intro::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_music", "music"), &Intro::set_music);
     ClassDB::bind_method(D_METHOD("get_music"), &Intro::get_music);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "music", PROPERTY_HINT_RESOURCE_TYPE, "AudioStream"), "set_music", "get_music");
+
+    ClassDB::bind_method(D_METHOD("set_enable_auto", "enable"), &Intro::set_enable_auto);
+    ClassDB::bind_method(D_METHOD("get_enable_auto"), &Intro::get_enable_auto);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "enable_auto"), "set_enable_auto", "get_enable_auto");
     
     ADD_SIGNAL(MethodInfo("intro_completed", PropertyInfo(Variant::BOOL, "skipped")));
 }
@@ -54,14 +60,13 @@ void Intro::_ready() {
     
     camera = global->get_scene_container()->get_camera();
     intro_text->set_process_unhandled_input(false);
-    _load_intro_data_from_json();
-    
-    _play_intro();
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
         call("ready");
     } else {
         ready();
     }
+    _load_intro_data_from_json();
+    _play_intro();
 }
 
 void Intro::ready() {}
@@ -104,12 +109,12 @@ void Intro::process_next_intro() {
     Dictionary data = intro_data[current_index];
     
     String text = data["text"];
-    float sleep = data["sleep"];
+    float speed = data["speed"];
 
     intro_text->kill_tweens();
     
     if (!text.is_empty()) {
-        intro_text->set_interval(sleep);
+        intro_text->set_interval(speed);
         
         intro_text->connect("finished_all_texts", Callable(this, "_on_text_completed"), CONNECT_ONE_SHOT);
         intro_text->type_text({ text });
@@ -125,15 +130,16 @@ void Intro::_on_text_completed() {
         emit_signal("intro_completed", skip_intro);
         return;
     }
+    if(!enable_auto) return;
     Dictionary data = intro_data[current_index];
     float duration = data["duration"];
     
     SceneTree* tree = get_tree();
     Ref<SceneTreeTimer> timer = tree->create_timer(duration);
-    timer->connect("timeout", Callable(this, "_on_duration_timeout"), CONNECT_ONE_SHOT);
+    timer->connect("timeout", Callable(this, "next"), CONNECT_ONE_SHOT);
 }
 
-void Intro::_on_duration_timeout() {
+void Intro::next() {
     Ref<Tween> tw = create_tween();
     tw->tween_property(intro_image, "modulate:a", 0, 0.2); 
     tw->connect("finished", Callable(this, "_intro_image_next"), CONNECT_ONE_SHOT);
@@ -170,6 +176,72 @@ bool Intro::is_intro_completed() const {
     return intro_completed;
 }
 
+void Intro::_load_intro_data_from_json() {
+    if (!FileAccess::file_exists(intro_json_path)) {
+        ERR_PRINT("json 파일을 찾을수 없습니다");
+        return;
+    }
+    
+    Ref<FileAccess> file = FileAccess::open(intro_json_path, FileAccess::READ);
+    if (file.is_null()) {
+        return;
+    }
+    
+    String json_text = file->get_as_text();
+    String locale = TranslationServer::get_singleton()->get_locale();
+    if(locale.find("_") != -1) locale = locale.get_slice("_", 0);
+    
+    intro_data = JSON::parse_string(json_text);
+    for(int i = 0; i < intro_data.size(); i++) {
+        Dictionary entry = intro_data[i];
+        if (entry.has("image_path")) {
+            String image_path = entry["image_path"];
+            Ref<Texture2D> texture = ResourceLoader::get_singleton()->load(image_path);
+            if (texture.is_valid()) {
+                entry["image"] = texture;
+            }
+        }
+        
+        float default_speed = 0.05;
+        if(entry.has("speed")) {
+            Dictionary speed = entry.get("speed", Dictionary());
+            if(speed.has(locale)) {
+                default_speed = speed[locale];
+            }else if(speed.has("en")) {
+                default_speed = speed["en"];
+            }
+            entry["speed"] = default_speed;
+        }else if(!entry.has("speed")) {
+            entry["speed"] = default_speed;
+        }
+        
+        if(entry.has("text")) {
+            Dictionary text_dict = entry["text"];
+            String localized_text = "";
+            
+            if(text_dict.has(locale)) {
+                localized_text = text_dict[locale];
+            }else if(text_dict.has("en")) {
+                localized_text = text_dict["en"];
+            }
+            
+            entry["text"] = localized_text;
+        }else if(!entry.has("text")) {
+            entry["text"] = "";
+        }
+
+        intro_data[i] = entry;
+    }
+}
+
+void Intro::set_music(const Ref<AudioStream>& p_music) {
+    music = p_music;
+}
+
+Ref<AudioStream> Intro::get_music() const {
+    return music;
+}
+
 void Intro::set_intro_json_path(const String& path) {
     intro_json_path = path;
 }
@@ -186,47 +258,10 @@ String Intro::get_intro_completed_path() {
     return intro_completed_path;
 }
 
-void Intro::_load_intro_data_from_json() {
-    if (!FileAccess::file_exists(intro_json_path)) {
-        ERR_PRINT("json 파일을 찾을수 없습니다");
-        return;
-    }
-    
-    Ref<FileAccess> file = FileAccess::open(intro_json_path, FileAccess::READ);
-    if (file.is_null()) {
-        return;
-    }
-    
-    String json_text = file->get_as_text();
-    
-    intro_data = JSON::parse_string(json_text);
-    for (int i = 0; i < intro_data.size(); i++) {
-        Dictionary entry = intro_data[i];
-        if (entry.has("image_path")) {
-            String image_path = entry["image_path"];
-            Ref<Texture2D> texture = ResourceLoader::get_singleton()->load(image_path);
-            if (texture.is_valid()) {
-                entry["image"] = texture;
-            }
-        }
-        
-        // 필요한 기본값 설정
-        if (!entry.has("sleep")) {
-            entry["sleep"] = 0.2f;
-        }
-        
-        if (!entry.has("text")) {
-            entry["text"] = "";
-        }
-        
-        intro_data[i] = entry;
-    }
+void Intro::set_enable_auto(bool p_enable) {
+    enable_auto = p_enable;
 }
 
-void Intro::set_music(const Ref<AudioStream>& p_music) {
-    music = p_music;
-}
-
-Ref<AudioStream> Intro::get_music() const {
-    return music;
+bool Intro::get_enable_auto() const {
+    return enable_auto;
 }

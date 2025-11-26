@@ -8,6 +8,7 @@ using namespace godot;
 #include "resources/Dialogues/pause.h"
 #include "resources/Dialogues/dialogue.h"
 #include "resources/Dialogues/dialogues.h"
+#include "resources/Dialogues/dialogue_localization.h"
 
 // Encounters
 #include "resources/Encounters/button_set.h"

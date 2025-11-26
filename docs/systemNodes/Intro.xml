@@ -20,9 +20,31 @@
         [codeblock]
         [
             {
-                "image_path": "res://path/to/image.png",
-                "text": "표시할 텍스트",
-                "sleep": 0.05,
+                "image_path": "res://Intro/intro_1.png",
+                "text": {
+                    "ko": "오래 옛날, 두 종족이 지구를 다스렸습니다...",
+                    "en": "Long ago, two races ruled over Earth...",
+                    "ja": "むかしむかし、ふたつの種族が地球を支配していた..."
+                },
+                "speed": {
+                    "ko": 0.05,
+                    "en": 0.03,
+                    "ja": 0.04
+                },
+                "duration": 3.0
+            },
+            {
+                "image_path": "res://Intro/intro_2.png",
+                "text": {
+                    "ko": "인간과 몬스터입니다.",
+                    "en": "HUMANS and MONSTERS.",
+                    "ja": "人間とモンスター。"
+                },
+                "speed": {
+                    "ko": 0.05,
+                    "en": 0.03,
+                    "ja": 0.04
+                },
                 "duration": 3.0
             }
         ]
@@ -56,6 +78,13 @@
                 모든 인트로 시퀀스가 끝났거나 사용자가 스킵했을 때 true를 반환합니다.
             </description>
         </method>
+        <method name="next">
+            <return type="void" />
+            <description>
+                인트로 시퀀스의 다음 단계로 진행합니다.
+                [member enable_auto]가 false로 설정된 경우에만 수동으로 호출하여 다음 인트로 단계를 진행할 수 있습니다.
+            </description>
+        </method>
     </methods>
 
     <members>
@@ -70,14 +99,19 @@
         <member name="music" type="AudioStream" setter="set_music" getter="get_music">
             인트로 중에 재생될 배경 음악입니다. 
         </member>
+        <member name="enable_auto" type="bool" setter="set_enable_auto" getter="get_enable_auto" default="false">
+            인트로 시퀀스가 자동으로 진행될지 여부를 설정합니다.
+            true로 설정하면 각 인트로 단계가 지정된 duration 후에 자동으로 넘어갑니다.
+            false로 설정하면 [method next] 메서드를 호출하여 수동으로 다음 단계로 넘어가야 합니다.
+        </member>
     </members>
 
     <signals>
         <signal name="intro_completed">
+            <param name="skipped" type="bool" />
             <description>
-                인트로 시퀀스가 완료되었을 때 발생하는 시그널입니다.
-                모든 인트로 단계가 끝났거나 사용자가 스킵했을 때 방출됩니다.
-                이 시그널을 연결하여 인트로 완료 후의 추가 로직을 구현할 수 있습니다.
+                인트로 시퀀스가 완료되었을 때 발생합니다.
+                [param skipped]는 사용자가 인트로를 스킵했는지 여부를 나타냅니다.
             </description>
         </signal>
     </signals>

@@ -23,18 +23,16 @@ namespace godot {
             CameraFx* camera;
             GenericTextTyper* intro_text;
             TextureRect* intro_image;
-            Ref<AudioStream> music;
-
             Array intro_data;
+            bool skip_intro, intro_completed;
+            int current_index;
+
             String intro_json_path;
             String intro_completed_path;
-            bool skip_intro;
-
-            int current_index;
-            bool intro_completed;
+            Ref<AudioStream> music;
+            bool enable_auto;
 
             void _on_text_completed();
-            void _on_duration_timeout();
             void _intro_image_next();
             void _load_intro_data_from_json();
             void process_next_intro();
@@ -43,7 +41,16 @@ namespace godot {
 
             void set_music(const Ref<AudioStream>& p_music);
             Ref<AudioStream> get_music() const;
-        
+       
+            void set_intro_json_path(const String& path);
+            String get_intro_json_path() const;
+
+            void set_intro_completed_path(const String& path);
+            String get_intro_completed_path();
+
+            void set_enable_auto(bool p_enable);
+            bool get_enable_auto() const;
+            
         public:
             Intro();
             ~Intro();
@@ -53,13 +60,8 @@ namespace godot {
             GDVIRTUAL0(ready);
 
             // 사용 함수
+            void next();
             bool is_intro_completed() const;
-
-            void set_intro_json_path(const String& path);
-            String get_intro_json_path() const;
-
-            void set_intro_completed_path(const String& path);
-            String get_intro_completed_path();
     };
 }
 

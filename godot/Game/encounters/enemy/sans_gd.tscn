@@ -19,7 +19,7 @@ acts = Array[ActInfo]([SubResource("ActInfo_3yu38")])
 [sub_resource type="GDScript" id="GDScript_aij3i"]
 resource_name = "Enemy_gd"
 script/source = "extends Enemy
-@onready var attack = preload(\"res://Game/mainAttacks/attack_sans_gd.tscn\");
+@onready var attack = preload(\"res://Game/encounters/attacks/attack_sans_gd.tscn\");
 @onready var dog = $sans/Idle/dodge;
 @onready var head = $sans/Throw/head;
 @onready var AnimStates:AnimationNodeStateMachinePlayback = $sans/States.get(\"parameters/playback\");

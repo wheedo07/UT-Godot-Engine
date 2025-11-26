@@ -16,7 +16,7 @@ func check_names(player_name: String) -> void:
 	elif(player_name == \"GASTER\"):
 		global.alert(\"NO\", \"ERROR\");
 	else:
-		react_to_name(\"이것이 이름입니까?\");
+		react_to_name(\"LO_NAME_CHECK\");
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_anwqw"]
@@ -169,6 +169,7 @@ mouse_filter = 2
 
 [node name="Typer" type="GenericTextTyper" parent="."]
 click_path = NodePath("Click")
+interval = 0.08
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.125
@@ -228,8 +229,8 @@ bus = &"SFX"
 [connection signal="enable" from="." to="Prompt" method="show"]
 [connection signal="enable" from="." to="Name/Label" method="show"]
 [connection signal="enable" from="." to="Letters" method="show"]
-[connection signal="enable" from="." to="Options" method="disable"]
 [connection signal="enable" from="." to="Options" method="show"]
+[connection signal="enable" from="." to="Options" method="disable"]
 [connection signal="enable" from="." to="Letters" method="enable_input" binds= [0]]
 [connection signal="pass_name" from="." to="." method="_on_pass_name"]
 [connection signal="backspace_key" from="Letters" to="." method="_on_backspace_pressed"]
