@@ -33,6 +33,7 @@ namespace godot {
             bool enable_auto;
 
             void _on_text_completed();
+            void _on_next();
             void _intro_image_next();
             void _load_intro_data_from_json();
             void process_next_intro();

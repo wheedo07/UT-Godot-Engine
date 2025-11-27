@@ -30,6 +30,7 @@ void Intro::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_intro_completed", "skipped"), &Intro::_on_intro_completed);
     ClassDB::bind_method(D_METHOD("_intro_image_next"), &Intro::_intro_image_next);
     ClassDB::bind_method(D_METHOD("_on_text_completed"), &Intro::_on_text_completed);
+    ClassDB::bind_method(D_METHOD("_on_next"), &Intro::_on_next);
 
     ClassDB::bind_method(D_METHOD("set_intro_json_path", "path"), &Intro::set_intro_json_path);
     ClassDB::bind_method(D_METHOD("get_intro_json_path"), &Intro::get_intro_json_path);
@@ -48,6 +49,7 @@ void Intro::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "enable_auto"), "set_enable_auto", "get_enable_auto");
     
     ADD_SIGNAL(MethodInfo("intro_completed", PropertyInfo(Variant::BOOL, "skipped")));
+    ADD_SIGNAL(MethodInfo("started_intro", PropertyInfo(Variant::INT, "index")));
 }
 
 void Intro::_ready() {
@@ -103,6 +105,7 @@ void Intro::process_next_intro() {
         emit_signal("intro_completed", skip_intro);
         return;
     }
+    emit_signal("started_intro", current_index);
     Ref<Tween> tw = create_tween();
     tw->tween_property(intro_image, "modulate:a", 1, 0.15);
     
@@ -113,7 +116,7 @@ void Intro::process_next_intro() {
 
     intro_text->kill_tweens();
     
-    if (!text.is_empty()) {
+    if(!text.is_empty()) {
         intro_text->set_interval(speed);
         
         intro_text->connect("finished_all_texts", Callable(this, "_on_text_completed"), CONNECT_ONE_SHOT);
@@ -132,14 +135,18 @@ void Intro::_on_text_completed() {
     }
     if(!enable_auto) return;
     Dictionary data = intro_data[current_index];
-    float duration = data["duration"];
-    
+
     SceneTree* tree = get_tree();
-    Ref<SceneTreeTimer> timer = tree->create_timer(duration);
-    timer->connect("timeout", Callable(this, "next"), CONNECT_ONE_SHOT);
+    Ref<SceneTreeTimer> timer = tree->create_timer(data.get("duration", 0));
+    timer->connect("timeout", Callable(this, "_on_next"), CONNECT_ONE_SHOT);
 }
 
 void Intro::next() {
+    if(enable_auto) return;
+    _on_next();
+}
+
+void Intro::_on_next() {
     Ref<Tween> tw = create_tween();
     tw->tween_property(intro_image, "modulate:a", 0, 0.2); 
     tw->connect("finished", Callable(this, "_intro_image_next"), CONNECT_ONE_SHOT);
