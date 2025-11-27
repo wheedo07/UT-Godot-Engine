@@ -53,15 +53,14 @@ void EnemyOverworld::_bind_methods() {
         "set_walk_speed", "get_walk_speed");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "frame_alert"), "set_frame_alert", "get_frame_alert");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "current_index"), "set_current_index", "get_current_index");
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dialogues", PROPERTY_HINT_TYPE_STRING, 
-        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":Dialogues")
-    ,"set_dialogues", "get_dialogues");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dialogues", PROPERTY_HINT_RESOURCE_TYPE, "Dialogues"), "set_dialogues", "get_dialogues");
 }
 
 void EnemyOverworld::_ready() {
     sprite = Object::cast_to<AnimatedSprite2D>(get_node_internal("Sprite"));
     alert = Object::cast_to<AnimatedSprite2D>(get_node_internal("Alert"));
     encounter = Object::cast_to<AudioStreamPlayer>(get_node_internal("encounter"));
+    dialogues->load_locale_data();
 }
 
 void EnemyOverworld::_physics_process(double delta) {
@@ -164,25 +163,26 @@ void EnemyOverworld::set_walk_direction(const Vector2i& direction) {
 }
 
 void EnemyOverworld::_on_area_interacted() {
-    if (dialogues.size() == 0) {
+    if(!dialogues->has_data()) {
         printf("EnemyOverworld: 대화 내용이 없음\n");
         return;
     }
     
     TextBox* ct = stagehand->summontextbox();
     ct->connect("dialogue_finished", Callable(this, "emit_signal").bind("character_finished"), CONNECT_ONE_SHOT);
-    if(ct) {
-        ct->character(false, character, dialogues[current_index]);
+    Ref<Dialogues> data = dialogues->get_data(current_index);
+    if(data.is_valid()) {
+        ct->character(false, character, data);
     } else {
         ERR_PRINT("EnemyOverworld: 에러(2)");
     }
 }
 
-void EnemyOverworld::set_dialogues(const TypedArray<Dialogues>& p_dialogues) {
+void EnemyOverworld::set_dialogues(Ref<DialogueAsset> p_dialogues) {
     dialogues = p_dialogues;
 }
 
-TypedArray<Dialogues> EnemyOverworld::get_dialogues() const {
+Ref<DialogueAsset> EnemyOverworld::get_dialogues() const {
     return dialogues;
 }
 

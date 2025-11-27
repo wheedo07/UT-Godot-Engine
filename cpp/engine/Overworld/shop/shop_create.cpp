@@ -50,9 +50,7 @@ void ShopCreate::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_keeper_dialogues", "keeper_dialogues"), &ShopCreate::set_keeper_dialogues);
     ClassDB::bind_method(D_METHOD("get_keeper_dialogues"), &ShopCreate::get_keeper_dialogues);
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "keeper_dialogues", PROPERTY_HINT_TYPE_STRING, 
-        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":Dialogues"),
-    "set_keeper_dialogues", "get_keeper_dialogues");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "keeper_dialogues", PROPERTY_HINT_RESOURCE_TYPE, "DialogueAsset"), "set_keeper_dialogues", "get_keeper_dialogues");
 
     ClassDB::bind_method(D_METHOD("set_keeper_def_dialogue", "keeper_def_dialogue"), &ShopCreate::set_keeper_def_dialogue);
     ClassDB::bind_method(D_METHOD("get_keeper_def_dialogue"), &ShopCreate::get_keeper_def_dialogue);
@@ -79,7 +77,7 @@ void ShopCreate::_ready() {
     }
     shop_ui = Object::cast_to<SHOP>(shop_scene->instantiate());
     music_player = global->get_Music();
-    if(offerings.is_empty() && sellferings.is_empty() && keeper_dialogues.is_empty() && !keeper_def_dialogue.is_valid() && !keeper_cannot_sell_dialogues.is_valid() && dialogue_option.is_empty()) {
+    if(offerings.is_empty() && sellferings.is_empty() && !keeper_dialogues->has_data() && !keeper_def_dialogue.is_valid() && !keeper_cannot_sell_dialogues.is_valid() && dialogue_option.is_empty()) {
         ERR_PRINT("상점 아이템이나 대화가 설정되지 않았습니다.");
         return;
     }
@@ -97,6 +95,7 @@ void ShopCreate::_ready() {
     } else {
         music_player->stop();
     }
+    keeper_dialogues->load_locale_data();
 
     room_exit->set_new_room_entrance_id(room_id);
     room_exit->set_new_room(room_path);
@@ -145,14 +144,15 @@ Array ShopCreate::get_sellferings() const {
     return sellferings;
 }
 
-void ShopCreate::set_keeper_dialogues(const Array& p_keeper_dialogues) {
+void ShopCreate::set_keeper_dialogues(Ref<DialogueAsset> p_keeper_dialogues) {
     keeper_dialogues = p_keeper_dialogues;
     if(shop_ui) {
+        p_keeper_dialogues->load_locale_data();
         shop_ui->set_keeper_dialogues(p_keeper_dialogues);
     }
 }
 
-Array ShopCreate::get_keeper_dialogues() const {
+Ref<DialogueAsset> ShopCreate::get_keeper_dialogues() const {
     return keeper_dialogues;
 }
 

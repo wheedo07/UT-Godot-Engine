@@ -60,16 +60,16 @@
                 [/codeblock]
             </description>
         </method>
-        <method name="get_localized_dialogues">
+        <method name="get_dialogues">
             <return type="Dialogues" />
             <param index="0" name="locale" type="String" />
-            <param index="1" name="id" type="String" />
+            <param index="1" name="key" type="String" />
             <description>
                 특정 로케일(언어)과 ID에 해당하는 대화 데이터를 가져옵니다.
                 
                 파라미터:
                 - [param locale]: 언어 코드 (예: "ko", "en", "ja", "ko_KR" - 언더스코어가 있으면 자동으로 앞부분만 사용)
-                - [param id]: 대화의 고유 식별자 (예: "SANS_CALL_1", "Battle_Start_1")
+                - [param key]: 대화의 고유 식별자 (예: "SANS_CALL", "Battle_Start")
                 
                 반환값:
                 - 요청한 로케일의 대화 데이터를 담은 [Dialogues] 객체
@@ -93,16 +93,16 @@
                 [/codeblock]
             </description>
         </method>
-        <method name="get_localized_dialogues_default">
+        <method name="get_dialogues_default">
             <return type="Dialogues" />
-            <param index="0" name="id" type="String" />
+            <param index="0" name="key" type="String" />
             <description>
                 시스템의 현재 언어 설정에 맞는 대화 데이터를 가져옵니다.
                 
                 이 메서드는 [TranslationServer]을 사용하여 현재 시스템 로케일을 자동으로 감지합니다.
                 
                 파라미터:
-                - [param id]: 대화의 고유 식별자
+                - [param key]: 대화의 고유 식별자
                 
                 반환값:
                 - 현재 시스템 언어의 대화 데이터를 담은 [Dialogues] 객체

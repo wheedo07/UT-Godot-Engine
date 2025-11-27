@@ -5,6 +5,7 @@
 #include<godot_cpp/classes/nine_patch_rect.hpp>
 #include<godot_cpp/classes/tween.hpp>
 #include "engine/resources/ShopItems/shop_item.h"
+#include "engine/resources/Dialogues/dialogue_asset.h"
 #include "engine/resources/Dialogues/dialogues.h"
 #include "engine/Camera/camera_fx.h"
 #include "engine/Overworld/room_entrance_node.h"
@@ -38,7 +39,7 @@ namespace godot {
             PackedInt32Array option_numbers;
             Array offerings;
             Array sellferings;
-            Array keeper_dialogues;
+            Ref<DialogueAsset> keeper_dialogues;
             Ref<Dialogues> keeper_def_dialogue;
             bool can_be_sold_to;
             Ref<Dialogues> keeper_cannot_sell_dialogues;
@@ -91,8 +92,8 @@ namespace godot {
             void set_offerings(const Array& p_offerings);
             
             void set_sellferings(const Array& p_sellferings);
-            
-            void set_keeper_dialogues(const Array& p_keeper_dialogues);
+           
+            void set_keeper_dialogues(Ref<DialogueAsset> p_keeper_dialogues);
             
             void set_keeper_def_dialogue(const Ref<Dialogues>& p_keeper_def_dialogue);
             

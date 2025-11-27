@@ -127,7 +127,7 @@ void Global::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "boxitems", PROPERTY_HINT_ARRAY_TYPE, "int"), "set_boxitems", "get_boxitems");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "settings"), "set_settings", "get_settings");
     
-    ADD_GROUP("Player Stats", "player_");
+    ADD_GROUP("Player Stats", "");
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "player_name"), "set_player_name", "get_player_name");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_gold"), "set_player_gold", "get_player_gold");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_lv"), "set_player_lv", "get_player_lv");

@@ -27,7 +27,7 @@ namespace godot {
 
             Array offerings;
             Array sellferings;
-            Array keeper_dialogues;
+            Ref<DialogueAsset> keeper_dialogues;
             Ref<Dialogues> keeper_def_dialogue;
             bool can_be_sold_to;
             Ref<Dialogues> keeper_cannot_sell_dialogues;
@@ -59,9 +59,9 @@ namespace godot {
             
             void set_sellferings(const Array& p_sellferings);
             Array get_sellferings() const;
-            
-            void set_keeper_dialogues(const Array& p_keeper_dialogues);
-            Array get_keeper_dialogues() const;
+           
+            void set_keeper_dialogues(Ref<DialogueAsset> p_keeper_dialogues);
+            Ref<DialogueAsset> get_keeper_dialogues() const;
             
             void set_keeper_def_dialogue(const Ref<Dialogues>& p_keeper_def_dialogue);
             Ref<Dialogues> get_keeper_def_dialogue() const;

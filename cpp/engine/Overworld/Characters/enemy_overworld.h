@@ -1,7 +1,7 @@
 #ifndef OVERWORLD_ENEMY_H
 #define OVERWORLD_ENEMY_H
 
-#include "engine/resources/Dialogues/dialogues.h"
+#include "engine/resources/Dialogues/dialogue_asset.h"
 #include "engine/Overworld/textBox/text_box.h"
 #include<godot_cpp/classes/character_body2d.hpp>
 #include<godot_cpp/classes/animated_sprite2d.hpp>
@@ -26,7 +26,7 @@ namespace godot {
         private:
             String current_animation_name;
             AnimationState current_anim_state;
-            TypedArray<Dialogues> dialogues;
+            Ref<DialogueAsset> dialogues;
             String character;
 
             int counter;
@@ -58,8 +58,8 @@ namespace godot {
             void set_frame(int index);
             void play_anim(String key, float speed=1, bool from_end=false);
 
-            void set_dialogues(const TypedArray<Dialogues>& p_dialogues);
-            TypedArray<Dialogues> get_dialogues() const;
+            void set_dialogues(Ref<DialogueAsset> p_dialogues);
+            Ref<DialogueAsset> get_dialogues() const;
 
             void set_walk_speed(int p_speed);
             int get_walk_speed() const;

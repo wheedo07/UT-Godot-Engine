@@ -191,7 +191,7 @@ void SHOP::_unhandled_input(const Ref<InputEvent>& event) {
                 }
                 break;
             case SELECTING_DIALOGUE:
-                _keeper_dialogue_temp(keeper_dialogues[soul_position], SELECTING_DIALOGUE);
+                _keeper_dialogue_temp(keeper_dialogues->get_data(soul_position), SELECTING_DIALOGUE);
                 break;
             case BUYING_ITEMS: {
                 int player_gold = global->get_player_gold();
@@ -504,7 +504,7 @@ void SHOP::set_sellferings(const Array& p_sellferings) {
     sellferings = p_sellferings;
 }
 
-void SHOP::set_keeper_dialogues(const Array& p_keeper_dialogues) {
+void SHOP::set_keeper_dialogues(Ref<DialogueAsset> p_keeper_dialogues) {
     keeper_dialogues = p_keeper_dialogues;
 }
 

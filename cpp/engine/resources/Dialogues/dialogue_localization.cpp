@@ -11,8 +11,8 @@ DialogueLocalization::~DialogueLocalization() {}
 
 void DialogueLocalization::_bind_methods() {
     ClassDB::bind_method(D_METHOD("load", "path"), &DialogueLocalization::load);
-    ClassDB::bind_method(D_METHOD("get_localized_dialogues", "locale", "id"), &DialogueLocalization::get_localized_dialogues);
-    ClassDB::bind_method(D_METHOD("get_localized_dialogues_default", "id"), &DialogueLocalization::get_localized_dialogues_default);
+    ClassDB::bind_method(D_METHOD("get_dialogues", "locale", "id"), &DialogueLocalization::get_dialogues);
+    ClassDB::bind_method(D_METHOD("get_dialogues_default", "id"), &DialogueLocalization::get_dialogues_default);
 }
 
 Ref<DialogueLocalization> DialogueLocalization::load(String path) {
@@ -27,8 +27,12 @@ Ref<DialogueLocalization> DialogueLocalization::load(String path) {
     return this;
 }
 
-Ref<Dialogues> DialogueLocalization::get_localized_dialogues(String locale, String id) {
+Ref<Dialogues> DialogueLocalization::get_dialogues(String locale, String id) {
     Ref<Dialogues> dialogues = memnew(Dialogues);
+    if(data.is_empty()) {
+        ERR_PRINT(String::utf8("로케일 데이터가 로드되지 않았습니다."));
+        return dialogues;
+    }
     if(!data.has(id)) {
         ERR_PRINT(vformat(String::utf8("대화 ID를 찾을 수 없습니다: %s"), id));
         return dialogues;
@@ -61,7 +65,7 @@ Ref<Dialogues> DialogueLocalization::get_localized_dialogues(String locale, Stri
     return dialogues;
 }
 
-Ref<Dialogues> DialogueLocalization::get_localized_dialogues_default(String id) {
+Ref<Dialogues> DialogueLocalization::get_dialogues_default(String id) {
     String default_locale = TranslationServer::get_singleton()->get_locale();
-    return get_localized_dialogues(default_locale, id);
+    return get_dialogues(default_locale, id);
 }

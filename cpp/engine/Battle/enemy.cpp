@@ -95,9 +95,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_flavour_text"), &Enemy::get_flavour_text);
     
     ADD_GROUP("textbox && dialogues", "");
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dialogues", PROPERTY_HINT_TYPE_STRING, 
-        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":Dialogues"
-    ), "set_dialogues", "get_dialogues");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dialogues", PROPERTY_HINT_RESOURCE_TYPE, "DialogueAsset"), "set_dialogues", "get_dialogues");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "flavour_text", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_flavour_text", "get_flavour_text");
@@ -179,6 +177,7 @@ void Enemy::_ready() {
     if(!spare_path.is_empty()) spare = Object::cast_to<GPUParticles2D>(get_node_internal(spare_path));
     if(!dialogue_path.is_empty()) dialogue = Object::cast_to<DialogueControl>(get_node_internal(dialogue_path));
     if(!sprites_path.is_empty()) sprites = get_node_internal(sprites_path);
+    dialogues->load_locale_data();
     
     main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
     attacks = main->attacks;
@@ -250,16 +249,14 @@ void Enemy::play_dialogue(int index, float duration, bool skip, bool keep_expres
         originals.append(expr_sprite->get_frame());
     }
 
-    if(index >= 0 && index < dialogues.size()) {
-        Ref<Dialogues> dialogue_ref = dialogues[index];
-        if (dialogue_ref.is_valid()) {
-            EnemySpeech* text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
-            Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration, skip);
-            if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
-            text_typer->connect("started_typing", call);
-            dialogue->DialogueText(dialogue_ref);
-        }else ERR_PRINT("index의 맞는 Dialogues가 유효 하지 않습니다");
-    }
+    Ref<Dialogues> dialogue_ref = dialogues->get_data(index);
+    if(dialogue_ref.is_valid()) {
+        EnemySpeech* text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
+        Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration, skip);
+        if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
+        text_typer->connect("started_typing", call);
+        dialogue->DialogueText(dialogue_ref);
+    }else ERR_PRINT("Dialogues가 유효 하지 않습니다");
     dialogue->set_key(skip);
     dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(originals, keep_expression), CONNECT_ONE_SHOT);
 }
@@ -470,11 +467,11 @@ Dictionary Enemy::get_stats() const {
     return stats;
 }
 
-void Enemy::set_dialogues(const Array& p_dialogues) {
+void Enemy::set_dialogues(const Ref<DialogueAsset>& p_dialogues) {
     dialogues = p_dialogues;
 }
 
-Array Enemy::get_dialogues() const {
+Ref<DialogueAsset> Enemy::get_dialogues() const {
     return dialogues;
 }
 

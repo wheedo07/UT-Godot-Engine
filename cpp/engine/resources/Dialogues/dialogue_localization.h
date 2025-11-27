@@ -18,9 +18,10 @@ namespace godot {
             DialogueLocalization();
             ~DialogueLocalization();
 
+            // 사용 함수
             Ref<DialogueLocalization> load(String path);
-            Ref<Dialogues> get_localized_dialogues(String locale, String id);
-            Ref<Dialogues> get_localized_dialogues_default(String id);
+            Ref<Dialogues> get_dialogues(String locale, String key);
+            Ref<Dialogues> get_dialogues_default(String key);
     };
 }
 

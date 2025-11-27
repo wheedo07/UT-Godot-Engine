@@ -8,6 +8,7 @@
 #include "engine/Camera/camera_controller.h"
 #include "engine/resources/Enemies/enemy_state.h"
 #include "engine/resources/Enemies/Act.h"
+#include "engine/resources/Dialogues/dialogue_asset.h"
 #include<godot_cpp/classes/character_body2d.hpp>
 #include<godot_cpp/classes/animated_sprite2d.hpp>
 #include<godot_cpp/classes/gpu_particles2d.hpp>
@@ -52,7 +53,7 @@ namespace godot {
             bool is_first_turn;
             bool dodging;
             Dictionary stats;
-            Array dialogues;
+            Ref<DialogueAsset> dialogues;
             PackedStringArray flavour_text;
             Dictionary rewards;
             bool new_states_override;
@@ -156,8 +157,8 @@ namespace godot {
             bool get_dodging() const;
             void set_stats(const Dictionary& p_stats);
             Dictionary get_stats() const;
-            void set_dialogues(const Array& p_dialogues);
-            Array get_dialogues() const;
+            void set_dialogues(const Ref<DialogueAsset>& p_dialogues);
+            Ref<DialogueAsset> get_dialogues() const;
             void set_flavour_text(const PackedStringArray& p_flavour_text);
             PackedStringArray get_flavour_text() const;
             void set_rewards(const Dictionary& p_rewards);
