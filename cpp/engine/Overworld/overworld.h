@@ -62,6 +62,7 @@ namespace godot {
 
             // 사용 함수
             Bullet* add_bullet(Ref<PackedScene> bullet_scene);
+            Bullet* quick_bullet(Ref<PackedScene> bullet_scene, Vector2 pos, float rot_deg);
             void toggle_encounter();
             void start_music_fade_in();
 
