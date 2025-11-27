@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://tw6eogrd1cju"]
+[gd_scene load_steps=24 format=3 uid="uid://tw6eogrd1cju"]
 
 [ext_resource type="AudioStream" uid="uid://bs4g8uklvbn26" path="res://Musics/shop_muisc.mp3" id="1_3i4qp"]
 [ext_resource type="Texture2D" uid="uid://c0d8jfq1f7kpd" path="res://Game/assets/sprite/image/shop_background.png" id="2_wf08j"]
@@ -14,29 +14,32 @@ cost = 300
 [sub_resource type="ShopItem" id="ShopItem_u6r2o"]
 cost = 5
 
-[sub_resource type="Dialogue" id="Dialogue_58gno"]
-dialog_text = "안녕 반갑네"
+[sub_resource type="Dialogue" id="Dialogue_3xvij"]
+dialog_text = "그래 반갑네"
 
-[sub_resource type="Dialogues" id="Dialogues_d7ljb"]
-dialogues = Array[Dialogue]([SubResource("Dialogue_58gno")])
+[sub_resource type="Dialogues" id="Dialogues_q6ug7"]
+dialogues = Array[Dialogue]([SubResource("Dialogue_3xvij")])
 
-[sub_resource type="Dialogue" id="Dialogue_p70sc"]
+[sub_resource type="Dialogue" id="Dialogue_xvh3f"]
 dialog_text = "그냥 여기서 물건 팔고 테스트 도와주고 있지"
 
-[sub_resource type="Dialogue" id="Dialogue_dcrgd"]
+[sub_resource type="Dialogue" id="Dialogue_45tb1"]
 dialog_text = "막대기나 살래?"
 
-[sub_resource type="Dialogues" id="Dialogues_ujnux"]
-dialogues = Array[Dialogue]([SubResource("Dialogue_p70sc"), SubResource("Dialogue_dcrgd")])
+[sub_resource type="Dialogues" id="Dialogues_201u0"]
+dialogues = Array[Dialogue]([SubResource("Dialogue_xvh3f"), SubResource("Dialogue_45tb1")])
 
-[sub_resource type="Dialogue" id="Dialogue_5t50o"]
+[sub_resource type="Dialogue" id="Dialogue_fhy7t"]
 dialog_text = "여긴 어디냐고?"
 
-[sub_resource type="Dialogue" id="Dialogue_4giyn"]
+[sub_resource type="Dialogue" id="Dialogue_rme06"]
 dialog_text = "그냥 물건 파는 상점 테스트 하는 곳이야"
 
-[sub_resource type="Dialogues" id="Dialogues_0kv5i"]
-dialogues = Array[Dialogue]([SubResource("Dialogue_5t50o"), SubResource("Dialogue_4giyn")])
+[sub_resource type="Dialogues" id="Dialogues_0lj4n"]
+dialogues = Array[Dialogue]([SubResource("Dialogue_fhy7t"), SubResource("Dialogue_rme06")])
+
+[sub_resource type="DialogueAsset" id="DialogueAsset_tf7n7"]
+dialogues = Array[Dialogues]([SubResource("Dialogues_q6ug7"), SubResource("Dialogues_201u0"), SubResource("Dialogues_0lj4n")])
 
 [sub_resource type="Dialogue" id="Dialogue_hplse"]
 dialog_text = "안녕 여긴 테스트 상점이야"
@@ -179,7 +182,7 @@ room_id = 1
 room_path = "res://Game/overworld/overworld_default.tscn"
 offerings = [SubResource("ShopItem_3hwyn"), SubResource("ShopItem_q6ug7")]
 sellferings = [SubResource("ShopItem_u6r2o")]
-keeper_dialogues = [SubResource("Dialogues_d7ljb"), SubResource("Dialogues_ujnux"), SubResource("Dialogues_0kv5i")]
+keeper_dialogues = SubResource("DialogueAsset_tf7n7")
 keeper_def_dialogue = SubResource("Dialogues_060io")
 keeper_cannot_sell_dialogues = SubResource("Dialogues_h8g0r")
 dialogue_options = PackedStringArray("인사", "안부묻기", "질문하기")

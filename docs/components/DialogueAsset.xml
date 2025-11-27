@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DialogueAsset" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        대화 데이터를 관리하는 에셋 리소스입니다.
+    </brief_description>
+    <description>
+        [DialogueAsset]은 게임 내 대화 데이터를 저장하고 관리하는 리소스 클래스입니다.
+        
+        [b]JSON 구조 예시:[/b]
+        [codeblock]
+        {
+            "GREETING": {
+                "ko": {
+                    "text": ["* 안녕하세요!", "* 좋은 하루 되세요."]
+                },
+                "en": {
+                    "text": ["* Hello!", "* Have a nice day."]
+                }
+            },
+            "QUEST_START": {
+                "ko": {
+                    "text": ["* 퀘스트를 시작하시겠습니까?"],
+                    "speed": 0.05
+                },
+                "en": {
+                    "text": ["* Would you like to start the quest?"],
+                    "speed": 0.03
+                }
+            }
+        }
+        [/codeblock]
+    </description>
+    <tutorials>
+    </tutorials>
+    <methods>
+        <method name="get_data">
+            <return type="Dialogues" />
+            <param index="0" name="index" type="int" />
+            <description>
+                지정된 인덱스의 대화 데이터를 가져옵니다.
+                
+                [b]로케일 모드인 경우:[/b]
+                - [member locale_keys] 배열의 [param index]번째 키를 사용
+                - JSON에서 현재 시스템 언어에 맞는 대화를 반환
+                - [DialogueLocalization]의 [method DialogueLocalization.get_dialogues_default]를 내부적으로 호출
+                
+                [b]직접 모드인 경우:[/b]
+                - [member dialogues] 배열의 [param index]번째 요소를 반환
+                
+                [b]파라미터:[/b]
+                - [param index]: 대화 데이터의 인덱스 (0부터 시작)
+                
+                [b]사용 예시:[/b]
+                [codeblock]
+                # 로케일 모드
+                var dialogue_asset = DialogueAsset.new()
+                dialogue_asset.is_locale = true
+                dialogue_asset.locale_path = "res://dialogues/npc.json"
+                dialogue_asset.locale_keys = ["GREETING", "FAREWELL"]
+                dialogue_asset.load_locale_data()
+                
+                var greeting = dialogue_asset.get_data(0)  # "GREETING" 키의 대화
+                var farewell = dialogue_asset.get_data(1)  # "FAREWELL" 키의 대화
+                
+                # 직접 모드
+                var dialogue_asset2 = DialogueAsset.new()
+                dialogue_asset2.is_locale = false
+                dialogue_asset2.dialogues = [dialogue1, dialogue2, dialogue3]
+                
+                var first_dialogue = dialogue_asset2.get_data(0)
+                [/codeblock]
+                
+                [b]에러 처리:[/b]
+                [codeblock]
+                var dialogue = dialogue_asset.get_data(999)
+                if dialogue == null:
+                    print("대화 데이터를 찾을 수 없습니다")
+                [/codeblock]
+            </description>
+        </method>
+        <method name="has_data">
+            <return type="bool" />
+            <description>
+                에셋에 대화 데이터가 있는지 확인합니다.
+                
+                [b]확인 방식:[/b]
+                - [b]로케일 모드[/b]: [member locale_keys] 배열이 비어있지 않은지 확인
+                - [b]직접 모드[/b]: [member dialogues] 배열이 비어있지 않은지 확인
+                
+                [b]반환값:[/b]
+                - [code]true[/code]: 대화 데이터가 하나 이상 있음
+                - [code]false[/code]: 대화 데이터가 없음
+                
+                [b]사용 예시:[/b]
+                [codeblock]
+                # 대화 표시 전 확인
+                if dialogue_asset.has_data():
+                    var dialogue = dialogue_asset.get_data(0)
+                    textbox.generic(dialogue)
+                else:
+                    print("표시할 대화가 없습니다")
+                
+                # NPC 상호작용
+                func interact_with_npc(npc_dialogue_asset: DialogueAsset):
+                    if not npc_dialogue_asset.has_data():
+                        print("이 NPC는 할 말이 없는 것 같다...")
+                        return
+                    
+                    var dialogue = npc_dialogue_asset.get_data(0)
+                    textbox.character(false, "npc", dialogue)
+                [/codeblock]
+                
+                [b]유용한 상황:[/b]
+                - 조건부 대화 처리
+                - 빈 에셋 검증
+                - 에러 방지
+            </description>
+        </method>
+        <method name="load_locale_data">
+            <return type="DialogueAsset" />
+            <description>
+                로케일 모드에서 JSON 파일로부터 다국어 대화 데이터를 로드합니다.
+                
+                [b]동작:[/b]
+                1. [member locale_path]가 비어있으면 아무 작업도 하지 않고 자기 자신 반환
+                2. [DialogueLocalization] 인스턴스를 생성
+                3. JSON 파일을 로드하여 내부 데이터 구조 초기화
+                4. 자기 자신을 반환하여 메서드 체이닝 지원
+                
+                [b]반환값:[/b]
+                - 자기 자신 ([DialogueAsset])
+                
+                [b]주의사항:[/b]
+                - [b]로케일 모드에서만 유효합니다[/b] ([member is_locale]이 [code]true[/code]일 때)
+                - [member locale_path]가 유효한 JSON 파일 경로여야 합니다
+                - [method get_data]를 호출하기 전에 반드시 실행해야 합니다
+                
+                [b]사용 예시:[/b]
+                [codeblock]
+                # 기본 사용
+                var dialogue_asset = DialogueAsset.new()
+                dialogue_asset.is_locale = true
+                dialogue_asset.locale_path = "res://dialogues/shop.json"
+                dialogue_asset.locale_keys = ["WELCOME", "BUY", "SELL", "GOODBYE"]
+                
+                dialogue_asset.load_locale_data()
+                
+                # 메서드 체이닝
+                var greeting = dialogue_asset
+                    .load_locale_data()
+                    .get_data(0)
+                
+                textbox.generic(greeting)
+                
+                # 에디터에서 미리 설정된 리소스 로드
+                var npc_dialogues = preload("res://dialogues/npc_asset.tres")
+                npc_dialogues.load_locale_data()  # 런타임에 JSON 로드
+                [/codeblock]
+                
+                [b]리소스 파일(.tres) 예시:[/b]
+                [codeblock]
+                [gd_resource type="DialogueAsset" format=3]
+                
+                [resource]
+                is_locale = true
+                locale_path = "res://dialogues/npc.json"
+                locale_keys = PackedStringArray("GREETING", "QUEST_START", "QUEST_COMPLETE")
+                [/codeblock]
+                
+                [b]에러 처리:[/b]
+                - JSON 파일이 없거나 형식이 잘못된 경우 [DialogueLocalization.load]에서 에러 출력
+                - [member locale_path]가 빈 문자열이면 조용히 무시
+            </description>
+        </method>
+    </methods>
+    <members>
+        <member name="dialogues" type="Array[Dialogues]" setter="set_dialogues" getter="get_dialogues" default="[]">
+            직접 모드에서 사용하는 [Dialogues] 객체 배열입니다.
+            
+            [b]사용 조건:[/b]
+            - [member is_locale]이 [code]false[/code]일 때만 사용됩니다
+            - 로케일 모드에서는 무시됩니다
+            
+            [b]설정 방법:[/b]
+            [codeblock]
+            # 코드에서 설정
+            var dialogue_asset = DialogueAsset.new()
+            dialogue_asset.is_locale = false
+            
+            var dialogue1 = Dialogues.new()
+            dialogue1.from(["* 첫 번째 대화"])
+            
+            var dialogue2 = Dialogues.new()
+            dialogue2.from(["* 두 번째 대화"])
+            
+            dialogue_asset.dialogues = [dialogue1, dialogue2]
+            
+            # 에디터에서 설정
+            # Inspector에서 Dialogues 속성 클릭 → Add Element → Dialogues 리소스 생성/할당
+            [/codeblock]
+            
+            [b]장점:[/b]
+            - 에디터에서 직접 편집 가능
+            - 복잡한 JSON 구조 불필요
+            - 시각적으로 관리하기 쉬움
+            
+            [b]단점:[/b]
+            - 다국어 지원 불가
+            - 언어별로 별도의 리소스 파일 필요
+        </member>
+        <member name="is_locale" type="bool" setter="set_is_locale" getter="get_is_locale" default="false">
+            로케일 모드 활성화 여부를 결정합니다.
+            
+            [b]값:[/b]
+            - [code]true[/code]: 로케일 모드 - JSON 파일에서 다국어 대화 로드
+            - [code]false[/code]: 직접 모드 - [member dialogues] 배열 사용
+            
+            [b]로케일 모드 (true):[/b]
+            - [member locale_path]에 지정된 JSON 파일 사용
+            - [member locale_keys]로 특정 대화 식별
+            - 시스템 언어에 따라 자동으로 적절한 번역 제공
+            - [method load_locale_data] 호출 필요
+            
+            [b]직접 모드 (false):[/b]
+            - [member dialogues] 배열 직접 사용
+            - 다국어 지원 없음
+            - 에디터에서 바로 편집 가능
+            
+            [b]선택 기준:[/b]
+            [codeblock]
+            # 다국어 지원이 필요한 경우
+            dialogue_asset.is_locale = true
+            
+            # 단일 언어만 사용하는 경우
+            dialogue_asset.is_locale = false
+            
+            # 프로토타입/개발 초기 단계
+            dialogue_asset.is_locale = false  # 빠른 테스트
+            
+            # 출시 버전/다국어 필요
+            dialogue_asset.is_locale = true   # 정식 다국어 지원
+            [/codeblock]
+        </member>
+        <member name="locale_keys" type="PackedStringArray" setter="set_locale_keys" getter="get_locale_keys" default="PackedStringArray()">
+            로케일 모드에서 사용할 대화 키 배열입니다.
+            
+            [b]사용 조건:[/b]
+            - [member is_locale]이 [code]true[/code]일 때만 사용됩니다
+            - JSON 파일의 최상위 키와 일치해야 합니다
+            
+            [b]구조:[/b]
+            각 키는 JSON 파일의 대화 ID에 해당하며, [method get_data]의 인덱스와 순서대로 매핑됩니다.
+            
+            [b]예시:[/b]
+            [codeblock]
+            # 키 설정
+            dialogue_asset.locale_keys = ["NPC_GREETING", "NPC_QUEST", "NPC_FAREWELL"]
+            
+            # 사용
+            var greeting = dialogue_asset.get_data(0)  # "NPC_GREETING" 키
+            var quest = dialogue_asset.get_data(1)     # "NPC_QUEST" 키
+            var farewell = dialogue_asset.get_data(2)  # "NPC_FAREWELL" 키
+            [/codeblock]
+            
+            [b]JSON 구조 예시:[/b]
+            [codeblock]
+            {
+                "NPC_GREETING": {
+                    "ko": { "text": ["* 안녕하세요!"] },
+                    "en": { "text": ["* Hello!"] }
+                },
+                "NPC_QUEST": {
+                    "ko": { "text": ["* 퀘스트가 있어요."] },
+                    "en": { "text": ["* I have a quest."] }
+                },
+                "NPC_FAREWELL": {
+                    "ko": { "text": ["* 안녕히 가세요."] },
+                    "en": { "text": ["* Goodbye."] }
+                }
+            }
+            [/codeblock]
+            
+            [b]주의사항:[/b]
+            - 키가 JSON에 없으면 에러 발생
+            - 키 순서가 [method get_data]의 인덱스 순서
+            - 대소문자 구분
+        </member>
+        <member name="locale_path" type="String" setter="set_locale_path" getter="get_locale_path" default="&quot;&quot;">
+            로케일 모드에서 사용할 JSON 파일의 경로입니다.
+            
+            [b]사용 조건:[/b]
+            - [member is_locale]이 [code]true[/code]일 때만 사용됩니다
+            - [method load_locale_data]를 호출하여 파일을 로드해야 합니다
+            
+            [b]경로 형식:[/b]
+            - Godot 리소스 경로 사용 (예: "res://dialogues/file.json")
+            - 절대 경로 또는 상대 경로 모두 가능
+            - 확장자는 .json이어야 합니다
+            
+            [b]에디터 설정:[/b]
+            Inspector에서 파일 아이콘을 클릭하여 JSON 파일을 직접 선택할 수 있습니다.
+            
+            [b]사용 예시:[/b]
+            [codeblock]
+            # 기본 사용
+            dialogue_asset.locale_path = "res://dialogues/npc_shop.json"
+            
+            # 카테고리별 구성
+            dialogue_asset.locale_path = "res://dialogues/npcs/merchant.json"
+            dialogue_asset.locale_path = "res://dialogues/quests/main_quest_01.json"
+            dialogue_asset.locale_path = "res://dialogues/system/tutorials.json"
+            
+            # 동적 경로 설정
+            var npc_name = "toriel"
+            dialogue_asset.locale_path = "res://dialogues/npcs/%s.json" % npc_name
+            [/codeblock]
+            
+            [b]프로젝트 구조 예시:[/b]
+            [codeblock]
+            res://
+            ├── dialogues/
+            │   ├── npcs/
+            │   │   ├── sans.json
+            │   │   ├── papyrus.json
+            │   │   └── toriel.json
+            │   ├── quests/
+            │   │   ├── main_quest.json
+            │   │   └── side_quest.json
+            │   └── system/
+            │       ├── tutorial.json
+            │       └── menu.json
+            └── dialogue_assets/
+                ├── sans_dialogue.tres
+                └── papyrus_dialogue.tres
+            [/codeblock]
+            
+            [b]주의사항:[/b]
+            - 파일이 존재하지 않으면 [method load_locale_data]에서 에러 발생
+            - 빈 문자열이면 [method load_locale_data]가 아무 작업도 하지 않음
+            - 파일 경로 변경 시 [method load_locale_data]를 다시 호출해야 함
+        </member>
+    </members>
+</class>
