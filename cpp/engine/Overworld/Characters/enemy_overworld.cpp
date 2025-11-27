@@ -184,6 +184,9 @@ void EnemyOverworld::_on_area_interacted() {
 
 void EnemyOverworld::set_dialogues(Ref<DialogueAsset> p_dialogues) {
     dialogues = p_dialogues;
+    if(!isEditor && dialogues.is_valid()) {
+        dialogues->load_locale_data();
+    }
 }
 
 Ref<DialogueAsset> EnemyOverworld::get_dialogues() const {
