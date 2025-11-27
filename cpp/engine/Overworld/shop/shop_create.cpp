@@ -77,7 +77,7 @@ void ShopCreate::_ready() {
     }
     shop_ui = Object::cast_to<SHOP>(shop_scene->instantiate());
     music_player = global->get_Music();
-    if(offerings.is_empty() && sellferings.is_empty() && !keeper_dialogues->has_data() && !keeper_def_dialogue.is_valid() && !keeper_cannot_sell_dialogues.is_valid() && dialogue_option.is_empty()) {
+    if(offerings.is_empty() && sellferings.is_empty() && (keeper_dialogues.is_valid() && keeper_dialogues->has_data()) && !keeper_def_dialogue.is_valid() && !keeper_cannot_sell_dialogues.is_valid() && dialogue_option.is_empty()) {
         ERR_PRINT("상점 아이템이나 대화가 설정되지 않았습니다.");
         return;
     }
@@ -95,7 +95,7 @@ void ShopCreate::_ready() {
     } else {
         music_player->stop();
     }
-    keeper_dialogues->load_locale_data();
+    if(keeper_dialogues.is_valid()) keeper_dialogues->load_locale_data();
 
     room_exit->set_new_room_entrance_id(room_id);
     room_exit->set_new_room(room_path);
@@ -146,7 +146,7 @@ Array ShopCreate::get_sellferings() const {
 
 void ShopCreate::set_keeper_dialogues(Ref<DialogueAsset> p_keeper_dialogues) {
     keeper_dialogues = p_keeper_dialogues;
-    if(shop_ui) {
+    if(shop_ui && p_keeper_dialogues.is_valid()) {
         p_keeper_dialogues->load_locale_data();
         shop_ui->set_keeper_dialogues(p_keeper_dialogues);
     }
