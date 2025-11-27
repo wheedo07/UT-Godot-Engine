@@ -34,10 +34,10 @@
         dialogue_data.load("res://dialogues/battle.json")
         
         # 현재 시스템 언어로 대화 가져오기
-        var dialogue = dialogue_data.get_localized_dialogues_default("SANS_CALL")
+        var dialogue = dialogue_data.get_dialogues_default("SANS_CALL")
         
         # 특정 언어로 대화 가져오기
-        var dialogue_ko = dialogue_data.get_localized_dialogues("ko", "SANS_CALL")
+        var dialogue_ko = dialogue_data.get_dialogues("ko", "SANS_CALL")
         [/codeblock]
     </description>
     <tutorials></tutorials>
@@ -113,7 +113,7 @@
                 
                 [codeblock]
                 # 시스템 언어가 한국어면 한국어 대화, 영어면 영어 대화 자동 선택
-                var dialogue = dialogue_data.get_localized_dialogues_default("SANS_CALL")
+                var dialogue = dialogue_data.get_dialogues_default("SANS_CALL")
                 
                 # TextBox에서 사용
                 textbox.character(false, "sans", dialogue)

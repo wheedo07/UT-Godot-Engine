@@ -21,11 +21,11 @@ func ready() -> void:
 func start_cellphone(id: int) -> void:
 	if(id == 0):
 		stagehand.summontextbox().character(false, \"SANS\", locale.
-		get_localized_dialogues_default(\"SANS_CALL\"));
+		get_dialogues_default(\"SANS_CALL\"));
 		
 func _on_batle():
 	var textbox = stagehand.summontextbox();
-	textbox.generic(locale.get_localized_dialogues_default(\"Battle_Start\"),
+	textbox.generic(locale.get_dialogues_default(\"Battle_Start\"),
 	[\"LO_FIGHT1\", \"LO_FIGHT2\", \"LO_CLOSE\"]);
 	textbox.connect(\"selected_option\", func(i:int):
 		if i == 0:
