@@ -177,7 +177,7 @@ void Enemy::_ready() {
     if(!spare_path.is_empty()) spare = Object::cast_to<GPUParticles2D>(get_node_internal(spare_path));
     if(!dialogue_path.is_empty()) dialogue = Object::cast_to<DialogueControl>(get_node_internal(dialogue_path));
     if(!sprites_path.is_empty()) sprites = get_node_internal(sprites_path);
-    dialogues->load_locale_data();
+    if(dialogues.is_valid()) dialogues->load_locale_data();
     
     main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
     attacks = main->attacks;
