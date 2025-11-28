@@ -100,6 +100,19 @@
                 오버월드 전투 모드에서 사용됩니다.
             </description>
         </method>
+        <method name="quick_bullet">
+            <return type="Bullet" />
+            <param index="0" name="bullet_scene" type="PackedScene" />
+            <param index="1" name="pos" type="Vector2" />
+            <param index="2" name="rot_deg" type="float" default="0" />
+            <param index="3" name="scale" type="Vector2" default="Vector2(0.5, 0.5)" />
+            <description>
+                오버월드에 탄환을 추가하고 위치, 회전, 크기를 즉시 설정합니다.
+                내부적으로 add_bullet()을 호출하여 탄환을 생성한 후,
+                지정된 위치(pos), 회전 각도(rot_deg), 크기(scale)를 설정합니다.
+                오버월드 전투 모드에서 사용됩니다.
+            </description>
+        </method>
     </methods>
     <members>
         <member name="camera" type="CameraController" setter="set_property" getter="get_camera">

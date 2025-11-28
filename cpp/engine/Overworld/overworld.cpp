@@ -22,7 +22,7 @@ void Overworld::_bind_methods() {
     GDVIRTUAL_BIND(start_cellphone, "id");
     GDVIRTUAL_BIND(player_died);
     ClassDB::bind_method(D_METHOD("add_bullet", "bullet_scene"), &Overworld::add_bullet);
-    ClassDB::bind_method(D_METHOD("quick_bullet", "bullet_scene", "pos", "rot_deg"), &Overworld::quick_bullet);
+    ClassDB::bind_method(D_METHOD("quick_bullet", "bullet_scene", "pos", "rot_deg", "scale"), &Overworld::quick_bullet, DEFVAL(0), DEFVAL(Vector2(0.5, 0.5)));
     ClassDB::bind_method(D_METHOD("start_music_fade_in"), &Overworld::start_music_fade_in);
     ClassDB::bind_method(D_METHOD("toggle_encounter"), &Overworld::toggle_encounter);
 
@@ -149,11 +149,12 @@ Bullet* Overworld::add_bullet(Ref<PackedScene> bullet_scene) {
     return Object::cast_to<Bullet>(instance);
 }
 
-Bullet* Overworld::quick_bullet(Ref<PackedScene> bullet_scene, Vector2 pos, float rot_deg) {
+Bullet* Overworld::quick_bullet(Ref<PackedScene> bullet_scene, Vector2 pos, float rot_deg, Vector2 scale) {
     Bullet* bullet = add_bullet(bullet_scene);
     if(!bullet) return nullptr;
     bullet->set_position(pos);
     bullet->set_rotation_degrees(rot_deg);
+    bullet->set_scale(scale);
     return bullet;
 }
 
