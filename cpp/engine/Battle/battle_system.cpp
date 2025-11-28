@@ -315,7 +315,13 @@ void BattleMain::_hit(int damage, int target, bool crit) {
 
         slashes->set_crit(crit);
         box->add_child(slashes, true);
-        slashes->set_global_position(enemy->get_sprites()->call("get_global_position"));
+        Node* enemy_sprites = enemy->get_sprites();
+        Vector2 offset = enemy_sprites->call("get_global_position");
+        if(enemy_sprites->has_method("get_pivot_offset")) {
+            offset += enemy_sprites->call("get_pivot_offset");
+        }
+
+        slashes->set_global_position(offset);
     }
 }
 
