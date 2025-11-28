@@ -469,6 +469,9 @@ Dictionary Enemy::get_stats() const {
 
 void Enemy::set_dialogues(const Ref<DialogueAsset>& p_dialogues) {
     dialogues = p_dialogues;
+    if(!isEditor && dialogues.is_valid()) {
+        dialogues->load_locale_data();
+    }
 }
 
 Ref<DialogueAsset> Enemy::get_dialogues() const {
