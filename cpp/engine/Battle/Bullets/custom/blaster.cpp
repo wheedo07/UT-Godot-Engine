@@ -52,7 +52,9 @@ void Blaster::_ready() {
 
 Blaster* Blaster::fire(const Vector2& target, float size, float time, float delay, float duration, float up_delay) {
     Object::cast_to<AudioStreamPlayer>(get_node_internal("load"))->play();
-    set_scale(Vector2(Math::max(size, 1.0f), Math::max(size, 1.5f)));
+    if(get_parent()->is_class("Overworld")) {
+        set_scale(Vector2(Math::max(size, 0.4f), Math::max(size, 0.6f)));
+    }else set_scale(Vector2(Math::max(size, 1.0f), Math::max(size, 1.5f)));
     
     target_position = target;
     Vector2 distance;
