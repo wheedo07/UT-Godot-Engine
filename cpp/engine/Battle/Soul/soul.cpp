@@ -632,6 +632,7 @@ void SoulBattle::enable() {
 
 void SoulBattle::_on_move_soul(const Vector2& newpos) {
     if(move_tween.is_valid() && move_tween->is_valid()) {
+        move_tween->custom_step(10000.0);
         move_tween->kill();
     }
    
