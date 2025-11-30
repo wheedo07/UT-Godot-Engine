@@ -277,7 +277,7 @@ void SoulBattle::hurt(BulletArea* area) {
     if(global->get_player_hp() <= 0 && !global->get_debugmode()) {
         if(main->transparent) {
             main->toggle_transparent();
-            Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.5);
+            Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.5, false);
             timer->connect("timeout", Callable(this, "_on_death"));
         }else _on_death();
         return;

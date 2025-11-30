@@ -63,7 +63,7 @@ void CameraController::_ready() {
     fade->set_z_index(10);
     add_child(fade);
     
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(2.0);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(2, false);
     timer->connect("timeout", Callable(this, "_on_timer_timeout"));
 }
 

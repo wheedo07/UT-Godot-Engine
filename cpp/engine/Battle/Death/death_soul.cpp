@@ -49,7 +49,7 @@ void DeathSoul::die() {
     set_animation("death");
     snap_sound->play();
     
-    first_timer = get_tree()->create_timer(0.5f);
+    first_timer = get_tree()->create_timer(0.5f, false);
     first_timer->connect("timeout", Callable(this, "_on_first_timer_timeout"));
 }
 
@@ -61,7 +61,7 @@ void DeathSoul::_on_first_timer_timeout() {
     self_modulate_color.a = 0;
     set_self_modulate(self_modulate_color);
     
-    second_timer = get_tree()->create_timer(2.0f);
+    second_timer = get_tree()->create_timer(2.0f, false);
     second_timer->connect("timeout", Callable(this, "_on_second_timer_timeout"));
 }
 

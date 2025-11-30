@@ -138,7 +138,7 @@ void CameraFx::transition(String path, float duration, float speed, bool isblind
     transition_speed = speed;
     blinder->set_material(transition_shader);
 
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration, false);
     timer->connect("timeout", Callable(this, "_on_timeout_transition").bind(isblind, blindtime), CONNECT_ONE_SHOT);
     isTransition = true;
 }

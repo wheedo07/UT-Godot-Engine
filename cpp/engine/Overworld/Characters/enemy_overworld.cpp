@@ -87,7 +87,7 @@ void EnemyOverworld::show_alert(float duration) {
     alert->set_frame(frame_alert);
     alert->show();
     encounter->play();
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration, false);
     timer->connect("timeout", Callable(alert, "hide"), CONNECT_ONE_SHOT);
 }
 

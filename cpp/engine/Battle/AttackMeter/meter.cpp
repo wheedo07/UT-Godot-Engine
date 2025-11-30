@@ -117,8 +117,7 @@ void AttackMeter::remove_meter() {
 }
 
 void AttackMeter::summonbar(const Vector2& position, int direction, float delay) {
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(delay);
-    
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(delay, false);
     timer->connect("timeout", Callable(this, "_on_timeout").bind(position, direction), CONNECT_ONE_SHOT);
 }
 

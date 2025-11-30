@@ -101,7 +101,7 @@ void OverworldSceneChanger::_set_player_data(Node* current_scene) {
         current_scene->call("_room_init", data);
     }
 
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(blind_time * 2);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(blind_time * 2, false);
     timer->connect("timeout", Callable(global, "set_player_can_move").bind(true), CONNECT_ONE_SHOT);
     timer->connect("timeout", Callable(global, "_set_player_in_menu").bind(false), CONNECT_ONE_SHOT);
     

@@ -75,7 +75,7 @@ void DialogueControl::_on_text_click_played(bool is, double duration) {
 }
 
 void DialogueControl::_on_ends_typing() {
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(text_duration);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(text_duration, false);
     timer->connect("timeout", Callable(this, "_on_text_click_played"));
 }
 

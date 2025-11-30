@@ -137,7 +137,7 @@ void Intro::_on_text_completed() {
     Dictionary data = intro_data[current_index];
 
     SceneTree* tree = get_tree();
-    Ref<SceneTreeTimer> timer = tree->create_timer(data.get("duration", 0));
+    Ref<SceneTreeTimer> timer = tree->create_timer(data.get("duration", 0), false);
     timer->connect("timeout", Callable(this, "_on_next"), CONNECT_ONE_SHOT);
 }
 

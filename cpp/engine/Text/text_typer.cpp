@@ -230,7 +230,7 @@ void GenericTextTyper::_on_line_finished(bool next_line) {
         line_typing = false;
         current_line_index++;
     }else {
-        Ref<SceneTreeTimer> timer = get_tree()->create_timer(delay);
+        Ref<SceneTreeTimer> timer = get_tree()->create_timer(delay, false);
         timer->connect("timeout", Callable(this, "_on_line_finished").bind(true), CONNECT_ONE_SHOT);
     }
 }

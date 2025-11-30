@@ -671,7 +671,7 @@ void BattleBox::_soul_choice(const Vector2i& action) {
         
         if(action != Vector2i(0, 0)) choice_sound->play();
         
-        Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.1);
+        Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.1, false);
         timer->connect("timeout", Callable(this, "_on_soul_move_cooldown"), CONNECT_ONE_SHOT);
     }else {
         if(new_position.y >= choices_extends.size() || new_position.y < 0) return;

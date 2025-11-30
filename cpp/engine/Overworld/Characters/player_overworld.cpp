@@ -273,7 +273,7 @@ void PlayerOverworld::show_alert(float duration) {
     alert_sprite->set_frame(frame_alert);
     alert_sprite->show();
     encounter_sound->play();
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(duration, false);
     timer->connect("timeout", Callable(alert_sprite, "hide"), CONNECT_ONE_SHOT);
 }
 
@@ -352,7 +352,7 @@ void PlayerOverworld::_enter_random_encounter() {
     encounter_sound->play();
     
     waiting_for_encounter_timer = true;
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.35);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.35, false);
     timer->connect("timeout", Callable(this, "_on_encounter_timer_completed"), CONNECT_ONE_SHOT);
 }
 
@@ -366,7 +366,7 @@ void PlayerOverworld::_on_encounter_timer_completed() {
     scene_changer->load_battle(selected_encounter);
     
     waiting_for_hide_timer = true;
-    Ref<SceneTreeTimer> hide_timer = get_tree()->create_timer(0.6);
+    Ref<SceneTreeTimer> hide_timer = get_tree()->create_timer(0.6, false);
     hide_timer->connect("timeout", Callable(this, "_on_hide_timer_completed"), CONNECT_ONE_SHOT);
 }
 

@@ -484,7 +484,7 @@ void BattleMain::kill_enemy(int enemy_id) {
         enemies[enemy_id] = nullptr;
         enemy_names[enemy_id] = Variant();
 
-        Ref<SceneTreeTimer> timer = get_tree()->create_timer(1.8);
+        Ref<SceneTreeTimer> timer = get_tree()->create_timer(1.8, false);
         timer->connect("timeout", Callable(enemy, "queue_free"), CONNECT_ONE_SHOT);
 
         int kills = global->get_player_kills();
@@ -671,7 +671,7 @@ void BattleMain::toggle_transparent() {
     else scene->_on_settings_setting_changed("border", false);
 
     if(global->get_fullscreen()) global->toggle_fullscreen();
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.1);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.1, false);
     timer->connect("timeout", Callable(this, "_on_transparent"), CONNECT_ONE_SHOT);
 }
 

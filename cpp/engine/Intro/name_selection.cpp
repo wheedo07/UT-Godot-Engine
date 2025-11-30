@@ -106,7 +106,7 @@ void NameSelection::_on_name_input_text_submitted() {
     if(name_label->get_text().is_empty()) {
         stagehand->audio_player->play("hurt");
         
-        Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.1);
+        Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.1, false);
         timer->connect("timeout", Callable(this, "emit_signal").bind("enable"));
         return;
     }
@@ -114,7 +114,7 @@ void NameSelection::_on_name_input_text_submitted() {
     emit_signal("disable");
     stagehand->audio_player->play("select");
     
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.1);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.1, false);
     timer->connect("timeout", Callable(this, "_on_check_name").bind(name_label->get_text().to_upper()));
 }
 

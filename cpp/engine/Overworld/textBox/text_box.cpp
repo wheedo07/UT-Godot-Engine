@@ -281,7 +281,7 @@ void TextBox::_setup_options_typing(const PackedStringArray& options) {
         TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
         option->show();
         option->connect("finished_typing_options", Callable(this, "_on_option_typing_finished").bind(i, options), CONNECT_ONE_SHOT);
-        Ref<SceneTreeTimer> timer = get_tree()->create_timer(i * 0.1);
+        Ref<SceneTreeTimer> timer = get_tree()->create_timer(i * 0.1, false);
         timer->connect("timeout", Callable(option, "type_text_advanced").bind(option_dialogue), CONNECT_ONE_SHOT);
     }
 }
@@ -297,7 +297,7 @@ void TextBox::_setup_soul_selection(const PackedStringArray& options) {
     soul->set_global_position(option_pos + soul_offset);
     selecting = true;
 
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.35);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.35, false);
     timer->connect("timeout", Callable(this, "_setup_options_timer"), CONNECT_ONE_SHOT);
 }
 

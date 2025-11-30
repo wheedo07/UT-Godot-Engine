@@ -51,7 +51,7 @@ void BattleTransition::transition() {
     noise_player->play();
     current_state = BLINK_START;
     
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08, false);
     timer->connect("timeout", Callable(this, "on_timer_completed"));
     state_processing = true;
 }
@@ -99,7 +99,7 @@ void BattleTransition::process_blink_hide_1() {
     black_rect->set_visible(false);
     current_state = BLINK_HIDE_1;
     
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08, false);
     timer->connect("timeout", Callable(this, "on_timer_completed"));
 }
 
@@ -110,7 +110,7 @@ void BattleTransition::process_blink_show_1() {
     noise_player->play();
     current_state = BLINK_SHOW_1;
     
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08, false);
     timer->connect("timeout", Callable(this, "on_timer_completed"));
 }
 
@@ -120,7 +120,7 @@ void BattleTransition::process_blink_hide_2() {
     black_rect->set_visible(false);
     current_state = BLINK_HIDE_2;
     
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08, false);
     timer->connect("timeout", Callable(this, "on_timer_completed"));
 }
 
@@ -131,7 +131,7 @@ void BattleTransition::process_blink_show_2() {
     noise_player->play();
     current_state = BLINK_SHOW_2;
     
-    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.08, false);
     timer->connect("timeout", Callable(this, "on_timer_completed"));
 }
 
