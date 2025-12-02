@@ -55,6 +55,7 @@ void OptionSelectableSolo::_bind_methods() {
     
     ADD_SIGNAL(MethodInfo("accept_pressed"));
     ADD_SIGNAL(MethodInfo("select_pressed"));
+    ADD_SIGNAL(MethodInfo("deselect_pressed"));
     ADD_SIGNAL(MethodInfo("move_soul_request", PropertyInfo(Variant::VECTOR2, "pos")));
 }
 
@@ -123,6 +124,7 @@ void OptionSelectableSolo::disable() {
 
 void OptionSelectableSolo::move_soul(OptionSelectableSolo* node) {
     get_viewport()->set_input_as_handled();
+    emit_signal("deselect_pressed");
     node->emit_signal("move_soul_request", node->get_global_position() + node->get("soul_offset"));
     
     set_selected(false);

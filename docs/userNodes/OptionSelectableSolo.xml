@@ -89,5 +89,17 @@
                 res://Menus/menu_soul.tscn를 추가하고 move_global에 이 시그널을 연결하여 영혼 이동을 처리할 수 있습니다
             </description>
         </signal>
+        <signal name="select_pressed">
+            <description>
+                옵션이 선택되었을 때 발생하는 시그널입니다.
+                accept_pressed와 다르게 엔터키 누르기 전 선택 상태가 되었을 때 발생합니다.
+            </description>
+        </signal>
+        <signal name="deselect_pressed">
+            <description>
+                옵션이 선택 해제되었을 때 발생하는 시그널입니다.
+                select_pressed와 반대 동작으로, 옵션이 더 이상 선택되지 않았을 때 발생합니다.
+            </description>
+        </signal>
     </signals>
 </class>
