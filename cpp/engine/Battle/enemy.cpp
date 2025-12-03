@@ -1,5 +1,6 @@
 #include "enemy.h"
 #include "env.h"
+#include "dust_transition.h"
 #include "engine/Battle/battle_system.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
@@ -47,6 +48,7 @@ void Enemy::_bind_methods() {
     ADD_SIGNAL(MethodInfo("on_act_end"));
     ADD_SIGNAL(MethodInfo("on_item_end"));
     ADD_SIGNAL(MethodInfo("on_mercy_end"));
+    ADD_SIGNAL(MethodInfo("finished_death"));
 
     // 스크립트 메소드
     GDVIRTUAL_BIND(ready);
@@ -129,7 +131,7 @@ void Enemy::_bind_methods() {
     ADD_GROUP("NodePath", "");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "sprites_path"), "set_sprites_path", "get_sprites_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dialogue_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "DialogueControl"), "set_dialogue_path", "get_dialogue_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_dust_path", "get_dust_path");
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "DustTransition"), "set_dust_path", "get_dust_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "spare_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_spare_path", "get_spare_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "hurt_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_hurt_sound_path", "get_hurt_sound_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_dust_sound_path", "get_dust_sound_path");
@@ -173,7 +175,7 @@ void Enemy::_bind_methods() {
 void Enemy::_ready() {
     if(!hurt_sound_path.is_empty()) hurt_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(hurt_sound_path));
     if(!dust_sound_path.is_empty()) dust_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(dust_sound_path));
-    if(!dust_path.is_empty()) dust = Object::cast_to<GPUParticles2D>(get_node_internal(dust_path));
+    if(!dust_path.is_empty()) dust = Object::cast_to<DustTransition>(get_node_internal(dust_path));
     if(!spare_path.is_empty()) spare = Object::cast_to<GPUParticles2D>(get_node_internal(spare_path));
     if(!dialogue_path.is_empty()) dialogue = Object::cast_to<DialogueControl>(get_node_internal(dialogue_path));
     if(!sprites_path.is_empty()) sprites = get_node_internal(sprites_path);
@@ -391,22 +393,13 @@ String Enemy::on_damage(int amount) {
 }
 
 void Enemy::on_death() {
-    if (!sprites || !dust) {
-        ERR_PRINT("Enemy 노드에 필요한 sprites, dust 노드가 없습니다");
-        return;
-    }
-
-    Ref<Tween> tween = get_tree()->create_tween();
-    tween->set_parallel(true);
-    
-    tween->tween_property(sprites, "modulate:a", 0, dust->get_lifetime() / 4.0f);
-    
-    Ref<ShaderMaterial> material = dust->get_process_material();
-    tween->tween_property(material.ptr(), "shader_parameter/progress", 1.0f, dust->get_lifetime())->from(0);
-    
-    dust->restart();
-    dust->set_emitting(true);
     if(dust_sound) dust_sound->play();
+    if(dust && sprites) {
+        dust->enemy = this;
+        dust->sprite = sprites;
+        dust->_start_transition();
+        dust->connect("finished", Callable(this, "emit_signal").bind("finished_death"), CONNECT_ONE_SHOT);
+    }else emit_signal("finished_death");
 }
 
 void Enemy::on_defeat(bool death) {}

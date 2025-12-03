@@ -20,6 +20,7 @@
 #include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
     class BattleMain;
+    class DustTransition;
 
     class Enemy : public CharacterBody2D {
         GDCLASS(Enemy, CharacterBody2D);
@@ -39,7 +40,7 @@ namespace godot {
         private:
             AudioStreamPlayer* hurt_sound;
             AudioStreamPlayer* dust_sound;
-            GPUParticles2D* dust;
+            DustTransition* dust;
             GPUParticles2D* spare;
             Node* non_mask;
             Node* sprites;

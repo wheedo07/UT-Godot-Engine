@@ -233,6 +233,28 @@ void BattleMain::_on_action(const String& action) {
             enemy->request_ready();
             enemies_node->add_child(enemy);
         }
+    }else if(action == "kill_enemy") {
+        int kills = global->get_player_kills();
+        kills++;
+        global->set_player_kills(kills);
+        
+        if (box) {
+            box->set_enemies(enemies);
+            box->_disable();
+        }
+        
+        if (check_end_encounter()) {
+            end_encounter();
+        } else {
+            bool solo = check_enemy_solo();
+            for (int i = 0; i < enemies.size(); i++) {
+                Enemy* e = Object::cast_to<Enemy>(enemies[i]);
+                if (e) {
+                    e->set_solo(solo);
+                }
+            }
+            emit_signal("end_turn");
+        }
     }
 }
 
@@ -384,7 +406,6 @@ void BattleMain::_on_fight_used_completed(int target) {
     if (float(box->enemies_hp[target]) < 0) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
         if (enemy) {
-            enemy->on_death();
             kill_enemy(target);
         }
     } else {
@@ -481,33 +502,12 @@ void BattleMain::kill_enemy(int enemy_id) {
     Enemy* enemy = Object::cast_to<Enemy>(enemies[enemy_id]);
     if(enemy) {
         enemy->on_defeat(true);
+        enemy->on_death();
         enemies[enemy_id] = nullptr;
         enemy_names[enemy_id] = Variant();
 
-        Ref<SceneTreeTimer> timer = get_tree()->create_timer(1.8, false);
-        timer->connect("timeout", Callable(enemy, "queue_free"), CONNECT_ONE_SHOT);
-
-        int kills = global->get_player_kills();
-        kills++;
-        global->set_player_kills(kills);
-        
-        if (box) {
-            box->set_enemies(enemies);
-            box->_disable();
-        }
-        
-        if (check_end_encounter()) {
-            end_encounter();
-        } else {
-            bool solo = check_enemy_solo();
-            for (int i = 0; i < enemies.size(); i++) {
-                Enemy* e = Object::cast_to<Enemy>(enemies[i]);
-                if (e) {
-                    e->set_solo(solo);
-                }
-            }
-            emit_signal("end_turn");
-        }
+        enemy->connect("finished_death", Callable(enemy, "queue_free"), CONNECT_ONE_SHOT);
+        enemy->connect("finished_death", Callable(this, "_on_action").bind("kill_enemy"), CONNECT_ONE_SHOT);
     }
 }
 

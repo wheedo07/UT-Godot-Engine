@@ -102,6 +102,7 @@ using namespace godot;
 #include "Battle/hud.h"
 #include "Battle/enemy.h"
 #include "Battle/battle_system.h"
+#include "Battle/dust_transition.h"
 
 // AttackMeter
 #include "Battle/AttackMeter/bar.h"
