@@ -93,7 +93,7 @@ namespace godot {
             float get_transition_movement_factor() const;
 
         private:
-            bool is_active;
+            bool is_active, one_shot;
             SubViewport* viewport;
             Array dust;
             Vector2 sprite_pos;
@@ -114,7 +114,7 @@ namespace godot {
             void _draw() override;
             void _process(double delta) override;
 
-            void _start_transition();
+            void start_transition();
     };
 }
 VARIANT_ENUM_CAST(godot::DustTransition::EASING_TYPE);

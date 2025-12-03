@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://bl6var8fnjg77"]
-
-[node name="Dust" type="GPUParticles2D"]
-emitting = false
-amount = 16000
-one_shot = true
-explosiveness = 1.0
-visibility_rect = Rect2(-6.06821, -19.7972, 119.866, 163.797)
-local_coords = true

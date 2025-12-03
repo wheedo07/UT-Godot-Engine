@@ -67,6 +67,7 @@ namespace godot {
             void _on_damage_info_completed(int target, bool miss);
             void _on_fight_used_completed(int target);
             void _on_action(const String& action);
+            void _on_kill_enemy(Enemy* enemy);
             void _on_end(bool mercy=false, int id=-1);
             void _on_get_turn();
             void _on_end_turn();

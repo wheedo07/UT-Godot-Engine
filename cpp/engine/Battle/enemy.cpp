@@ -33,7 +33,6 @@ Enemy::Enemy() {
     sprites = nullptr;
     dust = nullptr;
     spare = nullptr;
-    dust_sound = nullptr;
     dialogue = nullptr;
     isReady = false;
 }
@@ -48,7 +47,7 @@ void Enemy::_bind_methods() {
     ADD_SIGNAL(MethodInfo("on_act_end"));
     ADD_SIGNAL(MethodInfo("on_item_end"));
     ADD_SIGNAL(MethodInfo("on_mercy_end"));
-    ADD_SIGNAL(MethodInfo("finished_death"));
+    ADD_SIGNAL(MethodInfo("on_defeat_end"));
 
     // 스크립트 메소드
     GDVIRTUAL_BIND(ready);
@@ -115,8 +114,6 @@ void Enemy::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_hurt_sound_path", "p_path"), &Enemy::set_hurt_sound_path);
     ClassDB::bind_method(D_METHOD("get_hurt_sound_path"), &Enemy::get_hurt_sound_path);
-    ClassDB::bind_method(D_METHOD("set_dust_sound_path", "p_path"), &Enemy::set_dust_sound_path);
-    ClassDB::bind_method(D_METHOD("get_dust_sound_path"), &Enemy::get_dust_sound_path);
     ClassDB::bind_method(D_METHOD("set_dust_path", "p_path"), &Enemy::set_dust_path);
     ClassDB::bind_method(D_METHOD("get_dust_path"), &Enemy::get_dust_path);
     ClassDB::bind_method(D_METHOD("set_sprites_path", "p_path"), &Enemy::set_sprites_path);
@@ -134,7 +131,6 @@ void Enemy::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "DustTransition"), "set_dust_path", "get_dust_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "spare_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "GPUParticles2D"), "set_spare_path", "get_spare_path");
     ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "hurt_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_hurt_sound_path", "get_hurt_sound_path");
-    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "dust_sound_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AudioStreamPlayer"), "set_dust_sound_path", "get_dust_sound_path");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "expression_sprites", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_NODE_TYPE) + ":AnimatedSprite2D"
     ), "set_expression_sprites", "get_expression_sprites");
@@ -174,12 +170,15 @@ void Enemy::_bind_methods() {
 
 void Enemy::_ready() {
     if(!hurt_sound_path.is_empty()) hurt_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(hurt_sound_path));
-    if(!dust_sound_path.is_empty()) dust_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal(dust_sound_path));
     if(!dust_path.is_empty()) dust = Object::cast_to<DustTransition>(get_node_internal(dust_path));
     if(!spare_path.is_empty()) spare = Object::cast_to<GPUParticles2D>(get_node_internal(spare_path));
     if(!dialogue_path.is_empty()) dialogue = Object::cast_to<DialogueControl>(get_node_internal(dialogue_path));
     if(!sprites_path.is_empty()) sprites = get_node_internal(sprites_path);
     if(dialogues.is_valid()) dialogues->load_locale_data();
+    if(dust && sprites) {
+        dust->enemy = this;
+        dust->sprite = sprites;
+    }
     
     main = Object::cast_to<BattleMain>(global->get_scene_container()->get_current_scene());
     attacks = main->attacks;
@@ -375,6 +374,11 @@ void Enemy::on_mercy_used() {
     emit_signal("on_mercy_end");
 }
 
+void Enemy::on_defeat(bool death) {
+    // 파생 클래스에서 구현
+    emit_signal("on_defeat_end");
+}
+
 void Enemy::_on_get_turn() {
     // 파생 클래스에서 구현
 }
@@ -391,18 +395,6 @@ PackedStringArray Enemy::on_win() {
 String Enemy::on_damage(int amount) {
     return String();
 }
-
-void Enemy::on_death() {
-    if(dust_sound) dust_sound->play();
-    if(dust && sprites) {
-        dust->enemy = this;
-        dust->sprite = sprites;
-        dust->_start_transition();
-        dust->connect("finished", Callable(this, "emit_signal").bind("finished_death"), CONNECT_ONE_SHOT);
-    }else emit_signal("finished_death");
-}
-
-void Enemy::on_defeat(bool death) {}
 
 void Enemy::set_kr(bool p_kr) {
     kr = p_kr;
@@ -531,14 +523,6 @@ NodePath Enemy::get_hurt_sound_path() const {
     return hurt_sound_path;
 }
 
-void Enemy::set_dust_sound_path(const NodePath& p_path) {
-    dust_sound_path = p_path;
-}
-
-NodePath Enemy::get_dust_sound_path() const {
-    return dust_sound_path;
-}
-
 void Enemy::set_dust_path(const NodePath& p_path) {
     dust_path = p_path;
 }
@@ -613,4 +597,8 @@ TextureRect* Enemy::get_bg() {
 
 GPUParticles2D* Enemy::get_spare() const {
     return spare;
+}
+
+DustTransition* Enemy::get_dust() const {
+    return dust;
 }

@@ -8,6 +8,7 @@ using namespace godot;
 
 DustTransition::DustTransition() {
     is_active = false;
+    one_shot = false;
     sprite = nullptr;
     enemy = nullptr;
     viewport = nullptr;
@@ -104,7 +105,7 @@ void DustTransition::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_is_debug"), &DustTransition::get_is_debug);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_debug"), "set_is_debug", "get_is_debug");
 
-    ClassDB::bind_method(D_METHOD("_start_transition"), &DustTransition::_start_transition);
+    ClassDB::bind_method(D_METHOD("start_transition"), &DustTransition::start_transition);
 }
 
 void DustTransition::_process(double delta) {
@@ -147,10 +148,9 @@ void DustTransition::_process(double delta) {
 
     if(all_dead || dissolve_progress >= 1.5f) {
         is_active = false;
+        one_shot = true;
         dust.clear();
-        if(is_debug) {
-            print_line(String::utf8("DustTransition: 완료."));
-        }
+        if(is_debug) print_line(String::utf8("DustTransition: 완료."));
         emit_signal("finished");
     }
     queue_redraw();
@@ -225,13 +225,22 @@ void DustTransition::_draw() {
     }
 }
 
-void DustTransition::_start_transition() {
+void DustTransition::start_transition() {
     dust.clear();
+    if(one_shot) {
+        emit_signal("finished");
+        return;
+    }
+    if(!sprite) {
+        ERR_PRINT("DustTransition: Enemy 노드에 sprite 노드가 설정되지 않았습니다.");
+        return;
+    }
 
     viewport = memnew(SubViewport);
     viewport->set_size(viewport_size);
     viewport->set_transparent_background(true);
     viewport->set_update_mode(SubViewport::UPDATE_ALWAYS);
+    viewport->set_default_canvas_item_texture_filter(Viewport::DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST);
     enemy->add_child(viewport);
 
     sprite_pos = Vector2(viewport_size.x / 2, viewport_size.y / 2);
@@ -294,11 +303,11 @@ void DustTransition::_on_frame_waited(bool start) {
         ERR_PRINT("DustTransition: sprite 노드에 hide() 메서드가 없습니다.");
         return;
     }
-
     dust.sort_custom(Callable(this, "_on_sort_custom"));
-
     dissolve_height = sprite_min_y;
     is_active = true;
+
+    get_node<AudioStreamPlayer>("sound")->play();
     queue_redraw();
 }
 

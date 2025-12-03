@@ -1,5 +1,6 @@
 #include "battle_system.h"
 #include "env.h"
+#include "dust_transition.h"
 #include<godot_cpp/classes/input_event_action.hpp>
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
@@ -59,6 +60,7 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_action", "action"), &BattleMain::_on_action);
     ClassDB::bind_method(D_METHOD("_on_transparent"), &BattleMain::_on_transparent);
     ClassDB::bind_method(D_METHOD("_on_end"), &BattleMain::_on_end, DEFVAL(false), DEFVAL(-1));
+    ClassDB::bind_method(D_METHOD("_on_kill_enemy", "enemy"), &BattleMain::_on_kill_enemy);
     
     ClassDB::bind_method(D_METHOD("set_encounter", "encounter"), &BattleMain::set_encounter);
     ClassDB::bind_method(D_METHOD("get_encounter"), &BattleMain::get_encounter);
@@ -237,15 +239,11 @@ void BattleMain::_on_action(const String& action) {
         int kills = global->get_player_kills();
         kills++;
         global->set_player_kills(kills);
+        box->_disable();
         
-        if (box) {
-            box->set_enemies(enemies);
-            box->_disable();
-        }
-        
-        if (check_end_encounter()) {
+        if(check_end_encounter()) {
             end_encounter();
-        } else {
+        }else {
             bool solo = check_enemy_solo();
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy* e = Object::cast_to<Enemy>(enemies[i]);
@@ -254,6 +252,18 @@ void BattleMain::_on_action(const String& action) {
                 }
             }
             emit_signal("end_turn");
+        }
+    }else if(action == "spare_enemy") {
+        if(check_end_encounter()) {
+            end_encounter();
+        }else {
+            bool solo = check_enemy_solo();
+            for(int i=0; i < enemies.size(); i++) {
+                Enemy* e = Object::cast_to<Enemy>(enemies[i]);
+                if (e) {
+                    e->set_solo(solo);
+                }
+            }
         }
     }
 }
@@ -501,14 +511,26 @@ void BattleMain::kill_enemy(int enemy_id) {
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[enemy_id]);
     if(enemy) {
-        enemy->on_defeat(true);
-        enemy->on_death();
         enemies[enemy_id] = nullptr;
         enemy_names[enemy_id] = Variant();
+        box->set_enemies(enemies);
 
-        enemy->connect("finished_death", Callable(enemy, "queue_free"), CONNECT_ONE_SHOT);
-        enemy->connect("finished_death", Callable(this, "_on_action").bind("kill_enemy"), CONNECT_ONE_SHOT);
+        enemy->connect("on_defeat_end", Callable(this, "_on_kill_enemy").bind(enemy), CONNECT_ONE_SHOT);
+        if(enemy->has_method("on_defeat")) { // C++ 이랑 GDscript 모두 호환되도록
+            enemy->call("on_defeat", true);
+        }else enemy->on_defeat(true);
     }
+}
+
+void BattleMain::_on_kill_enemy(Enemy* enemy) {
+    DustTransition* dust = enemy->get_dust();
+    if(!dust) {
+        ERR_PRINT("Enemy 노드에 필요한 dust 노드가 없습니다");
+        return;
+    }
+    dust->start_transition();
+    dust->connect("finished", Callable(enemy, "queue_free"), CONNECT_ONE_SHOT);
+    dust->connect("finished", Callable(this, "_on_action").bind("kill_enemy"), CONNECT_ONE_SHOT);
 }
 
 bool BattleMain::check_enemy_solo() {
@@ -540,41 +562,33 @@ void BattleMain::spare_enemy(int enemy_id) {
     
     Enemy* enemy = Object::cast_to<Enemy>(enemies[enemy_id]);
     if(!enemy) return;
+
+    enemies[enemy_id] = nullptr;
+    enemy_names[enemy_id] = Variant();
+    box->set_enemies(enemies);
+
+    enemy->connect("on_defeat_end", Callable(this, "_on_spare_finished").bind(enemy), CONNECT_ONE_SHOT);
+    if(enemy->has_method("on_defeat")) { // C++ 이랑 GDscript 모두 호환되도록
+        enemy->call("on_defeat", false);
+    }else enemy->on_defeat(false);
+}
+
+void BattleMain::_on_spare_finished(Enemy* enemy) {
     GPUParticles2D* spare = enemy->get_spare();
     if(!spare) {
         ERR_PRINT("Enemy 노드에 필요한 spare 노드가 없습니다");
         return;
     }
 
-    Dictionary enemy_rewards = enemy->get_rewards();
-    int exp_reward = enemy_rewards.get("exp", 0);
-    rewards["exp"] = int(rewards["exp"]) - exp_reward;
-    
-    enemy->on_defeat(false);
+    // Dictionary enemy_rewards = enemy->get_rewards();
+    // int exp_reward = enemy_rewards.get("exp", 0);
+    // rewards["exp"] = int(rewards["exp"]) - exp_reward;
+
     Ref<Tween> tween = create_tween()->set_parallel();
     tween->tween_property(enemy, "modulate:a", 0, 1);
     tween->tween_callback(Callable(spare, "set_emitting").bind(true));
     tween->chain()->tween_callback(Callable(enemy, "queue_free"));
-    
-    enemies[enemy_id] = nullptr;
-    enemy_names[enemy_id] = Variant();
-    
-    if(box) box->set_enemies(enemies);
-    spare->connect("finished", Callable(this, "_on_spare_finished").bind(enemy), CONNECT_ONE_SHOT);
-}
-
-void BattleMain::_on_spare_finished(Enemy* enemy) {
-    if(check_end_encounter()) {
-        end_encounter();
-    }else {
-        bool solo = check_enemy_solo();
-        for(int i=0; i < enemies.size(); i++) {
-            Enemy* e = Object::cast_to<Enemy>(enemies[i]);
-            if (e) {
-                e->set_solo(solo);
-            }
-        }
-    }
+    spare->connect("finished", Callable(this, "_on_action").bind("spare_enemy"), CONNECT_ONE_SHOT);
 }
 
 void BattleMain::end_encounter() {

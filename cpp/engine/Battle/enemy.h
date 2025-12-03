@@ -39,7 +39,6 @@ namespace godot {
         
         private:
             AudioStreamPlayer* hurt_sound;
-            AudioStreamPlayer* dust_sound;
             DustTransition* dust;
             GPUParticles2D* spare;
             Node* non_mask;
@@ -63,7 +62,6 @@ namespace godot {
             int current_state;
 
             NodePath hurt_sound_path;
-            NodePath dust_sound_path;
             NodePath sprites_path;
             NodePath dust_path;
             NodePath spare_path;
@@ -73,9 +71,6 @@ namespace godot {
             bool isReady;
             void set_hurt_sound_path(const NodePath& p_path);
             NodePath get_hurt_sound_path() const;
-            
-            void set_dust_sound_path(const NodePath& p_path);
-            NodePath get_dust_sound_path() const;
             
             void set_dust_path(const NodePath& p_path);
             NodePath get_dust_path() const;
@@ -141,7 +136,6 @@ namespace godot {
             void play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration=0, bool skip=true, bool keep_expression=false);
 
             Ref<ActInfo> _get_act_info(int act_choice);
-            void on_death();
             void _get_act(int state, int option);
 
             void set_kr(bool p_kr);
@@ -173,6 +167,7 @@ namespace godot {
             void set_current_state(int p_current_state);
             int get_current_state() const;
             GPUParticles2D* get_spare() const;
+            DustTransition* get_dust() const;
     };
 }
 

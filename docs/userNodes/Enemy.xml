@@ -47,18 +47,10 @@
             emit_signal("on_fight_end")
         [/codeblock]
 
-        [b]필수 노드 경로 설정[/b]
-        • hurt_sound_path: 피격 사운드 (AudioStreamPlayer)
-        • dust_sound_path: 사망 사운드 (AudioStreamPlayer)
-        • dust_path: 사망 파티클 (GPUParticles2D)
-        • spare_path: 자비 파티클 (GPUParticles2D)
-        • sprites_path: 스프라이트 컨테이너 노드
-        • dialogue_path: 대화 제어 노드 (DialogueControl)
-
-        [b]GPUParticles2D 노드[/b]
-        • res://Battle/Enemies/dust.tscn (사망 파티클):
-            - 사망 파티클은 추가로 쉐이더를 추가해야합니다 (res://Battle/Enemies/undertale_dust.tres)
+        [b]필요 노드[/b]
+        • res://Battle/Enemies/dust_transition.tscn (사망 파티클)
         • res://Battle/Enemies/spare.tscn (자비 파티클)
+        • res://Battle/Misc/dialogue.tscn (대화 제어)
     </description>
     <tutorials></tutorials>
     
@@ -110,6 +102,16 @@
                 처리 완료 후 [signal on_mercy_end] 시그널을 발생시켜야 합니다.
             </description>
         </method>
+
+        <method name="on_defeat" qualifiers="virtual">
+            <return type="void"/>
+            <param index="0" name="death" type="bool"/>
+            <description>
+                적이 패배했을 때 호출되는 가상 함수입니다.
+                [param death]가 true면 적이 죽었음을, false면 자비를 받았음을 의미합니다.
+                처리 완료 후 [signal on_defeat_end] 시그널을 발생시켜야 합니다.
+            </description>
+        </method>
         
         <method name="_on_get_turn" qualifiers="virtual">
             <return type="void"/>
@@ -146,15 +148,6 @@
             </description>
         </method>
         
-        <method name="on_defeat" qualifiers="virtual">
-            <return type="void"/>
-            <param index="0" name="death" type="bool"/>
-            <description>
-                적이 패배했을 때 호출되는 가상 함수입니다.
-                [param death]가 true면 적이 죽었음을, false면 자비를 받았음을 의미합니다.
-            </description>
-        </method>
-
         <!-- 사용 함수 -->
         <method name="change_state">
             <return type="void"/>
@@ -162,7 +155,6 @@
             <description>
                 적의 ACT 상태를 변경합니다.
                 [param new_state]는 [member enemy_states] 배열의 인덱스입니다.
-                상태 변경 후 [signal changed_state] 시그널이 발생합니다.
             </description>
         </method>
         
@@ -250,9 +242,9 @@
             기본값: {"exp": 10, "gold": 10}
         </member>
         
-        <member name="dialogues" type="Array" setter="set_dialogues" getter="get_dialogues">
-            적의 대사 목록입니다. [Dialogues] 리소스의 배열입니다.
-            [method play_dialogue]에서 인덱스로 접근합니다.
+        <member name="dialogues" type="DialogueAsset" setter="set_dialogues" getter="get_dialogues">
+            적의 대사 목록을 포함하는 [DialogueAsset] 리소스입니다.
+            전투 중 대화 연출에 사용됩니다.
         </member>
         
         <member name="flavour_text" type="PackedStringArray" setter="set_flavour_text" getter="get_flavour_text">
@@ -285,36 +277,28 @@
             회피시 재생되지 않습니다.
         </member>
         
-        <member name="dust_sound_path" type="NodePath" setter="set_dust_sound_path" getter="get_dust_sound_path" default="NodePath(&quot;&quot;)">
-            사망 사운드를 재생할 [AudioStreamPlayer] 노드의 경로입니다.
-            기본적으로 먼지 날리는 효과음을 넣습니다.
-        </member>
-        
         <member name="dust_path" type="NodePath" setter="set_dust_path" getter="get_dust_path" default="NodePath(&quot;&quot;)">
-            사망 파티클을 표시할 [GPUParticles2D] 노드의 경로입니다. [color=red](필수)[/color]
+            사망 파티클을 표시할 [DustTransition] 노드의 경로입니다.
         </member>
 
         <member name="spare_path" type="NodePath" setter="set_spare_path" getter="get_spare_path" default="NodePath(&quot;&quot;)">
-            자비 파티클을 표시할 [GPUParticles2D] 노드의 경로입니다. [color=red](필수)[/color]
-        </member>
-        
-        <member name="e_head_path" type="NodePath" setter="set_e_head_path" getter="get_e_head_path" default="NodePath(&quot;&quot;)">
-            머리 애니메이션을 제어할 [AnimatedSprite2D] 노드의 경로입니다.
-            대화 중 표정 변경에 사용됩니다.
-        </member>
-        
-        <member name="e_body_path" type="NodePath" setter="set_e_body_path" getter="get_e_body_path" default="NodePath(&quot;&quot;)">
-            몸 애니메이션을 제어할 [AnimatedSprite2D] 노드의 경로입니다.
-            대화 중 몸짓 변경에 사용됩니다.
+            자비 파티클을 표시할 [GPUParticles2D] 노드의 경로입니다.
         </member>
         
         <member name="sprites_path" type="NodePath" setter="set_sprites_path" getter="get_sprites_path" default="NodePath(&quot;&quot;)">
             스프라이트 컨테이너 노드의 경로입니다.
-            애니메이션 및 이동 효과에 사용됩니다. [color=red](필수)[/color]
+            애니메이션 및 이동 효과에 사용됩니다. 
         </member>
 
         <member name="dialogue_path" type="NodePath" setter="set_dialogue_path" getter="get_dialogue_path" default="NodePath(&quot;&quot;)">
-            대화를 제어할 [DialogueControl] 노드의 경로입니다. [color=red](필수)[/color]
+            대화를 제어할 [DialogueControl] 노드의 경로입니다. 
+        </member>
+
+        <member name="expression_sprites" type="Array" setter="set_expression_sprites" getter="get_expression_sprites">
+            표정 애니메이션을 제어할 [AnimatedSprite2D] 노드들의 배열입니다.
+            대화 중 표정 변경에 사용됩니다.
+            
+            일반적으로 [0]: body, [1]: head 순서로 설정합니다.
         </member>
         
         <!-- 사용 변수 -->
@@ -401,6 +385,13 @@
             <description>
                 자비 행동 처리가 완료되었을 때 발생시켜야 하는 시그널입니다.
                 [method on_mercy_used] 구현 시 반드시 발생시켜야 합니다.
+            </description>
+        </signal>
+
+        <signal name="on_defeat_end">
+            <description>
+                패배 처리(죽음 또는 자비)가 완료되었을 때 발생시켜야 하는 시그널입니다.
+                [method on_defeat] 구현 시 반드시 발생시켜야 합니다.
             </description>
         </signal>
     </signals>
