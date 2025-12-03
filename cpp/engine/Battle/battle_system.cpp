@@ -82,7 +82,7 @@ void BattleMain::_ready() {
     enemies_node = Object::cast_to<Node2D>(get_node_internal("Enemies"));
     bg = Object::cast_to<TextureRect>(get_node_internal("Background/Texture"));
     colorRect = Object::cast_to<ColorRect>(get_node_internal("ColorRect"));
-    soul_battle = Object::cast_to<SoulBattle>(get_node_internal("SoulLayer/Soul_Battle"));
+    soul_battle = Object::cast_to<SoulBattle>(get_node_internal("Soul_Battle"));
     attacks = Object::cast_to<AttackManager>(get_node_internal("Attacks/BoxClipper"));
     attacks_parent = Object::cast_to<Node>(get_node_internal("Attacks"));
     hud = Object::cast_to<BattleHUD>(get_node_internal("HUD"));

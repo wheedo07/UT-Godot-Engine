@@ -23,10 +23,7 @@ position = Vector2(317, 240)
 
 [node name="BattleBox" parent="." instance=ExtResource("5_1exqf")]
 
-[node name="SoulLayer" type="CanvasLayer" parent="."]
-follow_viewport_enabled = true
-
-[node name="Soul_Battle" parent="SoulLayer" instance=ExtResource("6_rlfkv")]
+[node name="Soul_Battle" parent="." instance=ExtResource("6_rlfkv")]
 unique_name_in_owner = true
 position = Vector2(324, 323)
 
@@ -38,6 +35,7 @@ position = Vector2(0, 453)
 position = Vector2(320, 240)
 
 [node name="Attacks" type="Node2D" parent="."]
+z_index = 1
 
 [node name="BoxClipper" parent="Attacks" instance=ExtResource("4_elftc")]
 
@@ -54,14 +52,14 @@ color = Color(0, 0, 0, 1)
 [connection signal="end_turn" from="." to="." method="_on_enemy_turn_start"]
 [connection signal="end_turn" from="." to="." method="_on_get_turn"]
 [connection signal="act" from="BattleBox" to="." method="_act"]
-[connection signal="exit_menu" from="BattleBox" to="SoulLayer/Soul_Battle" method="_disable"]
+[connection signal="exit_menu" from="BattleBox" to="Soul_Battle" method="_disable"]
 [connection signal="exit_menu" from="BattleBox" to="Buttons" method="_reset"]
 [connection signal="fight" from="BattleBox" to="." method="_fight"]
 [connection signal="item" from="BattleBox" to="." method="_item"]
 [connection signal="mercy" from="BattleBox" to="." method="_mercy"]
-[connection signal="move_soul" from="BattleBox" to="SoulLayer/Soul_Battle" method="_on_move_soul"]
+[connection signal="move_soul" from="BattleBox" to="Soul_Battle" method="_on_move_soul"]
 [connection signal="moved_to_buttons" from="BattleBox" to="Buttons" method="_enable"]
-[connection signal="movesoul" from="Buttons" to="SoulLayer/Soul_Battle" method="_on_move_soul"]
+[connection signal="movesoul" from="Buttons" to="Soul_Battle" method="_on_move_soul"]
 [connection signal="selectbutton" from="Buttons" to="BattleBox" method="_on_use_button"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="." method="_on_player_turn_start"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="." method="_on_end_turn"]
