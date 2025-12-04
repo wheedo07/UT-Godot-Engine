@@ -3,7 +3,7 @@ import os
 import sys
 
 env = SConscript("godot-cpp/SConstruct")
-
+suffix = [ ".template", ".dev" ]
 # For reference:
 # - CCFLAGS are compilation flags shared between C and C++
 # - CFLAGS are for C-specific compilation flags
@@ -31,8 +31,12 @@ if env["target"] in ["editor", "template_debug"]:
     doc_data = env.GodotCPPDocData("cpp/engine/engine_doc.gen.cpp", sources_doc)
     sources.append(doc_data)
 
+path = "godot/bin/lib/lib.UndertaleEngine{}{}".format(env["suffix"], env["SHLIBSUFFIX"])
+for s in suffix:
+    path = path.replace(s, "")
+
 library = env.SharedLibrary(
-    "godot/bin/lib/lib.UndertaleEngine{}{}".format(env["suffix"], env["SHLIBSUFFIX"]).replace(".template", ""),
+    path,
     source=sources,
 )
 
