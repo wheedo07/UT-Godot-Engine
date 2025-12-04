@@ -7,8 +7,8 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     if(p_level != MODULE_INITIALIZATION_LEVEL_SCENE) return;
     GDExtensionMainLoopCallbacks cbs{};
     cbs.startup_func = &on_startup;
-    cbs.shutdown_func = &on_shutdown;
-    cbs.frame_func = &on_frame;
+    // cbs.shutdown_func = &on_shutdown;
+    // cbs.frame_func = &on_frame;
     godot::internal::gdextension_interface_register_main_loop_callbacks(godot::internal::library, &cbs);
 
     // [resources] //
