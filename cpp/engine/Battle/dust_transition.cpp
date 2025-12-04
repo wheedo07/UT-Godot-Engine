@@ -2,6 +2,7 @@
 #include "enemy.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/viewport_texture.hpp>
+#include<godot_cpp/classes/rendering_server.hpp>
 #include<godot_cpp/classes/image.hpp>
 #include<godot_cpp/classes/tree.hpp>
 using namespace godot;
@@ -22,8 +23,8 @@ DustTransition::DustTransition() {
     alpha_threshold = 0.1f;
     gravity = -20;
     dust_lifetime = 2.0f;
-    velocity_range_x = Vector2(-80, 80);
-    velocity_range_y = Vector2(-100, -20);
+    velocity_range_x = Vector2(-20, 20);
+    velocity_range_y = Vector2(-30, -20);
     dissolve_speed = 0.4f;
     transition_speed = 3.0f;
     is_debug = false;
@@ -160,6 +161,9 @@ void DustTransition::_draw() {
     if(!is_active || dust.is_empty()) return;
 
     Vector2 offset = sprite->get("position");
+    RID canvas = get_canvas_item();
+    RenderingServer* rs = RenderingServer::get_singleton();
+    
     for(int i=0; i < dust.size(); i++) {
         Dictionary particle = dust[i];
         Color color = Color(particle["color"]) * particle_color_tint;
@@ -170,14 +174,13 @@ void DustTransition::_draw() {
         float start_y = particle["start_y"];
 
         int state = int(particle["state"]);
+        Rect2 rect;
+        
         if(state == 0) {
-            draw_rect(
-                Rect2(
-                    offset.x + start_x - psize/2,
-                    offset.y + start_y - psize/2,
-                    psize, psize
-                ),
-                color
+            rect = Rect2(
+                offset.x + start_x - psize/2,
+                offset.y + start_y - psize/2,
+                psize, psize
             );
         }else if(state == 1) {
             float t = apply_easing(particle["transition_progress"]);
@@ -185,18 +188,14 @@ void DustTransition::_draw() {
 
             position.x = UtilityFunctions::lerp(start_x, start_x + velocity.x * transition_movement_factor, t);
             position.y = UtilityFunctions::lerp(start_y, start_y + velocity.y * transition_movement_factor, t);
-            psize = UtilityFunctions::lerp(psize, psize * transition_size_multiplier, t);   
+            psize = UtilityFunctions::lerp(psize, psize * transition_size_multiplier, t);
 
-            draw_rect(
-                Rect2(
-                    offset.x + position.x - psize/2,
-                    offset.y + position.y - psize/2,
-                    psize, psize
-                ),
-                color
+            rect = Rect2(
+                offset.x + position.x - psize/2,
+                offset.y + position.y - psize/2,
+                psize, psize
             );
         }else if(state == 2) {
-            // 날라감
             float tmr = float(particle["tmr"]);
             float progress = tmr / dust_lifetime;
             if(progress >= 1.0f) continue;
@@ -204,22 +203,21 @@ void DustTransition::_draw() {
             color.a *= (1.0f - progress);
             psize = particle_size * 1.5 * (1.0 - progress * size_shrink_factor);
 
-            draw_rect(
-                Rect2(
-                    offset.x + position.x - psize/2,
-                    offset.y + position.y - psize/2,
-                    psize, psize
-                ),
-                color
+            rect = Rect2(
+                offset.x + position.x - psize/2,
+                offset.y + position.y - psize/2,
+                psize, psize
             );
         }
+        
+        rs->canvas_item_add_rect(canvas, rect, color);
     }
 
     if(is_debug && dissolve_progress < 1.0f) {
         draw_line(
             Vector2(offset.x - 60, offset.y + dissolve_height),
             Vector2(offset.x + 60, offset.y + dissolve_height),
-            Color(1,0,0,0.5),
+            Color(1,0,0,1),
             2.0f
         );
     }
