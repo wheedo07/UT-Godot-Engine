@@ -166,16 +166,16 @@ void DustTransition::_draw() {
     
     for(int i=0; i < dust.size(); i++) {
         Dictionary particle = dust[i];
-        Color color = Color(particle["color"]) * particle_color_tint;
-        Vector2 position = Vector2(particle["position"]);
-        Vector2 velocity = Vector2(particle["velocity"]);
+        
+        Color color = particle["color"];
+        Vector2 position = particle["position"];
+        Vector2 velocity = particle["velocity"];
         float psize = sample_rate * particle_size;
         float start_x = particle["start_x"];
         float start_y = particle["start_y"];
+        int state = particle["state"];
 
-        int state = int(particle["state"]);
         Rect2 rect;
-        
         if(state == 0) {
             rect = Rect2(
                 offset.x + start_x - psize/2,
@@ -184,7 +184,10 @@ void DustTransition::_draw() {
             );
         }else if(state == 1) {
             float t = apply_easing(particle["transition_progress"]);
-            color.a *= (1.0f - t);
+
+            Color tinted_color = color.lerp(color * particle_color_tint, t);
+            tinted_color.a = color.a * (1.0f - t);
+            color = tinted_color;
 
             position.x = UtilityFunctions::lerp(start_x, start_x + velocity.x * transition_movement_factor, t);
             position.y = UtilityFunctions::lerp(start_y, start_y + velocity.y * transition_movement_factor, t);
@@ -196,10 +199,11 @@ void DustTransition::_draw() {
                 psize, psize
             );
         }else if(state == 2) {
-            float tmr = float(particle["tmr"]);
+            float tmr = particle["tmr"];
             float progress = tmr / dust_lifetime;
             if(progress >= 1.0f) continue;
 
+            color = color * particle_color_tint;
             color.a *= (1.0f - progress);
             psize = particle_size * 1.5 * (1.0 - progress * size_shrink_factor);
 
