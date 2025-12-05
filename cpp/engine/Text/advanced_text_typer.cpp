@@ -37,7 +37,6 @@ void AdvancedTextTyper::type_text(const PackedStringArray& text) {
 }
 
 void AdvancedTextTyper::type_text_advanced(const Ref<Dialogues>& dialogues) {
-    set_typing(true);
     current_dialogue_index = 0;
     type_buffer_text_complete = false;
     queued_dialogues = dialogues;
@@ -62,7 +61,6 @@ void AdvancedTextTyper::process_next_buffer() {
         type_buffer(queued_dialogues, current_dialogue_index);
     } else {
         emit_signal("advanced_finished_all_texts");
-        set_typing(false);
     }
 }
 

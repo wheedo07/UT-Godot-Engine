@@ -67,7 +67,7 @@ namespace godot {
 
             void kill_tweens(bool complete_text = false);
             void create_tweeners();
-            bool _type_one_line(const String& line);
+            bool _type_one_line(String line);
             void _play_click();
             void _process_typing();
 

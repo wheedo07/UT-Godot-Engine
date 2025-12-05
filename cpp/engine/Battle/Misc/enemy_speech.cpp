@@ -53,7 +53,6 @@ void EnemySpeech::type_text_advanced(const Ref<Dialogues>& dialogues) {
         ERR_PRINT("유효하지 않은 dialogues 객체");
         return;
     }
-    set_typing(true);
     set_current_dialogue_index(0);
     set_queued_dialogues(dialogues);
     process_next_dialogue();
@@ -91,7 +90,6 @@ void EnemySpeech::process_next_dialogue() {
         }
     } else {
         emit_signal("finished_speech");
-        set_typing(false);
     }
 }
 

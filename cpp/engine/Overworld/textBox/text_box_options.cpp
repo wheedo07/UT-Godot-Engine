@@ -20,7 +20,6 @@ void TextBoxOptionWriter::_ready() {
 }
 
 void TextBoxOptionWriter::type_text_advanced(const Ref<Dialogues>& dialogues) {
-    set_typing(true);
     set_queued_dialogues(dialogues);
     set_current_dialogue_index(0);
     process_dialogue();
@@ -43,7 +42,5 @@ void TextBoxOptionWriter::process_dialogue() {
             if(visible_tween->is_connected("finished", calls)) visible_tween->disconnect("finished", calls);
             visible_tween->connect("finished", calls);
         }
-    }else {
-        set_typing(false);
     }
 }

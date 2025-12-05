@@ -147,7 +147,7 @@ void GenericTextTyper::create_tweeners() {
     if(!sound_tween.is_valid()) sound_tween = create_tween();
 }
 
-bool GenericTextTyper::_type_one_line(const String& line) {
+bool GenericTextTyper::_type_one_line(String line) {
     set_text(entire_text_bbcode + line);
     chache_parsed_text = get_parsed_text();
     
@@ -181,14 +181,12 @@ bool GenericTextTyper::_type_one_line(const String& line) {
 }
 
 void GenericTextTyper::_process_typing() {
-    if (current_line_index < queued_texts.size()) {
-        if (!line_typing) {
+    if(current_line_index < queued_texts.size()) {
+        if(!line_typing) {
             emit_signal("started_typing", current_line_index);
-            if (_type_one_line(tr(queued_texts[current_line_index]))) {
-                line_typing = true;
-            }
+            if(_type_one_line(tr(queued_texts[current_line_index]))) line_typing = true;
         }
-    } else {
+    }else {
         typing = false;
         emit_signal("finished_all_texts");
     }

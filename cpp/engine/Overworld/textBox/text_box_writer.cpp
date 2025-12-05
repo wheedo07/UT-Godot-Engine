@@ -24,14 +24,13 @@ void TextBoxWriter::_bind_methods() {
 void TextBoxWriter::_ready() {}
 
 void TextBoxWriter::type_text_advanced(const Ref<Dialogues>& dialogues) {
-    set_typing(true);
     set_current_dialogue_index(0);
     set_queued_dialogues(dialogues);
     process_next_dialogue();
 }
 
 void TextBoxWriter::process_next_dialogue() {
-    if (get_current_dialogue_index() < get_queued_dialogues()->get_dialogues().size()) {
+    if(get_current_dialogue_index() < get_queued_dialogues()->get_dialogues().size()) {
         emit_signal("started_typing", get_current_dialogue_index());
         
         TypedArray<Dialogue> dialogues_array = get_queued_dialogues()->get_dialogues();
@@ -52,8 +51,6 @@ void TextBoxWriter::process_next_dialogue() {
             if (visible_tween->is_connected("finished", calls)) visible_tween->disconnect("finished", calls);
             visible_tween->connect("finished", calls);
         }
-    } else {
-        set_typing(false);
     }
 }
 
