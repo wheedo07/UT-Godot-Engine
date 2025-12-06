@@ -274,9 +274,7 @@ void TextBox::set_key(bool is) {
 void TextBox::_setup_options_typing(const PackedStringArray& options) {
     for(int i=0; i < MIN(options.size(), 4); i++) {
         Ref<Dialogues> option_dialogue = memnew(Dialogues); 
-        Array option_text;
-        option_text.append(options[i]);
-        option_dialogue->from(option_text);
+        option_dialogue->from({ options[i] });
 
         TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
         option->show();
