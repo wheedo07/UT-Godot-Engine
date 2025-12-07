@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="SoulBattle" inherits="CharacterBody2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](사용자 생성 불가능)[/color]
+        전투 중 영혼(Soul)을 관리하는 시스템 노드입니다.
+    </brief_description>
+    <description>
+        [SoulBattle]은 Undertale 스타일의 전투 시스템에서 플레이어의 영혼을 나타내는 핵심 노드입니다. 다양한 색상 모드와 물리 시스템을 통해 독특한 전투 메커니즘을 제공합니다.
+        
+        이 노드는 7가지 색상 모드를 지원하며, 각 모드마다 고유한 이동 방식과 특수 능력을 가집니다:
+        [b]• 빨간색 (RED)[/b]: 기본 모드. 4방향 자유 이동.
+        [b]• 파란색 (BLUE)[/b]: 중력 적용. 점프 메커니즘 사용.
+        [b]• 주황색 (ORANGE)[/b]: 브레이크 없음 계속 이동.
+        [b]• 노란색 (YELLOW)[/b]: 총알 발사 가능. Z키로 발사합니다.
+        [b]• 초록색 (GREEN)[/b]: 이동 불가. 방패로 총알을 막습니다.
+        [b]• 청록색 (CYAN)[/b]: 근처의 총알이 있어야지 움직일 수 있습니다.
+        [b]• 보라색 (PURPLE)[/b]: 수평 이동만 가능. 보라색 선 사이를 순간이동합니다.
+        
+        영혼은 적의 총알과 충돌 시 데미지를 받으며, 무적 시간(iframes)이 적용됩니다. HP가 0이 되면 사망하여 게임 오버 화면으로 전환됩니다.
+        
+        [BattleMain]에서 자동으로 관리되며, 플레이어 턴과 적 턴에 따라 활성화/비활성화됩니다.
+        
+        [b]사용 예시:[/b]
+        [codeblock]
+        # 영혼 모드 변경
+        soul.set_mode(SoulBattle.SoulMode.BLUE)
+        
+        # 중력 방향 변경 (파란색 모드)
+        soul.set_gravity_direction(Vector2(0, -1))  # 위쪽 중력
+        soul.set_gravity_direction(Vector2(1, 0))   # 오른쪽 중력
+        
+        # HP 표시
+        soul.show_hpText(true)
+        [/codeblock]
+    </description>
+    <tutorials></tutorials>
+    <methods>
+        <method name="get_mode" qualifiers="const">
+            <return type="int" enum="SoulBattle.SoulMode" />
+            <description>
+                현재 영혼의 모드를 반환합니다. 반환값은 [enum SoulMode] 열거형 중 하나입니다.
+                [codeblock]
+                var current_mode = soul.get_mode()
+                if current_mode == SoulBattle.SoulMode.BLUE:
+                    print("파란색 모드 (중력 적용)")
+                [/codeblock]
+            </description>
+        </method>
+        <method name="set_gravity_direction">
+            <return type="void" />
+            <param index="0" name="new_direction" type="Vector2" />
+            <param index="1" name="force_blue_mode" type="bool" default="true" />
+            <description>
+                중력 방향을 설정합니다. 파란색 모드에서 주로 사용됩니다.
+                
+                [param new_direction]은 중력이 작용할 방향 벡터입니다:
+                • [code]Vector2(0, 1)[/code]: 아래쪽 (기본)
+                • [code]Vector2(0, -1)[/code]: 위쪽
+                • [code]Vector2(1, 0)[/code]: 오른쪽
+                • [code]Vector2(-1, 0)[/code]: 왼쪽
+                
+                [param force_blue_mode]가 [code]true[/code]면 자동으로 파란색 모드로 전환됩니다. [code]false[/code]면 모드를 변경하지 않고 중력 방향만 설정합니다.
+                
+                영혼 스프라이트는 중력 방향에 맞춰 자동으로 회전하며, 0.2초의 트윈 애니메이션이 적용됩니다.
+                [codeblock]
+                # 위쪽 중력으로 변경하고 파란색 모드로 전환
+                soul.set_gravity_direction(Vector2(0, -1))
+                
+                # 중력만 변경하고 현재 모드 유지
+                soul.set_gravity_direction(Vector2(1, 0), false)
+                [/codeblock]
+            </description>
+        </method>
+        <method name="set_gravity_multiplier">
+            <return type="void" />
+            <param index="0" name="value" type="float" />
+            <description>
+                중력 배율을 설정합니다. 파란색 모드에서 영혼이 받는 중력의 강도를 조정합니다.
+                
+                [param value]는 중력 배율입니다:
+                • [code]1.0[/code]: 기본 중력 (디폴트)
+                • [code]2.0[/code]: 2배 강한 중력
+                • [code]0.5[/code]: 절반 중력 (달 표면 같은 효과)
+                • [code]-1.0[/code]: 역중력
+                
+                이 값은 파란색 모드의 점프 및 낙하 속도에 영향을 줍니다.
+                [codeblock]
+                # 느린 낙하 효과
+                soul.set_gravity_multiplier(0.3)
+                
+                # 빠른 낙하 효과
+                soul.set_gravity_multiplier(2.5)
+                [/codeblock]
+            </description>
+        </method>
+        <method name="set_mode">
+            <return type="void" />
+            <param index="0" name="new_mode" type="int" enum="SoulBattle.SoulMode" default="0" />
+            <description>
+                영혼의 모드를 변경합니다. 모드 변경 시 효과음이 재생되고 고스트 파티클 이펙트가 발생합니다.
+                
+                [param new_mode]는 [enum SoulMode] 열거형 값입니다. 각 모드의 특징:
+                
+                [b]RED (0)[/b]: 기본 모드. 4방향 자유 이동, X키로 속도 감소.
+                [b]BLUE (1)[/b]: 중력 적용. Z/Shift/Enter키로 점프. 바닥에서만 점프 가능.
+                [b]ORANGE (2)[/b]: 브레이크 없음, 파티클 효과.
+                [b]YELLOW (3)[/b]: RED능력 + Z키로 노란색 총알 발사.
+                [b]GREEN (4)[/b]: 이동 불가. 방패 회전으로 총알 방어.
+                [b]CYAN (5)[/b]: 근처 총알이 있어야 이동 가능.
+                [b]PURPLE (6)[/b]: 수평 이동만 가능. 상/하 키로 보라색 선 사이 순간이동.
+                [b]DISABLE_MOVEMENT (7)[/b]: 이동 불가, 입력 불가.
+                
+                모드별 색상은 자동으로 적용됩니다.
+                [codeblock]
+                # 파란색 모드로 변경 (중력 적용)
+                soul.set_mode(SoulBattle.SoulMode.BLUE)
+                
+                # 노란색 모드로 변경 (총알 발사)
+                soul.set_mode(SoulBattle.SoulMode.YELLOW)
+                [/codeblock]
+            </description>
+        </method>
+        <method name="show_hpText">
+            <return type="void" />
+            <param index="0" name="hide" type="bool" default="false" />
+            <description>
+                영혼 위의 HP 텍스트 표시 여부를 설정합니다.
+                
+                [param hide]가 [code]false[/code]면 HP를 표시하고, [code]true[/code]면 숨깁니다.
+                HP 텍스트는 [code][현재HP]/[최대HP][/code] 형식으로 표시되며, KR(Karma) 독이 활성화된 경우 보라색으로 표시됩니다.
+                [codeblock]
+                # HP 표시
+                soul.show_hpText()
+                
+                # HP 숨기기
+                soul.show_hpText(true)
+                [/codeblock]
+            </description>
+        </method>
+    </methods>
+    <members>
+        <member name="soul_type" type="int" setter="set_soul_type" getter="get_soul_type" enum="SoulBattle.SoulType" default="0">
+            영혼의 타입을 설정합니다.
+            • [constant SOUL_HUMAN]: 인간 영혼 (기본). 하트 모양.
+            • [constant SOUL_MONSTER]: 몬스터 영혼. 상하가 반전된 하트 모양.
+            
+            몬스터 영혼은 스프라이트가 상하 반전되어 표시되며, 중력 방향이 바뀔 때 회전 애니메이션이 다르게 적용됩니다.
+        </member>
+        <member name="special_bullet_mode" type="int" setter="set_special_bullet_mode" getter="get_special_bullet_mode" enum="SoulBattle.SpecialBulletMode" default="2">
+            적 공격의 BLUE, ORANGE 모드를 맞을 때 영혼이 반응하는 방식을 설정합니다.
+            • [constant ARROW_KEYS]: 화살표 키를 눌렀을때만 데미지를 받습니다.
+            • [constant VELOCITY]: 영혼의 현재 이동 방향(velocity)에 따라 데미지를 받습니다.
+            • [constant ARROW_KEYS_AND_MOVING]: 화살표 키를 눌렀을 때만 데미지를 받으며, 영혼이 실제로 이동 중일 때만 반응합니다. (기본값)
+        </member>
+        <member name="speed" type="float" setter="set_speed" getter="get_speed" default="160.0">
+            영혼의 이동 속도입니다. 픽셀/초 단위로 측정됩니다.
+            
+            X키(ui_cancel)를 누르면 속도가 절반으로 감소하여 정밀한 조작이 가능합니다.
+            실제 이동 속도는 [code]speed / slow_down[/code]으로 계산됩니다. ([code]slow_down[/code]은 X키 미입력 시 1, 입력 시 2)
+        </member>
+    </members>
+    <constants>
+        <constant name="RED" value="0" enum="SoulMode">
+            빨간색 모드. 기본 영혼 모드로, 4방향 자유 이동이 가능합니다. 물리 효과 없음.
+        </constant>
+        <constant name="BLUE" value="1" enum="SoulMode">
+            파란색 모드. 중력이 적용되며 점프 메커니즘을 사용합니다. 바닥에 닿았을 때만 점프 가능.
+            중력 방향은 [method set_gravity_direction]로 변경 가능합니다.
+        </constant>
+        <constant name="ORANGE" value="2" enum="SoulMode">
+            주황색 모드. 브레이크가 없으며, 영혼이 계속 이동합니다.
+        </constant>
+        <constant name="YELLOW" value="3" enum="SoulMode">
+            노란색 모드. 빨간색 모드의 이동 능력에 더해 Z키(ui_accept)로 노란색 총알을 발사할 수 있습니다.
+            총알 발사 방향은 화살표 키 입력에 따라 결정됩니다.
+        </constant>
+        <constant name="GREEN" value="4" enum="SoulMode">
+            초록색 모드. 이동이 불가능하며, 회전하는 방패로 총알을 막아야 합니다.
+            화살표 키로 방패의 회전 방향과 속도를 조작합니다.
+        </constant>
+        <constant name="CYAN" value="5" enum="SoulMode">
+            청록색 모드. 근처에 적의 총알이 있어야만 영혼이 움직일 수 있습니다.
+            총알이 없으면 영혼은 정지 상태가 됩니다.
+        </constant>
+        <constant name="PURPLE" value="6" enum="SoulMode">
+            보라색 모드. 수평 이동만 가능하며, 상/하 화살표 키로 보라색 선(웹) 사이를 순간이동합니다.
+            [BattleBox]의 [code]set_purple_web[/code]로 생성된 선 위치로만 이동 가능합니다.
+        </constant>
+        <constant name="DISABLE_MOVEMENT" value="7" enum="SoulMode">
+            이동 불가 모드. 모든 플레이어 입력이 무시되며 영혼이 움직이지 않습니다.
+        </constant>
+        <constant name="SOUL_HUMAN" value="0" enum="SoulType">
+            인간 영혼. 일반적인 하트 모양으로 표시됩니다.
+        </constant>
+        <constant name="SOUL_MONSTER" value="1" enum="SoulType">
+            몬스터 영혼. 상하가 반전된 하트 모양으로 표시됩니다.
+        </constant>
+        <constant name="ARROW_KEYS" value="0" enum="SpecialBulletMode">
+            공격 판정이 화살표 키 입력에만 반응합니다.
+        </constant>
+        <constant name="VELOCITY" value="1" enum="SpecialBulletMode">
+            공격 판정이 영혼의 현재 이동 방향(velocity)에 따라 반응합니다.
+        </constant>
+        <constant name="ARROW_KEYS_AND_MOVING" value="2" enum="SpecialBulletMode">
+            공격 판정이 화살표 키 입력과 실제 이동 상태 모두에 반응합니다.
+        </constant>
+    </constants>
+</class>

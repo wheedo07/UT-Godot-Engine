@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DustTransition" inherits="Node2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](사용자 생성 불가능)[/color]
+        Undertale 스타일의 먼지로 변화하는 효과를 만드는 노드입니다.
+    </brief_description>
+    <description>
+        [DustTransition]은 스프라이트가 먼지로 분해되는 시각적 효과를 구현하는 노드입니다. Enemy 노드의 사망 애니메이션에 사용됩니다.
+        
+        이 노드는 스프라이트의 픽셀을 샘플링하여 개별 파티클을 생성하고, 세 단계의 애니메이션을 통해 먼지 효과를 표현합니다:
+        [b]1. 원본 상태 (State 0)[/b]: 파티클이 원래 스프라이트 형태를 유지합니다.
+        [b]2. 전환 상태 (State 1)[/b]: 파티클이 페이드 아웃되며 약간 이동하고 크기가 변합니다.
+        [b]3. 날아감 상태 (State 2)[/b]: 파티클이 물리 효과를 받아 날아가며 축소됩니다.
+        
+        [b]사용 예시:[/b]
+        [codeblock]
+        # Enemy 클래스의 on_defeat 메서드에서 사용
+        func on_defeat():
+            # 추가 로직...
+            $dust_transition.start_transition()
+            await $dust_transition.finished;
+            # 추가 로직...
+            on_defeat_end.emit();
+        [/codeblock]
+        그냥 [Enemy on_defeat_end] 시그널을 써도 먼지 효과가 자동으로 처리됩니다.
+    </description>
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="start_transition">
+            <return type="void" />
+            <description>
+                먼지 전환 효과를 시작합니다. 이 메서드는 다음 작업을 수행합니다:
+                1. 스프라이트를 SubViewport에 복사하여 렌더링
+                2. 렌더링된 이미지에서 픽셀 샘플링
+                3. 불투명한 픽셀을 파티클로 변환
+                4. 스프라이트를 숨기고 애니메이션 시작
+                
+                일반적으로 [Enemy]의 [code]on_defeat[/code] 메서드 내에서 자동으로 호출됩니다.
+                [b]주의:[/b] 이 메서드는 비동기적으로 동작하며, 초기화가 완료되기까지 2프레임이 소요됩니다.
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="alpha_threshold" type="float" setter="set_alpha_threshold" getter="get_alpha_threshold" default="0.1">
+            파티클 생성 시 고려할 최소 알파 값입니다. 이 값보다 낮은 알파를 가진 픽셀은 파티클로 생성되지 않습니다.
+            값 범위는 0.0 (완전 투명) ~ 1.0 (완전 불투명)입니다.
+        </member>
+        <member name="dissolve_speed" type="float" setter="set_dissolve_speed" getter="get_dissolve_speed" default="0.4">
+            용해선(dissolve line)이 스프라이트를 가로지르는 속도입니다. 높을수록 빠르게 용해됩니다.
+            용해선이 파티클을 지나갈 때 해당 파티클은 원본 상태(State 0)에서 전환 상태(State 1)로 변경됩니다.
+        </member>
+        <member name="dust_lifetime" type="float" setter="set_dust_lifetime" getter="get_dust_lifetime" default="2.0">
+            날아가는 파티클(State 2)의 수명입니다. 이 시간 동안 파티클은 물리 효과를 받으며 점차 축소됩니다.
+            수명이 끝나면 파티클은 완전히 사라집니다.
+        </member>
+        <member name="easing_type" type="int" setter="set_easing_type" getter="get_easing_type" enum="DustTransition.EASING_TYPE" default="3">
+            전환 상태(State 1)에서 사용할 이징 함수 타입입니다. 파티클의 페이드 아웃 및 이동 애니메이션의 곡선을 결정합니다.
+            - [constant LINEAR]: 선형 보간
+            - [constant EASE_OUT]: 감속 곡선 (빠르게 시작, 천천히 종료)
+            - [constant EASE_IN_OUT]: S자 곡선 (부드러운 시작과 종료)
+            - [constant CUBIC]: 3차 감속 곡선 (가장 부드러운 효과)
+        </member>
+        <member name="gravity" type="float" setter="set_gravity" getter="get_gravity" default="-20.0">
+            날아가는 파티클(State 2)에 적용되는 중력 가속도입니다. 음수 값은 위쪽으로 향하는 중력을 의미합니다.
+            이 값이 클수록 파티클이 더 빠르게 아래로 떨어집니다.
+        </member>
+        <member name="is_debug" type="bool" setter="set_is_debug" getter="get_is_debug" default="false">
+            디버그 모드 활성화 여부입니다. [code]true[/code]로 설정하면 용해선이 빨간색 선으로 표시되어 애니메이션 진행 상황을 시각적으로 확인할 수 있습니다.
+        </member>
+        <member name="particle_color_tint" type="Color" setter="set_particle_color_tint" getter="get_particle_color_tint" default="Color(1, 1, 1, 1)">
+            날아가는 파티클(State 2)에 적용되는 색상 틴트입니다. 원본 색상과 블렌딩되어 먼지의 색조를 변경할 수 있습니다.
+            [b]주의:[/b] 이 틴트는 State 2에서만 적용되며, 전환 상태(State 1)에서는 원본 색상에서 점차 틴트 색상으로 보간됩니다.
+        </member>
+        <member name="particle_size" type="float" setter="set_particle_size" getter="get_particle_size" default="1.0">
+            개별 파티클의 기본 크기 배율입니다. 실제 파티클 크기는 [code]sample_rate * particle_size[/code]로 계산됩니다.
+            값을 증가시키면 모든 파티클이 더 크게 렌더링됩니다.
+        </member>
+        <member name="sample_rate" type="int" setter="set_sample_rate" getter="get_sample_rate" default="2">
+            스프라이트 샘플링 간격(픽셀 단위)입니다. 이 값은 두 가지 역할을 합니다:
+            1. 샘플링 간격: 이 값만큼 픽셀을 건너뛰며 샘플링합니다. (예: 2이면 2픽셀마다 샘플링)
+            2. 기본 파티클 크기: 생성된 파티클의 기본 크기로 사용됩니다.
+            
+            값이 클수록 파티클 개수는 줄어들지만 개별 파티클은 커집니다.
+        </member>
+        <member name="size_shrink_factor" type="float" setter="set_size_shrink_factor" getter="get_size_shrink_factor" default="0.3">
+            날아가는 파티클(State 2)의 최종 크기 배율입니다. 파티클은 수명 동안 원본 크기에서 [code]원본크기 * size_shrink_factor[/code]까지 점차 축소됩니다.
+            0.0에 가까울수록 파티클이 작게 사라지며, 1.0이면 크기가 변하지 않습니다.
+        </member>
+        <member name="transition_movement_factor" type="float" setter="set_transition_movement_factor" getter="get_transition_movement_factor" default="0.1">
+            전환 상태(State 1)에서 파티클의 이동 거리 비율입니다. 파티클은 velocity 방향으로 [code]velocity * transition_movement_factor[/code]만큼 이동합니다.
+            0.0이면 이동하지 않고, 1.0이면 전체 velocity만큼 이동합니다.
+        </member>
+        <member name="transition_size_multiplier" type="float" setter="set_transition_size_multiplier" getter="get_transition_size_multiplier" default="1.5">
+            전환 상태(State 1)에서 파티클의 최대 크기 배율입니다. 파티클은 전환 중 원본 크기에서 [code]원본크기 * transition_size_multiplier[/code]까지 확대됩니다.
+            1.0보다 크면 파티클이 부풀어 오르는 효과를 만듭니다.
+        </member>
+        <member name="transition_speed" type="float" setter="set_transition_speed" getter="get_transition_speed" default="3.0">
+            전환 상태(State 1)의 진행 속도입니다. 높을수록 빠르게 전환이 완료되어 날아감 상태(State 2)로 전환됩니다.
+        </member>
+        <member name="velocity_range_x" type="Vector2" setter="set_velocity_range_x" getter="get_velocity_range_x" default="Vector2(-20, 20)">
+            파티클의 X축 초기 속도 범위입니다. 각 파티클은 이 범위 내에서 무작위 X속도를 가집니다.
+            음수 값은 왼쪽, 양수 값은 오른쪽 방향을 의미합니다.
+        </member>
+        <member name="velocity_range_y" type="Vector2" setter="set_velocity_range_y" getter="get_velocity_range_y" default="Vector2(-30, -20)">
+            파티클의 Y축 초기 속도 범위입니다. 각 파티클은 이 범위 내에서 무작위 Y속도를 가집니다.
+            음수 값은 위쪽, 양수 값은 아래쪽 방향을 의미합니다. 기본값은 위로 날아가는 효과를 만듭니다.
+        </member>
+        <member name="viewport_size" type="Vector2i" setter="set_viewport_size" getter="get_viewport_size" default="Vector2i(200, 200)">
+            스프라이트를 캡처하는 데 사용되는 SubViewport의 크기입니다. 스프라이트보다 충분히 커야 모든 픽셀을 캡처할 수 있습니다.
+            스프라이트가 잘리는 경우 이 값을 증가시키세요.
+        </member>
+    </members>
+
+    <signals>
+        <signal name="finished">
+            <description>
+                먼지 전환 효과가 완전히 종료되었을 때 발생하는 시그널입니다. 모든 파티클이 수명을 다했거나 dissolve_progress가 1.5 이상일 때 발생합니다.
+            </description>
+        </signal>
+    </signals>
+
+    <constants>
+        <constant name="LINEAR" value="0" enum="EASING_TYPE">
+            선형 보간. 일정한 속도로 전환이 진행됩니다.
+        </constant>
+        <constant name="EASE_OUT" value="1" enum="EASING_TYPE">
+            감속 곡선. 빠르게 시작하여 천천히 종료됩니다. 공식: [code]1 - (1 - t)³[/code]
+        </constant>
+        <constant name="EASE_IN_OUT" value="2" enum="EASING_TYPE">
+            S자 곡선. 부드럽게 시작하고 부드럽게 종료됩니다. 공식: [code]t² * (3 - 2t)[/code]
+        </constant>
+        <constant name="CUBIC" value="3" enum="EASING_TYPE">
+            3차 감속 곡선. 가장 부드러운 감속 효과를 제공합니다. 공식: [code]1 - (1 - t)³[/code]
+        </constant>
+    </constants>
+</class>

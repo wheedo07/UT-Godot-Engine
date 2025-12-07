@@ -114,5 +114,12 @@
                 [param skipped]는 사용자가 인트로를 스킵했는지 여부를 나타냅니다.
             </description>
         </signal>
+        <signal name="started_intro">
+            <param name="index" type="int" />
+            <description>
+                인트로 시퀀스의 각 단계가 시작될 때 발생합니다.
+                [param index]는 현재 인트로 단계의 인덱스입니다.
+            </description>
+        </signal>
     </signals>
 </class>

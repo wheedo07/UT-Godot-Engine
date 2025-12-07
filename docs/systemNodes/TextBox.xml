@@ -81,19 +81,14 @@
                 
                 [b]파라미터:[/b]
                 - [param head_hide]: [code]true[/code]면 초상화를 숨기고, [code]false[/code]면 표시합니다
-                - [param chr]: 캐릭터 ID (예: "sans", "papyrus", "toriel")
+                - [param chr]: 캐릭터 ID ([Stagehand]에 등록된 노드 이름)
                 - [param text]: 표시할 대화 내용 ([Dialogues] 객체)
                 - [param options]: 선택지 배열 (선택 사항, 최대 4개)
                 - [param text_after_options]: 각 선택지 선택 후 표시할 대화 배열 (선택 사항)
                 
                 [b]캐릭터 설정 적용 항목:[/b]
-                - 초상화 애니메이션
-                - 폰트 및 폰트 크기
-                - 타이핑 효과음
-                - 타이핑 속도 (extra_delay)
-                - BBCode 전체 적용 여부
-                - 표정 변화 (Dialogues의 expressions 사용)
-                
+                - [Stagehand]에 등록된 캐릭터의 폰트, 타이핑 속도, 효과음 사용
+
                 [b]초상화 표시 시:[/b]
                 - 텍스트 컨테이너 크기가 470x143으로 조정됩니다
                 - 텍스트 위치가 (108, 5)로 이동합니다
