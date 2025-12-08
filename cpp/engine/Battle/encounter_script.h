@@ -30,6 +30,7 @@ namespace godot {
             TextureRect* get_bg();
             AttackManager* get_attacks();
             CameraController* get_camera();
+            bool get_player_turn();
 
         public:
             EncounterScript();

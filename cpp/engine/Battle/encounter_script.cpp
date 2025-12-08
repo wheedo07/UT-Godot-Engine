@@ -23,6 +23,7 @@ void EncounterScript::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "bg", PROPERTY_HINT_NONE, "TextureRect", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_bg");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "attacks", PROPERTY_HINT_NONE, "AttackManager", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_attacks");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_turn", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_player_turn");
 }
 
 void EncounterScript::_ready() {
@@ -73,4 +74,8 @@ AttackManager* EncounterScript::get_attacks() {
 
 CameraController* EncounterScript::get_camera() {
     return camera;
+}
+
+bool EncounterScript::get_player_turn() {
+    return main->player_turn;
 }
