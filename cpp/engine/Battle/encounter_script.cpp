@@ -16,6 +16,7 @@ void EncounterScript::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_bg"), &EncounterScript::get_bg);
     ClassDB::bind_method(D_METHOD("get_attacks"), &EncounterScript::get_attacks);
     ClassDB::bind_method(D_METHOD("get_camera"), &EncounterScript::get_camera);
+    ClassDB::bind_method(D_METHOD("get_player_turn"), &EncounterScript::get_player_turn);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "main", PROPERTY_HINT_NONE, "BattleMain", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_main");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "box", PROPERTY_HINT_NONE, "BattleBox", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_box");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "hub", PROPERTY_HINT_NONE, "BattleHUD", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_hub");
