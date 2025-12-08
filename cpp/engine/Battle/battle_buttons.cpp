@@ -33,6 +33,8 @@ void BattleButtons::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_animation", "id", "anim"), &BattleButtons::set_animation);
     ClassDB::bind_method(D_METHOD("hide_button", "id"), &BattleButtons::hide_button);
     ClassDB::bind_method(D_METHOD("show_button", "id"), &BattleButtons::show_button);
+    ClassDB::bind_method(D_METHOD("set_button_position", "position", "id"), &BattleButtons::set_button_position);
+    ClassDB::bind_method(D_METHOD("get_button_position", "id"), &BattleButtons::get_button_position);
 }
 
 void BattleButtons::_ready() {
@@ -179,6 +181,23 @@ void BattleButtons::show_button(int id) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
         button->show();
     }else ERR_PRINT("에러: BattleButtons::show_button - 잘못된 버튼 ID");
+}
+
+void BattleButtons::set_button_position(Vector2 position, int id) {
+    if(id >= 0 && id < buttons.size()) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        button->set_position(position);
+    }else ERR_PRINT("에러: BattleButtons::set_button_position - 잘못된 버튼 ID");
+}
+
+Vector2 BattleButtons::get_button_position(int id) const {
+    if(id >= 0 && id < buttons.size()) {
+        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        return button->get_position();
+    }else {
+        ERR_PRINT("에러: BattleButtons::get_button_position - 잘못된 버튼 ID");
+        return Variant();
+    }
 }
 
 void BattleButtons::_enable() {

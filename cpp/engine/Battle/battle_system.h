@@ -107,6 +107,7 @@ namespace godot {
             void spare_enemy(int enemy_id = 0);
             bool check_end_encounter();
             bool check_enemy_solo();
+            void reset_pos_camera();
             
             void set_encounter(const Ref<Encounter>& p_encounter);
             Ref<Encounter> get_encounter() const;

@@ -47,6 +47,8 @@ namespace godot {
             void set_animation(int id, String anim);
             void hide_button(int id);
             void show_button(int id);
+            void set_button_position(Vector2 position, int id);
+            Vector2 get_button_position(int id) const;
 
             void set_button_enabled(Array enabled);
             Array get_button_enabled() const;

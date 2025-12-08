@@ -42,6 +42,7 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("check_end_encounter"), &BattleMain::check_end_encounter);
     ClassDB::bind_method(D_METHOD("check_enemy_solo"), &BattleMain::check_enemy_solo);
     ClassDB::bind_method(D_METHOD("add_enemy", "enemy_scene"), &BattleMain::add_enemy);
+    ClassDB::bind_method(D_METHOD("reset_pos_camera"), &BattleMain::reset_pos_camera);
    
     ClassDB::bind_method(D_METHOD("_no_enemies_handler"), &BattleMain::_no_enemies_handler);
     ClassDB::bind_method(D_METHOD("_on_get_turn"), &BattleMain::_on_get_turn);
@@ -833,6 +834,10 @@ void BattleMain::_on_transparent() {
         global->disable_input("toggle_fullscreen");
     }
     transparent = !transparent;
+}
+
+void BattleMain::reset_pos_camera() {
+    camera->set_position(Vector2(320, 240));
 }
 
 void BattleMain::set_property(Variant value) {

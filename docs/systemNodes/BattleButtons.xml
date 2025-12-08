@@ -84,6 +84,33 @@
                 • anim: 설정할 애니메이션 이름
             </description>
         </method>
+
+        <method name="set_button_position">
+            <return type="void" />
+            <param index="0" name="position" type="Vector2" />
+            <param index="1" name="id" type="int" />
+            <description>
+                지정된 ID의 버튼 위치를 설정합니다.
+                
+                매개변수:
+                • position: 설정할 새로운 위치 (Vector2)
+                • id: 버튼 ID (0~3)
+            </description>
+        </method>
+
+        <method name="get_button_position">
+            <return type="Vector2" />
+            <param index="0" name="id" type="int" />
+            <description>
+                지정된 ID의 버튼 현재 위치를 반환합니다.
+                
+                매개변수:
+                • id: 버튼 ID (0~3)
+                
+                반환값:
+                • 버튼의 현재 위치 (Vector2)
+            </description>
+        </method>
     </methods>
     <members>
         <member name="enableds" type="Array" setter="set_button_enabled" getter="get_button_enabled" default="[true, true, true, true]">
