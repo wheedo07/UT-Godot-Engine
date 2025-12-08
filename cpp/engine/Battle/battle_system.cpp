@@ -1,6 +1,7 @@
 #include "battle_system.h"
 #include "env.h"
 #include "dust_transition.h"
+#include "encounter_script.h"
 #include<godot_cpp/classes/input_event_action.hpp>
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
@@ -40,6 +41,7 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("spare_enemy", "enemy_id"), &BattleMain::spare_enemy, DEFVAL(0));
     ClassDB::bind_method(D_METHOD("check_end_encounter"), &BattleMain::check_end_encounter);
     ClassDB::bind_method(D_METHOD("check_enemy_solo"), &BattleMain::check_enemy_solo);
+    ClassDB::bind_method(D_METHOD("add_enemy", "enemy_scene"), &BattleMain::add_enemy);
    
     ClassDB::bind_method(D_METHOD("_no_enemies_handler"), &BattleMain::_no_enemies_handler);
     ClassDB::bind_method(D_METHOD("_on_get_turn"), &BattleMain::_on_get_turn);
@@ -81,11 +83,11 @@ void BattleMain::_ready() {
     box = Object::cast_to<BattleBox>(get_node_internal("BattleBox"));
     enemies_node = Object::cast_to<Node2D>(get_node_internal("Enemies"));
     bg = Object::cast_to<TextureRect>(get_node_internal("Background/Texture"));
-    colorRect = Object::cast_to<ColorRect>(get_node_internal("ColorRect"));
     soul_battle = Object::cast_to<SoulBattle>(get_node_internal("Soul_Battle"));
     attacks = Object::cast_to<AttackManager>(get_node_internal("Attacks/BoxClipper"));
     attacks_parent = Object::cast_to<Node>(get_node_internal("Attacks"));
     hud = Object::cast_to<BattleHUD>(get_node_internal("HUD"));
+    script_node = Object::cast_to<EncounterScript>(get_node_internal("ScriptNode"));
     music_player = global->get_Music();
     lvlup_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("lvlup"));
 
@@ -113,6 +115,7 @@ void BattleMain::_process(double delta) {
 void BattleMain::initialize() {
     bg->set_texture(encounter->get_background());
     buttons->set_button(encounter->get_button_set());
+    script_node->set_script(encounter->get_encounter_script());
     Array enemy_scenes = encounter->get_enemies().duplicate();
     
     Ref<AudioStream> music = encounter->get_music();
@@ -672,6 +675,115 @@ void BattleMain::_on_end_turn() {
             }
         }
     }
+}
+
+void BattleMain::add_enemy(Ref<PackedScene> enemy_scene) {
+    if(enemy_size() >= 3) {
+        ERR_PRINT("적은 최대 3마리까지 추가할수 있습니다");
+        return;
+    }
+
+    if(!enemy_scene.is_valid()) {
+        ERR_PRINT("유효하지 않은 적 씬입니다");
+        return;
+    }
+
+    Node* enemy_instance = enemy_scene->instantiate();
+    if(!enemy_instance || !enemy_instance->is_class("Enemy")) {
+        ERR_PRINT("씬이 Enemy 클래스로 캐스팅되지 않습니다");
+        enemy_instance->queue_free();
+        return;
+    }
+
+    Enemy* enemy = Object::cast_to<Enemy>(enemy_instance);
+    if(!enemy) {
+        ERR_PRINT("Enemy로 캐스팅할 수 없습니다");
+        enemy_instance->queue_free();
+        return;
+    }
+
+    int current_count = enemy_size();
+    Vector2 position = Vector2(0, 0);
+    if(current_count == 1) {
+        Enemy* existing_enemy = nullptr;
+        for(int i = 0; i < enemies.size(); i++) {
+            existing_enemy = Object::cast_to<Enemy>(enemies[i]);
+            if(existing_enemy) {
+                existing_enemy->set_position(Vector2(-100, 0));
+                break;
+            }
+        }
+        position = Vector2(100, 0);
+    } else if(current_count == 2) {
+        position = Vector2(200, 0);
+        
+        int placed = 0;
+        for(int i = 0; i < enemies.size(); i++) {
+            Enemy* existing_enemy = Object::cast_to<Enemy>(enemies[i]);
+            if(existing_enemy) {
+                if(placed == 0) {
+                    existing_enemy->set_position(Vector2(-200, 0));
+                } else if(placed == 1) {
+                    existing_enemy->set_position(Vector2(0, 0));
+                }
+                placed++;
+            }
+        }
+    }
+
+    enemy->set_position(position);
+    enemies_node->add_child(enemy_instance);
+    
+    int enemy_id = -1;
+    for(int i = 0; i < enemies.size(); i++) {
+        if(enemies[i] == Variant()) {
+            enemies[i] = enemy;
+            enemy_names[i] = enemy_scene;
+            enemy_id = i;
+            break;
+        }
+    }
+    
+    if(enemy_id == -1) {
+        enemies.append(enemy);
+        enemy_names.append(enemy_scene);
+        enemy_id = enemies.size() - 1;
+        
+        Dictionary stats = enemy->get_stats();
+        enemies_max_hp.append(stats.get("max_hp", 1));
+        enemies_def.append(stats.get("def", 0));
+        
+        box->enemies_hp.append(stats.get("hp", stats.get("max_hp", 1)));
+    } else {
+        Dictionary stats = enemy->get_stats();
+        enemies_max_hp[enemy_id] = stats.get("max_hp", 1);
+        enemies_def[enemy_id] = stats.get("def", 0);
+        
+        box->enemies_hp[enemy_id] = stats.get("hp", stats.get("max_hp", 1));
+    }
+
+    enemy->set_id(enemy_id);
+    enemy->set_solo(enemy_size() == 1);
+    
+    if(enemy->get_kr()) {
+        kr = true;
+        hud->set_kr();
+    }
+
+    enemy->connect("changed_state", Callable(box, "_set_targets"));
+
+    Dictionary rewards_data = enemy->get_rewards();
+    rewards["gold"] = int(rewards["gold"]) + int(rewards_data.get("gold", 0));
+    rewards["exp"] = int(rewards["exp"]) + int(rewards_data.get("exp", 0));
+
+    for(int i = 0; i < enemies.size(); i++) {
+        Enemy* e = Object::cast_to<Enemy>(enemies[i]);
+        if(e) {
+            e->set_solo(enemy_size() == 1);
+        }
+    }
+
+    box->set_enemies(enemies);
 }
 
 void BattleMain::toggle_transparent() {

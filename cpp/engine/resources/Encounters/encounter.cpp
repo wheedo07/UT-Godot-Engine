@@ -30,6 +30,10 @@ void Encounter::_bind_methods() {
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + "/" + ":PackedScene")
     , "set_enemies", "get_enemies");
 
+    ClassDB::bind_method(D_METHOD("set_encounter_script", "script"), &Encounter::set_encounter_script);
+    ClassDB::bind_method(D_METHOD("get_encounter_script"), &Encounter::get_encounter_script);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "encounter_script", PROPERTY_HINT_RESOURCE_TYPE, "Script"), "set_encounter_script", "get_encounter_script");
+
     ClassDB::bind_method(D_METHOD("set_background", "background"), &Encounter::set_background);
     ClassDB::bind_method(D_METHOD("get_background"), &Encounter::get_background);
     ClassDB::bind_method(D_METHOD("set_offset", "offset"), &Encounter::set_offset);
@@ -165,4 +169,12 @@ void Encounter::set_kr_color(const Color& p_color) {
 
 Color Encounter::get_kr_color() const {
     return kr_color;
+}
+
+void Encounter::set_encounter_script(const Ref<Script>& p_script) {
+    script = p_script;
+}
+
+Ref<Script> Encounter::get_encounter_script() const {
+    return script;
 }

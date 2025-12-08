@@ -1,7 +1,8 @@
 #include "enemy.h"
 #include "env.h"
+#include "battle_system.h"
 #include "dust_transition.h"
-#include "engine/Battle/battle_system.h"
+#include "encounter_script.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/shader_material.hpp>
@@ -156,6 +157,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_dialogue"), &Enemy::get_dialogue);
     ClassDB::bind_method(D_METHOD("get_camera"), &Enemy::get_camera);
     ClassDB::bind_method(D_METHOD("get_bg"), &Enemy::get_bg);
+    ClassDB::bind_method(D_METHOD("get_encounter_script"), &Enemy::get_encounter_script);
     ClassDB::bind_method(D_METHOD("get_id"), &Enemy::get_id);
 
     ADD_PROPERTY(PropertyInfo(Variant::INT, "enemy_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_id");
@@ -166,6 +168,7 @@ void Enemy::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dialogue", PROPERTY_HINT_NONE, "DialogueControl", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_dialogue");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "bg", PROPERTY_HINT_NONE, "BattleBackground", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_bg");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "encounter_script", PROPERTY_HINT_NONE, "EncounterScript", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_encounter_script");
 }
 
 void Enemy::_ready() {
@@ -187,6 +190,7 @@ void Enemy::_ready() {
     box = main->box;
     soul = main->soul_battle;
     bg = main->bg;
+    encounter_script = main->script_node;
 
     if(isReady) return;
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
@@ -593,6 +597,10 @@ CameraController* Enemy::get_camera() {
 
 TextureRect* Enemy::get_bg() {
     return bg;
+}
+
+EncounterScript* Enemy::get_encounter_script() {
+    return encounter_script;
 }
 
 GPUParticles2D* Enemy::get_spare() const {

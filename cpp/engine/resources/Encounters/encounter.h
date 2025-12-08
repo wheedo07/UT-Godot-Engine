@@ -2,10 +2,11 @@
 #define ENCOUNTER_H
 
 #include<godot_cpp/classes/resource.hpp>
-#include "button_set.h"
 #include<godot_cpp/classes/texture2d.hpp>
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/classes/audio_stream.hpp>
+#include<godot_cpp/classes/script.hpp>
+#include "button_set.h"
 namespace godot {
     class Encounter : public Resource {
         GDCLASS(Encounter, Resource)
@@ -14,8 +15,9 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            Vector2 offset;
             StringName encounter_name;
+            Ref<Script> script;
+            Vector2 offset;
             Ref<Texture2D> background;
             TypedArray<PackedScene> enemies;
             Ref<AudioStream> music;
@@ -34,6 +36,9 @@ namespace godot {
 
             void set_encounter_name(const StringName& p_name);
             StringName get_encounter_name() const;
+
+            void set_encounter_script(const Ref<Script>& p_script);
+            Ref<Script> get_encounter_script() const;
             
             void set_background(const Ref<Texture2D>& p_background);
             Ref<Texture2D> get_background() const;

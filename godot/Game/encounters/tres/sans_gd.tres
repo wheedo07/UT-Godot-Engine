@@ -1,4 +1,4 @@
-[gd_resource type="Encounter" load_steps=5 format=3 uid="uid://bp7davgg4c2yg"]
+[gd_resource type="Encounter" load_steps=6 format=3 uid="uid://bp7davgg4c2yg"]
 
 [ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://Game/assets/sprite/sheet/sans_sheet.png" id="1_q2s51"]
 [ext_resource type="PackedScene" uid="uid://bjg0655hy3vx0" path="res://Game/encounters/enemy/sans_gd.tscn" id="2_q2s51"]
@@ -11,9 +11,17 @@ region = Rect2(2218, 61, 614, 94)
 soul_offset = Vector2(42, 0)
 active_scale = true
 
+[sub_resource type="GDScript" id="GDScript_q2s51"]
+script/source = "extends EncounterScript;
+
+func ready() -> void:
+	pass;
+"
+
 [resource]
 encounter_name = &"SANS_GD"
 enemies = Array[PackedScene]([ExtResource("2_q2s51")])
+encounter_script = SubResource("GDScript_q2s51")
 background = SubResource("AtlasTexture_7lixq")
 offset = Vector2(0, -40)
 flee_chance = 0.5

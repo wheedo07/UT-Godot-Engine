@@ -21,6 +21,7 @@
 namespace godot {
     class BattleMain;
     class DustTransition;
+    class EncounterScript;
 
     class Enemy : public CharacterBody2D {
         GDCLASS(Enemy, CharacterBody2D);
@@ -36,6 +37,7 @@ namespace godot {
             DialogueControl* dialogue;
             CameraController* camera;
             TextureRect* bg;
+            EncounterScript* encounter_script;
         
         private:
             AudioStreamPlayer* hurt_sound;
@@ -100,6 +102,7 @@ namespace godot {
             DialogueControl* get_dialogue();
             CameraController* get_camera();
             TextureRect* get_bg();
+            EncounterScript* get_encounter_script();
         
         public:
             Enemy();

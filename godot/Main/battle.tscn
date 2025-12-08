@@ -43,11 +43,7 @@ z_index = 1
 stream = ExtResource("10_ldyum")
 bus = &"SFX"
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-offset_right = 641.0
-offset_bottom = 483.0
-color = Color(0, 0, 0, 1)
+[node name="ScriptNode" type="EncounterScript" parent="."]
 
 [connection signal="end_turn" from="." to="." method="_on_enemy_turn_start"]
 [connection signal="end_turn" from="." to="." method="_on_get_turn"]

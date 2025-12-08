@@ -17,6 +17,8 @@
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
 namespace godot {
+    class EncounterScript;
+
     class BattleMain : public Node2D {
         GDCLASS(BattleMain, Node2D);
         
@@ -29,11 +31,11 @@ namespace godot {
             BattleBox* box;
             Node2D* enemies_node;
             TextureRect* bg;
-            ColorRect* colorRect;
             SoulBattle* soul_battle;
             AttackManager* attacks;
             Node* attacks_parent;
             BattleHUD* hud;
+            EncounterScript* script_node;
             int turn_number;
             bool transparent, player_turn;
         
@@ -100,6 +102,7 @@ namespace godot {
             void end_encounter();
             int enemy_size();
             bool is_kr();
+            void add_enemy(Ref<PackedScene> enemy_scene);
             void kill_enemy(int enemy_id = 0);
             void spare_enemy(int enemy_id = 0);
             bool check_end_encounter();

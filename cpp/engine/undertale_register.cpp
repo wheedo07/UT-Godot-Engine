@@ -111,6 +111,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_RUNTIME_CLASS(Enemy);
     GDREGISTER_RUNTIME_CLASS(BattleMain);
     GDREGISTER_RUNTIME_CLASS(DustTransition);
+    GDREGISTER_RUNTIME_CLASS(EncounterScript);
 
     // AttackMeter
     GDREGISTER_RUNTIME_CLASS(AttackBar);
