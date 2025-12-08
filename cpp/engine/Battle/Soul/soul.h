@@ -125,8 +125,6 @@ namespace godot {
             void heal(BulletArea* area);
             void _fade_tw_calle(Node* node_ref, Node* parent_ref);
             void _on_death();
-
-            void set_property(Variant value);
         
         public:
             SoulBattle();
@@ -157,6 +155,7 @@ namespace godot {
 
             void set_speed(float p_speed);
             float get_speed() const;
+            void set_motion(Vector2 p_motion);
             Vector2 get_motion() const;
     };
 }
