@@ -64,6 +64,7 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_transparent"), &BattleMain::_on_transparent);
     ClassDB::bind_method(D_METHOD("_on_end"), &BattleMain::_on_end, DEFVAL(false), DEFVAL(-1));
     ClassDB::bind_method(D_METHOD("_on_kill_enemy", "enemy"), &BattleMain::_on_kill_enemy);
+    ClassDB::bind_method(D_METHOD("_encounter_script_add", "on"), &BattleMain::_encounter_script_add);
     
     ClassDB::bind_method(D_METHOD("set_encounter", "encounter"), &BattleMain::set_encounter);
     ClassDB::bind_method(D_METHOD("get_encounter"), &BattleMain::get_encounter);
@@ -89,8 +90,8 @@ void BattleMain::_ready() {
     attacks_parent = Object::cast_to<Node>(get_node_internal("Attacks"));
     hud = Object::cast_to<BattleHUD>(get_node_internal("HUD"));
     script_node = Object::cast_to<EncounterScript>(get_node_internal("ScriptNode"));
-    music_player = global->get_Music();
     lvlup_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("lvlup"));
+    music_player = global->get_Music();
 
     ResourceLoader* loader = ResourceLoader::get_singleton();
     attack_scene = loader->load("res://Battle/AttackMeter/meter.tscn");
@@ -116,9 +117,14 @@ void BattleMain::_process(double delta) {
 void BattleMain::initialize() {
     bg->set_texture(encounter->get_background());
     buttons->set_button(encounter->get_button_set());
-    script_node->set_script(encounter->get_encounter_script());
+
+    Ref<Script> encounter_script = encounter->get_encounter_script();
+    if(encounter_script.is_valid()) {
+        script_node->set_script(encounter_script);
+        get_tree()->connect("process_frame", Callable(this, "_encounter_script_add").bind(false), CONNECT_ONE_SHOT);
+    }
+
     Array enemy_scenes = encounter->get_enemies().duplicate();
-    
     Ref<AudioStream> music = encounter->get_music();
     if(music_player && music.is_valid()) {
         music_player->set_stream(music);
@@ -838,6 +844,16 @@ void BattleMain::_on_transparent() {
 
 void BattleMain::reset_pos_camera() {
     camera->set_position(Vector2(320, 240));
+}
+
+void BattleMain::_encounter_script_add(bool on) {
+    if(!on) {
+        remove_child(script_node);
+        get_tree()->connect("process_frame", Callable(this, "_encounter_script_add").bind(true), CONNECT_ONE_SHOT);
+        return;
+    }
+    script_node->request_ready();
+    add_child(script_node);
 }
 
 void BattleMain::set_property(Variant value) {

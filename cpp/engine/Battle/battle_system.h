@@ -74,6 +74,7 @@ namespace godot {
             void _on_get_turn();
             void _on_end_turn();
             void _on_transparent();
+            void _encounter_script_add(bool on);
 
             void set_property(Variant value);
             void set_turn_number(int value);
