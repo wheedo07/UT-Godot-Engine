@@ -34,6 +34,12 @@
             디버깅이나 로그, 에디터에서 인카운터를 구분하는 데 사용됩니다.
             실제 게임에서는 표시되지 않으며, 개발자용 식별자 역할을 합니다.
         </member>
+        <member name="encounter_script" type="Script" setter="set_encounter_script" getter="get_encounter_script">
+            전투 인카운터에 연결된 스크립트입니다.
+            
+            Encounter 리소스에 추가적인 동작이나 이벤트를 정의하기 위해 사용할 수 있는 스크립트입니다.
+            스크립트에는 [EncounterScript] 클래스를 상속받아 작성된 script를 지정해야 합니다.
+        </member>
         <member name="enemies" type="Array" setter="set_enemies" getter="get_enemies" default="[]">
             전투에 참여할 적들의 PackedScene 배열입니다.
             
