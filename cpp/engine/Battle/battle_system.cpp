@@ -121,6 +121,7 @@ void BattleMain::initialize() {
     Ref<Script> encounter_script = encounter->get_encounter_script();
     if(encounter_script.is_valid()) {
         script_node->set_script(encounter_script);
+        remove_child(script_node);
         get_tree()->connect("process_frame", Callable(this, "_encounter_script_add").bind(false), CONNECT_ONE_SHOT);
     }
 
@@ -848,7 +849,6 @@ void BattleMain::reset_pos_camera() {
 
 void BattleMain::_encounter_script_add(bool on) {
     if(!on) {
-        remove_child(script_node);
         get_tree()->connect("process_frame", Callable(this, "_encounter_script_add").bind(true), CONNECT_ONE_SHOT);
         return;
     }
