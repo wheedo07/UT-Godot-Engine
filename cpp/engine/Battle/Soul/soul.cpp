@@ -87,9 +87,9 @@ void SoulBattle::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_speed"), &SoulBattle::get_speed);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
 
-    ClassDB::bind_method(D_METHOD("set_motion", "value"), &SoulBattle::set_motion);
+    ClassDB::bind_method(D_METHOD("set_property", "value"), &SoulBattle::set_property);
     ClassDB::bind_method(D_METHOD("get_motion"), &SoulBattle::get_motion);
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "motion", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_motion", "get_motion");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "motion", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_motion");
 }
 
 void SoulBattle::_ready() {
@@ -689,12 +689,12 @@ void SoulBattle::set_speed(float p_speed) {
     speed = p_speed;
 }
 
-float SoulBattle::get_speed() const {
-    return speed;
+void SoulBattle::set_property(Variant value) {
+    ERR_PRINT("이 속성은 읽기 전용입니다.");
 }
 
-void SoulBattle::set_motion(Vector2 p_motion) {
-    motion = p_motion;
+float SoulBattle::get_speed() const {
+    return speed;
 }
 
 Vector2 SoulBattle::get_motion() const {
