@@ -56,6 +56,7 @@ namespace godot {
 
             SoulType soul_type;
             SoulMode mode;
+            SoulMode previous_mode;
             Vector2 inputs;
             int slow_down;
 

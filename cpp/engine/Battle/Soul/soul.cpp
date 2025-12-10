@@ -314,16 +314,17 @@ void SoulBattle::heal(BulletArea* area) {
 }
 
 void SoulBattle::set_mode(SoulMode new_mode) {
-    set_mode_silent(new_mode);
-    if(new_mode != DISABLE_MOVEMENT) {
+    if(new_mode != DISABLE_MOVEMENT && previous_mode != new_mode) {
         mode_change_sound->play();
         ghost->restart();
         ghost->set_emitting(true);
     }
+    set_mode_silent(new_mode);
 }
 
 void SoulBattle::set_mode_silent(SoulMode new_mode) {
     mode = new_mode;
+    previous_mode = new_mode;
     if(!is_node_ready()) return;
     
     if(new_mode == DISABLE_MOVEMENT) {
