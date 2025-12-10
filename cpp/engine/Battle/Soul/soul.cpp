@@ -315,36 +315,33 @@ void SoulBattle::heal(BulletArea* area) {
 
 void SoulBattle::set_mode(SoulMode new_mode) {
     set_mode_silent(new_mode);
-    
-    mode_change_sound->play();
-    
-    ghost->restart();
-    ghost->set_emitting(true);
+    if(new_mode != DISABLE_MOVEMENT) {
+        mode_change_sound->play();
+        ghost->restart();
+        ghost->set_emitting(true);
+    }
 }
 
-void SoulBattle::set_mode_silent(int new_mode) {
-    mode = SoulMode(new_mode);
+void SoulBattle::set_mode_silent(SoulMode new_mode) {
+    mode = new_mode;
     if(!is_node_ready()) return;
     
-    if (new_mode == DISABLE_MOVEMENT) {
+    if(new_mode == DISABLE_MOVEMENT) {
         inputs = Vector2(0, 0);
     }
     
     Array keys = mode_nodes.keys();
-    for (int i = 0; i < keys.size(); i++) {
-        Variant key = keys[i];
+    for(int i=0; i < keys.size(); i++) {
+        int key = keys[i];
         CanvasItem* mode_node = Object::cast_to<CanvasItem>(mode_nodes[key]);
         
         if(!mode_node) continue;
         
-        if(int(key) != new_mode) {
+        if(key != new_mode) {
             if (mode_node->is_inside_tree()) {
                 fade_tw = get_tree()->create_tween();
-                fade_tw->tween_property(mode_node, "modulate:a", 0.0, FADE_TIME);
-                
-                Node* node_ref = mode_node;
-                Node* parent_ref = this;
-                fade_tw->tween_callback(Callable(this, "_fade_tw_calle").bind(node_ref, parent_ref));
+                fade_tw->tween_property(mode_node, "modulate:a", 0, FADE_TIME);
+                fade_tw->tween_callback(Callable(this, "_fade_tw_calle").bind(mode_node, this));
             }
         }else if(!mode_node->is_inside_tree()) {
             fade_tw = get_tree()->create_tween();
@@ -364,7 +361,7 @@ void SoulBattle::set_mode_silent(int new_mode) {
 }
 
 void SoulBattle::_fade_tw_calle(Node* node_ref, Node* parent_ref) {
-    if (node_ref->get_parent() == parent_ref) {
+    if(node_ref->get_parent() == parent_ref) {
         parent_ref->remove_child(node_ref);
     }
 }
@@ -647,7 +644,7 @@ void SoulBattle::_on_move_soul(const Vector2& newpos) {
 }
 
 void SoulBattle::menu_enable() {
-    mode = DISABLE_MOVEMENT;
+    set_mode(DISABLE_MOVEMENT);
     set_process_unhandled_input(false);
     set_z_index(0);
     collision->set_disabled(true);

@@ -106,7 +106,7 @@ namespace godot {
             const float FADE_TIME = 0.2f;
             const float TIME = 0.2f;
 
-            void set_mode_silent(int new_mode);
+            void set_mode_silent(SoulMode new_mode);
             void set_gravity_direction_silent(const Vector2& new_direction);
             void red();
             void blue();
