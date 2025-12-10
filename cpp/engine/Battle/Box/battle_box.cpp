@@ -355,35 +355,49 @@ void BattleBox::set_enemies(const Array p_enemies) {
 }
 
 void BattleBox::_set_targets(bool show_hp_bar) {
-    String targets = "";
-    RichTextLabel* target_label = Object::cast_to<RichTextLabel>(get_node_internal("Target/Targets"));
+    RichTextLabel* target_label = get_node<RichTextLabel>("Target/Targets");
     
-    for (int i = 0; i < enemies.size(); i++) {
+    float max_name_width = 0;
+    String targets = "";
+    for(int i=0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-        if (enemy) {
+        if(enemy) {
             Ref<EnemyState> state = enemy->get_enemy_states()[enemy->get_current_state()];
             bool sparable = state->get_sparable(); 
-            targets += vformat("[color=%s]* %s[/color]\n", sparable ? "yellow" : "white", tr(enemy->get_enemy_name()));
-        } else {
+            String enemy_name = "* " + tr(enemy->get_enemy_name());
+            targets += vformat("[color=%s]%s[/color]\n", sparable ? "yellow" : "white", enemy_name);
+            
+            Ref<Font> font = target_label->get_theme_font("normal_font");
+            int font_size = target_label->get_theme_font_size("normal_font_size");
+            if(font.is_valid()) {
+                float text_width = font->get_string_size(enemy_name, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x;
+                max_name_width = MAX(max_name_width, text_width);
+            }
+        }else {
             targets += "[color=white][/color]\n";
         }
     }
-    
     target_label->set_text(targets);
     
-    for (int i = 0; i < 3; i++) {
+    if(max_name_width > 0) {
+        int new_margin = MAX(220, int(74 + max_name_width + 20));
+        new_margin = MIN(new_margin, 380);
+        hp_bar_container->add_theme_constant_override("margin_left", new_margin);
+    }
+    
+    for(int i=0; i < 3; i++) {
         ProgressBar* bar = Object::cast_to<ProgressBar>(hp_bars[i]);
-        if (i < enemies.size() && enemies[i] && hp_bars[i]) {
+        if(i < enemies.size() && enemies[i] && hp_bars[i]) {
             Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-            if (enemy) {
+            if(enemy) {
                 Dictionary stats = enemy->get_stats();
                 bar->set_visible(show_hp_bar);
                 bar->set_max(stats["max_hp"]);
                 bar->set_value(enemies_hp[i]);
-            } else {
+            }else {
                 bar->set_visible(false);
             }
-        } else if(hp_bars[i]) {
+        }else if(hp_bars[i]) {
             bar->set_visible(false);
         }
     }
@@ -395,7 +409,7 @@ void BattleBox::set_mercy_options() {
     String spare_color = "white";
     for (int i = 0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-        if (enemy) {
+        if(enemy) {
             Ref<EnemyState> state = enemy->get_enemy_states()[enemy->get_current_state()];
             bool sparable = state->get_sparable();
             if (sparable) {
