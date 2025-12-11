@@ -180,6 +180,7 @@ void BattleBox::_ready() {
     column1 = Object::cast_to<RichTextLabel>(get_node_internal("Acts/Options/Column1"));
     column2 = Object::cast_to<RichTextLabel>(get_node_internal("Acts/Options/Column2"));
     items_label = Object::cast_to<RichTextLabel>(get_node_internal("Items/TextContainer/Items"));
+    target_label = get_node<RichTextLabel>("Target/Targets");
     
     ResourceLoader* loader = ResourceLoader::get_singleton();
     web_scene = loader->load("res://Battle/Soul/box_web.tscn");
@@ -217,14 +218,26 @@ void BattleBox::_ready() {
     current_state_nodes[BattleState::State_Iteming] = get_node_internal("Behaviours/Iteming");
     current_state_nodes[BattleState::State_Mercying] = get_node_internal("Behaviours/Mercying");
     current_state_nodes[BattleState::State_Fighting] = get_node_internal("Behaviours/Fighting");
-    
     current_state_node = Object::cast_to<BattleBoxBehaviour>(current_state_nodes[BattleState::State_Blittering]);
-   
+    _init_box();
+}
+
+void BattleBox::_init_box() {
     _physics_process(0.0);
     blitter_text->set_text("");
     anchor_targets[0] = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
     anchor_targets[1] = Vector2(640, 480) - Vector2(rect_container->get_theme_constant("margin_right"), rect_container->get_theme_constant("margin_bottom"));
     def_anchors = anchor_targets.duplicate();
+
+    Array effects = stagehand->get_global_effects();
+    if(!effects.is_empty()) {
+        column1->set_effects(effects);
+        column2->set_effects(effects);
+        items_label->set_effects(effects);
+        mercy_choices->set_effects(effects);
+        target_label->set_effects(effects);
+        blitter_text->set_effects(effects);
+    }
 }
 
 void BattleBox::_physics_process(double delta) {
@@ -355,7 +368,6 @@ void BattleBox::set_enemies(const Array p_enemies) {
 }
 
 void BattleBox::_set_targets(bool show_hp_bar) {
-    RichTextLabel* target_label = get_node<RichTextLabel>("Target/Targets");
     
     float max_name_width = 0;
     String targets = "";
@@ -432,7 +444,7 @@ void BattleBox::set_mercy_options() {
 }
 
 int BattleBox::soul_pos_to_id(const Vector2& soul_pos, bool is, int x_limit) {
-    if (is) { // 아이템 메뉴인 경우
+    if(is) { // 아이템 메뉴인 경우
         return current_page + soul_pos.y;
     }
     return soul_pos.y * x_limit + soul_pos.x;

@@ -48,6 +48,7 @@ void DialogueControl::DialogueText(const Ref<Dialogues>& dialogues) {
         return;
     }
     global->_set_battle_text_box(true);
+    bubble_text->set_effects(stagehand->get_global_effects());
 
     Callable call = Callable(this, "_on_ends_typing");
     if(bubble_text->is_connected("ends_typing", call)) bubble_text->disconnect("ends_typing", call);

@@ -195,6 +195,14 @@ void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& opti
     if(text_after_option.size() >= 4) {
         WARN_PRINT("text_after_options 갯수가 4개를 초과했습니다. 4개까지만 표시됩니다.");
     }
+    Array effects = stagehand->get_global_effects();
+    if(!effects.is_empty()) {
+        Text->set_effects(effects);
+        for(int i=0; i < 4; i++) {
+            TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
+            option->set_effects(effects);
+        }
+    }
     
     Text->call_deferred("type_text_advanced", text);
     Text->connect("finished_all_texts_textbox", Callable(this, "_on_all_texts_finished").bind(options), CONNECT_ONE_SHOT);

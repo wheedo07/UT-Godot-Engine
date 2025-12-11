@@ -37,7 +37,7 @@ void Blitter::_process(double delta) {
     bool is_visible = container->is_visible();
     
     AudioStreamPlayer* audio = get_click(); 
-    if (audio) {
+    if(audio) {
         audio->set_volume_db(is_visible ? default_volume : -80.0f);
     }
 }
@@ -58,7 +58,7 @@ void Blitter::type_text(const Variant text) {
     if(text.get_type() != Variant::ARRAY && text.get_type() != Variant::PACKED_STRING_ARRAY) {
         current_texts.clear();
         current_texts.append(text);
-    } else {
+    }else {
         current_texts = TypedArray<String>(text);
     }
     

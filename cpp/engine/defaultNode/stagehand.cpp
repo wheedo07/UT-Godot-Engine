@@ -16,6 +16,12 @@ void Stagehand::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Stagehand::set_property);
     ClassDB::bind_method(D_METHOD("get_audio_player"), &Stagehand::get_audio_player);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "audio_player", PROPERTY_HINT_NONE, "AudioPlayer", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_audio_player");
+
+    ClassDB::bind_method(D_METHOD("set_global_effects", "effects"), &Stagehand::set_global_effects);
+    ClassDB::bind_method(D_METHOD("get_global_effects"), &Stagehand::get_global_effects);
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "global_effects", PROPERTY_HINT_TYPE_STRING, 
+        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":RichTextEffect"
+    ), "set_global_effects", "get_global_effects");
 }
 
 void Stagehand::_ready() {
@@ -53,4 +59,12 @@ AudioPlayer* Stagehand::get_audio_player() const {
 TextBox* Stagehand::summontextbox() {
     if(!textbox) textbox = Object::cast_to<TextBox>(global->get_scene_container()->get_node_internal("SubViewportContainer/MainViewport/TextBox"));
     return textbox->_create();
+}
+
+void Stagehand::set_global_effects(Array effects) {
+    global_effects = effects;
+}
+
+Array Stagehand::get_global_effects() const {
+    return global_effects;
 }

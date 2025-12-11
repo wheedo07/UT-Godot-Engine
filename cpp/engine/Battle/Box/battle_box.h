@@ -99,6 +99,9 @@ namespace godot {
             ItemSlider* slider;
             RichTextLabel* items_label; 
             RichTextLabel* mercy_choices;
+            RichTextLabel* column1;
+            RichTextLabel* column2;
+            RichTextLabel* target_label;
             AudioStreamPlayer* choice_sound;
             MarginContainer* blitter;
             MarginContainer* hp_bar_container;
@@ -115,8 +118,6 @@ namespace godot {
             RemoteTransform2D* br;
             Dictionary current_state_nodes;
             BattleBoxBehaviour* current_state_node;
-            RichTextLabel* column1;
-            RichTextLabel* column2;
 
             // Polygon mode 관련 변수 && 함수
             int polygon_point_count;
@@ -146,6 +147,8 @@ namespace godot {
             void _real_rotate_by(Ref<ArgsHolder> args);
             void _on_soul_move_cooldown();
             void _reset_finished();
+
+            void _init_box();
 
             void set_wintext(String value);
             String get_wintext() const;
