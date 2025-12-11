@@ -8,6 +8,7 @@ Item::Item() {
     weapon_bars = 1;
     weapon_type = KNIFE;
     critical_hits = false;
+    weapon_delay = 0;
     use_message.push_back(String::utf8("* 당신은 아이템을 사용했다!"));
     item_information.push_back(String::utf8("* Item - 0 hp 회복 \n* 버터다 그냥 파이도 아닌 버터다"));
     throw_message.push_back(String::utf8("* 딩신은 아이템을 바닥의 버렸다"));
@@ -54,17 +55,13 @@ void Item::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_attack_amount"), &Item::get_attack_amount);
     ClassDB::bind_method(D_METHOD("set_defense_amount", "amount"), &Item::set_defense_amount);
     ClassDB::bind_method(D_METHOD("get_defense_amount"), &Item::get_defense_amount);
+    ClassDB::bind_method(D_METHOD("set_weapon_delay", "delay"), &Item::set_weapon_delay);
+    ClassDB::bind_method(D_METHOD("get_weapon_delay"), &Item::get_weapon_delay);
 
     ADD_PROPERTY(PropertyInfo(Variant::INT, "item_type", PROPERTY_HINT_ENUM, "CONSUMABLE,WEAPON,ARMOR"), "set_item_type", "get_item_type");
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "item_name"), "set_item_name", "get_item_name");
     
-    ADD_GROUP("Weapon Stats", "weapon_");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weapon_speed"), "set_weapon_speed", "get_weapon_speed");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "weapon_bars"), "set_weapon_bars", "get_weapon_bars");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "weapon_type", PROPERTY_HINT_ENUM, "KNIFE,PUNCH,SHOE,BOOK,PAN,GUN"), "set_weapon_type", "get_weapon_type");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "critical_hits"), "set_critical_hits", "get_critical_hits");
-    
-    ADD_GROUP("Item Use Stats", "item_use_");
+    ADD_GROUP("Item Use Messages", "");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "use_message", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_use_message", "get_use_message");
@@ -75,10 +72,17 @@ void Item::_bind_methods() {
         String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_throw_message", "get_throw_message");
     
-    ADD_GROUP("", "");
+    ADD_GROUP("Heal/Stat Amounts", "");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "heal_amount"), "set_heal_amount", "get_heal_amount");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "attack_amount"), "set_attack_amount", "get_attack_amount");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "defense_amount"), "set_defense_amount", "get_defense_amount");
+
+    ADD_GROUP("Weapon Stats", "weapon_");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weapon_speed"), "set_weapon_speed", "get_weapon_speed");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "weapon_delay"), "set_weapon_delay", "get_weapon_delay");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "weapon_bars"), "set_weapon_bars", "get_weapon_bars");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "weapon_type", PROPERTY_HINT_ENUM, "KNIFE,PUNCH,SHOE,BOOK,PAN,GUN"), "set_weapon_type", "get_weapon_type");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "weapon_critical_hits"), "set_critical_hits", "get_critical_hits");
 
     ClassDB::bind_method(D_METHOD("get_item_name_tr"), &Item::get_item_name_tr);
 }
@@ -133,6 +137,14 @@ void Item::set_critical_hits(bool p_critical) {
 
 bool Item::get_critical_hits() const {
     return critical_hits;
+}
+
+void Item::set_weapon_delay(int p_delay) {
+    weapon_delay = p_delay;
+}
+
+int Item::get_weapon_delay() const {
+    return weapon_delay;
 }
 
 void Item::set_use_message(const PackedStringArray& p_message) {

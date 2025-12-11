@@ -33,7 +33,7 @@
         <member name="attack_amount" type="int" setter="set_attack_amount" getter="get_attack_amount" default="0">
             무기나 방어구의 공격력 증가량입니다.
         </member>
-        <member name="critical_hits" type="bool" setter="set_critical_hits" getter="get_critical_hits" default="false">
+        <member name="weapon_critical_hits" type="bool" setter="set_critical_hits" getter="get_critical_hits" default="false">
             무기가 크리티컬 히트를 발생시킬 수 있는지 여부입니다. true일 경우 완벽한 타이밍에 추가 데미지를 줄 수 있습니다.
         </member>
         <member name="defense_amount" type="int" setter="set_defense_amount" getter="get_defense_amount" default="0">
@@ -65,6 +65,9 @@
         </member>
         <member name="weapon_type" type="int" setter="set_weapon_type" getter="get_weapon_type" enum="Item.WeaponType" default="0">
             무기의 타입입니다. 각 타입마다 고유한 애니메이션을 가집니다.
+        </member>
+        <member name="weapon_delay" type="int" setter="set_weapon_delay" getter="get_weapon_delay" default="0">
+            무기 공격 bar 사이의 지연 시간(밀리초)입니다.
         </member>
     </members>
 

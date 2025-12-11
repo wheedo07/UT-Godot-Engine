@@ -45,6 +45,9 @@ namespace godot {
             
             void set_critical_hits(bool p_critical);
             bool get_critical_hits() const;
+
+            void set_weapon_delay(int p_delay);
+            int get_weapon_delay() const;
             
             void set_use_message(const PackedStringArray& p_message);
             PackedStringArray get_use_message() const;
@@ -71,6 +74,7 @@ namespace godot {
             int weapon_bars;
             WeaponType weapon_type;
             bool critical_hits;
+            int weapon_delay;
             PackedStringArray use_message;
             PackedStringArray item_information;
             PackedStringArray throw_message;
