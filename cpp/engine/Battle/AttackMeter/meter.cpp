@@ -97,11 +97,10 @@ void AttackMeter::_ready() {
    
     int delay_offset = weapon->get_weapon_delay();
     for(int i=0; i < total_bars; i++) {
-        float base_delay = (0.25f * i) / speed_mult;
+        float base_delay = (0.25f * i * (1.0f + delay_offset * 0.3f)) / speed_mult;
         float random_delay = UtilityFunctions::randi_range(0, 2) * 0.05f;
-        float weapon_delay = delay_offset * 0.1f;
 
-        float delay = base_delay + random_delay + weapon_delay;
+        float delay = base_delay + random_delay;
         summonbar(summonpos, randir, delay);
     }
     

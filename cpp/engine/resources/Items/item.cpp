@@ -72,7 +72,7 @@ void Item::_bind_methods() {
         String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_throw_message", "get_throw_message");
     
-    ADD_GROUP("Heal/Stat Amounts", "");
+    ADD_GROUP("Stat Amounts", "");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "heal_amount"), "set_heal_amount", "get_heal_amount");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "attack_amount"), "set_attack_amount", "get_attack_amount");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "defense_amount"), "set_defense_amount", "get_defense_amount");
