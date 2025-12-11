@@ -44,6 +44,7 @@ void Enemy::_bind_methods() {
     ADD_SIGNAL(MethodInfo("finished_dialogue"));
     ADD_SIGNAL(MethodInfo("changed_state"));
     ADD_SIGNAL(MethodInfo("dodged", PropertyInfo(Variant::BOOL, "to_right")));
+    ADD_SIGNAL(MethodInfo("hit", PropertyInfo(Variant::INT, "damage")));
     ADD_SIGNAL(MethodInfo("on_fight_end"));
     ADD_SIGNAL(MethodInfo("on_act_end"));
     ADD_SIGNAL(MethodInfo("on_item_end"));

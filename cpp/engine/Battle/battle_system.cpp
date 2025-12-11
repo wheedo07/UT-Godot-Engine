@@ -353,7 +353,8 @@ void BattleMain::_hit(int damage, int target, bool crit) {
             int dodge_sign = (UtilityFunctions::randi_range(0, 1) * 2) - 1;
             slashes->connect("started", Callable(enemy, "emit_signal").bind("dodged", dodge_sign == 1), CONNECT_ONE_SHOT);
             slashes->connect("started", Callable(enemy, "_dodge").bind(dodge_sign), CONNECT_ONE_SHOT);
-        }
+        }else slashes->connect("started", Callable(enemy, "emit_signal").bind("hit", damage), CONNECT_ONE_SHOT);
+        
         slashes->connect("finished", Callable(this, "_on_slash_finished").bind(damage, target, crit), CONNECT_ONE_SHOT);
 
         slashes->set_crit(crit);

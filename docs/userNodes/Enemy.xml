@@ -333,6 +333,10 @@
         <member name="bg" type="TextureRect" setter="set_property" getter="get_bg">
             배경 노드 참조입니다. (읽기 전용)
         </member>
+
+        <member name="encounter_script" type="EncounterScript" setter="set_property" getter="get_encounter_script">
+            적의 전투 스크립트 참조입니다. (읽기 전용)
+        </member>
     </members>
     
     <signals>
@@ -356,6 +360,15 @@
                 적이 회피했을 때 발생하는 시그널입니다.
                 [param to_right]가 true면 오른쪽으로 회피, false면 왼쪽으로 회피했음을 나타냅니다.
                 회피 애니메이션과 동기화하여 추가 효과를 구현할 때 사용할 수 있습니다.
+            </description>
+        </signal>
+
+        <signal name="hit">
+            <param index="0" name="damage" type="int" />
+            <description>
+                적이 피격되었을 때 발생하는 시그널입니다.
+                [param damage]는 자신이 입은 데미지 양입니다.
+                피격 애니메이션과 동기화하여 추가 효과를 구현할 때 사용할 수 있습니다.
             </description>
         </signal>
        
