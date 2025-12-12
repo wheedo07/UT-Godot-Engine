@@ -360,6 +360,10 @@ void BattleMain::_hit(int damage, int target, bool crit) {
         slashes->set_crit(crit);
         box->add_child(slashes, true);
         Node* enemy_sprites = enemy->get_sprites();
+        if(!enemy_sprites) {
+            ERR_PRINT("Enemy의 sprites 노드가 없습니다");
+            return;
+        }
         Vector2 offset = enemy_sprites->call("get_global_position");
         if(enemy_sprites->has_method("get_pivot_offset")) {
             offset += enemy_sprites->call("get_pivot_offset");
