@@ -19,19 +19,19 @@ namespace godot {
             double text_duration;
         
             void _on_ends_typing();
+            void _on_text_expression_set(Array expr);
+            void _on_tween_finished();
+            void _on_all_texts_finished();
 
         public:
             void _ready() override;
             DialogueControl();
             ~DialogueControl();
 
-            void DialogueText(const Ref<Dialogues>& dialogues);
-            void _on_text_click_played(bool is=true, double duration=0);
+            void type_text_bubble(const Ref<Dialogues>& dialogues);
             void set_key(bool is);
 
-            void _on_text_expression_set(Array expr);
-            void _on_tween_finished();
-            void _on_all_texts_finished();
+            void _on_text_click_played(bool is=true, double duration=0);
 
             void set_character_name(String p_character);
             String get_character_name() const;

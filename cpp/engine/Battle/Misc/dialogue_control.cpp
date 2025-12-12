@@ -8,8 +8,7 @@ DialogueControl::DialogueControl() {
     character_name = "DEFAULT";
 }
 
-DialogueControl::~DialogueControl() {
-}
+DialogueControl::~DialogueControl() {}
 
 void DialogueControl::_bind_methods() {
     ADD_SIGNAL(MethodInfo("set_expression", PropertyInfo(Variant::NIL, "expressions")));
@@ -24,6 +23,8 @@ void DialogueControl::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_character_name", "character"), &DialogueControl::set_character_name);
     ClassDB::bind_method(D_METHOD("get_character_name"), &DialogueControl::get_character_name);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "character_name"), "set_character_name", "get_character_name");
+    
+    ClassDB::bind_method(D_METHOD("type_text_bubble", "dialogues"), &DialogueControl::type_text_bubble);
 }
 
 void DialogueControl::_ready() {
@@ -42,7 +43,7 @@ void DialogueControl::_ready() {
     bubble_text->connect("finished_speech", Callable(this, "_on_all_texts_finished"));
 }
 
-void DialogueControl::DialogueText(const Ref<Dialogues>& dialogues) {
+void DialogueControl::type_text_bubble(const Ref<Dialogues>& dialogues) {
     if(!bubble_text) {
         ERR_PRINT("bubble_text가 초기화되지 않았습니다");
         return;

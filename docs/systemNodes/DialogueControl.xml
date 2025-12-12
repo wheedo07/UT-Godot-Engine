@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DialogueControl" inherits="TextureRect" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](사용자 생성 불가능)[/color]
+        전투에서 적의 말풍선을 제어하는 노드입니다.
+    </brief_description>
+    <description>
+        DialogueControl은 전투 중 적의 대화를 표시하는 말풍선 시스템을 관리합니다. 
+        캐릭터별로 고유한 말풍선 스타일을 적용하고, 대화 텍스트의 타이핑 효과와 표정 변화를 처리합니다.
+        
+        이 노드는 EnemySpeech 컴포넌트와 연동하여 동작하며, 전투 시스템에서 자동으로 생성되고 관리됩니다.
+    </description>
+    <tutorials></tutorials>
+    <methods>
+        <method name="type_text_bubble">
+            <return type="void" />
+            <param index="0" name="dialogues" type="Dialogues" />
+            <description>
+                주어진 [Dialogues] 리소스의 내용을 말풍선으로 출력합니다.
+                
+                이 메서드를 호출하면:
+                - 말풍선이 페이드 인 효과와 함께 나타납니다
+                - 텍스트가 타이핑 효과로 출력됩니다
+                - 모든 텍스트 출력이 완료되면 [signal finished_all_texts_dialogue] 시그널이 발생합니다
+                - 텍스트에 표정 변화 명령이 포함된 경우 [signal set_expression] 시그널이 발생합니다
+            </description>
+        </method>
+    </methods>
+    <members>
+        <member name="character_name" type="String" setter="set_character_name" getter="get_character_name" default="&quot;DEFAULT&quot;">
+            현재 말풍선을 사용하는 캐릭터의 이름입니다.
+            
+            이 값을 설정하면 해당 캐릭터에 맞는 말풍선 스타일과 텍스트 효과가 자동으로 적용됩니다.
+            캐릭터마다 고유한 말풍선 디자인, 텍스트 색상, 타이핑 사운드 등이 설정될 수 있습니다.
+        </member>
+    </members>
+    <signals>
+        <signal name="finished_all_texts_dialogue">
+            <description>
+                모든 대화 텍스트의 출력이 완료되었을 때 발생하는 시그널입니다.
+                
+                이 시그널은 [method type_text_bubble]로 시작된 대화가 모두 끝나고 말풍선이 사라질 때 발생합니다.
+                전투 시스템에서 다음 턴으로 진행하거나 대화가 끝났음을 알리는 용도로 사용됩니다.
+            </description>
+        </signal>
+        <signal name="set_expression">
+            <param index="0" name="expressions" type="Variant" />
+            <description>
+                대화 텍스트에서 표정 변화 명령이 감지되었을 때 발생하는 시그널입니다.
+                
+                [param expressions]는 표정 정보를 담은 배열로, 캐릭터의 얼굴 표정이나 애니메이션을 변경하는데 사용됩니다.
+                이 시그널을 통해 적 캐릭터의 표정을 대화 내용에 맞춰 동적으로 변경할 수 있습니다.
+            </description>
+        </signal>
+    </signals>
+</class>
