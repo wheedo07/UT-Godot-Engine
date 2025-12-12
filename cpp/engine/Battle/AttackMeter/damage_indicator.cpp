@@ -1,11 +1,11 @@
 #include "damage_indicator.h"
+#include "env.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/callback_tweener.hpp>
 #include<godot_cpp/classes/property_tweener.hpp>
 #include<godot_cpp/classes/reg_ex.hpp>
 #include<godot_cpp/classes/reg_ex_match.hpp>
-using namespace godot;
 
 DamageIndicator::DamageIndicator() {
     time = 0.6f;
@@ -56,6 +56,7 @@ void DamageIndicator::_ready() {
     if (health_bar) {
         health_bar->set_max(max_hp);
         health_bar->set_value(hp);
+        text_label->set_effects(stagehand->get_global_effects());
     }
     
     call_deferred("_on_frame_processed");
@@ -122,25 +123,23 @@ void DamageIndicator::_on_frame_processed() {
     value_tween->set_trans(Tween::TRANS_CIRC);
     value_tween->set_ease(Tween::EASE_OUT);
     
-    if (text_label) {
+    if(text_label) {
         Vector2 text_pos = text_label->get_position();
         animation_tween->tween_property(text_label, "position:y", text_pos.y - 10.0f, time / 2.0f);
     }
     
     animation_tween->tween_property(this, "modulate:a", 1.0f, time / 10.0f);
     
-    if (health_bar) {
+    if(health_bar) {
         value_tween->tween_property(health_bar, "value", health_bar->get_value() - damage_amount, time);
     }
     
     Ref<Tween> chain_tween = animation_tween->chain();
     chain_tween->tween_callback(Callable(flash_tween.ptr(), "play"))->set_delay(0.3);
     
-    if (text_label) {
+    if(text_label) {
         Vector2 original_pos = text_label->get_position();
-        chain_tween->tween_property(text_label, "position:y", original_pos.y, time)
-                  ->set_ease(Tween::EASE_OUT)
-                  ->set_trans(Tween::TRANS_BOUNCE);
+        chain_tween->tween_property(text_label, "position:y", original_pos.y, time)->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_BOUNCE);
     }
 }
 
