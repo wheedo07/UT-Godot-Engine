@@ -7,6 +7,7 @@
 #include<godot_cpp/classes/audio_stream.hpp>
 #include<godot_cpp/classes/script.hpp>
 #include "button_set.h"
+#include "box_set.h"
 namespace godot {
     class Encounter : public Resource {
         GDCLASS(Encounter, Resource)
@@ -16,17 +17,20 @@ namespace godot {
         
         private:
             StringName encounter_name;
-            Ref<Script> script;
-            Vector2 offset;
-            Ref<Texture2D> background;
+            PackedStringArray flavour_text;
             TypedArray<PackedScene> enemies;
+            Ref<Script> script;
+
+            Ref<Texture2D> background;
+            Vector2 offset;
+
             Ref<AudioStream> music;
+
             PackedStringArray mercy_options;
             float flee_chance;
 
             Ref<ButtonSet> button_set;
-            Color board_color;
-            Color board_border_color;
+            Ref<BoxSet> box_set;
             String kr_text;
             Color kr_color;
         
@@ -36,6 +40,9 @@ namespace godot {
 
             void set_encounter_name(const StringName& p_name);
             StringName get_encounter_name() const;
+
+            void set_flavour_text(const PackedStringArray& p_text);
+            PackedStringArray get_flavour_text() const;
 
             void set_encounter_script(const Ref<Script>& p_script);
             Ref<Script> get_encounter_script() const;
@@ -61,11 +68,8 @@ namespace godot {
             void set_button_set(const Ref<ButtonSet>& p_set);
             Ref<ButtonSet> get_button_set() const;
 
-            void set_board_color(const Color& p_color);
-            Color get_board_color() const;
-
-            void set_board_border_color(const Color& p_color);
-            Color get_board_border_color() const;
+            void set_box_set(const Ref<BoxSet>& p_set);
+            Ref<BoxSet> get_box_set() const;
 
             void set_kr_text(const String& p_text);
             String get_kr_text() const;

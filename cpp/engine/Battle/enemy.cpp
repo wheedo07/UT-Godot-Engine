@@ -94,14 +94,9 @@ void Enemy::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_dialogues", "p_dialogues"), &Enemy::set_dialogues);
     ClassDB::bind_method(D_METHOD("get_dialogues"), &Enemy::get_dialogues);
-    ClassDB::bind_method(D_METHOD("set_flavour_text", "p_flavour_text"), &Enemy::set_flavour_text);
-    ClassDB::bind_method(D_METHOD("get_flavour_text"), &Enemy::get_flavour_text);
     
     ADD_GROUP("textbox && dialogues", "");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dialogues", PROPERTY_HINT_RESOURCE_TYPE, "DialogueAsset"), "set_dialogues", "get_dialogues");
-    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "flavour_text", PROPERTY_HINT_TYPE_STRING,
-        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
-    "set_flavour_text", "get_flavour_text");
 
     ClassDB::bind_method(D_METHOD("set_current_state", "p_current_state"), &Enemy::set_current_state);
     ClassDB::bind_method(D_METHOD("get_current_state"), &Enemy::get_current_state);
@@ -466,14 +461,6 @@ void Enemy::set_dialogues(const Ref<DialogueAsset>& p_dialogues) {
 
 Ref<DialogueAsset> Enemy::get_dialogues() const {
     return dialogues;
-}
-
-void Enemy::set_flavour_text(const PackedStringArray& p_flavour_text) {
-    flavour_text = p_flavour_text;
-}
-
-PackedStringArray Enemy::get_flavour_text() const {
-    return flavour_text;
 }
 
 void Enemy::set_rewards(const Dictionary& p_rewards) {

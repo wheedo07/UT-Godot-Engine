@@ -2,6 +2,7 @@
 #include "env.h"
 #include "dust_transition.h"
 #include "encounter_script.h"
+#include "AttackMeter/meter.h"
 #include<godot_cpp/classes/input_event_action.hpp>
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
@@ -117,6 +118,7 @@ void BattleMain::_process(double delta) {
 void BattleMain::initialize() {
     bg->set_texture(encounter->get_background());
     buttons->set_button(encounter->get_button_set());
+    box->get_blitter_text()->set_encounter(encounter);
 
     Ref<Script> encounter_script = encounter->get_encounter_script();
     if(encounter_script.is_valid()) {
@@ -185,15 +187,10 @@ void BattleMain::initialize() {
         enemies_max_hp.append(stats.get("max_hp", 1));
         enemies_def.append(stats.get("def", 0));
         
-        Blitter* blitter_text = box->get_blitter_text();
-        PackedStringArray flavor_texts = enemy->get_flavour_text();
-        if(i == 0) {
-            if(flavor_texts.size() > 0) {
-                blitter_text->set_flavour_texts(flavor_texts);
-            }else {
-                PackedStringArray default_text = { "* " + tr(enemy->get_enemy_name()) + String::utf8("!!") };
-                blitter_text->set_flavour_texts(default_text);
-            }
+        PackedStringArray flavour_texts = encounter->get_flavour_text();
+        if(i == 0 && flavour_texts.size() == 0) {
+            PackedStringArray default_text = { "* " + tr(enemy->get_enemy_name()) + String::utf8("!!") };
+            encounter->set_flavour_text(default_text);
         }
         
         Dictionary rwrds = enemy->get_rewards();
@@ -330,14 +327,21 @@ PackedStringArray BattleMain::_on_death_player() {
 void BattleMain::_fight(int target) {
     if(!attack_scene.is_valid() || !box) return;
 
-    Node* clone = attack_scene->instantiate();
-    if (clone) {
-        emit_signal("fight_used", target);
-        clone->set("target", target);
-        clone->connect("damagetarget", Callable(this, "_hit"), CONNECT_ONE_SHOT);
-        clone->connect("missed", Callable(this, "_miss"), CONNECT_ONE_SHOT);
-        clone->set("targetdef", enemies_def[target]);
-        box->add_child(clone);
+    AttackMeter* meter = Object::cast_to<AttackMeter>(attack_scene->instantiate());
+    emit_signal("fight_used", target);
+    meter->set("target", target);
+    meter->connect("damagetarget", Callable(this, "_hit"), CONNECT_ONE_SHOT);
+    meter->connect("missed", Callable(this, "_miss"), CONNECT_ONE_SHOT);
+    meter->set("targetdef", enemies_def[target]);
+    box->add_child(meter);
+
+    Ref<BoxSet> box_set = encounter->get_box_set();
+    if(box_set.is_valid()) {
+        Ref<Texture> meter_texture = box_set->get_meter_texture();
+        if(meter_texture.is_valid()) {
+            meter->set_meter_texture(meter_texture);
+        }
+        meter->set_scale(box_set->get_meter_scale());
     }
 }
 

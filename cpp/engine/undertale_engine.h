@@ -13,6 +13,7 @@ using namespace godot;
 
 // Encounters
 #include "resources/Encounters/button_set.h"
+#include "resources/Encounters/box_set.h"
 #include "resources/Encounters/encounter.h"
 
 // Enemies

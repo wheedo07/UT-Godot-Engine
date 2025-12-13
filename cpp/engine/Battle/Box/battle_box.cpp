@@ -301,8 +301,11 @@ void BattleBox::_physics_process(double delta) {
 }
 
 void BattleBox::_process(double delta) {
-    background->set_color(main->get_encounter()->get_board_color());
-    border->set_default_color(main->get_encounter()->get_board_border_color());
+    Ref<BoxSet> box_set = main->get_encounter()->get_box_set();
+    if(box_set.is_valid()) {
+        background->set_color(box_set->get_board_color());
+        border->set_default_color(box_set->get_board_border_color());
+    }
 
     if(!isPolygonMode) return;
     if(static_shape.size() == target_shape.size()) {

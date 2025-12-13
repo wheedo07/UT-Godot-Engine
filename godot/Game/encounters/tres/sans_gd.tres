@@ -20,6 +20,7 @@ func ready() -> void:
 
 [resource]
 encounter_name = &"SANS_GD"
+flavour_text = PackedStringArray("* 테스트 전투다")
 enemies = Array[PackedScene]([ExtResource("2_q2s51")])
 encounter_script = SubResource("GDScript_q2s51")
 background = SubResource("AtlasTexture_7lixq")

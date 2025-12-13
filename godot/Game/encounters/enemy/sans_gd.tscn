@@ -72,7 +72,6 @@ stats = {
 "max_hp": 1
 }
 one_by_one_overrdie = true
-flavour_text = PackedStringArray("* 테스트 전투다")
 enemy_states = [SubResource("EnemyState_udyrt")]
 sprites_path = NodePath("sans")
 dialogue_path = NodePath("Dialogue")

@@ -9,6 +9,7 @@ region = Rect2(1354, 1381, 287, 160)
 
 [resource]
 encounter_name = &"SANS_CPP"
+flavour_text = PackedStringArray("* 테스트 전투다")
 enemies = Array[PackedScene]([ExtResource("1_xvqsc")])
 background = SubResource("AtlasTexture_xx18k")
 offset = Vector2(0, -165)

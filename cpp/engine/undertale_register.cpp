@@ -21,6 +21,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
     // Encounters
     GDREGISTER_CLASS(ButtonSet);
+    GDREGISTER_CLASS(BoxSet);
     GDREGISTER_CLASS(Encounter);
 
     // Enemies

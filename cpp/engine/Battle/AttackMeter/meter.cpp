@@ -27,32 +27,33 @@ AttackMeter::~AttackMeter() {}
 void AttackMeter::_bind_methods() {
     ADD_SIGNAL(MethodInfo("calculated"));
     ADD_SIGNAL(MethodInfo("damagetarget", 
-                         PropertyInfo(Variant::INT, "damage"), 
-                         PropertyInfo(Variant::INT, "target"), 
-                         PropertyInfo(Variant::BOOL, "crit")));
+        PropertyInfo(Variant::INT, "damage"), 
+        PropertyInfo(Variant::INT, "target"), 
+        PropertyInfo(Variant::BOOL, "crit")));
     ADD_SIGNAL(MethodInfo("missed", PropertyInfo(Variant::INT, "target")));
     
     ClassDB::bind_method(D_METHOD("_on_timeout", "position", "direction"), &AttackMeter::_on_timeout);
+    ClassDB::bind_method(D_METHOD("_on_calculated"), &AttackMeter::_on_calculated);
+    ClassDB::bind_method(D_METHOD("_on_bar_about_to_fade_out"), &AttackMeter::_on_bar_about_to_fade_out);
 
     ClassDB::bind_method(D_METHOD("remove_meter"), &AttackMeter::remove_meter);
     ClassDB::bind_method(D_METHOD("summonbar", "position", "direction", "delay"), &AttackMeter::summonbar);
     ClassDB::bind_method(D_METHOD("miss"), &AttackMeter::miss);
     ClassDB::bind_method(D_METHOD("calculate", "posx", "crit", "hspeed"), &AttackMeter::calculate);
     ClassDB::bind_method(D_METHOD("finalcalculation"), &AttackMeter::finalcalculation);
-    ClassDB::bind_method(D_METHOD("_on_calculated"), &AttackMeter::_on_calculated);
-    ClassDB::bind_method(D_METHOD("_on_bar_about_to_fade_out"), &AttackMeter::_on_bar_about_to_fade_out);
+    ClassDB::bind_method(D_METHOD("set_meter_texture", "texture"), &AttackMeter::set_meter_texture);
     
     ClassDB::bind_method(D_METHOD("set_targetdef", "targetdef"), &AttackMeter::set_targetdef);
     ClassDB::bind_method(D_METHOD("get_targetdef"), &AttackMeter::get_targetdef);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "targetdef"), "set_targetdef", "get_targetdef");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "targetdef", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_targetdef", "get_targetdef");
     
     ClassDB::bind_method(D_METHOD("set_target", "target"), &AttackMeter::set_target);
     ClassDB::bind_method(D_METHOD("get_target"), &AttackMeter::get_target);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "target"), "set_target", "get_target");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "target", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_target", "get_target");
     
     ClassDB::bind_method(D_METHOD("set_targetid", "targetid"), &AttackMeter::set_targetid);
     ClassDB::bind_method(D_METHOD("get_targetid"), &AttackMeter::get_targetid);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "targetid"), "set_targetid", "get_targetid");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "targetid", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_targetid", "get_targetid");
 }
 
 void AttackMeter::_ready() {
@@ -242,6 +243,10 @@ int AttackMeter::finalcalculation() {
     
     return Math::round(damage * (score / 160.0f) * (4.0f / total_bars)) + 
            Math::round(UtilityFunctions::randf_range(-2.0f, 2.0f));
+}
+
+void AttackMeter::set_meter_texture(Ref<Texture> texture) {
+    meter->set_texture(texture);
 }
 
 void AttackMeter::set_targetdef(int p_targetdef) {

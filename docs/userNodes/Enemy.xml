@@ -247,11 +247,6 @@
             전투 중 대화 연출에 사용됩니다.
         </member>
         
-        <member name="flavour_text" type="PackedStringArray" setter="set_flavour_text" getter="get_flavour_text">
-            적에 대한 플레이버 텍스트 목록입니다.
-            전투 중 Check 행동이나 상황 설명에 사용됩니다.
-        </member>
-        
         <member name="enemy_states" type="Array" setter="set_enemy_states" getter="get_enemy_states">
             적의 ACT 상태 목록입니다. [EnemyState] 리소스의 배열입니다.
             각 상태는 플레이어가 선택할 수 있는 ACT 옵션들을 포함합니다.

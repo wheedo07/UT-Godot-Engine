@@ -44,6 +44,7 @@ void Blitter::_process(double delta) {
 
 void Blitter::blitter(int turn) {
     int index = turn;
+    PackedStringArray flavour_texts = get_flavour_texts();
     if(turn >= MAX<int>(1, flavour_texts.size())) index = flavour_texts.size() - 1;
     type_text(flavour_texts[index]);
 }
@@ -90,9 +91,11 @@ void Blitter::_continue_typing_next_line() {
 }
 
 PackedStringArray Blitter::get_flavour_texts() const {
-    return flavour_texts;
+    if(encounter.is_valid()) {
+        return encounter->get_flavour_text();
+    }else return {};
 }
 
-void Blitter::set_flavour_texts(const PackedStringArray& texts) {
-    flavour_texts = texts;
+void Blitter::set_encounter(Ref<Encounter> p_encounter) {
+    encounter = p_encounter;
 }

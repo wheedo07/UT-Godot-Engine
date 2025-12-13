@@ -56,7 +56,6 @@ namespace godot {
             bool dodging;
             Dictionary stats;
             Ref<DialogueAsset> dialogues;
-            PackedStringArray flavour_text;
             Dictionary rewards;
             bool new_states_override;
             bool one_by_one_overrdie;
@@ -157,8 +156,6 @@ namespace godot {
             Dictionary get_stats() const;
             void set_dialogues(const Ref<DialogueAsset>& p_dialogues);
             Ref<DialogueAsset> get_dialogues() const;
-            void set_flavour_text(const PackedStringArray& p_flavour_text);
-            PackedStringArray get_flavour_text() const;
             void set_rewards(const Dictionary& p_rewards);
             Dictionary get_rewards() const;
             void set_new_states_override(bool p_new_states_override);

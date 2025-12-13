@@ -10,9 +10,6 @@ Encounter::Encounter() {
     mercy_options.push_back("UT_SPARE");
     mercy_options.push_back("UT_FLEE");
 
-    board_color = Color(0, 0, 0, 0.8);
-    board_border_color = Color(1, 1, 1, 1);
-
     kr_text = "KR";
     kr_color = Color(1, 0, 1);
 }
@@ -23,6 +20,12 @@ void Encounter::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_encounter_name", "name"), &Encounter::set_encounter_name);
     ClassDB::bind_method(D_METHOD("get_encounter_name"), &Encounter::get_encounter_name);
     ADD_PROPERTY(PropertyInfo(Variant::STRING_NAME, "encounter_name"), "set_encounter_name", "get_encounter_name");
+
+    ClassDB::bind_method(D_METHOD("set_flavour_text", "text"), &Encounter::set_flavour_text);
+    ClassDB::bind_method(D_METHOD("get_flavour_text"), &Encounter::get_flavour_text);
+    ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "flavour_text", PROPERTY_HINT_TYPE_STRING,
+        String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
+    "set_flavour_text", "get_flavour_text");
     
     ClassDB::bind_method(D_METHOD("set_enemies", "enemies"), &Encounter::set_enemies);
     ClassDB::bind_method(D_METHOD("get_enemies"), &Encounter::get_enemies);
@@ -34,42 +37,39 @@ void Encounter::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_encounter_script"), &Encounter::get_encounter_script);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "encounter_script", PROPERTY_HINT_RESOURCE_TYPE, "Script"), "set_encounter_script", "get_encounter_script");
 
+    ADD_GROUP("background", "");
     ClassDB::bind_method(D_METHOD("set_background", "background"), &Encounter::set_background);
     ClassDB::bind_method(D_METHOD("get_background"), &Encounter::get_background);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "background", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_background", "get_background");
     ClassDB::bind_method(D_METHOD("set_offset", "offset"), &Encounter::set_offset);
     ClassDB::bind_method(D_METHOD("get_offset"), &Encounter::get_offset);
-    ADD_GROUP("background", "");
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "background", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_background", "get_background");
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "offset"), "set_offset", "get_offset");
 
+    ADD_GROUP("mercy", "");
     ClassDB::bind_method(D_METHOD("set_mercy_options", "options"), &Encounter::set_mercy_options);
     ClassDB::bind_method(D_METHOD("get_mercy_options"), &Encounter::get_mercy_options);
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "mercy_options", PROPERTY_HINT_ARRAY_TYPE, "String"), "set_mercy_options", "get_mercy_options");
     ClassDB::bind_method(D_METHOD("set_flee_chance", "chance"), &Encounter::set_flee_chance);
     ClassDB::bind_method(D_METHOD("get_flee_chance"), &Encounter::get_flee_chance);
-    ADD_GROUP("mercy", "");
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "mercy_options", PROPERTY_HINT_ARRAY_TYPE, "String"), "set_mercy_options", "get_mercy_options");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "flee_chance", PROPERTY_HINT_RANGE, "0,1"), "set_flee_chance", "get_flee_chance");
 
+    ADD_GROUP("Music", "");
     ClassDB::bind_method(D_METHOD("set_music", "music"), &Encounter::set_music);
     ClassDB::bind_method(D_METHOD("get_music"), &Encounter::get_music);
-    ADD_GROUP("Music", "");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "music", PROPERTY_HINT_RESOURCE_TYPE, "AudioStream"), "set_music", "get_music");
 
+    ADD_GROUP("Battle UI", "");
     ClassDB::bind_method(D_METHOD("set_button_set", "button_set"), &Encounter::set_button_set);
     ClassDB::bind_method(D_METHOD("get_button_set"), &Encounter::get_button_set);
-    ClassDB::bind_method(D_METHOD("set_board_color", "color"), &Encounter::set_board_color);
-    ClassDB::bind_method(D_METHOD("get_board_color"), &Encounter::get_board_color);
-    ClassDB::bind_method(D_METHOD("set_board_border_color", "color"), &Encounter::set_board_border_color);
-    ClassDB::bind_method(D_METHOD("get_board_border_color"), &Encounter::get_board_border_color);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "button_set", PROPERTY_HINT_RESOURCE_TYPE, "ButtonSet"), "set_button_set", "get_button_set");
+    ClassDB::bind_method(D_METHOD("set_box_set", "box_set"), &Encounter::set_box_set);
+    ClassDB::bind_method(D_METHOD("get_box_set"), &Encounter::get_box_set);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "box_set", PROPERTY_HINT_RESOURCE_TYPE, "BoxSet"), "set_box_set", "get_box_set");
     ClassDB::bind_method(D_METHOD("set_kr_text", "text"), &Encounter::set_kr_text);
     ClassDB::bind_method(D_METHOD("get_kr_text"), &Encounter::get_kr_text);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "kr_text"), "set_kr_text", "get_kr_text");
     ClassDB::bind_method(D_METHOD("set_kr_color", "color"), &Encounter::set_kr_color);
     ClassDB::bind_method(D_METHOD("get_kr_color"), &Encounter::get_kr_color);
-    ADD_GROUP("Battle UI", "");
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "button_set", PROPERTY_HINT_RESOURCE_TYPE, "ButtonSet"), "set_button_set", "get_button_set");
-    ADD_PROPERTY(PropertyInfo(Variant::COLOR, "board_color"), "set_board_color", "get_board_color");
-    ADD_PROPERTY(PropertyInfo(Variant::COLOR, "board_border_color"), "set_board_border_color", "get_board_border_color");
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "kr_text"), "set_kr_text", "get_kr_text");
     ADD_PROPERTY(PropertyInfo(Variant::COLOR, "kr_color"), "set_kr_color", "get_kr_color");
 }
 
@@ -139,20 +139,12 @@ Ref<ButtonSet> Encounter::get_button_set() const {
     return button_set;
 }
 
-void Encounter::set_board_color(const Color& p_color) {
-    board_color = p_color;
+void Encounter::set_box_set(const Ref<BoxSet>& p_set) {
+    box_set = p_set;
 }
 
-Color Encounter::get_board_color() const {
-    return board_color;
-}
-
-void Encounter::set_board_border_color(const Color& p_color) {
-    board_border_color = p_color;
-}
-
-Color Encounter::get_board_border_color() const {
-    return board_border_color;
+Ref<BoxSet> Encounter::get_box_set() const {
+    return box_set;
 }
 
 void Encounter::set_kr_text(const String& p_text) {
@@ -177,4 +169,12 @@ void Encounter::set_encounter_script(const Ref<Script>& p_script) {
 
 Ref<Script> Encounter::get_encounter_script() const {
     return script;
+}
+
+void Encounter::set_flavour_text(const PackedStringArray& p_text) {
+    flavour_text = p_text;
+}
+
+PackedStringArray Encounter::get_flavour_text() const {
+    return flavour_text;
 }

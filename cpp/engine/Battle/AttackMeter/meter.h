@@ -1,14 +1,14 @@
 #ifndef ATTACK_METER_H
 #define ATTACK_METER_H
 
-#include<godot_cpp/classes/canvas_layer.hpp>
+#include<godot_cpp/classes/node2d.hpp>
 #include<godot_cpp/classes/sprite2d.hpp>
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/classes/tween.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
 namespace godot {
-    class AttackMeter : public CanvasLayer {
-        GDCLASS(AttackMeter, CanvasLayer);
+    class AttackMeter : public Node2D {
+        GDCLASS(AttackMeter, Node2D);
         
         protected:
             static void _bind_methods();
@@ -36,7 +36,6 @@ namespace godot {
             void _on_bar_about_to_fade_out();
             void _on_timeout(const Vector2& position, int direction);
 
-            // 비동기 작업을 위한 상태 추적
             int waiting_calculations;
             bool initial_setup_complete;
         
@@ -50,6 +49,7 @@ namespace godot {
             void summonbar(const Vector2& position, int direction, float delay);
             void miss();
             void calculate(int posx, bool crit, float hspeed);
+            void set_meter_texture(Ref<Texture> texture);
             int finalcalculation();
 
             void set_targetdef(int p_targetdef);

@@ -2,6 +2,7 @@
 #define BLITTER_H
 
 #include "engine/Text/text_typer.h"
+#include "engine/resources/Encounters/encounter.h"
 #include<godot_cpp/classes/margin_container.hpp>
 #include<godot_cpp/classes/viewport.hpp>
 namespace godot {
@@ -12,8 +13,8 @@ namespace godot {
             static void _bind_methods();
         
         private:
+            Ref<Encounter> encounter;
             MarginContainer* container;
-            PackedStringArray flavour_texts;
             float default_volume;
 
             int current_text_index;
@@ -36,7 +37,7 @@ namespace godot {
             void _continue_typing_next_line();
 
             PackedStringArray get_flavour_texts() const;
-            void set_flavour_texts(const PackedStringArray& texts);
+            void set_encounter(Ref<Encounter> p_encounter);
     };
 }
 
