@@ -45,5 +45,10 @@
             오디오 재생을 관리하는 AudioPlayer 노드입니다.
             이 객체를 통해 접근할수 있습니다.
         </member>
+
+        <member name="global_effects" type="Array[RichTextEffect]" setter="set_global_effects" getter="get_global_effects">
+            모든 [RichTextEffect] 효과의 배열입니다.
+            이 배열에 효과를 추가하거나 제거하여 모든 대화 상자에 영향을 줄 수 있습니다.
+        </member>
     </members>
 </class>
