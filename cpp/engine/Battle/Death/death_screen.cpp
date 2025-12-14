@@ -39,12 +39,6 @@ void DeathScreen::_ready() {
     }
 
     call_deferred("_setup_death_animation");
-
-    if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
-        call("ready");
-    }else {
-        ready();
-    }
 }
 
 void DeathScreen::ready() {}
@@ -58,6 +52,11 @@ void DeathScreen::_setup_death_animation() {
         death_soul->set_scale(Vector2(0.35, 0.35));
     }else {
         death_soul->set_scale(Vector2(1, 1));
+    }
+    if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
+        call("ready");
+    }else {
+        ready();
     }
     if(isCustom) return;
     stagehand->audio_player->play("hurt");

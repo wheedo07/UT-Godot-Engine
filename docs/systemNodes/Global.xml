@@ -494,6 +494,11 @@
             • "shake": 화면 흔들림 효과 사용 여부
             • "vfx": 시각 효과 사용 여부
         </member>
+        <member name="variables" type="Dictionary" setter="set_variables" getter="get_variables" default="{}">
+            전역 변수들을 저장하는 딕셔너리입니다.
+
+            스크립트 간에 데이터를 공유하거나 임시 상태를 저장하는 데 사용됩니다.
+        </member>
         <member name="overworld_data" type="Dictionary" setter="set_overworld_data" getter="get_overworld_data" default="{ &quot;room_name&quot;: &quot;&quot;, &quot;room&quot;: &quot;&quot;, &quot;room_pos&quot;: Vector2(0, 0) }">
             [methods save] 에서 저장한 오버월드 관련 데이터입니다.
             씬 전환 시 오버월드 상태를 복원하는 데 사용됩니다.

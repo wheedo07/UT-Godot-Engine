@@ -67,6 +67,9 @@ void Global::_bind_methods() {
     //
 
     // 숨겨진 변수 바인딩
+    ClassDB::bind_method(D_METHOD("set_variables", "value"), &Global::set_variables);
+    ClassDB::bind_method(D_METHOD("get_variables"), &Global::get_variables);
+
     ClassDB::bind_method(D_METHOD("set_overworld_data", "value"), &Global::set_overworld_data);
     ClassDB::bind_method(D_METHOD("get_overworld_data"), &Global::get_overworld_data);
 
@@ -140,6 +143,7 @@ void Global::_bind_methods() {
     //
 
     // 숨겨진 변수 바인딩
+    ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "variables", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_variables", "get_variables");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "overworld_data", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_overworld_data", "get_overworld_data");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_can_move", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_can_move", "get_player_can_move");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_move", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_move", "get_player_move");
@@ -457,4 +461,12 @@ bool Global::get_player_set_menu() const {
 
 bool Global::isMobile() {
     return is_Mobile;
+}
+
+void Global::set_variables(Dictionary value) {
+    variables = value;
+}
+
+Dictionary Global::get_variables() {
+    return variables;
 }

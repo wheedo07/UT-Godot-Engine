@@ -27,6 +27,8 @@ namespace godot {
 	        bool start, isSetting, isDebugTurn;
 
         private:
+	        Dictionary variables;
+
 	        String saveDir;
 			String savepath;
 			String settingpath;
@@ -225,6 +227,9 @@ namespace godot {
 			Dictionary get_flags();
 
 			// 숨겨진 getter/setter 함수
+			void set_variables(Dictionary value);
+			Dictionary get_variables();
+
 			void set_overworld_data(Dictionary value);
 			Dictionary get_overworld_data();
 
