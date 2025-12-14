@@ -329,6 +329,7 @@ void SoulBattle::set_mode_silent(SoulMode new_mode) {
     
     if(new_mode == DISABLE_MOVEMENT) {
         inputs = Vector2(0, 0);
+        motion = Vector2(0, 0);
     }
     
     Array keys = mode_nodes.keys();
