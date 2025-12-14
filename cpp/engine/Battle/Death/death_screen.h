@@ -9,6 +9,8 @@
 #include<godot_cpp/classes/input_event.hpp>
 #include<godot_cpp/classes/rich_text_label.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
+#include<godot_cpp/core/binder_common.hpp>
+#include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
     class DeathScreen : public Node2D {
         GDCLASS(DeathScreen, Node2D)
@@ -34,6 +36,9 @@ namespace godot {
 
             void _ready() override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
+
+            virtual void ready();
+            GDVIRTUAL0(ready);
 
             // 사용 함수
             void done();

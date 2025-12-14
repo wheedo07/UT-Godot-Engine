@@ -12,6 +12,8 @@ DeathScreen::DeathScreen() {
 DeathScreen::~DeathScreen() {}
 
 void DeathScreen::_bind_methods() {
+    GDVIRTUAL_BIND(ready);
+
     ClassDB::bind_method(D_METHOD("done"), &DeathScreen::done);
     ClassDB::bind_method(D_METHOD("get_gameOver_text"), &DeathScreen::get_gameOver_text);
 
@@ -37,7 +39,15 @@ void DeathScreen::_ready() {
     }
 
     call_deferred("_setup_death_animation");
+
+    if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
+        call("ready");
+    }else {
+        ready();
+    }
 }
+
+void DeathScreen::ready() {}
 
 void DeathScreen::_setup_death_animation() {
     global->get_Music()->stop();
