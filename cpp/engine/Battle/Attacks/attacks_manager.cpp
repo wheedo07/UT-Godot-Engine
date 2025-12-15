@@ -27,12 +27,12 @@ void AttackManager::_ready() {
     current_attacks = Array();
 }
 
-Node* AttackManager::add_attack(const Ref<PackedScene>& attack) {
+AttackBase* AttackManager::add_attack(const Ref<PackedScene>& attack) {
     if (!attack.is_valid()) {
         ERR_PRINT("PackedScene이 비어있음");
         return nullptr;
     }
-    
+   
     Node* attack_node = attack->instantiate();
     if (!attack_node) {
         ERR_PRINT("instantiate 실패");
@@ -50,7 +50,7 @@ Node* AttackManager::add_attack(const Ref<PackedScene>& attack) {
     attack_node->set("attack_id", current_attacks.size() - 1);
     attack_node->connect("remove_attack", Callable(this, "end_attack"));
     
-    return attack_node;
+    return Object::cast_to<AttackBase>(attack_node);
 }
 
 void AttackManager::start_attacks() {
@@ -82,8 +82,9 @@ void AttackManager::start_attack(int id) {
 
 void AttackManager::force_end_attacks() {
     // 모든 공격 강제 종료
-    for (int i=0; i < current_attacks.size(); i++) {
-        Node* attack = Object::cast_to<Node>(current_attacks[i]);
+    for(int i=0; i < current_attacks.size(); i++) {
+        if(current_attacks[i].get_type() == Variant::Type::NIL) continue;
+        AttackBase* attack = Object::cast_to<AttackBase>(current_attacks[i]);
         attack->emit_signal("remove_bullets");
         attack->queue_free();
     }

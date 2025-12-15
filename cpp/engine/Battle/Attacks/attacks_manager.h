@@ -8,6 +8,7 @@
 #include<godot_cpp/variant/typed_array.hpp>
 namespace godot {
     class BattleMain;
+    class AttackBase;
 
     class AttackManager : public BackBufferCopy {
         GDCLASS(AttackManager, BackBufferCopy);
@@ -33,7 +34,7 @@ namespace godot {
 
             void _ready() override;
 
-            Node* add_attack(const Ref<PackedScene>& attack);
+            AttackBase* add_attack(const Ref<PackedScene>& attack);
             void start_attacks();
             void start_attack(int id);
             void force_end_attacks();
