@@ -258,5 +258,5 @@ bus = &"SFX"
 stream = ExtResource("16_jjntu")
 bus = &"SFX"
 
-[connection signal="advanced_finished_all_texts" from="Control/TextBox/MarginContainer/Dialogue" to="." method="_on_keeper_dialogue_finished_all_texts"]
+[connection signal="finished_all_typing" from="Control/TextBox/MarginContainer/Dialogue" to="." method="_on_keeper_dialogue_finished_all_texts"]
 [connection signal="started_typing" from="Control/TextBox/MarginContainer/Dialogue" to="." method="_on_keeper_dialogue_started_typing"]

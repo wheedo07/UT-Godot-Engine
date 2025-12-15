@@ -15,10 +15,6 @@
         • 대사 중 일시정지([DialoguePause]) 기능
         • 캐릭터 표현 상태 변경 이벤트
         
-        [b]주의사항[/b]
-        • 부모 클래스의 [method GenericTextTyper.type_text] 메서드는 사용하지 않습니다.
-        • [signal GenericTextTyper.finished_all_texts] 시그널 대신 [signal advanced_finished_all_texts]를 사용합니다.
-        
         [b]예시 (GDScript)[/b]
         [codeblock]
         @onready var adv_typer = $AdvancedTextTyper
@@ -31,7 +27,7 @@
             ]).set_expressions([1, 4, 5])
             
             adv_typer.type_text_advanced(dialogues)
-            adv_typer.connect("advanced_finished_all_texts", _on_dialogue_finished)
+            adv_typer.connect("finished_all_typing", _on_dialogue_finished)
             adv_typer.connect("expression_set", _on_expression_changed)
         
         func _on_dialogue_finished():
@@ -69,10 +65,11 @@
     </members>
     
     <signals>
-        <signal name="advanced_finished_all_texts">
+        <signal name="finished_all_typing">
             <description>
                 모든 대사의 출력이 완료되었을 때 발생합니다.
-                [signal GenericTextTyper.finished_all_texts] 대신 사용하세요.
+                이 노드에서는 [signal GenericTextTyper.finished_all_texts] 은 대사 하나가 끝날 때마다 발생하는 반면,
+                이 신호는 모든 대사가 완전히 출력된 후에 한 번만 발생합니다.
             </description>
         </signal>
         

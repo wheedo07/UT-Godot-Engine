@@ -21,7 +21,7 @@ void AdvancedTextTyper::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_current_dialogue_index", "p_index"), &AdvancedTextTyper::set_current_dialogue_index);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "current_dialogue_index", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_current_dialogue_index", "get_current_dialogue_index");
 
-    ADD_SIGNAL(MethodInfo("advanced_finished_all_texts"));
+    ADD_SIGNAL(MethodInfo("finished_all_typing"));
     ADD_SIGNAL(MethodInfo("click_played", PropertyInfo(Variant::INT, "index"), PropertyInfo(Variant::INT, "max")));
     ADD_SIGNAL(MethodInfo("expression_set", PropertyInfo(Variant::ARRAY, "expr")));
 }
@@ -60,7 +60,7 @@ void AdvancedTextTyper::process_next_buffer() {
         emit_signal("expression_set", expressions[current_dialogue_index]);
         type_buffer(queued_dialogues, current_dialogue_index);
     } else {
-        emit_signal("advanced_finished_all_texts");
+        emit_signal("finished_all_typing");
     }
 }
 
@@ -84,6 +84,7 @@ void AdvancedTextTyper::type_buffer_text(const String& txt) {
 
 void AdvancedTextTyper::_on_tween_finished_advanced() {
     type_buffer_text_complete = true;
+    emit_signal("finished_all_texts");
 }
 
 void AdvancedTextTyper::_on_confirm_advanced() {
