@@ -66,7 +66,7 @@ void TextBoxWriter::_on_click_played(int index, int max) {
     if(expressions.size() > get_current_dialogue_index()) {
         Array expr_array = expressions[get_current_dialogue_index()];
         if(expr_array.size() > 0) {
-            float progress = (float)index / (float)max;
+            float progress = (float)index / (float)(max - 1);
             int target_index = (int)(progress * (expr_array.size() - 1));
             target_index = UtilityFunctions::clamp(target_index, 0, expr_array.size() - 1);
             emit_signal("expression_textbox_set", expr_array[target_index]);
