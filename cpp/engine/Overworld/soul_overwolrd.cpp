@@ -116,7 +116,7 @@ void SoulOverworld::heal(BulletArea* bullet_area) {
     if(!bullet_area) return;
     hiframes = 1;
     global->heal(bullet_area->damage);
-    stagehand->audio_player->play("heal");
+    if(bullet_area->damage > 0) stagehand->audio_player->play("heal");
     emit_signal("hurt", bullet_area->damage, true);
 }
 

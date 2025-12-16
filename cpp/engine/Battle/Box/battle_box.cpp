@@ -656,6 +656,7 @@ void BattleBox::blitter_item() {
     } else {
         // 소비 아이템인 경우
         texts = global->item_use_text(used_item);
+        if(item->get_heal_amount() > 0) stagehand->audio_player->play("heal");
     }
     Array arr = global->get_items();
     for(int i=0; i < arr.size(); i++) {

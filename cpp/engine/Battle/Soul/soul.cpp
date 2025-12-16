@@ -305,7 +305,7 @@ void SoulBattle::heal(BulletArea* area) {
     hiframes = 1;
     
     global->heal(area->damage);
-    stagehand->audio_player->play("heal");
+    if(area->damage > 0) stagehand->audio_player->play("heal");
     global->set_player_kr(global->get_player_kr() + Math::min<float>(area->kr, area->damage) + 1);
     
     if (global->get_player_kr() >= global->get_player_hp()) {
