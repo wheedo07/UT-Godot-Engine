@@ -33,62 +33,111 @@ void Item::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_item_type", "type"), &Item::set_item_type);
     ClassDB::bind_method(D_METHOD("get_item_type"), &Item::get_item_type);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "item_type", PROPERTY_HINT_ENUM, "CONSUMABLE,WEAPON,ARMOR"), "set_item_type", "get_item_type");
     ClassDB::bind_method(D_METHOD("set_item_name", "name"), &Item::set_item_name);
     ClassDB::bind_method(D_METHOD("get_item_name"), &Item::get_item_name);
-    ClassDB::bind_method(D_METHOD("set_weapon_speed", "speed"), &Item::set_weapon_speed);
-    ClassDB::bind_method(D_METHOD("get_weapon_speed"), &Item::get_weapon_speed);
-    ClassDB::bind_method(D_METHOD("set_weapon_bars", "bars"), &Item::set_weapon_bars);
-    ClassDB::bind_method(D_METHOD("get_weapon_bars"), &Item::get_weapon_bars);
-    ClassDB::bind_method(D_METHOD("set_weapon_type", "type"), &Item::set_weapon_type);
-    ClassDB::bind_method(D_METHOD("get_weapon_type"), &Item::get_weapon_type);
-    ClassDB::bind_method(D_METHOD("set_critical_hits", "critical"), &Item::set_critical_hits);
-    ClassDB::bind_method(D_METHOD("get_critical_hits"), &Item::get_critical_hits);
-    ClassDB::bind_method(D_METHOD("set_use_message", "message"), &Item::set_use_message);
-    ClassDB::bind_method(D_METHOD("get_use_message"), &Item::get_use_message);
-    ClassDB::bind_method(D_METHOD("set_item_information", "info"), &Item::set_item_information);
-    ClassDB::bind_method(D_METHOD("get_item_information"), &Item::get_item_information);
-    ClassDB::bind_method(D_METHOD("set_throw_message", "message"), &Item::set_throw_message);
-    ClassDB::bind_method(D_METHOD("get_throw_message"), &Item::get_throw_message);
-    ClassDB::bind_method(D_METHOD("set_heal_amount", "amount"), &Item::set_heal_amount);
-    ClassDB::bind_method(D_METHOD("get_heal_amount"), &Item::get_heal_amount);
-    ClassDB::bind_method(D_METHOD("set_attack_amount", "amount"), &Item::set_attack_amount);
-    ClassDB::bind_method(D_METHOD("get_attack_amount"), &Item::get_attack_amount);
-    ClassDB::bind_method(D_METHOD("set_defense_amount", "amount"), &Item::set_defense_amount);
-    ClassDB::bind_method(D_METHOD("get_defense_amount"), &Item::get_defense_amount);
-    ClassDB::bind_method(D_METHOD("set_weapon_delay", "delay"), &Item::set_weapon_delay);
-    ClassDB::bind_method(D_METHOD("get_weapon_delay"), &Item::get_weapon_delay);
-
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "item_type", PROPERTY_HINT_ENUM, "CONSUMABLE,WEAPON,ARMOR"), "set_item_type", "get_item_type");
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "item_name"), "set_item_name", "get_item_name");
     
     ADD_GROUP("Item Use Messages", "");
+    ClassDB::bind_method(D_METHOD("set_use_message", "message"), &Item::set_use_message);
+    ClassDB::bind_method(D_METHOD("get_use_message"), &Item::get_use_message);
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "use_message", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_use_message", "get_use_message");
+    ClassDB::bind_method(D_METHOD("set_item_information", "info"), &Item::set_item_information);
+    ClassDB::bind_method(D_METHOD("get_item_information"), &Item::get_item_information);
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "item_information", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_item_information", "get_item_information");
+    ClassDB::bind_method(D_METHOD("set_throw_message", "message"), &Item::set_throw_message);
+    ClassDB::bind_method(D_METHOD("get_throw_message"), &Item::get_throw_message);
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "throw_message", PROPERTY_HINT_TYPE_STRING,
         String::num(Variant::STRING) + "/" + String::num(PROPERTY_HINT_MULTILINE_TEXT) + ":"),
     "set_throw_message", "get_throw_message");
     
-    ADD_GROUP("Stat Amounts", "");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "heal_amount"), "set_heal_amount", "get_heal_amount");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "attack_amount"), "set_attack_amount", "get_attack_amount");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "defense_amount"), "set_defense_amount", "get_defense_amount");
-
-    ADD_GROUP("Weapon Stats", "weapon_");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weapon_speed"), "set_weapon_speed", "get_weapon_speed");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "weapon_delay"), "set_weapon_delay", "get_weapon_delay");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "weapon_bars"), "set_weapon_bars", "get_weapon_bars");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "weapon_type", PROPERTY_HINT_ENUM, "KNIFE,PUNCH,SHOE,BOOK,PAN,GUN"), "set_weapon_type", "get_weapon_type");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "weapon_critical_hits"), "set_critical_hits", "get_critical_hits");
-
     ClassDB::bind_method(D_METHOD("get_item_name_tr"), &Item::get_item_name_tr);
+}
+
+void Item::_get_property_list(List<PropertyInfo> *p_list) const {
+    p_list->push_back(PropertyInfo(Variant::NIL, "Item Stats", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
+    if(item_type == CONSUMABLE) {
+        p_list->push_back(PropertyInfo(Variant::INT, "heal_amount"));
+    }
+    p_list->push_back(PropertyInfo(Variant::INT, "defense_amount"));
+    p_list->push_back(PropertyInfo(Variant::INT, "attack_amount"));
+
+    if(item_type != WEAPON) return;
+    p_list->push_back(PropertyInfo(Variant::NIL, "Weapon Stats", PROPERTY_HINT_NONE, "weapon_", PROPERTY_USAGE_GROUP));
+    p_list->push_back(PropertyInfo(Variant::FLOAT, "weapon_speed"));
+    p_list->push_back(PropertyInfo(Variant::INT, "weapon_delay"));
+    p_list->push_back(PropertyInfo(Variant::INT, "weapon_bars"));
+    p_list->push_back(PropertyInfo(Variant::INT, "weapon_type", PROPERTY_HINT_ENUM, "KNIFE,PUNCH,SHOE,BOOK,PAN,GUN"));
+    p_list->push_back(PropertyInfo(Variant::BOOL, "weapon_critical_hits"));
+}
+
+bool Item::_set(const StringName& p_name, const Variant& p_value) {
+    String name = p_name;
+    if(name == "heal_amount") {
+        heal_amount = p_value;
+        return true;
+    }else if(name == "attack_amount") {
+        attack_amount = p_value;
+        return true;
+    }else if(name == "defense_amount") {
+        defense_amount = p_value;
+        return true;
+    }else if(name == "weapon_speed") {
+        weapon_speed = p_value;
+        return true;
+    }else if(name == "weapon_delay") {
+        weapon_delay = p_value;
+        return true;
+    }else if(name == "weapon_bars") {
+        weapon_bars = p_value;
+        return true;
+    }else if(name == "weapon_type") {
+        weapon_type = WeaponType(int(p_value));
+        return true;
+    }else if(name == "weapon_critical_hits") {
+        critical_hits = p_value;
+        return true;
+    }
+    return false;
+}
+
+bool Item::_get(const StringName& p_name, Variant& r_ret) {
+    String name = p_name;
+    if(name == "heal_amount") {
+        r_ret = heal_amount;
+        return true;
+    }else if(name == "attack_amount") {
+        r_ret = attack_amount;
+        return true;
+    }else if(name == "defense_amount") {
+        r_ret = defense_amount;
+        return true;
+    }else if(name == "weapon_speed") {
+        r_ret = weapon_speed;
+        return true;
+    }else if(name == "weapon_delay") {
+        r_ret = weapon_delay;
+        return true;
+    }else if(name == "weapon_bars") {
+        r_ret = weapon_bars;
+        return true;
+    }else if(name == "weapon_type") {
+        r_ret = int(weapon_type);
+        return true;
+    }else if(name == "weapon_critical_hits") {
+        r_ret = critical_hits;
+        return true;
+    }
+    return false;
 }
 
 void Item::set_item_type(ItemType p_type) {
     item_type = p_type;
+    notify_property_list_changed();
 }
 
 Item::ItemType Item::get_item_type() const {
@@ -105,6 +154,30 @@ String Item::get_item_name() const {
 
 String Item::get_item_name_tr() const {
     return tr(item_name);
+}
+
+void Item::set_use_message(const PackedStringArray& p_message) {
+    use_message = p_message;
+}
+
+PackedStringArray Item::get_use_message() const {
+    return use_message;
+}
+
+void Item::set_item_information(const PackedStringArray& p_info) {
+    item_information = p_info;
+}
+
+PackedStringArray Item::get_item_information() const {
+    return item_information;
+}
+
+void Item::set_throw_message(const PackedStringArray& p_message) {
+    throw_message = p_message;
+}
+
+PackedStringArray Item::get_throw_message() const {
+    return throw_message;
 }
 
 void Item::set_weapon_speed(float p_speed) {
@@ -145,30 +218,6 @@ void Item::set_weapon_delay(int p_delay) {
 
 int Item::get_weapon_delay() const {
     return weapon_delay;
-}
-
-void Item::set_use_message(const PackedStringArray& p_message) {
-    use_message = p_message;
-}
-
-PackedStringArray Item::get_use_message() const {
-    return use_message;
-}
-
-void Item::set_item_information(const PackedStringArray& p_info) {
-    item_information = p_info;
-}
-
-PackedStringArray Item::get_item_information() const {
-    return item_information;
-}
-
-void Item::set_throw_message(const PackedStringArray& p_message) {
-    throw_message = p_message;
-}
-
-PackedStringArray Item::get_throw_message() const {
-    return throw_message;
 }
 
 void Item::set_heal_amount(int p_amount) {

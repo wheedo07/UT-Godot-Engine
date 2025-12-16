@@ -24,16 +24,6 @@ namespace godot {
                 WEAPON,
                 ARMOR
             };
-            Item();
-            ~Item();
-            
-            void set_item_type(ItemType p_type);
-            ItemType get_item_type() const;
-            
-            void set_item_name(const String& p_name);
-            String get_item_name() const;
-            String get_item_name_tr() const;
-            
             void set_weapon_speed(float p_speed);
             float get_weapon_speed() const;
             
@@ -49,15 +39,6 @@ namespace godot {
             void set_weapon_delay(int p_delay);
             int get_weapon_delay() const;
             
-            void set_use_message(const PackedStringArray& p_message);
-            PackedStringArray get_use_message() const;
-            
-            void set_item_information(const PackedStringArray& p_info);
-            PackedStringArray get_item_information() const;
-            
-            void set_throw_message(const PackedStringArray& p_message);
-            PackedStringArray get_throw_message() const;
-            
             void set_heal_amount(int p_amount);
             int get_heal_amount() const;
             
@@ -66,7 +47,7 @@ namespace godot {
             
             void set_defense_amount(int p_amount);
             int get_defense_amount() const;
-
+       
         private:
             ItemType item_type;
             String item_name;
@@ -81,6 +62,30 @@ namespace godot {
             int heal_amount;
             int attack_amount;
             int defense_amount;
+
+        public:
+            Item();
+            ~Item();
+
+            void _get_property_list(List<PropertyInfo> *p_list) const;
+            bool _set(const StringName& p_name, const Variant& p_value);
+            bool _get(const StringName& p_name, Variant& r_ret);
+            
+            void set_item_type(ItemType p_type);
+            ItemType get_item_type() const;
+            
+            void set_item_name(const String& p_name);
+            String get_item_name() const;
+            String get_item_name_tr() const;
+
+            void set_use_message(const PackedStringArray& p_message);
+            PackedStringArray get_use_message() const;
+            
+            void set_item_information(const PackedStringArray& p_info);
+            PackedStringArray get_item_information() const;
+            
+            void set_throw_message(const PackedStringArray& p_message);
+            PackedStringArray get_throw_message() const;
     };
 }
 VARIANT_ENUM_CAST(godot::Item::WeaponType);
