@@ -86,6 +86,15 @@
                 방패와의 상호작용이나 특별한 효과를 구현할 때 사용합니다.
             </description>
         </method>
+
+        <method name="_physics_update" qualifiers="override">
+            <return type="void"/>
+            <param index="0" name="delta" type="float"/>
+            <description>
+                물리 프레임마다 호출되는 함수입니다.
+                [method MainLoop._physics_process] 대신 오버라이드하여 커스텀 물리 동작을 구현할 수 있습니다.
+            </description>
+        </method>
         
         <method name="set_mode">
             <return type="Bullet"/>

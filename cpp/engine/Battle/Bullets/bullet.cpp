@@ -31,6 +31,7 @@ void Bullet::_bind_methods() {
     GDVIRTUAL_BIND(on_hit_player);
     GDVIRTUAL_BIND(on_hit_yellow);
     GDVIRTUAL_BIND(on_hit_player_shield);
+    GDVIRTUAL_BIND(_physics_update, "delta");
 
     ADD_SIGNAL(MethodInfo("bullet_fade"));
     
@@ -92,6 +93,7 @@ void Bullet::ready() {}
 void Bullet::on_hit_player() {}
 void Bullet::on_hit_yellow() {}
 void Bullet::on_hit_player_shield() {}
+void Bullet::_physics_update(double delta) {}
 
 void Bullet::_physics_process(double delta) {
     // 스프라이트 색상 모드에 따라 설정
@@ -102,6 +104,12 @@ void Bullet::_physics_process(double delta) {
     // 이동 처리
     if(fire_mode == MOVEMENT_VELOCITY) {
         move_and_slide();
+    }
+
+    if(has_method("_physics_update")) { // C++ 이랑 GDscript 모두 호환되도록
+        call("_physics_update", delta);
+    } else {
+        _physics_update(delta);
     }
 }
 

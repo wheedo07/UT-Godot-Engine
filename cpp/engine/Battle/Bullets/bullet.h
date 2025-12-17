@@ -59,10 +59,12 @@ namespace godot {
             virtual void on_hit_player();
             virtual void on_hit_yellow();
             virtual void on_hit_player_shield();
+            virtual void _physics_update(double delta);
             GDVIRTUAL0(ready);
             GDVIRTUAL0(on_hit_player);
             GDVIRTUAL0(on_hit_yellow);
             GDVIRTUAL0(on_hit_player_shield);
+            GDVIRTUAL1(_physics_update, double);
 
             Bullet* set_mode(DamageMode mode = MODE_BLUE);
             DamageMode get_mode();
