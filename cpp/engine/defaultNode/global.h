@@ -161,7 +161,6 @@ namespace godot {
     		bool get_player_text_box() const;
 			void set_just_died(bool value);
 			bool get_just_died();
-			void set_cache_playtime(double value);
 			double get_cache_playtime();
 			void set_temp_atk(int value);
 			int get_temp_atk();
@@ -241,6 +240,9 @@ namespace godot {
 
     		void set_player_move(bool value);
     		bool get_player_move() const;
+
+			void set_playtime(double value);
+			double get_playtime() const;
     };
 }
 

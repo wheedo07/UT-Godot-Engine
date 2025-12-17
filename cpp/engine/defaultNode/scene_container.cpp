@@ -64,6 +64,7 @@ void SceneContainer::_ready() {
 
 void SceneContainer::set_current_scene(Node* p_scene) {
     current_scene = p_scene;
+    if(current_scene && !current_scene->is_class("Intro")) global->start = true;
 }
 
 Node* SceneContainer::get_current_scene() const {
@@ -85,7 +86,7 @@ Error SceneContainer::change_scene_to_file(const String& path) {
 
 Error SceneContainer::change_scene_to_packed(const Ref<PackedScene>& file) {
     unload_current_scene();
-    current_scene = file->instantiate();
+    set_current_scene(file->instantiate());
     if(ObjectDB::get_instance(current_scene->get_instance_id())) {
         main_viewport->add_child(current_scene);
     }else {
@@ -97,7 +98,7 @@ Error SceneContainer::change_scene_to_packed(const Ref<PackedScene>& file) {
 }
 
 void SceneContainer::unload_current_scene() {
-    if (!current_scene) return;
+    if(!current_scene) return;
     current_scene->get_parent()->remove_child(current_scene);
     current_scene->queue_free();
     current_scene = nullptr;

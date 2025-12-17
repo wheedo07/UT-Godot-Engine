@@ -34,7 +34,6 @@ void OverworldSceneChanger::_bind_methods() {
     
     ClassDB::bind_method(D_METHOD("_load_and_set_scene", "path"), &OverworldSceneChanger::_load_and_set_scene);
     ClassDB::bind_method(D_METHOD("_set_player_data", "current_scene"), &OverworldSceneChanger::_set_player_data);
-    ClassDB::bind_method(D_METHOD("_scene_setup_thing", "transition"), &OverworldSceneChanger::_scene_setup_thing);
     ClassDB::bind_method(D_METHOD("_on_battle_transition_finished"), &OverworldSceneChanger::_on_battle_transition_finished);
     ClassDB::bind_method(D_METHOD("_on_scene_setup_finished", "transition"), &OverworldSceneChanger::_on_scene_setup_finished);
     
@@ -85,7 +84,6 @@ void OverworldSceneChanger::_load_and_set_scene(const String& path) {
     overworld_data["room"] = path;
     global->set_overworld_data(overworld_data);
     
-    global->start = true;
     global->get_scene_container()->change_scene_to_packed(resource);
     global->get_scene_container()->get_camera()->blind(blind_time, 1, 0.35);
     global->get_scene_container()->connect("change_scene", Callable(this, "_set_player_data").bind(global->get_scene_container()->get_current_scene()), CONNECT_ONE_SHOT);
@@ -109,10 +107,6 @@ void OverworldSceneChanger::_set_player_data(Node* current_scene) {
 }
 
 void OverworldSceneChanger::load_cached_scene(bool transition) {
-    _scene_setup_thing(transition);
-}
-
-void OverworldSceneChanger::_scene_setup_thing(bool transition) {
     if (!global) {
         ERR_PRINT("global 로드 문제");
         _on_scene_setup_finished(transition);
@@ -141,27 +135,27 @@ void OverworldSceneChanger::_on_scene_setup_finished(bool transition) {
     SceneContainer* tree = global->get_scene_container();
     tree->unload_current_scene();
 
-    Ref<PackedScene> scene;
-    if(!current_node) scene = loader->load(default_scene);
-
-    if(is_cached_overworld_scene() || scene.is_valid()) {
-        Overworld* sc = nullptr;
-        if(!scene.is_valid()) {
-            sc = Object::cast_to<Overworld>(current_node);
-        }else {
-            sc = Object::cast_to<Overworld>(scene->instantiate());
-        }
-        
+    Ref<PackedScene> scene = loader->load(default_scene);
+    Overworld* sc = nullptr;
+    if(is_cached_overworld_scene()) {
+        sc = Object::cast_to<Overworld>(current_node);
+    }else if(scene.is_valid() && !current_node) {
+        sc = Object::cast_to<Overworld>(scene->instantiate());
+    }
+    
+    if(sc) {
         tree->set_current_scene(sc);
         tree->get_main_viewport()->add_child(sc);
         
         if(sc->has_signal("initialized")) sc->emit_signal("initialized");
         if(sc->has_method("ready")) sc->call("ready"); // // C++ 이랑 GDscript 모두 호환되도록
         else sc->ready();
+    }else if(current_node) {
+        tree->set_current_scene(current_node);
+        current_node->request_ready();
+        tree->get_main_viewport()->add_child(current_node);
     }else {
-        Node* sc = current_node;
-        tree->set_current_scene(sc);
-        tree->get_main_viewport()->add_child(sc);
+        ERR_PRINT("캐시된 씬을 불러오지 못했습니다.");
     }
     global->call_deferred("_set_battle_start", false);
 
@@ -233,9 +227,7 @@ void OverworldSceneChanger::_load_battle_scene(const String& scene_path, const R
 }
 
 void OverworldSceneChanger::load_general_scene(const String& scene_path) {
-    SceneContainer * tree = global->get_scene_container();
-    tree->get_camera()->blind(0.1);
-    tree->call_deferred("change_scene_to_packed", loader->load(scene_path));
+    global->get_scene_container()->change_scene_to_file(scene_path);
 }
 
 void OverworldSceneChanger::set_default_scene(const String& p_scene) {

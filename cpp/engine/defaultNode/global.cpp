@@ -398,8 +398,7 @@ void Global::_process(double delta) {
         paused_time -= delta;
         if(paused_time <= 0) paused_time = 0;
     }
-
-    if(start) playtime += delta;
+    playtime += delta;
 
     // KR THING:
     KrTimer->set_wait_time(player_kr > 30 ? krtime / 3.0 : krtime);

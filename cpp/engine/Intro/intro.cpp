@@ -62,13 +62,16 @@ void Intro::_ready() {
     
     camera = global->get_scene_container()->get_camera();
     intro_text->set_process_unhandled_input(false);
+
+    intro_text->set_text("");
+    intro_image->hide();
+
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
         call("ready");
     } else {
         ready();
     }
-    _load_intro_data_from_json();
-    _play_intro();
+    call_deferred("_play_intro");
 }
 
 void Intro::ready() {}
@@ -81,7 +84,10 @@ void Intro::_input(const Ref<InputEvent>& event) {
 }
 
 void Intro::_play_intro() {
-    if (intro_data.size() == 0) {
+    if(global->start) return;
+
+    _load_intro_data_from_json();
+    if(intro_data.size() == 0) {
         intro_completed = true;
         emit_signal("intro_completed", skip_intro);
         return;

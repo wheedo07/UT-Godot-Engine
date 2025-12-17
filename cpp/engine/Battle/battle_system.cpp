@@ -50,7 +50,6 @@ void BattleMain::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_end_turn"), &BattleMain::_on_end_turn);
     ClassDB::bind_method(D_METHOD("_on_player_turn_start"), &BattleMain::_on_player_turn_start);
     ClassDB::bind_method(D_METHOD("_on_enemy_turn_start"), &BattleMain::_on_enemy_turn_start);
-    ClassDB::bind_method(D_METHOD("_on_damage_info_finished"), &BattleMain::_on_damage_info_finished);
     ClassDB::bind_method(D_METHOD("_fight", "target"), &BattleMain::_fight);
     ClassDB::bind_method(D_METHOD("_hit", "damage", "target", "crit"), &BattleMain::_hit, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("_miss", "target"), &BattleMain::_miss);
@@ -224,14 +223,11 @@ void BattleMain::initialize() {
 
 void BattleMain::_no_enemies_handler() {
     box->blitter_print({ tr("UT_NOBODY_CAME") });
-    box->connect("blitter_end", Callable(this, "_on_action").bind("no_enemies_exit"), CONNECT_ONE_SHOT);
+    box->connect("blitter_end", Callable(this, "_on_action").bind("end_battle"), CONNECT_ONE_SHOT);
 }
 
 void BattleMain::_on_action(const String& action) {
-    if(action == "no_enemies_exit") {
-        soul_battle->queue_free();
-        scene_changer->load_cached_scene();
-    }else if(action == "end_battle") {
+    if(action == "end_battle") {
         global->set_temp_atk(0);
         global->set_temp_def(0);
         soul_battle->queue_free();
@@ -306,10 +302,6 @@ void BattleMain::_enemy_script_off() {
         enemies_node->remove_child(enemy);
     }
     get_tree()->connect("process_frame", Callable(this, "_on_action").bind("script_off"), CONNECT_ONE_SHOT);
-}
-
-void BattleMain::_on_damage_info_finished() {
-    // (필요한 경우)
 }
 
 PackedStringArray BattleMain::_on_death_player() {

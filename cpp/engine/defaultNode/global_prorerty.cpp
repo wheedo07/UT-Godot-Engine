@@ -81,6 +81,9 @@ void Global::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_player_move", "value"), &Global::set_player_move);
     ClassDB::bind_method(D_METHOD("get_player_move"), &Global::get_player_move);
+
+    ClassDB::bind_method(D_METHOD("set_playtime", "value"), &Global::set_playtime);
+    ClassDB::bind_method(D_METHOD("get_playtime"), &Global::get_playtime);
     //
 
     // gdscript에서 호출을 위한 메서드 바인딩
@@ -148,6 +151,8 @@ void Global::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_can_move", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_can_move", "get_player_can_move");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_move", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_move", "get_player_move");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_set_menu", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_player_set_menu", "get_player_set_menu");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "playtime", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_playtime", "get_playtime");
+    //
 }
 
 void Global::set_first(bool value) {
@@ -406,10 +411,6 @@ Dictionary Global::get_overworld_data() {
     return overworld_data;
 }
 
-void Global::set_cache_playtime(double value) {
-    cache_playtime = value;
-}
-
 double Global::get_cache_playtime() {
     return cache_playtime;
 }
@@ -469,4 +470,12 @@ void Global::set_variables(Dictionary value) {
 
 Dictionary Global::get_variables() {
     return variables;
+}
+
+void Global::set_playtime(double value) {
+    playtime = value;
+}
+
+double Global::get_playtime() const {
+    return playtime;
 }

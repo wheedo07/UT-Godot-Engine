@@ -135,7 +135,6 @@ namespace godot {
             void _on_point_tween_step(Vector2 new_position, int vertex_index);
             void _on_point_tween_finished(int vertex_index);
             void _polygon_reset_finished();
-            bool is_vertex_tweening(int vertex_index);
 
             Array id_to_soul_pos(int id, int x_limit = 2);
             void refresh_options();
@@ -162,6 +161,7 @@ namespace godot {
             Tween::EaseType get_ease_type() const;
             void set_transition_type(Tween::TransitionType type);
             Tween::TransitionType get_transition_type() const;
+            Vector2 _anchor_position(RelativePosition relative_to, Vector2 new_position, Vector2 intended_size, Vector2 final_size, bool is_relative);
         
         public:
             BattleMain* main;
@@ -191,8 +191,6 @@ namespace godot {
             RemoteTransform2D* get_tl() const;
             RemoteTransform2D* get_br() const;
             Blitter* get_blitter_text() const;
-
-            int get_used_item();
             void set_used_item(int value);
             
             // 사용 함수

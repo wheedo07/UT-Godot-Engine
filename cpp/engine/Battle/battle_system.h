@@ -61,7 +61,6 @@ namespace godot {
 
             void _on_player_turn_start();
             void _on_enemy_turn_start();
-            void _on_damage_info_finished();
             void _on_spare_finished(Enemy* enemy);
             void _no_enemies_handler();
             

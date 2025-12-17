@@ -40,7 +40,6 @@ namespace godot {
             void _load_battle_scene(const String& scene_path, const Ref<Encounter>& encounter);
             void _load_and_set_scene(const String& path);
             void _set_player_data(Node* current_scene);
-            void _scene_setup_thing(bool transition);
 
         public:
             OverworldSceneChanger();
