@@ -210,7 +210,6 @@ void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2
     _tween_size(args);
 }
 
-
 void BattleBox::set_box_size(Vector2 new_size, RelativePosition relative_to, bool relative) {
     if(isPolygonMode) {
         ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
@@ -608,12 +607,10 @@ void BattleBox::_on_point_tween_step(Vector2 new_position, int vertex_index) {
 }
 
 void BattleBox::_on_point_tween_finished(int vertex_index) {
-    // 완료된 트윈 제거
     active_tweens.erase(vertex_index);
     
-    // tweening_vertices 배열에서 제거
-    for (int i = 0; i < tweening_vertices.size(); i++) {
-        if (tweening_vertices[i] == vertex_index) {
+    for(int i=0; i < tweening_vertices.size(); i++) {
+        if(tweening_vertices[i] == vertex_index) {
             tweening_vertices.remove_at(i);
             break;
         }
