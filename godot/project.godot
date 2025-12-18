@@ -25,7 +25,7 @@ config/icon="res://icon.png"
 [autoload]
 
 stagehand="*res://Main/stagehand.tscn"
-scene_changer="*res://Main/overworld_scene_changer.tscn"
+scene_changer="*res://Main/scene_changer.tscn"
 global="*res://Main/global.tscn"
 
 [debug]
