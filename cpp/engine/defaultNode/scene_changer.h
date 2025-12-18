@@ -33,7 +33,7 @@ namespace godot {
             Dictionary data;
             Dictionary data_default;
 
-            bool waiting_for_transition = false;
+            bool waiting_for_transition;
 
             void _on_battle_transition_finished();
             void _on_scene_setup_finished(bool transition);
