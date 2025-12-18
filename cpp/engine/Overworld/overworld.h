@@ -39,6 +39,10 @@ namespace godot {
             Ref<AudioStream> music;
             TypedArray<RoomEntranceNode> room_entrances;
 
+            void _initialized(Dictionary data = Dictionary());
+            void _on_saved();
+            void _room_init(const Dictionary& data);
+
             void set_property(Object* value);
             PlayerOverworld* get_player();
             AudioStreamPlayer* get_music_player();
@@ -56,9 +60,6 @@ namespace godot {
             GDVIRTUAL0(ready);
             GDVIRTUAL1(start_cellphone, int);
             GDVIRTUAL0R(PackedStringArray, player_died);
-
-            void _room_init(const Dictionary& data);
-            void _on_saved();
 
             // 사용 함수
             Bullet* add_bullet(Ref<PackedScene> bullet_scene);

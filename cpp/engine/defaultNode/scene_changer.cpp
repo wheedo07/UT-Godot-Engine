@@ -147,7 +147,7 @@ void SceneChanger::_on_scene_setup_finished(bool transition) {
         tree->set_current_scene(sc);
         tree->get_main_viewport()->add_child(sc);
         
-        if(sc->has_signal("initialized")) sc->emit_signal("initialized");
+        if(sc->has_signal("cached_initialized")) sc->emit_signal("cached_initialized");
         if(sc->has_method("ready")) sc->call("ready"); // // C++ 이랑 GDscript 모두 호환되도록
         else sc->ready();
     }else if(current_node) {

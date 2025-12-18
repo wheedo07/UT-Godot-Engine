@@ -149,10 +149,9 @@
         </member>
     </members>
     <signals>
-        <signal name="initialized">
+        <signal name="cached_initialized">
             <description>
-                Overworld 초기화가 완료되었을 때 발생합니다.
-                플레이어와 카메라가 성공적으로 연결되고 음악이 시작될 때 방출됩니다.
+                배틀이 끝나고 오버월드가 다시 로드될 때, 또는 [method SceneChanger.load_cached_scene]를 호출할 때 발생합니다.
             </description>
         </signal>
         <signal name="remove_bullets">

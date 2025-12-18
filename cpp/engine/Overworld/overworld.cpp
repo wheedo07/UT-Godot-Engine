@@ -36,6 +36,7 @@ void Overworld::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("_room_init", "data"), &Overworld::_room_init);
     ClassDB::bind_method(D_METHOD("_on_saved"), &Overworld::_on_saved);
+    ClassDB::bind_method(D_METHOD("_initialized", "data"), &Overworld::_initialized, DEFVAL(Dictionary()));
     
     ClassDB::bind_method(D_METHOD("set_world_name", "name"), &Overworld::set_world_name);
     ClassDB::bind_method(D_METHOD("get_world_name"), &Overworld::get_world_name);
@@ -62,7 +63,7 @@ void Overworld::_bind_methods() {
     ,"set_room_entrances", "get_room_entrances");
     
     ADD_SIGNAL(MethodInfo("remove_bullets"));
-    ADD_SIGNAL(MethodInfo("initialized"));
+    ADD_SIGNAL(MethodInfo("cached_initialized"));
     ADD_SIGNAL(MethodInfo("room_initialized", PropertyInfo(Variant::DICTIONARY, "data")));
 }
 
@@ -74,11 +75,8 @@ void Overworld::_ready() {
     camera = Object::cast_to<CameraController>(get_node_internal(camera_path));
     player = Object::cast_to<PlayerOverworld>(get_node_internal(player_path));
 
-    connect("initialized", Callable(this, "start_music_fade_in"));
-    connect("initialized", Callable(camera, "force_update"));
-    connect("initialized", Callable(camera, "_set_limits"));
-    connect("room_initialized", Callable(camera, "force_update"));
-    connect("room_initialized", Callable(camera, "_set_limits"));
+    connect("cached_initialized", Callable(this, "_initialized"));
+    connect("room_initialized", Callable(this, "_initialized"));
     start_music_fade_in();
 
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
@@ -203,6 +201,16 @@ void Overworld::_on_saved() {
     
     overworld_data["room_pos"] = Array::make(player_pos.x, player_pos.y);
     global->set_overworld_data(overworld_data);
+}
+
+void Overworld::_initialized(Dictionary data) {
+    if (!camera) {
+        ERR_PRINT("Overworld: CameraController를 찾을수 없습니다");
+        return;
+    }
+    start_music_fade_in();
+    camera->force_update();
+    camera->_set_limits();
 }
 
 void Overworld::set_world_name(const String& p_name) {
