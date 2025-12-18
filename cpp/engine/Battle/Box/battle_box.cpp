@@ -116,6 +116,7 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_web_y_pos", "id"), &BattleBox::get_web_y_pos);
     ClassDB::bind_method(D_METHOD("blitter_print", "texts"), &BattleBox::blitter_print);
     ClassDB::bind_method(D_METHOD("polygon_enable"), &BattleBox::polygon_enable);
+    ClassDB::bind_method(D_METHOD("create_protrusion", "direction", "offset", "size", "duration"), &BattleBox::create_protrusion, DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("get_polygon_points"), &BattleBox::get_polygon_points);
     ClassDB::bind_method(D_METHOD("get_vertex_position", "vertex_index"), &BattleBox::get_vertex_position);
     ClassDB::bind_method(D_METHOD("move_closest_point", "target_point", "duration"), &BattleBox::move_closest_point, DEFVAL(0.3f));

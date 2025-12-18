@@ -294,6 +294,106 @@ void BattleBox::polygon_enable() {
     }
 }
 
+#define BOX_PROTRUSION_SPREAD 8.0f
+void BattleBox::create_protrusion(Vector2 direction, float offset, Vector2 size, float duration) {
+    if(!isPolygonMode) {
+        ERR_PRINT("다각형 모드가 활성화되어 있지 않습니다. polygon_enable()을 먼저 호출해주세요.");
+        return;
+    }
+    direction = direction.normalized();
+    Vector2 margin_offset = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
+    
+    PackedInt64Array vertex_indices;
+    PackedVector2Array target_points;
+    if(direction.y > 0) {
+        float start_x = margin_offset.x + offset;
+        float end_x = margin_offset.x + offset + size.x;
+        float y_line = margin_offset.y + current_size.y;
+        
+        for(int i=0; i < target_shape.size(); i++) {
+            Vector2 point = target_shape[i];
+            if(Math::abs(point.y - y_line) < 5.0f && point.x >= start_x && point.x <= end_x) {
+                vertex_indices.append(i);
+                Vector2 target_pos = Vector2(point.x, y_line + size.y);
+                target_points.append(to_global(target_pos));
+            }
+        }
+    }else if(direction.y < 0) {
+        float start_x = margin_offset.x + offset;
+        float end_x = margin_offset.x + offset + size.x;
+        float y_line = margin_offset.y;
+        
+        for(int i=0; i < target_shape.size(); i++) {
+            Vector2 point = target_shape[i];
+            if(Math::abs(point.y - y_line) < 5.0f && point.x >= start_x && point.x <= end_x) {
+                vertex_indices.append(i);
+                Vector2 target_pos = Vector2(point.x, y_line - size.y);
+                target_points.append(to_global(target_pos));
+            }
+        }
+    }else if(direction.x > 0) {
+        float start_y = margin_offset.y + offset;
+        float end_y = margin_offset.y + offset + size.y;
+        float x_line = margin_offset.x + current_size.x;
+        
+        float max_x = -Math_INF;
+        for(int i=0; i < target_shape.size(); i++) {
+            if(target_shape[i].x > max_x) max_x = target_shape[i].x;
+        }
+        
+        for(int i=0; i < target_shape.size(); i++) {
+            Vector2 point = target_shape[i];
+            if(Math::abs(point.x - max_x) < 5.0f && point.y >= start_y && point.y <= end_y) {
+                vertex_indices.append(i);
+                Vector2 target_pos = Vector2(point.x + size.x, point.y);
+                target_points.append(to_global(target_pos));
+            }
+        }
+    }else if(direction.x < 0) {
+        float start_y = margin_offset.y + offset;
+        float end_y = margin_offset.y + offset + size.y;
+        float min_x = Math_INF;
+        for(int i=0; i < target_shape.size(); i++) {
+            if(target_shape[i].x < min_x) min_x = target_shape[i].x;
+        }
+        
+        for(int i=0; i < target_shape.size(); i++) {
+            Vector2 point = target_shape[i];
+            if(Math::abs(point.x - min_x) < 5.0f && point.y >= start_y && point.y <= end_y) {
+                vertex_indices.append(i);
+                Vector2 target_pos = Vector2(point.x - size.x, point.y);
+                target_points.append(to_global(target_pos));
+            }
+        }
+    }
+
+    if(target_points.size() >= 2) {
+        Vector2 first_point = target_points[0];
+        Vector2 last_point = target_points[target_points.size() - 1];
+        
+        if(direction.x > 0) {
+            first_point.y -= BOX_PROTRUSION_SPREAD;
+            last_point.y += BOX_PROTRUSION_SPREAD;
+        }else if(direction.x < 0) {
+            first_point.y += BOX_PROTRUSION_SPREAD;
+            last_point.y -= BOX_PROTRUSION_SPREAD;
+        }else if(direction.y < 0) {
+            first_point.x -= BOX_PROTRUSION_SPREAD;
+            last_point.x += BOX_PROTRUSION_SPREAD;
+        }else if(direction.y > 0) {
+            first_point.x += BOX_PROTRUSION_SPREAD;
+            last_point.x -= BOX_PROTRUSION_SPREAD;
+        }
+        
+        target_points.set(0, first_point);
+        target_points.set(target_points.size() - 1, last_point);
+    }
+    
+    if(vertex_indices.size() > 0) {
+        move_multiple_points(vertex_indices, target_points, duration);
+    }else ERR_PRINT("지정된 방향과 크기에 해당하는 돌출부를 만들 수 없습니다. 점이 존재하지 않습니다.");
+}
+
 int BattleBox::move_closest_point(Vector2 target_point, float duration) {
     if(!isPolygonMode || target_shape.size() < 3) return -1;
     
@@ -329,7 +429,7 @@ void BattleBox::move_point_by_index(int vertex_index, Vector2 target_point, floa
         }
         active_tweens.erase(vertex_index);
         
-        for (int i = 0; i < tweening_vertices.size(); i++) {
+        for(int i=0; i < tweening_vertices.size(); i++) {
             if (tweening_vertices[i] == vertex_index) {
                 tweening_vertices.remove_at(i);
                 break;
@@ -338,7 +438,7 @@ void BattleBox::move_point_by_index(int vertex_index, Vector2 target_point, floa
     }
     
     Vector2 current_position = target_shape[vertex_index];
-    Ref<Tween> new_tween = create_tween()->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_QUAD);
+    Ref<Tween> new_tween = create_tween()->set_ease(EaseType)->set_trans(TransType);
     new_tween->tween_method(Callable(this, "_on_point_tween_step").bind(vertex_index), current_position, constrained_point, duration);
     new_tween->connect("finished", Callable(this, "_on_point_tween_finished").bind(vertex_index), CONNECT_ONE_SHOT);
 
@@ -362,16 +462,14 @@ int BattleBox::move_point_by_offset(Vector2 from_point, Vector2 offset, float du
     return closest_vertex;
 }
 
-void BattleBox::move_multiple_points(const Array& vertex_indices, const Array& target_points, float duration) {
+void BattleBox::move_multiple_points(PackedInt64Array vertex_indices, PackedVector2Array target_points, float duration) {
     if (vertex_indices.size() != target_points.size()) {
         ERR_PRINT("vertex_indices와 target_points의 크기가 다릅니다.");
         return;
     }
     
-    for (int i = 0; i < vertex_indices.size(); i++) {
-        int vertex_index = vertex_indices[i];
-        Vector2 target_point = target_points[i];
-        move_point_by_index(vertex_index, target_point, duration);
+    for(int i=0; i < vertex_indices.size(); i++) {
+        move_point_by_index(vertex_indices[i], target_points[i], duration);
     }
 }
 
