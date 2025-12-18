@@ -16,8 +16,8 @@
 #include<godot_cpp/variant/string.hpp>
 #include<godot_cpp/variant/callable.hpp>
 namespace godot {
-    class OverworldSceneChanger : public CanvasLayer {
-        GDCLASS(OverworldSceneChanger, CanvasLayer)
+    class SceneChanger : public CanvasLayer {
+        GDCLASS(SceneChanger, CanvasLayer)
 
         protected:
             static void _bind_methods();
@@ -42,8 +42,8 @@ namespace godot {
             void _set_player_data(Node* current_scene);
 
         public:
-            OverworldSceneChanger();
-            ~OverworldSceneChanger();
+            SceneChanger();
+            ~SceneChanger();
 
             void _ready() override;
 

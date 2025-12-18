@@ -1,4 +1,4 @@
-#include "overworld_scene_changer.h"
+#include "scene_changer.h"
 #include "env.h"
 #include "engine/Battle/battle_system.h"
 #include "engine/Overworld/overworld.h"
@@ -7,7 +7,7 @@
 #include<godot_cpp/classes/scene_state.hpp>
 #include<godot_cpp/classes/window.hpp>
 
-OverworldSceneChanger::OverworldSceneChanger() {
+SceneChanger::SceneChanger() {
     blind_time = 0.4f;
     
     data = Dictionary();
@@ -22,31 +22,31 @@ OverworldSceneChanger::OverworldSceneChanger() {
     current_node = nullptr;
 }
 
-OverworldSceneChanger::~OverworldSceneChanger() {}
+SceneChanger::~SceneChanger() {}
 
-void OverworldSceneChanger::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("enter_room_default"), &OverworldSceneChanger::enter_room_default);
-    ClassDB::bind_method(D_METHOD("enter_room_path", "room_path", "extra_data"), &OverworldSceneChanger::enter_room_path, DEFVAL(Dictionary()));
-    ClassDB::bind_method(D_METHOD("load_cached_scene", "transition"), &OverworldSceneChanger::load_cached_scene, DEFVAL(true));
-    ClassDB::bind_method(D_METHOD("load_battle", "battle_resource", "transition", "to_position"), &OverworldSceneChanger::load_battle, DEFVAL(true), DEFVAL(Vector2(48, 452)));
-    ClassDB::bind_method(D_METHOD("load_general_scene", "scene_path"), &OverworldSceneChanger::load_general_scene);
-    ClassDB::bind_method(D_METHOD("is_cached_overworld_scene"), &OverworldSceneChanger::is_cached_overworld_scene);
+void SceneChanger::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("enter_room_default"), &SceneChanger::enter_room_default);
+    ClassDB::bind_method(D_METHOD("enter_room_path", "room_path", "extra_data"), &SceneChanger::enter_room_path, DEFVAL(Dictionary()));
+    ClassDB::bind_method(D_METHOD("load_cached_scene", "transition"), &SceneChanger::load_cached_scene, DEFVAL(true));
+    ClassDB::bind_method(D_METHOD("load_battle", "battle_resource", "transition", "to_position"), &SceneChanger::load_battle, DEFVAL(true), DEFVAL(Vector2(48, 452)));
+    ClassDB::bind_method(D_METHOD("load_general_scene", "scene_path"), &SceneChanger::load_general_scene);
+    ClassDB::bind_method(D_METHOD("is_cached_overworld_scene"), &SceneChanger::is_cached_overworld_scene);
     
-    ClassDB::bind_method(D_METHOD("_load_and_set_scene", "path"), &OverworldSceneChanger::_load_and_set_scene);
-    ClassDB::bind_method(D_METHOD("_set_player_data", "current_scene"), &OverworldSceneChanger::_set_player_data);
-    ClassDB::bind_method(D_METHOD("_on_battle_transition_finished"), &OverworldSceneChanger::_on_battle_transition_finished);
-    ClassDB::bind_method(D_METHOD("_on_scene_setup_finished", "transition"), &OverworldSceneChanger::_on_scene_setup_finished);
+    ClassDB::bind_method(D_METHOD("_load_and_set_scene", "path"), &SceneChanger::_load_and_set_scene);
+    ClassDB::bind_method(D_METHOD("_set_player_data", "current_scene"), &SceneChanger::_set_player_data);
+    ClassDB::bind_method(D_METHOD("_on_battle_transition_finished"), &SceneChanger::_on_battle_transition_finished);
+    ClassDB::bind_method(D_METHOD("_on_scene_setup_finished", "transition"), &SceneChanger::_on_scene_setup_finished);
     
-    ClassDB::bind_method(D_METHOD("set_default_scene", "scene"), &OverworldSceneChanger::set_default_scene);
-    ClassDB::bind_method(D_METHOD("get_default_scene"), &OverworldSceneChanger::get_default_scene);
+    ClassDB::bind_method(D_METHOD("set_default_scene", "scene"), &SceneChanger::set_default_scene);
+    ClassDB::bind_method(D_METHOD("get_default_scene"), &SceneChanger::get_default_scene);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "default_scene", PROPERTY_HINT_FILE, "*.tscn"), "set_default_scene", "get_default_scene");
 
-    ClassDB::bind_method(D_METHOD("set_battle_scene_path", "path"), &OverworldSceneChanger::set_battle_scene_path);
-    ClassDB::bind_method(D_METHOD("get_battle_scene_path"), &OverworldSceneChanger::get_battle_scene_path);
+    ClassDB::bind_method(D_METHOD("set_battle_scene_path", "path"), &SceneChanger::set_battle_scene_path);
+    ClassDB::bind_method(D_METHOD("get_battle_scene_path"), &SceneChanger::get_battle_scene_path);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "battle_scene_path", PROPERTY_HINT_FILE, "*.tscn"), "set_battle_scene_path", "get_battle_scene_path");
 }
 
-void OverworldSceneChanger::_ready() {
+void SceneChanger::_ready() {
     loader = ResourceLoader::get_singleton();
     if(data_default.is_empty()) {
         data_default = data.duplicate();
@@ -59,13 +59,13 @@ void OverworldSceneChanger::_ready() {
     }
 }
 
-void OverworldSceneChanger::enter_room_default() {
+void SceneChanger::enter_room_default() {
     CameraFx* camera = global->get_scene_container()->get_camera();
     camera->blind(0.1, 1);
     camera->connect("finished_tween", Callable(this, "_load_and_set_scene").bind(default_scene), CONNECT_ONE_SHOT);
 }
 
-void OverworldSceneChanger::enter_room_path(const String& room_path, const Dictionary& extra_data) {
+void SceneChanger::enter_room_path(const String& room_path, const Dictionary& extra_data) {
     data = extra_data.duplicate();
     
     Dictionary overworld_data = global->get_overworld_data();
@@ -77,7 +77,7 @@ void OverworldSceneChanger::enter_room_path(const String& room_path, const Dicti
     camera->connect("finished_tween", Callable(this, "_load_and_set_scene").bind(room_path), CONNECT_ONE_SHOT);
 }
 
-void OverworldSceneChanger::_load_and_set_scene(const String& path) {
+void SceneChanger::_load_and_set_scene(const String& path) {
     Ref<PackedScene> resource = loader->load(path);
     
     Dictionary overworld_data = global->get_overworld_data();
@@ -89,7 +89,7 @@ void OverworldSceneChanger::_load_and_set_scene(const String& path) {
     global->get_scene_container()->connect("change_scene", Callable(this, "_set_player_data").bind(global->get_scene_container()->get_current_scene()), CONNECT_ONE_SHOT);
 }
 
-void OverworldSceneChanger::_set_player_data(Node* current_scene) {
+void SceneChanger::_set_player_data(Node* current_scene) {
     if (!global) {
         ERR_PRINT("global 로드 문제");
         return;
@@ -106,7 +106,7 @@ void OverworldSceneChanger::_set_player_data(Node* current_scene) {
     data = data_default.duplicate();
 }
 
-void OverworldSceneChanger::load_cached_scene(bool transition) {
+void SceneChanger::load_cached_scene(bool transition) {
     if (!global) {
         ERR_PRINT("global 로드 문제");
         _on_scene_setup_finished(transition);
@@ -125,7 +125,7 @@ void OverworldSceneChanger::load_cached_scene(bool transition) {
     }
 }
 
-void OverworldSceneChanger::_on_scene_setup_finished(bool transition) {
+void SceneChanger::_on_scene_setup_finished(bool transition) {
     if (!global) {
         ERR_PRINT("global 로드 문제");
         return;
@@ -164,7 +164,7 @@ void OverworldSceneChanger::_on_scene_setup_finished(bool transition) {
     }
 }
 
-void OverworldSceneChanger::load_battle(const Ref<Encounter>& battle_resource, bool transition, const Vector2& to_position) {
+void SceneChanger::load_battle(const Ref<Encounter>& battle_resource, bool transition, const Vector2& to_position) {
     if (!global) {
         ERR_PRINT("global 로드 문제");
         return;
@@ -190,11 +190,11 @@ void OverworldSceneChanger::load_battle(const Ref<Encounter>& battle_resource, b
     }
 }
 
-bool OverworldSceneChanger::is_cached_overworld_scene() {
+bool SceneChanger::is_cached_overworld_scene() {
     return current_node && current_node->is_class("Overworld");
 }
 
-void OverworldSceneChanger::_on_battle_transition_finished() {
+void SceneChanger::_on_battle_transition_finished() {
     if (!waiting_for_transition) return;
     waiting_for_transition = false;
     
@@ -204,7 +204,7 @@ void OverworldSceneChanger::_on_battle_transition_finished() {
     _load_battle_scene(scene_path, encounter);
 }
 
-void OverworldSceneChanger::_load_battle_scene(const String& scene_path, const Ref<Encounter>& encounter) {
+void SceneChanger::_load_battle_scene(const String& scene_path, const Ref<Encounter>& encounter) {
     if (!global) {
         ERR_PRINT("global 로드 문제");
         return;
@@ -226,22 +226,22 @@ void OverworldSceneChanger::_load_battle_scene(const String& scene_path, const R
     tree->get_main_viewport()->add_child(battle);
 }
 
-void OverworldSceneChanger::load_general_scene(const String& scene_path) {
+void SceneChanger::load_general_scene(const String& scene_path) {
     global->get_scene_container()->change_scene_to_file(scene_path);
 }
 
-void OverworldSceneChanger::set_default_scene(const String& p_scene) {
+void SceneChanger::set_default_scene(const String& p_scene) {
     default_scene = p_scene;
 }
 
-String OverworldSceneChanger::get_default_scene() const {
+String SceneChanger::get_default_scene() const {
     return default_scene;
 }
 
-void OverworldSceneChanger::set_battle_scene_path(const String& p_path) {
+void SceneChanger::set_battle_scene_path(const String& p_path) {
     battle_scene_path = p_path;
 }
 
-String OverworldSceneChanger::get_battle_scene_path() const {
+String SceneChanger::get_battle_scene_path() const {
     return battle_scene_path;
 }

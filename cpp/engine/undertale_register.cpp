@@ -41,7 +41,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_RUNTIME_CLASS(Global);
     GDREGISTER_RUNTIME_CLASS(DebugMenu);
     GDREGISTER_RUNTIME_CLASS(SceneContainer);
-    GDREGISTER_RUNTIME_CLASS(OverworldSceneChanger);
+    GDREGISTER_RUNTIME_CLASS(SceneChanger);
     // [end] //
 
     // [Camera] //

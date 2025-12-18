@@ -33,7 +33,7 @@ using namespace godot;
 #include "defaultNode/global.h"
 #include "defaultNode/debugmenu.h"
 #include "defaultNode/scene_container.h"
-#include "defaultNode/overworld_scene_changer.h"
+#include "defaultNode/scene_changer.h"
 // [end] //
 
 // [Camera] //

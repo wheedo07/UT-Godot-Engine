@@ -38,7 +38,7 @@ void SceneContainer::_ready() {
     mobile = Object::cast_to<Control>(get_node_internal("Mobile"));
 
     global = Object::cast_to<Global>(get_node_internal("/root/global"));
-    scene_changer = Object::cast_to<OverworldSceneChanger>(get_node_internal("/root/scene_changer"));
+    scene_changer = Object::cast_to<SceneChanger>(get_node_internal("/root/scene_changer"));
     stagehand = Object::cast_to<Stagehand>(get_node_internal("/root/stagehand"));
 
     global->load_game();
