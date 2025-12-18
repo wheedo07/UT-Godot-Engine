@@ -63,7 +63,7 @@ void Overworld::_bind_methods() {
     
     ADD_SIGNAL(MethodInfo("remove_bullets"));
     ADD_SIGNAL(MethodInfo("initialized"));
-    ADD_SIGNAL(MethodInfo("room_initialized"));
+    ADD_SIGNAL(MethodInfo("room_initialized", PropertyInfo(Variant::DICTIONARY, "data")));
 }
 
 void Overworld::_ready() {
@@ -164,6 +164,7 @@ void Overworld::_room_init(const Dictionary& data) {
         return;
     }
     global->set_player_can_move(false);
+    emit_signal("room_initialized", data);
     
     if (!data.has("entrance") || !data["entrance"]) {
         Dictionary overworld_data = global->get_overworld_data();
@@ -192,8 +193,6 @@ void Overworld::_room_init(const Dictionary& data) {
         player->force_direction(room->get_facing_direction());
         break;
     }
-    
-    emit_signal("room_initialized");
 }
 
 void Overworld::_on_saved() {

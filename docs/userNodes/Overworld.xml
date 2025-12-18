@@ -164,8 +164,9 @@
         </signal>
         <signal name="room_initialized">
             <description>
-                RoomEntranceNode를 통해 방에 진입하여 플레이어 위치와 카메라가 갱신되었을 때 발생합니다.
-                맵 전환 완료를 알리는 시그널입니다.
+                방이 초기화되었을 때 발생합니다.
+                [RoomEntranceNode]를 통해 방에 진입하여거나 [method SceneChanger.enter_room_path]를 호출할 때 방출됩니다.
+                매개변수로 방 초기화에 사용된 데이터를 포함하는 딕셔너리를 전달합니다.
             </description>
         </signal>
     </signals>
