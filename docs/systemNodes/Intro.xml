@@ -58,7 +58,7 @@
         인트로 사용하지 않는다면
         [codeblock]
         func ready():
-            global.get_scene_container().change_scene_to_file("경로");
+            scene_changer.load_general_scene("경로");
         [/codeblock]
         등을 사용하여 바로 메인 씬으로 전환하는 방식을 권장합니다.
     </description>
