@@ -180,7 +180,7 @@ void Overworld::_room_init(const Dictionary& data) {
     }
     
     int entrance_id = data["entrance"];
-    for (int i = 0; i < room_entrances.size(); i++) {
+    for(int i=0; i < room_entrances.size(); i++) {
         RoomEntranceNode* room = Object::cast_to<RoomEntranceNode>(room_entrances[i]);
         if (room->get_door_id() != entrance_id) {
             continue;
@@ -194,7 +194,7 @@ void Overworld::_room_init(const Dictionary& data) {
 }
 
 void Overworld::_on_saved() {
-    if (!player) return;
+    if(!player) return;
     
     Dictionary overworld_data = global->get_overworld_data();
     Vector2 player_pos = player->get_global_position();
@@ -204,7 +204,7 @@ void Overworld::_on_saved() {
 }
 
 void Overworld::_initialized(Dictionary data) {
-    if (!camera) {
+    if(!camera) {
         ERR_PRINT("Overworld: CameraController를 찾을수 없습니다");
         return;
     }
