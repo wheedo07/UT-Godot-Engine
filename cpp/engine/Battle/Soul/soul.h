@@ -96,6 +96,7 @@ namespace godot {
 
             // 보라색 소울 관련
             int purple_pos;
+            int new_purple_pos;
             Ref<Tween> p_tween;
 
             // 메뉴 관련

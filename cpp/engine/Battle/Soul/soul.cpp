@@ -9,7 +9,7 @@
 #include<godot_cpp/classes/engine.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/particle_process_material.hpp>
-#include<godot_cpp/variant/callable.hpp>
+#include<godot_cpp/classes/geometry2d.hpp>
 
 SoulBattle::SoulBattle() {
     gravity_multiplier = 1.0f;
@@ -35,7 +35,8 @@ SoulBattle::SoulBattle() {
     iframes = 0;
     motion = Vector2(0, 0);
     changed_direction_time = 0;
-    purple_pos = 0;
+    purple_pos = -1;
+    new_purple_pos = -1;
     
     jump.resize(4);
     jump[0] = 8.0f;
@@ -315,6 +316,7 @@ void SoulBattle::heal(BulletArea* area) {
 
 void SoulBattle::set_mode(SoulMode new_mode) {
     if(new_mode != DISABLE_MOVEMENT && previous_mode != new_mode) {
+        previous_mode = new_mode;
         mode_change_sound->play();
         ghost->restart();
         ghost->set_emitting(true);
@@ -324,7 +326,6 @@ void SoulBattle::set_mode(SoulMode new_mode) {
 
 void SoulBattle::set_mode_silent(SoulMode new_mode) {
     mode = new_mode;
-    previous_mode = new_mode;
     if(!is_node_ready()) return;
     
     if(new_mode == DISABLE_MOVEMENT) {
@@ -356,7 +357,7 @@ void SoulBattle::set_mode_silent(SoulMode new_mode) {
     if(new_mode != BLUE) set_gravity_direction_silent(Vector2(0, 1));
 
     if(new_mode == PURPLE) {
-        purple_pos = 0;
+        new_purple_pos = 0;
         gravity_direction = Vector2(0,0);
         motion = Vector2(0, 0);
         update_purple_pos();
@@ -550,31 +551,47 @@ void SoulBattle::purple() {
     inputs = input->get_vector("ui_left", "ui_right", "ui_up", "ui_down");
     motion.x = speed * inputs.x / slow_down;
     
-    if (input->is_action_just_pressed("ui_down") || 
-        input->is_action_just_pressed("ui_up")) {
-        purple_pos += int(round(inputs.y));
+    if(input->is_action_just_pressed("ui_down") || input->is_action_just_pressed("ui_up")) {
+        new_purple_pos = purple_pos + int(round(inputs.y));
         
         Array webs_array = main->box->webs_array;
-        purple_pos = Math::clamp<int>(purple_pos, 0, webs_array.size() - 1);
+        new_purple_pos = Math::clamp<int>(new_purple_pos, 0, webs_array.size() - 1);
         
         update_purple_pos();
     }
 }
 
 void SoulBattle::update_purple_pos() {
-    if (purple_pos < -1) {
-        purple_pos = 0;
+    if(new_purple_pos < -1) {
+        new_purple_pos = 0;
         return;
+    }else if(new_purple_pos == purple_pos) return;
+
+    float web_y_pos = main->box->get_web_y_pos(new_purple_pos);
+    if(main->box->polygon_is_enabled()) {
+        PackedVector2Array polygon_points = main->box->get_polygon_points();
+        Vector2 ray_start = get_global_position();
+        Vector2 ray_end = Vector2(get_global_position().x, web_y_pos);
+        for(int i=0; i < polygon_points.size(); i++) {
+            Vector2 edge_start = polygon_points[i];
+            Vector2 edge_end = polygon_points[(i + 1) % polygon_points.size()];
+            
+            Vector2 box_global_pos = main->box->get_global_position();
+            edge_start += box_global_pos;
+            edge_end += box_global_pos;
+            
+            Variant intersection = Geometry2D::get_singleton()->segment_intersects_segment(
+                ray_start, ray_end, edge_start, edge_end
+            );
+            
+            if(intersection.get_type() != Variant::NIL) return;
+        }
     }
     
-    if (p_tween.is_valid() && p_tween->is_valid()) {
-        p_tween->kill();
-    }
-    
+    if(p_tween.is_valid() && p_tween->is_valid()) p_tween->kill();
     p_tween = get_tree()->create_tween();
-    
-    float web_y_pos = main->box->get_web_y_pos(purple_pos);
     p_tween->tween_property(this, "global_position:y", web_y_pos, 0.1);
+    purple_pos = new_purple_pos;
 }
 
 void SoulBattle::orange() {
