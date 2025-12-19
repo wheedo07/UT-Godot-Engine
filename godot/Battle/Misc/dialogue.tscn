@@ -1,12 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3j04wql8n25c"]
+[gd_scene load_steps=3 format=3 uid="uid://d3j04wql8n25c"]
 
 [ext_resource type="Texture2D" uid="uid://doxpm4jconb8f" path="res://Battle/Misc/Bubble/bubble_1.png" id="1_v6xqj"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="2_2m2k7"]
-[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="2_wqw4s"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f3046"]
-shader = ExtResource("2_wqw4s")
-shader_parameter/threshold = 0.4
 
 [node name="Dialogue" type="DialogueControl"]
 z_index = 110
@@ -30,7 +25,6 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 8
 
 [node name="Text" type="EnemySpeech" parent="TextContainer"]
-material = SubResource("ShaderMaterial_f3046")
 layout_mode = 2
 theme = ExtResource("2_2m2k7")
 theme_override_colors/default_color = Color(0, 0, 0, 1)

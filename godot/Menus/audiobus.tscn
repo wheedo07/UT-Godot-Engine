@@ -1,15 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cnm64bp0hy4b0"]
+[gd_scene load_steps=7 format=3 uid="uid://cnm64bp0hy4b0"]
 
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_sf0rf"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_h3fwb"]
 [ext_resource type="Theme" uid="uid://csrwnc0ryis8q" path="res://Themes/EditorMain.tres" id="4_h6exq"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="5_v40wf"]
 [ext_resource type="Texture2D" uid="uid://berhvwkx8e1jr" path="res://Menus/assets/audiobus_volumes.png" id="6_fsars"]
-[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="6_ww75r"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g7yoa"]
-shader = ExtResource("6_ww75r")
-shader_parameter/threshold = 0.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2tfb"]
 bg_color = Color(0, 0, 0, 0.862745)
@@ -118,7 +113,6 @@ value = 12.0
 
 [node name="Name" type="RichTextLabel" parent="Margin"]
 self_modulate = Color(0.870588, 0.890196, 1, 1)
-material = SubResource("ShaderMaterial_g7yoa")
 clip_contents = false
 layout_mode = 1
 anchors_preset = -1

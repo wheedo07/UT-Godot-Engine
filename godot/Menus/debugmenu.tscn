@@ -1,9 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://x1g53cac1aq7"]
+[gd_scene load_steps=13 format=3 uid="uid://x1g53cac1aq7"]
 
 [ext_resource type="Shader" uid="uid://cwal68u742e4u" path="res://Shaders/blur.gdshader" id="1_n24qb"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="2_rnrpm"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="3_jxe76"]
-[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="4_rygnh"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="5_v15op"]
 [ext_resource type="Theme" uid="uid://csrwnc0ryis8q" path="res://Themes/EditorMain.tres" id="6_me24t"]
 [ext_resource type="PackedScene" uid="uid://cnm64bp0hy4b0" path="res://Menus/audiobus.tscn" id="6_t1t4d"]
@@ -15,22 +14,6 @@ bg_color = Color(0, 0, 0, 0.705882)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_owj1f"]
 shader = ExtResource("1_n24qb")
 shader_parameter/lod = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_67afo"]
-shader = ExtResource("4_rygnh")
-shader_parameter/threshold = 0.7
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yrnwr"]
-shader = ExtResource("4_rygnh")
-shader_parameter/threshold = 0.7
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0px4p"]
-shader = ExtResource("4_rygnh")
-shader_parameter/threshold = 0.7
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_me24t"]
-shader = ExtResource("4_rygnh")
-shader_parameter/threshold = 0.5
 
 [sub_resource type="Animation" id="Animation_qnifu"]
 length = 0.001
@@ -155,7 +138,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="DEBUG" type="RichTextLabel" parent="."]
-material = SubResource("ShaderMaterial_67afo")
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 17.0
@@ -202,21 +184,18 @@ grow_vertical = 2
 
 [node name="VFX" type="SettingBoolButton" parent="Options/VBoxContainer"]
 setting_name = "vfx"
-material = SubResource("ShaderMaterial_67afo")
 layout_mode = 2
 theme = ExtResource("2_rnrpm")
 text = "VFX"
 
 [node name="CamShake" type="SettingBoolButton" parent="Options/VBoxContainer"]
 setting_name = "shake"
-material = SubResource("ShaderMaterial_yrnwr")
 layout_mode = 2
 theme = ExtResource("2_rnrpm")
 text = "UT_SETTING_SHAKE"
 
 [node name="Border" type="SettingBoolButton" parent="Options/VBoxContainer"]
 setting_name = "border"
-material = SubResource("ShaderMaterial_0px4p")
 layout_mode = 2
 theme = ExtResource("2_rnrpm")
 text = "UT_SETTING_BORDER"
@@ -325,7 +304,6 @@ editable = false
 suffix = "x"
 
 [node name="process_label" type="RichTextLabel" parent="Options2/NinePatchRect"]
-material = SubResource("ShaderMaterial_me24t")
 layout_mode = 0
 offset_left = 8.0
 offset_top = 108.0

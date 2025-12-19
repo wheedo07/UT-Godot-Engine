@@ -1,7 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://3mahpp3h1cx4"]
+[gd_scene load_steps=11 format=3 uid="uid://3mahpp3h1cx4"]
 
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_o8u07"]
-[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="3_a0mh2"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_f5ep8"]
 [ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="5_20ij6"]
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="5_61718"]
@@ -13,10 +12,6 @@ size = Vector2(580, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p27oi"]
 size = Vector2(150, 10)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ggt38"]
-shader = ExtResource("3_a0mh2")
-shader_parameter/threshold = 0.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f8pib"]
 bg_color = Color(1, 0, 0, 1)
@@ -140,7 +135,6 @@ split_offset = 245
 dragger_visibility = 2
 
 [node name="Column1" type="RichTextLabel" parent="Acts/Options"]
-material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
@@ -150,7 +144,6 @@ text = "* 살펴보기
 scroll_active = false
 
 [node name="Column2" type="RichTextLabel" parent="Acts/Options"]
-material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
@@ -176,7 +169,6 @@ layout_mode = 2
 theme_override_constants/margin_bottom = 24
 
 [node name="Items" type="RichTextLabel" parent="Items/TextContainer"]
-material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
@@ -217,7 +209,6 @@ theme_override_constants/margin_bottom = 10
 metadata/_edit_group_ = true
 
 [node name="Targets" type="RichTextLabel" parent="Target"]
-material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
@@ -272,7 +263,6 @@ show_percentage = false
 
 [node name="Mercy" type="MarginContainer" parent="."]
 visible = false
-material = SubResource("ShaderMaterial_ggt38")
 offset_left = 28.0
 offset_top = 246.0
 offset_right = 612.0
@@ -307,12 +297,11 @@ metadata/_edit_group_ = true
 click_path = NodePath("Click")
 interval = 0.05
 queued_texts_handling = 1
-material = SubResource("ShaderMaterial_ggt38")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
 bbcode_enabled = true
-text = "* Mad"
+text = "* 전투 시작!!"
 scroll_active = false
 context_menu_enabled = true
 visible_characters_behavior = 1

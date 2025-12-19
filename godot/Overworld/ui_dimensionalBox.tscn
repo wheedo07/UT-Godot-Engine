@@ -1,19 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbw12ww5wdgnp"]
+[gd_scene load_steps=7 format=3 uid="uid://cbw12ww5wdgnp"]
 
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="1_ov50n"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_t0e86"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_t0e86"]
-[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="3_yx2gn"]
 [ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="5_bso01"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_yx2gn"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bso01"]
 noise = SubResource("FastNoiseLite_yx2gn")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bso01"]
-shader = ExtResource("3_yx2gn")
-shader_parameter/threshold = 0.400000019
 
 [node name="BOX" type="UIdimensionalBox"]
 
@@ -51,7 +46,6 @@ begin_cap_mode = 1
 end_cap_mode = 1
 
 [node name="INVENTORY_Label" type="RichTextLabel" parent="Control/Main"]
-material = SubResource("ShaderMaterial_bso01")
 layout_mode = 0
 offset_left = 26.0
 offset_top = 20.0
@@ -62,7 +56,6 @@ text = "INVENTORY"
 horizontal_alignment = 1
 
 [node name="INVENTORY_Item" type="RichTextLabel" parent="Control/Main"]
-material = SubResource("ShaderMaterial_bso01")
 layout_mode = 0
 offset_left = 47.0
 offset_top = 72.0
@@ -83,7 +76,6 @@ scroll_active = false
 autowrap_mode = 0
 
 [node name="BOX_Label" type="RichTextLabel" parent="Control/Main"]
-material = SubResource("ShaderMaterial_bso01")
 layout_mode = 0
 offset_left = 305.0
 offset_top = 20.0
@@ -94,7 +86,6 @@ text = "BOX"
 horizontal_alignment = 1
 
 [node name="BOX_Item" type="RichTextLabel" parent="Control/Main"]
-material = SubResource("ShaderMaterial_bso01")
 layout_mode = 0
 offset_left = 317.0
 offset_top = 72.0

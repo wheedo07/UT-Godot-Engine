@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://cw7by1ibpkm1x"]
+[gd_scene load_steps=6 format=3 uid="uid://cw7by1ibpkm1x"]
 
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_2u401"]
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="4_wgfxx"]
-[ext_resource type="Shader" uid="uid://bnv8suu7xqf0n" path="res://Text/pixel.gdshader" id="5_jss6j"]
 [ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="5_kots0"]
 [ext_resource type="AudioStream" uid="uid://cjt5oikkeubw6" path="res://sfx/mus_cymbal.ogg" id="6_s3pw6"]
 
@@ -18,18 +17,6 @@ func check_names(player_name: String) -> void:
 	else:
 		react_to_name(\"LO_NAME_CHECK\");
 "
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_anwqw"]
-shader = ExtResource("5_jss6j")
-shader_parameter/threshold = 0.5
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkeuk"]
-shader = ExtResource("5_jss6j")
-shader_parameter/threshold = 0.499
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qht23"]
-shader = ExtResource("5_jss6j")
-shader_parameter/threshold = 0.5
 
 [node name="NameSelection" type="NameSelection"]
 process_mode = 3
@@ -62,7 +49,6 @@ scroll_active = false
 horizontal_alignment = 1
 
 [node name="Name" type="Control" parent="."]
-material = SubResource("ShaderMaterial_anwqw")
 layout_mode = 1
 anchor_top = 0.18
 anchor_right = 1.0
@@ -76,7 +62,6 @@ mouse_filter = 1
 theme = ExtResource("3_2u401")
 
 [node name="Label" type="Label" parent="Name"]
-material = SubResource("ShaderMaterial_anwqw")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -106,7 +91,6 @@ border_width = 2.0
 
 [node name="Shift" type="OptionSelectable" parent="Letters"]
 self_modulate = Color(0.721569, 0.721569, 0.721569, 1)
-material = SubResource("ShaderMaterial_dkeuk")
 clip_contents = false
 layout_mode = 0
 offset_left = 167.0
@@ -129,7 +113,6 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Quit" type="OptionSelectable" parent="Options"]
-material = SubResource("ShaderMaterial_dkeuk")
 clip_contents = false
 layout_mode = 0
 offset_right = 111.0
@@ -138,7 +121,6 @@ theme = ExtResource("3_2u401")
 text = "UT_EXIT"
 
 [node name="Backspace" type="OptionSelectable" parent="Options"]
-material = SubResource("ShaderMaterial_qht23")
 clip_contents = false
 layout_mode = 0
 offset_left = 156.0
@@ -148,7 +130,6 @@ theme = ExtResource("3_2u401")
 text = "UT_DELETE"
 
 [node name="Done" type="OptionSelectable" parent="Options"]
-material = SubResource("ShaderMaterial_anwqw")
 clip_contents = false
 layout_mode = 0
 offset_left = 324.0
@@ -200,7 +181,6 @@ offset_bottom = 455.0
 split_offset = 230
 
 [node name="NO" type="OptionSelectable" parent="Confirmation"]
-material = SubResource("ShaderMaterial_anwqw")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_2u401")
@@ -208,7 +188,6 @@ text = "UT_NO"
 horizontal_alignment = 1
 
 [node name="YES" type="OptionSelectable" parent="Confirmation"]
-material = SubResource("ShaderMaterial_anwqw")
 clip_contents = false
 layout_mode = 2
 theme = ExtResource("3_2u401")
@@ -229,8 +208,8 @@ bus = &"SFX"
 [connection signal="enable" from="." to="Prompt" method="show"]
 [connection signal="enable" from="." to="Name/Label" method="show"]
 [connection signal="enable" from="." to="Letters" method="show"]
-[connection signal="enable" from="." to="Options" method="show"]
 [connection signal="enable" from="." to="Options" method="disable"]
+[connection signal="enable" from="." to="Options" method="show"]
 [connection signal="enable" from="." to="Letters" method="enable_input" binds= [0]]
 [connection signal="pass_name" from="." to="." method="_on_pass_name"]
 [connection signal="backspace_key" from="Letters" to="." method="_on_backspace_pressed"]
