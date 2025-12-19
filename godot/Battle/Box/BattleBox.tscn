@@ -73,31 +73,15 @@ color = Color(0, 0, 0, 0)
 color = Color(0, 0, 0, 0.8)
 polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)
 
-[node name="Webs" type="Control" parent="BoxContainer/Rect"]
-show_behind_parent = true
-clip_contents = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Bullets" type="Polygon2D" parent="BoxContainer/Rect"]
+clip_children = 1
+polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)
 
-[node name="Bullets" type="Control" parent="BoxContainer/Rect"]
-show_behind_parent = true
-clip_contents = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="RectNoClip" type="Node2D" parent="BoxContainer/Rect"]
 
-[node name="RectNoClip" type="Control" parent="BoxContainer/Rect"]
-show_behind_parent = true
-anchors_preset = 0
-offset_right = 584.0
-offset_bottom = 140.0
+[node name="Webs" type="Polygon2D" parent="BoxContainer/Rect"]
+clip_children = 1
+polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)
 
 [node name="border" type="Line2D" parent="BoxContainer/Rect"]
 points = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)

@@ -73,6 +73,10 @@ void AttackBase::add_bullet(Node* bullet, Masking mask_value) {
         ERR_PRINT("투명 모드에서는 ABSOLUTE 마스킹을 사용할 수 없습니다. 마스킹을 RELATIVE_BOX_CLIP 또는 RELATIVE_BOX로 변경하세요.");
         return;
     }
+    if(box->polygon_is_enabled() && mask_value == Masking::ABSOLUTE_CLIP) {
+        ERR_PRINT("폴리곤 모드에서는 ABSOLUTE_CLIP 마스킹을 사용할 수 없습니다.");
+        return;
+    }
     
     if(bullet->has_method("fade")) {
         connect("remove_bullets", Callable(bullet, "fade"));

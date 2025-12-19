@@ -8,7 +8,7 @@
 #include "engine/Camera/camera_controller.h"
 #include<godot_cpp/classes/node.hpp>
 #include<godot_cpp/classes/packed_scene.hpp>
-#include<godot_cpp/classes/control.hpp>
+#include<godot_cpp/classes/polygon2d.hpp>
 #include<godot_cpp/core/binder_common.hpp>
 #include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
@@ -33,8 +33,8 @@ namespace godot {
         
         private:
             Node* non_mask;
-            Control* box_rect_clip;
-            Control* box_rect_no_clip;
+            Polygon2D* box_rect_clip;
+            Node2D* box_rect_no_clip;
             int attack_id;
 
             void set_property(Object* value);

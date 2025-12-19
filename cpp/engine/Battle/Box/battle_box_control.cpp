@@ -294,6 +294,10 @@ void BattleBox::polygon_enable() {
     }
 }
 
+bool BattleBox::polygon_is_enabled() {
+    return isPolygonMode;
+}
+
 #define BOX_PROTRUSION_SPREAD 8.0f
 void BattleBox::create_protrusion(Vector2 direction, float offset, Vector2 size, float duration) {
     if(!isPolygonMode) {

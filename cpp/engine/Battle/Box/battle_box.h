@@ -71,8 +71,10 @@ namespace godot {
             int items_per_page;
             Array choices_extends;
             Array webs_array;
-            Control* rect_no_clip;
-            Control* rect_clip;
+
+            Node2D* rect_no_clip;
+            Polygon2D* rect_clip;
+            Polygon2D* webs;
 
         private:
             const int colsize = 500;
@@ -111,7 +113,6 @@ namespace godot {
             Line2D* border;
             Polygon2D* background;
             Ref<PackedScene> web_scene;
-            Control* webs;
             Array collisions;
             Array hp_bars;
             RemoteTransform2D* tl;
@@ -221,6 +222,7 @@ namespace godot {
 
             // Polygon mode 관련 함수
             void polygon_enable();
+            bool polygon_is_enabled();
             void create_protrusion(Vector2 direction, float offset, Vector2 size, float duration = 0.3f);
             int move_closest_point(Vector2 target_point, float duration = 0.3f);
             void move_point_by_index(int vertex_index, Vector2 target_point, float duration = 0.3f);

@@ -116,6 +116,7 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_web_y_pos", "id"), &BattleBox::get_web_y_pos);
     ClassDB::bind_method(D_METHOD("blitter_print", "texts"), &BattleBox::blitter_print);
     ClassDB::bind_method(D_METHOD("polygon_enable"), &BattleBox::polygon_enable);
+    ClassDB::bind_method(D_METHOD("polygon_is_enabled"), &BattleBox::polygon_is_enabled);
     ClassDB::bind_method(D_METHOD("create_protrusion", "direction", "offset", "size", "duration"), &BattleBox::create_protrusion, DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("get_polygon_points"), &BattleBox::get_polygon_points);
     ClassDB::bind_method(D_METHOD("get_vertex_position", "vertex_index"), &BattleBox::get_vertex_position);
@@ -173,9 +174,9 @@ void BattleBox::_ready() {
     ResourceLoader* loader = ResourceLoader::get_singleton();
     web_scene = loader->load("res://Battle/Soul/box_web.tscn");
     
-    webs = Object::cast_to<Control>(get_node_internal("BoxContainer/Rect/Webs"));
-    rect_no_clip = Object::cast_to<Control>(get_node_internal("BoxContainer/Rect/RectNoClip"));
-    rect_clip = Object::cast_to<Control>(get_node_internal("BoxContainer/Rect/Bullets"));
+    webs = get_node<Polygon2D>("BoxContainer/Rect/Webs");
+    rect_no_clip = get_node<Node2D>("BoxContainer/Rect/RectNoClip");
+    rect_clip = get_node<Polygon2D>("BoxContainer/Rect/Bullets");
     
     collisions.resize(4);
     collisions[0] = Object::cast_to<CollisionShape2D>(get_node_internal("BoxContainer/Collisions/Top"));
@@ -286,6 +287,8 @@ void BattleBox::_physics_process(double delta) {
     PackedVector2Array border_pts = off.size() > 0 ? (PackedVector2Array)off[0] : points;
     border->set_points(border_pts);
     background->set_polygon(border_pts);
+    webs->set_polygon(border_pts);
+    rect_clip->set_polygon(border_pts);
 }
 
 void BattleBox::_process(double delta) {

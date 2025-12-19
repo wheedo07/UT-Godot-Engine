@@ -160,6 +160,12 @@
                 폴리곤 모드를 활성화합니다. 직사각형 박스를 폴리곤으로 변환하여 더 복잡한 형태 변형을 가능하게 합니다.
             </description>
         </method>
+        <method name="polygon_is_enabled">
+            <return type="bool" />
+            <description>
+                폴리곤 모드가 활성화되어 있는지 여부를 반환합니다.
+            </description>
+        </method>
         <method name="reset_box">
             <return type="void" />
             <param index="0" name="duration" type="float" default="0.5" />
