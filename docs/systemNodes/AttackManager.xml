@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="AttackManager" inherits="BackBufferCopy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](사용자 생성 불가능)[/color]
+        이 노드는 적의 공격을 관리합니다.
+    </brief_description>
+    <description>
+        AttackManager는 전투 시스템에서 적의 공격 패턴을 관리하는 핵심 노드입니다.
+        여러 개의 공격을 동시에 실행하고, 각 공격의 생명주기를 추적하며, 
+        모든 공격이 완료되면 플레이어 턴으로 전환하는 역할을 담당합니다.
+        
+        각 공격은 AttackBase를 상속받은 노드여야 하며, PackedScene 형태로 추가됩니다.
+        공격들은 개별적으로 시작하거나 일괄적으로 시작할 수 있으며, 
+        강제로 모든 공격을 종료시키는 기능도 제공합니다.
+    </description>
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="add_attack">
+            <return type="AttackBase" />
+            <param index="0" name="attack" type="PackedScene" />
+            <description>
+                새로운 공격을 추가합니다. PackedScene은 AttackBase를 상속받은 노드여야 합니다.
+                추가된 공격에는 자동으로 ID가 할당되고, remove_attack 신호가 연결됩니다.
+                성공적으로 추가되면 AttackBase 인스턴스를 반환하고, 실패하면 null을 반환합니다.
+            </description>
+        </method>
+        <method name="check_all_attacks_finished">
+            <return type="bool" />
+            <description>
+                모든 공격이 완료되었는지 확인합니다. 
+                모든 공격이 끝나면 true를 반환하고, 하나라도 실행 중이면 false를 반환합니다.
+                이 메서드는 내부적으로 사용되며, 공격 완료 시 player_turn 신호 발생 여부를 결정합니다.
+            </description>
+        </method>
+        <method name="end_attack">
+            <return type="void" />
+            <param index="0" name="id" type="int" />
+            <description>
+                지정된 ID의 공격을 종료합니다. 공격에서 remove_bullets 신호를 발생시키고 노드를 제거합니다.
+                모든 공격이 완료되면 자동으로 player_turn 신호가 발생합니다.
+                일반적으로 공격 스크립트에서 자동으로 호출되므로 직접 호출할 필요는 없습니다.
+            </description>
+        </method>
+        <method name="force_end_attacks">
+            <return type="void" />
+            <description>
+                진행 중인 모든 공격을 강제로 종료합니다. 
+                각 공격에서 remove_bullets 신호를 발생시키고 모든 공격 노드를 제거합니다.
+                공격 리스트와 실행 중인 공격 ID 목록을 모두 초기화하고 즉시 player_turn 신호를 발생시킵니다.
+            </description>
+        </method>
+        <method name="start_attack">
+            <return type="void" />
+            <param index="0" name="id" type="int" />
+            <description>
+                지정된 ID의 공격을 시작합니다. 
+                해당 공격의 start_attack() 메서드를 호출하고 실행 중인 공격 목록에 추가합니다.
+                이미 실행 중인 공격은 다시 시작되지 않습니다.
+                C++과 GDScript 공격 모두 호환됩니다.
+            </description>
+        </method>
+        <method name="start_attacks">
+            <return type="void" />
+            <description>
+                추가된 모든 공격을 시작합니다. 
+                아직 시작되지 않은 공격들만 시작하며, 이미 실행 중인 공격은 건너뜁니다.
+                여러 공격을 동시에 실행하고 싶을 때 사용합니다.
+            </description>
+        </method>
+    </methods>
+    <signals>
+        <signal name="player_turn">
+            <description>
+                모든 공격이 완료되어 플레이어 턴이 시작될 때 발생합니다.
+                이 신호는 자동으로 발생하며, 전투 시스템에서 턴 전환을 처리하는 데 사용됩니다.
+                [b]이 신호를 수동으로 발생시키지 마십시오.[/b]
+            </description>
+        </signal>
+    </signals>
+</class>

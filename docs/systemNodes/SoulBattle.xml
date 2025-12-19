@@ -196,7 +196,7 @@
         </constant>
         <constant name="PURPLE" value="6" enum="SoulMode">
             보라색 모드. 수평 이동만 가능하며, 상/하 화살표 키로 보라색 선(웹) 사이를 순간이동합니다.
-            [BattleBox]의 [code]set_purple_web[/code]로 생성된 선 위치로만 이동 가능합니다.
+            [method BattleBox.set_webs] 메서드를 사용후 활성화할 수 있습니다.
         </constant>
         <constant name="DISABLE_MOVEMENT" value="7" enum="SoulMode">
             이동 불가 모드. 모든 플레이어 입력이 무시되며 영혼이 움직이지 않습니다.
