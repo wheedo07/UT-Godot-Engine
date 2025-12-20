@@ -144,8 +144,9 @@ void SoulBattle::_physics_process(double delta) {
     }
 
     hp_label->set_text(vformat("[color=%s]%d/%d", global->get_player_kr() ? "ff00ff" : "ffffff", global->get_player_hp(), global->get_player_max_hp()));
+    if(mode != ORANGE) afterimage->set_emitting(false);
+    
     if(main->player_turn) return;
-
     if (gravity_direction.x != 0) {
         motion.x = get_velocity().y;
         motion.y = get_velocity().x * gravity_direction.x;
@@ -181,7 +182,6 @@ void SoulBattle::_physics_process(double delta) {
         default:
             break;
     }
-    if(mode != ORANGE) afterimage->set_emitting(false);
 
     _motion_align_gravity_direction();
 }
