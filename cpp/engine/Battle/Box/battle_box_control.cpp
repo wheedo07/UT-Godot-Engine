@@ -89,7 +89,7 @@ void BattleBox::reset_box(float duration) {
     args->set_duration(duration);
     clear_webs();
     _tween_size(args);
-    tw->connect("finished", Callable(this, "_reset_finished"));
+    tw->connect("finished", Callable(this, "polygon_disable").bind(Vector2(0,0)));
 }
 
 Vector2 BattleBox::get_size() {
@@ -292,6 +292,35 @@ void BattleBox::polygon_enable() {
     for (int i = 0; i < 4; i++) {
         collisions[i].set("disabled", true);
     }
+}
+
+void BattleBox::polygon_disable(Vector2 box_size) {
+    if(!isPolygonMode) return;
+    isPolygonRest = true;
+    stop_all_point_tweens();
+
+    Vector2 margin_offset = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
+    PackedVector2Array rect_poly;
+
+    Vector2 target_size = box_size.is_zero_approx() ? current_size : box_size;
+    float perimeter = (target_size.x + target_size.y) * 2.0f;
+    float segment_length = perimeter / float(static_shape.size());
+    for(int i = 0; i < static_shape.size(); i++) {
+        float distance = segment_length * float(i);
+        Vector2 point;
+
+        if(distance < target_size.x) {
+            point = margin_offset + Vector2(distance, 0);
+        }else if(distance < target_size.x + target_size.y) {
+            point = margin_offset + Vector2(target_size.x, distance - target_size.x);
+        }else if(distance < target_size.x * 2.0f + target_size.y) {
+            point = margin_offset + Vector2(target_size.x - (distance - target_size.x - target_size.y), target_size.y);
+        }else {
+            point = margin_offset + Vector2(0, target_size.y - (distance - target_size.x * 2.0f - target_size.y));
+        }
+        rect_poly.push_back(point);
+    }
+    target_shape = rect_poly;
 }
 
 bool BattleBox::polygon_is_enabled() {
@@ -601,36 +630,6 @@ Vector2 BattleBox::_anchor_position(RelativePosition relative_to, Vector2 new_po
             
         default:
             return anchor_targets_0;
-    }
-}
-
-void BattleBox::_reset_finished() {
-    if(isPolygonMode) {
-        isPolygonRest = true;
-        stop_all_point_tweens();
-
-        Vector2 margin_offset = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
-        PackedVector2Array rect_poly;
-        
-        float perimeter = (current_size.x + current_size.y) * 2.0f;
-        float segment_length = perimeter / float(static_shape.size());
-        for(int i = 0; i < static_shape.size(); i++) {
-            float distance = segment_length * float(i);
-            Vector2 point;
-
-            if(distance < current_size.x) {
-                point = margin_offset + Vector2(distance, 0);
-            } else if (distance < current_size.x + current_size.y) {
-                point = margin_offset + Vector2(current_size.x, distance - current_size.x);
-            } else if (distance < current_size.x * 2.0f + current_size.y) {
-                point = margin_offset + Vector2(current_size.x - (distance - current_size.x - current_size.y), current_size.y);
-            } else {
-                point = margin_offset + Vector2(0, current_size.y - (distance - current_size.x * 2.0f - current_size.y));
-            }
-
-            rect_poly.push_back(point);
-        }
-        target_shape = rect_poly;
     }
 }
 

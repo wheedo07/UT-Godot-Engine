@@ -92,7 +92,7 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_soul_move_cooldown"), &BattleBox::_on_soul_move_cooldown);
     ClassDB::bind_method(D_METHOD("_on_point_tween_step", "new_position", "vertex_index"), &BattleBox::_on_point_tween_step);
     ClassDB::bind_method(D_METHOD("_on_point_tween_finished", "vertex_index"), &BattleBox::_on_point_tween_finished);
-    ClassDB::bind_method(D_METHOD("_reset_finished"), &BattleBox::_reset_finished);
+    ClassDB::bind_method(D_METHOD("polygon_disable", "box_size"), &BattleBox::polygon_disable);
 
     // 상자 크기
     ClassDB::bind_method(D_METHOD("get_size"), &BattleBox::get_size);

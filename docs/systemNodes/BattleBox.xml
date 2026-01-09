@@ -78,6 +78,10 @@
             <param index="3" name="duration" type="float" default="0.3" />
             <description>
                 폴리곤 모드에서 특정 방향으로 박스 모양에 돌출부를 생성합니다.
+                [param direction] 매개변수로 돌출부의 방향을 지정 (Vector2.DOWN, Vector2.UP 등)
+                [param offset] 매개변수로 돌출부의 시작 위치를 지정
+                [param size] 매개변수로 돌출부의 크기를 지정
+                [param duration] 매개변수로 돌출부 생성 애니메이션 지속 시간을 지정
             </description>
         </method>
         <method name="get_box_position" qualifiers="const">
@@ -158,6 +162,14 @@
             <return type="void" />
             <description>
                 폴리곤 모드를 활성화합니다. 직사각형 박스를 폴리곤으로 변환하여 더 복잡한 형태 변형을 가능하게 합니다.
+            </description>
+        </method>
+        <method name="polygon_disable">
+            <return type="void" />
+            <param index="0" name="box_size" type="Vector2" />
+            <description>
+                폴리곤 모드를 비활성화하고 박스를 직사각형 형태로 되돌립니다.
+                [param box_size] 매개변수로 되돌릴 박스의 크기를 지정할 수 있습니다.
             </description>
         </method>
         <method name="polygon_is_enabled">

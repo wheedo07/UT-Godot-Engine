@@ -146,7 +146,6 @@ namespace godot {
             void _box_set_size();
             void _real_rotate_by(Ref<ArgsHolder> args);
             void _on_soul_move_cooldown();
-            void _reset_finished();
 
             void _init_box();
 
@@ -222,6 +221,7 @@ namespace godot {
 
             // Polygon mode 관련 함수
             void polygon_enable();
+            void polygon_disable(Vector2 box_size);
             bool polygon_is_enabled();
             void create_protrusion(Vector2 direction, float offset, Vector2 size, float duration = 0.3f);
             int move_closest_point(Vector2 target_point, float duration = 0.3f);
