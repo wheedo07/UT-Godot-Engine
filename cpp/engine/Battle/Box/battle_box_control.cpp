@@ -136,7 +136,7 @@ float BattleBox::get_box_rotation() {
 
 void BattleBox::change_size(const Vector2& new_size, bool relative, float duration) {
     if(isPolygonMode) {
-        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()또는 polygon_disable()를 후출하고 사용해주세요");
         return;
     }
     Vector2 anchor_targets_0 = anchor_targets[0];
@@ -160,7 +160,7 @@ void BattleBox::change_size(const Vector2& new_size, bool relative, float durati
 
 void BattleBox::change_position(const Vector2& new_position, bool relative, float duration) {
     if(isPolygonMode) {
-        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()또는 polygon_disable()를 후출하고 사용해주세요");
         return;
     }
     Vector2 anchor_targets_0 = anchor_targets[0];
@@ -190,7 +190,7 @@ void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2
                                                const Vector2& new_size, bool position_relative, 
                                                bool size_relative, float duration) {
     if(isPolygonMode) {
-        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()또는 polygon_disable()를 후출하고 사용해주세요");
         return;
     }
     Vector2 anchor_targets_0 = anchor_targets[0];
@@ -212,7 +212,7 @@ void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2
 
 void BattleBox::set_box_size(Vector2 new_size, RelativePosition relative_to, bool relative) {
     if(isPolygonMode) {
-        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()또는 polygon_disable()를 후출하고 사용해주세요");
         return;
     }
     Vector2 anchor_targets_0 = anchor_targets[0];
@@ -231,7 +231,7 @@ void BattleBox::set_box_size(Vector2 new_size, RelativePosition relative_to, boo
 
 void BattleBox::set_box_position(Vector2 new_position, RelativePosition relative_to, bool relative) {
     if(isPolygonMode) {
-        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()를 후출하고 사용해주세요");
+        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()또는 polygon_disable()를 후출하고 사용해주세요");
         return;
     }
 
