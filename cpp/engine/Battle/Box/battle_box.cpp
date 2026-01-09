@@ -4,7 +4,6 @@
 #include "engine/Battle/battle_system.h"
 #include<godot_cpp/classes/geometry2d.hpp>
 #include<godot_cpp/classes/rectangle_shape2d.hpp>
-#define reset_morphSpeed 800
 
 BattleBox::BattleBox() {
     items_per_page = 3;
@@ -92,7 +91,7 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_soul_move_cooldown"), &BattleBox::_on_soul_move_cooldown);
     ClassDB::bind_method(D_METHOD("_on_point_tween_step", "new_position", "vertex_index"), &BattleBox::_on_point_tween_step);
     ClassDB::bind_method(D_METHOD("_on_point_tween_finished", "vertex_index"), &BattleBox::_on_point_tween_finished);
-    ClassDB::bind_method(D_METHOD("polygon_disable", "box_size"), &BattleBox::polygon_disable);
+    ClassDB::bind_method(D_METHOD("polygon_disable", "box_size", "duration"), &BattleBox::polygon_disable, DEFVAL(0.3f));
 
     // 상자 크기
     ClassDB::bind_method(D_METHOD("get_size"), &BattleBox::get_size);
@@ -298,26 +297,23 @@ void BattleBox::_process(double delta) {
         border->set_default_color(box_set->get_board_border_color());
     }
 
-    if(!isPolygonMode) return;
-    if(static_shape.size() == target_shape.size()) {
-        bool all_reached = true;
+    if(!isPolygonMode || static_shape.size() != target_shape.size()) return;
+    bool all_reached = true;
+    
+    for(int i=0; i < target_shape.size(); i++) {
+        Vector2 current = static_shape[i];
+        Vector2 target = target_shape[i];
+        Vector2 new_pos = current.move_toward(target, morph_speed * delta);
+        static_shape.set(i, new_pos);
         
-        for(int i=0; i < target_shape.size(); i++) {
-            Vector2 current = static_shape[i];
-            Vector2 target = target_shape[i];
-            float speed = isPolygonRest && morph_speed < reset_morphSpeed ? reset_morphSpeed : morph_speed;
-            Vector2 new_pos = current.move_toward(target, speed * delta);
-            static_shape.set(i, new_pos);
-
-            if (current.distance_to(target) > 1.0f) {
-                all_reached = false;
-            }
+        if(current.distance_to(target) > 1.0f) {
+            all_reached = false;
         }
-        polygon->set_polygon(static_shape);
-
-        if (all_reached && isPolygonRest) {
-            _polygon_reset_finished();
-        }
+    }
+    polygon->set_polygon(static_shape);
+    
+    if(all_reached && isPolygonRest) {
+        _polygon_reset_finished();
     }
 }
 

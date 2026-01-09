@@ -221,7 +221,7 @@ namespace godot {
 
             // Polygon mode 관련 함수
             void polygon_enable();
-            void polygon_disable(Vector2 box_size);
+            void polygon_disable(Vector2 box_size, float duration = 0.3f);
             bool polygon_is_enabled();
             void create_protrusion(Vector2 direction, float offset, Vector2 size, float duration = 0.3f);
             int move_closest_point(Vector2 target_point, float duration = 0.3f);

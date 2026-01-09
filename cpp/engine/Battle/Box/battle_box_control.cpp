@@ -89,7 +89,7 @@ void BattleBox::reset_box(float duration) {
     args->set_duration(duration);
     clear_webs();
     _tween_size(args);
-    tw->connect("finished", Callable(this, "polygon_disable").bind(Vector2(0,0)));
+    tw->connect("finished", Callable(this, "polygon_disable").bind(Vector2(0,0), duration));
 }
 
 Vector2 BattleBox::get_size() {
@@ -294,18 +294,19 @@ void BattleBox::polygon_enable() {
     }
 }
 
-void BattleBox::polygon_disable(Vector2 box_size) {
+void BattleBox::polygon_disable(Vector2 box_size, float duration) {
     if(!isPolygonMode) return;
     isPolygonRest = true;
     stop_all_point_tweens();
 
     Vector2 margin_offset = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
     PackedVector2Array rect_poly;
+    PackedInt64Array vertex_indices;
 
     Vector2 target_size = box_size.is_zero_approx() ? current_size : box_size;
     float perimeter = (target_size.x + target_size.y) * 2.0f;
     float segment_length = perimeter / float(static_shape.size());
-    for(int i = 0; i < static_shape.size(); i++) {
+    for(int i=0; i < static_shape.size(); i++) {
         float distance = segment_length * float(i);
         Vector2 point;
 
@@ -319,8 +320,9 @@ void BattleBox::polygon_disable(Vector2 box_size) {
             point = margin_offset + Vector2(0, target_size.y - (distance - target_size.x * 2.0f - target_size.y));
         }
         rect_poly.push_back(point);
+        vertex_indices.append(i);
     }
-    target_shape = rect_poly;
+    move_multiple_points(vertex_indices, rect_poly, duration);
 }
 
 bool BattleBox::polygon_is_enabled() {
