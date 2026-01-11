@@ -298,12 +298,8 @@ void BattleBox::polygon_disable(Vector2 box_size, float duration) {
         if(box_size.x < min_size.x) box_size.x = min_size.x;
         if(box_size.y < min_size.y) box_size.y = min_size.y;
 
-        anchor_targets_0 = current_center - box_size / 2.0;
-        anchor_targets_1 = current_center + box_size / 2.0;
-
-        // 계산 적용
-        anchor_targets[0] = anchor_targets_0;
-        anchor_targets[1] = anchor_targets_1;
+        anchor_targets[0] = current_center - box_size / 2.0;
+        anchor_targets[1] = current_center + box_size / 2.0;
         _box_set_size();
     }
 
