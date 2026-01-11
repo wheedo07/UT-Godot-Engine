@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="BattleObject" inherits="Control" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=green](사용자 생성 가능)[/color]
+        UT-Godot-Engine에서 전투 시스템의 전투 오브젝트를 구현하는 베이스 클래스입니다.
+        모든 전투 오브젝트는 이 클래스를 상속받아 구현되며, 화면 밖으로 나갔을 때의 처리, 제거 등의 기능을 제공합니다.
+    </brief_description>
+    <description>
+        BattleObject 클래스는 UT-Godot-Engine에서 전투 시스템의 전투 오브젝트를 구현하는 베이스 클래스입니다.
+        [Bullet] 클래스와 비슷한 역할을 할수도 있으며 화면 밖으로 나갔을 때의 처리, 제거 등의 기능을 제공합니다.
+
+        [AttackBase] 클래스에서 사용하려면
+        [codeblock]
+        extends AttackBase
+
+        @onready var battle_object_scene: PackedScene = preload("res://path_to_your_battle_object_scene.tscn")
+        
+        func start_attack():
+            var battle_object = battle_object_scene.instantiate() as BattleObject
+            battle_object.position = Vector2(100, 100)
+            add_bullet(battle_object, BattleObject.RELATIVE_BOX)
+        [/codeblock]
+        처럼 [BattleObject] 클래스를도 [Bullet] 클래스처럼 add_bullet 와 같은 메서드들로 추가할 수 있습니다.
+    </description>
+    <tutorials></tutorials>
+
+    <methods>
+        <method name="kill">
+            <return type="void"/>
+            <description>
+                전투 오브젝트를 제거하는 함수입니다. 호출 시 오브젝트가 씬에서 삭제됩니다.
+                턴이 끝나면 [AttackManager] 에서도 자동으로 호출될 수 있습니다.
+            </description>
+        </method>
+        <method name="fade">
+            <return type="void"/>
+            <description>
+                탄환을 페이드 아웃 효과와 함께 삭제합니다.
+                0.5초에 걸쳐 투명도를 0으로 만든 후 삭제됩니다.
+            </description>
+        </method>
+        <method name="on_exit_screen" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                전투 오브젝트가 화면 밖으로 나갔을 때 호출되는 함수입니다. C++과 GDScript에서 오버라이드 가능합니다.
+                화면 밖으로 나갔을 때의 처리 로직을 구현할 때 사용합니다.
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="velocity_tween" type="Tween" setter="set_velocity_tween" getter="get_velocity_tween">
+            꼭 이 메서드를 사용해서 Tween을 설정해야하는건 아닙니다. 하지만
+            [method kill] 또는 [method on_exit_screen]에서 트윈을 중지하거나 제거할 때 유용합니다.
+        </member>
+        <member name="velocity" type="Vector2" setter="set_velocity" getter="get_velocity">
+            꼭 이 메서드를 사용해서 속도를 설정해야하는건 아닙니다. 하지만
+            [method kill] 에서 속도를 (0,0)으로 설정할 때 유용합니다.
+        </member>
+    </members>
+</class>

@@ -134,7 +134,8 @@
         <method name="on_exit_screen">
             <return type="void"/>
             <description>
-                VisibleOnScreenNotifier2D 노드에 screen_exited 시그널과 연결용 함수입니다
+                [signal VisibleOnScreenNotifier2D.screen_exited] 주로 시그널과 연결되는 함수로
+                화면 밖으로 벗어난 탄환을 자동으로 삭제합니다.
             </description>
         </method>
     </methods>

@@ -125,6 +125,7 @@ TranslationServer.set_locale("en")
 - **`Bullet`** - 기본 탄환 노드
 - **`DefaultBullet`** - 기본 발사체 노드
 - **`BulletArea`** - 탄환 충돌 감지 영역
+- **`BattleObject`** - 전투 오브젝트 베이스 클래스
 
 ### 📝 텍스트 시스템
 - **`GenericTextTyper`** - 기본 타이핑 텍스트

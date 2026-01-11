@@ -4,13 +4,25 @@
 
 BattlePlatform::BattlePlatform() {
     movement = Vector2(0, 0);
+    trans = Tween::TRANS_QUAD;
+    ease = Tween::EASE_IN_OUT;
 }
 
 BattlePlatform::~BattlePlatform() {}
 
 void BattlePlatform::_bind_methods() {
+    BIND_ENUM_CONSTANT(VELOCITY);
+    BIND_ENUM_CONSTANT(TWEEN);
     ClassDB::bind_method(D_METHOD("fire", "target", "length", "speed", "fire_mode"), &BattlePlatform::fire, DEFVAL(40.0f), DEFVAL(100.0f), DEFVAL(FireMode::TWEEN));
     ClassDB::bind_method(D_METHOD("_on_tween_completed"), &BattlePlatform::_on_tween_completed);
+
+    ClassDB::bind_method(D_METHOD("set_trans", "value"), &BattlePlatform::set_trans);
+    ClassDB::bind_method(D_METHOD("get_trans"), &BattlePlatform::get_trans);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenTrans", PROPERTY_HINT_ENUM, "Linear,Quad,Cubic,Quart,Quint,Sine,Circ,Exp,Elastic,Bounce,Back"), "set_trans", "get_trans");
+
+    ClassDB::bind_method(D_METHOD("set_ease", "value"), &BattlePlatform::set_ease);
+    ClassDB::bind_method(D_METHOD("get_ease"), &BattlePlatform::get_ease);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut,OutIn"), "set_ease", "get_ease");
 }
 
 void BattlePlatform::_ready() {
@@ -73,4 +85,20 @@ void BattlePlatform::fire(Vector2 target, float length, float speed, FireMode fi
 
 void BattlePlatform::_on_tween_completed() {
     movement = Vector2(0, 0);
+}
+
+void BattlePlatform::set_trans(Tween::TransitionType value) {
+    trans = value;
+}
+
+Tween::TransitionType BattlePlatform::get_trans() const {
+    return trans;
+}
+
+void BattlePlatform::set_ease(Tween::EaseType value) {
+    ease = value;
+}
+
+Tween::EaseType BattlePlatform::get_ease() const {
+    return ease;
 }

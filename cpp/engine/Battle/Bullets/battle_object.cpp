@@ -3,26 +3,22 @@ using namespace godot;
 
 BattleObject::BattleObject() {
     velocity = Vector2(0,0);
-    trans = Tween::TRANS_QUAD;
-    ease = Tween::EASE_IN_OUT;
 }
 
 BattleObject::~BattleObject() {}
 
 void BattleObject::_bind_methods() {
-    BIND_ENUM_CONSTANT(VELOCITY);
-    BIND_ENUM_CONSTANT(TWEEN);
     ClassDB::bind_method(D_METHOD("fade"), &BattleObject::fade);
     ClassDB::bind_method(D_METHOD("kill"), &BattleObject::kill);
     ClassDB::bind_method(D_METHOD("on_exit_screen"), &BattleObject::on_exit_screen);
-
-    ClassDB::bind_method(D_METHOD("set_trans", "value"), &BattleObject::set_trans);
-    ClassDB::bind_method(D_METHOD("get_trans"), &BattleObject::get_trans);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenTrans", PROPERTY_HINT_ENUM, "Linear,Quad,Cubic,Quart,Quint,Sine,Circ,Exp,Elastic,Bounce,Back"), "set_trans", "get_trans");
-
-    ClassDB::bind_method(D_METHOD("set_ease", "value"), &BattleObject::set_ease);
-    ClassDB::bind_method(D_METHOD("get_ease"), &BattleObject::get_ease);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut,OutIn"), "set_ease", "get_ease");
+    
+    ClassDB::bind_method(D_METHOD("set_velocity_tween", "value"), &BattleObject::set_velocity_tween);
+    ClassDB::bind_method(D_METHOD("get_velocity_tween"), &BattleObject::get_velocity_tween);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "velocity_tween", PROPERTY_HINT_RESOURCE_TYPE, "Tween", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_velocity_tween", "get_velocity_tween");
+    
+    ClassDB::bind_method(D_METHOD("set_velocity", "value"), &BattleObject::set_velocity);
+    ClassDB::bind_method(D_METHOD("get_velocity"), &BattleObject::get_velocity);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "velocity", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_velocity", "get_velocity");
 }
 
 void BattleObject::fade() {
@@ -47,18 +43,18 @@ void BattleObject::on_exit_screen() {
         fade();
 }
 
-void BattleObject::set_trans(Tween::TransitionType value) {
-    trans = value;
+void BattleObject::set_velocity_tween(Ref<Tween> value) {
+    velocity_tween = value;
 }
 
-Tween::TransitionType BattleObject::get_trans() const {
-    return trans;
+Ref<Tween> BattleObject::get_velocity_tween() const {
+    return velocity_tween;
 }
 
-void BattleObject::set_ease(Tween::EaseType value) {
-    ease = value;
+void BattleObject::set_velocity(Vector2 value) {
+    velocity = value;
 }
 
-Tween::EaseType BattleObject::get_ease() const {
-    return ease;
+Vector2 BattleObject::get_velocity() const {
+    return velocity;
 }

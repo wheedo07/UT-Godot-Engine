@@ -12,18 +12,17 @@ namespace godot {
             static void _bind_methods();
 
         public:
-            enum FireMode {
-                VELOCITY,
-                TWEEN
-            };
-            Vector2 velocity;
             Ref<Tween> velocity_tween;
+            Vector2 velocity;
 
         private:
-            Tween::TransitionType trans;
-            Tween::EaseType ease;
-
             void on_exit_screen();
+
+            void set_velocity_tween(Ref<Tween> value);
+            Ref<Tween> get_velocity_tween() const;
+
+            void set_velocity(Vector2 value);
+            Vector2 get_velocity() const;
             
         public:
             BattleObject();
@@ -31,14 +30,7 @@ namespace godot {
            
             void kill();
             void fade();
-
-            void set_trans(Tween::TransitionType value);
-            Tween::TransitionType get_trans() const;
-
-            void set_ease(Tween::EaseType value);
-            Tween::EaseType get_ease() const;
-    };
+   };
 }
-VARIANT_ENUM_CAST(godot::BattleObject::FireMode);
 
 #endif

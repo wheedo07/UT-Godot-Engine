@@ -19,7 +19,7 @@ void AttackSans::ready() {
     bone = loader->load("res://Battle/Bullets/Bone/bone.tscn");
     bone_spike = loader->load("res://Battle/Bullets/BoneSpike/bone_spike.tscn");
     blaster = loader->load("res://Battle/Bullets/Blaster/blaster.tscn");
-    platform = loader->load("res://Battle/Platform/platform.tscn");
+    platform = loader->load("res://Battle/Object/platform.tscn");
 }
 
 void AttackSans::start_attack() {
