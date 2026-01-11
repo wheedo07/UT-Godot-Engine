@@ -1,4 +1,5 @@
 #include "battle_box.h"
+#include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/geometry2d.hpp>
 #include<godot_cpp/classes/method_tweener.hpp>
 #include<godot_cpp/variant/utility_functions.hpp>
@@ -186,9 +187,9 @@ void BattleBox::rotate_by(float rot, bool relative, float duration) {
     call_deferred("_real_rotate_by", args);
 }
 
-void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2& new_position, 
-                                               const Vector2& new_size, bool position_relative, 
-                                               bool size_relative, float duration) {
+void BattleBox::advanced_change_size(RelativePosition relative_to, Vector2 new_position, 
+                                            Vector2 new_size, bool position_relative, 
+                                            bool size_relative, float duration) {
     if(isPolygonMode) {
         ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()또는 polygon_disable()를 후출하고 사용해주세요");
         return;
@@ -203,14 +204,17 @@ void BattleBox::advanced_change_size(RelativePosition relative_to, const Vector2
     if (final_size.y < min_size.y) final_size.y = min_size.y;
     
     anchor_targets_0 = _anchor_position(relative_to, new_position, intended_size, final_size, position_relative);
-    anchor_targets_1 = anchor_targets_0 + final_size;
+    anchor_targets[0] = anchor_targets_0;
+    anchor_targets[1] = anchor_targets_0 + final_size;
     
     Ref<ArgsHolder> args = memnew(ArgsHolder);
     args->set_duration(duration);
     _tween_size(args);
 }
 
-void BattleBox::set_box_size(Vector2 new_size, RelativePosition relative_to, bool relative) {
+void BattleBox::advanced_set_size(RelativePosition relative_to, Vector2 new_position, 
+                                        Vector2 new_size, bool position_relative, 
+                                        bool size_relative) {
     if(isPolygonMode) {
         ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()또는 polygon_disable()를 후출하고 사용해주세요");
         return;
@@ -218,30 +222,17 @@ void BattleBox::set_box_size(Vector2 new_size, RelativePosition relative_to, boo
     Vector2 anchor_targets_0 = anchor_targets[0];
     Vector2 anchor_targets_1 = anchor_targets[1];
     Vector2 intended_size = anchor_targets_1 - anchor_targets_0;
-    Vector2 final_size = relative ? new_size + intended_size : new_size;
+    Vector2 final_size = size_relative ? new_size + intended_size : new_size;
     
     Vector2 min_size = rect_container->get_custom_minimum_size();
-    if (final_size.x < min_size.x) final_size.x = min_size.x;
-    if (final_size.y < min_size.y) final_size.y = min_size.y;
+    if(final_size.x < min_size.x) final_size.x = min_size.x;
+    if(final_size.y < min_size.y) final_size.y = min_size.y;
     
-    anchor_targets_0 = _anchor_position(relative_to, Vector2(0, 0), intended_size, final_size, false);
-    anchor_targets_1 = anchor_targets_0 + final_size;
+    anchor_targets_0 = _anchor_position(relative_to, new_position, intended_size, final_size, position_relative);
+    anchor_targets[0] = anchor_targets_0;
+    anchor_targets[1] = anchor_targets_0 + final_size;
+
     _box_set_size();
-}
-
-void BattleBox::set_box_position(Vector2 new_position, RelativePosition relative_to, bool relative) {
-    if(isPolygonMode) {
-        ERR_PRINT("다각형 모드에서는 사용할 수 없습니다. reset_box()또는 polygon_disable()를 후출하고 사용해주세요");
-        return;
-    }
-
-    Vector2 anchor_targets_0 = anchor_targets[0];
-    Vector2 anchor_targets_1 = anchor_targets[1];
-    Vector2 intended_size = anchor_targets_1 - anchor_targets_0;
-    anchor_targets_0 = _anchor_position(relative_to, new_position, intended_size, intended_size, relative);
-    anchor_targets_1 = anchor_targets_0 + intended_size;
-
-   _box_set_size();
 }
 
 void BattleBox::set_box_rotation(float rot, bool relative) {
@@ -268,20 +259,19 @@ void BattleBox::polygon_enable() {
     
     float perimeter = (current_size.x + current_size.y) * 2.0f;
     float segment_length = perimeter / float(polygon_point_count);
-    for(int i = 0; i < polygon_point_count; i++) {
+    for(int i=0; i < polygon_point_count; i++) {
         float distance = segment_length * float(i);
         Vector2 point;
         
         if(distance < current_size.x) {
             point = margin_offset + Vector2(distance, 0);
-        } else if (distance < current_size.x + current_size.y) {
+        }else if (distance < current_size.x + current_size.y) {
             point = margin_offset + Vector2(current_size.x, distance - current_size.x);
-        } else if (distance < current_size.x * 2.0f + current_size.y) {
+        }else if (distance < current_size.x * 2.0f + current_size.y) {
             point = margin_offset + Vector2(current_size.x - (distance - current_size.x - current_size.y), current_size.y);
-        } else {
+        }else {
             point = margin_offset + Vector2(0, current_size.y - (distance - current_size.x * 2.0f - current_size.y));
         }
-        
         rect_poly.push_back(point);
     }
     polygon->set_polygon(rect_poly);
@@ -296,33 +286,28 @@ void BattleBox::polygon_enable() {
 
 void BattleBox::polygon_disable(Vector2 box_size, float duration) {
     if(!isPolygonMode) return;
-    isPolygonRest = true;
     stop_all_point_tweens();
 
-    Vector2 margin_offset = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
-    PackedVector2Array rect_poly;
-    PackedInt64Array vertex_indices;
+    if(!box_size.is_zero_approx()) {
+        Vector2 anchor_targets_0 = anchor_targets[0];
+        Vector2 anchor_targets_1 = anchor_targets[1];
+        Vector2 intended_size = anchor_targets_1 - anchor_targets_0;
+        Vector2 current_center = anchor_targets_0 + intended_size / 2.0;
 
-    Vector2 target_size = box_size.is_zero_approx() ? current_size : box_size;
-    float perimeter = (target_size.x + target_size.y) * 2.0f;
-    float segment_length = perimeter / float(static_shape.size());
-    for(int i=0; i < static_shape.size(); i++) {
-        float distance = segment_length * float(i);
-        Vector2 point;
+        Vector2 min_size = rect_container->get_custom_minimum_size();
+        if(box_size.x < min_size.x) box_size.x = min_size.x;
+        if(box_size.y < min_size.y) box_size.y = min_size.y;
 
-        if(distance < target_size.x) {
-            point = margin_offset + Vector2(distance, 0);
-        }else if(distance < target_size.x + target_size.y) {
-            point = margin_offset + Vector2(target_size.x, distance - target_size.x);
-        }else if(distance < target_size.x * 2.0f + target_size.y) {
-            point = margin_offset + Vector2(target_size.x - (distance - target_size.x - target_size.y), target_size.y);
-        }else {
-            point = margin_offset + Vector2(0, target_size.y - (distance - target_size.x * 2.0f - target_size.y));
-        }
-        rect_poly.push_back(point);
-        vertex_indices.append(i);
+        anchor_targets_0 = current_center - box_size / 2.0;
+        anchor_targets_1 = current_center + box_size / 2.0;
+
+        // 계산 적용
+        anchor_targets[0] = anchor_targets_0;
+        anchor_targets[1] = anchor_targets_1;
+        _box_set_size();
     }
-    move_multiple_points(vertex_indices, rect_poly, duration);
+
+    get_tree()->connect("physics_frame", Callable(this, "_polygon_disable_real").bind(false, duration), CONNECT_ONE_SHOT);
 }
 
 bool BattleBox::polygon_is_enabled() {
@@ -445,16 +430,14 @@ void BattleBox::move_point_by_index(int vertex_index, Vector2 target_point, floa
     if (!isPolygonMode || vertex_index < 0 || vertex_index >= target_shape.size()) return;
     
     Vector2 local_target = to_local(target_point);
-    Vector2 constrained_point = local_target;
     Vector2 old_position = target_shape[vertex_index];
 
-    target_shape.set(vertex_index, constrained_point);
+    target_shape.set(vertex_index, local_target);
     if(!is_polygon_valid(target_shape)) {
         target_shape.set(vertex_index, old_position);
         ERR_PRINT("유효하지 않은 다각형 모양입니다. 점을 이동할 수 없습니다.");
         return;
     }
-    
     target_shape.set(vertex_index, old_position);
     
     if(active_tweens.has(vertex_index)) {
@@ -472,9 +455,8 @@ void BattleBox::move_point_by_index(int vertex_index, Vector2 target_point, floa
         }
     }
     
-    Vector2 current_position = target_shape[vertex_index];
     Ref<Tween> new_tween = create_tween()->set_ease(EaseType)->set_trans(TransType);
-    new_tween->tween_method(Callable(this, "_on_point_tween_step").bind(vertex_index), current_position, constrained_point, duration);
+    new_tween->tween_method(Callable(this, "_on_point_tween_step").bind(vertex_index), old_position, local_target, duration);
     new_tween->connect("finished", Callable(this, "_on_point_tween_finished").bind(vertex_index), CONNECT_ONE_SHOT);
 
     active_tweens[vertex_index] = new_tween;
@@ -635,9 +617,48 @@ Vector2 BattleBox::_anchor_position(RelativePosition relative_to, Vector2 new_po
     }
 }
 
+void BattleBox::_polygon_disable_real(bool is, float duration) {
+    if(!is) {
+        get_tree()->connect("physics_frame", Callable(this, "_polygon_disable_real").bind(true, duration), CONNECT_ONE_SHOT);
+    }
+    Vector2 margin_offset = Vector2(rect_container->get_theme_constant("margin_left"), rect_container->get_theme_constant("margin_top"));
+    PackedVector2Array rect_poly;
+    PackedInt64Array vertex_indices;
+    float perimeter = (current_size.x + current_size.y) * 2.0f;
+    float segment_length = perimeter / float(static_shape.size());
+    for(int i=0; i < static_shape.size(); i++) {
+        float distance = segment_length * float(i);
+        Vector2 point;
+
+        if(distance < current_size.x) {
+            point = margin_offset + Vector2(distance, 0);
+        }else if(distance < current_size.x + current_size.y) {
+            point = margin_offset + Vector2(current_size.x, distance - current_size.x);
+        }else if(distance < current_size.x * 2.0f + current_size.y) {
+            point = margin_offset + Vector2(current_size.x - (distance - current_size.x - current_size.y), current_size.y);
+        }else {
+            point = margin_offset + Vector2(0, current_size.y - (distance - current_size.x * 2.0f - current_size.y));
+        }
+        rect_poly.push_back(point);
+        vertex_indices.push_back(i);
+    }
+
+    for(int i=0; i < rect_poly.size(); i++) {
+        Vector2 poly = rect_poly[i];
+        int vertex_index = vertex_indices[i];
+        Vector2 old_position = static_shape[vertex_index];
+
+        Ref<Tween> new_tween = create_tween()->set_ease(EaseType)->set_trans(TransType);
+        new_tween->tween_method(Callable(this, "_on_point_tween_step").bind(vertex_index), old_position, poly, duration);
+        new_tween->connect("finished", Callable(this, "_on_point_tween_finished").bind(vertex_index), CONNECT_ONE_SHOT);
+        active_tweens[vertex_index] = new_tween;
+    }
+    Ref<Tween> final_tween = active_tweens[vertex_indices[vertex_indices.size() - 1]];
+    final_tween->connect("finished", Callable(this, "_polygon_reset_finished"), CONNECT_ONE_SHOT);
+}
+
 void BattleBox::_polygon_reset_finished() {
     isPolygonMode = false;
-    isPolygonRest = false;
     polygon->set_disabled(true);
     for(int i=0; i < 4; i++) collisions[i].set("disabled", false);
     
@@ -667,14 +688,14 @@ int BattleBox::find_closest_edge_to_point(PackedVector2Array& poly, Vector2 poin
 }
 
 int BattleBox::find_closest_vertex(const PackedVector2Array& poly, const Vector2& point) {
-    if (poly.size() == 0) return -1;
+    if(poly.size() == 0) return -1;
     
     int closest_index = 0;
     float closest_distance = Math_INF;
     
-    for (int i = 0; i < poly.size(); i++) {
+    for(int i= 0; i < poly.size(); i++) {
         float distance = (poly[i] - point).length_squared();
-        if (distance < closest_distance) {
+        if(distance < closest_distance) {
             closest_distance = distance;
             closest_index = i;
         }

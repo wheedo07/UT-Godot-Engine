@@ -18,10 +18,9 @@ BattleBox::BattleBox() {
     can_move = true;
     used_item = 0;
     current_web = 0;
-    isPolygonMode = false;
     morph_speed = 200.0f;
     polygon_point_count = 120;
-    isPolygonRest = false;
+    isPolygonMode = false;
     
     win_text = "UT_VICTORY";
     
@@ -91,7 +90,8 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_soul_move_cooldown"), &BattleBox::_on_soul_move_cooldown);
     ClassDB::bind_method(D_METHOD("_on_point_tween_step", "new_position", "vertex_index"), &BattleBox::_on_point_tween_step);
     ClassDB::bind_method(D_METHOD("_on_point_tween_finished", "vertex_index"), &BattleBox::_on_point_tween_finished);
-    ClassDB::bind_method(D_METHOD("polygon_disable", "box_size", "duration"), &BattleBox::polygon_disable, DEFVAL(0.3f));
+    ClassDB::bind_method(D_METHOD("_polygon_reset_finished"), &BattleBox::_polygon_reset_finished);
+    ClassDB::bind_method(D_METHOD("_polygon_disable_real", "is", "duration"), &BattleBox::_polygon_disable_real);
 
     // 상자 크기
     ClassDB::bind_method(D_METHOD("get_size"), &BattleBox::get_size);
@@ -104,9 +104,9 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("change_position", "new_position", "relative", "duration"), &BattleBox::change_position, DEFVAL(false), DEFVAL(0.6f));
     ClassDB::bind_method(D_METHOD("advanced_change_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative", "duration"), &BattleBox::advanced_change_size
     , DEFVAL(false), DEFVAL(false), DEFVAL(0.6f));
+    ClassDB::bind_method(D_METHOD("advanced_set_size", "relative_to", "new_position", "new_size", "position_relative", "size_relative"), &BattleBox::advanced_set_size
+    , DEFVAL(false), DEFVAL(false));
     ClassDB::bind_method(D_METHOD("rotate_by", "rot", "relative", "duration"), &BattleBox::rotate_by, DEFVAL(false), DEFVAL(0.6f));
-    ClassDB::bind_method(D_METHOD("set_box_position", "new_position", "relative_to", "relative"), &BattleBox::set_box_position, DEFVAL(RELATIVE_TOP_LEFT), DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("set_box_size", "new_size", "relative_to", "relative"), &BattleBox::set_box_size, DEFVAL(RELATIVE_CENTER), DEFVAL(false));
     ClassDB::bind_method(D_METHOD("set_box_rotation", "rot", "relative"), &BattleBox::set_box_rotation, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("box_show"), &BattleBox::box_show);
     ClassDB::bind_method(D_METHOD("box_hide"), &BattleBox::box_hide);
@@ -115,6 +115,7 @@ void BattleBox::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_web_y_pos", "id"), &BattleBox::get_web_y_pos);
     ClassDB::bind_method(D_METHOD("blitter_print", "texts"), &BattleBox::blitter_print);
     ClassDB::bind_method(D_METHOD("polygon_enable"), &BattleBox::polygon_enable);
+    ClassDB::bind_method(D_METHOD("polygon_disable", "box_size", "duration"), &BattleBox::polygon_disable, DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("polygon_is_enabled"), &BattleBox::polygon_is_enabled);
     ClassDB::bind_method(D_METHOD("create_protrusion", "direction", "offset", "size", "duration"), &BattleBox::create_protrusion, DEFVAL(0.3f));
     ClassDB::bind_method(D_METHOD("get_polygon_points"), &BattleBox::get_polygon_points);
@@ -298,23 +299,14 @@ void BattleBox::_process(double delta) {
     }
 
     if(!isPolygonMode || static_shape.size() != target_shape.size()) return;
-    bool all_reached = true;
-    
+
     for(int i=0; i < target_shape.size(); i++) {
         Vector2 current = static_shape[i];
         Vector2 target = target_shape[i];
         Vector2 new_pos = current.move_toward(target, morph_speed * delta);
         static_shape.set(i, new_pos);
-        
-        if(current.distance_to(target) > 1.0f) {
-            all_reached = false;
-        }
     }
     polygon->set_polygon(static_shape);
-    
-    if(all_reached && isPolygonRest) {
-        _polygon_reset_finished();
-    }
 }
 
 void BattleBox::_unhandled_input(const Ref<InputEvent>& event) {

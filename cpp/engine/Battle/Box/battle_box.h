@@ -129,13 +129,13 @@ namespace godot {
             CollisionPolygon2D* polygon;
             Dictionary active_tweens;
             PackedInt32Array tweening_vertices;
-            bool isPolygonRest;
             int find_closest_edge_to_point(PackedVector2Array& poly, Vector2 point);
             int find_closest_vertex(const PackedVector2Array& poly, const Vector2& point);
             bool is_polygon_valid(const PackedVector2Array& poly);
             void _on_point_tween_step(Vector2 new_position, int vertex_index);
             void _on_point_tween_finished(int vertex_index);
             void _polygon_reset_finished();
+            void _polygon_disable_real(bool is, float duration);
 
             Array id_to_soul_pos(int id, int x_limit = 2);
             void refresh_options();
@@ -199,15 +199,18 @@ namespace godot {
             void change_size(const Vector2& new_size, bool relative = false, float duration=0.6f);
             void change_position(const Vector2& new_position, bool relative = false, float duration=0.6f);
             void advanced_change_size(RelativePosition relative_to, 
-                const Vector2& new_position,
-                const Vector2& new_size,
+                Vector2 new_position,
+                Vector2 new_size,
                 bool position_relative = false, 
                 bool size_relative = false, float duration = 0.6f);
             void rotate_by(float rot, bool relative = false, float duration = 0.6f);
 
             // 바로 적용하는 Change 함수
-            void set_box_size(Vector2 new_size, RelativePosition relative_to=RELATIVE_CENTER, bool relative=false);
-            void set_box_position(Vector2 new_position, RelativePosition relative_to=RELATIVE_TOP_LEFT, bool relative=false);
+            void advanced_set_size(RelativePosition relative_to,
+                Vector2 new_position,
+                Vector2 new_size,
+                bool position_relative = false,
+                bool size_relative = false);
             void set_box_rotation(float rot, bool relative=false);
 
             void box_show();

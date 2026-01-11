@@ -196,13 +196,15 @@
                 박스를 지정된 각도만큼 회전시킵니다. relative가 true이면 현재 각도에서 추가로 회전합니다.
             </description>
         </method>
-        <method name="set_box_position">
+        <method name="advanced_set_size">
             <return type="void" />
-            <param index="0" name="new_position" type="Vector2" />
-            <param index="1" name="relative_to" type="int" enum="BattleBox.RelativePosition" default="0" />
-            <param index="2" name="relative" type="bool" default="false" />
+            <param index="0" name="relative_to" type="int" enum="BattleBox.RelativePosition" />
+            <param index="1" name="new_position" type="Vector2" />
+            <param index="2" name="new_size" type="Vector2" />
+            <param index="3" name="position_relative" type="bool" default="false" />
+            <param index="4" name="size_relative" type="bool" default="false" />
             <description>
-                박스의 위치를 즉시 설정합니다. 애니메이션 없이 바로 적용됩니다.
+                박스의 위치와 크기를 즉시 설정합니다. 애니메이션 없이 바로 적용됩니다.
             </description>
         </method>
         <method name="set_box_rotation">
@@ -211,15 +213,6 @@
             <param index="1" name="relative" type="bool" default="false" />
             <description>
                 박스의 회전을 즉시 설정합니다. 애니메이션 없이 바로 적용됩니다.
-            </description>
-        </method>
-        <method name="set_box_size">
-            <return type="void" />
-            <param index="0" name="new_size" type="Vector2" />
-            <param index="1" name="relative_to" type="int" enum="BattleBox.RelativePosition" default="4" />
-            <param index="2" name="relative" type="bool" default="false" />
-            <description>
-                박스의 크기를 즉시 설정합니다. 애니메이션 없이 바로 적용됩니다.
             </description>
         </method>
         <method name="set_webs">
