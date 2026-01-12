@@ -24,6 +24,10 @@ namespace godot {
             DialogueAsset();
             ~DialogueAsset();
 
+            void _get_property_list(List<PropertyInfo> *p_list) const;
+            bool _set(const StringName& p_name, const Variant& p_value);
+            bool _get(const StringName& p_name, Variant& r_ret);
+
             // 사용 함수
             Ref<DialogueAsset> load_locale_data();
             Ref<Dialogues> get_data(int index);
@@ -31,15 +35,6 @@ namespace godot {
 
             void set_is_locale(bool p_isLocale);
             bool get_is_locale() const;
-
-            void set_locale_path(String path);
-            String get_locale_path() const;
-
-            void set_locale_keys(PackedStringArray keys);
-            PackedStringArray get_locale_keys() const;
-
-            void set_dialogues(TypedArray<Dialogues> p_dialogues);
-            TypedArray<Dialogues> get_dialogues() const;
     };
 }
 
