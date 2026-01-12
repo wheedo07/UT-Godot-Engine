@@ -31,7 +31,8 @@ namespace godot {
             void type_text_bubble(const Ref<Dialogues>& dialogues);
             void set_key(bool is);
 
-            void _on_text_click_played(bool is=true, double duration=0);
+            void _on_text_click_played(double duration);
+            void _on_text_duration_finished();
 
             void set_character_name(String p_character);
             String get_character_name() const;

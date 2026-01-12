@@ -14,11 +14,12 @@ void DialogueControl::_bind_methods() {
     ADD_SIGNAL(MethodInfo("set_expression", PropertyInfo(Variant::NIL, "expressions")));
     ADD_SIGNAL(MethodInfo("finished_all_texts_dialogue"));
     
-    ClassDB::bind_method(D_METHOD("_on_text_click_played", "is", "duration"), &DialogueControl::_on_text_click_played, DEFVAL(true), DEFVAL(0));
+    ClassDB::bind_method(D_METHOD("_on_text_click_played", "duration"), &DialogueControl::_on_text_click_played);
     ClassDB::bind_method(D_METHOD("_on_text_expression_set", "expr"), &DialogueControl::_on_text_expression_set);
     ClassDB::bind_method(D_METHOD("_on_tween_finished"), &DialogueControl::_on_tween_finished);
     ClassDB::bind_method(D_METHOD("_on_all_texts_finished"), &DialogueControl::_on_all_texts_finished);
     ClassDB::bind_method(D_METHOD("_on_ends_typing"), &DialogueControl::_on_ends_typing);
+    ClassDB::bind_method(D_METHOD("_on_text_duration_finished"), &DialogueControl::_on_text_duration_finished);
     
     ClassDB::bind_method(D_METHOD("set_character_name", "character"), &DialogueControl::set_character_name);
     ClassDB::bind_method(D_METHOD("get_character_name"), &DialogueControl::get_character_name);
@@ -64,21 +65,21 @@ void DialogueControl::type_text_bubble(const Ref<Dialogues>& dialogues) {
     active_tween->connect("finished", Callable(this, "_on_tween_finished"));
 }
 
-void DialogueControl::_on_text_click_played(bool is, double duration) {
-    if(is) {
-        bubble_text->kill_tweens(true);
-        bubble_text->emit_signal("confirm");
-    }else {
-        text_duration = duration;
-        Callable call = Callable(this, "_on_ends_typing");
-        if(bubble_text->is_connected("ends_typing", call)) bubble_text->disconnect("ends_typing", call);
-        bubble_text->connect("ends_typing", call);
-    }
+void DialogueControl::_on_text_click_played(double duration) {
+    text_duration = duration;
+    Callable call = Callable(this, "_on_ends_typing");
+    if(bubble_text->is_connected("ends_typing", call)) bubble_text->disconnect("ends_typing", call);
+    bubble_text->connect("ends_typing", call);
 }
 
 void DialogueControl::_on_ends_typing() {
     Ref<SceneTreeTimer> timer = get_tree()->create_timer(text_duration, false);
-    timer->connect("timeout", Callable(this, "_on_text_click_played"));
+    timer->connect("timeout", Callable(this, "_on_text_duration_finished"));
+}
+
+void DialogueControl::_on_text_duration_finished() {
+    bubble_text->kill_tweens(true);
+    bubble_text->emit_signal("confirm");
 }
 
 void DialogueControl::set_key(bool is) {
@@ -88,7 +89,7 @@ void DialogueControl::set_key(bool is) {
 void DialogueControl::_on_tween_finished() {
     tween_in_progress = false;
     
-    if (bubble_text) {
+    if(bubble_text) {
         bubble_text->call_deferred("type_text_advanced", bubble_text->get_queued_dialogues());
     }
 }
@@ -108,7 +109,7 @@ void DialogueControl::_on_text_expression_set(Array expr) {
 void DialogueControl::set_character_name(String p_character) {
     character_name = p_character;
     
-    if (bubble_text) {
+    if(bubble_text) {
         bubble_text->set_current_character(character_name);
         bubble_text->character_customize();
     }

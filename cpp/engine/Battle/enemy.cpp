@@ -143,7 +143,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_dodge", "dodge_sign"), &Enemy::_dodge);
     ClassDB::bind_method(D_METHOD("_hurt", "amount"), &Enemy::_hurt);
     ClassDB::bind_method(D_METHOD("_on_finished_all_texts_dialogue", "arr", "keep_expression"), &Enemy::_on_finished_all_texts_dialogue);
-    ClassDB::bind_method(D_METHOD("_handle_typing", "text_index", "dialogue_ref", "duration", "skip"), &Enemy::_handle_typing);
+    ClassDB::bind_method(D_METHOD("_handle_typing", "text_index", "dialogue_ref", "duration"), &Enemy::_handle_typing);
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &Enemy::set_property);
     ClassDB::bind_method(D_METHOD("get_main"), &Enemy::get_main);
@@ -253,7 +253,7 @@ void Enemy::play_dialogue(int index, float duration, bool skip, bool keep_expres
     Ref<Dialogues> dialogue_ref = dialogues->get_data(index);
     if(dialogue_ref.is_valid()) {
         EnemySpeech* text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
-        Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration, skip);
+        Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration);
         if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
         text_typer->connect("started_typing", call);
         dialogue->type_text_bubble(dialogue_ref);
@@ -277,7 +277,7 @@ void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool 
 
     if (dialogue_ref.is_valid()) {
         EnemySpeech* text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
-        Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration, skip);
+        Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration);
         if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
         text_typer->connect("started_typing", call);
         dialogue->type_text_bubble(dialogue_ref);
@@ -296,7 +296,7 @@ void Enemy::_on_finished_all_texts_dialogue(PackedInt32Array arr, bool keep_expr
     emit_signal("finished_dialogue");
 }
 
-void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip) {
+void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration) {
     Array expressions = dialogue_ref->get_dialogues_single(Dialogues::DIALOGUE_EXPRESSIONS)[text_index];
     for(int i=0; i < expressions.size(); i++) {
         if(expressions[i].get_type() != Variant::INT) {
@@ -309,7 +309,7 @@ void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float du
         }
     }
 
-    if(duration != 0) dialogue->_on_text_click_played(skip, duration);
+    if(duration != 0) dialogue->_on_text_click_played(duration);
 }
 
 void Enemy::_dodge(int dodge_sign) {

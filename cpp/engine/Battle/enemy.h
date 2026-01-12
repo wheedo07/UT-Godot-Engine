@@ -88,7 +88,7 @@ namespace godot {
             void set_dialogue_path(const NodePath& p_path);
             NodePath get_dialogue_path() const;
 
-            void _handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration, bool skip);
+            void _handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float duration);
             void _on_finished_all_texts_dialogue(PackedInt32Array arr, bool keep_expression);
             void _hurt(int amount);
             void _dodge(int dodge_sign);
