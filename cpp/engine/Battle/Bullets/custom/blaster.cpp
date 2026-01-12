@@ -58,9 +58,9 @@ Blaster* Blaster::fire(const Vector2& target, float size, float time, float dela
     
     target_position = target;
     Vector2 distance;
-    if(get_parent()->is_class("Node2D"))
-        distance = target_position - get_global_position();
-    else distance = target_position - get_position();
+    if(get_parent()->is_in_group("Battlebox"))
+        distance = target_position - get_position();
+    else distance = target_position - get_global_position();
     
     velocity_tween = create_tween()->set_ease(tween_ease)->set_trans(tween_trans)->set_parallel();
     velocity_tween->tween_property(this, "position", distance, time)->as_relative();

@@ -78,9 +78,9 @@ void DefaultBullet::fire(const Vector2& target, MovementMode movement_type, floa
     set_mode(mode);
 
     Vector2 distance;
-    if(get_parent()->is_class("Node2D"))
-        distance = target_position - get_global_position();
-    else distance = target_position - get_position();
+    if(get_parent()->is_in_group("Battlebox"))
+        distance = target_position - get_position();
+    else distance = target_position - get_global_position();
     
     switch(fire_mode) {
         case MOVEMENT_VELOCITY: {

@@ -68,11 +68,11 @@ color = Color(0, 0, 0, 0)
 color = Color(0, 0, 0, 0.8)
 polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)
 
-[node name="Bullets" type="Polygon2D" parent="BoxContainer/Rect"]
+[node name="Bullets" type="Polygon2D" parent="BoxContainer/Rect" groups=["Battlebox"]]
 clip_children = 1
 polygon = PackedVector2Array(1, 139, 1, 1, 582, 2, 582, 139)
 
-[node name="RectNoClip" type="Node2D" parent="BoxContainer/Rect"]
+[node name="RectNoClip" type="Node2D" parent="BoxContainer/Rect" groups=["Battlebox"]]
 
 [node name="Webs" type="Polygon2D" parent="BoxContainer/Rect"]
 clip_children = 1
