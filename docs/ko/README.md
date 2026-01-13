@@ -11,7 +11,7 @@
 
 ---
 
-## ✨ 주요 특징
+## 주요 특징
 
 - **턴 기반 전투 시스템**: Undertale 스타일의 전투 메커니즘을 구현
 - **대화 연출 도구**: 텍스트 박스, 타이핑 효과, 애니메이션 지원
@@ -22,7 +22,7 @@
 
 ---
 
-## 🚀 시작하기
+## 시작하기
 ### 📥 프로젝트 열기
 1. [최신 릴리스 다운로드](https://github.com/wheedo07/UT-Godot-Engine/releases)
 2. 압축 해제 후 폴더 이름 확인
@@ -39,6 +39,6 @@ scons target=template_release
 
 ---
 
-## 📚 문서
+## 문서
 - [프로젝트 구조](tutorials/project-structure.md) - 프레임워크의 디렉토리 및 파일 구조 설명
 - [노드 및 리소스 목록](classes/list.md) - 제공되는 모든 노드와 리소스

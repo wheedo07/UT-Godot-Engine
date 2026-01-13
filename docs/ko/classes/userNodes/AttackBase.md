@@ -133,7 +133,7 @@ func start_attack():
 
 ## 🔗 관련 문서
 
-- [Enemy - 적 캐릭터](/ko/classes/userNodes/Enemy.md)
-- [Bullet - 기본 탄환](/ko/classes/userNodes/Bullet.md)
-- [DefaultBullet - 기본 발사체](/ko/classes/userNodes/DefaultBullet.md)
-- [전투 만들기](/ko/tutorials/battle.md)
+- [Enemy - 적 캐릭터](/classes/userNodes/Enemy.md)
+- [Bullet - 기본 탄환](/classes/userNodes/Bullet.md)
+- [DefaultBullet - 기본 발사체](/classes/userNodes/DefaultBullet.md)
+- [전투 만들기](/tutorials/battle.md)
