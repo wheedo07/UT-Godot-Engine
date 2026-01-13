@@ -14,7 +14,6 @@ void EnemySpeech::_bind_methods() {
     ADD_SIGNAL(MethodInfo("ends_typing"));
     ClassDB::bind_method(D_METHOD("character_customize"), &EnemySpeech::character_customize);
     ClassDB::bind_method(D_METHOD("handle_confirm_signal"), &EnemySpeech::handle_confirm_signal);
-    ClassDB::bind_method(D_METHOD("on_tween_finished_extended"), &EnemySpeech::on_tween_finished_extended);
 }
 
 void EnemySpeech::_ready() {
@@ -91,10 +90,6 @@ void EnemySpeech::process_next_dialogue() {
     } else {
         emit_signal("finished_speech");
     }
-}
-
-void EnemySpeech::on_tween_finished_extended() {
-    emit_signal("ends_typing");
 }
 
 void EnemySpeech::handle_confirm_signal() {

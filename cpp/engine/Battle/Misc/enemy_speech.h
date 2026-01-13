@@ -13,7 +13,6 @@ namespace godot {
         
         private:
             String current_character;
-            void on_tween_finished_extended();
             void handle_confirm_signal();
         
         public:
