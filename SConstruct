@@ -27,7 +27,7 @@ sources += Glob("cpp/src/*/*/*.cpp")
 sources += Glob("cpp/src/*/*/*/*.cpp")
 
 if env["target"] in ["editor", "template_debug"]:
-    sources_doc = Glob("docs/*/*.xml")
+    sources_doc = Glob("doc_classes/*/*.xml")
     doc_data = env.GodotCPPDocData("cpp/engine/engine_doc.gen.cpp", sources_doc)
     sources.append(doc_data)
 
