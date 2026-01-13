@@ -52,7 +52,9 @@
             end_attack()
         [/codeblock]
     </description>
-    <tutorials></tutorials>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/userNodes/AttackBase</link>
+    </tutorials>
     
     <methods>
         <method name="ready" qualifiers="virtual">
