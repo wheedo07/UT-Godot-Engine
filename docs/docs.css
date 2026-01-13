@@ -92,3 +92,7 @@ pre {
   background: var(--border);
   border-radius: 4px;
 }
+
+.markdown-section p.tip, .markdown-section tr:nth-child(2n) {
+    background-color: oklch(0.25 0 0 / 1);
+}

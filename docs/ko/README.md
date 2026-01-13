@@ -1,11 +1,11 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/wheedo07/UT-Godot-Engine/refs/heads/main/image/UT-Godot-Engine_logo.gif" alt="UT-Godot-Engine Logo" width="400"/>
   <br><br>
-  Undertale 스타일 게임을 위한 Godot Engine 프레임워크
+  Undertale 팬 게임을 위한 Godot Engine 프레임워크
 </div>
 
 이 프로젝트는 Godot Engine 4.5+를 위한 **Undertale 프레임워크 (GDExtension)**입니다.
-팬게임 개발에 필요한 다양한 시스템과 도구를 제공하여, 개발자가 보다 쉽게 Undertale 스타일의 게임을 만들 수 있도록 지원합니다.
+팬게임 개발에 필요한 다양한 시스템과 도구를 제공하여, 개발자가 보다 쉽게 Undertale 팬 게임을 만들 수 있도록 지원합니다.
 
 > 이 엔진은 C++(GDExtension)으로 만들어졌으며, 고성능과 유연성을 모두 제공합니다.
 
