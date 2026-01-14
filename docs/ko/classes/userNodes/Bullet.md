@@ -43,7 +43,7 @@ bullet.set_mode(Bullet.MODE_NULL)  # 초록색으로 유지 (변경 없음)
 ```
 Bullet
 ├── BulletArea # 충돌 영역
-│   └── CollisionShape2D        # 충돌 모양
+│   └── CollisionShape2D # 충돌 모양
 ```
 
 ---
