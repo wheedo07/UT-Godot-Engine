@@ -7,16 +7,16 @@
     </brief_description>
     <description>
         [Enemy] is a core node used to implement enemy characters in battle, working together with [AttackBase], [Bullet], and other components to form an Undertale-style battle system.
-
-       [b]Battle System Integration[/b]
+        
+        [b]Battle System Integration[/b]
         • Automatic integration with [BattleMain], [AttackManager], [BattleBox], [SoulBattle], etc.
         • Dialogue system management through [DialogueControl]
         • Automatic enemy list loading and management in [BattleMain] node
-
+        
         [b]Example (GDScript)[/b]
         [codeblock]
         extends Enemy
-        
+
         func _on_get_turn():
             # Execute attack pattern
             box.change_size(Vector2(350, 140), false, 0.3)
@@ -41,8 +41,8 @@
         <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/userNodes/Enemy</link>
         <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/userNodes/Enemy</link>
     </tutorials>
-
-   <methods>
+    
+    <methods>
         <method name="ready" qualifiers="virtual">
             <return type="void"/>
             <description>
@@ -50,7 +50,7 @@
                 Should be used instead of the [method Node._ready] method.
             </description>
         </method>
-
+        
         <method name="_on_get_turn" qualifiers="virtual">
             <return type="void"/>
             <description>
@@ -66,7 +66,7 @@
                 Used for turn end processing or state cleanup.
             </description>
         </method>
-
+        
         <method name="on_fight" qualifiers="virtual">
             <return type="void"/>
             <param index="0" name="miss" type="bool"/>
@@ -106,7 +106,7 @@
                 Must emit the [signal on_mercy_end] signal after processing is complete.
             </description>
         </method>
-
+        
         <method name="on_defeat" qualifiers="virtual">
             <return type="void"/>
             <param index="0" name="death" type="bool"/>
@@ -116,7 +116,7 @@
                 Must emit the [signal on_defeat_end] signal after processing is complete.
             </description>
         </method>
-
+        
         <method name="handle_victory" qualifiers="virtual">
             <return type="PackedStringArray"/>
             <description>
@@ -124,7 +124,7 @@
                 Returns victory message. Default value is "UT_DEFAULT_WIN".
             </description>
         </method>
-
+        
         <method name="damage_info" qualifiers="virtual">
             <return type="String"/>
             <param index="0" name="amount" type="int"/>
@@ -135,7 +135,7 @@
                 Time can be specified like [time=0.5].
             </description>
         </method>
-
+        
         <method name="change_act">
             <return type="void"/>
             <param index="0" name="act_index" type="int"/>
@@ -189,18 +189,19 @@
                 Used for animation control.
             </description>
         </method>
-
+        
         <method name="get_solo">
             <return type="bool"/>
             <description>
                 Returns whether this is a solo battle.
             </description>
         </method>
-   </methods>
+    </methods>
 
-   <members>
+    
+    <members>
         <member name="enemy_name" type="String" setter="set_enemy_name" getter="get_enemy_name" default="&quot;Enemy&quot;">
-           The enemy's name. Displayed in the battle UI.
+            The enemy's name. Displayed in the battle UI.
         </member>
         
         <member name="kr" type="bool" setter="set_kr" getter="get_kr" default="false">
@@ -234,17 +235,17 @@
             [DialogueAsset] resource containing the enemy's dialogue list.
             Used for dialogue sequences during battle.
         </member>
-
+        
         <member name="current_act" type="int" setter="set_current_act" getter="get_current_act" default="0">
             The current ACT state index of the enemy.
             Represents an index in the [member enemy_acts] array.
         </member>
-
+        
         <member name="enemy_acts" type="Array[EnemyAct]" setter="set_enemy_acts" getter="get_enemy_acts">
             Array of [EnemyAct] resources containing the enemy's ACT states.
             Referenced when the player selects ACT.
         </member>
-
+        
         <member name="one_by_one_overrdie" type="bool" setter="set_one_by_one_overrdie" getter="get_one_by_one_overrdie" default="false">
             Whether to process states one by one sequentially.
             Affects the ACT information retrieval method.
@@ -258,7 +259,7 @@
         <member name="dust_path" type="NodePath" setter="set_dust_path" getter="get_dust_path" default="NodePath(&quot;&quot;)">
             Path to the [DustTransition] node that displays death particles.
         </member>
-
+        
         <member name="spare_path" type="NodePath" setter="set_spare_path" getter="get_spare_path" default="NodePath(&quot;&quot;)">
             Path to the [GPUParticles2D] node that displays mercy particles.
         </member>
@@ -267,20 +268,20 @@
             Path to the sprite container node.
             Used for animations and movement effects.
         </member>
-
+        
         <member name="dialogue_path" type="NodePath" setter="set_dialogue_path" getter="get_dialogue_path" default="NodePath(&quot;&quot;)">
             Path to the [DialogueControl] node that controls dialogue.
         </member>
-
+        
         <member name="expression_sprites" type="Array" setter="set_expression_sprites" getter="get_expression_sprites">
             Array of [AnimatedSprite2D] nodes that control facial expression animations.
             Used for changing expressions during dialogue.
         </member>
-
+        
         <member name="enemy_id" type="int" setter="set_property" getter="get_id">
             The enemy's ID. (Read-only)
         </member>
-
+        
         <member name="main" type="BattleMain" setter="set_property" getter="get_main">
             Reference to the battle system's main node. (Read-only)
         </member>
@@ -308,13 +309,13 @@
         <member name="bg" type="TextureRect" setter="set_property" getter="get_bg">
             Reference to the background node. (Read-only)
         </member>
-
+        
         <member name="encounter_script" type="EncounterScript" setter="set_property" getter="get_encounter_script">
             Reference to the enemy's battle script. (Read-only)
         </member>
-   </members>
-
-   <signals>
+    </members>
+    
+    <signals>
         <signal name="finished_dialogue">
             <description>
                 Emitted when dialogue is completed.
@@ -328,7 +329,7 @@
                 Triggered after [method change_act] is called.
             </description>
         </signal>
-
+        
         <signal name="dodged">
             <param index="0" name="to_right" type="bool" />
             <description>
@@ -337,7 +338,7 @@
                 Can be used to implement additional effects synchronized with dodge animations.
             </description>
         </signal>
-
+        
         <signal name="hit">
             <param index="0" name="damage" type="int" />
             <description>
@@ -346,7 +347,7 @@
                 Can be used to implement additional effects synchronized with hit animations.
             </description>
         </signal>
-       
+        
         <signal name="on_fight_end">
             <description>
                 Signal that must be emitted when fight action processing is complete.
@@ -374,7 +375,7 @@
                 Must be emitted when implementing [method on_mercy_used].
             </description>
         </signal>
-
+        
         <signal name="on_defeat_end">
             <description>
                 Signal that must be emitted when defeat processing (death or mercy) is complete.
