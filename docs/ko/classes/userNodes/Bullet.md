@@ -8,6 +8,15 @@ UT-Godot-Engine의 전투 시스템에서 사용되는 탄환(Bullet) 노드입�
 
 ---
 
+## 주요 역할
+- 플레이어와의 충돌 처리
+    - 데미지 모드 시스템 구현
+    - 충돌 시 호출되는 콜백 메서드 제공
+- 커스텀 탄환 구현
+    - ex) 가스터 블래스트, 뼈, 창, 융합체 공격 등
+
+---
+
 ## 데미지 모드 시스템
 
 Undertale의 핵심 메커니즘인 색상별 탄환 시스템을 구현합니다:
@@ -30,10 +39,9 @@ bullet.set_mode(Bullet.MODE_NULL)  # 초록색으로 유지 (변경 없음)
 
 ---
 
-## 필요한 노드 구조
+## 필수 노드 구조
 ```
 Bullet
-├── Sprite2D                    # 탄환 스프라이트
 ├── BulletArea # 충돌 영역
 │   └── CollisionShape2D        # 충돌 모양
 ```
@@ -239,8 +247,8 @@ bullet.fade()
 
 ## 🔗 관련 문서
 
-- [AttackBase - 공격 패턴](/classes/userNodes/AttackBase.md)
-- [BulletArea - 탄환 영역](/classes/userNodes/BulletArea.md)
-- [DefaultBullet - 기본 탄환](/classes/userNodes/DefaultBullet.md)
-- [Enemy - 적 캐릭터](/classes/userNodes/Enemy.md)
+- [AttackBase - 공격 패턴](AttackBase.md)
+- [BulletArea - 탄환 영역](BulletArea.md)
+- [DefaultBullet - 기본 탄환](DefaultBullet.md)
+- [Enemy - 적 캐릭터](Enemy.md)
 - [전투 만들기](/tutorials/battle.md)

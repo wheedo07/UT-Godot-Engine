@@ -129,34 +129,34 @@ Vector2 DefaultBullet::get_sprite_size() {
     Vector2 size;
     Vector2 scale = Vector2(1, 1);
     
-    if (class_name == "Sprite2D" || class_name == "AnimatedSprite2D") {
-        if (sprite->has_method("get_texture")) {
+    if(class_name == "Sprite2D" || class_name == "AnimatedSprite2D") {
+        if(sprite->has_method("get_texture")) {
             Variant texture = sprite->call("get_texture");
-            if (texture.get_type() != Variant::NIL) {
+            if(texture.get_type() != Variant::NIL) {
                 size = texture.call("get_size");
             }
-        } else if (sprite->has_method("get_sprite_frames")) {
+        }else if(sprite->has_method("get_sprite_frames")) {
             Variant frames = sprite->call("get_sprite_frames");
             if (frames.get_type() != Variant::NIL) {
                 String anim = sprite->call("get_animation");
                 int frame = sprite->call("get_frame");
                 Variant texture = frames.call("get_frame_texture", anim, frame);
-                if (texture.get_type() != Variant::NIL) {
+                if(texture.get_type() != Variant::NIL) {
                     size = texture.call("get_size");
                 }
             }
         }
         
-        if (sprite->has_method("get_scale")) {
+        if(sprite->has_method("get_scale")) {
             scale = sprite->call("get_scale");
         }
-    } else if (class_name == "TextureRect" || class_name == "NinePatchRect") {
+    }else if(class_name == "TextureRect" || class_name == "NinePatchRect") {
         if (sprite->has_method("get_size")) {
             size = sprite->call("get_size");
         }
     }else if(sprite->has_method("get_size")) {
         size = sprite->call("get_size");
-    } else {
+    }else {
         size = Vector2(16, 16);
     }
     
@@ -173,6 +173,7 @@ float DefaultBullet::get_collision_margin() const {
 
 void DefaultBullet::set_collision_path(const NodePath& p_collision_path) {
     collision_path = p_collision_path;
+    if(is_inside_tree()) collision = Object::cast_to<CollisionShape2D>(get_node_internal(collision_path));
 }
 
 NodePath DefaultBullet::get_collision_path() const {
