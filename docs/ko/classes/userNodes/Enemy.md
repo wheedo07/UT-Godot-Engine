@@ -1,6 +1,7 @@
 # Enemy
 
 > 🟢 **사용자 생성 가능**
+>> 사용자가 노드를 생성하고 스크립트를 작성할 수 있습니다.
 
 UT-Godot-Engine에서 전투 시스템의 적을 구현하는 핵심 클래스입니다.
 턴 기반 전투, 대화, 애니메이션, 상태 관리 등 Undertale 스타일의 적 행동을 모두 처리합니다.
@@ -302,7 +303,7 @@ Node2D, AnimatedSprite2D 등 어떤 노드든 설정할 수 있습니다.
 | `dialogue` | `DialogueControl` | 대화 박스 노드 |
 | `attacks` | `AttackManager` | 공격 매니저 |
 | `bg` | `TextureRect` | 전투 배경 노드 |
-| `encounter_script` | `Script` | 조우 스크립트 |
+| `encounter_script` | `EncounterScript` | 조우 스크립트 노드 |
 
 ---
 
