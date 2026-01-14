@@ -26,7 +26,7 @@ void Enemy_SANS::_on_get_turn() {
 
 void Enemy_SANS::_on_end_turn() {}
 
-void Enemy_SANS::on_mercy_used() {
+void Enemy_SANS::on_mercy() {
     box->blitter_print({ String::utf8("* 더 이상 샌즈에게 이건 소용없을거 같다") });
     sys->executeTrue([this]() { return !global->get_battle_text_box(); },
     [this]() {

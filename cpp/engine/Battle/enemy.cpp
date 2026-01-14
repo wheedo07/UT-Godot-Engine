@@ -14,9 +14,8 @@ Enemy::Enemy() {
     enemy_name = "Enemy";
     is_first_turn = false;
     dodging = false;
-    new_states_override = true;
     one_by_one_overrdie = false;
-    current_state = 0;
+    current_act = 0;
     
     // 기본 통계 설정
     stats["def"] = 10;
@@ -27,8 +26,8 @@ Enemy::Enemy() {
     rewards["exp"] = 10;
     rewards["gold"] = 10;
 
-    Ref<EnemyState> state = memnew(EnemyState);
-    enemy_states.append(state);
+    Ref<EnemyAct> state = memnew(EnemyAct);
+    enemy_acts.append(state);
 
     hurt_sound = nullptr;
     sprites = nullptr;
@@ -42,7 +41,7 @@ Enemy::~Enemy() {}
 
 void Enemy::_bind_methods() {
     ADD_SIGNAL(MethodInfo("finished_dialogue"));
-    ADD_SIGNAL(MethodInfo("changed_state"));
+    ADD_SIGNAL(MethodInfo("changed_act"));
     ADD_SIGNAL(MethodInfo("dodged", PropertyInfo(Variant::BOOL, "to_right")));
     ADD_SIGNAL(MethodInfo("hit", PropertyInfo(Variant::INT, "damage")));
     ADD_SIGNAL(MethodInfo("on_fight_end"));
@@ -55,12 +54,12 @@ void Enemy::_bind_methods() {
     GDVIRTUAL_BIND(ready);
     GDVIRTUAL_BIND(_on_get_turn);
     GDVIRTUAL_BIND(_on_end_turn);
-    GDVIRTUAL_BIND(on_fight_used, "miss");
-    GDVIRTUAL_BIND(on_act_used, "option");
-    GDVIRTUAL_BIND(on_item_used, "option");
-    GDVIRTUAL_BIND(on_mercy_used);
-    GDVIRTUAL_BIND(on_damage, "amount");
-    GDVIRTUAL_BIND(on_win);
+    GDVIRTUAL_BIND(on_fight, "miss");
+    GDVIRTUAL_BIND(on_act, "option");
+    GDVIRTUAL_BIND(on_item, "option");
+    GDVIRTUAL_BIND(on_mercy);
+    GDVIRTUAL_BIND(damage_info, "amount");
+    GDVIRTUAL_BIND(handle_victory);
     GDVIRTUAL_BIND(on_defeat, "death");
 
     ClassDB::bind_method(D_METHOD("set_kr", "p_kr"), &Enemy::set_kr);
@@ -81,16 +80,10 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_stats"), &Enemy::get_stats);
     ClassDB::bind_method(D_METHOD("set_rewards", "p_rewards"), &Enemy::set_rewards);
     ClassDB::bind_method(D_METHOD("get_rewards"), &Enemy::get_rewards);
-    ClassDB::bind_method(D_METHOD("set_new_states_override", "p_new_states_override"), &Enemy::set_new_states_override);
-    ClassDB::bind_method(D_METHOD("get_new_states_override"), &Enemy::get_new_states_override);
-    ClassDB::bind_method(D_METHOD("set_one_by_one_overrdie", "p_one_by_one_overrdie"), &Enemy::set_one_by_one_overrdie);
-    ClassDB::bind_method(D_METHOD("get_one_by_one_overrdie"), &Enemy::get_one_by_one_overrdie);
 
     ADD_GROUP("data && status", "");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "stats"), "set_stats", "get_stats");
     ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "rewards"), "set_rewards", "get_rewards");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "new_states_override"), "set_new_states_override", "get_new_states_override");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "one_by_one_overrdie"), "set_one_by_one_overrdie", "get_one_by_one_overrdie");
 
     ClassDB::bind_method(D_METHOD("set_dialogues", "p_dialogues"), &Enemy::set_dialogues);
     ClassDB::bind_method(D_METHOD("get_dialogues"), &Enemy::get_dialogues);
@@ -98,16 +91,19 @@ void Enemy::_bind_methods() {
     ADD_GROUP("textbox && dialogues", "");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dialogues", PROPERTY_HINT_RESOURCE_TYPE, "DialogueAsset"), "set_dialogues", "get_dialogues");
 
-    ClassDB::bind_method(D_METHOD("set_current_state", "p_current_state"), &Enemy::set_current_state);
-    ClassDB::bind_method(D_METHOD("get_current_state"), &Enemy::get_current_state);
-    ClassDB::bind_method(D_METHOD("set_enemy_states", "p_enemy_states"), &Enemy::set_enemy_states);
-    ClassDB::bind_method(D_METHOD("get_enemy_states"), &Enemy::get_enemy_states);
+    ClassDB::bind_method(D_METHOD("set_current_act", "p_current_act"), &Enemy::set_current_act);
+    ClassDB::bind_method(D_METHOD("get_current_act"), &Enemy::get_current_act);
+    ClassDB::bind_method(D_METHOD("set_enemy_acts", "p_enemy_acts"), &Enemy::set_enemy_acts);
+    ClassDB::bind_method(D_METHOD("get_enemy_acts"), &Enemy::get_enemy_acts);
+    ClassDB::bind_method(D_METHOD("set_one_by_one_overrdie", "p_one_by_one_overrdie"), &Enemy::set_one_by_one_overrdie);
+    ClassDB::bind_method(D_METHOD("get_one_by_one_overrdie"), &Enemy::get_one_by_one_overrdie);
     
     ADD_GROUP("Act", "");
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "current_state"), "set_current_state", "get_current_state");
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "enemy_states", PROPERTY_HINT_TYPE_STRING, 
-        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":EnemyState"
-    ), "set_enemy_states", "get_enemy_states");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "current_act"), "set_current_act", "get_current_act");
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "enemy_acts", PROPERTY_HINT_TYPE_STRING, 
+        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":EnemyAct"
+    ), "set_enemy_acts", "get_enemy_acts");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "one_by_one_overrdie"), "set_one_by_one_overrdie", "get_one_by_one_overrdie");
 
     ClassDB::bind_method(D_METHOD("set_hurt_sound_path", "p_path"), &Enemy::set_hurt_sound_path);
     ClassDB::bind_method(D_METHOD("get_hurt_sound_path"), &Enemy::get_hurt_sound_path);
@@ -136,7 +132,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_solo"), &Enemy::get_solo);
     ClassDB::bind_method(D_METHOD("get_sprites"), &Enemy::get_sprites);
     ClassDB::bind_method(D_METHOD("modify_stats", "value"), &Enemy::modify_stats);
-    ClassDB::bind_method(D_METHOD("change_state", "new_state"), &Enemy::change_state);
+    ClassDB::bind_method(D_METHOD("change_act", "act_index"), &Enemy::change_act);
     ClassDB::bind_method(D_METHOD("play_dialogue", "index", "duration", "skip", "keep_expression"), &Enemy::play_dialogue, DEFVAL(0), DEFVAL(true), DEFVAL(false));
     ClassDB::bind_method(D_METHOD("play_set_dialogue", "dialogue_ref", "duration", "skip", "keep_expression"), &Enemy::play_set_dialogue, DEFVAL(0), DEFVAL(true), DEFVAL(false));
 
@@ -202,17 +198,13 @@ void Enemy::modify_stats(Dictionary value) {
 }
 
 Ref<ActInfo> Enemy::_get_act_info(int act_choice) {
-    if (new_states_override) {
-        if (one_by_one_overrdie) {
-            _get_act(0, act_choice);
-            for (int i = 0; i < current_state + 1; i++) {
-                _get_act(i, act_choice);
-            }
-        } else {
-            _get_act(current_state, act_choice);
+    if(one_by_one_overrdie) {
+        _get_act(0, act_choice);
+        for(int i=0; i < current_act + 1; i++) {
+            _get_act(i, act_choice);
         }
-    } else {
-        _get_act(current_state, act_choice);
+    }else {
+        _get_act(current_act, act_choice);
     }
     
     Ref<ActInfo> info = _info;
@@ -221,20 +213,20 @@ Ref<ActInfo> Enemy::_get_act_info(int act_choice) {
 }
 
 void Enemy::_get_act(int state, int option) {
-    if (state >= 0 && state < enemy_states.size()) {
-        Ref<EnemyState> enemy_state = enemy_states[state];
-        if (enemy_state.is_valid()) {
+    if(state >= 0 && state < enemy_acts.size()) {
+        Ref<EnemyAct> enemy_state = enemy_acts[state];
+        if(enemy_state.is_valid()) {
             Array acts = enemy_state->get_acts();
-            if (option >= 0 && option < acts.size()) {
+            if(option >= 0 && option < acts.size()) {
                 _info = acts[option];
             }
         }
     }
 }
 
-void Enemy::change_state(int new_state) {
-    current_state = new_state;
-    emit_signal("changed_state");
+void Enemy::change_act(int new_state) {
+    current_act = new_state;
+    emit_signal("changed_act");
 }
 
 void Enemy::play_dialogue(int index, float duration, bool skip, bool keep_expression) {
@@ -354,22 +346,22 @@ void Enemy::ready() {
     // 파생 클래스에서 구현
 }
 
-void Enemy::on_fight_used(bool miss) {
+void Enemy::on_fight(bool miss) {
     // 파생 클래스에서 구현
     emit_signal("on_fight_end");
 }
 
-void Enemy::on_act_used(int option) {
+void Enemy::on_act(int option) {
     // 파생 클래스에서 구현
     emit_signal("on_act_end");
 }
 
-void Enemy::on_item_used(int option) {
+void Enemy::on_item(int option) {
     // 파생 클래스에서 구현
     emit_signal("on_item_end");
 }
 
-void Enemy::on_mercy_used() {
+void Enemy::on_mercy() {
     // 파생 클래스에서 구현
     emit_signal("on_mercy_end");
 }
@@ -387,12 +379,12 @@ void Enemy::_on_end_turn() {
     // 파생 클래스에서 구현
 }
 
-PackedStringArray Enemy::on_win() {
+PackedStringArray Enemy::handle_victory() {
     // 파생 클래스에서 구현
     return { tr("UT_DEFAULT_DIDE") };
 }
 
-String Enemy::on_damage(int amount) {
+String Enemy::damage_info(int amount) {
     return String();
 }
 
@@ -471,14 +463,6 @@ Dictionary Enemy::get_rewards() const {
     return rewards;
 }
 
-void Enemy::set_new_states_override(bool p_new_states_override) {
-    new_states_override = p_new_states_override;
-}
-
-bool Enemy::get_new_states_override() const {
-    return new_states_override;
-}
-
 void Enemy::set_one_by_one_overrdie(bool p_one_by_one_overrdie) {
     one_by_one_overrdie = p_one_by_one_overrdie;
 }
@@ -487,20 +471,20 @@ bool Enemy::get_one_by_one_overrdie() const {
     return one_by_one_overrdie;
 }
 
-void Enemy::set_enemy_states(const Array& p_enemy_states) {
-    enemy_states = p_enemy_states;
+void Enemy::set_enemy_acts(const Array& p_enemy_acts) {
+    enemy_acts = p_enemy_acts;
 }
 
-Array Enemy::get_enemy_states() const {
-    return enemy_states;
+Array Enemy::get_enemy_acts() const {
+    return enemy_acts;
 }
 
-void Enemy::set_current_state(int p_current_state) {
-    current_state = p_current_state;
+void Enemy::set_current_act(int p_current_act) {
+    current_act = p_current_act;
 }
 
-int Enemy::get_current_state() const {
-    return current_state;
+int Enemy::get_current_act() const {
+    return current_act;
 }
 
 Node* Enemy::get_sprites() const {

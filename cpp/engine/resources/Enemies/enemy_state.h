@@ -3,8 +3,8 @@
 #include<godot_cpp/classes/resource.hpp>
 #include "Act.h"
 namespace godot {
-    class EnemyState : public Resource {
-        GDCLASS(EnemyState, Resource)
+    class EnemyAct : public Resource {
+        GDCLASS(EnemyAct, Resource)
 
         protected:
             static void _bind_methods();
@@ -14,8 +14,8 @@ namespace godot {
             bool sparable;
 
         public:
-            EnemyState();
-            ~EnemyState();
+            EnemyAct();
+            ~EnemyAct();
 
             void set_acts(TypedArray<ActInfo> p_acts);
             TypedArray<ActInfo> get_acts() const;

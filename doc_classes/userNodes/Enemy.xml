@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Enemy" inherits="CharacterBody2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=green](User creatable)[/color]
+        The core node used to create enemies in battles in UT-Godot-Engine.
+        Handles all Undertale-style enemy behaviors including turn-based combat, dialogue, animation, and state management.
+    </brief_description>
+    <description>
+        [Enemy] is a core node used to implement enemy characters in battle, working together with [AttackBase], [Bullet], and other components to form an Undertale-style battle system.
+
+       [b]Battle System Integration[/b]
+        • Automatic integration with [BattleMain], [AttackManager], [BattleBox], [SoulBattle], etc.
+        • Dialogue system management through [DialogueControl]
+        • Automatic enemy list loading and management in [BattleMain] node
+
+        [b]Example (GDScript)[/b]
+        [codeblock]
+        extends Enemy
+        
+        func _on_get_turn():
+            # Execute attack pattern
+            box.change_size(Vector2(350, 140), false, 0.3)
+            var attack = attacks.add_attack(preload("res://attacks/test_attack.tscn"))
+            attack.start_attacks()
+        
+        func on_fight():
+            play_dialogue(0)  # Play first dialogue
+            await finished_dialogue
+            emit_signal("on_fight_end")
+        [/codeblock]
+
+        [b]Used Scenes[/b]
+        • res://Battle/Enemies/dust_transition.tscn (death particles)
+        • res://Battle/Enemies/spare.tscn (mercy particles)
+        • res://Battle/Misc/dialogue.tscn (dialogue control)
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/userNodes/Enemy</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/userNodes/Enemy</link>
+    </tutorials>
+
+   <methods>
+        <method name="ready" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                Enemy initialization function.
+                Should be used instead of the [method Node._ready] method.
+            </description>
+        </method>
+
+        <method name="_on_get_turn" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                Virtual function called when the enemy's turn begins.
+                Used to execute attack patterns or implement special behaviors.
+            </description>
+        </method>
+        
+        <method name="_on_end_turn" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                Virtual function called when the enemy's turn ends.
+                Used for turn end processing or state cleanup.
+            </description>
+        </method>
+
+        <method name="on_fight" qualifiers="virtual">
+            <return type="void"/>
+            <param index="0" name="miss" type="bool"/>
+            <description>
+                Virtual function called when the player selects FIGHT.
+                Used to implement the enemy's hit reaction or dialogue.
+                If [param miss] is true, it means the attack missed.
+                Must emit the [signal on_fight_end] signal after processing is complete.
+            </description>
+        </method>
+        
+        <method name="on_act" qualifiers="virtual">
+            <return type="void"/>
+            <param index="0" name="option" type="int"/>
+            <description>
+                Virtual function called when the player selects ACT.
+                [param option] is the index of the selected action.
+                Must emit the [signal on_act_end] signal after processing is complete.
+            </description>
+        </method>
+        
+        <method name="on_item" qualifiers="virtual">
+            <return type="void"/>
+            <param index="0" name="option" type="int"/>
+            <description>
+                Virtual function called when the player uses an ITEM.
+                [param option] is the index of the used item.
+                Must emit the [signal on_item_end] signal after processing is complete.
+            </description>
+        </method>
+        
+        <method name="on_mercy" qualifiers="virtual">
+            <return type="void"/>
+            <description>
+                Virtual function called when the player selects MERCY.
+                Used to implement the enemy's mercy reaction.
+                Must emit the [signal on_mercy_end] signal after processing is complete.
+            </description>
+        </method>
+
+        <method name="on_defeat" qualifiers="virtual">
+            <return type="void"/>
+            <param index="0" name="death" type="bool"/>
+            <description>
+                Virtual function called when the enemy is defeated.
+                If [param death] is true, it means the enemy died; if false, the enemy was spared.
+                Must emit the [signal on_defeat_end] signal after processing is complete.
+            </description>
+        </method>
+
+        <method name="handle_victory" qualifiers="virtual">
+            <return type="PackedStringArray"/>
+            <description>
+                Virtual function called when the enemy wins.
+                Returns victory message. Default value is "UT_DEFAULT_WIN".
+            </description>
+        </method>
+
+        <method name="damage_info" qualifiers="virtual">
+            <return type="String"/>
+            <param index="0" name="amount" type="int"/>
+            <description>
+                Virtual function executed when the enemy takes damage.
+                [param amount] is the amount of damage taken.
+                Passing an empty string returns the default output, passing a string outputs that string.
+                Time can be specified like [time=0.5].
+            </description>
+        </method>
+
+        <method name="change_act">
+            <return type="void"/>
+            <param index="0" name="act_index" type="int"/>
+            <description>
+                Changes the enemy's ACT state.
+                [param act_index] is the index in the [member enemy_acts] array.
+            </description>
+        </method>
+        
+        <method name="play_dialogue">
+            <return type="void"/>
+            <param index="0" name="index" type="int"/>
+            <param index="1" name="duration" type="float" default="0"/>
+            <param index="2" name="skip" type="bool" default="true"/>
+            <param index="3" name="keep_expression" type="bool" default="false"/>
+            <description>
+                Plays dialogue at the specified index.
+                [param index] is the index in the [member dialogues] array.
+                [param duration] is additional delay time, [param skip] is whether skipping is allowed.
+                If [param keep_expression] is true, the expression is maintained after the dialogue.
+            </description>
+        </method>
+        
+        <method name="play_set_dialogue">
+            <return type="void"/>
+            <param index="0" name="dialogue_ref" type="Dialogues"/>
+            <param index="1" name="duration" type="float" default="0"/>
+            <param index="2" name="skip" type="bool" default="true"/>
+            <param index="3" name="keep_expression" type="bool" default="false"/>
+            <description>
+                Directly plays the specified [Dialogues] resource.
+                [param duration] is additional delay time, [param skip] is whether skipping is allowed.
+                If [param keep_expression] is true, the expression is maintained after the dialogue.
+            </description>
+        </method>
+        
+        <method name="modify_stats">
+            <return type="void"/>
+            <param index="0" name="value" type="Dictionary"/>
+            <description>
+                Modifies the enemy's stats.
+                [param value] is a dictionary containing the stats to change.
+                Pass in the format { "hp": number, "max_hp": number, "def": number }.
+            </description>
+        </method>
+        
+        <method name="get_sprites">
+            <return type="Node"/>
+            <description>
+                Returns the sprite container node.
+                Used for animation control.
+            </description>
+        </method>
+
+        <method name="get_solo">
+            <return type="bool"/>
+            <description>
+                Returns whether this is a solo battle.
+            </description>
+        </method>
+   </methods>
+
+   <members>
+        <member name="enemy_name" type="String" setter="set_enemy_name" getter="get_enemy_name" default="&quot;Enemy&quot;">
+           The enemy's name. Displayed in the battle UI.
+        </member>
+        
+        <member name="kr" type="bool" setter="set_kr" getter="get_kr" default="false">
+            Whether to use KR (Karmic Retribution) damage.
+            If true, deals additional damage over time.
+        </member>
+        
+        <member name="isFirstTurn" type="bool" setter="set_is_first_turn" getter="get_is_first_turn" default="false">
+            Whether to start attacking immediately on the first turn.
+            If true, executes attack patterns immediately without dialogue.
+        </member>
+        
+        <member name="dodging" type="bool" setter="set_dodging" getter="get_dodging" default="false">
+            Whether the enemy can dodge attacks.
+            If true, the enemy can dodge when the player attacks.
+        </member>
+        
+        <member name="stats" type="Dictionary" setter="set_stats" getter="get_stats">
+            Dictionary storing the enemy's stats.
+            Default keys: "hp", "max_hp", "def"
+            Default values: {"hp": 100, "max_hp": 100, "def": 10}
+        </member>
+        
+        <member name="rewards" type="Dictionary" setter="set_rewards" getter="get_rewards">
+            Dictionary storing rewards obtained when defeating the enemy.
+            Default keys: "exp", "gold"
+            Default values: {"exp": 10, "gold": 10}
+        </member>
+        
+        <member name="dialogues" type="DialogueAsset" setter="set_dialogues" getter="get_dialogues">
+            [DialogueAsset] resource containing the enemy's dialogue list.
+            Used for dialogue sequences during battle.
+        </member>
+
+        <member name="current_act" type="int" setter="set_current_act" getter="get_current_act" default="0">
+            The current ACT state index of the enemy.
+            Represents an index in the [member enemy_acts] array.
+        </member>
+
+        <member name="enemy_acts" type="Array[EnemyAct]" setter="set_enemy_acts" getter="get_enemy_acts">
+            Array of [EnemyAct] resources containing the enemy's ACT states.
+            Referenced when the player selects ACT.
+        </member>
+
+        <member name="one_by_one_overrdie" type="bool" setter="set_one_by_one_overrdie" getter="get_one_by_one_overrdie" default="false">
+            Whether to process states one by one sequentially.
+            Affects the ACT information retrieval method.
+        </member>
+        
+        <member name="hurt_sound_path" type="NodePath" setter="set_hurt_sound_path" getter="get_hurt_sound_path" default="NodePath(&quot;&quot;)">
+            Path to the [AudioStreamPlayer] node that plays hit sounds.
+            Does not play when dodging.
+        </member>
+        
+        <member name="dust_path" type="NodePath" setter="set_dust_path" getter="get_dust_path" default="NodePath(&quot;&quot;)">
+            Path to the [DustTransition] node that displays death particles.
+        </member>
+
+        <member name="spare_path" type="NodePath" setter="set_spare_path" getter="get_spare_path" default="NodePath(&quot;&quot;)">
+            Path to the [GPUParticles2D] node that displays mercy particles.
+        </member>
+        
+        <member name="sprites_path" type="NodePath" setter="set_sprites_path" getter="get_sprites_path" default="NodePath(&quot;&quot;)">
+            Path to the sprite container node.
+            Used for animations and movement effects.
+        </member>
+
+        <member name="dialogue_path" type="NodePath" setter="set_dialogue_path" getter="get_dialogue_path" default="NodePath(&quot;&quot;)">
+            Path to the [DialogueControl] node that controls dialogue.
+        </member>
+
+        <member name="expression_sprites" type="Array" setter="set_expression_sprites" getter="get_expression_sprites">
+            Array of [AnimatedSprite2D] nodes that control facial expression animations.
+            Used for changing expressions during dialogue.
+        </member>
+
+        <member name="enemy_id" type="int" setter="set_property" getter="get_id">
+            The enemy's ID. (Read-only)
+        </member>
+
+        <member name="main" type="BattleMain" setter="set_property" getter="get_main">
+            Reference to the battle system's main node. (Read-only)
+        </member>
+        
+        <member name="attacks" type="AttackManager" setter="set_property" getter="get_attacks">
+            Reference to the attack manager node. (Read-only)
+        </member>
+        
+        <member name="box" type="BattleBox" setter="set_property" getter="get_box">
+            Reference to the battle box node. (Read-only)
+        </member>
+        
+        <member name="soul" type="SoulBattle" setter="set_property" getter="get_soul">
+            Reference to the soul node. (Read-only)
+        </member>
+        
+        <member name="dialogue" type="DialogueControl" setter="set_property" getter="get_dialogue">
+            Reference to the dialogue control node. (Read-only)
+        </member>
+        
+        <member name="camera" type="CameraController" setter="set_property" getter="get_camera">
+            Reference to the camera control node. (Read-only)
+        </member>
+        
+        <member name="bg" type="TextureRect" setter="set_property" getter="get_bg">
+            Reference to the background node. (Read-only)
+        </member>
+
+        <member name="encounter_script" type="EncounterScript" setter="set_property" getter="get_encounter_script">
+            Reference to the enemy's battle script. (Read-only)
+        </member>
+   </members>
+
+   <signals>
+        <signal name="finished_dialogue">
+            <description>
+                Emitted when dialogue is completed.
+                Triggered after [method play_dialogue] or [method play_set_dialogue] finishes.
+            </description>
+        </signal>
+        
+        <signal name="changed_act">
+            <description>
+                Emitted when the enemy's ACT state changes.
+                Triggered after [method change_act] is called.
+            </description>
+        </signal>
+
+        <signal name="dodged">
+            <param index="0" name="to_right" type="bool" />
+            <description>
+                Signal emitted when the enemy dodges an attack.
+                If [param to_right] is true, the enemy dodged to the right; if false, dodged to the left.
+                Can be used to implement additional effects synchronized with dodge animations.
+            </description>
+        </signal>
+
+        <signal name="hit">
+            <param index="0" name="damage" type="int" />
+            <description>
+                Signal emitted when the enemy is hit.
+                [param damage] is the amount of damage taken.
+                Can be used to implement additional effects synchronized with hit animations.
+            </description>
+        </signal>
+       
+        <signal name="on_fight_end">
+            <description>
+                Signal that must be emitted when fight action processing is complete.
+                Must be emitted when implementing [method on_fight_used].
+            </description>
+        </signal>
+        
+        <signal name="on_act_end">
+            <description>
+                Signal that must be emitted when ACT action processing is complete.
+                Must be emitted when implementing [method on_act_used].
+            </description>
+        </signal>
+        
+        <signal name="on_item_end">
+            <description>
+                Signal that must be emitted when item usage processing is complete.
+                Must be emitted when implementing [method on_item_used].
+            </description>
+        </signal>
+        
+        <signal name="on_mercy_end">
+            <description>
+                Signal that must be emitted when mercy action processing is complete.
+                Must be emitted when implementing [method on_mercy_used].
+            </description>
+        </signal>
+
+        <signal name="on_defeat_end">
+            <description>
+                Signal that must be emitted when defeat processing (death or mercy) is complete.
+                Must be emitted when implementing [method on_defeat].
+            </description>
+        </signal>
+    </signals>
+</class>

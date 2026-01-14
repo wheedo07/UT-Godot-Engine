@@ -3,7 +3,7 @@
 > 🟢 **사용자 생성 가능**
 >> 사용자가 노드를 생성하고 스크립트를 작성할 수 있습니다.
 
-`DefaultBullet` 노드는 [`Bullet`](Bullet.md) 노드를 받아 기본적인 탄환 동작을 구현한 클래스입니다. 이 노드를 상속하여 커스텀 탄환을 쉽게 만들 수 있습니다.
+`DefaultBullet` 노드는 [`Bullet`](Bullet.md) 노드를 상속 받아 기본적인 탄환 동작을 구현한 클래스입니다. 이 노드를 상속하여 커스텀 탄환을 쉽게 만들 수 있습니다.
 
 ---
 
@@ -112,7 +112,7 @@ queue_fire(1.5, Vector2(0, -100), MOVEMENT_TWEEN, 200.0)
 
 ---
 
-## ⚡ 시그널
+## 시그널
 
 ### `tween_finished`
 트윈 이동이 완료되었을 때 발생합니다. [`MOVEMENT_TWEEN`](#movement_tween) 모드에서만 작동합니다.
@@ -126,7 +126,7 @@ print("탄환이 목표 지점에 도달했습니다!")
 
 ---
 
-## 📊 멤버 변수
+## 멤버 변수
 
 ### 에디터에서 설정 가능
 
@@ -165,17 +165,17 @@ TweenEase = Tween.EASE_OUT  # 끝에서 감속
 ## ⚠️ 주의사항 & 팁
 
 1. **경로 설정 누락**
-- 설정을 안할시 크러시가 발생할 수 있습니다.
-   ```gdscript
-    # ✅ 올바른 경로 설정
-    collision_path = NodePath("BulletArea/CollisionShape2D")
-   ```
+```gdscript
+# 설정을 안할시 크러시가 발생할 수 있습니다.
+# ✅ 올바른 경로 설정
+collision_path = NodePath("BulletArea/CollisionShape2D")
+```
 
 2. **잘못된 CollisionShape2D가 아닌 CollisionPolygon2D 사용**
-   ```gdscript
-    # ❌ 잘못된 노드 사용
-    collision_path = NodePath("BulletArea/CollisionPolygon2D")  # X
-   ```
+```gdscript
+# ❌ 잘못된 노드 사용
+collision_path = NodePath("BulletArea/CollisionPolygon2D")  # X
+```
 
 - `MOVEMENT_VELOCITY` 모드는 지속적인 이동에 적합합니다. 멈추지 않고 계속 움직입니다.
 - `MOVEMENT_TWEEN` 모드는 특정 지점으로 부드럽게 이동할 때 유용합니다.

@@ -38,7 +38,7 @@ void BattleBox::_set_targets(bool show_hp_bar) {
     for(int i=0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) {
-            Ref<EnemyState> state = enemy->get_enemy_states()[enemy->get_current_state()];
+            Ref<EnemyAct> state = enemy->get_enemy_acts()[enemy->get_current_act()];
             bool sparable = state->get_sparable(); 
             String enemy_name = "* " + tr(enemy->get_enemy_name());
             targets += vformat("[color=%s]%s[/color]\n", sparable ? "yellow" : "white", enemy_name);
@@ -86,7 +86,7 @@ void BattleBox::set_mercy_options() {
     for (int i = 0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) {
-            Ref<EnemyState> state = enemy->get_enemy_states()[enemy->get_current_state()];
+            Ref<EnemyAct> state = enemy->get_enemy_acts()[enemy->get_current_act()];
             bool sparable = state->get_sparable();
             if (sparable) {
                 spare_color = "yellow";

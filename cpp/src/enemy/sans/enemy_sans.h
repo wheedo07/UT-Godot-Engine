@@ -28,7 +28,7 @@ namespace godot {
             void ready() override;
             void _on_get_turn() override;
             void _on_end_turn() override;
-            void on_mercy_used() override;
+            void on_mercy() override;
 
             AttackSans* create_attack();
             void camera_pro(float time, String key="all", Variant value=true);

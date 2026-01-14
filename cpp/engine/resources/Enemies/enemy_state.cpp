@@ -2,7 +2,7 @@
 #include<godot_cpp/core/class_db.hpp>
 using namespace godot;
 
-EnemyState::EnemyState() {
+EnemyAct::EnemyAct() {
     sparable = false;
 
     Ref<ActInfo> check = memnew(ActInfo);
@@ -29,13 +29,13 @@ EnemyState::EnemyState() {
     acts.push_back(inquire);
 }
 
-EnemyState::~EnemyState() {}
+EnemyAct::~EnemyAct() {}
 
-void EnemyState::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("set_acts", "acts"), &EnemyState::set_acts);
-    ClassDB::bind_method(D_METHOD("get_acts"), &EnemyState::get_acts);
-    ClassDB::bind_method(D_METHOD("set_sparable", "sparable"), &EnemyState::set_sparable);
-    ClassDB::bind_method(D_METHOD("get_sparable"), &EnemyState::get_sparable);
+void EnemyAct::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("set_acts", "acts"), &EnemyAct::set_acts);
+    ClassDB::bind_method(D_METHOD("get_acts"), &EnemyAct::get_acts);
+    ClassDB::bind_method(D_METHOD("set_sparable", "sparable"), &EnemyAct::set_sparable);
+    ClassDB::bind_method(D_METHOD("get_sparable"), &EnemyAct::get_sparable);
 
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "acts", PROPERTY_HINT_TYPE_STRING, 
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":ActInfo")
@@ -43,18 +43,18 @@ void EnemyState::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "sparable"), "set_sparable", "get_sparable");
 }
 
-void EnemyState::set_acts(TypedArray<ActInfo> p_acts) {
+void EnemyAct::set_acts(TypedArray<ActInfo> p_acts) {
     acts = p_acts;
 }
 
-TypedArray<ActInfo> EnemyState::get_acts() const {
+TypedArray<ActInfo> EnemyAct::get_acts() const {
     return acts;
 }
 
-void EnemyState::set_sparable(bool p_sparable) {
+void EnemyAct::set_sparable(bool p_sparable) {
     sparable = p_sparable;
 }
 
-bool EnemyState::get_sparable() const {
+bool EnemyAct::get_sparable() const {
     return sparable;
 }

@@ -180,7 +180,7 @@ void BattleMain::initialize() {
         }
         
         enemy->set_id(i);
-        enemy->connect("changed_state", Callable(box, "_set_targets"));
+        enemy->connect("changed_act", Callable(box, "_set_targets"));
         
         Dictionary stats = enemy->get_stats();
         enemies_max_hp.append(stats.get("max_hp", 1));
@@ -307,10 +307,10 @@ void BattleMain::_enemy_script_off() {
 PackedStringArray BattleMain::_on_death_player() {
     for(int i=0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-        if(enemy->has_method("on_win")) { // C++ 이랑 GDscript 모두 호환되도록
-            return enemy->call("on_win");
+        if(enemy->has_method("handle_victory")) { // C++ 이랑 GDscript 모두 호환되도록
+            return enemy->call("handle_victory");
         }else {
-            return enemy->on_win();
+            return enemy->handle_victory();
         }
     }
     return {};
@@ -395,10 +395,10 @@ void BattleMain::_on_slash_finished(int damage, int target, bool crit) {
             } else {
                 clone->set("damage", damage);
                 String info;
-                if(enemy->has_method("on_damage")) { // C++ 이랑 GDscript 모두 호환되도록
-                    info = enemy->call("on_damage", damage > 0 ? damage : 0);
+                if(enemy->has_method("damage_info")) { // C++ 이랑 GDscript 모두 호환되도록
+                    info = enemy->call("damage_info", damage > 0 ? damage : 0);
                 }else {
-                    info = enemy->on_damage(damage > 0 ? damage : 0);
+                    info = enemy->damage_info(damage > 0 ? damage : 0);
                 }
                 clone->set("info", info);
                 if(damage > 0) box->enemies_hp[target] = (float)box->enemies_hp[target] - damage;
@@ -416,9 +416,9 @@ void BattleMain::_on_damage_info_completed(int target, bool miss) {
     Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
     if (!enemy) return;
     enemy->connect("on_fight_end", Callable(this, "_on_fight_used_completed").bind(target), CONNECT_ONE_SHOT);
-    if(enemy->has_method("on_fight_used")) { // C++ 이랑 GDscript 모두 호환되도록
-        enemy->call("on_fight_used", miss);
-    }else enemy->on_fight_used(miss);
+    if(enemy->has_method("on_fight")) { // C++ 이랑 GDscript 모두 호환되도록
+        enemy->call("on_fight", miss);
+    }else enemy->on_fight(miss);
 }
 
 void BattleMain::_on_fight_used_completed(int target) {
@@ -459,9 +459,9 @@ void BattleMain::_act(int target, int option) {
     Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
     if (enemy) {
         enemy->connect("on_act_end", Callable(this, "emit_signal").bind("end_turn"), CONNECT_ONE_SHOT);
-        if(enemy->has_method("on_act_used")) { // C++ 이랑 GDscript 모두 호환되도록
-            enemy->call("on_act_used", option);
-        }else enemy->on_act_used(option);
+        if(enemy->has_method("on_act")) { // C++ 이랑 GDscript 모두 호환되도록
+            enemy->call("on_act", option);
+        }else enemy->on_act(option);
     }
 }
 
@@ -476,11 +476,11 @@ void BattleMain::_mercy(int choice) {
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
                 if (enemy) {
-                    Ref<EnemyState> state = enemy->get_enemy_states()[enemy->get_current_state()];
+                    Ref<EnemyAct> state = enemy->get_enemy_acts()[enemy->get_current_act()];
                     enemy->connect("on_mercy_end", Callable(this, "_on_end").bind(state->get_sparable(), i), CONNECT_ONE_SHOT);
-                    if(enemy->has_method("on_mercy_used")) { // C++ 이랑 GDscript 모두 호환되도록
-                        enemy->call("on_mercy_used");
-                    }else enemy->on_mercy_used();
+                    if(enemy->has_method("on_mercy")) { // C++ 이랑 GDscript 모두 호환되도록
+                        enemy->call("on_mercy");
+                    }else enemy->on_mercy();
                 }
             }
             break;
@@ -510,9 +510,9 @@ void BattleMain::_item(int item_id) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) {
             enemy->connect("on_item_end", Callable(this, "_on_end"), CONNECT_ONE_SHOT);
-            if(enemy->has_method("on_item_used")) { // C++ 이랑 GDscript 모두 호환되도록
-                enemy->call("on_item_used", item_id);
-            }else enemy->on_item_used(item_id);
+            if(enemy->has_method("on_item")) { // C++ 이랑 GDscript 모두 호환되도록
+                enemy->call("on_item", item_id);
+            }else enemy->on_item(item_id);
         }
     }
 }
@@ -779,7 +779,7 @@ void BattleMain::add_enemy(Ref<PackedScene> enemy_scene) {
         hud->set_kr();
     }
 
-    enemy->connect("changed_state", Callable(box, "_set_targets"));
+    enemy->connect("changed_act", Callable(box, "_set_targets"));
 
     Dictionary rewards_data = enemy->get_rewards();
     rewards["gold"] = int(rewards["gold"]) + int(rewards_data.get("gold", 0));

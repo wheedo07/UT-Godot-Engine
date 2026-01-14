@@ -26,7 +26,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
     // Enemies
     GDREGISTER_CLASS(ActInfo);
-    GDREGISTER_CLASS(EnemyState);
+    GDREGISTER_CLASS(EnemyAct);
 
     // ShopItems
     GDREGISTER_CLASS(ShopItem);

@@ -9,7 +9,7 @@
 [sub_resource type="ActInfo" id="ActInfo_3yu38"]
 description = PackedStringArray("* 샌즈 - ATK 1 DEF 1\n* 1 데미지만 줄수 있다")
 
-[sub_resource type="EnemyState" id="EnemyState_udyrt"]
+[sub_resource type="EnemyAct" id="EnemyState_udyrt"]
 acts = Array[ActInfo]([SubResource("ActInfo_3yu38")])
 
 [node name="Enemy_SANS" type="Enemy_SANS" node_paths=PackedStringArray("expression_sprites")]

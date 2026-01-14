@@ -98,8 +98,8 @@ func start_attack():
 ```
 
 자동으로 다음을 수행합니다:
-- [`remove_bullets`](#remove_bullets) 시그널 발생 → 모든 탄환 제거
-- [`remove_attack`](#remove_attack) 시그널 발생 → 자신을 제거
+- [`remove_bullets`](#remove_bullets) 시그널 발생 -> 모든 탄환 제거
+- [`remove_attack`](#remove_attack) 시그널 발생 -> 자신을 제거
 
 ---
 

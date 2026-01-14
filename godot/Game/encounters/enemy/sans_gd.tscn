@@ -10,7 +10,7 @@
 act = "* Check"
 description = PackedStringArray("* sans - ATK 1 DEF 1")
 
-[sub_resource type="EnemyState" id="EnemyState_udyrt"]
+[sub_resource type="EnemyAct" id="EnemyState_udyrt"]
 acts = Array[ActInfo]([SubResource("ActInfo_3yu38")])
 
 [sub_resource type="GDScript" id="GDScript_aij3i"]

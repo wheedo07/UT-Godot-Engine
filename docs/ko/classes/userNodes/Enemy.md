@@ -234,5 +234,5 @@ play_set_dialogue(Dialogues.new().from([
 - [AttackBase - 공격 패턴](/classes/userNodes/AttackBase.md)
 - [Bullet - 기본 탄환](/classes/userNodes/Bullet.md)
 - [Dialogues - 대화 리소스](/classes/resource/Dialogues.md)
-- [EnemyState - 적 상태](/classes/resource/EnemyState.md)
+- [EnemyAct - 적 상태](/classes/resource/EnemyAct.md)
 - [전투 만들기](/tutorials/battle.md)

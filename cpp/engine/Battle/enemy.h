@@ -57,10 +57,9 @@ namespace godot {
             Dictionary stats;
             Ref<DialogueAsset> dialogues;
             Dictionary rewards;
-            bool new_states_override;
             bool one_by_one_overrdie;
-            Array enemy_states;
-            int current_state;
+            Array enemy_acts;
+            int current_act;
 
             NodePath hurt_sound_path;
             NodePath sprites_path;
@@ -110,30 +109,30 @@ namespace godot {
             void _ready() override;
 
             virtual void ready();
-            virtual void on_fight_used(bool miss);
-            virtual void on_act_used(int option);
-            virtual void on_item_used(int option);
-            virtual void on_mercy_used();
             virtual void _on_get_turn();
             virtual void _on_end_turn();
-            virtual String on_damage(int amount);
-            virtual PackedStringArray on_win();
+            virtual void on_fight(bool miss);
+            virtual void on_act(int option);
+            virtual void on_item(int option);
+            virtual void on_mercy();
             virtual void on_defeat(bool death);
+            virtual String damage_info(int amount);
+            virtual PackedStringArray handle_victory();
             GDVIRTUAL0(ready);
-            GDVIRTUAL1(on_fight_used, bool);
-            GDVIRTUAL1(on_act_used, int);
-            GDVIRTUAL1(on_item_used, int);
-            GDVIRTUAL0(on_mercy_used);
             GDVIRTUAL0(_on_get_turn);
             GDVIRTUAL0(_on_end_turn);
-            GDVIRTUAL1R(String, on_damage, int);
-            GDVIRTUAL0R(PackedStringArray, on_win);
+            GDVIRTUAL1(on_fight, bool);
+            GDVIRTUAL1(on_act, int);
+            GDVIRTUAL1(on_item, int);
+            GDVIRTUAL0(on_mercy);
             GDVIRTUAL1(on_defeat, bool);
+            GDVIRTUAL1R(String, damage_info, int);
+            GDVIRTUAL0R(PackedStringArray, handle_victory);
 
             // 사용 함수
             Node* get_sprites() const;
             void modify_stats(Dictionary value);
-            void change_state(int new_state);
+            void change_act(int act_index);
             void play_dialogue(int index, float duration=0, bool skip=true, bool keep_expression=false);
             void play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration=0, bool skip=true, bool keep_expression=false);
 
@@ -158,14 +157,12 @@ namespace godot {
             Ref<DialogueAsset> get_dialogues() const;
             void set_rewards(const Dictionary& p_rewards);
             Dictionary get_rewards() const;
-            void set_new_states_override(bool p_new_states_override);
-            bool get_new_states_override() const;
             void set_one_by_one_overrdie(bool p_one_by_one_overrdie);
             bool get_one_by_one_overrdie() const;
-            void set_enemy_states(const Array& p_enemy_states);
-            Array get_enemy_states() const;
-            void set_current_state(int p_current_state);
-            int get_current_state() const;
+            void set_enemy_acts(const Array& p_enemy_states);
+            Array get_enemy_acts() const;
+            void set_current_act(int p_current_state);
+            int get_current_act() const;
             GPUParticles2D* get_spare() const;
             DustTransition* get_dust() const;
     };
