@@ -52,7 +52,7 @@ func _on_encounter():
 		
 		var dir := player.position - spawn;
 		b.rotation_degrees = rad_to_deg(dir.angle()) + 90;
-		b.fire(player.position, Bullet.MOVEMENT_VELOCITY, 150);
+		b.fire(player.position, DefaultBullet.MOVEMENT_VELOCITY, 150);
 		await get_tree().create_timer(1).timeout;
 	await get_tree().create_timer(0.1).timeout;
 	toggle_encounter();

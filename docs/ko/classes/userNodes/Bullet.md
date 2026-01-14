@@ -241,5 +241,6 @@ bullet.fade()
 
 - [AttackBase - 공격 패턴](/classes/userNodes/AttackBase.md)
 - [BulletArea - 탄환 영역](/classes/userNodes/BulletArea.md)
+- [DefaultBullet - 기본 탄환](/classes/userNodes/DefaultBullet.md)
 - [Enemy - 적 캐릭터](/classes/userNodes/Enemy.md)
 - [전투 만들기](/tutorials/battle.md)

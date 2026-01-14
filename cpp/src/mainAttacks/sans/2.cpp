@@ -38,7 +38,7 @@ void AttackSans::turn_2() {
                     b->set_rotation_degrees(90);
                     int y = UFus::randi_range(10, 150);
                     b->set_position(Vector2(600, y));
-                    b->fire(Vector2(100, y), Bullet::MOVEMENT_VELOCITY, 150);
+                    b->fire(Vector2(100, y), DefaultBullet::MOVEMENT_VELOCITY, 150);
                     *time = 0;
                 }else *time += delta;
             }, 25);

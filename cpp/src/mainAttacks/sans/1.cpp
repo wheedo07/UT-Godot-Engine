@@ -11,21 +11,21 @@ void AttackSans::turn_1() {
             Bone* b = create_bone(Masking::ABSOLUTE);
             b->set_rotation_degrees(180);
             b->set_position(Vector2(120, 400));
-            b->fire(Vector2(420, 400), Bullet::MOVEMENT_TWEEN, 160);
+            b->fire(Vector2(420, 400), DefaultBullet::MOVEMENT_TWEEN, 160);
             b->tween_height(45, 1.1);
             Bone* b_2 = create_bone(Masking::ABSOLUTE);
             b_2->set_position(Vector2(120, 250));
-            b_2->fire(Vector2(420, 250), Bullet::MOVEMENT_TWEEN, 160);
+            b_2->fire(Vector2(420, 250), DefaultBullet::MOVEMENT_TWEEN, 160);
             b_2->tween_height(95, 1.1);
             
             Bone* b2 = create_bone(Masking::ABSOLUTE);
             b2->set_rotation_degrees(180);
             b2->set_position(Vector2(520, 400));
-            b2->fire(Vector2(220, 400), Bullet::MOVEMENT_TWEEN, 160);
+            b2->fire(Vector2(220, 400), DefaultBullet::MOVEMENT_TWEEN, 160);
             b2->tween_height(45, 1.1);
             Bone* b2_2 = create_bone(Masking::ABSOLUTE);
             b2_2->set_position(Vector2(520, 250));
-            b2_2->fire(Vector2(220, 250), Bullet::MOVEMENT_TWEEN, 160);
+            b2_2->fire(Vector2(220, 250), DefaultBullet::MOVEMENT_TWEEN, 160);
             b2_2->tween_height(95, 1.1);
             
             sys->sleep([this, b, b_2, b2, b2_2]() {
