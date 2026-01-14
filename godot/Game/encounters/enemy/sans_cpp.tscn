@@ -6,11 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://d3j04wql8n25c" path="res://Battle/Misc/dialogue.tscn" id="6_4j25b"]
 [ext_resource type="AudioStream" uid="uid://cltec82rumkic" path="res://sfx/impact_wallhit.wav" id="8_7oarx"]
 
-[sub_resource type="ActInfo" id="ActInfo_3yu38"]
+[sub_resource type="ActInfo" id="ActInfo_6tpl4"]
 description = PackedStringArray("* 샌즈 - ATK 1 DEF 1\n* 1 데미지만 줄수 있다")
 
-[sub_resource type="EnemyAct" id="EnemyState_udyrt"]
-acts = Array[ActInfo]([SubResource("ActInfo_3yu38")])
+[sub_resource type="EnemyAct" id="EnemyAct_k1vcg"]
+acts = Array[ActInfo]([SubResource("ActInfo_6tpl4")])
 
 [node name="Enemy_SANS" type="Enemy_SANS" node_paths=PackedStringArray("expression_sprites")]
 enemy_name = "샌즈"
@@ -21,8 +21,7 @@ stats = {
 "hp": 1,
 "max_hp": 1
 }
-one_by_one_overrdie = true
-enemy_states = [SubResource("EnemyState_udyrt")]
+enemy_acts = [SubResource("EnemyAct_k1vcg")]
 sprites_path = NodePath("sans")
 dialogue_path = NodePath("Dialogue")
 dust_path = NodePath("DustTransition")

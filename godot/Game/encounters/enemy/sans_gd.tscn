@@ -6,12 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://d3j04wql8n25c" path="res://Battle/Misc/dialogue.tscn" id="5_7gmq6"]
 [ext_resource type="AudioStream" uid="uid://cltec82rumkic" path="res://sfx/impact_wallhit.wav" id="6_a0585"]
 
-[sub_resource type="ActInfo" id="ActInfo_3yu38"]
+[sub_resource type="ActInfo" id="ActInfo_6tpl4"]
 act = "* Check"
 description = PackedStringArray("* sans - ATK 1 DEF 1")
 
-[sub_resource type="EnemyAct" id="EnemyState_udyrt"]
-acts = Array[ActInfo]([SubResource("ActInfo_3yu38")])
+[sub_resource type="EnemyAct" id="EnemyAct_vhgwm"]
+acts = Array[ActInfo]([SubResource("ActInfo_6tpl4")])
 
 [sub_resource type="GDScript" id="GDScript_aij3i"]
 resource_name = "Enemy_gd"
@@ -71,8 +71,7 @@ stats = {
 "hp": 1,
 "max_hp": 1
 }
-one_by_one_overrdie = true
-enemy_states = [SubResource("EnemyState_udyrt")]
+enemy_acts = [SubResource("EnemyAct_vhgwm")]
 sprites_path = NodePath("sans")
 dialogue_path = NodePath("Dialogue")
 dust_path = NodePath("DustTransition")
