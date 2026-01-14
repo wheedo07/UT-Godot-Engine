@@ -444,23 +444,6 @@ play_set_dialogue(Dialogues.new().from([
 
 ---
 
-## 시그널 목록
-
-### 필수 시그널 (가상 함수에서 발생)
-- `on_fight_end` - FIGHT 처리 완료
-- `on_act_end` - ACT 처리 완료  
-- `on_item_end` - ITEM 처리 완료
-- `on_mercy_end` - MERCY 처리 완료
-- `on_defeat_end` - 패배 처리 완료
-
-### 자동 발생 시그널
-- `finished_dialogue` - 대화 완료
-- `changed_state` - 상태 변경
-- `dodged(to_right: bool)` - 회피 발생
-- `hit(damage: int)` - 피격 발생
-
----
-
 ## 🔗 관련 문서
 
 - [AttackBase - 공격 패턴](/classes/userNodes/AttackBase.md)
