@@ -23,6 +23,7 @@ namespace godot {
             CollisionShape2D* collision;
             Tween::TransitionType tween_trans;
             Tween::EaseType tween_ease;
+            Ref<Tween> velocity_tween;
 
             void set_property(const Variant& value);
             void _blast(float duration, float up_delay);

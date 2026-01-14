@@ -18,6 +18,8 @@ namespace godot {
                 VELOCITY,
                 TWEEN
             };
+            Ref<Tween> velocity_tween;
+            Vector2 velocity;
         
         private:
             Vector2 movement;
@@ -31,6 +33,12 @@ namespace godot {
             Tween::EaseType ease;
             
             void _on_tween_completed();
+
+            void set_velocity_tween(Ref<Tween> value);
+            Ref<Tween> get_velocity_tween() const;
+
+            void set_velocity(Vector2 value);
+            Vector2 get_velocity() const;
         
         public:
             BattlePlatform();

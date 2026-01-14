@@ -7,13 +7,16 @@ DefaultBullet::DefaultBullet() {
     tween_trans = Tween::TRANS_QUAD;
     tween_ease = Tween::EASE_IN_OUT;
     collision = nullptr;
+    fire_mode = MOVEMENT_VELOCITY;
 }
 
 DefaultBullet::~DefaultBullet() {}
 
 void DefaultBullet::_bind_methods() {
     ADD_SIGNAL(MethodInfo("tween_finished"));
-    GDVIRTUAL_BIND(_update, "delta");
+    BIND_ENUM_CONSTANT(MOVEMENT_VELOCITY);
+    BIND_ENUM_CONSTANT(MOVEMENT_TWEEN);
+
     ClassDB::bind_method(D_METHOD("fire", "target", "movement_type", "speed", "mode"), &DefaultBullet::fire, DEFVAL(100.0f), DEFVAL(MODE_NULL));
     ClassDB::bind_method(D_METHOD("queue_fire", "delay", "target", "movement_type", "speed", "mode"), &DefaultBullet::queue_fire, DEFVAL(100.0f), DEFVAL(MODE_NULL));
     ClassDB::bind_method(D_METHOD("_await_fire", "fire_call", "delay"), &DefaultBullet::_await_fire);
@@ -55,22 +58,18 @@ void DefaultBullet::_ready() {
     }
 }
 
-void DefaultBullet::_process(double delta) {
-    if(!is_inside_tree() || !collision) return;
-    
+void DefaultBullet::_physics_process(double delta) {
+    Bullet::_physics_process(delta);
+    if(fire_mode == MOVEMENT_VELOCITY) {
+        move_and_slide();
+    }
+
+    if(!collision) return;
     Vector2 sprite_size = get_sprite_size();
     
     Ref<RectangleShape2D> shape = collision->get_shape();
     shape->set_size(Vector2(sprite_size.x - collision_margin, sprite_size.y - collision_margin));
-
-    if(has_method("_update")) { // C++ 이랑 GDscript 모두 호환되도록
-        call("_update", delta);
-    }else {
-        _update(delta);
-    }
 }
-
-void DefaultBullet::_update(double delta) {}
 
 void DefaultBullet::fire(const Vector2& target, MovementMode movement_type, float speed, DamageMode mode) {
     fire_mode = movement_type;

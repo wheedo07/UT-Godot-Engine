@@ -38,7 +38,7 @@ void BulletArea::_process(double delta) {
             if(overlap_node && overlap_node->is_in_group("soul") && (damage_mode <= Bullet::MODE_GREEN)) {
                 player_hit = true;
                 if(bullet->delete_upon_hit_value) {
-                    bullet->kill();
+                    bullet->queue_free();
                 }else {
                     if(bullet->has_method("on_hit_player")) { // C++ 이랑 GDscript 모두 호환되도록
                         bullet->call("on_hit_player");

@@ -14,9 +14,16 @@ namespace godot {
             static void _bind_methods();
 
         public:
+            enum MovementMode {
+                MOVEMENT_VELOCITY,
+                MOVEMENT_TWEEN
+            };
             float collision_margin;
 
         private:
+            MovementMode fire_mode;
+            Ref<Tween> velocity_tween;
+
             Node* sprite;
             NodePath collision_path;
             CollisionShape2D* collision;
@@ -35,9 +42,7 @@ namespace godot {
             ~DefaultBullet();
 
             void _ready() override;
-            void _process(double delta) override;
-            virtual void _update(double delta);
-            GDVIRTUAL1(_update, double);
+            void _physics_process(double delta) override;
             Vector2 get_sprite_size();
 
             void fire(const Vector2& target, MovementMode movement_type, float speed = 100.0f, DamageMode mode = MODE_NULL);
@@ -59,5 +64,6 @@ namespace godot {
             Ref<Tween> get_velocity_tween() const;
     };
 };
+VARIANT_ENUM_CAST(godot::DefaultBullet::MovementMode);
 
 #endif

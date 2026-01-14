@@ -91,7 +91,7 @@ void BoneSpike::spike(float remain_time) {
     tw->tween_property(collision, "position:y", 0, SpikeTime*2);
     tw->tween_property(sprite_rect, "position:y", -33, SpikeTime*2);
     tw->tween_callback(Callable(this, "emit_signal").bind("finished_spike"));
-    tw->connect("finished", Callable(this, "kill"));
+    tw->connect("finished", Callable(this, "queue_free"));
 }
 
 void BoneSpike::set_collision_margin(float p_collision_margin) {

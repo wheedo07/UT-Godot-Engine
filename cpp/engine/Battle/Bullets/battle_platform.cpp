@@ -4,6 +4,7 @@
 
 BattlePlatform::BattlePlatform() {
     movement = Vector2(0, 0);
+    velocity = Vector2(0,0);
     trans = Tween::TRANS_QUAD;
     ease = Tween::EASE_IN_OUT;
 }
@@ -23,6 +24,14 @@ void BattlePlatform::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_ease", "value"), &BattlePlatform::set_ease);
     ClassDB::bind_method(D_METHOD("get_ease"), &BattlePlatform::get_ease);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "TweenEase", PROPERTY_HINT_ENUM, "In,Out,InOut,OutIn"), "set_ease", "get_ease");
+
+    ClassDB::bind_method(D_METHOD("set_velocity_tween", "value"), &BattlePlatform::set_velocity_tween);
+    ClassDB::bind_method(D_METHOD("get_velocity_tween"), &BattlePlatform::get_velocity_tween);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "velocity_tween", PROPERTY_HINT_RESOURCE_TYPE, "Tween", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_velocity_tween", "get_velocity_tween");
+
+    ClassDB::bind_method(D_METHOD("set_velocity", "value"), &BattlePlatform::set_velocity);
+    ClassDB::bind_method(D_METHOD("get_velocity"), &BattlePlatform::get_velocity);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "velocity", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_velocity", "get_velocity");
 }
 
 void BattlePlatform::_ready() {
@@ -101,4 +110,20 @@ void BattlePlatform::set_ease(Tween::EaseType value) {
 
 Tween::EaseType BattlePlatform::get_ease() const {
     return ease;
+}
+
+void BattlePlatform::set_velocity_tween(Ref<Tween> value) {
+    velocity_tween = value;
+}
+
+Ref<Tween> BattlePlatform::get_velocity_tween() const {
+    return velocity_tween;
+}
+
+void BattlePlatform::set_velocity(Vector2 value) {
+    velocity = value;
+}
+
+Vector2 BattlePlatform::get_velocity() const {
+    return velocity;
 }

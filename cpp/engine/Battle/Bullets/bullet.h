@@ -19,10 +19,6 @@ namespace godot {
             static void _bind_methods();
         
         public:
-            enum MovementMode {
-                MOVEMENT_VELOCITY,
-                MOVEMENT_TWEEN
-            };
             enum DamageMode {
                 MODE_NULL = -1,
                 MODE_WHITE,
@@ -30,9 +26,7 @@ namespace godot {
                 MODE_BLUE,
                 MODE_ORANGE
             };
-            MovementMode fire_mode;
             bool delete_upon_hit_value;
-            Ref<Tween> velocity_tween;
 
         private:
             DamageMode damage_mode;
@@ -45,8 +39,6 @@ namespace godot {
 
             Array colors;
             Array overlapping_areas;
-
-            void on_exit_screen();
         
         public:
             Bullet();
@@ -68,7 +60,6 @@ namespace godot {
 
             Bullet* set_mode(DamageMode mode = MODE_BLUE);
             DamageMode get_mode();
-            void kill();
             void fade();
 
             void set_damage(int p_damage);
@@ -88,12 +79,8 @@ namespace godot {
 
             void set_colors(const Array& p_colors);
             Array get_colors() const;
-
-            void set_velocity_tween(const Ref<Tween>& value);
-            Ref<Tween> get_velocity_tween() const;
     };
 }
-VARIANT_ENUM_CAST(godot::Bullet::MovementMode);
 VARIANT_ENUM_CAST(godot::Bullet::DamageMode);
 
 #endif
