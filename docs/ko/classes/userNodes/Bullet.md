@@ -4,7 +4,7 @@
 >> 사용자가 노드를 생성하고 스크립트를 작성할 수 있습니다.
 
 UT-Godot-Engine의 전투 시스템에서 사용되는 탄환(Bullet) 노드입니다.  
-Undertale 스타일의 탄환 움직임, 데미지, 효과 모드 등을 구현할 수 있습니다.
+탄환은 플레이어와 상호작용하며 다양한 효과를 가질 수 있습니다.
 
 ---
 
@@ -14,6 +14,7 @@ Undertale의 핵심 메커니즘인 색상별 탄환 시스템을 구현합니�
 
 | 모드 | 색상 | 효과 | 사용 예시 |
 |------|------|------|----------|
+| `MODE_NULL` | 그 전 상태 유지 (없다면 흰색) | 변화 없음 | 기본값 |
 | `MODE_WHITE` | ⚪ 흰색 | 항상 데미지 | 일반 탄막 |
 | `MODE_GREEN` | 🟢 초록색 | HP 회복 | 힐링 탄환 |
 | `MODE_BLUE` | 🔵 파란색 | 움직이면 데미지 | 정지 퍼즐 |
@@ -24,20 +25,8 @@ Undertale의 핵심 메커니즘인 색상별 탄환 시스템을 구현합니�
 # 모드 설정 시 색상 자동 적용
 bullet.set_mode(Bullet.MODE_BLUE)  # 파란색으로 변경
 bullet.set_mode(Bullet.MODE_GREEN) # 초록색으로 변경
+bullet.set_mode(Bullet.MODE_NULL)  # 초록색으로 유지 (변경 없음)
 ```
-
----
-
-## 이동 시스템
-
-### MovementMode 종류
-
-#### `MOVEMENT_VELOCITY` (물리 기반)
-목표 반향으로 멈추지 않고 지속적으로 이동합니다.
-
-#### `MOVEMENT_TWEEN` (애니메이션 기반)
-트윈을 사용하여 지정된 위치로 부드럽게 이동합니다.
-목표 위치에 도달하면 자동으로 멈춥니다.
 
 ---
 
@@ -47,7 +36,6 @@ Bullet
 ├── Sprite2D                    # 탄환 스프라이트
 ├── BulletArea # 충돌 영역
 │   └── CollisionShape2D        # 충돌 모양
-└── VisibleOnScreenNotifier2D   # 화면 밖 감지 (선택 사항) <- (on_exit_screen 함수를 연결)
 ```
 
 ---
@@ -145,13 +133,6 @@ func _physics_update(delta: float):
     pass;
 ```
 
-### `kill()`
-탄환을 안전하게 제거합니다.
-
-```gdscript
-bullet.kill()
-```
-
 ### `set_mode(mode: DamageMode)`
 탄환의 데미지 모드를 설정합니다.
 
@@ -172,14 +153,6 @@ print("현재 모드: ", current_mode)
 
 ```gdscript
 bullet.fade()
-```
-
-### `on_exit_screen()`
-`VisibleOnScreenNotifier2D` 노드의 `screen_exited` 시그널에 연결하여 화면 밖으로 나갔을 때 탄환을 제거하게 할 수 있습니다.
-
-```gdscript
-func _on_visible_on_screen_notifier_2d_screen_exited():
-    queue_free()  # 탄환 제거
 ```
 
 ---
@@ -208,22 +181,16 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 인덱스 순서: [0]=흰색, [1]=초록색, [2]=파란색, [3]=주황색 <br>
 기본값: [Color.WHITE, Color.GREEN, Color(0, 0.85, 1), Color(1, 0.65, 0)]
 
-### 스크립트에서만 사용 가능한 변수
-| 변수명 | 타입 | 설명 |
-|--------|------|------|
-| `velocity_tween` | `Tween` | `MOVEMENT_TWEEN` 모드에서 사용하는 트윈 노드입니다. |
-
-
 ---
 
 ## ⚠️ 주의사항
 
-### ✅ 권장사항
+### 권장사항
 
 1. **스프라이트 경로 설정**
    ```gdscript
    func ready():
-       sprite_path = NodePath("Sprite2D")  # 색상 변경을 위해 필수
+       sprite_path = NodePath("Sprite2D")  # 색상 변경을 위해 필수 (에디터에서 설정)
    ```
 
 2. **적절한 충돌 처리**
