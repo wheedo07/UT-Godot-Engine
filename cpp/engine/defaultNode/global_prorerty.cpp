@@ -64,6 +64,9 @@ void Global::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_flags", "value"), &Global::set_flags);
     ClassDB::bind_method(D_METHOD("get_flags"), &Global::get_flags);
+
+    ClassDB::bind_method(D_METHOD("set_scan_directory", "value"), &Global::set_scan_directory);
+    ClassDB::bind_method(D_METHOD("get_scan_directory"), &Global::get_scan_directory);
     //
 
     // 숨겨진 변수 바인딩
@@ -108,7 +111,6 @@ void Global::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_flag", "key", "defaultValue"), &Global::get_flag, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("get_g_flags", "key", "defaultValue"), &Global::get_g_flags, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("set_g_flags", "key", "value"), &Global::set_g_flags);
-
     // 상태 확인을 위한 메서드 바인딩
     ClassDB::bind_method(D_METHOD("get_player_in_menu"), &Global::get_player_in_menu);
     ClassDB::bind_method(D_METHOD("get_battle_text_box"), &Global::get_battle_text_box);
@@ -143,6 +145,9 @@ void Global::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_defense"), "set_player_defense", "get_player_defense");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_attack"), "set_player_attack", "get_player_attack");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_kills"), "set_player_kills", "get_player_kills");
+
+    ADD_GROUP("Debug Options", "debug_");
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "scan_directory", PROPERTY_HINT_DIR), "set_scan_directory", "get_scan_directory");
     //
 
     // 숨겨진 변수 바인딩
@@ -478,4 +483,13 @@ void Global::set_playtime(double value) {
 
 double Global::get_playtime() const {
     return playtime;
+}
+
+void Global::set_scan_directory(String value) {
+    if(value.begins_with("res://Core/") || value.begins_with("res://Engine/")) return;
+    scan_directory = value;
+}
+
+String Global::get_scan_directory() const {
+    return scan_directory;
 }

@@ -1,7 +1,7 @@
 [gd_resource type="Encounter" load_steps=6 format=3 uid="uid://bp7davgg4c2yg"]
 
-[ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://Game/assets/sprite/sheet/sans_sheet.png" id="1_q2s51"]
-[ext_resource type="PackedScene" uid="uid://bjg0655hy3vx0" path="res://Game/encounters/enemy/sans_gd.tscn" id="2_q2s51"]
+[ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://assets/sprite/sheet/sans_sheet.png" id="1_q2s51"]
+[ext_resource type="PackedScene" uid="uid://bjg0655hy3vx0" path="res://Battle/enemy/sans_gd.tscn" id="2_q2s51"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7lixq"]
 atlas = ExtResource("1_q2s51")

@@ -57,14 +57,10 @@ window/per_pixel_transparency/allowed=true
 
 folder_colors={
 "res://Core/": "orange",
+"res://Core/DefaultSecne/": "red",
+"res://Core/Flow/": "yellow",
+"res://Core/Startup/": "yellow",
 "res://Engine/": "red",
-"res://Engine/Battle/Death/": "yellow",
-"res://Game/": "green",
-"res://Intro/": "yellow",
-"res://Main/": "yellow",
-"res://Musics/": "green",
-"res://Musics/default/": "red",
-"res://Shaders/": "green",
 "res://bin/": "red"
 }
 
@@ -171,7 +167,7 @@ pointing/emulate_touch_from_mouse=true
 locale/translation_remaps={
 "res://Engine/Battle/Buttons/button_sheet_ko.png": PackedStringArray("res://Engine/Battle/Buttons/button_sheet_en.png:en")
 }
-locale/translations=PackedStringArray("res://Engine/Text/translation.en.translation", "res://Engine/Text/translation.ko.translation", "res://Game/assets/locale/csv/example.en.translation", "res://Game/assets/locale/csv/example.ko.translation")
+locale/translations=PackedStringArray("res://Engine/Text/translation.en.translation", "res://Engine/Text/translation.ko.translation", "res://assets/locale/csv/example.en.translation", "res://assets/locale/csv/example.ko.translation")
 
 [layer_names]
 

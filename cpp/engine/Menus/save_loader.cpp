@@ -64,7 +64,7 @@ void SaveLoader::warn() {
 void SaveLoader::reset() {
     emit_signal("disable");
     global->resetgame();
-    global->get_scene_container()->change_scene_to_file("res://Intro/name_selection.tscn");
+    global->get_scene_container()->change_scene_to_file("res://Core/DefaultSecne/name_selection.tscn");
 }
 
 void SaveLoader::_hide() {

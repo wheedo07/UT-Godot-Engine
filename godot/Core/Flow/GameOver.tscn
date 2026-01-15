@@ -4,7 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="4_vc66o"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="5_1ttji"]
 [ext_resource type="FontFile" uid="uid://ddqyxuicviwwp" path="res://Engine/Text/Fonts/8-BIT WONDER.TTF" id="5_hp2tx"]
-[ext_resource type="AudioStream" uid="uid://c1qln468c47ui" path="res://Musics/default/death_screen_music_thing.wav" id="8_vka2r"]
+[ext_resource type="AudioStream" uid="uid://c1qln468c47ui" path="res://Core/Flow/assets/death_screen_music_thing.wav" id="8_vka2r"]
 
 [sub_resource type="Gradient" id="Gradient_gesgi"]
 interpolation_mode = 2

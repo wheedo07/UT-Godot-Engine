@@ -1,11 +1,11 @@
 [gd_scene load_steps=20 format=3 uid="uid://c33x0gque7l30"]
 
-[ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://Game/assets/sprite/sheet/new_home.png" id="2_ulhiq"]
-[ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Engine/Overworld/Characters/player_overworld.tscn" id="3_36w6e"]
-[ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Engine/Overworld/Interactions/save_point.tscn" id="5_0u8sj"]
-[ext_resource type="PackedScene" uid="uid://gdudyru0q3di" path="res://Engine/Overworld/Interactions/dimensional_box.tscn" id="5_njfgb"]
-[ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Engine/Overworld/Characters/sans.tscn" id="6_a8nlu"]
-[ext_resource type="PackedScene" uid="uid://dd758xuvic7xl" path="res://Engine/Overworld/Interactions/overworld_area_trigger.tscn" id="7_5tkl3"]
+[ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://assets/sprite/sheet/new_home.png" id="1_0b7jn"]
+[ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Engine/Overworld/Characters/player_overworld.tscn" id="2_5i4ub"]
+[ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Engine/Overworld/Interactions/save_point.tscn" id="3_5u5da"]
+[ext_resource type="PackedScene" uid="uid://gdudyru0q3di" path="res://Engine/Overworld/Interactions/dimensional_box.tscn" id="4_gbou4"]
+[ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Engine/Overworld/Characters/sans.tscn" id="5_umhqo"]
+[ext_resource type="PackedScene" uid="uid://dd758xuvic7xl" path="res://Engine/Overworld/Interactions/overworld_area_trigger.tscn" id="6_3seqt"]
 
 [sub_resource type="GDScript" id="GDScript_u3m8p"]
 resource_name = "Default"
@@ -67,7 +67,7 @@ func _on_camera():
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_37vgg"]
 resource_name = "Last Corridor"
-texture = ExtResource("2_ulhiq")
+texture = ExtResource("1_0b7jn")
 margins = Vector2i(677, 558)
 texture_region_size = Vector2i(20, 20)
 0:0/0 = 0
@@ -91,7 +91,7 @@ texture_region_size = Vector2i(20, 20)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2556i"]
 resource_name = "Door"
-texture = ExtResource("2_ulhiq")
+texture = ExtResource("1_0b7jn")
 margins = Vector2i(486, 488)
 texture_region_size = Vector2i(22, 20)
 0:0/size_in_atlas = Vector2i(2, 5)
@@ -101,7 +101,7 @@ texture_region_size = Vector2i(22, 20)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vj3m7"]
 resource_name = "Foreground Stuff"
-texture = ExtResource("2_ulhiq")
+texture = ExtResource("1_0b7jn")
 margins = Vector2i(557, 558)
 texture_region_size = Vector2i(20, 20)
 0:0/size_in_atlas = Vector2i(3, 6)
@@ -114,7 +114,7 @@ texture_region_size = Vector2i(20, 20)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qf4dj"]
 resource_name = "Big Pillar"
-texture = ExtResource("2_ulhiq")
+texture = ExtResource("1_0b7jn")
 margins = Vector2i(739, 488)
 texture_region_size = Vector2i(67, 20)
 0:0/size_in_atlas = Vector2i(1, 10)
@@ -173,7 +173,7 @@ layer_1/y_sort_enabled = true
 layer_1/y_sort_origin = 16
 layer_1/tile_data = PackedInt32Array(-65533, 2, 0, 11, 196612, 0, 17, 196612, 0, 23, 196612, 0, 29, 196612, 0, 35, 196612, 0, 41, 196612, 0, 47, 196612, 0, 53, 196612, 0, 59, 196612, 0, 65, 196612, 0, -65461, 2, 0, 65544, 4, 0, 65550, 4, 0, 65556, 4, 0, 65562, 4, 0, 65568, 4, 0, 65574, 4, 0, 65580, 4, 0, 65586, 4, 0, 65592, 4, 0, 65598, 4, 0, 65604, 4, 0)
 
-[node name="PlayerOverworld" parent="TileMap" instance=ExtResource("3_36w6e")]
+[node name="PlayerOverworld" parent="TileMap" instance=ExtResource("2_5i4ub")]
 y_sort_enabled = true
 position = Vector2(49, 75)
 
@@ -182,30 +182,30 @@ zoom = Vector2(2, 2)
 limit_top = -80
 limit_bottom = 160
 
-[node name="Save" parent="TileMap" instance=ExtResource("5_0u8sj")]
+[node name="Save" parent="TileMap" instance=ExtResource("3_5u5da")]
 dialogue = SubResource("Dialogues_njfgb")
 position = Vector2(23, 88)
 
-[node name="Box" parent="TileMap" instance=ExtResource("5_njfgb")]
+[node name="Box" parent="TileMap" instance=ExtResource("4_gbou4")]
 position = Vector2(50, 98)
 
-[node name="Sans" parent="TileMap" instance=ExtResource("6_a8nlu")]
+[node name="Sans" parent="TileMap" instance=ExtResource("5_umhqo")]
 dialogues = Array[Dialogues]([SubResource("Dialogues_8ru6p")])
 position = Vector2(1438, 63)
 
 [node name="trigger" type="Node2D" parent="TileMap"]
 
-[node name="sans_battle" parent="TileMap/trigger" instance=ExtResource("7_5tkl3")]
+[node name="sans_battle" parent="TileMap/trigger" instance=ExtResource("6_3seqt")]
 action = 14
 position = Vector2(229, 80)
 scale = Vector2(1, 4)
 
-[node name="on_transition_test" parent="TileMap/trigger" instance=ExtResource("7_5tkl3")]
+[node name="on_transition_test" parent="TileMap/trigger" instance=ExtResource("6_3seqt")]
 action = 14
 position = Vector2(1191, 80)
 scale = Vector2(1, 4)
 
-[node name="on_encounter" parent="TileMap/trigger" instance=ExtResource("7_5tkl3")]
+[node name="on_encounter" parent="TileMap/trigger" instance=ExtResource("6_3seqt")]
 action = 12
 position = Vector2(608, 81)
 scale = Vector2(1, 4)
@@ -213,7 +213,7 @@ scale = Vector2(1, 4)
 [node name="shop_room" type="RoomEntranceNode" parent="TileMap/trigger"]
 facing_direction = Vector2(0, 1)
 door_id = 1
-new_room = "res://Game/shop/shop_default.tscn"
+new_room = "uid://tw6eogrd1cju"
 offset_left = 41.0
 offset_top = 24.0
 offset_right = 81.0

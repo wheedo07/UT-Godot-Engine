@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bjg0655hy3vx0"]
 
-[ext_resource type="PackedScene" uid="uid://bp62m2pkjek8i" path="res://Game/encounters/body/sans.tscn" id="1_aij3i"]
+[ext_resource type="PackedScene" uid="uid://bp62m2pkjek8i" path="res://Battle/body/sans.tscn" id="1_aij3i"]
 [ext_resource type="PackedScene" uid="uid://bg5sjvqtpvedk" path="res://Engine/Battle/Enemies/dust_transition.tscn" id="3_6tpl4"]
 [ext_resource type="PackedScene" uid="uid://cvdyy2a8wldbo" path="res://Engine/Battle/Enemies/spare.tscn" id="3_vhgwm"]
 [ext_resource type="PackedScene" uid="uid://d3j04wql8n25c" path="res://Engine/Battle/Misc/dialogue.tscn" id="5_7gmq6"]
@@ -16,7 +16,7 @@ acts = Array[ActInfo]([SubResource("ActInfo_6tpl4")])
 [sub_resource type="GDScript" id="GDScript_aij3i"]
 resource_name = "Enemy_gd"
 script/source = "extends Enemy
-@onready var attack = preload(\"res://Game/encounters/attacks/attack_sans_gd.tscn\");
+@onready var attack = preload(\"res://Battle/attacks/attack_sans_gd.tscn\");
 @onready var dog = $sans/Idle/dodge;
 @onready var head = $sans/Throw/head;
 @onready var AnimStates:AnimationNodeStateMachinePlayback = $sans/States.get(\"parameters/playback\");

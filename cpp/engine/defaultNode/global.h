@@ -65,6 +65,8 @@ namespace godot {
 	        int player_kr;
 	        int player_kills;
 
+			String scan_directory;
+
             int temp_atk;
 	        int temp_def;
             Vector2 player_position;
@@ -96,9 +98,12 @@ namespace godot {
     		void _update_collision_visibility();
 			void _loop_Music();
 	        void _on_kr_tick();
+
+			// 내부용 함수
 			String xor_encrypt(String data, String key);
 			String xor_decrypt(String data, String key);
 			void init_paths();
+			void init_scene_nodes();
         
         public:
             Global();
@@ -137,7 +142,7 @@ namespace godot {
     		bool get_first() const;
     		bool get_fullscreen() const;
 
-			// ClassDB에 등혹 안할 함수
+			// ClassDB에 등록 안할 함수
 			void set_player_position(Vector2 value);
     		void set_scene_container(SceneContainer* value);
     		void set_first(bool value);
@@ -224,6 +229,9 @@ namespace godot {
 
 			void set_flags(Dictionary value);
 			Dictionary get_flags();
+
+			void set_scan_directory(String value);
+			String get_scan_directory() const;
 
 			// 숨겨진 getter/setter 함수
 			void set_variables(Dictionary value);

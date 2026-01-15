@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cuuor6488vm2a"]
 
-[ext_resource type="PackedScene" uid="uid://bp62m2pkjek8i" path="res://Game/encounters/body/sans.tscn" id="1_pvga3"]
+[ext_resource type="PackedScene" uid="uid://bp62m2pkjek8i" path="res://Battle/body/sans.tscn" id="1_pvga3"]
 [ext_resource type="PackedScene" uid="uid://bg5sjvqtpvedk" path="res://Engine/Battle/Enemies/dust_transition.tscn" id="3_k1vcg"]
 [ext_resource type="PackedScene" uid="uid://cvdyy2a8wldbo" path="res://Engine/Battle/Enemies/spare.tscn" id="3_n4gpn"]
 [ext_resource type="PackedScene" uid="uid://d3j04wql8n25c" path="res://Engine/Battle/Misc/dialogue.tscn" id="6_4j25b"]

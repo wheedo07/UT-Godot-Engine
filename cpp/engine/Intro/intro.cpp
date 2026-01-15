@@ -14,7 +14,7 @@ Intro::Intro() {
     current_index = 0;
     intro_completed = false;
     intro_data = Array();
-    intro_json_path = "res://Intro/intro_data.json";
+    intro_json_path = "res://Core/Startup/intro_data.json";
     intro_completed_path = "";
     enable_auto = true;
 }
@@ -57,12 +57,15 @@ void Intro::_ready() {
         global->get_Music()->set_stream(music);
         global->get_Music()->play();
     }
-    intro_text = Object::cast_to<GenericTextTyper>(get_node_internal("IntroText"));
-    intro_image = Object::cast_to<TextureRect>(get_node_internal("Panel"));
-    
-    camera = global->get_scene_container()->get_camera();
-    intro_text->set_process_unhandled_input(false);
+    Ref<PackedScene> scene = ResourceLoader::get_singleton()->load("res://Engine/RequiredNode/intro.tscn");
+    Node* requiredNode = scene->instantiate();
+    add_child(requiredNode);
 
+    intro_text = Object::cast_to<GenericTextTyper>(requiredNode->get_node_internal("IntroText"));
+    intro_image = Object::cast_to<TextureRect>(requiredNode->get_node_internal("Panel"));
+    camera = global->get_scene_container()->get_camera();
+
+    intro_text->set_process_unhandled_input(false);
     intro_text->set_text("");
     intro_image->hide();
 

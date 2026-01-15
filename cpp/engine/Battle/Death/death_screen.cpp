@@ -92,7 +92,7 @@ void DeathScreen::done() {
     if(global->get_first()) {
         global->resetgame();
         global->get_scene_container()->reload_camera();
-        global->get_scene_container()->change_scene_to_file("res://Intro/intro.tscn");
+        global->get_scene_container()->change_scene_to_file("res://Core/Startup/intro.tscn");
         return;
     }
     

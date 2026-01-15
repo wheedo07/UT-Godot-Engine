@@ -1,7 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dc10754oip7a4"]
-
-[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="1_aygu1"]
-[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="2_1gesb"]
+[gd_scene load_steps=4 format=3 uid="uid://dc10754oip7a4"]
 
 [sub_resource type="Item" id="Item_1gesb"]
 item_type = 1
@@ -29,8 +26,6 @@ item_information = PackedStringArray("* 버터스카치 시나몬 파이 한 조
 throw_message = PackedStringArray("* 당신은 파이를 버렸다")
 heal_amount = 999
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dgeo2"]
-
 [node name="Global" type="Global"]
 item_list = Array[Item]([SubResource("Item_1gesb"), SubResource("Item_5rwar"), SubResource("Item_dgeo2")])
 saveDir = "$home/.Undertale-Engine"
@@ -45,35 +40,3 @@ player_attack = 38
 player_kills = 103
 process_mode = 3
 layer = 10
-
-[node name="Info" type="RichTextLabel" parent="."]
-material = SubResource("ShaderMaterial_dgeo2")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = -16.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme = ExtResource("1_aygu1")
-theme_override_font_sizes/normal_font_size = 25
-bbcode_enabled = true
-metadata/_edit_lock_ = true
-
-[node name="speed_up" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_1gesb")
-bus = &"SFX"
-
-[node name="KrTimer" type="Timer" parent="."]
-process_mode = 1
-autostart = true
-
-[node name="MusicGlobal" type="AudioStreamPlayer" parent="."]
-process_mode = 1
-bus = &"Music"
-
-[connection signal="timeout" from="KrTimer" to="." method="_on_kr_tick"]
-[connection signal="finished" from="MusicGlobal" to="." method="_loop_Music"]

@@ -146,15 +146,22 @@ Global::~Global() {}
 
 void Global::_ready() {
     Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_HIDDEN);
-
     os = OS::get_singleton();
     display = DisplayServer::get_singleton();
     marshalls = Marshalls::get_singleton();
-    Music = Object::cast_to<AudioStreamPlayer>(get_node_internal("MusicGlobal"));
-    speedup_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("speed_up"));
-    Info = Object::cast_to<RichTextLabel>(get_node_internal("Info"));
-    KrTimer = Object::cast_to<Timer>(get_node_internal("KrTimer"));
+    init_scene_nodes();
     init_paths();
+}
+
+void Global::init_scene_nodes() {
+    Ref<PackedScene> scene = ResourceLoader::get_singleton()->load("res://Engine/RequiredNode/global.tscn");
+    Node* requiredNode = scene->instantiate();
+    add_child(requiredNode);
+
+    Music = Object::cast_to<AudioStreamPlayer>(requiredNode->get_node_internal("MusicGlobal"));
+    speedup_sound = Object::cast_to<AudioStreamPlayer>(requiredNode->get_node_internal("speed_up"));
+    Info = Object::cast_to<RichTextLabel>(requiredNode->get_node_internal("Info"));
+    KrTimer = Object::cast_to<Timer>(requiredNode->get_node_internal("KrTimer"));
 }
 
 void Global::init_paths() {
@@ -311,7 +318,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             get_viewport()->set_input_as_handled();
         }else if(event->is_action_pressed("force_save") && (os->is_debug_build() || os->has_feature("debug_op"))) {
             String path = get_scene_container()->get_current_scene()->get_scene_file_path();
-            if(path.find("res://Game") == -1) {
+            if(path.begins_with("res://Core/") || path.begins_with("res://Engine/")) {
                 print_line(tr("UT_CANT_HERE"));
                 return;
             }

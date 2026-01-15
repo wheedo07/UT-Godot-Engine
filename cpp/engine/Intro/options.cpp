@@ -89,7 +89,7 @@ void Options::_unhandled_input(const Ref<InputEvent>& event) {
                 Node* parent = get_node_internal("../");
                 Ref<Tween> tween = create_tween();
                 tween->tween_property(parent, "modulate:a", 0.0, 0.8)->set_trans(Tween::TRANS_SINE);
-                tween->connect("finished", Callable(global->get_scene_container(), "change_scene_to_file").bind("res://Intro/intro.tscn"));
+                tween->connect("finished", Callable(global->get_scene_container(), "change_scene_to_file").bind("res://Core/Startup/intro.tscn"));
                 break;
             }
             case 1:

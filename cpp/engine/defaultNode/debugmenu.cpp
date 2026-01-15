@@ -132,10 +132,11 @@ void DebugMenu::on_setting_changed(Node* btn) {
 
 void DebugMenu::_get_path_list() {
     PackedStringArray paths;
-    _scan_directory("res://Game/", paths);
+    if(!global->get_scan_directory().is_empty()) {
+        _scan_directory(global->get_scan_directory(), paths);
+    }
     if(paths.size() != 0) {
-        paths.push_back("res://Intro/intro.tscn");
-        paths.push_back("res://Intro/name_selection.tscn");
+        paths.push_back("res://Core/Startup/intro.tscn");
     }
     paths.sort();
     
@@ -180,7 +181,7 @@ void DebugMenu::_on_path_list_loaded() {
 
 void DebugMenu::_scene_input(String text) {
     if(!enabled || !global) return;
-    if(text.find("res://Game") == -1) {
+    if(text.begins_with("res://Core/") || text.begins_with("res://Engine/")) {
         global->alert(tr("UT_CANT_HERE"), "Error");
         return;
     }
