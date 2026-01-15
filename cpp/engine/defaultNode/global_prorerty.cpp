@@ -486,10 +486,9 @@ double Global::get_playtime() const {
 }
 
 void Global::set_scan_directory(String value) {
-    if(value.begins_with("res://Core/") || value.begins_with("res://Engine/")) return;
     scan_directory = value;
 }
 
-String Global::get_scan_directory() const {
+String Global::get_scan_directory() {
     return scan_directory;
 }

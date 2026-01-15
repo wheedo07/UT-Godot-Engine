@@ -231,7 +231,7 @@ namespace godot {
 			Dictionary get_flags();
 
 			void set_scan_directory(String value);
-			String get_scan_directory() const;
+			String get_scan_directory();
 
 			// 숨겨진 getter/setter 함수
 			void set_variables(Dictionary value);
