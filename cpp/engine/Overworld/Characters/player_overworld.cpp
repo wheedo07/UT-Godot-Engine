@@ -95,8 +95,8 @@ void PlayerOverworld::_ready() {
     sprite_material = sprite->get_material();
    
     ResourceLoader* loader = ResourceLoader::get_singleton();
-    player_menu = loader->load("res://Overworld/ui.tscn");
-    hit_label = loader->load("res://Overworld/hit_label.tscn");
+    player_menu = loader->load("res://Engine/Overworld/ui.tscn");
+    hit_label = loader->load("res://Engine/Overworld/hit_label.tscn");
     alert_sprite->set_visible(false);
 }
 

@@ -18,7 +18,7 @@ void SavePoint::_bind_methods() {
 
 void SavePoint::_ready() {
     ResourceLoader* loader = ResourceLoader::get_singleton();
-    save_menu = loader->load("res://Overworld/save_menu.tscn");
+    save_menu = loader->load("res://Engine/Overworld/save_menu.tscn");
 }
 
 void SavePoint::_on_interact_save() {

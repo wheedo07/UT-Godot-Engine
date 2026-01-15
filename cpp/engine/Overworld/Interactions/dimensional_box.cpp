@@ -12,7 +12,7 @@ void DimensionalBox::_bind_methods() {
 
 void DimensionalBox::_ready() {
     ResourceLoader* loader = ResourceLoader::get_singleton();
-    ui_scene = loader->load("res://Overworld/ui_dimensionalBox.tscn");
+    ui_scene = loader->load("res://Engine/Overworld/ui_dimensionalBox.tscn");
 }
 
 void DimensionalBox::_on_interact_box() {

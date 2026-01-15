@@ -30,9 +30,9 @@
         [/codeblock]
 
         [b]Used Scenes[/b]
-        • res://Battle/Enemies/dust_transition.tscn (death particles)
-        • res://Battle/Enemies/spare.tscn (mercy particles)
-        • res://Battle/Misc/dialogue.tscn (dialogue control)
+        • res://Engine/Battle/Enemies/dust_transition.tscn (death particles)
+        • res://Engine/Battle/Enemies/spare.tscn (mercy particles)
+        • res://Engine/Battle/Misc/dialogue.tscn (dialogue control)
 
         [en] For a more detailed explanation, please refer to the tutorials linked below.
         [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.

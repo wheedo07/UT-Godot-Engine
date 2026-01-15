@@ -59,7 +59,7 @@ void AttackMeter::_bind_methods() {
 void AttackMeter::_ready() {
     meter = Object::cast_to<Sprite2D>(get_node_internal("Meter"));
 
-    bar_scene = ResourceLoader::get_singleton()->load("res://Battle/AttackMeter/bar.tscn");
+    bar_scene = ResourceLoader::get_singleton()->load("res://Engine/Battle/AttackMeter/bar.tscn");
     Ref<Item> weapon = global->get_item_list()[global->get_equipment()["weapon"]];
     can_crit = weapon->get_critical_hits();
     

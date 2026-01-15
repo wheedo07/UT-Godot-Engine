@@ -54,7 +54,7 @@ void RoomEntranceNode::force_enter() {
 void RoomEntranceNode::_ready() {
     facing_direction = facing_direction.normalized();
     
-    Ref<PackedScene> area_scene = ResourceLoader::get_singleton()->load("res://Overworld/Interactions/overworld_area_trigger.tscn");
+    Ref<PackedScene> area_scene = ResourceLoader::get_singleton()->load("res://Engine/Overworld/Interactions/overworld_area_trigger.tscn");
     Area = Object::cast_to<OverworldAreaTrigger>(area_scene->instantiate());
     
     Area->set_action(special_room ? 19 : 3);

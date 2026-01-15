@@ -107,9 +107,9 @@ void SoulBattle::_ready() {
     input = Input::get_singleton();
     
     ResourceLoader* loader = ResourceLoader::get_singleton();
-    green_mode_scene = loader->load("res://Battle/Soul/green_soul.tscn");
-    yellow_bullet_scene = loader->load("res://Battle/Soul/yellow_soul_bullet.tscn");
-    cyan_detect_scene = loader->load("res://Battle/Soul/cyan_detection.tscn");
+    green_mode_scene = loader->load("res://Engine/Battle/Soul/green_soul.tscn");
+    yellow_bullet_scene = loader->load("res://Engine/Battle/Soul/yellow_soul_bullet.tscn");
+    cyan_detect_scene = loader->load("res://Engine/Battle/Soul/cyan_detection.tscn");
     
     green_shield = Object::cast_to<GreenShielding>(green_mode_scene->instantiate());
     cyan_detector = Object::cast_to<CyanDetection>(cyan_detect_scene->instantiate());
@@ -297,7 +297,7 @@ void SoulBattle::_on_death() {
     global->save_settings();
     global->set_player_position(get_global_transform_with_canvas().get_origin());
     main->attacks->force_end_attacks();
-    global->get_scene_container()->change_scene_to_file("res://Battle/Death/death_screen.tscn");
+    global->get_scene_container()->change_scene_to_file("res://Engine/Battle/Death/death_screen.tscn");
 }
 
 void SoulBattle::heal(BulletArea* area) {

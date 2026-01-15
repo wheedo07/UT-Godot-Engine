@@ -94,9 +94,9 @@ void BattleMain::_ready() {
     music_player = global->get_Music();
 
     ResourceLoader* loader = ResourceLoader::get_singleton();
-    attack_scene = loader->load("res://Battle/AttackMeter/meter.tscn");
-    slash_scene = loader->load("res://Battle/Slashes/slashes.tscn");
-    damage_info_scene = loader->load("res://Battle/AttackMeter/damage.tscn");
+    attack_scene = loader->load("res://Engine/Battle/AttackMeter/meter.tscn");
+    slash_scene = loader->load("res://Engine/Battle/Slashes/slashes.tscn");
+    damage_info_scene = loader->load("res://Engine/Battle/AttackMeter/damage.tscn");
 
     if(!encounter.is_valid() && global->battle_encounter && global->battle_encounter->is_class("Encounter")) {
         encounter = global->battle_encounter;

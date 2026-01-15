@@ -24,9 +24,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-stagehand="*res://Main/stagehand.tscn"
-scene_changer="*res://Main/scene_changer.tscn"
-global="*res://Main/global.tscn"
+stagehand="*res://Core/autoload/stagehand.tscn"
+scene_changer="*res://Core/autoload/scene_changer.tscn"
+global="*res://Core/autoload/global.tscn"
 
 [debug]
 
@@ -56,21 +56,15 @@ window/per_pixel_transparency/allowed=true
 [file_customization]
 
 folder_colors={
-"res://Battle/": "red",
-"res://Battle/Death/": "yellow",
-"res://Boxes/": "red",
-"res://Camera/": "red",
+"res://Core/": "orange",
+"res://Engine/": "red",
+"res://Engine/Battle/Death/": "yellow",
 "res://Game/": "green",
 "res://Intro/": "yellow",
 "res://Main/": "yellow",
-"res://Menus/": "red",
 "res://Musics/": "green",
 "res://Musics/default/": "red",
-"res://Overworld/": "red",
 "res://Shaders/": "green",
-"res://Shaders/default/": "red",
-"res://Text/": "red",
-"res://Themes/": "red",
 "res://bin/": "red"
 }
 
@@ -175,9 +169,9 @@ pointing/emulate_touch_from_mouse=true
 [internationalization]
 
 locale/translation_remaps={
-"res://Battle/Buttons/button_sheet_ko.png": PackedStringArray("res://Battle/Buttons/button_sheet_en.png:en")
+"res://Engine/Battle/Buttons/button_sheet_ko.png": PackedStringArray("res://Engine/Battle/Buttons/button_sheet_en.png:en")
 }
-locale/translations=PackedStringArray("res://Text/translation.en.translation", "res://Text/translation.ko.translation", "res://Game/assets/locale/csv/example.en.translation", "res://Game/assets/locale/csv/example.ko.translation")
+locale/translations=PackedStringArray("res://Engine/Text/translation.en.translation", "res://Engine/Text/translation.ko.translation", "res://Game/assets/locale/csv/example.en.translation", "res://Game/assets/locale/csv/example.ko.translation")
 
 [layer_names]
 

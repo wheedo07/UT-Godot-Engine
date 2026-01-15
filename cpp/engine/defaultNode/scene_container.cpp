@@ -29,7 +29,7 @@ void SceneContainer::_bind_methods() {
 
 void SceneContainer::_ready() {
     loader = ResourceLoader::get_singleton();
-    camera_scene = loader->load("res://Camera/camera_fx.tscn");
+    camera_scene = loader->load("res://Engine/Main/camera_fx.tscn");
     settings_viewport_container = Object::cast_to<SubViewportContainer>(get_node_internal("SettingsContainer"));
     main_viewport_container = Object::cast_to<SubViewportContainer>(get_node_internal("SubViewportContainer"));
     main_viewport = Object::cast_to<SubViewport>(get_node_internal("SubViewportContainer/MainViewport"));

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cw7by1ibpkm1x"]
 
-[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Themes/DTMono24.tres" id="3_2u401"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="3_2u401"]
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="4_wgfxx"]
 [ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="5_kots0"]
 [ext_resource type="AudioStream" uid="uid://cjt5oikkeubw6" path="res://sfx/mus_cymbal.ogg" id="6_s3pw6"]

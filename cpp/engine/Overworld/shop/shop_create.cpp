@@ -70,7 +70,7 @@ void ShopCreate::_bind_methods() {
 }
 
 void ShopCreate::_ready() {
-    Ref<PackedScene> shop_scene = ResourceLoader::get_singleton()->load("res://Overworld/shop.tscn");
+    Ref<PackedScene> shop_scene = ResourceLoader::get_singleton()->load("res://Engine/Overworld/shop.tscn");
     if(!shop_scene.is_valid()) {
         ERR_PRINT("원래 경로에 shop.tscn이 없습니다.");
         return;

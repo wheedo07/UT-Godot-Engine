@@ -1,0 +1,362 @@
+[gd_scene load_steps=13 format=3 uid="uid://x1g53cac1aq7"]
+
+[ext_resource type="Shader" uid="uid://cwal68u742e4u" path="res://Shaders/blur.gdshader" id="1_n24qb"]
+[ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="2_rnrpm"]
+[ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Engine/Themes/BoxBackground.tres" id="3_jxe76"]
+[ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Engine/Themes/GlobalBoxTexture.tres" id="5_v15op"]
+[ext_resource type="Theme" uid="uid://csrwnc0ryis8q" path="res://Engine/Themes/EditorMain.tres" id="6_me24t"]
+[ext_resource type="PackedScene" uid="uid://cnm64bp0hy4b0" path="res://Engine/Main/audiobus.tscn" id="6_t1t4d"]
+[ext_resource type="Texture2D" uid="uid://2wkogj5dvyco" path="res://Engine/Overworld/icon_room.png" id="7_7c5sw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_46ohv"]
+bg_color = Color(0, 0, 0, 0.705882)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_owj1f"]
+shader = ExtResource("1_n24qb")
+shader_parameter/lod = 0.0
+
+[sub_resource type="Animation" id="Animation_qnifu"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BusContainer:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-391, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DEBUG:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-84, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Options:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-416, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Options2:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-416, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_ooyau"]
+resource_name = "toggle"
+length = 1.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BusContainer:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-391, -0.25, 0, 0.2, 418.915, 249, -0.8, -8.15796, 0.25, 0),
+"times": PackedFloat32Array(0.2, 1.2)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DEBUG:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-84, -0.25, 0, 0.5, 1.63526, 16, -0.2, -7.63197, 0.25, 0),
+"times": PackedFloat32Array(0, 0.8)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Options:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-416, -0.25, 0, 0.2, 431.234, 62, -0.7, 57.9373, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Options2:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-416, -0.25, 0, 0.2, 431.234, 62, -0.7, 57.9373, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gxxvs"]
+_data = {
+&"RESET": SubResource("Animation_qnifu"),
+&"toggle": SubResource("Animation_ooyau")
+}
+
+[node name="DebugMenu" type="DebugMenu"]
+layer = 10
+
+[node name="Darken" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_46ohv")
+
+[node name="Blur" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_owj1f")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DEBUG" type="RichTextLabel" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 17.0
+offset_top = -84.0
+offset_right = -23.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme = ExtResource("2_rnrpm")
+bbcode_enabled = true
+text = "UT_SETTING_DEBUG"
+horizontal_alignment = 1
+
+[node name="Options" type="Control" parent="."]
+layout_mode = 3
+anchor_right = 0.5
+anchor_bottom = 0.2
+offset_left = 5.0
+offset_top = -416.0
+offset_right = -3.0
+offset_bottom = -320.00012
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Options"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_jxe76")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VFX" type="SettingBoolButton" parent="Options/VBoxContainer"]
+setting_name = "vfx"
+layout_mode = 2
+theme = ExtResource("2_rnrpm")
+text = "VFX"
+
+[node name="CamShake" type="SettingBoolButton" parent="Options/VBoxContainer"]
+setting_name = "shake"
+layout_mode = 2
+theme = ExtResource("2_rnrpm")
+text = "UT_SETTING_SHAKE"
+
+[node name="Border" type="SettingBoolButton" parent="Options/VBoxContainer"]
+setting_name = "border"
+layout_mode = 2
+theme = ExtResource("2_rnrpm")
+text = "UT_SETTING_BORDER"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Options"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_v15op")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
+
+[node name="Options2" type="Control" parent="."]
+layout_mode = 3
+anchor_right = 0.5
+anchor_bottom = 0.2
+offset_left = 322.0
+offset_top = -416.0
+offset_right = 314.0
+offset_bottom = -319.99994
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Options2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -0.00012207031
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_jxe76")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Options2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -0.00012207031
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_v15op")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
+
+[node name="debug_edit" type="LineEdit" parent="Options2/NinePatchRect"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 13.0
+offset_right = 352.0
+offset_bottom = 45.0
+scale = Vector2(0.84000003, 1)
+theme = ExtResource("6_me24t")
+theme_override_font_sizes/font_size = 15
+placeholder_text = "UT_SETTING_EDIT"
+alignment = 1
+editable = false
+keep_editing_on_text_submit = true
+right_icon = ExtResource("7_7c5sw")
+caret_blink_interval = 9.02
+
+[node name="debug_edit2" type="OptionButton" parent="Options2/NinePatchRect"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 59.0
+offset_right = 296.0
+offset_bottom = 91.0
+tooltip_text = "UT_SETTING_EDIT"
+theme = ExtResource("6_me24t")
+disabled = true
+alignment = 1
+text_overrun_behavior = 5
+
+[node name="process_edit" type="SpinBox" parent="Options2/NinePatchRect"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 141.0
+offset_right = 228.0
+offset_bottom = 174.0
+theme = ExtResource("6_me24t")
+min_value = 1.0
+max_value = 5.0
+step = 0.1
+value = 1.0
+alignment = 2
+editable = false
+suffix = "x"
+
+[node name="process_label" type="RichTextLabel" parent="Options2/NinePatchRect"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 108.0
+offset_right = 305.0
+offset_bottom = 148.0
+theme = ExtResource("2_rnrpm")
+theme_override_font_sizes/normal_font_size = 22
+text = "UT_SETTING_PROOCESS"
+horizontal_alignment = 1
+
+[node name="BusContainer" type="HBoxContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1031.0
+offset_top = -190.0
+offset_right = -647.9999
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Master" parent="BusContainer" instance=ExtResource("6_t1t4d")]
+layout_mode = 2
+
+[node name="SFX" parent="BusContainer" instance=ExtResource("6_t1t4d")]
+audio_bus_name = "UT_SETTING_SFX"
+audio_bus_key = &"SFX"
+layout_mode = 2
+
+[node name="Music" parent="BusContainer" instance=ExtResource("6_t1t4d")]
+audio_bus_name = "UT_SETTING_BGM"
+audio_bus_key = &"Music"
+layout_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+deterministic = true
+libraries = {
+&"": SubResource("AnimationLibrary_gxxvs")
+}
+speed_scale = 1.6
+
+[connection signal="init" from="." to="Options/VBoxContainer/VFX" method="init"]
+[connection signal="init" from="." to="Options/VBoxContainer/CamShake" method="init"]
+[connection signal="init" from="." to="Options/VBoxContainer/Border" method="init"]
+[connection signal="init" from="." to="BusContainer/Master" method="init"]
+[connection signal="init" from="." to="BusContainer/SFX" method="init"]
+[connection signal="init" from="." to="BusContainer/Music" method="init"]
+[connection signal="toggled" from="Options/VBoxContainer/VFX" to="Options/VBoxContainer/VFX" method="_on_toggled"]
+[connection signal="toggled" from="Options/VBoxContainer/CamShake" to="Options/VBoxContainer/CamShake" method="_on_toggled"]
+[connection signal="toggled" from="Options/VBoxContainer/Border" to="Options/VBoxContainer/Border" method="_on_toggled"]
+[connection signal="text_submitted" from="Options2/NinePatchRect/debug_edit" to="." method="_scene_input"]
+[connection signal="item_selected" from="Options2/NinePatchRect/debug_edit2" to="." method="_change_debug"]
+[connection signal="value_changed" from="Options2/NinePatchRect/process_edit" to="." method="_change_process"]

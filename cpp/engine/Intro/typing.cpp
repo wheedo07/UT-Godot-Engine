@@ -109,7 +109,7 @@ void Typing::_create_letters() {
             String letter = case_str.substr(letter_idx, 1);
             OptionSelectable* option = memnew(OptionSelectable);
             
-            Ref<Theme> theme = loader->load("res://Themes/DTMono24.tres", "Theme");
+            Ref<Theme> theme = loader->load("res://Engine/Themes/DTMono24.tres", "Theme");
             option->set_theme(theme);
             option->add_theme_font_size_override("normal_font_size", 28);
             option->set_use_bbcode(true);

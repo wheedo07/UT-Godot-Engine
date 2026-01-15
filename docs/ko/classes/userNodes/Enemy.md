@@ -25,9 +25,9 @@ UT-Godot-Engine에서 전투 시스템의 적을 구현하는 핵심 클래스�
 ```
 Enemy
 ├── sprites # 적 스프라이트 노드
-├── Spare   # 자비 효과 노드 (res://Battle/Enemies/spare.tscn)
-├── DustTransition # 사망 효과 노드 (res://Battle/Enemies/dust_transition.tscn)
-├── Dialogue # 대화 박스 노드 (res://Battle/Misc/dialogue.tscn)
+├── Spare   # 자비 효과 노드 (res://Engine/Battle/Enemies/spare.tscn)
+├── DustTransition # 사망 효과 노드 (res://Engine/Battle/Enemies/dust_transition.tscn)
+├── Dialogue # 대화 박스 노드 (res://Engine/Battle/Misc/dialogue.tscn)
 └── AudioStreamPlayer # 타격시 소리 재생 노드
 ```
 

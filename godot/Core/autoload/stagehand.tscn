@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://bxambdq21t4hu"]
+
+[ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="1_n5471"]
+[ext_resource type="AudioStream" uid="uid://d03elcf721v8r" path="res://sfx/snd_save.wav" id="2_bi6uv"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="3_ttt7e"]
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="4_s7wao"]
+[ext_resource type="AudioStream" uid="uid://bhsttfwejarc4" path="res://sfx/Clicks/generic1.wav" id="5_bi6uv"]
+[ext_resource type="AudioStream" uid="uid://lp7i5p5u17hl" path="res://sfx/heal.wav" id="5_u7nfx"]
+[ext_resource type="FontFile" uid="uid://c4lu7m3c14u4q" path="res://Fonts/sans.ttf" id="6_s7wao"]
+[ext_resource type="AudioStream" uid="uid://s6sq0p485acf" path="res://sfx/Clicks/sans.wav" id="6_ttt7e"]
+
+[node name="Stagehand" type="Stagehand"]
+
+[node name="AudioPlayer" type="AudioPlayer" parent="."]
+
+[node name="hurt" type="AudioStreamPlayer" parent="AudioPlayer"]
+stream = ExtResource("1_n5471")
+bus = &"SFX"
+
+[node name="save" type="AudioStreamPlayer" parent="AudioPlayer"]
+stream = ExtResource("2_bi6uv")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="AudioPlayer"]
+stream = ExtResource("3_ttt7e")
+bus = &"SFX"
+
+[node name="choice" type="AudioStreamPlayer" parent="AudioPlayer"]
+stream = ExtResource("4_s7wao")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="heal" type="AudioStreamPlayer" parent="AudioPlayer"]
+stream = ExtResource("5_u7nfx")
+bus = &"SFX"
+
+[node name="Character" type="Node" parent="."]
+
+[node name="DEFAULT" type="CharacterSetting" parent="Character"]
+stream = ExtResource("5_bi6uv")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="SANS" type="CharacterSetting" parent="Character"]
+font = ExtResource("6_s7wao")
+entire_text_bbcode = "[b]"
+stream = ExtResource("6_ttt7e")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="SANS_BATTLE" type="CharacterSetting" parent="Character"]
+font = ExtResource("6_s7wao")
+text_size = 14.0
+entire_text_bbcode = "[b]"
+stream = ExtResource("6_ttt7e")
+max_polyphony = 3
+bus = &"SFX"

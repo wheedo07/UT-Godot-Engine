@@ -1,18 +1,18 @@
 [gd_scene load_steps=20 format=3 uid="uid://c33x0gque7l30"]
 
 [ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://Game/assets/sprite/sheet/new_home.png" id="2_ulhiq"]
-[ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Overworld/Characters/player_overworld.tscn" id="3_36w6e"]
-[ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Overworld/Interactions/save_point.tscn" id="5_0u8sj"]
-[ext_resource type="PackedScene" uid="uid://gdudyru0q3di" path="res://Overworld/Interactions/dimensional_box.tscn" id="5_njfgb"]
-[ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Overworld/Characters/sans.tscn" id="6_a8nlu"]
-[ext_resource type="PackedScene" uid="uid://dd758xuvic7xl" path="res://Overworld/Interactions/overworld_area_trigger.tscn" id="7_5tkl3"]
+[ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Engine/Overworld/Characters/player_overworld.tscn" id="3_36w6e"]
+[ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Engine/Overworld/Interactions/save_point.tscn" id="5_0u8sj"]
+[ext_resource type="PackedScene" uid="uid://gdudyru0q3di" path="res://Engine/Overworld/Interactions/dimensional_box.tscn" id="5_njfgb"]
+[ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Engine/Overworld/Characters/sans.tscn" id="6_a8nlu"]
+[ext_resource type="PackedScene" uid="uid://dd758xuvic7xl" path="res://Engine/Overworld/Interactions/overworld_area_trigger.tscn" id="7_5tkl3"]
 
 [sub_resource type="GDScript" id="GDScript_u3m8p"]
 resource_name = "Default"
 script/source = "extends Overworld
 @onready var sansCpp_tres = preload(\"res://Game/encounters/tres/sans_cpp.tres\");
 @onready var sansGd_tres = preload(\"res://Game/encounters/tres/sans_gd.tres\");
-@onready var bone = preload(\"res://Battle/Bullets/Bone/bone.tscn\");
+@onready var bone = preload(\"res://Engine/Battle/Bullets/Bone/bone.tscn\");
 @onready var locale := DialogueLocalization.new().load(\"res://Game/assets/locale/dialogue/example.json\");
 
 func ready() -> void:

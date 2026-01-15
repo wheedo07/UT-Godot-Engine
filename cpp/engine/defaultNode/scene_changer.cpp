@@ -18,7 +18,7 @@ SceneChanger::SceneChanger() {
     
     waiting_for_transition = false;
     default_scene = "";
-    battle_scene_path = "res://Main/battle.tscn";
+    battle_scene_path = "";
     current_node = nullptr;
 }
 
@@ -172,7 +172,7 @@ void SceneChanger::load_battle(const Ref<Encounter>& battle_resource, bool trans
     SceneContainer* tree = global->get_scene_container();
     
     if (transition) {
-        Ref<PackedScene> transition_scene = loader->load("res://Overworld/battle_transition.tscn");
+        Ref<PackedScene> transition_scene = loader->load("res://Engine/Overworld/battle_transition.tscn");
         BattleTransition* screen = Object::cast_to<BattleTransition>(transition_scene->instantiate());
         set_meta("scene_path", battle_scene_path);
         set_meta("encounter", battle_resource);
