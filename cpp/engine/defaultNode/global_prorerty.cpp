@@ -146,7 +146,7 @@ void Global::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_attack"), "set_player_attack", "get_player_attack");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "player_kills"), "set_player_kills", "get_player_kills");
 
-    ADD_GROUP("Debug Options", "debug_");
+    ADD_GROUP("Debug", "");
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "scan_directory", PROPERTY_HINT_DIR), "set_scan_directory", "get_scan_directory");
     //
 

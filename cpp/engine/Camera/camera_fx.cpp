@@ -43,9 +43,13 @@ void CameraFx::_bind_methods() {
 void CameraFx::_ready() {
     if(!global) return;
 
-    blinder = Object::cast_to<ColorRect>(get_node_internal("CanvasLayer/Blinder"));
-    shaker = Object::cast_to<ColorRect>(get_node_internal("CanvasLayer2/Shaker"));
-    glitcher = Object::cast_to<ColorRect>(get_node_internal("Glitch/Glitch"));
+    Ref<PackedScene> scene = ResourceLoader::get_singleton()->load("res://Engine/RequiredNode/camera_fx.tscn");
+    Node* requiredNode = scene->instantiate();
+    add_child(requiredNode);
+
+    blinder = Object::cast_to<ColorRect>(requiredNode->get_node_internal("CanvasLayer/Blinder"));
+    shaker = Object::cast_to<ColorRect>(requiredNode->get_node_internal("CanvasLayer2/Shaker"));
+    glitcher = Object::cast_to<ColorRect>(requiredNode->get_node_internal("Glitch/Glitch"));
 
     tween.resize(4);
     tween.fill(Ref<Tween>());
@@ -54,7 +58,7 @@ void CameraFx::_ready() {
     Dictionary settings = global->get_settings();
     vfx = settings["vfx"];
 
-    register_vfx("Glitch/Glitch");
+    register_vfx(get_path_to(glitcher));
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
         call("ready");
     }else {

@@ -18,7 +18,7 @@ SceneChanger::SceneChanger() {
     
     waiting_for_transition = false;
     default_scene = "";
-    battle_scene_path = "";
+    battle_scene_path = "res://Core/DefaultSecne/battle.tscn";
     current_node = nullptr;
 }
 

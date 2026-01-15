@@ -10,8 +10,8 @@
 [sub_resource type="GDScript" id="GDScript_u3m8p"]
 resource_name = "Default"
 script/source = "extends Overworld
-@onready var sansCpp_tres = preload(\"res://Game/encounters/tres/sans_cpp.tres\");
-@onready var sansGd_tres = preload(\"res://Game/encounters/tres/sans_gd.tres\");
+@onready var sansCpp_tres = preload(\"res://Battle/tres/sans_cpp.tres\");
+@onready var sansGd_tres = preload(\"res://Battle/tres/sans_gd.tres\");
 @onready var bone = preload(\"res://Engine/Battle/Bullets/Bone/bone.tscn\");
 @onready var locale := DialogueLocalization.new().load(\"res://Game/assets/locale/dialogue/example.json\");
 

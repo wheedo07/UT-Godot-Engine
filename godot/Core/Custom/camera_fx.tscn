@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cdxe45f244wst"]
+
+[node name="CameraFx" type="CameraFx"]
+ignore_rotation = false
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+editor_draw_limits = true
+editor_draw_drag_margin = true

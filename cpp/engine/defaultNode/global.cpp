@@ -74,6 +74,9 @@ Global::Global() {
     player_attack = 10;
     player_kr = 0;
     player_kills = 0;
+
+    // 디버그 옵션
+    scan_directory = "";
     
     // KR 관련
     krtime = 0.5;
@@ -162,6 +165,9 @@ void Global::init_scene_nodes() {
     speedup_sound = Object::cast_to<AudioStreamPlayer>(requiredNode->get_node_internal("speed_up"));
     Info = Object::cast_to<RichTextLabel>(requiredNode->get_node_internal("Info"));
     KrTimer = Object::cast_to<Timer>(requiredNode->get_node_internal("KrTimer"));
+
+    Music->connect("finished", Callable(this, "_loop_Music"));
+    KrTimer->connect("timeout", Callable(this, "_on_kr_tick"));
 }
 
 void Global::init_paths() {
@@ -277,6 +283,8 @@ void Global::heal(int amt) {
 }
 
 void Global::_input(const Ref<InputEvent>& event) {
+    if(!Info || !speedup_sound || !KrTimer) return;
+    
     if(event->is_action_pressed("toggle_fullscreen") && !is_Mobile) toggle_fullscreen();
 
     if(event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {
@@ -290,6 +298,7 @@ void Global::_input(const Ref<InputEvent>& event) {
 }
 
 void Global::_unhandled_input(const Ref<InputEvent>& event) {
+    if(!Info || !speedup_sound || !KrTimer) return;
     if(debugmode) {
         if(event->is_action_pressed("refresh_scene") && os->is_debug_build() && !isSetting) {
             print_line(tr("UT_WARN_NODE_LOSS"));
@@ -349,6 +358,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
 }
 
 void Global::_process(double delta) {
+    if(!Info || !speedup_sound || !KrTimer) return;
     Input* input = Input::get_singleton();
     Engine* engine = Engine::get_singleton();
 
