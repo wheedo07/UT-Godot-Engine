@@ -115,7 +115,7 @@ queue_fire(1.5, Vector2(0, -100), MOVEMENT_TWEEN, 200.0)
 ## 시그널
 
 ### `tween_finished`
-트윈 이동이 완료되었을 때 발생합니다. [`MOVEMENT_TWEEN`](#movement_tween) 모드에서만 작동합니다.
+트윈 이동이 완료되었을 때 발생합니다. [`MOVEMENT_TWEEN`](#movement_tween-트윈-기반) 모드에서만 작동합니다.
 
 ```gdscript
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="EnemyAct" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        A resource class that defines the ACT state for enemies in battles.
+        Contains available ACT options and whether the enemy can be spared in this state.
+    </brief_description>
+    <description>
+        [EnemyAct] is a resource class used to define different states of enemy behavior in UT-Godot-Engine's battle system. Each EnemyAct represents a specific state that an enemy can be in, determining what ACT options are available to the player and whether the enemy can be spared.
+
+        This class is used within the [Enemy] class's [member Enemy.enemy_acts] array to create dynamic enemy behavior that changes based on player actions or story progression.
+
+        [b]Default ACT Options[/b]
+        The class comes with four default ACT options:
+        • "* 살펴보기" (Check) - Shows enemy stats and information
+        • "* 모욕하기" (Insult) - An insulting action
+        • "* 장난치기" (Prank) - A playful action with a joke
+        • "* 한숨쉬기" (Sigh) - A contemplative action
+
+        [b]Usage Example[/b]
+        [codeblock]
+        # Create a new enemy state
+        var enemy_state = EnemyAct.new()
+        
+        # Add custom ACT option
+        var custom_act = ActInfo.new()
+        custom_act.act = "* Talk"
+        custom_act.description = PackedStringArray(["* You tried to talk to the enemy."])
+        enemy_state.acts.append(custom_act)
+        
+        # Make enemy sparable in this state
+        enemy_state.sparable = true
+        [/codeblock]
+
+        [b]Integration with Enemy System[/b]
+        EnemyAct resources are referenced by the [Enemy] class through its [member Enemy.enemy_acts] array and [member Enemy.current_act] index. When the enemy's state changes via [method Enemy.change_act], different ACT options become available to the player.
+        
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/resource/EnemyAct</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/resource/EnemyAct</link>
+    </tutorials>
+
+    <members>
+        <member name="acts" type="Array[ActInfo]" setter="set_acts" getter="get_acts" default="[Object(ActInfo,&quot;act&quot;:&quot;* 살펴보기&quot;,&quot;description&quot;:PackedStringArray(&quot;* 덤디덤 - ATK 120 DEF 40\n* 지하세계 왕이다&quot;),&quot;resource_local_to_scene&quot;:false,&quot;resource_name&quot;:&quot;&quot;,&quot;script&quot;:null) , Object(ActInfo,&quot;act&quot;:&quot;* 모욕하기&quot;,&quot;description&quot;:PackedStringArray(&quot;* 넌.. 정말&quot;, &quot;* 나쁜 아이야&quot;),&quot;resource_local_to_scene&quot;:false,&quot;resource_name&quot;:&quot;&quot;,&quot;script&quot;:null) , Object(ActInfo,&quot;act&quot;:&quot;* 장난치기&quot;,&quot;description&quot;:PackedStringArray(&quot;* 사람을 다 일어나게 하는 숫자는?&quot;, &quot;* 다섯&quot;),&quot;resource_local_to_scene&quot;:false,&quot;resource_name&quot;:&quot;&quot;,&quot;script&quot;:null) , Object(ActInfo,&quot;act&quot;:&quot;* 한숨쉬기&quot;,&quot;description&quot;:PackedStringArray(&quot;* 나도 몰루&quot;, &quot;* 미래의 나야 써라&quot;),&quot;resource_local_to_scene&quot;:false,&quot;resource_name&quot;:&quot;&quot;,&quot;script&quot;:null)]">
+            Array of [ActInfo] resources defining the available ACT options for this enemy state.
+            Each [ActInfo] contains an action name and description text that will be displayed when the player selects that action.
+            
+            Default acts include:
+            • Check - Shows enemy information and stats
+            • Insult - Displays insulting dialogue
+            • Prank - Shows a playful joke interaction
+            • Sigh - Shows contemplative dialogue
+            
+            You can modify this array to add custom ACT options or remove existing ones to create unique enemy interactions.
+        </member>
+        
+        <member name="sparable" type="bool" setter="set_sparable" getter="get_sparable" default="false">
+            Determines whether the enemy can be spared.
+            When this value is set to true, the player can spare this enemy and the name turns yellow.
+            Default value is false.
+        </member>
+    </members>
+</class>

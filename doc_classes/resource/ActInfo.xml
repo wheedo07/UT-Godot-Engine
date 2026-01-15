@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="ActInfo" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        A resource class that stores information about enemy ACT options in battles.
+        Contains the action name and description text displayed when the player examines or interacts with an enemy.
+    </brief_description>
+    <description>
+        [ActInfo] is a resource class used to define enemy ACT options in UT-Godot-Engine's battle system. Each ActInfo represents a single action that the player can perform on an enemy, such as "Check", "Talk", or custom interactions.
+
+        This class is typically used within [EnemyAct] resources to define what actions are available for each enemy state and what information is displayed when those actions are selected.
+
+        [b]Default Values[/b]
+        • [member act]: "* 살펴보기" (Check action in Korean)
+        • [member description]: "* ENEMY - ATK 1 DEF 1 \n* 정보 몰루?." (Default enemy information)
+
+        [b]Usage Example[/b]
+        [codeblock]
+        # Create a new ActInfo resource
+        var act_info = ActInfo.new()
+        act_info.act = "* Check"
+        act_info.description = PackedStringArray([
+            "* FLOWEY - ATK 19 DEF 0",
+            "* Photosynthesis."
+        ])
+        [/codeblock]
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/resource/ActInfo</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/resource/ActInfo</link>
+    </tutorials>
+
+    <methods>
+        <method name="get_act_tr" qualifiers="const">
+            <return type="String" />
+            <description>
+                Returns the translated version of the [member act] string.
+                Uses Godot's translation system to return the localized text.
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="act" type="String" setter="set_act" getter="get_act" default="&quot;* 살펴보기&quot;">
+            The name of the ACT option displayed in the battle menu.
+            This text appears in the ACT menu when the player is choosing which action to perform.
+            Default value is "* 살펴보기" (Korean for "Check").
+        </member>
+        
+        <member name="description" type="PackedStringArray" setter="set_description" getter="get_description" default="PackedStringArray(&quot;* ENEMY - ATK 1 DEF 1 \n* 정보 몰루?.&quot;)">
+            Array of strings containing the description text shown when this ACT option is selected.
+            Each string in the array represents a line of dialogue or information displayed to the player.
+            Default value provides basic enemy stats and placeholder text.
+        </member>
+    </members>
+</class>

@@ -18,7 +18,7 @@ using namespace godot;
 
 // Enemies
 #include "resources/Enemies/Act.h"
-#include "resources/Enemies/enemy_state.h"
+#include "resources/Enemies/enemy_act.h"
 
 // Item
 #include "resources/Items/item.h"
