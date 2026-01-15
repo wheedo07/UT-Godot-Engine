@@ -38,6 +38,8 @@ UT-Godot-Engine에서 제공하는 모든 노드 목록입니다. 각 노드는 
 - [`DialogueLocalization`](resource/DialogueLocalization.md)
 
 ### 전투 리소스
+- [`ActInfo`](resource/ActInfo.md)
+- [`EnemyAct`](resource/EnemyAct.md)
 - [`Encounter`](resource/Encounter.md)
 - [`ButtonSet`](resource/ButtonSet.md)
 - [`BoxSet`](resource/BoxSet.md)
