@@ -126,6 +126,7 @@
         <member name="player_path" type="NodePath" setter="set_player_path" getter="get_player_path" default="NodePath(&quot;&quot;)">
             Path to the overworld player node (PlayerOverworld).
             This is a required setting; if empty, initialization will be aborted.
+            (res:/Engine/Overworld/Characters/player_overworld.tscn)
         </member>
         <member name="room_entrances" type="Array" setter="set_room_entrances" getter="get_room_entrances" default="Array()">
             Array of RoomEntranceNodes placed in this map.

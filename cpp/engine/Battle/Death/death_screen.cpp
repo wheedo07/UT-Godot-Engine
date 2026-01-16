@@ -28,10 +28,6 @@ void DeathScreen::_bind_methods() {
 
 void DeathScreen::_ready() {
     global->get_scene_container()->get_camera()->kill();
-    if(!death_soul) {
-        ERR_PRINT("DeathScreen: DeathSoul 노드가 설정되지 않았습니다!");
-        return;
-    }
     call_deferred("_setup_death_animation");
 }
 
@@ -40,12 +36,14 @@ void DeathScreen::ready() {}
 void DeathScreen::_setup_death_animation() {
     global->get_Music()->stop();
     
-    death_soul->set_position(global->get_player_position());
-    death_soul->set_modulate(global->game_over["color"]);
-    if(global->game_over["overworld"]) {
-        death_soul->set_scale(Vector2(0.35, 0.35));
-    }else {
-        death_soul->set_scale(Vector2(1, 1));
+    if(death_soul) {
+        death_soul->set_position(global->get_player_position());
+        death_soul->set_modulate(global->game_over["color"]);
+        if(global->game_over["overworld"]) {
+            death_soul->set_scale(Vector2(0.35, 0.35));
+        }else {
+            death_soul->set_scale(Vector2(1, 1));
+        }
     }
     if(has_method("ready")) { // C++ 이랑 GDscript 모두 호환되도록
         call("ready");
