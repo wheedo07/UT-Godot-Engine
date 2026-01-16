@@ -108,7 +108,7 @@ void SoulOverworld::hurt(BulletArea* bullet_area) {
         sys->clear_system();
         global->save_settings();
         global->set_player_position(get_global_position());
-        global->get_scene_container()->change_scene_to_file("res://Core/Flow/GameOver.tscn");
+        global->get_scene_container()->change_scene_to_file("res://Core/Custom/GameOver.tscn");
     }
 }
 

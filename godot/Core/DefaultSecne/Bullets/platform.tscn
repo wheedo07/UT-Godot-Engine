@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cx21qioaq3xmv"]
 
-[ext_resource type="Texture2D" uid="uid://ckugdv1moh2h3" path="res://Engine/Battle/Object/platform_box.png" id="1_2kgtr"]
+[ext_resource type="Texture2D" uid="uid://ckugdv1moh2h3" path="res://Core/DefaultSecne/Bullets/assets/platform_box.png" id="1_2kgtr"]
 
 [node name="PlatformBase" type="BattlePlatform"]
 offset_left = -20.0

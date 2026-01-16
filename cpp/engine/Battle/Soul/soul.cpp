@@ -297,7 +297,7 @@ void SoulBattle::_on_death() {
     global->save_settings();
     global->set_player_position(get_global_transform_with_canvas().get_origin());
     main->attacks->force_end_attacks();
-    global->get_scene_container()->change_scene_to_file("res://Core/Flow/GameOver.tscn");
+    global->get_scene_container()->change_scene_to_file("res://Core/Custom/GameOver.tscn");
 }
 
 void SoulBattle::heal(BulletArea* area) {

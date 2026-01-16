@@ -13,7 +13,7 @@ script/source = "extends Overworld
 @onready var sansCpp_tres = preload(\"res://Battle/tres/sans_cpp.tres\");
 @onready var sansGd_tres = preload(\"res://Battle/tres/sans_gd.tres\");
 @onready var bone = preload(\"res://Engine/Battle/Bullets/Bone/bone.tscn\");
-@onready var locale := DialogueLocalization.new().load(\"res://Game/assets/locale/dialogue/example.json\");
+@onready var locale := DialogueLocalization.new().load(\"res://assets/locale/dialogue/example.json\");
 
 func ready() -> void:
 	print(\"ready 실행\");
@@ -60,7 +60,7 @@ func _on_encounter():
 	
 func _on_camera():
 	var camerafx = camera.get_global_camera();
-	camerafx.transition(\"res://Game/transition/test.tres\", 2, 1, true);
+	camerafx.transition(\"res://assets/transition/test.tres\", 2, 1, true);
 	await camerafx.finished_transition;
 	global.player_can_move = true;
 "

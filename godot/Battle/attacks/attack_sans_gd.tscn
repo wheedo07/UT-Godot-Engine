@@ -7,7 +7,7 @@
 resource_name = "Attack_gd"
 script/source = "extends AttackBase
 signal throws(direction:Vector2, power:int);
-@onready var bone = preload(\"res://Engine/Battle/Bullets/Bone/bone.tscn\");
+@onready var bone = preload(\"res://Core/DefaultSecne/Bullets/bone.tscn\");
 
 func start_attack() -> void:
 	throws.emit(Vector2.DOWN);

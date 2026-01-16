@@ -1,8 +1,8 @@
 [gd_scene load_steps=23 format=3 uid="uid://cl1bmaj47viix"]
 
 [ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://assets/sprite/sheet/sans_sheet.png" id="1_o2qip"]
-[ext_resource type="Texture2D" uid="uid://bpomr3hq2pq4m" path="res://Engine/Battle/Bullets/Blaster/Blaster.png" id="3_5o75v"]
-[ext_resource type="Texture2D" uid="uid://dlshjjxlail3k" path="res://Engine/Battle/Bullets/Blaster/beam.png" id="3_j26d0"]
+[ext_resource type="Texture2D" uid="uid://bpomr3hq2pq4m" path="res://Core/DefaultSecne/Bullets/assets/Blaster.png" id="3_5o75v"]
+[ext_resource type="Texture2D" uid="uid://dlshjjxlail3k" path="res://Core/DefaultSecne/Bullets/assets/beam.png" id="3_j26d0"]
 [ext_resource type="AudioStream" uid="uid://jvsivjnemi8" path="res://sfx/blaster_load.wav" id="4_wbjg4"]
 [ext_resource type="AudioStream" uid="uid://c6rgbtgfvf6yc" path="res://sfx/blaster_fire.wav" id="5_et17f"]
 
