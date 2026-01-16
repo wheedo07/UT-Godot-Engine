@@ -40,15 +40,23 @@ void SceneContainer::_ready() {
     global = Object::cast_to<Global>(get_node_internal("/root/global"));
     scene_changer = Object::cast_to<SceneChanger>(get_node_internal("/root/scene_changer"));
     stagehand = Object::cast_to<Stagehand>(get_node_internal("/root/stagehand"));
+    _init_scene_container();
+}
 
+void SceneContainer::_init_scene_container() {
+    OS* os = OS::get_singleton();
     global->load_game();
     global->set_scene_container(this);
     global->connect("fullscreen_toggled", Callable(this, "_on_fullscreen_toggle"));
-    settings_viewport_container->get_node_internal("SubViewport/DebugMenu")->emit_signal("init");
 
+    SubViewport* settings_viewport = Object::cast_to<SubViewport>(settings_viewport_container->get_node_internal("SubViewport"));
+    if(os->has_feature("debug_mode") || os->is_debug_build()) {
+        Ref<PackedScene> debug_menu_scene = loader->load("res://Engine/Main/debugmenu.tscn");
+        settings_viewport->add_child(debug_menu_scene->instantiate());
+    }
+    
     if(global->isMobile()) {
         mobile->show();
-        OS* os = OS::get_singleton();
         if(os->is_debug_build() || os->has_feature("debug_op")) {
             mobile->get_node_internal("setting")->call("show");
         }else {

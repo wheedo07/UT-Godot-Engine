@@ -63,6 +63,7 @@ void DebugMenu::_ready() {
         load_thread.instantiate();
         load_thread->start(Callable(this, "_get_path_list"));
     }
+    emit_signal("init");
 }
 
 void DebugMenu::toggle() {

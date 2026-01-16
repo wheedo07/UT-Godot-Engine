@@ -34,6 +34,7 @@ namespace godot {
             ~SceneContainer();
        
             virtual void _ready() override;
+            void _init_scene_container();
 
             // 사용 함수
             CameraFx* get_camera();

@@ -66,7 +66,7 @@ namespace godot {
 	        int player_kills;
 
 			String scan_directory;
-
+			
             int temp_atk;
 	        int temp_def;
             Vector2 player_position;
