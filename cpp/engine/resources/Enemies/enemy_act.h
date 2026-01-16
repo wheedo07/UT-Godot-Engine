@@ -1,5 +1,5 @@
-#ifndef ENEMY_STATE_H
-#define ENEMY_STATE_H
+#ifndef ENEMY_ACT_H
+#define ENEMY_ACT_H
 #include<godot_cpp/classes/resource.hpp>
 #include "Act.h"
 namespace godot {

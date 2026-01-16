@@ -79,7 +79,8 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
     // Characters
     GDREGISTER_RUNTIME_CLASS(PlayerOverworld);
-    GDREGISTER_RUNTIME_CLASS(EnemyOverworld);
+    GDREGISTER_RUNTIME_CLASS(OverworldCharacterNode);
+    GDREGISTER_CLASS(CharacterSprite);
 
     // Shop
     GDREGISTER_RUNTIME_CLASS(SHOP);

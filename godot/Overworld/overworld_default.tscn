@@ -1,10 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://c33x0gque7l30"]
+[gd_scene load_steps=18 format=3 uid="uid://c33x0gque7l30"]
 
 [ext_resource type="Texture2D" uid="uid://c6pav2ux7l24p" path="res://assets/sprite/sheet/new_home.png" id="1_0b7jn"]
 [ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Engine/Overworld/Characters/player_overworld.tscn" id="2_5i4ub"]
 [ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Engine/Overworld/Interactions/save_point.tscn" id="3_5u5da"]
 [ext_resource type="PackedScene" uid="uid://gdudyru0q3di" path="res://Engine/Overworld/Interactions/dimensional_box.tscn" id="4_gbou4"]
-[ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Engine/Overworld/Characters/sans.tscn" id="5_umhqo"]
+[ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Overworld/Character/sans.tscn" id="5_umhqo"]
 [ext_resource type="PackedScene" uid="uid://dd758xuvic7xl" path="res://Engine/Overworld/Interactions/overworld_area_trigger.tscn" id="6_3seqt"]
 
 [sub_resource type="GDScript" id="GDScript_u3m8p"]
@@ -136,14 +136,10 @@ dialog_text = "* 의지"
 [sub_resource type="Dialogues" id="Dialogues_njfgb"]
 dialogues = Array[Dialogue]([SubResource("Dialogue_6lau7")])
 
-[sub_resource type="Dialogue" id="Dialogue_xp77p"]
-dialog_text = "* 안녕 꼬마 여긴 테스트 방이야"
-
-[sub_resource type="Dialogue" id="Dialogue_njfgb"]
-dialog_text = "* 나랑 싸울래?"
-
-[sub_resource type="Dialogues" id="Dialogues_8ru6p"]
-dialogues = Array[Dialogue]([SubResource("Dialogue_xp77p"), SubResource("Dialogue_njfgb")])
+[sub_resource type="DialogueAsset" id="DialogueAsset_0b7jn"]
+is_locale = true
+locale_path = "res://assets/locale/dialogue/example.json"
+locale_keys = PackedStringArray("SANS_HI")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bx6vr"]
 size = Vector2(20, 199)
@@ -190,7 +186,7 @@ position = Vector2(23, 88)
 position = Vector2(50, 98)
 
 [node name="Sans" parent="TileMap" instance=ExtResource("5_umhqo")]
-dialogues = Array[Dialogues]([SubResource("Dialogues_8ru6p")])
+dialogues = SubResource("DialogueAsset_0b7jn")
 position = Vector2(1438, 63)
 
 [node name="trigger" type="Node2D" parent="TileMap"]

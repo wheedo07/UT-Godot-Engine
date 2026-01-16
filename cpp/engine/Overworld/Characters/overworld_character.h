@@ -1,8 +1,10 @@
-#ifndef OVERWORLD_ENEMY_H
-#define OVERWORLD_ENEMY_H
+#ifndef OVERWORLD_CHARACTER_NODE_H
+#define OVERWORLD_CHARACTER_NODE_H
 
-#include "engine/resources/Dialogues/dialogue_asset.h"
+#include "character_sprite.h"
 #include "engine/Overworld/textBox/text_box.h"
+#include "engine/resources/Dialogues/dialogue_asset.h"
+#include "engine/Overworld/Interactions/interaction_trigger.h"
 #include<godot_cpp/classes/character_body2d.hpp>
 #include<godot_cpp/classes/animated_sprite2d.hpp>
 #include<godot_cpp/classes/timer.hpp>
@@ -11,8 +13,8 @@
 #include<godot_cpp/variant/vector2i.hpp>
 #include<godot_cpp/variant/typed_array.hpp>
 namespace godot {
-    class EnemyOverworld : public CharacterBody2D {
-        GDCLASS(EnemyOverworld, CharacterBody2D)
+    class OverworldCharacterNode : public CharacterBody2D {
+        GDCLASS(OverworldCharacterNode, CharacterBody2D)
 
         protected:
             static void _bind_methods();
@@ -37,15 +39,17 @@ namespace godot {
             int walk_speed, current_index;
             float walk_speed_mod;
 
-            AnimatedSprite2D* sprite;
+            CharacterSprite* sprite;
+            InteractionTrigger* area_interact;
+
             AnimatedSprite2D* alert;
             AudioStreamPlayer* encounter;
 
             void _on_area_interacted();
 
         public:
-            EnemyOverworld();
-            ~EnemyOverworld();
+            OverworldCharacterNode();
+            ~OverworldCharacterNode();
 
             void _ready() override;
             void _physics_process(double delta) override;
@@ -72,6 +76,12 @@ namespace godot {
 
             void set_frame_alert(int value);
             int get_frame_alert();
+
+            void set_sprite(CharacterSprite* p_sprite);
+            CharacterSprite* get_sprite() const;
+
+            void set_area_interact(InteractionTrigger* p_area);
+            InteractionTrigger* get_area_interact() const;
 
             void _set_canmove(bool value);
     };

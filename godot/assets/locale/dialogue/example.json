@@ -24,5 +24,13 @@
                 { "index": 7, "duration": 1 }
             ]
         }
+    },
+    "SANS_HI": {
+        "ko": {
+            "text": [ "* 난 샌즈야.", "* 뼈다귀 샌즈." ]
+        },
+        "en": {
+            "text": [ "* i'm sans.", "* sans the skeleton." ]
+        }
     }
 }

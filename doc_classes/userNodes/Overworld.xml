@@ -17,7 +17,7 @@
         [b]Example (GDScript):[/b]
         [codeblock]
         extends Overworld
-        @onready var tres := preload("res://Game/encounters/tres/sans.tres")
+        @onready var tres := preload("res://encounters/tres/sans.tres")
 
         func ready() -> void:
             print("Overworld ready() called")
