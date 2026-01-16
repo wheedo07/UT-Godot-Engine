@@ -134,7 +134,7 @@ void DebugMenu::on_setting_changed(Node* btn) {
 void DebugMenu::_get_path_list() {
     PackedStringArray paths;
     if(!global->get_scan_directory().is_empty()) {
-        _scan_directory(global->get_scan_directory(), paths);
+        _scan_directory(global->get_scan_directory() + "/", paths);
     }
     if(paths.size() != 0) {
         paths.push_back("res://Core/Startup/intro.tscn");

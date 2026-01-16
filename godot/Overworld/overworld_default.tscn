@@ -12,7 +12,7 @@ resource_name = "Default"
 script/source = "extends Overworld
 @onready var sansCpp_tres = preload(\"res://Battle/tres/sans_cpp.tres\");
 @onready var sansGd_tres = preload(\"res://Battle/tres/sans_gd.tres\");
-@onready var bone = preload(\"res://Engine/Battle/Bullets/Bone/bone.tscn\");
+@onready var bone = preload(\"res://Core/DefaultSecne/Bullets/bone.tscn\");
 @onready var locale := DialogueLocalization.new().load(\"res://assets/locale/dialogue/example.json\");
 
 func ready() -> void:
