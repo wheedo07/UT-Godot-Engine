@@ -1,10 +1,41 @@
-[gd_scene load_steps=8 format=3 uid="uid://dggr74u132cr4"]
+[gd_scene load_steps=9 format=3 uid="uid://dggr74u132cr4"]
 
 [ext_resource type="PackedScene" uid="uid://dleuqhnhqqffc" path="res://Engine/Battle/Soul/death_soul.tscn" id="2_kpjqu"]
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="4_vc66o"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="5_1ttji"]
 [ext_resource type="FontFile" uid="uid://ddqyxuicviwwp" path="res://Engine/Text/Fonts/8-BIT WONDER.TTF" id="5_hp2tx"]
 [ext_resource type="AudioStream" uid="uid://c1qln468c47ui" path="res://Core/Custom/assets/death_screen_music_thing.wav" id="8_vka2r"]
+
+[sub_resource type="GDScript" id="GDScript_1hvt8"]
+resource_name = "game_over"
+script/source = "extends DeathScreen
+@onready var text_tyer = $Fade/GenericTextTyper;
+
+var tween:Tween;
+func ready() -> void:
+	stagehand.audio_player.play(\"hurt\");
+	tween = create_tween().set_trans(Tween.TRANS_QUAD);
+	tween.tween_interval(0.4);	
+	if (death_soul.scale != Vector2.ONE):
+		tween.tween_property(death_soul, \"scale\", Vector2.ONE, 1.5).set_ease(Tween.EASE_IN);
+		tween.tween_interval(1.5);
+	tween.set_parallel();
+	tween.chain().tween_property(camera, \"zoom\", Vector2(3,3), 0.4).set_ease(Tween.EASE_IN).set_delay(0.4);
+	tween.tween_property(camera, \"position\", death_soul.position, 0.4).set_ease(Tween.EASE_OUT);
+	tween.chain().tween_callback(death_soul.die).set_delay(0.3);
+	tween.tween_property($Fade/RichTextLabel, \"modulate:a\", 1, 0.5).set_ease(Tween.EASE_OUT).set_delay(3.0);
+	tween.tween_callback($mus.play).set_delay(2.8);
+	tween.tween_property($mus, \"volume_db\", 0, 0.4).set_delay(2.8);
+	await tween.finished;
+	
+	text_tyer.type_text(get_gameOver_text());
+
+var pressed := false;
+func _unhandled_input(event: InputEvent) -> void:
+	if(event.is_action_pressed(\"ui_accept\") && !pressed):
+		pressed = true;
+		end_death();
+"
 
 [sub_resource type="Gradient" id="Gradient_gesgi"]
 interpolation_mode = 2
@@ -15,8 +46,9 @@ gradient = SubResource("Gradient_gesgi")
 width = 100
 height = 640
 
-[node name="DeathScreen" type="DeathScreen"]
-soul_path = NodePath("DeathSoul")
+[node name="DeathScreen" type="DeathScreen" node_paths=PackedStringArray("death_soul")]
+death_soul = NodePath("DeathSoul")
+script = SubResource("GDScript_1hvt8")
 
 [node name="DeathSoul" parent="." instance=ExtResource("2_kpjqu")]
 

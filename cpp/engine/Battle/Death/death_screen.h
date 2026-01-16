@@ -3,12 +3,7 @@
 
 #include "death_soul.h"
 #include "engine/Camera/camera_fx.h"
-#include "engine/Text/text_typer.h"
 #include<godot_cpp/classes/node2d.hpp>
-#include<godot_cpp/classes/tween.hpp>
-#include<godot_cpp/classes/input_event.hpp>
-#include<godot_cpp/classes/rich_text_label.hpp>
-#include<godot_cpp/classes/audio_stream_player.hpp>
 #include<godot_cpp/core/binder_common.hpp>
 #include<godot_cpp/core/gdvirtual.gen.inc>
 namespace godot {
@@ -19,36 +14,28 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            CameraFx* camera;
             DeathSoul* death_soul;
-            RichTextLabel* fade_text;
-            GenericTextTyper* text_typer;
-            AudioStreamPlayer* music_player;
-            Ref<Tween> tween;
-            bool pressed, isCustom;
-            NodePath soul_path;
 
             void _setup_death_animation();
+            void set_property(Variant value);
         
         public:
             DeathScreen();
             ~DeathScreen();
 
             void _ready() override;
-            void _unhandled_input(const Ref<InputEvent>& event) override;
 
             virtual void ready();
             GDVIRTUAL0(ready);
 
             // 사용 함수
-            void done();
+            void end_death();
             PackedStringArray get_gameOver_text();
 
-            void set_is_custom(bool value);
-            bool get_is_custom();
-
-            void set_soul_path(NodePath value);
-            NodePath get_soul_path();
+            void set_death_soul(DeathSoul* p_death_soul);
+            DeathSoul* get_death_soul() const;
+            
+            CameraFx* get_camera_fx() const;
     };
 }
 

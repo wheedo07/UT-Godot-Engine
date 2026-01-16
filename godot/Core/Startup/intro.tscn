@@ -12,6 +12,7 @@ func ready() -> void:
 [node name="Intro" type="Intro"]
 intro_completed_path = "uid://dfh6wl7vf7owh"
 script = SubResource("GDScript_fvpbx")
+metadata/_edit_lock_ = true
 
 [node name="Camera" type="CameraController" parent="."]
 position = Vector2(320, 240)
