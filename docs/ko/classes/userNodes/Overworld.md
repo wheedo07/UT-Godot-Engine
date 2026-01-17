@@ -19,7 +19,7 @@
 ---
 
 ## 필수 설정
-- [`player_path`](#player_path-nodepath) 및 [`camera_path`](#camera_path-nodepath)는 반드시 설정해야 합니다
+- [`player_path`](#player_path-nodepathplayeroverworld) 및 [`camera_path`](#camera_path-nodepathcameracontroller)는 반드시 설정해야 합니다
 - [`PlayerOverworld`](../../systemNodes/PlayerOverworld.md) 및 [`CameraController`](CameraController.md) 노드가 존재해야 합니다
 
 ---
@@ -142,9 +142,10 @@ var bullet = quick_bullet(
 #### `player_path: NodePath<PlayerOverworld>`
 오버월드 플레이어 노드([`PlayerOverworld`](../../systemNodes/PlayerOverworld.md))의 경로입니다.
 이는 필수 설정이며, 비어있으면 초기화가 중단됩니다.
+(res://Engine/Overworld/Characters/player_overworld.tscn) 씬을 인스턴스화하여 사용합니다.
 
 #### `camera_path: NodePath<CameraController>`
-카메라 컨트롤러([`CameraController`](../../systemNodes/CameraController.md))의 경로입니다.
+카메라 컨트롤러([`CameraController`](CameraController.md))의 경로입니다.
 이는 필수 설정이며, 비어있으면 초기화가 중단됩니다.
 
 #### `music: AudioStream`
@@ -152,7 +153,7 @@ var bullet = quick_bullet(
 설정하지 않으면 기본 오버월드 BGM이 로드됩니다.
 
 #### `room_entrances: Array<RoomEntranceNode>`
-이 맵에 배치된 [`RoomEntranceNode`](../../systemNodes/RoomEntranceNode.md)들의 배열입니다.
+이 맵에 배치된 [`RoomEntranceNode`](RoomEntranceNode.md)들의 배열입니다.
 맵 간 이동 시 플레이어의 시작 위치와 방향을 결정하는 데 사용됩니다.
 
 ### 스크립트에서만 사용 가능한 변수
