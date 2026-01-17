@@ -55,6 +55,6 @@ UT_USE_BOX,* 박스를 사용하시겠습니까?,* Use the box?
 UT_FRAMES,게임 프레임,Game Frames
 UT_GAME_PAUSED,게임이 일시정지되었습니다,Game has been paused
 UT_GAME_RESUMED,게임이 재개되었습니다,Game has been resumed
-UT_CANT_HERE,"res://Core, res://Engine 디렉토리는 불가능합니다",The res://Core and res://Engine directory paths are not allowed.
+UT_CANT_HERE,"res://Core, res://Engine, root 디렉토리는 불가능합니다",The res://Core and res://Engine and root directory paths are not allowed.
 UT_RES_LOAD_FAIL,해당 경로에 리소스가 없습니다.,There are no resources in this path.
 UT_RES_SCENE_FAIL,해당 경로의 리소스는 씬이나 인카운터가 아닙니다.,The resource at this path is not a scene or an encounter.

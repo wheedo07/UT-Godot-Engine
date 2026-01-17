@@ -182,7 +182,7 @@ void DebugMenu::_on_path_list_loaded() {
 
 void DebugMenu::_scene_input(String text) {
     if(!enabled || !global) return;
-    if(text.begins_with("res://Core/") || text.begins_with("res://Engine/")) {
+    if(text.begins_with("res://Core/") || text.begins_with("res://Engine/") || text == "res://") {
         global->alert(tr("UT_CANT_HERE"), "Error");
         return;
     }

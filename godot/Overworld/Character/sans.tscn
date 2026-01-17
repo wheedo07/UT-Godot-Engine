@@ -161,6 +161,7 @@ wall_min_slide_angle = 0.785398
 platform_on_leave = 2
 
 [node name="Sprite" type="CharacterSprite" parent="."]
+alert_offset = Vector2(0, 8)
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_shx1i")
 animation = &"idle_down"

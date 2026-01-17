@@ -327,7 +327,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             get_viewport()->set_input_as_handled();
         }else if(event->is_action_pressed("force_save") && (os->is_debug_build() || os->has_feature("debug_op"))) {
             String path = get_scene_container()->get_current_scene()->get_scene_file_path();
-            if(path.begins_with("res://Core/") || path.begins_with("res://Engine/")) {
+            if(path.begins_with("res://Core/") || path.begins_with("res://Engine/") || path == "res://") {
                 print_line(tr("UT_CANT_HERE"));
                 return;
             }
