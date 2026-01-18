@@ -7,7 +7,7 @@ OverworldSprite::OverworldSprite() {
         "idle_down", "idle_side", "idle_up",
         "move_down", "move_side", "move_up"
     };
-    alert_offset = Vector2(0, -10);
+    alert_offset = Vector2(0, 0);
 }
 
 OverworldSprite::~OverworldSprite() {}
