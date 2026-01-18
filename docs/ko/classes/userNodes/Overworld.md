@@ -99,7 +99,7 @@ add_bullet(preload("res://bullets/fireball.tscn"))
 toggle_encounter()
 ```
 
-### `add_bullet(bullet_scene: PackedScene) -> Bullet`
+### `add_bullet(bullet_scene: PackedScene)`
 오버월드에 탄환을 추가합니다.
 탄환 씬을 인스턴스화하고 자식으로 추가한 후, [`remove_bullets`](#remove_bullets) 시그널에 연결합니다.
 탄환 씬의 루트 노드는 [`Bullet`](Bullet.md) 클래스여야 하며 `fade()` 메서드가 있어야 합니다.
@@ -113,7 +113,7 @@ if bullet:
     bullet.damage = 10
 ```
 
-### `quick_bullet(bullet_scene: PackedScene, pos: Vector2, rot_deg: float = 0, scale: Vector2 = Vector2(0.5, 0.5)) -> Bullet`
+### `quick_bullet(bullet_scene: PackedScene, pos: Vector2, rot_deg: float = 0, scale: Vector2 = Vector2(0.5, 0.5))`
 오버월드에 탄환을 추가하고 즉시 위치, 회전, 크기를 설정합니다.
 내부적으로 [`add_bullet()`](#add_bulletbullet_scene-packedscene---bullet)을 호출하여 탄환을 생성한 후, 지정된 위치(pos), 회전 각도(rot_deg), 크기(scale)를 설정합니다.
 오버월드 전투 모드에서 사용됩니다.
@@ -139,36 +139,31 @@ var bullet = quick_bullet(
 세이브 파일 표시나 디버깅 목적으로 사용됩니다.
 기본값: `"overworld room"`
 
-#### `player_path: NodePath<PlayerOverworld>`
+#### `player_path: NodePath<PlayerOverworld>` :id=player_path-nodepathplayeroverworld
 오버월드 플레이어 노드([`PlayerOverworld`](../../systemNodes/PlayerOverworld.md))의 경로입니다.
 이는 필수 설정이며, 비어있으면 초기화가 중단됩니다.
 (res://Engine/Overworld/Characters/player_overworld.tscn) 씬을 인스턴스화하여 사용합니다.
 
-#### `camera_path: NodePath<CameraController>`
+#### `camera_path: NodePath<CameraController>` :id=camera_path-nodepathcameracontroller
 카메라 컨트롤러([`CameraController`](CameraController.md))의 경로입니다.
 이는 필수 설정이며, 비어있으면 초기화가 중단됩니다.
 
-#### `music: AudioStream`
+#### `music: AudioStream` :id=music-audiostream
 배경 음악 리소스입니다.
 설정하지 않으면 기본 오버월드 BGM이 로드됩니다.
 
-#### `room_entrances: Array<RoomEntranceNode>`
+#### `room_entrances: Array<RoomEntranceNode>` :id=room_entrances-arrayroomentrancenode
 이 맵에 배치된 [`RoomEntranceNode`](RoomEntranceNode.md)들의 배열입니다.
 맵 간 이동 시 플레이어의 시작 위치와 방향을 결정하는 데 사용됩니다.
 
 ### 스크립트에서만 사용 가능한 변수
+| 변수 이름 | 타입 | 설명 |
+| --- | --- | --- |
+| player | `PlayerOverworld` | 오버월드 플레이어 노드입니다.
+| camera | `CameraController` | 카메라 컨트롤러 노드입니다. |
+| music_player | `AudioStreamPlayer` | 오버월드의 배경 음악 재생기입니다. |
 
-#### `player: PlayerOverworld`
-[`player_path`](#player_path-nodepathplayeroverworld)를 통해 찾은 플레이어 노드입니다.
-스크립트에서 읽기 전용으로 사용됩니다.
-
-#### `camera: CameraController`
-[`camera_path`](#camera_path-nodepathcameracontroller)를 통해 찾은 카메라 컨트롤러 노드입니다.
-스크립트에서 읽기 전용으로 사용됩니다.
-
-#### `music_player: AudioStreamPlayer`
-배경 음악 플레이어([`Global.get_Music()`](../../systemNodes/Global.md#get_music)와 동일)입니다.
-스크립트에서 읽기 전용으로 사용됩니다.
+> music_player는 ([`Global.get_Music()`](../../systemNodes/Global.md#get_music)와 동일)입니다.
 
 ---
 

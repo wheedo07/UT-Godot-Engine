@@ -66,7 +66,7 @@ using namespace godot;
 // Characters
 #include "Overworld/Characters/player_overworld.h"
 #include "Overworld/Characters/overworld_character.h"
-#include "Overworld/Characters/character_sprite.h"
+#include "Overworld/Characters/overworld_sprite.h"
 
 // Shop
 #include "Overworld/shop/shop.h"

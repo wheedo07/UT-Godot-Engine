@@ -1,11 +1,11 @@
-#ifndef CHARACTER_SPRITE_H
-#define CHARACTER_SPRITE_H
+#ifndef OVERWORLD_SPRITE_H
+#define OVERWORLD_SPRITE_H
 
 #include<godot_cpp/classes/animated_sprite2d.hpp>
 #include<godot_cpp/classes/sprite_frames.hpp>
 namespace godot {
-    class CharacterSprite : public AnimatedSprite2D {
-        GDCLASS(CharacterSprite, AnimatedSprite2D)
+    class OverworldSprite : public AnimatedSprite2D {
+        GDCLASS(OverworldSprite, AnimatedSprite2D)
 
         protected:
             static void _bind_methods();
@@ -16,8 +16,8 @@ namespace godot {
             Vector2 alert_offset;
 
         public:
-            CharacterSprite();
-            ~CharacterSprite();
+            OverworldSprite();
+            ~OverworldSprite();
 
             void _process(double delta) override;
 

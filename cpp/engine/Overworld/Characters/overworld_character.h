@@ -1,7 +1,7 @@
 #ifndef OVERWORLD_CHARACTER_NODE_H
 #define OVERWORLD_CHARACTER_NODE_H
 
-#include "character_sprite.h"
+#include "overworld_sprite.h"
 #include "engine/Overworld/textBox/text_box.h"
 #include "engine/resources/Dialogues/dialogue_asset.h"
 #include "engine/Overworld/Interactions/interaction_trigger.h"
@@ -39,7 +39,7 @@ namespace godot {
             int walk_speed, current_index;
             float walk_speed_mod;
 
-            CharacterSprite* sprite;
+            OverworldSprite* sprite;
             InteractionTrigger* area_interact;
 
             AnimatedSprite2D* alert;
@@ -77,8 +77,8 @@ namespace godot {
             void set_frame_alert(int value);
             int get_frame_alert();
 
-            void set_sprite(CharacterSprite* p_sprite);
-            CharacterSprite* get_sprite() const;
+            void set_sprite(OverworldSprite* p_sprite);
+            OverworldSprite* get_sprite() const;
 
             void set_area_interact(InteractionTrigger* p_area);
             InteractionTrigger* get_area_interact() const;

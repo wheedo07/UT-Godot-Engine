@@ -61,7 +61,7 @@ void OverworldCharacterNode::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::INT, "walk_speed", PROPERTY_HINT_RANGE, "0,400,1"), 
         "set_walk_speed", "get_walk_speed");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "frame_alert"), "set_frame_alert", "get_frame_alert");
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "sprite", PROPERTY_HINT_NODE_TYPE, "CharacterSprite"), "set_sprite", "get_sprite");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "sprite", PROPERTY_HINT_NODE_TYPE, "OverworldSprite"), "set_sprite", "get_sprite");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "area_interact", PROPERTY_HINT_NODE_TYPE, "InteractionTrigger"), "set_area_interact", "get_area_interact");
     
     ADD_GROUP("Dialogue", "");
@@ -256,11 +256,11 @@ int OverworldCharacterNode::get_frame_alert() {
     return frame_alert;
 }
 
-void OverworldCharacterNode::set_sprite(CharacterSprite* p_sprite) {
+void OverworldCharacterNode::set_sprite(OverworldSprite* p_sprite) {
     sprite = p_sprite;
 }
 
-CharacterSprite* OverworldCharacterNode::get_sprite() const {
+OverworldSprite* OverworldCharacterNode::get_sprite() const {
     return sprite;
 }
 
