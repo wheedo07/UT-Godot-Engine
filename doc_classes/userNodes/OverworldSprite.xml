@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="OverworldSprite" inherits="AnimatedSprite2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=green](User creatable)[/color]
+        A specialized AnimatedSprite2D for overworld characters that automatically sets up required animations and manages alert positioning.
+    </brief_description>
+    <description>
+        [OverworldSprite] is a specialized version of [AnimatedSprite2D] designed for use in overworld character systems. It automatically creates the standard animation set required for character movement and provides alert positioning functionality.
+
+        [b]Automatic Animation Setup[/b]
+        The sprite automatically creates the following animations when used in the editor:
+        • "act" - Special action animation
+        • "idle_down", "idle_side", "idle_up" - Idle animations for different directions
+        • "move_down", "move_side", "move_up" - Movement animations for different directions
+
+        [b]Alert System[/b]
+        The sprite manages positioning for alert indicators (like exclamation marks) that appear above characters during interactions or encounters. The [member alert_offset] property allows fine-tuning of alert positioning.
+
+        [b]Integration with OverworldCharacterNode[/b]
+        This sprite is typically used as a child of [OverworldCharacterNode], which handles animation state management, movement, and interaction logic. The character node automatically switches between idle and movement animations based on character state.
+        
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/userNodes/OverworldSprite</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/userNodes/OverworldSprite</link>
+    </tutorials>
+
+    <members>
+        <member name="alert_offset" type="Vector2" setter="set_alert_offset" getter="get_alert_offset" default="Vector2(0, -10)">
+            Offset position for alert indicators relative to the sprite.
+            This determines where alert symbols (like exclamation marks) appear when the character triggers encounters or interactions.
+            Default value places alerts 10 pixels above the sprite's position.
+            Positive Y values move the alert down, negative values move it up.
+        </member>
+    </members>
+</class>

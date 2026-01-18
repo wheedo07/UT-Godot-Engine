@@ -51,19 +51,6 @@ func ready() -> void:
 [`id`] 매개변수는 [`Global.cells`](../../systemNodes/Global.md#cells) 배열의 인덱스를 나타냅니다.
 [`Stagehand.summontextbox()`](../../systemNodes/Stagehand.md#summontextbox) 등으로 텍스트 박스를 표시하는 등의 작업을 할 수 있습니다.
 
-```gdscript
-func start_cellphone(id: int):
-    match id:
-        0:  # 토리엘
-            var tb := stagehand.summontextbox()
-            tb.generic(Dialogues.new().from(["* 안녕, 얘야."]))
-            await tb.dialogue_finished
-        1:  # 파피루스
-            var tb := stagehand.summontextbox()
-            tb.generic(Dialogues.new().from(["* 냐하하! 위대한 파피루스다!"]))
-            await tb.dialogue_finished
-```
-
 ### `player_died()` (virtual)
 플레이어가 사망했을 때 호출됩니다.
 죽음 메시지를 포함하는 `PackedStringArray`를 반환해야 합니다.

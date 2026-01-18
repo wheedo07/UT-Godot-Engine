@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="OverworldCharacterNode" inherits="CharacterBody2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=green](User creatable)[/color]
+        A complete character system for overworld scenes that handles movement, animations, dialogue, and interactions.
+    </brief_description>
+    <description>
+        [OverworldCharacterNode] is a comprehensive character controller for overworld scenes in UT-Godot-Engine. It combines movement, animation, dialogue, and interaction systems to create fully functional NPCs or controllable characters.
+
+        [b]Core Systems[/b]
+        • [b]Movement System[/b]: Directional movement with automatic animation switching between idle and walking states
+        • [b]Animation Management[/b]: Automatic handling of directional animations (up, down, side) and sprite flipping
+        • [b]Dialogue System[/b]: Integration with [DialogueAsset] and [TextBox] for character conversations
+        • [b]Interaction System[/b]: Uses [InteractionTrigger] to detect player interactions
+        • [b]Alert System[/b]: Visual alerts with sound effects for encounters or interactions
+
+        [b]Required Components[/b]
+        • [OverworldSprite] - The animated sprite component
+        • [InteractionTrigger] - Area2D for detecting interactions
+        • [DialogueAsset] - Resource containing character dialogue
+
+        [b]Animation States[/b]
+        The character automatically switches between idle and movement animations based on velocity:
+        • Idle: "idle_down", "idle_side", "idle_up"
+        • Moving: "move_down", "move_side", "move_up"
+        • Special: "act" animation for custom actions
+
+        [b]Usage Example[/b]
+        [codeblock]
+        extends OverworldCharacterNode
+        
+        func _ready():
+            # Set up character properties
+            character = "Sans"
+            walk_speed = 80
+            
+            # Load dialogue
+            dialogues = preload("res://Game/dialogues/sans_dialogue.tres")
+            current_index = 0
+            
+            # Start walking in a direction
+            start_walking(Vector2i(1, 0))  # Move right
+            
+            # Show alert for 1 second
+            show_alert(1.0)
+        [/codeblock]
+
+        [b]Automatic Setup[/b]
+        The character automatically loads required nodes from "res://Engine/RequiredNode/overworld_character_node.tscn" including alert sprites and encounter sound effects.
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/userNodes/OverworldCharacterNode</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/userNodes/OverworldCharacterNode</link>
+    </tutorials>
+
+    <methods>
+        <method name="start_walking">
+            <return type="void" />
+            <param index="0" name="direction" type="Vector2i" default="Vector2i(0, 0)" />
+            <description>
+                Starts or stops character movement in the specified direction.
+                If [param direction] is non-zero, the character begins moving and switches to movement animations.
+                If [param direction] is zero, the character stops moving and switches to idle animations.
+                Automatically handles animation state changes and sprite flipping.
+            </description>
+        </method>
+        
+        <method name="force_direction">
+            <return type="void" />
+            <param index="0" name="dir" type="Vector2" />
+            <description>
+                Forces the character to face a specific direction without moving.
+                Updates animation state and sprite orientation based on the normalized direction vector.
+                Useful for making characters face the player or specific objects.
+            </description>
+        </method>
+        
+        <method name="show_alert">
+            <return type="void" />
+            <param index="0" name="duration" type="float" default="0.35" />
+            <description>
+                Displays an alert indicator above the character for the specified duration.
+                Plays the encounter sound effect and shows the alert sprite using [member frame_alert].
+                The alert automatically hides after the duration expires.
+                Commonly used for encounter notifications or attention-grabbing effects.
+            </description>
+        </method>
+        
+        <method name="set_frame">
+            <return type="void" />
+            <param index="0" name="index" type="int" />
+            <description>
+                Sets the character sprite to display a specific frame from the "act" animation.
+                Useful for displaying custom poses or expressions outside of normal animation cycles.
+            </description>
+        </method>
+        
+        <method name="play_anim">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="speed" type="float" default="1" />
+            <param index="2" name="from_end" type="bool" default="false" />
+            <description>
+                Plays a specific animation with optional speed and direction control.
+                Connects to the animation_finished signal and emits [signal animation_finished] when complete.
+                [param key] is the animation name, [param speed] controls playback speed, and [param from_end] plays from the last frame.
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="character" type="String" setter="set_character" getter="get_character" default="&quot;&quot;">
+            The character's name used for dialogue display.
+            This name appears in dialogue boxes when the character speaks.
+        </member>
+        
+        <member name="walk_speed" type="int" setter="set_walk_speed" getter="get_walk_speed" default="60">
+            The character's movement speed in pixels per second.
+            Range: 0-400. Higher values make the character move faster.
+        </member>
+        
+        <member name="frame_alert" type="int" setter="set_frame_alert" getter="get_frame_alert" default="0">
+            The frame index to display when showing alerts.
+            References a frame in the alert sprite's animation sequence.
+        </member>
+        
+        <member name="sprite" type="OverworldSprite" setter="set_sprite" getter="get_sprite">
+            Reference to the [OverworldSprite] component that handles character visuals.
+            Must be set for the character to display and animate properly.
+            The sprite automatically switches between idle and movement animations.
+        </member>
+        
+        <member name="area_interact" type="InteractionTrigger" setter="set_area_interact" getter="get_area_interact">
+            Reference to the [InteractionTrigger] component that detects player interactions.
+            Must be set for the character to respond to player interactions.
+            When triggered, initiates dialogue using the current dialogue asset.
+        </member>
+        
+        <member name="current_index" type="int" setter="set_current_index" getter="get_current_index" default="0">
+            The current dialogue index to use when interacting with this character.
+            References an index in the [member dialogues] asset's dialogue array.
+            Can be changed to progress through different conversation states.
+        </member>
+        
+        <member name="dialogues" type="DialogueAsset" setter="set_dialogues" getter="get_dialogues">
+            The [DialogueAsset] resource containing this character's dialogue data.
+            Used to display conversation text when the player interacts with the character.
+            Automatically loads localized data when set.
+        </member>
+    </members>
+
+    <signals>
+        <signal name="character_finished">
+            <description>
+                Emitted when the character's dialogue interaction is completed.
+                Triggered after a dialogue sequence initiated by player interaction finishes.
+            </description>
+        </signal>
+        
+        <signal name="animation_finished">
+            <description>
+                Emitted when a custom animation played via [method play_anim] completes.
+                Useful for chaining animations or triggering events after specific animations.
+            </description>
+        </signal>
+    </signals>
+</class>
