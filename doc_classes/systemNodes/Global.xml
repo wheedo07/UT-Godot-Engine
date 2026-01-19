@@ -96,10 +96,9 @@
                 [b]Parameters:[/b]
                 • slot: Slot number to save to (0-8)
                 • save_data: Game data dictionary to save
-                
+
                 Save file names follow the 'file0~file8' format and are
-                automatically saved according to platform-specific paths.
-                The saved signal is emitted when saving is complete.
+                automatically saved according to [member saveDir] platform-specific paths.
             </description>
         </method>
         <method name="load_file">
@@ -243,21 +242,6 @@
                 Used to track event completion, quest progress, etc.
             </description>
         </method>
-        <method name="set_g_flags">
-            <return type="void" />
-            <param index="0" name="key" type="String" />
-            <param index="1" name="value" type="Variant" />
-            <description>
-                Sets a global game flag.
-                
-                [b]Parameters:[/b]
-                • key: Flag key name  
-                • value: Value to set
-                
-                Special global flags distinct from general flags.
-                Used to store important states like ending branches, hidden content, etc.
-            </description>
-        </method>
         <method name="get_flag">
             <return type="Variant" />
             <param index="0" name="key" type="String" />
@@ -273,6 +257,21 @@
                 Returns [param defaultValue] if the flag doesn't exist.
             </description>
         </method>
+        <method name="set_g_flags">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                Sets a global game flag.
+                
+                [b]Parameters:[/b]
+                • key: Flag key name  
+                • value: Value to set
+                
+                Special global flags distinct from general flags.
+                Used to store important states like ending branches, hidden content, etc.
+            </description>
+        </method>
         <method name="get_g_flags">
             <return type="Variant" />
             <param index="0" name="key" type="String" />
@@ -286,6 +285,21 @@
                 
                 Special global flags distinct from general flags.
                 Used for storing important game states or ending-related information.
+            </description>
+        </method>
+        <method name="save_flag">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                Sets a flag and immediately saves it.
+                
+                [b]Parameters:[/b]
+                • key: Flag key name
+                • value: Value to save
+                
+                Unlike set_flag(), automatically records to save file after setting.
+                Used when immediately saving important progress.
             </description>
         </method>
         <method name="heal">
@@ -310,43 +324,6 @@
                 Used for platform-specific UI adjustments and input processing branches.
             </description>
         </method>
-        <method name="resetgame">
-            <return type="void" />
-            <description>
-                Resets the game to its initial state.
-                
-                Resets player stats, inventory, flags, etc. to default values.
-                Called when starting a new game; save files are preserved.
-            </description>
-        </method>
-        <method name="save">
-            <return type="void" />
-            <param index="0" name="room_name" type="String" default="&quot;&quot;" />
-            <description>
-                Saves the current game state to file.
-                
-                [b]Parameters:[/b]
-                • room_name: Name of the room/scene to save (if empty string, uses current node name; in overworld, uses current room name)
-                
-                Encrypts and saves player information, inventory, flags, position, etc.
-                The saved signal is emitted when saving is complete.
-            </description>
-        </method>
-        <method name="save_flag">
-            <return type="void" />
-            <param index="0" name="key" type="String" />
-            <param index="1" name="value" type="Variant" />
-            <description>
-                Sets a flag and immediately saves it.
-                
-                [b]Parameters:[/b]
-                • key: Flag key name
-                • value: Value to save
-                
-                Unlike set_flag(), automatically records to save file after setting.
-                Used when immediately saving important progress.
-            </description>
-        </method>
         <method name="save_settings">
             <return type="void" />
             <description>
@@ -365,6 +342,28 @@
                 
                 Switches to windowed mode if currently fullscreen, or to fullscreen if currently windowed.
                 The fullscreen_toggled signal is emitted when the transition completes.
+            </description>
+        </method>
+        <method name="save">
+            <return type="void" />
+            <param index="0" name="room_name" type="String" default="&quot;&quot;" />
+            <description>
+                Saves the current game state to file.
+                
+                [b]Parameters:[/b]
+                • room_name: Name of the room/scene to save (if empty string, uses current node name; in overworld, uses current room name)
+                
+                Encrypts and saves player information, inventory, flags, position, etc.
+                The saved signal is emitted when saving is complete.
+            </description>
+        </method>
+        <method name="resetgame">
+            <return type="void" />
+            <description>
+                Resets the game to its initial state.
+                
+                Resets player stats, inventory, flags, etc. to default values.
+                Called when starting a new game; save files are preserved.
             </description>
         </method>
         <method name="true_resetgame">
@@ -533,7 +532,7 @@
             <description>
                 Signal emitted when game saving is completed.
                
-                Triggered when save file writing succeeds after calling [method save] function.
+                Triggered when save file writing succeeds after calling [method save] or [method save_file] function.
                 Used for save completion notifications, UI updates, auto-save systems, etc.
             </description>
         </signal>
