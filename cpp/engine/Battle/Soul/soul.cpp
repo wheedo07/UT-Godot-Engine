@@ -427,7 +427,7 @@ void SoulBattle::red() {
 }
 
 void SoulBattle::four_dir_movement() {
-    slow_down = (input->is_action_pressed("ui_cancel") ? 1 : 0) + 1;
+    slow_down = (input->is_action_pressed("ut_cancel") ? 1 : 0) + 1;
     
     inputs = Vector2(
         input->get_action_raw_strength("ui_right") - input->get_action_raw_strength("ui_left"),
@@ -442,7 +442,7 @@ void SoulBattle::blue() {
         sprite->set_modulate(Color(0, 0, 1, 1));
     }
     
-    slow_down = (input->is_action_pressed("ui_cancel") ? 1 : 0) + 1;
+    slow_down = (input->is_action_pressed("ut_cancel") ? 1 : 0) + 1;
     
     if (gravity_direction == Vector2(0, 1)) { // DOWN
         inputs = Vector2(
@@ -524,7 +524,7 @@ void SoulBattle::yellow() {
         sprite->set_scale(Vector2(1, soul_type == SOUL_HUMAN ? -1 : 1));
     }
     
-    if(input->is_action_just_pressed("ui_accept")) {
+    if(input->is_action_just_pressed("ut_confirm")) {
         if (shoot) {
             shoot->play();
         }
@@ -546,7 +546,7 @@ void SoulBattle::purple() {
         sprite->set_modulate(Color(0.5, 0, 0.5)); // PURPLE
     }
     
-    slow_down = (input->is_action_pressed("ui_cancel") ? 1 : 0) + 1;
+    slow_down = (input->is_action_pressed("ut_cancel") ? 1 : 0) + 1;
     
     inputs = input->get_vector("ui_left", "ui_right", "ui_up", "ui_down");
     motion.x = speed * inputs.x / slow_down;
@@ -613,7 +613,7 @@ void SoulBattle::cyan() {
         sprite->set_modulate(Color(0, 1, 1)); // CYAN
     }
     
-    slow_down = (input->is_action_pressed("ui_cancel") ? 1 : 0) + 1;
+    slow_down = (input->is_action_pressed("ut_cancel") ? 1 : 0) + 1;
     
     inputs = Vector2(
         input->get_action_raw_strength("ui_right") - input->get_action_raw_strength("ui_left"),

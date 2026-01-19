@@ -368,7 +368,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
         soul_move(Vector2(-1, 0));
     }
     
-    if(event->is_action_pressed("ui_accept")) {
+    if(event->is_action_pressed("ut_confirm")) {
         Object::cast_to<GPUParticles2D>(get_node_internal("Control/StatAndOptions/Soul/Ghost"))->restart();
         Object::cast_to<GPUParticles2D>(get_node_internal("Control/StatAndOptions/Soul/Ghost"))->set_emitting(true);
         stagehand->audio_player->play("select");
@@ -472,7 +472,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
     }
     
     // 취소 버튼 처리
-    if(event->is_action_pressed("ui_cancel")) {
+    if(event->is_action_pressed("ut_cancel")) {
         switch (current_state) {
             case ITEM:
             case CELL:
@@ -488,7 +488,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
             default:
                 break;
         }
-    }else if(current_state == OPTIONS && event->is_action_pressed("ui_menu")) {
+    }else if(current_state == OPTIONS && event->is_action_pressed("ut_menu")) {
         call_deferred("_close_menu");
     }
 }

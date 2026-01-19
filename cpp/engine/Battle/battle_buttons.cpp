@@ -55,7 +55,7 @@ void BattleButtons::_unhandled_input(const Ref<InputEvent>& event) {
         changepos(-1);
     }else if (event->is_action_pressed("ui_right")) {
         changepos(1);
-    }else if(event->is_action_pressed("ui_accept")) {
+    }else if(event->is_action_pressed("ut_confirm")) {
         disable();
         emit_signal("selectbutton", choice);
         select_sound->play();

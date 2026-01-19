@@ -1,9 +1,10 @@
 #include "scene_container.h"
 #include "env.h"
-#include<godot_cpp/classes/display_server.hpp>
 #include<godot_cpp/classes/window.hpp>
-#include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/engine.hpp>
+#include<godot_cpp/classes/scene_tree.hpp>
+#include<godot_cpp/classes/display_server.hpp>
+#include<godot_cpp/classes/translation_server.hpp>
 
 SceneContainer::SceneContainer() {
     current_scene = nullptr;
@@ -66,6 +67,7 @@ void SceneContainer::_init_scene_container() {
 
     reload_camera();
     _on_settings_setting_changed("border", global->get_settings()["border"]);
+    _on_settings_setting_changed("locale", global->get_settings()["locale"]);
     global->refresh_audio_busses();
     change_scene_to_file("res://Core/Startup/intro.tscn");
 }
@@ -176,6 +178,10 @@ void SceneContainer::_on_settings_setting_changed(const String& setting_name, co
         if (global->get_fullscreen()) {
             DisplayServer::get_singleton()->window_set_mode(DisplayServer::WINDOW_MODE_EXCLUSIVE_FULLSCREEN);
         }
+    }else if(setting_name == "locale") {
+        String locale = to;
+        if(locale == "auto") locale = OS::get_singleton()->get_locale();
+        TranslationServer::get_singleton()->set_locale(locale);
     }
 }
 

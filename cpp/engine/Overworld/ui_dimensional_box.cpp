@@ -48,7 +48,7 @@ void UIdimensionalBox::_unhandled_input(const Ref<InputEvent>& event) {
             _set_items();
             soul_move(Vector2(0, 0));
         }
-    }else if(event->is_action_pressed("ui_accept")) {
+    }else if(event->is_action_pressed("ut_confirm")) {
         Array items = global->get_items();
         Array boxitems = global->get_boxitems();
         if(current_side == INVENTORY_SIDE) {
@@ -78,7 +78,7 @@ void UIdimensionalBox::_unhandled_input(const Ref<InputEvent>& event) {
         }
     }
 
-    if(event->is_action_pressed("ui_cancel")) {
+    if(event->is_action_pressed("ut_cancel")) {
         _close_box();
     }
 }

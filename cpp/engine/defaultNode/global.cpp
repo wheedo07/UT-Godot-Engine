@@ -59,6 +59,7 @@ Global::Global() {
     settings["shake"] = true;
     settings["vfx"] = true;
     settings["border"] = false;
+    settings["locale"] = "auto";
     settings["SFX"] = 100;
     settings["Music"] = 100;
     settings["Master"] = 100;
@@ -362,7 +363,7 @@ void Global::_process(double delta) {
     Input* input = Input::get_singleton();
     Engine* engine = Engine::get_singleton();
 
-    if(input->is_action_pressed("ui_quit")) {
+    if(input->is_action_pressed("ut_quit")) {
         quit_time += delta;
     }else {
         if(tw_label.is_valid() && tw_label->is_valid()) tw_label->kill();
@@ -983,6 +984,10 @@ void Global::alert(String text, String title) {
 }
 
 void Global::change_setting(String key, Variant value) {
+    if(!settings.has(key)) {
+        ERR_PRINT(vformat(String::utf8("설정 키 '%s' 가(이) 존재하지 않습니다."), key));
+        return;
+    }
     settings[key] = value;
     if(key == "SFX" || key == "Music" || key == "Master") {
         refresh_audio_busses();

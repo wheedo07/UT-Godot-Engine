@@ -20,7 +20,7 @@
 
 ## 필수 설정
 - [`player_path`](#player_path-nodepathplayeroverworld) 및 [`camera_path`](#camera_path-nodepathcameracontroller)는 반드시 설정해야 합니다
-- [`PlayerOverworld`](../../systemNodes/PlayerOverworld.md) 및 [`CameraController`](CameraController.md) 노드가 존재해야 합니다
+- [`PlayerOverworld`](../systemNodes/PlayerOverworld.md) 및 [`CameraController`](CameraController.md) 노드가 존재해야 합니다
 
 ---
 
@@ -47,9 +47,9 @@ func ready() -> void:
 ```
 
 ### `start_cellphone(id: int)` (virtual)
-[UI](../../systemNodes/UI.md)에서 전화를 걸 때 호출됩니다.
-[`id`] 매개변수는 [`Global.cells`](../../systemNodes/Global.md#cells) 배열의 인덱스를 나타냅니다.
-[`Stagehand.summontextbox()`](../../systemNodes/Stagehand.md#summontextbox) 등으로 텍스트 박스를 표시하는 등의 작업을 할 수 있습니다.
+[UI](../systemNodes/UI.md)에서 전화를 걸 때 호출됩니다.
+[`id`] 매개변수는 [`Global.cells`](../systemNodes/Global.md#cells) 배열의 인덱스를 나타냅니다.
+[`Stagehand.summontextbox()`](../systemNodes/Stagehand.md#summontextbox) 등으로 텍스트 박스를 표시하는 등의 작업을 할 수 있습니다.
 
 ### `player_died()` (virtual)
 플레이어가 사망했을 때 호출됩니다.
@@ -127,7 +127,7 @@ var bullet = quick_bullet(
 기본값: `"overworld room"`
 
 #### `player_path: NodePath<PlayerOverworld>` :id=player_path-nodepathplayeroverworld
-오버월드 플레이어 노드([`PlayerOverworld`](../../systemNodes/PlayerOverworld.md))의 경로입니다.
+오버월드 플레이어 노드([`PlayerOverworld`](../systemNodes/PlayerOverworld.md))의 경로입니다.
 이는 필수 설정이며, 비어있으면 초기화가 중단됩니다.
 (res://Engine/Overworld/Characters/player_overworld.tscn) 씬을 인스턴스화하여 사용합니다.
 
@@ -150,14 +150,14 @@ var bullet = quick_bullet(
 | camera | `CameraController` | 카메라 컨트롤러 노드입니다. |
 | music_player | `AudioStreamPlayer` | 오버월드의 배경 음악 재생기입니다. |
 
-> music_player는 ([`Global.get_Music()`](../../systemNodes/Global.md#get_music)와 동일)입니다.
+> music_player는 ([`Global.get_Music()`](../systemNodes/Global.md#get_music)와 동일)입니다.
 
 ---
 
 ## 시그널
 
 ### `cached_initialized`
-전투 종료 후 오버월드가 다시 로드되거나 [`SceneChanger.load_cached_scene()`](../../systemNodes/SceneChanger.md#load_cached_scene)이 호출될 때 발생합니다.
+전투 종료 후 오버월드가 다시 로드되거나 [`SceneChanger.load_cached_scene()`](../systemNodes/SceneChanger.md#load_cached_scene)이 호출될 때 발생합니다.
 
 ### `remove_bullets`
 모든 탄환을 제거하라는 시그널입니다.
@@ -172,9 +172,9 @@ var bullet = quick_bullet(
 
 ## 🔗 관련 문서
 
-- [PlayerOverworld - 오버월드 플레이어](../../systemNodes/PlayerOverworld.md)
+- [PlayerOverworld - 오버월드 플레이어](../systemNodes/PlayerOverworld.md)
 - [CameraController - 카메라 컨트롤러](CameraController.md)
 - [RoomEntranceNode - 방 출입구](RoomEntranceNode.md)
 - [Bullet - 기본 탄환](Bullet.md)
-- [SceneChanger - 씬 변경기](../../systemNodes/SceneChanger.md)
+- [SceneChanger - 씬 변경기](../systemNodes/SceneChanger.md)
 - [오버월드 만들기](/tutorials/overworld.md)

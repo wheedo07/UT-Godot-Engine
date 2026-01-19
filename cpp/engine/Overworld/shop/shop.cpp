@@ -143,7 +143,7 @@ void SHOP::_unhandled_input(const Ref<InputEvent>& event) {
         _set_soul_pos();
     }
     
-    if (event->is_action_pressed("ui_cancel")) {
+    if (event->is_action_pressed("ut_cancel")) {
         switch (current_state) {
             case BUYING_ITEMS:
                 soul_position = 0;
@@ -163,7 +163,7 @@ void SHOP::_unhandled_input(const Ref<InputEvent>& event) {
         }
     }
     
-    if (event->is_action_pressed("ui_accept")) {
+    if (event->is_action_pressed("ut_confirm")) {
         switch (current_state) {
             case SELECTING_ACTIONS:
                 keeper_dialogue->kill_tweens(true);

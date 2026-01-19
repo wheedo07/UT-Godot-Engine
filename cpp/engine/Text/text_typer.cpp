@@ -107,11 +107,11 @@ void GenericTextTyper::_process(double delta) {
 void GenericTextTyper::_unhandled_input(const Ref<InputEvent>& event) {
     if(isEditor) return;
     if(global->get_player_text_box() || global->get_battle_start()) {
-        if(event->is_action_pressed("ui_cancel") && visible_tween.is_valid() && visible_tween->is_valid()) {
+        if(event->is_action_pressed("ut_cancel") && visible_tween.is_valid() && visible_tween->is_valid()) {
             emit_signal("skip");
             kill_tweens(true);
         }
-        if(event->is_action_pressed("ui_accept") && (!visible_tween.is_valid() || !visible_tween->is_valid())) {
+        if(event->is_action_pressed("ut_confirm") && (!visible_tween.is_valid() || !visible_tween->is_valid())) {
             emit_signal("confirm");
         }
     }

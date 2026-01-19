@@ -12,7 +12,7 @@ void BlitteringBoxBehaviour::_on_gain_control() {
 void BlitteringBoxBehaviour::input(const Ref<InputEvent>& event) {
     if(!box->get_blitter_text()->get_typing()) return;
 
-    if(event->is_action_pressed("ui_accept")) get_viewport()->set_input_as_handled();
+    if(event->is_action_pressed("ut_confirm")) get_viewport()->set_input_as_handled();
 }
 
 void BlitteringBoxBehaviour::_on_lose_control() {

@@ -261,7 +261,7 @@ print("혼자 남아 있는지 : ", is_solo)
 
 #### `enemy_acts: Array<EnemyAct>`
 적의 ACT 배열입니다. <br>
-각 ACT는 [`EnemyAct`](../../resource/EnemyAct.md) 리소스입니다.
+각 ACT는 [`EnemyAct`](../resource/EnemyAct.md) 리소스입니다.
 
 #### `one_by_one_overrdie: bool`
 ACT 변경 시 적이 하나씩 오버다이를 실행할지 여부입니다. <br>
@@ -286,7 +286,7 @@ Node2D, AnimatedSprite2D 등 어떤 노드든 설정할 수 있습니다.
 
 #### `dialogue_path: NodePath<DialogueControl>`
 적의 대화 박스 노드의 경로입니다. <br>
-대화 박스 노드는 [`DialogueControl`](../../systemNodes/DialogueControl.md) 노드여야 합니다.
+대화 박스 노드는 [`DialogueControl`](../systemNodes/DialogueControl.md) 노드여야 합니다.
 
 #### `expression_sprites: Array<AnimatedSprite2D>`
 적의 표정 스프라이트 배열입니다. <br>

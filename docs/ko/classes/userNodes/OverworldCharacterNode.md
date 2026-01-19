@@ -13,10 +13,10 @@
     - 방향별 애니메이션 자동 처리 (위, 아래, 좌우)
     - 스프라이트 자동 플립 기능
 - **대화 시스템**
-    - [`DialogueAsset`](../../resource/DialogueAsset.md)과 [`TextBox`](../../systemNodes/TextBox.md) 통합
+    - [`DialogueAsset`](../resource/DialogueAsset.md)과 [`TextBox`](../systemNodes/TextBox.md) 통합
     - 캐릭터별 대화 관리
 - **상호작용 시스템**
-    - [`InteractionTrigger`](../../systemNodes/InteractionTrigger.md)를 사용한 플레이어 상호작용 감지
+    - [`InteractionTrigger`](../systemNodes/InteractionTrigger.md)를 사용한 플레이어 상호작용 감지
     - 상호작용 시 자동 대화 시작
 - **알림 시스템**
     - 조우나 상호작용 시 시각적 알림과 효과음
@@ -33,7 +33,7 @@ OverworldCharacterNode
 ```
 
 ### 필수 리소스
-- [`DialogueAsset`](../../resource/DialogueAsset.md) - 캐릭터 대화 데이터
+- [`DialogueAsset`](../resource/DialogueAsset.md) - 캐릭터 대화 데이터
 
 ---
 
@@ -165,7 +165,7 @@ character.play_anim("act", 1.0, true)
 캐릭터가 올바르게 표시되고 애니메이션되려면 반드시 설정해야 합니다.
 
 #### `area_interact: InteractionTrigger`
-플레이어 상호작용을 감지하는 [`InteractionTrigger`](../../systemNodes/InteractionTrigger.md) 컴포넌트에 대한 참조입니다.
+플레이어 상호작용을 감지하는 [`InteractionTrigger`](../systemNodes/InteractionTrigger.md) 컴포넌트에 대한 참조입니다.
 (res://Engine/Overworld/Interactions/interaction_trigger.tscn) 씬을 사용하여 설정해야 합니다.
 
 #### `current_index: int`
@@ -175,7 +175,7 @@ character.play_anim("act", 1.0, true)
 **기본값:** 0
 
 #### `dialogues: DialogueAsset`
-이 캐릭터의 대화 데이터를 포함하는 [`DialogueAsset`](../../resource/DialogueAsset.md) 리소스입니다.
+이 캐릭터의 대화 데이터를 포함하는 [`DialogueAsset`](../resource/DialogueAsset.md) 리소스입니다.
 플레이어가 캐릭터와 상호작용할 때 대화 텍스트를 표시하는 데 사용됩니다.
 
 ---
@@ -208,7 +208,7 @@ func play_sequence():
 ## 🔗 관련 문서
 
 - [OverworldSprite - 오버월드 스프라이트](OverworldSprite.md)
-- [DialogueAsset - 대화 에셋](../../resource/DialogueAsset.md)
-- [InteractionTrigger - 상호작용 트리거](../../systemNodes/InteractionTrigger.md)
-- [TextBox - 텍스트 박스](../../systemNodes/TextBox.md)
+- [DialogueAsset - 대화 에셋](../resource/DialogueAsset.md)
+- [InteractionTrigger - 상호작용 트리거](../systemNodes/InteractionTrigger.md)
+- [TextBox - 텍스트 박스](../systemNodes/TextBox.md)
 - [오버월드 만들기](/tutorials/overworld.md)

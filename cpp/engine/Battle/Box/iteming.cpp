@@ -33,10 +33,10 @@ void ItemingBoxBehaviour::input(const Ref<InputEvent>& event) {
             box->current_page--;
         }
         box->call_deferred("_set_items");
-    }else if(event->is_action_pressed("ui_cancel")) {
+    }else if(event->is_action_pressed("ut_cancel")) {
         box->_backout();
         box->emit_signal("moved_to_buttons");
-    }else if(event->is_action_pressed("ui_accept")) {
+    }else if(event->is_action_pressed("ut_confirm")) {
         if(!(global->get_items().size() > 0)) {
             box->emit_signal("moved_to_buttons");
             box->_backout();

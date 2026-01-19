@@ -84,7 +84,7 @@ void NameSelection::_input(const Ref<InputEvent>& event) {
         }
     }
     
-    if (event->is_action_pressed("ui_accept")) {
+    if (event->is_action_pressed("ut_confirm")) {
         emit_signal("choice", soul_pos);
     }
 }

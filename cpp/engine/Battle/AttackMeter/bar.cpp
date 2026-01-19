@@ -83,7 +83,7 @@ void AttackBar::_on_tween_finished2() {
 
 void AttackBar::_unhandled_input(const Ref<InputEvent>& event) {
     if(hityet) return;
-    if(event->is_action_pressed("ui_accept")) {
+    if(event->is_action_pressed("ut_confirm")) {
         if (tw.is_valid()) tw->kill();
         
         Vector2 pos = get_position();

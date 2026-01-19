@@ -217,7 +217,7 @@ void Typing::_unhandled_input(const Ref<InputEvent>& event) {
         refresh_thing(Vector2i(0, -1)); 
     }
     
-    if (event->is_action_pressed("ui_accept")) {
+    if (event->is_action_pressed("ut_confirm")) {
         stagehand->audio_player->play("choice");
         Array arr = letters[current_pos.x];
         

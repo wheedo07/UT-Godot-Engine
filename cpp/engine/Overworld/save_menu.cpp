@@ -47,7 +47,7 @@ void SaveMenu::_ready() {
 }
 
 void SaveMenu::_unhandled_input(const Ref<InputEvent>& event) {
-    if((event->is_action_pressed("ui_accept") && saved) || event->is_action_pressed("ui_cancel")) {
+    if((event->is_action_pressed("ut_confirm") && saved) || event->is_action_pressed("ut_cancel")) {
         dismiss();
         get_viewport()->set_input_as_handled();
     }

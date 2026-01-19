@@ -83,7 +83,7 @@ void Options::_unhandled_input(const Ref<InputEvent>& event) {
         return;
     }
     
-    if (event->is_action_pressed("ui_accept")) {
+    if (event->is_action_pressed("ut_confirm")) {
         switch (current_pos) {
             case 0: {
                 Node* parent = get_node_internal("../");

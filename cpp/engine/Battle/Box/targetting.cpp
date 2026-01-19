@@ -14,10 +14,10 @@ void TargettingBoxBehaviour::_on_gain_control() {
 }
 
 void TargettingBoxBehaviour::input(const Ref<InputEvent>& event) {
-    if(event->is_action_pressed("ui_cancel")) {
+    if(event->is_action_pressed("ut_cancel")) {
         box->_backout();
         box->emit_signal("moved_to_buttons");
-    }else if(event->is_action_pressed("ui_accept")) {
+    }else if(event->is_action_pressed("ut_confirm")) {
         stagehand->audio_player->play("select");
         int id = box->soul_pos_to_id(box->soul_position, false, 1);
         if(box->button_choice == BattleBox::OPTION_FIGHT && box->enemies[id])

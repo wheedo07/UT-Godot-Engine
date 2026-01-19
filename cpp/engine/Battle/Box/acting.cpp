@@ -13,9 +13,9 @@ void ActingBoxBehaviour::_on_gain_control() {
 }
 
 void ActingBoxBehaviour::input(const Ref<InputEvent>& event) {
-    if(event->is_action_pressed("ui_cancel")) box->call_deferred("_backout");
+    if(event->is_action_pressed("ut_cancel")) box->call_deferred("_backout");
 
-    else if(event->is_action_pressed("ui_accept")) {
+    else if(event->is_action_pressed("ut_confirm")) {
         box->change_state(BattleBox::State_Blittering);
         box->blitter_act();
     }

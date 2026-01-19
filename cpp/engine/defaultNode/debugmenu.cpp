@@ -118,7 +118,7 @@ void DebugMenu::toggle() {
 
 void DebugMenu::_unhandled_input(const Ref<InputEvent>& event) {
     if(!global) return;
-    if(event->is_action_pressed("ui_setting") && global->get_debugmode() &&
+    if(event->is_action_pressed("ut_setting") && global->get_debugmode() &&
         (os->is_debug_build() || os->has_feature("debug_op"))) {
         toggle();
     }else if(event->is_action_pressed("debug") && (os->has_feature("debug_mode") || os->is_debug_build())) {

@@ -136,7 +136,7 @@ offset_left = 324.0
 offset_right = 462.0
 offset_bottom = 40.0
 theme = ExtResource("3_2u401")
-text = "UT_CONFIRM"
+text = ""ut_confirm""
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)

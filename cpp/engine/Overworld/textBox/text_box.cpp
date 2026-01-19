@@ -95,7 +95,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
         soul->move_global(soul_position + soul_offset);
     }
     
-    if(event->is_action_pressed("ui_accept") && selected_option) {
+    if(event->is_action_pressed("ut_confirm") && selected_option) {
         get_viewport()->set_input_as_handled();
         selecting = false;
         stagehand->audio_player->play("select");

@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Global" inherits="CanvasLayer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](Not user creatable)[/color]
+        An autoloaded scene in UT-Godot-Engine. Used to store engine settings and global variables.
+        The (res://Core/autoload/global.tscn) scene is set as an autoload scene.
+   </brief_description>
+    <description>
+        A core system node of UT-Godot-Engine that globally manages player state, game progress, 
+        inventory, settings, and more. It is a singleton object accessible from all scenes.
+
+        This is a system node registered as AutoLoad. Do not create it directly, access it via [code]global[/code].
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/systemNodes/Global</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/systemNodes/Global</link>
+    </tutorials>
+
+    <methods>
+        <method name="check_level_up">
+            <return type="bool" />
+            <description>
+                Checks if the player can level up with their current experience points.
+                
+                If the level-up conditions are met, automatically increases level, max HP, and attack power
+                and returns true. If level-up is not possible, returns false.
+                
+                Typically called after battle completion or when gaining experience.
+            </description>
+        </method>
+        <method name="disable_input">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <description>
+                Disables a specific input key.
+                
+                [b]Parameters:[/b]
+                • key: Name of the input action to disable (e.g., "ut_confirm", "ut_cancel")
+                
+                Disabled inputs can be checked with [method has_input_disabled] and
+                re-enabled with [method enable_input].
+                
+                Used to restrict input during cutscenes or specific situations.
+            </description>
+        </method>
+        <method name="enable_input">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <description>
+                Re-enables an input key that was disabled with [method disable_input].
+                
+                [b]Parameters:[/b]
+                • key: Name of the input action to enable
+                
+                Re-enabling an already enabled key causes no problems.
+            </description>
+        </method>
+        <method name="has_input_disabled">
+            <return type="bool" />
+            <param index="0" name="key" type="String" />
+            <description>
+                Checks if a specific input key is disabled.
+                
+                [b]Parameters:[/b]
+                • key: Name of the input action to check
+               
+                Returns true if the input was disabled with [method disable_input].
+                Used for conditional branching in input processing logic.
+            </description>
+        </method>
+        <method name="alert">
+            <return type="void" />
+            <param index="0" name="text" type="String" />
+            <param index="1" name="title" type="String" default="&quot;Alert&quot;" />
+            <description>
+                Displays an alert message box on screen. Functions the same as [method OS.alert].
+                
+                [b]Parameters:[/b]
+                • text: Message content to display
+                • title: Title of the message box (default: "Alert")
+                
+                Used to communicate in-game errors, important notifications, etc. to the player.
+                The message box operates modally, stopping progress until the player confirms.
+            </description>
+        </method>
+        <method name="save_file">
+            <return type="void" />
+            <param index="0" name="slot" type="int" />
+            <param index="1" name="save_data" type="Dictionary" />
+            <description>
+                Saves game data to the specified slot.
+                
+                [b]Parameters:[/b]
+                • slot: Slot number to save to (0-8)
+                • save_data: Game data dictionary to save
+                
+                Save file names follow the 'file0~file8' format and are
+                automatically saved according to platform-specific paths.
+                The saved signal is emitted when saving is complete.
+            </description>
+        </method>
+        <method name="load_file">
+            <return type="Dictionary" />
+            <param index="0" name="slot" type="int" />
+            <description>
+                Loads game data from the specified slot.
+                
+                [b]Parameters:[/b]
+                • slot: Slot number to load from (0-8)
+                
+                Save file names follow the 'file0~file8' format and are
+                automatically loaded according to platform-specific paths.
+                
+                Returns the loaded game data dictionary.
+            </description>
+        </method>
+        <method name="exists_file">
+            <return type="bool" />
+            <param index="0" name="slot" type="int" />
+            <description>
+                Checks if a save file exists in the specified slot.
+                
+                [b]Parameters:[/b]
+                • slot: Slot number to check (0-8)
+                
+                Save file names follow the 'file0~file8' format and are
+                automatically checked according to platform-specific paths.
+                
+                Returns true if the file exists, false if it doesn't.
+            </description>
+        </method>
+        <method name="change_setting">
+            <return type="void" />
+            <param index="0" name="setting_name" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                Changes a game setting value.
+                
+                [b]Parameters:[/b]
+                • setting_name: One of ("Master", "Music", "SFX", "border", "shake", "vfx", "locale")
+                • value: Value to set ("Master", "Music", "SFX" are float; "border", "shake", "vfx" are bool; "locale" is String)
+                
+                Setting changes are immediately reflected in related systems.
+            </description>
+        </method>
+        <method name="get_Music">
+            <return type="AudioStreamPlayer" />
+            <description>
+                Returns the [AudioStreamPlayer] object of the currently playing background music.
+                
+                Used for music control (stop, volume adjustment, fade, etc.).
+            </description>
+        </method>
+        <method name="get_battle_text_box" qualifiers="const">
+            <return type="bool" />
+            <description>
+                Checks if the text box is active during battle.
+                
+                Returns true if battle text is being displayed, false otherwise.
+                Used for battle UI state management.
+            </description>
+        </method>
+        <method name="get_frist" qualifiers="const">
+            <return type="bool" />
+            <description>
+                Checks if this is the first run.
+                
+                Used to determine if the game is starting for the first time.
+                Utilized for displaying tutorials, initial setup, etc.
+            </description>
+        </method>
+        <method name="get_fullscreen" qualifiers="const">
+            <return type="bool" />
+            <description>
+                Checks the current fullscreen mode status.
+                
+                Returns true if in fullscreen mode, false if in windowed mode.
+                Used for screen mode UI updates.
+            </description>
+        </method>
+        <method name="get_player_in_menu" qualifiers="const">
+            <return type="bool" />
+            <description>
+                Checks if the player is currently in a menu state.
+                
+                Returns true if menus like inventory, settings, or dimensional box are open.
+                Used for game pause and input processing branching.
+            </description>
+        </method>
+        <method name="get_player_kr" qualifiers="const">
+            <return type="int" />
+            <description>
+                Returns the player's KR (karma) value.
+                
+                Used to implement Undertale's poison damage system.
+                Higher KR values result in continuous damage over time.
+            </description>
+        </method>
+        <method name="get_player_position">
+            <return type="Vector2" />
+            <description>
+                Returns the player's current position.
+                
+                Returns the player character's 2D coordinates in the overworld as a Vector2.
+                Used for camera tracking, collision detection, event triggers, etc.
+
+                May not be accurate, so use only for reference purposes.
+            </description>
+        </method>
+        <method name="get_player_text_box" qualifiers="const">
+            <return type="bool" />
+            <description>
+                Checks if a player-related text box is active.
+                
+                Returns true if dialogue, item use messages, etc. are being displayed.
+                Used for text overlay management and input control.
+            </description>
+        </method>
+        <method name="get_scene_container" qualifiers="const">
+            <return type="SceneContainer" />
+            <description>
+                Returns the game's main scene container.
+                
+                Provides a reference to the root container node used for
+                scene transitions, UI overlays, dynamic node addition, etc.
+            </description>
+        </method>
+        <method name="set_flag">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                Sets a general game flag.
+                
+                [b]Parameters:[/b]
+                • key: Flag key name
+                • value: Value to set (bool, int, string, etc.)
+                
+                Stored only in memory and recorded to file when the game is saved.
+                Used to track event completion, quest progress, etc.
+            </description>
+        </method>
+        <method name="set_g_flags">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                Sets a global game flag.
+                
+                [b]Parameters:[/b]
+                • key: Flag key name  
+                • value: Value to set
+                
+                Special global flags distinct from general flags.
+                Used to store important states like ending branches, hidden content, etc.
+            </description>
+        </method>
+        <method name="get_flag">
+            <return type="Variant" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="defaultValue" type="Variant" default="false" />
+            <description>
+                Retrieves a general game flag value.
+                
+                [b]Parameters:[/b]
+                • key: Flag key name
+                • defaultValue: Default value to return when flag doesn't exist
+                
+                Used to track game progress, event completion status, etc.
+                Returns [param defaultValue] if the flag doesn't exist.
+            </description>
+        </method>
+        <method name="get_g_flags">
+            <return type="Variant" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="defaultValue" type="Variant" default="false" />
+            <description>
+                Retrieves a global game flag value.
+                
+                [b]Parameters:[/b]
+                • key: Flag key name
+                • defaultValue: Default value to return when flag doesn't exist
+                
+                Special global flags distinct from general flags.
+                Used for storing important game states or ending-related information.
+            </description>
+        </method>
+        <method name="heal">
+            <return type="void" />
+            <param index="0" name="amt" type="int" />
+            <description>
+                Heals the player by the specified amount.
+                
+                [b]Parameters:[/b]
+                • amt: Amount of HP to heal (positive value)
+                
+                Cannot heal beyond maximum HP, and values of 0 or less are ignored.
+                Used for item usage, save points, etc.
+            </description>
+        </method>
+        <method name="isMobile">
+            <return type="bool" />
+            <description>
+                Checks if the current platform is mobile.
+                
+                Returns true if running on Android mobile platform.
+                Used for platform-specific UI adjustments and input processing branches.
+            </description>
+        </method>
+        <method name="resetgame">
+            <return type="void" />
+            <description>
+                Resets the game to its initial state.
+                
+                Resets player stats, inventory, flags, etc. to default values.
+                Called when starting a new game; save files are preserved.
+            </description>
+        </method>
+        <method name="save">
+            <return type="void" />
+            <param index="0" name="room_name" type="String" default="&quot;&quot;" />
+            <description>
+                Saves the current game state to file.
+                
+                [b]Parameters:[/b]
+                • room_name: Name of the room/scene to save (if empty string, uses current node name; in overworld, uses current room name)
+                
+                Encrypts and saves player information, inventory, flags, position, etc.
+                The saved signal is emitted when saving is complete.
+            </description>
+        </method>
+        <method name="save_flag">
+            <return type="void" />
+            <param index="0" name="key" type="String" />
+            <param index="1" name="value" type="Variant" />
+            <description>
+                Sets a flag and immediately saves it.
+                
+                [b]Parameters:[/b]
+                • key: Flag key name
+                • value: Value to save
+                
+                Unlike set_flag(), automatically records to save file after setting.
+                Used when immediately saving important progress.
+            </description>
+        </method>
+        <method name="save_settings">
+            <return type="void" />
+            <description>
+                Saves game settings to file.
+                
+                Encrypts and saves volume settings, screen effect options, fullscreen mode, etc.
+                to a separate file.
+                
+                Automatically called when settings change to maintain settings.
+            </description>
+        </method>
+        <method name="toggle_fullscreen">
+            <return type="void" />
+            <description>
+                Toggles between fullscreen and windowed mode.
+                
+                Switches to windowed mode if currently fullscreen, or to fullscreen if currently windowed.
+                The fullscreen_toggled signal is emitted when the transition completes.
+            </description>
+        </method>
+        <method name="true_resetgame">
+            <return type="void" />
+            <description>
+                Completely resets the game.
+                
+                A more complete reset than resetgame(), initializing all game states
+                except settings like global flags and save_file.
+            </description>
+        </method>
+    </methods>
+    
+    <members>
+        <member name="item_list" type="Array" setter="set_item_list" getter="get_item_list" default="[막대기, 반창고, 파이]">
+            Master list of all items that exist in the game.
+            
+            Each element is an [Item] object, referenced through indices.
+            Inventory, equipment, dimensional box, etc. store indices from this array.
+            
+            Default items:
+            • 0: Stick (weapon, ATK+0)
+            • 1: Bandage (consumable, HP+10)
+            • 2: Pie (consumable, HP+999)
+        </member>
+        <member name="items" type="Array" setter="set_items" getter="get_items" default="[]">
+            The player's inventory items.
+            
+            Can store up to 8 items, with each element being an index from [member item_list].
+            This array is modified during item usage, equipment changes, dimensional box transfers, etc.
+        </member>
+        <member name="boxitems" type="Array" setter="set_boxitems" getter="get_boxitems" default="[]">
+            Array storing items in the dimensional box.
+
+            Can store up to 10 items, with each element being an index from [member item_list].
+        </member>
+        <member name="equipment" type="Dictionary" setter="set_equipment" getter="get_equipment" default="{ &quot;armor&quot;: 1, &quot;weapon&quot;: 0 }">
+            Information about equipment currently equipped by the player.
+            
+            • "weapon": [member item_list] index of equipped weapon
+            • "armor": [member item_list] index of equipped armor
+            
+            Default values: weapon=0(Stick), armor=1(Bandage)
+            Player attack and defense are automatically recalculated when equipment changes.
+        </member>
+        <member name="cells" type="PackedStringArray" setter="set_cells" getter="get_cells" default="PackedStringArray()">
+            Array storing phone call title list.
+            Each index is used in [method Overworld.start_cellphone].
+        </member>
+        <member name="flags" type="Dictionary" setter="set_flags" getter="get_flags" default="{}">
+            Dictionary storing general game flags.
+            
+            Tracks game progress, event completion status, NPC dialogue states, etc.
+            Keys are strings, values can be various types like bool, int, string, etc.
+            
+            Example: {"tutorial_done": true, "papyrus_met": true, "room_01_visited": 5}
+        </member>
+        <member name="player_name" type="String" setter="set_player_name" getter="get_player_name" default="&quot;ERROR&quot;">
+            The player's name.
+        </member>
+        <member name="player_attack" type="int" setter="set_player_attack" getter="get_player_attack" default="10">
+            The player's attack power.
+        </member>
+        <member name="player_defense" type="int" setter="set_player_defense" getter="get_player_defense" default="0">
+            The player's defense power.
+        </member>
+        <member name="player_exp" type="int" setter="set_player_exp" getter="get_player_exp" default="0">
+            The player's current experience points.
+        </member>
+        <member name="player_gold" type="int" setter="set_player_gold" getter="get_player_gold" default="0">
+            The gold (G) owned by the player.
+        </member>
+        <member name="player_hp" type="int" setter="set_player_hp" getter="get_player_hp" default="20">
+            The player's current HP.
+        </member>
+        <member name="player_kills" type="int" setter="set_player_kills" getter="get_player_kills" default="0">
+            The number of monsters defeated by the player.
+        </member>
+        <member name="player_lv" type="int" setter="set_player_lv" getter="get_player_lv" default="1">
+            The player's level (LV).
+        </member>
+        <member name="player_max_hp" type="int" setter="set_player_max_hp" getter="get_player_max_hp" default="20">
+            The player's maximum HP.
+            
+            Increases when leveling up and serves as the upper limit for current HP.
+            Healing items cannot restore HP beyond this value.
+        </member>
+        <member name="saveDir" type="String" setter="set_saveDir" getter="get_saveDir" default="&quot;user://&quot;">
+            Directory path for save files.
+            Save files are stored with the name file9.
+
+            [b]Specific reserved words can be used to specify directory paths.[/b]
+            • "$home": User home directory (e.g., C:/Users/[username]/)
+            • "$appdata": Application data directory (e.g., C:/Users/[username]/AppData/Roaming/)
+            Only one reserved word can be used at a time and cannot be combined with other reserved words.
+
+            Automatically configured per platform with the following formats:
+            • Windows: C:/Users/[username]/UNDERTALE/file9
+            • Web/Mobile: user://file9
+            • Other: user://file9 (fallback)
+        </member>
+        <member name="settings" type="Dictionary" setter="set_settings" getter="get_settings" default="{ &quot;Master&quot;: 100, &quot;Music&quot;: 100, &quot;SFX&quot;: 100, &quot;border&quot;: true, &quot;shake&quot;: true, &quot;vfx&quot;: true }">
+            Dictionary storing game settings.
+            
+            • "Master": Master volume (0-100)
+            • "Music": Background music volume (0-100)
+            • "SFX": Sound effects volume (0-100)
+            • "border": Whether to display screen border
+            • "shake": Whether to use screen shake effects
+            • "vfx": Whether to use visual effects
+            • "locale": Language setting ("auto", "en", "ko")
+        </member>
+        <member name="variables" type="Dictionary" setter="set_variables" getter="get_variables" default="{}">
+            Dictionary storing global variables.
+
+            Used to share data between scripts or store temporary states.
+        </member>
+        <member name="overworld_data" type="Dictionary" setter="set_overworld_data" getter="get_overworld_data" default="{ &quot;room_name&quot;: &quot;&quot;, &quot;room&quot;: &quot;&quot;, &quot;room_pos&quot;: Vector2(0, 0) }">
+            Overworld-related data saved by [method save].
+            Used to restore overworld state during scene transitions.
+
+            • room_name: Current room name
+            • room: Overworld room path (scene path)
+            • room_pos: Player position (Vector2)
+        </member>
+        <member name="player_can_move" type="bool" setter="set_player_can_move" getter="get_player_can_move" default="true">
+            Whether the player can currently move.
+
+            Automatically controlled during menus, battles, cutscenes, etc.
+        </member>
+        <member name="player_move" type="bool" setter="set_player_move" getter="get_player_move" default="true">
+            Represents the player's movement state.
+            While [member player_can_move] is automatically controlled by the system,
+            [member player_move] can be set manually.
+
+            Used to forcibly restrict movement.
+        </member>
+        <member name="player_set_menu" type="bool" setter="set_player_set_menu" getter="get_player_set_menu" default="false">
+            Whether the player is in a menu state.
+            [method get_player_in_menu] checks this value together.
+            Used when manually setting menu state.
+
+            Used to forcibly block keyboard input.
+        </member>
+        <member name="scan_directory" type="String" setter="set_scan_directory" getter="get_scan_directory" default="&quot;&quot;">
+            File scan directory path used in debug mode.
+            Scans files in the specified path and automatically adds them to dropdown menus.
+            Primarily used during development to quickly load scene files.
+        </member>
+    </members>
+
+    <signals>
+        <signal name="fullscreen_toggled">
+            <param index="0" name="to" type="bool" />
+            <description>
+                Signal emitted when fullscreen mode is toggled.
+                
+                [b]Parameters:[/b]
+                • to: The mode switched to (true=fullscreen, false=windowed)
+                
+                Used when UI elements need to react to screen mode changes.
+                Automatically emitted after calling [method toggle_fullscreen].
+            </description>
+        </signal>
+        <signal name="saved">
+            <description>
+                Signal emitted when game saving is completed.
+               
+                Triggered when save file writing succeeds after calling [method save] function.
+                Used for save completion notifications, UI updates, auto-save systems, etc.
+            </description>
+        </signal>
+    </signals>
+</class>

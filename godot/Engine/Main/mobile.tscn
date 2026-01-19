@@ -34,24 +34,24 @@ position = Vector2(-70, -63)
 scale = Vector2(2.3, 2.3)
 texture_normal = ExtResource("2_xd2ic")
 texture_pressed = ExtResource("3_3kt15")
-action = "ui_accept"
+action = "ut_confirm"
 
 [node name="X" type="TouchScreenButton" parent="ui_button"]
 position = Vector2(5, 19)
 scale = Vector2(2.3, 2.3)
 texture_normal = ExtResource("3_gpqdw")
 texture_pressed = ExtResource("4_xd2ic")
-action = "ui_cancel"
+action = "ut_cancel"
 
 [node name="C" type="TouchScreenButton" parent="ui_button"]
 position = Vector2(34, -83)
 scale = Vector2(2.3, 2.3)
 texture_normal = ExtResource("4_rguxf")
 texture_pressed = ExtResource("5_gpqdw")
-action = "ui_menu"
+action = "ut_menu"
 
 [node name="setting" type="TouchScreenButton" parent="."]
 position = Vector2(583, 5)
 scale = Vector2(0.4, 0.4)
 texture_normal = ExtResource("5_xd2ic")
-action = "ui_setting"
+action = "ut_setting"

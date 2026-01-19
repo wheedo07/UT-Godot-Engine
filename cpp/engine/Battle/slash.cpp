@@ -60,7 +60,7 @@ void Slash::_ready() {
 }
 
 void Slash::_input(const Ref<InputEvent>& event) {
-    if(event->is_action_pressed("ui_accept") && can_punch) {
+    if(event->is_action_pressed("ut_confirm") && can_punch) {
         Ref<ParticleProcessMaterial> material = particles->get_process_material();
         float max = material->get_param_max(ParticleProcessMaterial::PARAM_SCALE);
         float min = material->get_param_min(ParticleProcessMaterial::PARAM_SCALE);
