@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="InteractionTrigger" inherits="Area2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](Not user creatable)[/color]
+        Interaction triggers are used to define areas where players can interact.
+        Use by instantiating the (res://Engine/Overworld/Interactions/interaction_trigger.tscn) scene.
+    </brief_description>
+    <description>
+        This scene is used to define areas where players can interact in the overworld.
+        Instead of creating nodes directly, you must use it by instantiating the (res://Engine/Overworld/Interactions/interaction_trigger.tscn) scene.
+
+        You can adjust the size of the interaction area using the [member Node2D.scale] property.
+        When the player presses [code]ui_accept[/code] input while inside the interaction area,
+
+        the [signal interacted] signal is emitted.
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/systemNodes/InteractionTrigger</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/systemNodes/InteractionTrigger</link>
+    </tutorials>
+
+    <methods>
+        <method name="enable">
+            <return type="void"/>
+            <description>
+                Enables the interaction trigger, allowing it to detect player interactions.
+            </description>
+        </method>
+
+        <method name="disable">
+            <return type="void"/>
+            <description>
+                Disables the interaction trigger, preventing it from detecting player interactions.
+            </description>
+        </method>
+    </methods>
+
+    <signals>
+        <signal name="interacted">
+            <description>
+                Emitted when the player interacts within the interaction area by pressing the [code]ui_accept[/code] input.
+            </description>
+        </signal>
+    </signals>
+</class>
