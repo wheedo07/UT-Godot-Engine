@@ -32,7 +32,7 @@ func ready() -> void:
 
 var pressed := false;
 func _unhandled_input(event: InputEvent) -> void:
-	if(event.is_action_pressed(\"ui_accept\") && !pressed):
+	if(event.is_action_pressed(\"ut_confirm\") && !pressed):
 		pressed = true;
 		end_death();
 "

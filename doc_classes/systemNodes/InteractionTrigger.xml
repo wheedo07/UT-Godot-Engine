@@ -10,7 +10,7 @@
         Instead of creating nodes directly, you must use it by instantiating the (res://Engine/Overworld/Interactions/interaction_trigger.tscn) scene.
 
         You can adjust the size of the interaction area using the [member Node2D.scale] property.
-        When the player presses [code]ui_accept[/code] input while inside the interaction area,
+        When the player presses [code]ut_confirm[/code] input while inside the interaction area,
 
         the [signal interacted] signal is emitted.
 
@@ -41,7 +41,7 @@
     <signals>
         <signal name="interacted">
             <description>
-                Emitted when the player interacts within the interaction area by pressing the [code]ui_accept[/code] input.
+                Emitted when the player interacts within the interaction area by pressing the [code]ut_confirm[/code] input.
             </description>
         </signal>
     </signals>
