@@ -430,26 +430,26 @@
         <member name="player_defense" type="int" setter="set_player_defense" getter="get_player_defense" default="0">
             The player's defense power.
         </member>
-        <member name="player_exp" type="int" setter="set_player_exp" getter="get_player_exp" default="0">
-            The player's current experience points.
-        </member>
         <member name="player_gold" type="int" setter="set_player_gold" getter="get_player_gold" default="0">
             The gold (G) owned by the player.
         </member>
         <member name="player_hp" type="int" setter="set_player_hp" getter="get_player_hp" default="20">
             The player's current HP.
         </member>
-        <member name="player_kills" type="int" setter="set_player_kills" getter="get_player_kills" default="0">
-            The number of monsters defeated by the player.
-        </member>
-        <member name="player_lv" type="int" setter="set_player_lv" getter="get_player_lv" default="1">
-            The player's level (LV).
-        </member>
         <member name="player_max_hp" type="int" setter="set_player_max_hp" getter="get_player_max_hp" default="20">
             The player's maximum HP.
             
             Increases when leveling up and serves as the upper limit for current HP.
             Healing items cannot restore HP beyond this value.
+        </member>
+        <member name="player_kills" type="int" setter="set_player_kills" getter="get_player_kills" default="0">
+            The number of monsters defeated by the player.
+        </member>
+        <member name="player_exp" type="int" setter="set_player_exp" getter="get_player_exp" default="0">
+            The player's current experience points.
+        </member>
+        <member name="player_lv" type="int" setter="set_player_lv" getter="get_player_lv" default="1">
+            The player's level (LV).
         </member>
         <member name="saveDir" type="String" setter="set_saveDir" getter="get_saveDir" default="&quot;user://&quot;">
             Directory path for save files.
@@ -476,6 +476,12 @@
             • "vfx": Whether to use visual effects
             • "locale": Language setting ("auto", "en", "ko")
         </member>
+        <member name="scan_directory" type="String" setter="set_scan_directory" getter="get_scan_directory" default="&quot;&quot;">
+            File scan directory path used in debug mode.
+            Scans files in the specified path and automatically adds them to dropdown menus.
+            Primarily used during development to quickly load scene files.
+        </member>
+
         <member name="variables" type="Dictionary" setter="set_variables" getter="get_variables" default="{}">
             Dictionary storing global variables.
 
@@ -507,11 +513,6 @@
             Used when manually setting menu state.
 
             Used to forcibly block keyboard input.
-        </member>
-        <member name="scan_directory" type="String" setter="set_scan_directory" getter="get_scan_directory" default="&quot;&quot;">
-            File scan directory path used in debug mode.
-            Scans files in the specified path and automatically adds them to dropdown menus.
-            Primarily used during development to quickly load scene files.
         </member>
     </members>
 

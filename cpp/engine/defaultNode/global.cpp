@@ -218,6 +218,15 @@ void Global::init_paths() {
                 return;
             }
         }
+    }else if(savepath.find("$localappdata") != -1) {
+        if(osName == "Windows") {
+            const char* localappdata = std::getenv("LOCALAPPDATA");
+            if(localappdata != nullptr) savepath = savepath.replace("$localappdata", localappdata);
+            else {
+                savepath = user_file_path();
+                return;
+            }
+        }
     }
 
     if(savepath.find("user://") == -1) {
