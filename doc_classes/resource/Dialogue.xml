@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Dialogue" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        A resource that defines single dialogue data used in the UT-style dialogue system.
+    </brief_description>
+    <description>
+        This resource contains all information related to a single dialogue sentence.
+        Includes dialogue text, typing speed, character expression change sequences, pause points to insert in the middle of text, etc.
+        The [AdvancedTextTyper] node reads this resource to type text character by character,
+        creating natural dialogue presentation according to the set speed and pause points.
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/resource/Dialogue</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/resource/Dialogue</link>
+    </tutorials>
+
+    <members>
+        <member name="dialog_expressions" type="Array" setter="set_dialog_expressions" getter="get_dialog_expressions" default="[-1]">
+            Character expression change sequence according to text progression.
+            
+            Each element in the array is an integer value representing the index of the expression to display at that sequence.
+            Expressions change sequentially as the text progresses.
+            
+            [b]Value meanings:[/b]
+            • -1: No expression change (maintain current expression)
+            • 0 or above: Character's expression sprite index
+        </member>
+        <member name="dialog_speed" type="float" setter="set_dialog_speed" getter="get_dialog_speed" default="0.08">
+            Sets the text typing speed.
+            
+            Smaller values result in faster typing speed.
+            The default value is 0.08 seconds, meaning one character is typed every 0.08 seconds.
+        </member>
+        <member name="dialog_text" type="String" setter="set_dialog_text" getter="get_dialog_text" default="&quot;test&quot;">
+            Sets the text content to be displayed in the dialogue.
+            
+            BBCode tags can be used to freely style text color, size, style, etc.
+            
+            [b]Examples:[/b]
+            • Normal dialogue: "Hello!"
+            • Emphasized text: "[color=red]Danger![/color]"
+        </member>
+        <member name="pauses" type="Array" setter="set_pauses" getter="get_pauses">
+            Array of [DialoguePause] resources that define pause points at specific character positions during text typing.
+            
+            Each [DialoguePause] resource includes the character index to pause at and the pause duration.
+            This allows for dramatic effects to be created.
+            
+            [b]Example settings:[/b]
+            • [DialoguePause( char_index=5, duration=0.5 )]: Pause for 0.5 seconds at the 5th character
+            • [DialoguePause( char_index=10, duration=1.0 )]: Pause for 1.0 seconds at the 10th character
+        </member>
+    </members>
+</class>
