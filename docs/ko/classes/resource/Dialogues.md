@@ -106,17 +106,17 @@ dialogues.set_pauses([
 
 #### `DIALOGUE_EXPRESSIONS`
 - **설명**:
-    - returns: `Array<Array<int>>`
+    - returns: `Array<Array<int>>` <br>
 대화의 표정 인덱스 배열을 나타내는 타입입니다. [`get_dialogues_single`](#get_dialogues_singledialog_type-dialoguetype---array) 메서드에서 사용하여 모든 [`Dialogue`](Dialogue.md) 리소스의 [`Dialogue.dialog_expressions`](Dialogue.md#dialog_expressions) 속성을 가져올 수 있습니다.
 
 #### `DIALOGUE_PAUSES`
 - **설명**:
-    - returns: `Array<Array<DialoguePause>>`
+    - returns: `Array<Array<DialoguePause>>` <br>
 대화의 일시정 지점 배열을 나타내는 타입입니다. [`get_dialogues_single`](#get_dialogues_singledialog_type-dialoguetype---array) 메서드에서 사용하여 모든 [`Dialogue`](Dialogue.md) 리소스의 [`Dialogue.pauses`](Dialogue.md#pauses) 속성을 가져올 수 있습니다.
 
 #### `DIALOGUE_SPEED`
 - **설명**:
-    - returns: `Array<float>`
+    - returns: `Array<float>` <br>
 대화의 텍스트 표시 속도를 나타내는 타입입니다. [`get_dialogues_single`](#get_dialogues_singledialog_type-dialoguetype---array) 메서드에서 사용하여 모든 [`Dialogue`](Dialogue.md) 리소스의 [`Dialogue.dialog_speed`](Dialogue.md#dialog_speed) 속성을 가져올 수 있습니다.
 
 ---
