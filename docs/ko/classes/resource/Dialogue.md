@@ -1,6 +1,8 @@
 # Dialogue
 
-`Dialogue` 리소스는 하나의 대화을 나타냅니다. 여러개의 대화를 묶어서 `Dialogues` 리소스로 관리할 수 있습니다.
+`Dialogue` 리소스는 하나의 대화을 나타냅니다. 여러개의 대화를 묶어서 [`Dialogues`](Dialogues.md) 리소스로 관리할 수 있습니다.
+
+---
 
 ## 속성
 
@@ -23,6 +25,8 @@
 - **타입**: `Array<DialoguePause>`
 - **설명**: 텍스트 타이핑 중 특정 문자 위치에서 일시정 시간 동안 멈추는 지점을 정의하는 `DialoguePause` 리소스의 배열입니다.
 - **기본값**: `[]`
+
+---
 
 ## 🔗 관련 문서
 - [DialoguePause](DialoguePause.md)

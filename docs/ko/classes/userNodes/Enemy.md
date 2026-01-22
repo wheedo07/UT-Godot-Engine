@@ -288,7 +288,7 @@ Node2D, AnimatedSprite2D 등 어떤 노드든 설정할 수 있습니다.
 적의 대화 박스 노드의 경로입니다. <br>
 대화 박스 노드는 [`DialogueControl`](../systemNodes/DialogueControl.md) 노드여야 합니다.
 
-#### `expression_sprites: Array<AnimatedSprite2D>`
+#### `expression_sprites: Array<AnimatedSprite2D>` :id=expression_sprites-arrayanimatedsprite2d
 적의 표정 스프라이트 배열입니다. <br>
 인덱스 순서: [0]=몸체, [1]=머리 등 index를 기억하면 대화 시 표정 변경에 [사용 가능합니다.](#표정-제어)
 
