@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DialoguePause" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        A resource that defines a pause at a specific position during dialogue text typing.
+    </brief_description>
+    <description>
+        [b]DialoguePause[/b] is a resource used by [AdvancedTextTyper] to create temporary pauses at specific character positions 
+        during text typing, producing natural rhythm in dialogue.
+
+        [b]Usage example:[/b]
+        In text like "Hello there...^everyone", when you want to create a long pause after "...",
+        set [member pause_index] to 12 (position after the three dots) and [member pause_duration] to 1.0 seconds.
+
+        Multiple [DialoguePause] can be added to the [member Dialogue.pauses] array to 
+        create multiple pause points in a single dialogue.
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/resource/DialoguePause</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/resource/DialoguePause</link>
+    </tutorials>
+
+    <members>
+        <member name="pause_duration" type="float" setter="set_pause_duration" getter="get_pause_duration" default="0.1">
+            The duration of the pause in seconds.
+            
+            Defines how long text typing will pause at the [member pause_index] position.
+            This time is added to the default typing interval.
+
+            By default, 0.1 seconds is the pause time set by default for all dialogues.
+        </member>
+        <member name="pause_index" type="int" setter="set_pause_index" getter="get_pause_index" default="0">
+            The text character position where the pause will occur.
+            
+            Specifies at which character position in the text to pause.
+            Uses 0-based indexing, and the pause occurs after the specified character is displayed.
+
+            [b]Cautions:[/b]
+            • Indices exceeding the text length are ignored
+            • Negative values cannot be set
+        </member>
+    </members>
+</class>
