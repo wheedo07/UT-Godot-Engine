@@ -59,9 +59,21 @@ Ref<Dialogues> DialogueLocalization::get_dialogues(String locale, String id) {
         return dialogues;
     }else dialogues->from(locale_data["text"]);
 
-    if(locale_data.has("speed")) dialogues->set_speed(locale_data["speed"]);
-    if(locale_data.has("pauses")) dialogues->set_pauses(locale_data["pauses"]);
-    if(id_data.has("expressions")) dialogues->set_expressions(id_data["expressions"]);
+    if(locale_data.has("speed")) {
+        if(locale_data["speed"].get_type() != Variant::ARRAY) {
+            ERR_PRINT(vformat(String::utf8("속도 데이터 형식이 올바르지 않습니다(Array여야 합니다): %s, %s"), locale, id));
+        }else dialogues->set_speed(locale_data["speed"]);
+    }
+    if(locale_data.has("pauses")) {
+        if(locale_data["pauses"].get_type() != Variant::ARRAY) {
+            ERR_PRINT(vformat(String::utf8("일시정지 데이터 형식이 올바르지 않습니다(Array여야 합니다): %s, %s"), locale, id));
+        }else dialogues->set_pauses(locale_data["pauses"]);
+    }
+    if(id_data.has("expressions")) {
+        if(id_data["expressions"].get_type() != Variant::ARRAY) {
+            ERR_PRINT(vformat(String::utf8("표정 데이터 형식이 올바르지 않습니다(Array여야 합니다): %s, %s"), locale, id));
+        }else dialogues->set_expressions(id_data["expressions"]);
+    }
     return dialogues;
 }
 

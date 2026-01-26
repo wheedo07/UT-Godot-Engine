@@ -80,8 +80,10 @@ Ref<Dialogues> Dialogues::set_expressions(Array expressions) {
 Ref<Dialogues> Dialogues::set_speed(const Array& speeds) {
     for(int i=0; i < dialogues.size(); i++) {
         Ref<Dialogue> dialog = dialogues[i];
-        if (dialog.is_valid()) {
-            dialog->set_dialog_speed(i < speeds.size() ? (float)speeds[i] : 0.1f);
+        if(dialog.is_valid()) {
+            float speed = 0.08f;
+            if(i < speeds.size() && speeds[i].get_type() == Variant::FLOAT) speed = speeds[i];
+            dialog->set_dialog_speed(speed);
         }
     }
     return this;
