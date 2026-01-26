@@ -68,9 +68,9 @@ Ref<Dialogues> Dialogues::set_expressions(Array expressions) {
             if(expressions[i].get_type() == Variant::ARRAY) {
                 dialog->set_dialog_expressions(expressions[i]);
             }else {
-                Array single_expr;
-                single_expr.push_back(expressions[i]);
-                dialog->set_dialog_expressions(single_expr);
+                if(expressions[i].get_type() != Variant::INT && expressions[i].get_type() != Variant::FLOAT) continue;
+                int expr_index = expressions[i];
+                dialog->set_dialog_expressions(Array::make(expr_index));
             }
         }
     }
