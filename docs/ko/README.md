@@ -4,10 +4,16 @@
   Undertale 팬 게임을 위한 Godot Engine 프레임워크
 </div>
 
-이 프로젝트는 Godot Engine 4.5+를 위한 **Undertale 프레임워크 (GDExtension)**입니다.
-팬게임 개발에 필요한 다양한 시스템과 도구를 제공하여, 개발자가 보다 쉽게 Undertale 팬 게임을 만들 수 있도록 지원합니다.
+## 소개
+
+**UT-Godot-Engine**은 Godot Engine 4.5+를 위한 **Undertale 스타일 팬게임 개발 프레임워크 (GDExtension)**입니다.
+전투, 대화, 오버월드 흐름을 빠르게 구성할 수 있도록 필요한 시스템과 도구를 제공합니다.
 
 > 이 엔진은 C++(GDExtension)으로 만들어졌으며, 고성능과 유연성을 모두 제공합니다.
+
+### 이 문서는
+- 프레임워크 개요와 핵심 기능을 빠르게 이해하고
+- 문서와 튜토리얼로 이어지는 첫 관문 역할을 합니다.
 
 ---
 
@@ -37,8 +43,6 @@ cd UT-Godot-Engine
 scons target=template_release
 ```
 
----
-
-## 문서
-- [프로젝트 구조](tutorials/project-structure.md) - 프레임워크의 디렉토리 및 파일 구조 설명
-- [노드 및 리소스 목록](classes/list.md) - 제공되는 모든 노드와 리소스
+### 노드 목록 및 튜토리얼
+- [노드 목록](./classes/list.md)
+- [튜토리얼](./tutorials/README.md)
