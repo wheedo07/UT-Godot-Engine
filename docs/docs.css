@@ -150,8 +150,17 @@ body::before {
 .markdown-section h1 {
   font-size: 2.6rem;
   margin-top: 0;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-text-fill-color: transparent;
+  color: var(--text);
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .markdown-section h1 {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
 }
 
 .markdown-section h2 {
@@ -225,6 +234,20 @@ body::before {
   border: none;
   padding: 0;
   font-size: 0.92rem;
+}
+
+.docsify-copy-code-button {
+  font-size: 0.72rem !important;
+  padding: 4px 8px !important;
+  border-radius: 999px !important;
+  line-height: 1.1 !important;
+  letter-spacing: 0 !important;
+  top: 25px !important;
+  right: 10px !important;
+}
+
+.docsify-copy-code-button.success {
+  color: #0b0f14 !important;
 }
 
 .markdown-section table {
