@@ -188,14 +188,16 @@ body::before {
 
 .markdown-section a {
   color: var(--accent-2);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  text-decoration-line: underline;
+  text-decoration-color: rgba(61, 214, 255, 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .markdown-section a:hover {
   color: var(--accent);
-  border-color: rgba(255, 138, 61, 0.5);
+  text-decoration-color: rgba(255, 138, 61, 0.6);
 }
 
 .markdown-section blockquote {
