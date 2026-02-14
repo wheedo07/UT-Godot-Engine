@@ -7,6 +7,10 @@
         <meta name="description" content="Description">
         <link rel="icon" href="https://raw.githubusercontent.com/wheedo07/UT-Godot-Engine/refs/heads/main/godot/icon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        <meta name="theme-color" content="#0b0f14">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
         <link rel="stylesheet" href="../docs.css">
     </head>
@@ -19,9 +23,28 @@
                 relativePath: true,
                 auto2top: true,
                 loadSidebar: true,
-                loadNavbar: true
+                loadNavbar: true,
+                mergeNavbar: true,
+                subMaxLevel: 2,
+                maxLevel: 4,
+                themeColor: '#ff8a3d',
+                search: {
+                    paths: 'auto',
+                    placeholder: '문서 검색...',
+                    noData: '검색 결과가 없습니다',
+                    depth: 4
+                },
+                pagination: {
+                    previousText: '이전',
+                    nextText: '다음',
+                    crossChapter: true,
+                    crossChapterText: true
+                }
             }
         </script>
         <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+        <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
     </body>
 </html>

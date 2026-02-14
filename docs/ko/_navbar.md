@@ -1,1 +1,1 @@
-- [릴리스](https://github.com/wheedo07/UT-Godot-Engine/releases)
+- [다운로드](https://github.com/wheedo07/UT-Godot-Engine/releases)
