@@ -68,3 +68,9 @@
 - `BOOK`: 책 이펙트
 - `PAN`: 후라이팬 이펙트
 - `GUN`: 총 이펙트
+
+--- 
+
+## 🔗 관련 문서
+- [UI](/classes/systemNodes/UI.md)
+- [Global](/classes/systemNodes/Global.md)
