@@ -418,24 +418,24 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                         Ref<Item> item = global->get_item_list()[global->get_items()[item_index]];
                         textbox->connect("dialogue_finished", Callable(this, "_on_item_dialogue_finished"), CONNECT_ONE_SHOT);
                         Ref<Dialogues> dialogues = memnew(Dialogues);
-                        
-                        if (item->get_item_type() != Item::CONSUMABLE) {
-                            PackedStringArray txt = global->equip_item(global->get_items()[item_index]);
-                            Array items = global->get_items();
-                            items.remove_at(item_index);
-                            global->set_items(items);
-                            _set_items();
-                            dialogues->from(txt);
-                            textbox->generic(dialogues);
-                        } else {
-                            PackedStringArray txt = global->item_use_text(global->get_items()[item_index]);
-                            Array items = global->get_items();
-                            items.remove_at(item_index);
-                            global->set_items(items);
-                            _set_items();
-                            dialogues->from(txt);
-                            textbox->generic(dialogues);
+                       
+                        PackedStringArray txt;
+                        if(item->get_item_type() != Item::CONSUMABLE) {
+                            txt = global->equip_item(global->get_items()[item_index]);
+                        }else if(item->get_item_type() == Item::WEAPON || item->get_item_type() == Item::ARMOR) {
+                            txt = global->item_use_text(global->get_items()[item_index]);
+                        }else if(item->get_item_type() == Item::MISC) {
+                            txt = item->get_use_message();
                         }
+                        
+                        if(item->get_item_type() != Item::MISC) {
+                            Array items = global->get_items();
+                            items.remove_at(item_index);
+                            global->set_items(items);
+                            _set_items();
+                        }
+                        dialogues->from(txt);
+                        textbox->generic(dialogues);
                         break;
                     }
                     case 1: {

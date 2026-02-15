@@ -206,26 +206,31 @@ void BattleBox::blitter_act() {
 
 void BattleBox::blitter_item() {
     Ref<Item> item = global->get_item_list()[used_item];
-    
     PackedStringArray texts;
     
     // 장비 아이템인 경우
     if (item->get_item_type() == Item::WEAPON || item->get_item_type() == Item::ARMOR) {
         texts = global->equip_item(used_item);
-    } else {
+    }else if(item->get_item_type() == Item::CONSUMABLE) {
         // 소비 아이템인 경우
         texts = global->item_use_text(used_item);
         if(item->get_heal_amount() > 0) stagehand->audio_player->play("heal");
+    }else if(item->get_item_type() == Item::MISC) {
+        // 기타 아이템인 경우
+        texts = item->get_use_message();
     }
-    Array arr = global->get_items();
-    for(int i=0; i < arr.size(); i++) {
-        int item = arr[i];
-        if(item == used_item) {
-            arr.remove_at(i);
-            break;
+
+    if(item->get_item_type() != Item::MISC) {
+        Array arr = global->get_items();
+        for(int i=0; i < arr.size(); i++) {
+            int item = arr[i];
+            if(item == used_item) {
+                arr.remove_at(i);
+                break;
+            }
         }
+        global->set_items(arr);
     }
-    global->set_items(arr);
     
     blitter_text->type_text(texts);
     blitter_text->connect("finished_all_texts", Callable(this, "emit_signal").bind("item", used_item), CONNECT_ONE_SHOT);

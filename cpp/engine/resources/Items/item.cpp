@@ -30,10 +30,11 @@ void Item::_bind_methods() {
     BIND_ENUM_CONSTANT(CONSUMABLE);
     BIND_ENUM_CONSTANT(WEAPON);
     BIND_ENUM_CONSTANT(ARMOR);
+    BIND_ENUM_CONSTANT(MISC);
 
     ClassDB::bind_method(D_METHOD("set_item_type", "type"), &Item::set_item_type);
     ClassDB::bind_method(D_METHOD("get_item_type"), &Item::get_item_type);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "item_type", PROPERTY_HINT_ENUM, "CONSUMABLE,WEAPON,ARMOR"), "set_item_type", "get_item_type");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "item_type", PROPERTY_HINT_ENUM, "CONSUMABLE,WEAPON,ARMOR,MISC"), "set_item_type", "get_item_type");
     ClassDB::bind_method(D_METHOD("set_item_name", "name"), &Item::set_item_name);
     ClassDB::bind_method(D_METHOD("get_item_name"), &Item::get_item_name);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "item_name"), "set_item_name", "get_item_name");
@@ -59,6 +60,8 @@ void Item::_bind_methods() {
 }
 
 void Item::_get_property_list(List<PropertyInfo> *p_list) const {
+    if(item_type == MISC) return;
+    
     p_list->push_back(PropertyInfo(Variant::NIL, "Item Stats", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
     if(item_type == CONSUMABLE) {
         p_list->push_back(PropertyInfo(Variant::INT, "heal_amount"));

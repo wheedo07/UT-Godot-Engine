@@ -22,7 +22,8 @@ namespace godot {
             enum ItemType {
                 CONSUMABLE,
                 WEAPON,
-                ARMOR
+                ARMOR,
+                MISC
             };
             void set_weapon_speed(float p_speed);
             float get_weapon_speed() const;
@@ -51,14 +52,17 @@ namespace godot {
         private:
             ItemType item_type;
             String item_name;
+            
+            WeaponType weapon_type;
             float weapon_speed;
             int weapon_bars;
-            WeaponType weapon_type;
-            bool critical_hits;
             int weapon_delay;
+            bool critical_hits;
+            
             PackedStringArray use_message;
             PackedStringArray item_information;
             PackedStringArray throw_message;
+
             int heal_amount;
             int attack_amount;
             int defense_amount;
