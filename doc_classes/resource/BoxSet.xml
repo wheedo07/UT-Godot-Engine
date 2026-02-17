@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="BoxSet" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        A BoxSet resource used by [Encounter].
+    </brief_description>
+    <description>
+        BoxSet is a resource that defines the visual configuration of the battle board on which the player's SOUL moves during combat.
+        It allows you to set the board's color, border color, and the textures used for the attack meter.
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/resource/BoxSet</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/resource/BoxSet</link>
+    </tutorials>
+
+    <members>
+        <member name="board_color" type="Color" setter="set_board_color" getter="get_board_color" default="Color(0, 0, 0, 0.8)">
+            The base color of the battle board.
+            
+            Defines the background color of the board where the player's SOUL is located during combat.
+            Used to set the mood and visual effect of the board.
+            The default value is a semi-transparent black.
+        </member>
+
+        <member name="board_border_color" type="Color" setter="set_board_border_color" getter="get_board_border_color" default="Color(1, 1, 1, 1)">
+            The border color of the battle board.
+            
+            Defines the border color of the board where the player's SOUL is located during combat.
+            Used to enhance the boundary and visual distinction of the board.
+            The default value is an opaque white.
+        </member>
+
+        <member name="meter_texture" type="Texture" setter="set_meter_texture" getter="get_meter_texture">
+            The texture for the meter displayed when attacking.
+        </member>
+
+        <member name="meter_scale" type="Vector2" setter="set_meter_scale" getter="get_meter_scale" default="Vector2(1, 1)">
+            The scale of the meter displayed when attacking.
+        </member>
+    </members>
+</class>
