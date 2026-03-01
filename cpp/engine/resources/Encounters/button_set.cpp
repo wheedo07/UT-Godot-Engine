@@ -3,6 +3,7 @@ using namespace godot;
 
 ButtonSet::ButtonSet() {
     soul_offset = Vector2(38, 0);
+    btn_scale = Vector2(1, 1);
     active_scale = false;
 }
 
@@ -25,12 +26,17 @@ void ButtonSet::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_mercy_button"), &ButtonSet::get_mercy_button);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "mercy_button", PROPERTY_HINT_RESOURCE_TYPE, "SpriteFrames"), "set_mercy_button", "get_mercy_button");
 
+    ClassDB::bind_method(D_METHOD("set_btn_scale", "value"), &ButtonSet::set_btn_scale);
+    ClassDB::bind_method(D_METHOD("get_btn_scale"), &ButtonSet::get_btn_scale);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "btn_scale"), "set_btn_scale", "get_btn_scale");
+    
+    ADD_GROUP("Button Options", "");
     ClassDB::bind_method(D_METHOD("set_soul_offset", "offset"), &ButtonSet::set_soul_offset);
     ClassDB::bind_method(D_METHOD("get_soul_offset"), &ButtonSet::get_soul_offset);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "soul_offset"), "set_soul_offset", "get_soul_offset");
+
     ClassDB::bind_method(D_METHOD("set_active_scale", "active"), &ButtonSet::set_active_scale);
     ClassDB::bind_method(D_METHOD("is_active_scale"), &ButtonSet::is_active_scale);
-    ADD_GROUP("Button Options", "");
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "soul_offset"), "set_soul_offset", "get_soul_offset");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "active_scale"), "set_active_scale", "is_active_scale");
 }
 
@@ -64,6 +70,14 @@ void ButtonSet::set_mercy_button(const Ref<SpriteFrames>& p_frames) {
 
 Ref<SpriteFrames> ButtonSet::get_mercy_button() const {
     return mercy_button;
+}
+
+void ButtonSet::set_btn_scale(Vector2 value) {
+    btn_scale = value;
+}
+
+Vector2 ButtonSet::get_btn_scale() {
+    return btn_scale;
 }
 
 void ButtonSet::set_soul_offset(const Vector2& p_offset) {

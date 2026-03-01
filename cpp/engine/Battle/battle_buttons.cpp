@@ -67,6 +67,7 @@ void BattleButtons::set_button(Ref<ButtonSet> button_set) {
     if(button_set.is_null()) return;
     for(int i=0; i < buttons.size(); i++) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
+        button->set_scale(button_set->get_btn_scale());
         switch(i) {
             case 0:
                 if(!button_set->get_fight_button().is_null())
@@ -139,7 +140,6 @@ void BattleButtons::glow_choice(int id) {
             }
         }else {
             button->set_modulate(Color(1,1,1,1));
-            button->set_scale(Vector2(1,1));
         }
     }
     
@@ -230,7 +230,6 @@ void BattleButtons::_reset() {
     for(int i=0; i < buttons.size(); i++) {
         AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
         button->set_modulate(Color(1,1,1,1));
-        button->set_scale(Vector2(1,1));
     }
 }
 

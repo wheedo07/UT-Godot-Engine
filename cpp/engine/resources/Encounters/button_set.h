@@ -15,6 +15,8 @@ namespace godot {
             Ref<SpriteFrames> act_button;
             Ref<SpriteFrames> item_button;
             Ref<SpriteFrames> mercy_button;
+            Vector2 btn_scale;
+
             Vector2 soul_offset;
             bool active_scale;
         
@@ -33,6 +35,9 @@ namespace godot {
 
             void set_mercy_button(const Ref<SpriteFrames>& p_frames);
             Ref<SpriteFrames> get_mercy_button() const;
+
+            void set_btn_scale(Vector2 value);
+            Vector2 get_btn_scale();
 
             void set_soul_offset(const Vector2& p_offset);
             Vector2 get_soul_offset() const;
