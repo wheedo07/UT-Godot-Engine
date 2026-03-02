@@ -135,10 +135,12 @@ Vector2 DefaultBullet::get_sprite_size() {
             if(texture.get_type() != Variant::NIL) {
                 size = texture.call("get_size");
 
-                Variant region_rect = sprite->call("get_region_rect");
-                if(region_rect.get_type() != Variant::NIL) {
-                    Rect2 rect = region_rect;
-                    size = rect.size;
+                if(sprite->call("is_region_enabled")) {
+                    Variant region_rect = sprite->call("get_region_rect");
+                    if(region_rect.get_type() != Variant::NIL) {
+                        Rect2 rect = region_rect;
+                        size = rect.size;
+                    }
                 }
             }
         }else if(sprite->has_method("get_sprite_frames")) {
