@@ -216,9 +216,7 @@ void BattleMain::initialize() {
     tl->call("set_remote_node", tl->call("get_path_to", attacks->top_left));
     br->call("set_remote_node", tl->call("get_path_to", attacks->bottom_right));
     
-    CameraFx* fx = camera->get_global_camera();
-    fx->show_blinder();
-    fx->blind(0.5, 0);
+    camera->get_global_camera()->hide_blinder();
 }
 
 void BattleMain::_no_enemies_handler() {
