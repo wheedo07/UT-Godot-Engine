@@ -33,3 +33,5 @@ theme_override_font_sizes/normal_font_size = 14
 bbcode_enabled = true
 scroll_active = false
 visible_characters_behavior = 1
+
+[connection signal="started_typing" from="TextContainer/Text" to="." method="_on_started_dialogue"]

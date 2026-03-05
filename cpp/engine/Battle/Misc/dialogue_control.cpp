@@ -12,10 +12,12 @@ DialogueControl::~DialogueControl() {}
 
 void DialogueControl::_bind_methods() {
     ADD_SIGNAL(MethodInfo("set_expression", PropertyInfo(Variant::NIL, "expressions")));
+    ADD_SIGNAL(MethodInfo("started_dialogue", PropertyInfo(Variant::INT, "line")));
     ADD_SIGNAL(MethodInfo("finished_all_texts_dialogue"));
     
     ClassDB::bind_method(D_METHOD("_on_text_click_played", "duration"), &DialogueControl::_on_text_click_played);
     ClassDB::bind_method(D_METHOD("_on_text_expression_set", "expr"), &DialogueControl::_on_text_expression_set);
+    ClassDB::bind_method(D_METHOD("_on_started_dialogue", "line"), &DialogueControl::_on_started_dialogue);
     ClassDB::bind_method(D_METHOD("_on_tween_finished"), &DialogueControl::_on_tween_finished);
     ClassDB::bind_method(D_METHOD("_on_all_texts_finished"), &DialogueControl::_on_all_texts_finished);
     ClassDB::bind_method(D_METHOD("_on_ends_typing"), &DialogueControl::_on_ends_typing);
@@ -100,6 +102,10 @@ void DialogueControl::_on_all_texts_finished() {
     
     global->_set_battle_text_box(false);
     emit_signal("finished_all_texts_dialogue");
+}
+
+void DialogueControl::_on_started_dialogue(int line) {
+    emit_signal("started_dialogue", line);
 }
 
 void DialogueControl::_on_text_expression_set(Array expr) {

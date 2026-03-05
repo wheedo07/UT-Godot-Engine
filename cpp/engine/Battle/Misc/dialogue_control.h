@@ -22,6 +22,7 @@ namespace godot {
             void _on_text_expression_set(Array expr);
             void _on_tween_finished();
             void _on_all_texts_finished();
+            void _on_started_dialogue(int line);
 
         public:
             void _ready() override;
