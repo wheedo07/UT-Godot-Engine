@@ -23,6 +23,7 @@ namespace godot {
             void _on_tween_finished();
             void _on_all_texts_finished();
             void _on_started_dialogue(int line);
+            void _text_kill();
 
         public:
             void _ready() override;
@@ -30,10 +31,10 @@ namespace godot {
             ~DialogueControl();
 
             void type_text_bubble(const Ref<Dialogues>& dialogues);
-            void set_key(bool is);
+            void kill();
 
             void _on_text_click_played(double duration);
-            void _on_text_duration_finished();
+            void _set_key(bool is);
 
             void set_character_name(String p_character);
             String get_character_name() const;

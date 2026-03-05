@@ -250,7 +250,7 @@ void Enemy::play_dialogue(int index, float duration, bool skip, bool keep_expres
         text_typer->connect("started_typing", call);
         dialogue->type_text_bubble(dialogue_ref);
     }else ERR_PRINT("Dialogues가 유효 하지 않습니다");
-    dialogue->set_key(skip);
+    dialogue->_set_key(skip);
     dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(originals, keep_expression), CONNECT_ONE_SHOT);
 }
 
@@ -274,7 +274,7 @@ void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool 
         text_typer->connect("started_typing", call);
         dialogue->type_text_bubble(dialogue_ref);
     }else ERR_PRINT("Dialogues가 유효 하지 않습니다");
-    dialogue->set_key(skip);
+    dialogue->_set_key(skip);
     dialogue->connect("finished_all_texts_dialogue", Callable(this, "_on_finished_all_texts_dialogue").bind(originals, keep_expression), CONNECT_ONE_SHOT);
 }
 

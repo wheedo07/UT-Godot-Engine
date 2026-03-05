@@ -21,13 +21,14 @@ void DialogueControl::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_tween_finished"), &DialogueControl::_on_tween_finished);
     ClassDB::bind_method(D_METHOD("_on_all_texts_finished"), &DialogueControl::_on_all_texts_finished);
     ClassDB::bind_method(D_METHOD("_on_ends_typing"), &DialogueControl::_on_ends_typing);
-    ClassDB::bind_method(D_METHOD("_on_text_duration_finished"), &DialogueControl::_on_text_duration_finished);
+    ClassDB::bind_method(D_METHOD("_text_kill"), &DialogueControl::_text_kill);
     
     ClassDB::bind_method(D_METHOD("set_character_name", "character"), &DialogueControl::set_character_name);
     ClassDB::bind_method(D_METHOD("get_character_name"), &DialogueControl::get_character_name);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "character_name"), "set_character_name", "get_character_name");
     
     ClassDB::bind_method(D_METHOD("type_text_bubble", "dialogues"), &DialogueControl::type_text_bubble);
+    ClassDB::bind_method(D_METHOD("kill"), &DialogueControl::kill);
 }
 
 void DialogueControl::_ready() {
@@ -67,6 +68,13 @@ void DialogueControl::type_text_bubble(const Ref<Dialogues>& dialogues) {
     active_tween->connect("finished", Callable(this, "_on_tween_finished"));
 }
 
+void DialogueControl::kill() {
+    Callable call = Callable(this, "_on_ends_typing");
+    if(bubble_text->is_connected("ends_typing", call)) bubble_text->disconnect("ends_typing", call);
+    _text_kill();
+    _on_all_texts_finished();
+}
+
 void DialogueControl::_on_text_click_played(double duration) {
     text_duration = duration;
     Callable call = Callable(this, "_on_ends_typing");
@@ -76,15 +84,15 @@ void DialogueControl::_on_text_click_played(double duration) {
 
 void DialogueControl::_on_ends_typing() {
     Ref<SceneTreeTimer> timer = get_tree()->create_timer(text_duration, false);
-    timer->connect("timeout", Callable(this, "_on_text_duration_finished"));
+    timer->connect("timeout", Callable(this, "_text_kill"));
 }
 
-void DialogueControl::_on_text_duration_finished() {
+void DialogueControl::_text_kill() {
     bubble_text->kill_tweens(true);
     bubble_text->emit_signal("confirm");
 }
 
-void DialogueControl::set_key(bool is) {
+void DialogueControl::_set_key(bool is) {
     bubble_text->set_process_unhandled_input(is);
 }
 
