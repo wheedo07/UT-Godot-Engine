@@ -19,8 +19,7 @@ namespace godot {
             bool enabled;
             int choice;
 
-            AudioStreamPlayer* move_sound;
-            AudioStreamPlayer* select_sound;
+            AudioStreamPlayer *move_sound, *select_sound;
             Ref<Tween> tween;
             Ref<ButtonSet> current_button_set;
             Array buttons;

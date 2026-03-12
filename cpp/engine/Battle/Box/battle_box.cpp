@@ -171,7 +171,7 @@ void BattleBox::_ready() {
     items_label = Object::cast_to<RichTextLabel>(get_node_internal("Items/TextContainer/Items"));
     target_label = get_node<RichTextLabel>("Target/Targets");
     
-    ResourceLoader* loader = ResourceLoader::get_singleton();
+    ResourceLoader *loader = ResourceLoader::get_singleton();
     web_scene = loader->load("res://Engine/Battle/Soul/box_web.tscn");
     
     webs = get_node<Polygon2D>("BoxContainer/Rect/Webs");

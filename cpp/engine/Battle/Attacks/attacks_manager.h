@@ -17,14 +17,13 @@ namespace godot {
             static void _bind_methods();
         
         public:
-            Sprite2D* top_left;
-            Sprite2D* bottom_right;
+            Sprite2D *top_left, *bottom_right;
         
         private:
+            BattleMain *main;
+            Node2D *mask;
             PackedInt32Array run_attack_id;
-            Node2D* mask;
             Array current_attacks;
-            BattleMain* main;
 
             bool check_all_attacks_finished();
         
@@ -34,7 +33,7 @@ namespace godot {
 
             void _ready() override;
 
-            AttackBase* add_attack(const Ref<PackedScene>& attack);
+            AttackBase *add_attack(const Ref<PackedScene>& attack);
             void start_attacks();
             void start_attack(int id);
             void force_end_attacks();

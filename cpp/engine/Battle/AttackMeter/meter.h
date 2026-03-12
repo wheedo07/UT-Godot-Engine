@@ -17,7 +17,7 @@ namespace godot {
             const Tween::TransitionType transtype = Tween::TRANS_QUAD;
 
             int targetdef;
-            Sprite2D* meter;
+            Sprite2D *meter;
             Ref<PackedScene> bar_scene;
             int total_bars;
             float speed_mult;

@@ -72,9 +72,8 @@ namespace godot {
             Array choices_extends;
             Array webs_array;
 
-            Node2D* rect_no_clip;
-            Polygon2D* rect_clip;
-            Polygon2D* webs;
+            Node2D *rect_no_clip;
+            Polygon2D *rect_clip, *webs;
 
         private:
             const int colsize = 500;
@@ -98,27 +97,22 @@ namespace godot {
             int used_item;
             int current_web;
             
-            ItemSlider* slider;
-            RichTextLabel* items_label; 
-            RichTextLabel* mercy_choices;
-            RichTextLabel* column1;
-            RichTextLabel* column2;
-            RichTextLabel* target_label;
+            ItemSlider *slider;
+            RichTextLabel *items_label, *mercy_choices, *target_label;
+            RichTextLabel *column1, *column2;
             AudioStreamPlayer* choice_sound;
-            MarginContainer* blitter;
-            MarginContainer* hp_bar_container;
-            Blitter* blitter_text;
-            MarginContainer* rect_container;
-            ColorRect* rect;
-            Line2D* border;
-            Polygon2D* background;
+            MarginContainer *blitter, *hp_bar_container;
+            Blitter *blitter_text;
+            MarginContainer *rect_container;
+            ColorRect *rect;
+            Line2D *border;
+            Polygon2D *background;
             Ref<PackedScene> web_scene;
             Array collisions;
             Array hp_bars;
-            RemoteTransform2D* tl;
-            RemoteTransform2D* br;
+            RemoteTransform2D *tl, *br;
             Dictionary current_state_nodes;
-            BattleBoxBehaviour* current_state_node;
+            BattleBoxBehaviour *current_state_node;
 
             // Polygon mode 관련 변수 && 함수
             int polygon_point_count;
@@ -126,7 +120,7 @@ namespace godot {
             bool isPolygonMode;
             PackedVector2Array static_shape;
             PackedVector2Array target_shape;
-            CollisionPolygon2D* polygon;
+            CollisionPolygon2D *polygon;
             Dictionary active_tweens;
             PackedInt32Array tweening_vertices;
             int find_closest_edge_to_point(PackedVector2Array& poly, Vector2 point);
@@ -164,7 +158,7 @@ namespace godot {
             Vector2 _anchor_position(RelativePosition relative_to, Vector2 new_position, Vector2 intended_size, Vector2 final_size, bool is_relative);
         
         public:
-            BattleMain* main;
+            BattleMain *main;
             BattleBox();
             ~BattleBox();
             
@@ -188,9 +182,9 @@ namespace godot {
             void blitter_act();
             void blitter_item();
             void blitter_mercy();
-            RemoteTransform2D* get_tl() const;
-            RemoteTransform2D* get_br() const;
-            Blitter* get_blitter_text() const;
+            RemoteTransform2D *get_tl() const;
+            RemoteTransform2D *get_br() const;
+            Blitter *get_blitter_text() const;
             void set_used_item(int value);
             
             // 사용 함수

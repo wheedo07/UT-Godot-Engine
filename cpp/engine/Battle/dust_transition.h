@@ -13,8 +13,8 @@ namespace godot {
             static void _bind_methods();
 
         public:
-            Enemy* enemy;
-            Node* sprite;
+            Enemy *enemy;
+            Node *sprite;
             enum EASING_TYPE {
                 LINEAR,
                 EASE_OUT,
@@ -94,7 +94,7 @@ namespace godot {
 
         private:
             bool is_active, one_shot;
-            SubViewport* viewport;
+            SubViewport *viewport;
             Array dust;
             Vector2 sprite_pos;
 

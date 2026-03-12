@@ -49,31 +49,31 @@ void EncounterScript::set_property(Variant value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");
 }
 
-BattleMain* EncounterScript::get_main() {
+BattleMain *EncounterScript::get_main() {
     return main;
 }
 
-BattleBox* EncounterScript::get_box() {
+BattleBox *EncounterScript::get_box() {
     return box;
 }
 
-BattleHUD* EncounterScript::get_hub() {
+BattleHUD *EncounterScript::get_hub() {
     return hub;
 }
 
-SoulBattle* EncounterScript::get_soul() {
+SoulBattle *EncounterScript::get_soul() {
     return soul;
 }
 
-TextureRect* EncounterScript::get_bg() {
+TextureRect *EncounterScript::get_bg() {
     return bg;
 }
 
-AttackManager* EncounterScript::get_attacks() {
+AttackManager *EncounterScript::get_attacks() {
     return attacks;
 }
 
-CameraController* EncounterScript::get_camera() {
+CameraController *EncounterScript::get_camera() {
     return camera;
 }
 

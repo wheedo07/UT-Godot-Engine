@@ -238,13 +238,13 @@ void Enemy::play_dialogue(int index, float duration, bool skip, bool keep_expres
     
     PackedInt32Array originals;
     for(int i=0; i < expression_sprites.size(); i++) {
-        AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
+        AnimatedSprite2D *expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
         originals.append(expr_sprite->get_frame());
     }
 
     Ref<Dialogues> dialogue_ref = dialogues->get_data(index);
     if(dialogue_ref.is_valid()) {
-        EnemySpeech* text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
+        EnemySpeech *text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
         Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration);
         if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
         text_typer->connect("started_typing", call);
@@ -263,12 +263,12 @@ void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool 
     
     PackedInt32Array originals;
     for(int i=0; i < expression_sprites.size(); i++) {
-        AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
+        AnimatedSprite2D *expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
         originals.append(expr_sprite->get_frame());
     }
 
     if (dialogue_ref.is_valid()) {
-        EnemySpeech* text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
+        EnemySpeech *text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
         Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration);
         if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
         text_typer->connect("started_typing", call);
@@ -281,7 +281,7 @@ void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool 
 void Enemy::_on_finished_all_texts_dialogue(PackedInt32Array arr, bool keep_expression) {
     if(!keep_expression) {
         for(int i=0; i < arr.size(); i++) {
-            AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
+            AnimatedSprite2D *expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
             expr_sprite->set_frame(arr[i]);
         }
     }
@@ -295,7 +295,7 @@ void Enemy::_handle_typing(int text_index, Ref<Dialogues> dialogue_ref, float du
             expressions[i] = 0;
         }
         if(expression_sprites.size() > i) {
-            AnimatedSprite2D* expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
+            AnimatedSprite2D *expr_sprite = Object::cast_to<AnimatedSprite2D>(expression_sprites[i]);
             int expr_frame = expressions[i];
             if(expr_frame != -1) expr_sprite->set_frame(expr_frame);
         }
@@ -487,7 +487,7 @@ int Enemy::get_current_act() const {
     return current_act;
 }
 
-Node* Enemy::get_sprites() const {
+Node *Enemy::get_sprites() const {
     return sprites;
 }
 
@@ -539,46 +539,46 @@ NodePath Enemy::get_spare_path() const {
     return spare_path;
 }
 
-void Enemy::set_property(Object* value) {
+void Enemy::set_property(Object *value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");
 }
 
-BattleMain* Enemy::get_main() {
+BattleMain *Enemy::get_main() {
     return main;
 }
 
-AttackManager* Enemy::get_attacks() {
+AttackManager *Enemy::get_attacks() {
     return attacks;
 }
 
-BattleBox* Enemy::get_box() {
+BattleBox *Enemy::get_box() {
     return box;
 }
 
-SoulBattle* Enemy::get_soul() {
+SoulBattle *Enemy::get_soul() {
     return soul;
 }
 
-DialogueControl* Enemy::get_dialogue() {
+DialogueControl *Enemy::get_dialogue() {
     return dialogue;
 }
 
-CameraController* Enemy::get_camera() {
+CameraController *Enemy::get_camera() {
     return camera;
 }
 
-TextureRect* Enemy::get_bg() {
+TextureRect *Enemy::get_bg() {
     return bg;
 }
 
-EncounterScript* Enemy::get_encounter_script() {
+EncounterScript *Enemy::get_encounter_script() {
     return encounter_script;
 }
 
-GPUParticles2D* Enemy::get_spare() const {
+GPUParticles2D *Enemy::get_spare() const {
     return spare;
 }
 
-DustTransition* Enemy::get_dust() const {
+DustTransition *Enemy::get_dust() const {
     return dust;
 }

@@ -15,14 +15,10 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            BattleMain* main;
-            RichTextLabel* name_label;
-            RichTextLabel* lv_label;
-            ProgressBar* hp_bar;
-            ProgressBar* kr_bar;
-            MarginContainer* hp_bar_container;
-            RichTextLabel* kr_text;
-            RichTextLabel* hp_label;
+            BattleMain *main;
+            RichTextLabel *name_label, *lv_label, *kr_text, *hp_label;
+            ProgressBar *hp_bar, *kr_bar;
+            MarginContainer *hp_bar_container;
         
         public:
             BattleHUD();

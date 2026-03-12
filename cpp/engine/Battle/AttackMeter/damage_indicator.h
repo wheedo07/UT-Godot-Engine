@@ -15,9 +15,9 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            RichTextLabel* text_label;
-            ProgressBar* health_bar;
-            AudioStreamPlayer* hit_sound;
+            RichTextLabel *text_label;
+            ProgressBar *health_bar;
+            AudioStreamPlayer *hit_sound;
 
             float time;
             int hp;

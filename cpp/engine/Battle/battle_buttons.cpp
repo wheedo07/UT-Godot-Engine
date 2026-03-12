@@ -66,7 +66,7 @@ void BattleButtons::set_button(Ref<ButtonSet> button_set) {
     current_button_set = button_set;
     if(button_set.is_null()) return;
     for(int i=0; i < buttons.size(); i++) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
         button->set_scale(button_set->get_btn_scale());
         switch(i) {
             case 0:
@@ -102,7 +102,7 @@ void BattleButtons::changepos(int action) {
     }
     
     if(buttons.size() > new_choice) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[new_choice]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[new_choice]);
         bool is_enabled = enableds[new_choice];
         if(is_enabled) {
             Vector2 button_pos = button->get_global_position();
@@ -127,7 +127,7 @@ void BattleButtons::glow_choice(int id) {
     }
 
     for(int i=0; i < buttons.size(); i++) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
         button->set_frame(0);
 
         if(active_scale) {
@@ -143,13 +143,13 @@ void BattleButtons::glow_choice(int id) {
         }
     }
     
-    AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+    AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
     button->set_frame(1);
 }
 
 void BattleButtons::play(int id, String anim, float custom_speed, bool from_end) {
     if(id >= 0 && id < buttons.size()) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
         button->play(anim, custom_speed, from_end);
         button->connect("animation_finished", Callable(this, "emit_signal").bind("animation_finished"));
     }else ERR_PRINT("에러: BattleButtons::play - 잘못된 버튼 ID");
@@ -157,42 +157,42 @@ void BattleButtons::play(int id, String anim, float custom_speed, bool from_end)
 
 void BattleButtons::stop(int id) {
     if(id >= 0 && id < buttons.size()) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
         button->stop();
     }else ERR_PRINT("에러: BattleButtons::stop - 잘못된 버튼 ID");
 }
 
 void BattleButtons::set_animation(int id, String anim) {
     if(id >= 0 && id < buttons.size()) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
         button->set_animation(anim);
     }else ERR_PRINT("에러: BattleButtons::set_animation - 잘못된 버튼 ID");
 }
 
 void BattleButtons::hide_button(int id) {
     if(id >= 0 && id < buttons.size()) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
         button->hide();
     }else ERR_PRINT("에러: BattleButtons::hide_button - 잘못된 버튼 ID");
 }
 
 void BattleButtons::show_button(int id) {
     if(id >= 0 && id < buttons.size()) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
         button->show();
     }else ERR_PRINT("에러: BattleButtons::show_button - 잘못된 버튼 ID");
 }
 
 void BattleButtons::set_button_position(Vector2 position, int id) {
     if(id >= 0 && id < buttons.size()) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
         button->set_position(position);
     }else ERR_PRINT("에러: BattleButtons::set_button_position - 잘못된 버튼 ID");
 }
 
 Vector2 BattleButtons::get_button_position(int id) const {
     if(id >= 0 && id < buttons.size()) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[id]);
         return button->get_position();
     }else {
         ERR_PRINT("에러: BattleButtons::get_button_position - 잘못된 버튼 ID");
@@ -204,7 +204,7 @@ void BattleButtons::_enable() {
     enabled = true;
     
     if(buttons.size() > choice) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[choice]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[choice]);
         if (button) {
             Vector2 button_pos = button->get_global_position();
             Vector2 offset = current_button_set.is_valid() ? current_button_set->get_soul_offset() : Vector2(38, 0);
@@ -221,14 +221,14 @@ void BattleButtons::disable() {
 
 void BattleButtons::_reset() {
     for (int i = 0; i < buttons.size(); i++) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
         if (button) {
             button->set_frame(0);
         }
     }
 
     for(int i=0; i < buttons.size(); i++) {
-        AnimatedSprite2D* button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
+        AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
         button->set_modulate(Color(1,1,1,1));
     }
 }

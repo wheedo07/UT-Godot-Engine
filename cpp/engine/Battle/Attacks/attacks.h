@@ -25,24 +25,24 @@ namespace godot {
                 RELATIVE_BOX_CLIP,
                 RELATIVE_BOX
             };
-            BattleMain* main;
-            BattleBox* box;
-            SoulBattle* soul;
-            AttackManager* mask;
-            CameraController* camera;
+            BattleMain *main;
+            BattleBox *box;
+            SoulBattle *soul;
+            AttackManager *mask;
+            CameraController *camera;
         
         private:
-            Node* non_mask;
-            Polygon2D* box_rect_clip;
-            Node2D* box_rect_no_clip;
+            Node *non_mask;
+            Polygon2D *box_rect_clip;
+            Node2D *box_rect_no_clip;
             int attack_id;
 
-            void set_property(Object* value);
-            BattleMain* get_main();
-            BattleBox* get_box();
-            SoulBattle* get_soul();
-            AttackManager* get_mask();
-            CameraController* get_camera();
+            void set_property(Object *value);
+            BattleMain *get_main();
+            BattleBox *get_box();
+            SoulBattle *get_soul();
+            AttackManager *get_mask();
+            CameraController *get_camera();
         
         public:
             AttackBase();
@@ -56,8 +56,8 @@ namespace godot {
             GDVIRTUAL0(start_attack);
             
             // 사용 함수
-            void add_bullet(Node* bullet, Masking mask = ABSOLUTE_CLIP);
-            Node* quick_bullet(const Ref<PackedScene>& bullet_scene, const Vector2& pos, float rot_deg = 0, Masking mask = ABSOLUTE_CLIP);
+            void add_bullet(Node *bullet, Masking mask = ABSOLUTE_CLIP);
+            Node *quick_bullet(const Ref<PackedScene>& bullet_scene, const Vector2& pos, float rot_deg = 0, Masking mask = ABSOLUTE_CLIP);
             void end_attack();
             
             int get_attack_id() const;

@@ -64,7 +64,7 @@ void AttackBase::ready() {}
 
 void AttackBase::start_attack() {}
 
-void AttackBase::add_bullet(Node* bullet, Masking mask_value) {
+void AttackBase::add_bullet(Node *bullet, Masking mask_value) {
     if(!bullet) {
         ERR_PRINT("총알 노드가 null 입니다");
         return;
@@ -111,14 +111,14 @@ void AttackBase::add_bullet(Node* bullet, Masking mask_value) {
     }
 }
 
-Node* AttackBase::quick_bullet(const Ref<PackedScene>& bullet_scene, const Vector2& pos, float rot_deg, Masking mask_value) {
-    if (!bullet_scene.is_valid()) {
+Node *AttackBase::quick_bullet(const Ref<PackedScene>& bullet_scene, const Vector2& pos, float rot_deg, Masking mask_value) {
+    if(!bullet_scene.is_valid()) {
         ERR_PRINT("scene을 가져올수 없음");
         return nullptr;
     }
     
-    Node* bullet = bullet_scene->instantiate();
-    if (!bullet) {
+    Node *bullet = bullet_scene->instantiate();
+    if(!bullet) {
         ERR_PRINT("bullet의 값이 null임");
         return nullptr;
     }
@@ -144,26 +144,26 @@ void AttackBase::set_attack_id(int p_attack_id) {
     attack_id = p_attack_id;
 }
 
-void AttackBase::set_property(Object* value) {
+void AttackBase::set_property(Object *value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");
 }
 
-BattleMain* AttackBase::get_main() {
+BattleMain *AttackBase::get_main() {
     return main;
 }
 
-BattleBox* AttackBase::get_box() {
+BattleBox *AttackBase::get_box() {
     return box;
 }
 
-SoulBattle* AttackBase::get_soul() {
+SoulBattle *AttackBase::get_soul() {
     return soul;
 }
 
-AttackManager* AttackBase::get_mask() {
+AttackManager *AttackBase::get_mask() {
     return mask;
 }
 
-CameraController* AttackBase::get_camera() {
+CameraController *AttackBase::get_camera() {
     return camera;
 }

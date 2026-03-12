@@ -28,10 +28,10 @@ void BattleBox::set_webs(int n, float separation, int margin) {
     float actual_separation = (separation == -1) ? 
         (current_size.y - 10 - margin * 2) / (n + 1) : separation;
     
-    for (int i = 1; i <= n; i++) {
-        Node* web_instance = web_scene->instantiate();
-        if (web_instance) {
-            Line2D* web_line = Object::cast_to<Line2D>(web_instance);
+    for(int i=1; i <= n; i++) {
+        Node *web_instance = web_scene->instantiate();
+        if(web_instance) {
+            Line2D *web_line = Object::cast_to<Line2D>(web_instance);
             if (web_line) {
                 webs->add_child(web_line);
                 web_line->set_position(Vector2(0, actual_separation * i));
@@ -45,8 +45,8 @@ void BattleBox::clear_webs() {
     TypedArray<Node> children = webs->get_children();
     
     for (int i = 0; i < children.size(); i++) {
-        Node* child = Object::cast_to<Node>(children[i]);
-        if (child) {
+        Node *child = Object::cast_to<Node>(children[i]);
+        if(child) {
             webs->remove_child(child);
             child->queue_free();
         }
@@ -62,9 +62,9 @@ float BattleBox::get_web_y_pos(int id) {
     }
     
     id = UtilityFunctions::clamp(id, 0, webs_array.size() - 1);
-    Node* web = Object::cast_to<Node>(webs_array[id]);
+    Node *web = Object::cast_to<Node>(webs_array[id]);
     
-    if (web) {
+    if(web) {
         Vector2 vec = web->call("get_global_position");
         return vec.y;
     }

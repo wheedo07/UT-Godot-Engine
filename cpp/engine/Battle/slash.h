@@ -19,13 +19,12 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            AnimationTree* anim_tree;
-            AnimationNodeStateMachinePlayback* anim_tree_playback;
-            GPUParticles2D* particles;
-            AudioStreamPlayer* punch_sound;
-            AudioStreamPlayer* sparkle_sound;
-            Label* press_z_label;
-            Timer* punch_timer;
+            AnimationTree *anim_tree;
+            AnimationNodeStateMachinePlayback *anim_tree_playback;
+            GPUParticles2D *particles;
+            AudioStreamPlayer *punch_sound, *sparkle_sound;
+            Label *press_z_label;
+            Timer *punch_timer;
             
             bool can_punch;
             int z_count;

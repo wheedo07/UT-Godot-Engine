@@ -14,7 +14,7 @@ namespace godot {
         
         private:
             Ref<Encounter> encounter;
-            MarginContainer* container;
+            MarginContainer *container;
             float default_volume;
 
             int current_text_index;

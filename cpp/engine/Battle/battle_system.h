@@ -40,8 +40,7 @@ namespace godot {
             bool transparent, player_turn;
         
         private:
-            AudioStreamPlayer* music_player;
-            AudioStreamPlayer* lvlup_sound;
+            AudioStreamPlayer *music_player, *lvlup_sound;
 
             Ref<PackedScene> attack_scene;
             Ref<PackedScene> slash_scene;
@@ -61,14 +60,14 @@ namespace godot {
 
             void _on_player_turn_start();
             void _on_enemy_turn_start();
-            void _on_spare_finished(Enemy* enemy);
+            void _on_spare_finished(Enemy *enemy);
             void _no_enemies_handler();
             
             void _on_slash_finished(int damage, int target, bool crit);
             void _on_damage_info_completed(int target, bool miss);
             void _on_fight_used_completed(int target);
             void _on_action(const String& action);
-            void _on_kill_enemy(Enemy* enemy);
+            void _on_kill_enemy(Enemy *enemy);
             void _on_end(bool mercy=false, int id=-1);
             void _on_get_turn();
             void _on_end_turn();
@@ -78,7 +77,7 @@ namespace godot {
             void set_property(Variant value);
             void set_turn_number(int value);
             int get_turn_number();
-            BattleButtons* get_buttons();
+            BattleButtons *get_buttons();
 
         public:
             BattleMain();

@@ -127,7 +127,7 @@ void AttackMeter::summonbar(const Vector2& position, int direction, float delay)
 }
 
 void AttackMeter::_on_timeout(const Vector2& position, int direction) {
-    AttackBar* clonebar = Object::cast_to<AttackBar>(bar_scene->instantiate());
+    AttackBar *clonebar = Object::cast_to<AttackBar>(bar_scene->instantiate());
     clonebar->connect("hit", Callable(this, "calculate"));
     clonebar->connect("miss", Callable(this, "miss"));
     

@@ -27,10 +27,9 @@ namespace godot {
             bool hityet;
             bool can_crit;
 
-            ColorRect* overlay;
-            AnimationPlayer* animation_player;
-            AudioStreamPlayer* hit_sound;
-            AudioStreamPlayer* critical_sound;
+            ColorRect *overlay;
+            AnimationPlayer *animation_player;
+            AudioStreamPlayer *hit_sound, *critical_sound;
 
             void _on_tween_finished();
             void _on_tween_finished2();

@@ -36,10 +36,8 @@ void Blitter::_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) return;
     bool is_visible = container->is_visible();
     
-    AudioStreamPlayer* audio = get_click(); 
-    if(audio) {
-        audio->set_volume_db(is_visible ? default_volume : -80.0f);
-    }
+    AudioStreamPlayer *audio = get_click(); 
+    if(audio) audio->set_volume_db(is_visible ? default_volume : -80.0f);
 }
 
 void Blitter::blitter(int turn) {

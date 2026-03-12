@@ -30,21 +30,20 @@ namespace godot {
             static void _bind_methods();
 
         public:
-            BattleMain* main;
-            AttackManager* attacks;
-            BattleBox* box;
-            SoulBattle* soul;
-            DialogueControl* dialogue;
-            CameraController* camera;
-            TextureRect* bg;
-            EncounterScript* encounter_script;
+            BattleMain *main;
+            AttackManager *attacks;
+            BattleBox *box;
+            SoulBattle *soul;
+            DialogueControl *dialogue;
+            CameraController *camera;
+            TextureRect *bg;
+            EncounterScript *encounter_script;
         
         private:
-            AudioStreamPlayer* hurt_sound;
-            DustTransition* dust;
-            GPUParticles2D* spare;
-            Node* non_mask;
-            Node* sprites;
+            AudioStreamPlayer *hurt_sound;
+            DustTransition *dust;
+            GPUParticles2D *spare;
+            Node *non_mask, *sprites;
             Array expression_sprites;
 
             // 적 속성
@@ -92,15 +91,15 @@ namespace godot {
             void _hurt(int amount);
             void _dodge(int dodge_sign);
 
-            void set_property(Object* value);
-            BattleMain* get_main();
-            AttackManager* get_attacks();
-            BattleBox* get_box();
-            SoulBattle* get_soul();
-            DialogueControl* get_dialogue();
-            CameraController* get_camera();
-            TextureRect* get_bg();
-            EncounterScript* get_encounter_script();
+            void set_property(Object *value);
+            BattleMain *get_main();
+            AttackManager *get_attacks();
+            BattleBox *get_box();
+            SoulBattle *get_soul();
+            DialogueControl *get_dialogue();
+            CameraController *get_camera();
+            TextureRect *get_bg();
+            EncounterScript *get_encounter_script();
         
         public:
             Enemy();
@@ -130,7 +129,7 @@ namespace godot {
             GDVIRTUAL0R(PackedStringArray, handle_victory);
 
             // 사용 함수
-            Node* get_sprites() const;
+            Node *get_sprites() const;
             void modify_stats(Dictionary value);
             void change_act(int act_index);
             void play_dialogue(int index, float duration=0, bool skip=true, bool keep_expression=false);
@@ -163,8 +162,8 @@ namespace godot {
             Array get_enemy_acts() const;
             void set_current_act(int p_current_state);
             int get_current_act() const;
-            GPUParticles2D* get_spare() const;
-            DustTransition* get_dust() const;
+            GPUParticles2D *get_spare() const;
+            DustTransition *get_dust() const;
     };
 }
 

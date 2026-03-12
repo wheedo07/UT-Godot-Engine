@@ -16,7 +16,7 @@ namespace godot {
             bool enabled;
         
         public:
-            BattleBox* box;
+            BattleBox *box;
         
         public:
             BattleBoxBehaviour();

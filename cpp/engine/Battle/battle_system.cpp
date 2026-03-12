@@ -93,7 +93,7 @@ void BattleMain::_ready() {
     lvlup_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("lvlup"));
     music_player = global->get_Music();
 
-    ResourceLoader* loader = ResourceLoader::get_singleton();
+    ResourceLoader *loader = ResourceLoader::get_singleton();
     attack_scene = loader->load("res://Engine/Battle/AttackMeter/meter.tscn");
     slash_scene = loader->load("res://Engine/Battle/Slashes/slashes.tscn");
     damage_info_scene = loader->load("res://Engine/Battle/AttackMeter/damage.tscn");
@@ -143,14 +143,14 @@ void BattleMain::initialize() {
     
     enemy_names = enemy_scenes;
     
-    for (int i = 0; i < enemy_scenes.size(); i++) {
+    for(int i=0; i < enemy_scenes.size(); i++) {
         Ref<PackedScene> enemy_scene = enemy_scenes[i];
         if (enemy_scene.is_valid()) {
-            Node* enemy_instance = enemy_scene->instantiate();
-            if (enemy_instance) {
+            Node *enemy_instance = enemy_scene->instantiate();
+            if(enemy_instance) {
                 enemies_node->add_child(enemy_instance);
-                Enemy* enemy = Object::cast_to<Enemy>(enemy_instance);
-                if (enemy) {
+                Enemy *enemy = Object::cast_to<Enemy>(enemy_instance);
+                if(enemy) {
                     if (enemy_scenes.size() == 2) {
                         enemy->set_position(Vector2(i == 0 ? -100 : 100, 0));
                     } else if (enemy_scenes.size() == 3 && i != 1) {
@@ -162,13 +162,13 @@ void BattleMain::initialize() {
     }
     
     for(int i=0; i < enemies_node->get_child_count(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies_node->get_child(i));
+        Enemy *enemy = Object::cast_to<Enemy>(enemies_node->get_child(i));
         enemies.append(enemy);
     }
     box->set_enemies(enemies);
     
     for(int i=0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         // 복수 적 처리
         if(enemies.size() > 1) {
             enemy->set_solo(false);
@@ -211,8 +211,8 @@ void BattleMain::initialize() {
         buttons->_enable();
     }
     
-    Node* tl = box->get_node_internal("BoxContainer/TL");
-    Node* br = box->get_node_internal("BoxContainer/BR");
+    Node *tl = box->get_node_internal("BoxContainer/TL");
+    Node *br = box->get_node_internal("BoxContainer/BR");
     tl->call("set_remote_node", tl->call("get_path_to", attacks->top_left));
     br->call("set_remote_node", tl->call("get_path_to", attacks->bottom_right));
     
@@ -232,7 +232,7 @@ void BattleMain::_on_action(const String& action) {
         scene_changer->load_cached_scene();
     }else if(action == "script_off") {
         for(int i=0; i < enemies.size(); i++) {
-            Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+            Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
             enemy->set_script(enemies_script[i]);
             enemy->request_ready();
             enemies_node->add_child(enemy);
@@ -248,7 +248,7 @@ void BattleMain::_on_action(const String& action) {
         }else {
             bool solo = check_enemy_solo();
             for (int i = 0; i < enemies.size(); i++) {
-                Enemy* e = Object::cast_to<Enemy>(enemies[i]);
+                Enemy *e = Object::cast_to<Enemy>(enemies[i]);
                 if (e) {
                     e->set_solo(solo);
                 }
@@ -261,7 +261,7 @@ void BattleMain::_on_action(const String& action) {
         }else {
             bool solo = check_enemy_solo();
             for(int i=0; i < enemies.size(); i++) {
-                Enemy* e = Object::cast_to<Enemy>(enemies[i]);
+                Enemy *e = Object::cast_to<Enemy>(enemies[i]);
                 if (e) {
                     e->set_solo(solo);
                 }
@@ -294,7 +294,7 @@ void BattleMain::_on_enemy_turn_start() {
 void BattleMain::_enemy_script_off() {
     enemies_script.clear();
     for(int i=0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         enemies_script.append(enemy->get_script());
         enemy->set_script(Variant());
         enemies_node->remove_child(enemy);
@@ -304,7 +304,7 @@ void BattleMain::_enemy_script_off() {
 
 PackedStringArray BattleMain::_on_death_player() {
     for(int i=0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy->has_method("handle_victory")) { // C++ 이랑 GDscript 모두 호환되도록
             return enemy->call("handle_victory");
         }else {
@@ -317,7 +317,7 @@ PackedStringArray BattleMain::_on_death_player() {
 void BattleMain::_fight(int target) {
     if(!attack_scene.is_valid() || !box) return;
 
-    AttackMeter* meter = Object::cast_to<AttackMeter>(attack_scene->instantiate());
+    AttackMeter *meter = Object::cast_to<AttackMeter>(attack_scene->instantiate());
     emit_signal("fight_used", target);
     meter->set("target", target);
     meter->connect("damagetarget", Callable(this, "_hit"), CONNECT_ONE_SHOT);
@@ -338,10 +338,10 @@ void BattleMain::_fight(int target) {
 void BattleMain::_hit(int damage, int target, bool crit) {
     if(!slash_scene.is_valid() || !box || target < 0 || target >= enemies.size()) return;
     
-    Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
+    Enemy *enemy = Object::cast_to<Enemy>(enemies[target]);
     if(!enemy) return;
     
-    Slash* slashes = Object::cast_to<Slash>(slash_scene->instantiate());
+    Slash *slashes = Object::cast_to<Slash>(slash_scene->instantiate());
     if(slashes) {
         if(enemy->get_dodging()) {
             int dodge_sign = (UtilityFunctions::randi_range(0, 1) * 2) - 1;
@@ -353,7 +353,7 @@ void BattleMain::_hit(int damage, int target, bool crit) {
 
         slashes->set_crit(crit);
         box->add_child(slashes, true);
-        Node* enemy_sprites = enemy->get_sprites();
+        Node *enemy_sprites = enemy->get_sprites();
         if(!enemy_sprites) {
             ERR_PRINT("Enemy의 sprites 노드가 없습니다");
             return;
@@ -368,11 +368,11 @@ void BattleMain::_hit(int damage, int target, bool crit) {
 }
 
 void BattleMain::_on_slash_finished(int damage, int target, bool crit) {
-    Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
-    if (!enemy) return;
+    Enemy *enemy = Object::cast_to<Enemy>(enemies[target]);
+    if(!enemy) return;
     
-    Slash* slashes = nullptr;
-    for (int i = 0; i < box->get_child_count(); i++) {
+    Slash *slashes = nullptr;
+    for(int i=0; i < box->get_child_count(); i++) {
         slashes = Object::cast_to<Slash>(box->get_child(i));
         if (slashes) break;
     }
@@ -380,17 +380,17 @@ void BattleMain::_on_slash_finished(int damage, int target, bool crit) {
     if (!slashes) return;
     damage = floor(damage * slashes->get_dmg_mult());
     
-    if (damage_info_scene.is_valid()) {
-        Node* clone = damage_info_scene->instantiate();
-        if (clone) {
+    if(damage_info_scene.is_valid()) {
+        Node *clone = damage_info_scene->instantiate();
+        if(clone) {
             clone->connect("damagetarget", Callable(enemy, "_hurt"), CONNECT_ONE_SHOT);
             clone->call("set_global_position", slashes->get_global_position());
             clone->set("hp", box->enemies_hp[target]);
             clone->set("max_hp", enemies_max_hp[target]);
             
-            if (enemy->get_dodging()) {
+            if(enemy->get_dodging()) {
                 clone->set("miss", true);
-            } else {
+            }else {
                 clone->set("damage", damage);
                 String info;
                 if(enemy->has_method("damage_info")) { // C++ 이랑 GDscript 모두 호환되도록
@@ -411,8 +411,8 @@ void BattleMain::_on_slash_finished(int damage, int target, bool crit) {
 void BattleMain::_on_damage_info_completed(int target, bool miss) {
     emit_signal("damage_info_finished");
     
-    Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
-    if (!enemy) return;
+    Enemy *enemy = Object::cast_to<Enemy>(enemies[target]);
+    if(!enemy) return;
     enemy->connect("on_fight_end", Callable(this, "_on_fight_used_completed").bind(target), CONNECT_ONE_SHOT);
     if(enemy->has_method("on_fight")) { // C++ 이랑 GDscript 모두 호환되도록
         enemy->call("on_fight", miss);
@@ -424,7 +424,7 @@ void BattleMain::_on_fight_used_completed(int target) {
     box->_disable();
     
     if (float(box->enemies_hp[target]) < 0) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[target]);
         if (enemy) {
             kill_enemy(target);
         }
@@ -436,10 +436,10 @@ void BattleMain::_on_fight_used_completed(int target) {
 void BattleMain::_miss(int target) {
     if (!damage_info_scene.is_valid() || !box || target < 0 || target >= enemies.size()) return;
     
-    Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
+    Enemy *enemy = Object::cast_to<Enemy>(enemies[target]);
     if (!enemy) return;
     
-    Node* clone = damage_info_scene->instantiate();
+    Node *clone = damage_info_scene->instantiate();
     if (clone) {
         clone->call("set_global_position", enemy->get_sprites()->call("get_global_position"));
         clone->set("hp", box->enemies_hp[target]);
@@ -454,7 +454,7 @@ void BattleMain::_act(int target, int option) {
     if(target < 0 || target >= enemies.size()) return;
     emit_signal("act_used", target, option);
     
-    Enemy* enemy = Object::cast_to<Enemy>(enemies[target]);
+    Enemy *enemy = Object::cast_to<Enemy>(enemies[target]);
     if (enemy) {
         enemy->connect("on_act_end", Callable(this, "emit_signal").bind("end_turn"), CONNECT_ONE_SHOT);
         if(enemy->has_method("on_act")) { // C++ 이랑 GDscript 모두 호환되도록
@@ -472,7 +472,7 @@ void BattleMain::_mercy(int choice) {
         case 0:
             completed_size = enemy_size();
             for (int i = 0; i < enemies.size(); i++) {
-                Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+                Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
                 if (enemy) {
                     Ref<EnemyAct> state = enemy->get_enemy_acts()[enemy->get_current_act()];
                     enemy->connect("on_mercy_end", Callable(this, "_on_end").bind(state->get_sparable(), i), CONNECT_ONE_SHOT);
@@ -483,7 +483,7 @@ void BattleMain::_mercy(int choice) {
             }
             break;
         case 1: {
-            CameraFx* camera_node = global->get_scene_container()->get_camera();
+            CameraFx *camera_node = global->get_scene_container()->get_camera();
             camera_node->blind(0, 1);
             camera_node->connect("finished_tween", Callable(this, "_on_action").bind("end_battle"), CONNECT_ONE_SHOT);
             break;
@@ -505,7 +505,7 @@ void BattleMain::_item(int item_id) {
     emit_signal("item_used", item_id);
     completed_size = enemy_size();
     for(int i = 0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) {
             enemy->connect("on_item_end", Callable(this, "_on_end"), CONNECT_ONE_SHOT);
             if(enemy->has_method("on_item")) { // C++ 이랑 GDscript 모두 호환되도록
@@ -532,7 +532,7 @@ void BattleMain::kill_enemy(int enemy_id) {
     }
 }
 
-void BattleMain::_on_kill_enemy(Enemy* enemy) {
+void BattleMain::_on_kill_enemy(Enemy *enemy) {
     DustTransition* dust = enemy->get_dust();
     if(!dust) {
         ERR_PRINT("Enemy 노드에 필요한 dust 노드가 없습니다");
@@ -556,9 +556,9 @@ bool BattleMain::check_enemy_solo() {
 
 bool BattleMain::check_end_encounter() {
     bool empty = true;
-    for (int i = 0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-        if (enemy) {
+    for(int i=0; i < enemies.size(); i++) {
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
+        if(enemy) {
             empty = false;
             break;
         }
@@ -570,7 +570,7 @@ void BattleMain::spare_enemy(int enemy_id) {
     if (enemy_id < 0 || enemy_id >= enemies.size()) return;
     emit_signal("enemy_spared", enemy_id);
     
-    Enemy* enemy = Object::cast_to<Enemy>(enemies[enemy_id]);
+    Enemy *enemy = Object::cast_to<Enemy>(enemies[enemy_id]);
     if(!enemy) return;
 
     enemies[enemy_id] = nullptr;
@@ -583,8 +583,8 @@ void BattleMain::spare_enemy(int enemy_id) {
     }else enemy->on_defeat(false);
 }
 
-void BattleMain::_on_spare_finished(Enemy* enemy) {
-    GPUParticles2D* spare = enemy->get_spare();
+void BattleMain::_on_spare_finished(Enemy *enemy) {
+    GPUParticles2D *spare = enemy->get_spare();
     if(!spare) {
         ERR_PRINT("Enemy 노드에 필요한 spare 노드가 없습니다");
         return;
@@ -623,8 +623,8 @@ void BattleMain::end_encounter() {
     }
     
     box->change_state(BattleBox::State_BlitteringCasual);
-    Blitter* blitter_text = box->get_blitter_text();
-    if (blitter_text) {
+    Blitter *blitter_text = box->get_blitter_text();
+    if(blitter_text) {
         PackedStringArray texts = { win_text };
         blitter_text->type_text(texts);
         blitter_text->connect("finished_all_texts", Callable(this, "_on_action").bind("end_battle"), CONNECT_ONE_SHOT);
@@ -634,7 +634,7 @@ void BattleMain::end_encounter() {
 int BattleMain::enemy_size() {
     int size = 0;
     for(int i=0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) size++;
     }
     return size;
@@ -646,21 +646,9 @@ void BattleMain::_modify_stats(int id, Dictionary stats) {
     enemies_def[id] = stats.get("def", enemies_def[id]);
 }
 
-void BattleMain::set_encounter(const Ref<Encounter>& p_encounter) {
-    encounter = p_encounter;
-}
-
-Ref<Encounter> BattleMain::get_encounter() const {
-    return encounter;
-}
-
-bool BattleMain::is_kr() {
-    return kr;
-}
-
 void BattleMain::_on_get_turn() {
     for(int i=0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         if(is_first_turn && !enemy->get_is_first_turn()) continue;
         if(enemy->has_method("_on_get_turn")) { // C++ 이랑 GDscript 모두 호환되도록
             enemy->call("_on_get_turn");
@@ -673,7 +661,7 @@ void BattleMain::_on_get_turn() {
 
 void BattleMain::_on_end_turn() {
     for (int i = 0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         if (enemy) {
             if (enemy->has_method("_on_end_turn")) { // C++ 이랑 GDscript 모두 호환되도록
                 enemy->call("_on_end_turn");
@@ -695,14 +683,14 @@ void BattleMain::add_enemy(Ref<PackedScene> enemy_scene) {
         return;
     }
 
-    Node* enemy_instance = enemy_scene->instantiate();
+    Node *enemy_instance = enemy_scene->instantiate();
     if(!enemy_instance || !enemy_instance->is_class("Enemy")) {
         ERR_PRINT("씬이 Enemy 클래스로 캐스팅되지 않습니다");
         enemy_instance->queue_free();
         return;
     }
 
-    Enemy* enemy = Object::cast_to<Enemy>(enemy_instance);
+    Enemy *enemy = Object::cast_to<Enemy>(enemy_instance);
     if(!enemy) {
         ERR_PRINT("Enemy로 캐스팅할 수 없습니다");
         enemy_instance->queue_free();
@@ -712,7 +700,7 @@ void BattleMain::add_enemy(Ref<PackedScene> enemy_scene) {
     int current_count = enemy_size();
     Vector2 position = Vector2(0, 0);
     if(current_count == 1) {
-        Enemy* existing_enemy = nullptr;
+        Enemy *existing_enemy = nullptr;
         for(int i = 0; i < enemies.size(); i++) {
             existing_enemy = Object::cast_to<Enemy>(enemies[i]);
             if(existing_enemy) {
@@ -721,12 +709,12 @@ void BattleMain::add_enemy(Ref<PackedScene> enemy_scene) {
             }
         }
         position = Vector2(100, 0);
-    } else if(current_count == 2) {
+    }else if(current_count == 2) {
         position = Vector2(200, 0);
         
         int placed = 0;
-        for(int i = 0; i < enemies.size(); i++) {
-            Enemy* existing_enemy = Object::cast_to<Enemy>(enemies[i]);
+        for(int i=0; i < enemies.size(); i++) {
+            Enemy *existing_enemy = Object::cast_to<Enemy>(enemies[i]);
             if(existing_enemy) {
                 if(placed == 0) {
                     existing_enemy->set_position(Vector2(-200, 0));
@@ -742,7 +730,7 @@ void BattleMain::add_enemy(Ref<PackedScene> enemy_scene) {
     enemies_node->add_child(enemy_instance);
     
     int enemy_id = -1;
-    for(int i = 0; i < enemies.size(); i++) {
+    for(int i=0; i < enemies.size(); i++) {
         if(enemies[i] == Variant()) {
             enemies[i] = enemy;
             enemy_names[i] = enemy_scene;
@@ -761,7 +749,7 @@ void BattleMain::add_enemy(Ref<PackedScene> enemy_scene) {
         enemies_def.append(stats.get("def", 0));
         
         box->enemies_hp.append(stats.get("hp", stats.get("max_hp", 1)));
-    } else {
+    }else {
         Dictionary stats = enemy->get_stats();
         enemies_max_hp[enemy_id] = stats.get("max_hp", 1);
         enemies_def[enemy_id] = stats.get("def", 0);
@@ -783,13 +771,10 @@ void BattleMain::add_enemy(Ref<PackedScene> enemy_scene) {
     rewards["gold"] = int(rewards["gold"]) + int(rewards_data.get("gold", 0));
     rewards["exp"] = int(rewards["exp"]) + int(rewards_data.get("exp", 0));
 
-    for(int i = 0; i < enemies.size(); i++) {
-        Enemy* e = Object::cast_to<Enemy>(enemies[i]);
-        if(e) {
-            e->set_solo(enemy_size() == 1);
-        }
+    for(int i=0; i < enemies.size(); i++) {
+        Enemy *e = Object::cast_to<Enemy>(enemies[i]);
+        if(e) e->set_solo(enemy_size() == 1);
     }
-
     box->set_enemies(enemies);
 }
 
@@ -798,7 +783,7 @@ void BattleMain::toggle_transparent() {
         ERR_PRINT("투명 모드는 모바일에서 지원되지 않습니다");
         return;
     }
-    SceneContainer* scene = global->get_scene_container();
+    SceneContainer *scene = global->get_scene_container();
     if(transparent) 
         scene->_on_settings_setting_changed("border", global->get_settings()["border"]);
     else scene->_on_settings_setting_changed("border", false);
@@ -809,8 +794,8 @@ void BattleMain::toggle_transparent() {
 }
 
 void BattleMain::_on_transparent() {
-    DisplayServer* display = DisplayServer::get_singleton();
-    SceneContainer* scene = global->get_scene_container();
+    DisplayServer *display = DisplayServer::get_singleton();
+    SceneContainer *scene = global->get_scene_container();
     soul_battle->show_hpText(transparent);
     if(transparent) {
         display->window_set_flag(DisplayServer::WINDOW_FLAG_TRANSPARENT, false);
@@ -855,6 +840,18 @@ void BattleMain::_encounter_script_add(bool on) {
     add_child(script_node);
 }
 
+void BattleMain::set_encounter(const Ref<Encounter>& p_encounter) {
+    encounter = p_encounter;
+}
+
+Ref<Encounter> BattleMain::get_encounter() const {
+    return encounter;
+}
+
+bool BattleMain::is_kr() {
+    return kr;
+}
+
 void BattleMain::set_property(Variant value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");
 }
@@ -867,6 +864,6 @@ int BattleMain::get_turn_number() {
     return turn_number;
 }
 
-BattleButtons* BattleMain::get_buttons() {
+BattleButtons *BattleMain::get_buttons() {
     return buttons;
 }

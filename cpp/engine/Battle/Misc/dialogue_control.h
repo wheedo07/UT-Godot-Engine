@@ -13,7 +13,7 @@ namespace godot {
         
         private:
             String character_name;
-            EnemySpeech* bubble_text;
+            EnemySpeech *bubble_text;
             bool tween_in_progress;
             Ref<Tween> active_tween;
             double text_duration;

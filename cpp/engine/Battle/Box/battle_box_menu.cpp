@@ -25,7 +25,7 @@ void BattleBox::set_enemies(const Array p_enemies) {
     if(enemies_hp.size() == 0) {
         enemies_hp.resize(enemies.size());
         for(int i=0; i < enemies.size(); i++) {
-            Enemy* enemie = Object::cast_to<Enemy>(enemies[i]);
+            Enemy *enemie = Object::cast_to<Enemy>(enemies[i]);
             enemies_hp[i] = enemie->get_stats()["hp"];
         }
     }
@@ -36,7 +36,7 @@ void BattleBox::_set_targets(bool show_hp_bar) {
     float max_name_width = 0;
     String targets = "";
     for(int i=0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) {
             Ref<EnemyAct> state = enemy->get_enemy_acts()[enemy->get_current_act()];
             bool sparable = state->get_sparable(); 
@@ -62,9 +62,9 @@ void BattleBox::_set_targets(bool show_hp_bar) {
     }
     
     for(int i=0; i < 3; i++) {
-        ProgressBar* bar = Object::cast_to<ProgressBar>(hp_bars[i]);
+        ProgressBar *bar = Object::cast_to<ProgressBar>(hp_bars[i]);
         if(i < enemies.size() && enemies[i] && hp_bars[i]) {
-            Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+            Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
             if(enemy) {
                 Dictionary stats = enemy->get_stats();
                 bar->set_visible(show_hp_bar);
@@ -83,8 +83,8 @@ void BattleBox::set_mercy_options() {
     String txt = "";
     
     String spare_color = "white";
-    for (int i = 0; i < enemies.size(); i++) {
-        Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
+    for(int i=0; i < enemies.size(); i++) {
+        Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) {
             Ref<EnemyAct> state = enemy->get_enemy_acts()[enemy->get_current_act()];
             bool sparable = state->get_sparable();
@@ -371,8 +371,8 @@ void BattleBox::refresh_options() {
 void BattleBox::_disable() {
     Array screens_array = screens.values();
     
-    for (int i = 0; i < screens_array.size(); i++) {
-        CanvasItem* screen = Object::cast_to<CanvasItem>(screens_array[i]);
+    for(int i=0; i < screens_array.size(); i++) {
+        CanvasItem *screen = Object::cast_to<CanvasItem>(screens_array[i]);
         if(screen) screen->hide();
     }
     
@@ -382,15 +382,15 @@ void BattleBox::_disable() {
     if (button_choice != 0) button_choice = 0;
 }
 
-Blitter* BattleBox::get_blitter_text() const {
+Blitter *BattleBox::get_blitter_text() const {
     return blitter_text;
 }
 
-RemoteTransform2D* BattleBox::get_tl() const {
+RemoteTransform2D *BattleBox::get_tl() const {
     return tl;
 }
 
-RemoteTransform2D* BattleBox::get_br() const {
+RemoteTransform2D *BattleBox::get_br() const {
     return br;
 }
 

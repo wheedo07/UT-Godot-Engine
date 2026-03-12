@@ -13,23 +13,23 @@ namespace godot {
             static void _bind_methods();
 
         public:
-            BattleMain* main;
-            BattleBox* box;
-            BattleHUD* hub;
-            SoulBattle* soul;
-            TextureRect* bg;
-            AttackManager* attacks;
-            CameraController* camera;
+            BattleMain *main;
+            BattleBox *box;
+            BattleHUD *hub;
+            SoulBattle *soul;
+            TextureRect *bg;
+            AttackManager *attacks;
+            CameraController *camera;
 
         private:
             void set_property(Variant value);
-            BattleMain* get_main();
-            BattleBox* get_box();
-            BattleHUD* get_hub();
-            SoulBattle* get_soul();
-            TextureRect* get_bg();
-            AttackManager* get_attacks();
-            CameraController* get_camera();
+            BattleMain *get_main();
+            BattleBox *get_box();
+            BattleHUD *get_hub();
+            SoulBattle *get_soul();
+            TextureRect *get_bg();
+            AttackManager *get_attacks();
+            CameraController *get_camera();
             bool get_player_turn();
 
         public:

@@ -24,7 +24,7 @@ namespace godot {
         
         private:
             NodePath click_path;
-            AudioStreamPlayer* click;
+            AudioStreamPlayer *click;
             float interval, delay;
             TextQueueMode queued_texts_handling;
             Ref<Tween> pause_tween;
