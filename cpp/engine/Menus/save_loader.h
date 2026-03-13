@@ -19,13 +19,13 @@ namespace godot {
             Vector2 defsize;
             int reset_level;
             
-            Control* control_node;
-            RichTextLabel* location_text;
-            RichTextLabel* name_text;
-            RichTextLabel* lv_text;
-            RichTextLabel* time_text;
-            OptionSelectableSolo* reset_text;
-            AudioStreamPlayer* warn_sound;
+            Control *control_node;
+            RichTextLabel *location_text;
+            RichTextLabel *name_text;
+            RichTextLabel *lv_text;
+            RichTextLabel *time_text;
+            OptionSelectableSolo *reset_text;
+            AudioStreamPlayer *warn_sound;
         
         public:
             SaveLoader();

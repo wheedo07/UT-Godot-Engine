@@ -102,7 +102,7 @@ Global::Global() {
     is_Mobile = false;
     battle_encounter = nullptr;
 
-    Item* it0 = memnew(Item);
+    Item *it0 = memnew(Item);
     it0->set_item_type(Item::WEAPON);
     it0->set_item_name(String::utf8("막대기"));
     it0->set_use_message({
@@ -159,7 +159,7 @@ void Global::_ready() {
 
 void Global::init_scene_nodes() {
     Ref<PackedScene> scene = ResourceLoader::get_singleton()->load("res://Engine/RequiredNode/global.tscn");
-    Node* requiredNode = scene->instantiate();
+    Node *requiredNode = scene->instantiate();
     add_child(requiredNode);
 
     Music = Object::cast_to<AudioStreamPlayer>(requiredNode->get_node_internal("MusicGlobal"));
@@ -192,9 +192,9 @@ void Global::init_paths() {
 
     if(savepath.find("$home") != -1) {
         if(osName == "Windows") {
-            const char* homepath = std::getenv("HOMEPATH");
+            const char *homepath = std::getenv("HOMEPATH");
             if(homepath == nullptr) {
-                const char* userprofile = std::getenv("USERPROFILE");
+                const char *userprofile = std::getenv("USERPROFILE");
                 if(userprofile != nullptr) savepath = savepath.replace("$home", userprofile);
                 else {
                     savepath = user_file_path();
@@ -202,7 +202,7 @@ void Global::init_paths() {
                 }
             }else savepath = savepath.replace("$home", homepath);
 
-            const char* drive = std::getenv("HOMEDRIVE");
+            const char *drive = std::getenv("HOMEDRIVE");
             if(drive != nullptr) savepath = String(drive) + savepath;
             else {
                 savepath = user_file_path();
@@ -211,7 +211,7 @@ void Global::init_paths() {
         }
     }else if(savepath.find("$appdata") != -1) {
         if(osName == "Windows") {
-            const char* appdata = std::getenv("APPDATA");
+            const char *appdata = std::getenv("APPDATA");
             if(appdata != nullptr) savepath = savepath.replace("$appdata", appdata);
             else {
                 savepath = user_file_path();
@@ -220,7 +220,7 @@ void Global::init_paths() {
         }
     }else if(savepath.find("$localappdata") != -1) {
         if(osName == "Windows") {
-            const char* localappdata = std::getenv("LOCALAPPDATA");
+            const char *localappdata = std::getenv("LOCALAPPDATA");
             if(localappdata != nullptr) savepath = savepath.replace("$localappdata", localappdata);
             else {
                 savepath = user_file_path();
@@ -318,7 +318,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             player_in_menu = false;
             Engine::get_singleton()->set_time_scale(1);
             get_tree()->set_pause(false);
-            Node* current_scene = get_scene_container()->get_current_scene();
+            Node *current_scene = get_scene_container()->get_current_scene();
             if(get_tree()->get_current_scene()->is_class("SceneContainer")) {
                 if(current_scene->is_class("BattleMain")) {
                     battle_encounter = current_scene->get("encounter");
@@ -330,7 +330,7 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
         }else if(event->is_action_pressed("stop_game") && os->is_debug_build()) {
             if(paused_time != 0) return;
             paused_time = 0.1;
-            SceneTree* tree = get_tree();
+            SceneTree *tree = get_tree();
             tree->set_pause(!tree->is_paused());
             if(tree->is_paused()) print_line(tr("UT_GAME_PAUSED"));
             else print_line(tr("UT_GAME_RESUMED"));
@@ -346,9 +346,9 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
             get_viewport()->set_input_as_handled();
         }else if(event->is_action_pressed("debug_turn") && (os->is_debug_build() || os->has_feature("debug_op"))) {
             if(!battle_start || !isDebugTurn) return;
-            Node* current_scene = get_scene_container()->get_current_scene();
+            Node *current_scene = get_scene_container()->get_current_scene();
             if(current_scene->is_class("BattleMain")) {
-                BattleMain* battle = Object::cast_to<BattleMain>(current_scene);
+                BattleMain *battle = Object::cast_to<BattleMain>(current_scene);
                 if(battle->player_turn) {
                     battle->buttons->disable();
                     battle->buttons->_reset();
@@ -369,8 +369,8 @@ void Global::_unhandled_input(const Ref<InputEvent>& event) {
 
 void Global::_process(double delta) {
     if(!Info || !speedup_sound || !KrTimer) return;
-    Input* input = Input::get_singleton();
-    Engine* engine = Engine::get_singleton();
+    Input *input = Input::get_singleton();
+    Engine *engine = Engine::get_singleton();
 
     if(input->is_action_pressed("ut_quit")) {
         quit_time += delta;
@@ -619,7 +619,7 @@ void Global::resetgame() {
 }
 
 void Global::toggle_collision_shape_visibility() {
-    SceneTree* tree = get_tree();
+    SceneTree *tree = get_tree();
     tree->set_debug_collisions_hint(!tree->is_debugging_collisions_hint());
     collision_visible = tree->is_debugging_collisions_hint();
     call_deferred("_update_collision_visibility");
@@ -630,11 +630,11 @@ void Global::_update_collision_visibility() {
     node_stack.push_back(get_tree()->get_root());
 
     while(!node_stack.is_empty()) {
-        Node* node = Object::cast_to<Node>(node_stack.pop_back());
+        Node *node = Object::cast_to<Node>(node_stack.pop_back());
         if(!ObjectDB::get_instance(node->get_instance_id())) continue;
         
         if (node->is_class("TileMap")) {
-            TileMap* tilemap = Object::cast_to<TileMap>(node);
+            TileMap *tilemap = Object::cast_to<TileMap>(node);
             tilemap->set_collision_visibility_mode(TileMap::VISIBILITY_MODE_FORCE_HIDE);
             tilemap->set_collision_visibility_mode(TileMap::VISIBILITY_MODE_DEFAULT);
         }
@@ -879,7 +879,7 @@ void Global::load_game() {
 }
 
 void Global::refresh_audio_busses() {
-    AudioServer* audio = AudioServer::get_singleton();
+    AudioServer *audio = AudioServer::get_singleton();
     audio->set_bus_volume_db(
         audio->get_bus_index("SFX"), 
         UtilityFunctions::linear_to_db(float(settings.get("SFX", 100)) / 100.0f)
@@ -895,14 +895,14 @@ void Global::refresh_audio_busses() {
 }
 
 void Global::disable_input(String key) {
-    InputMap* map = InputMap::get_singleton();
+    InputMap *map = InputMap::get_singleton();
     input_event[key] = map->action_get_events(key).duplicate();
     map->action_erase_events(key);
 }
 
 void Global::enable_input(String key) {
     if(!input_event.has(key)) return;
-    InputMap* map = InputMap::get_singleton();
+    InputMap *map = InputMap::get_singleton();
     TypedArray<InputEvent> events = input_event[key];
     for(int i=0; i < events.size(); i++) {
         Ref<InputEvent> event = events[i];

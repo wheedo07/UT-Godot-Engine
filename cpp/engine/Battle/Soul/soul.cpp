@@ -106,7 +106,7 @@ void SoulBattle::_ready() {
     hp_label = Object::cast_to<RichTextLabel>(get_node_internal("hp_label"));
     input = Input::get_singleton();
     
-    ResourceLoader* loader = ResourceLoader::get_singleton();
+    ResourceLoader *loader = ResourceLoader::get_singleton();
     green_mode_scene = loader->load("res://Engine/Battle/Soul/green_soul.tscn");
     yellow_bullet_scene = loader->load("res://Engine/Battle/Soul/yellow_soul_bullet.tscn");
     cyan_detect_scene = loader->load("res://Engine/Battle/Soul/cyan_detection.tscn");
@@ -137,7 +137,7 @@ void SoulBattle::_physics_process(double delta) {
 
     TypedArray<Area2D> overlapping_areas = area->get_overlapping_areas();
     for (int i = 0; i < overlapping_areas.size(); i++) {
-        Area2D* area_node = Object::cast_to<Area2D>(overlapping_areas[i]);
+        Area2D *area_node = Object::cast_to<Area2D>(overlapping_areas[i]);
         if (area_node) {
             check_bullet(area_node);
         }
@@ -147,10 +147,10 @@ void SoulBattle::_physics_process(double delta) {
     if(mode != ORANGE) afterimage->set_emitting(false);
     
     if(main->player_turn) return;
-    if (gravity_direction.x != 0) {
+    if(gravity_direction.x != 0) {
         motion.x = get_velocity().y;
         motion.y = get_velocity().x * gravity_direction.x;
-    } else {
+    }else {
         motion.y = get_velocity().y * gravity_direction.y;
         motion.x = get_velocity().x;
     }
@@ -211,32 +211,32 @@ void SoulBattle::_unhandled_input(const Ref<InputEvent>& event) {
             event->is_action_pressed("ui_down") ? 1 : (event->is_action_pressed("ui_up") ? -1 : 0)
         );
         
-        if (!input_list_pressed.is_zero_approx()) {
+        if(!input_list_pressed.is_zero_approx()) {
             inputs = input_list_pressed;
         }
     }
 }
 
-void SoulBattle::check_bullet(Area2D* area) {
+void SoulBattle::check_bullet(Area2D *area) {
     if(!area->is_class("BulletArea")) return;
-    BulletArea* bullet_area = Object::cast_to<BulletArea>(area);
+    BulletArea *bullet_area = Object::cast_to<BulletArea>(area);
     
     if(bullet_area) {
         // 치유 영역 확인
-        if (hiframes <= 0) {
-            if (bullet_area->damage_mode == Bullet::MODE_GREEN) {
+        if(hiframes <= 0) {
+            if(bullet_area->damage_mode == Bullet::MODE_GREEN) {
                 heal(bullet_area);
             }
         }
         
         // 데미지 영역 확인
-        if (iframes <= 0) {
-            switch (bullet_area->damage_mode) {
+        if(iframes <= 0) {
+            switch(bullet_area->damage_mode) {
                 case Bullet::MODE_WHITE:
                     hurt(bullet_area);
                     break;
                 case Bullet::MODE_BLUE:
-                    if ((special_bullet_mode == ARROW_KEYS && !inputs.is_zero_approx()) || 
+                    if((special_bullet_mode == ARROW_KEYS && !inputs.is_zero_approx()) || 
                         (special_bullet_mode == VELOCITY && !get_velocity().is_zero_approx()) || 
                         (special_bullet_mode == ARROW_KEYS_AND_MOVING && (!inputs.is_zero_approx() || !get_velocity().is_zero_approx()))) {
                         hurt(bullet_area);
@@ -254,7 +254,7 @@ void SoulBattle::check_bullet(Area2D* area) {
     }
 }
 
-void SoulBattle::hurt(BulletArea* area) {
+void SoulBattle::hurt(BulletArea *area) {
     if(!area) return;
 
     stagehand->audio_player->play("hurt");
@@ -270,7 +270,7 @@ void SoulBattle::hurt(BulletArea* area) {
     global->set_player_hp(global->get_player_hp() - damage_amount);
     
     // KR(Karma) 데미지 처리
-    if (main->is_kr()) {
+    if(main->is_kr()) {
         global->set_player_kr(global->get_player_kr() + area->kr);
     }
     
@@ -300,7 +300,7 @@ void SoulBattle::_on_death() {
     global->get_scene_container()->change_scene_to_file("res://Core/Custom/GameOver.tscn");
 }
 
-void SoulBattle::heal(BulletArea* area) {
+void SoulBattle::heal(BulletArea *area) {
     if(!area) return;
     
     hiframes = 1;
@@ -337,7 +337,7 @@ void SoulBattle::set_mode_silent(SoulMode new_mode) {
     Array keys = mode_nodes.keys();
     for(int i=0; i < keys.size(); i++) {
         int key = keys[i];
-        CanvasItem* mode_node = Object::cast_to<CanvasItem>(mode_nodes[key]);
+        CanvasItem *mode_node = Object::cast_to<CanvasItem>(mode_nodes[key]);
         
         if(!mode_node) continue;
         
@@ -364,7 +364,7 @@ void SoulBattle::set_mode_silent(SoulMode new_mode) {
     }
 }
 
-void SoulBattle::_fade_tw_calle(Node* node_ref, Node* parent_ref) {
+void SoulBattle::_fade_tw_calle(Node *node_ref, Node *parent_ref) {
     if(node_ref->get_parent() == parent_ref) {
         parent_ref->remove_child(node_ref);
     }
@@ -519,18 +519,18 @@ void SoulBattle::green() {
 }
 
 void SoulBattle::yellow() {
-    if (sprite) {
+    if(sprite) {
         sprite->set_modulate(Color(1, 1, 0)); // YELLOW
         sprite->set_scale(Vector2(1, soul_type == SOUL_HUMAN ? -1 : 1));
     }
     
     if(input->is_action_just_pressed("ut_confirm")) {
-        if (shoot) {
+        if(shoot) {
             shoot->play();
         }
         
-        if (yellow_bullet_scene.is_valid() && main) {
-            YellowBullet* bullet = Object::cast_to<YellowBullet>(yellow_bullet_scene->instantiate());
+        if(yellow_bullet_scene.is_valid() && main) {
+            YellowBullet *bullet = Object::cast_to<YellowBullet>(yellow_bullet_scene->instantiate());
             main->box->add_child(bullet);
             bullet->set_global_position(sprite->get_global_position() + Vector2(0, -1).rotated(sprite->get_global_rotation()) * 6);
             bullet->set_rotation(sprite->get_global_rotation());
@@ -542,7 +542,7 @@ void SoulBattle::yellow() {
 }
 
 void SoulBattle::purple() {
-    if (sprite) {
+    if(sprite) {
         sprite->set_modulate(Color(0.5, 0, 0.5)); // PURPLE
     }
     
@@ -595,7 +595,7 @@ void SoulBattle::update_purple_pos() {
 }
 
 void SoulBattle::orange() {
-    if (sprite) {
+    if(sprite) {
         sprite->set_modulate(Color(1, 0.65, 0)); // ORANGE
     }
     motion = speed * inputs;
@@ -609,7 +609,7 @@ void SoulBattle::orange() {
 }
 
 void SoulBattle::cyan() {
-    if (sprite) {
+    if(sprite) {
         sprite->set_modulate(Color(0, 1, 1)); // CYAN
     }
     
@@ -622,13 +622,13 @@ void SoulBattle::cyan() {
     
     if(cyan_detector && cyan_detector->get_can_move()) {
         motion = speed * inputs / slow_down;
-    } else {
+    }else {
         motion = Vector2(0, 0);
     }
 }
 
 void SoulBattle::_kill_able_tween() {
-    if (_able_tween.is_valid() && _able_tween->is_valid()) {
+    if(_able_tween.is_valid() && _able_tween->is_valid()) {
         _able_tween->kill();
     }
 }

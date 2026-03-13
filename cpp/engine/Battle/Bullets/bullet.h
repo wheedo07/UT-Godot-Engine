@@ -35,7 +35,7 @@ namespace godot {
             int kr_amount_value;
 
             NodePath sprite_path;
-            CanvasItem* sprite;
+            CanvasItem *sprite;
 
             Array colors;
             Array overlapping_areas;
@@ -58,7 +58,7 @@ namespace godot {
             GDVIRTUAL0(on_hit_player_shield);
             GDVIRTUAL1(_physics_update, double);
 
-            Bullet* set_mode(DamageMode mode = MODE_BLUE);
+            Bullet *set_mode(DamageMode mode = MODE_BLUE);
             DamageMode get_mode();
             void fade();
 

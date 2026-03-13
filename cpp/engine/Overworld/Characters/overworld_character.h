@@ -39,11 +39,11 @@ namespace godot {
             int walk_speed, current_index;
             float walk_speed_mod;
 
-            OverworldSprite* sprite;
-            InteractionTrigger* area_interact;
+            OverworldSprite *sprite;
+            InteractionTrigger *area_interact;
 
-            AnimatedSprite2D* alert;
-            AudioStreamPlayer* encounter;
+            AnimatedSprite2D *alert;
+            AudioStreamPlayer *encounter;
 
             void _on_area_interacted();
 
@@ -77,11 +77,11 @@ namespace godot {
             void set_frame_alert(int value);
             int get_frame_alert();
 
-            void set_sprite(OverworldSprite* p_sprite);
-            OverworldSprite* get_sprite() const;
+            void set_sprite(OverworldSprite *p_sprite);
+            OverworldSprite *get_sprite() const;
 
-            void set_area_interact(InteractionTrigger* p_area);
-            InteractionTrigger* get_area_interact() const;
+            void set_area_interact(InteractionTrigger *p_area);
+            InteractionTrigger *get_area_interact() const;
 
             void _set_canmove(bool value);
     };

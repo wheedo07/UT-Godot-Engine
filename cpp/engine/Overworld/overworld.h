@@ -28,9 +28,9 @@ namespace godot {
             static void _bind_methods();
 
         public:
-            PlayerOverworld* player;
-            AudioStreamPlayer* music_player;
-            CameraController* camera;
+            PlayerOverworld *player;
+            AudioStreamPlayer *music_player;
+            CameraController *camera;
         
         private:
             String world_name;
@@ -43,10 +43,10 @@ namespace godot {
             void _on_saved();
             void _room_init(const Dictionary& data);
 
-            void set_property(Object* value);
-            PlayerOverworld* get_player();
-            AudioStreamPlayer* get_music_player();
-            CameraController* get_camera();
+            void set_property(Object *value);
+            PlayerOverworld *get_player();
+            AudioStreamPlayer *get_music_player();
+            CameraController *get_camera();
         
         public:
             Overworld();
@@ -62,8 +62,8 @@ namespace godot {
             GDVIRTUAL0R(PackedStringArray, player_died);
 
             // 사용 함수
-            Bullet* add_bullet(Ref<PackedScene> bullet_scene);
-            Bullet* quick_bullet(Ref<PackedScene> bullet_scene, Vector2 pos, float rot_deg=0, Vector2 scale=Vector2(0.5, 0.5));
+            Bullet *add_bullet(Ref<PackedScene> bullet_scene);
+            Bullet *quick_bullet(Ref<PackedScene> bullet_scene, Vector2 pos, float rot_deg=0, Vector2 scale=Vector2(0.5, 0.5));
             void toggle_encounter();
             void start_music_fade_in();
 

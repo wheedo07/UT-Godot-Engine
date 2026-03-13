@@ -269,7 +269,7 @@ void SHOP::_in_state(int new_state) {
     soul->show();
     items->hide();
     
-    Node* soul_parent = soul->get_parent();
+    Node *soul_parent = soul->get_parent();
     if (soul_parent) {
         soul_parent->remove_child(soul);
     }

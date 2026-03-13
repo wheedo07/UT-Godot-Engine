@@ -23,11 +23,10 @@ namespace godot {
         
         private:
             Vector2 movement;
-            NinePatchRect* platform;
-            StaticBody2D* platform_col;
-            CollisionShape2D* collision;
-            CollisionShape2D* collision_area;
-            Area2D* area;
+            NinePatchRect *platform;
+            StaticBody2D *platform_col;
+            CollisionShape2D *collision, *collision_area;
+            Area2D *area;
 
             Tween::TransitionType trans;
             Tween::EaseType ease;

@@ -122,7 +122,7 @@ void OptionSelectableSolo::disable() {
     set_selected(false);
 }
 
-void OptionSelectableSolo::move_soul(OptionSelectableSolo* node) {
+void OptionSelectableSolo::move_soul(OptionSelectableSolo *node) {
     get_viewport()->set_input_as_handled();
     emit_signal("deselect_pressed");
     node->emit_signal("move_soul_request", node->get_global_position() + node->get("soul_offset"));

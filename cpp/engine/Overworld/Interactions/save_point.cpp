@@ -17,7 +17,7 @@ void SavePoint::_bind_methods() {
 }
 
 void SavePoint::_ready() {
-    ResourceLoader* loader = ResourceLoader::get_singleton();
+    ResourceLoader *loader = ResourceLoader::get_singleton();
     save_menu = loader->load("res://Engine/Overworld/save_menu.tscn");
 }
 
@@ -28,16 +28,16 @@ void SavePoint::_on_interact_save() {
     if(dialogues.is_null()) {
         _on_dialogue_finished();
     }else {
-        TextBox* textbox = stagehand->summontextbox();
+        TextBox *textbox = stagehand->summontextbox();
         textbox->connect("dialogue_finished", Callable(this, "_on_dialogue_finished"), CONNECT_ONE_SHOT);
         textbox->generic(dialogues);
     }
 }
 
 void SavePoint::_on_dialogue_finished() {
-    Node* current_scene = global->get_scene_container()->get_current_scene();
+    Node *current_scene = global->get_scene_container()->get_current_scene();
     
-    Node* save_menu_instance = save_menu->instantiate();
+    Node *save_menu_instance = save_menu->instantiate();
     if (save_menu_instance) {
         current_scene->add_child(save_menu_instance);
     }

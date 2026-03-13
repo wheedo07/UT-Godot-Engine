@@ -55,7 +55,7 @@ void DebugMenu::_ready() {
 
     TypedArray<Node> settings = Options->get_children();
     for(int i=0; i < settings.size(); i++) {
-        Node* setting = Object::cast_to<Node>(settings[i]);
+        Node *setting = Object::cast_to<Node>(settings[i]);
         setting->connect("pressed", Callable(this, "on_setting_changed").bind(setting));
     }
 
@@ -202,7 +202,7 @@ void DebugMenu::_change_debug(int index) {
 }
 
 void DebugMenu::_load_scene(String path) {
-    ResourceLoader* loader = ResourceLoader::get_singleton();
+    ResourceLoader *loader = ResourceLoader::get_singleton();
     if(loader->exists(path)) {
         Ref<Resource> res = loader->load(path);
         if(res.is_null()) {
@@ -215,7 +215,7 @@ void DebugMenu::_load_scene(String path) {
             print_line(tr("UT_WARN_NODE_LOSS"));
         }else if(type == "PackedScene") {
             Ref<PackedScene> scene = loader->load(path);
-            Node* node = scene->instantiate();
+            Node *node = scene->instantiate();
             for(String cls : class_exclude) {
                 if(node->is_class(cls)) {
                     global->alert(tr("UT_RES_SCENE_FAIL"), "Error");

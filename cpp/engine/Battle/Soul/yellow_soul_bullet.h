@@ -19,7 +19,7 @@ namespace godot {
             ~YellowBullet();
 
             void _physics_process(double delta) override;
-            void _on_area_2d_area_entered(Area2D* area);
+            void _on_area_2d_area_entered(Area2D *area);
 
             void set_velocity(const Vector2& p_velocity);
             void set_speed(float value);

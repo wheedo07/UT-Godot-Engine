@@ -86,7 +86,7 @@ void Options::_unhandled_input(const Ref<InputEvent>& event) {
     if (event->is_action_pressed("ut_confirm")) {
         switch (current_pos) {
             case 0: {
-                Node* parent = get_node_internal("../");
+                Node *parent = get_node_internal("../");
                 Ref<Tween> tween = create_tween();
                 tween->tween_property(parent, "modulate:a", 0.0, 0.8)->set_trans(Tween::TRANS_SINE);
                 tween->connect("finished", Callable(global->get_scene_container(), "change_scene_to_file").bind("res://Core/Startup/intro.tscn"));

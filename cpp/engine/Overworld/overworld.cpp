@@ -120,7 +120,7 @@ void Overworld::toggle_encounter() {
     }
 }
 
-Bullet* Overworld::add_bullet(Ref<PackedScene> bullet_scene) {
+Bullet *Overworld::add_bullet(Ref<PackedScene> bullet_scene) {
     if(!player->is_overworld_encounter()) {
         ERR_PRINT("현재 오버월드 전투가 활성화 되어있지 않습니다");
         return nullptr;
@@ -129,7 +129,7 @@ Bullet* Overworld::add_bullet(Ref<PackedScene> bullet_scene) {
         ERR_PRINT("bullet_scene이 null입니다");
         return nullptr;
     }
-    Node* instance = bullet_scene->instantiate();
+    Node *instance = bullet_scene->instantiate();
     if(!instance->is_class("Bullet")) {
         ERR_PRINT("bullet_scene이 Bullet 씬이 아닙니다");
         return nullptr;
@@ -147,8 +147,8 @@ Bullet* Overworld::add_bullet(Ref<PackedScene> bullet_scene) {
     return Object::cast_to<Bullet>(instance);
 }
 
-Bullet* Overworld::quick_bullet(Ref<PackedScene> bullet_scene, Vector2 pos, float rot_deg, Vector2 scale) {
-    Bullet* bullet = add_bullet(bullet_scene);
+Bullet *Overworld::quick_bullet(Ref<PackedScene> bullet_scene, Vector2 pos, float rot_deg, Vector2 scale) {
+    Bullet *bullet = add_bullet(bullet_scene);
     if(!bullet) return nullptr;
     bullet->set_position(pos);
     bullet->set_rotation_degrees(rot_deg);
@@ -181,7 +181,7 @@ void Overworld::_room_init(const Dictionary& data) {
     
     int entrance_id = data["entrance"];
     for(int i=0; i < room_entrances.size(); i++) {
-        RoomEntranceNode* room = Object::cast_to<RoomEntranceNode>(room_entrances[i]);
+        RoomEntranceNode *room = Object::cast_to<RoomEntranceNode>(room_entrances[i]);
         if (room->get_door_id() != entrance_id) {
             continue;
         }
@@ -253,18 +253,18 @@ NodePath Overworld::get_camera_path() const {
     return camera_path;
 }
 
-void Overworld::set_property(Object* value) {
+void Overworld::set_property(Object *value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");
 }
 
-PlayerOverworld* Overworld::get_player() {
+PlayerOverworld *Overworld::get_player() {
     return player;
 }
 
-CameraController* Overworld::get_camera() {
+CameraController *Overworld::get_camera() {
     return camera;
 }
 
-AudioStreamPlayer* Overworld::get_music_player() {
+AudioStreamPlayer *Overworld::get_music_player() {
     return music_player;
 }

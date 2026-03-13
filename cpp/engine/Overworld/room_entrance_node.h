@@ -17,7 +17,7 @@ namespace godot {
             bool special_room;
             int new_room_entrance_id;
 
-            OverworldAreaTrigger* Area;
+            OverworldAreaTrigger *Area;
         
         public:
             RoomEntranceNode();

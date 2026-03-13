@@ -21,7 +21,7 @@ void YellowBullet::_physics_process(double delta) {
     set_position(get_position() + velocity);
 }
 
-void YellowBullet::_on_area_2d_area_entered(Area2D* area) {
+void YellowBullet::_on_area_2d_area_entered(Area2D *area) {
     if(area->is_class("BulletArea")) area->call("_on_yellow_bullet_hit");
 }
 

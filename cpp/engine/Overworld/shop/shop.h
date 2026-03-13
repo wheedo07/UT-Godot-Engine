@@ -48,16 +48,16 @@ namespace godot {
             Array dialogue_expressions;
             int temp_return_state = 0;
 
-            MenuSoul* soul;
-            CameraFx* camera;
-            AdvancedTextTyper* keeper_dialogue;
-            ItemSlider* item_slider_thing;
-            RichTextLabel* sell_items;
-            RichTextLabel* dialogue_options;
+            MenuSoul *soul;
+            CameraFx *camera;
+            AdvancedTextTyper *keeper_dialogue;
+            ItemSlider *item_slider_thing;
+            RichTextLabel *sell_items;
+            RichTextLabel *dialogue_options;
             Array rects;
-            NinePatchRect* items_info_box;
-            RichTextLabel* items_info;
-            RichTextLabel* items;
+            NinePatchRect *items_info_box;
+            RichTextLabel *items_info;
+            RichTextLabel *items;
             Array gold_inv_info;
 
             void _in_state(int new_state);

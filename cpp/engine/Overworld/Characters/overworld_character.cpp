@@ -77,7 +77,7 @@ void OverworldCharacterNode::_ready() {
     area_interact->connect("interacted", Callable(this, "_on_area_interacted"));
 
     Ref<PackedScene> scene = ResourceLoader::get_singleton()->load("res://Engine/RequiredNode/overworld_character_node.tscn");
-    Node* requiredNode = scene->instantiate();
+    Node *requiredNode = scene->instantiate();
     add_child(requiredNode);
     
     alert = Object::cast_to<AnimatedSprite2D>(requiredNode->get_node_internal("Alert"));
@@ -203,7 +203,7 @@ void OverworldCharacterNode::_on_area_interacted() {
         return;
     }
     
-    TextBox* ct = stagehand->summontextbox();
+    TextBox *ct = stagehand->summontextbox();
     ct->connect("dialogue_finished", Callable(this, "emit_signal").bind("character_finished"), CONNECT_ONE_SHOT);
     Ref<Dialogues> data = dialogues->get_data(current_index);
     if(data.is_valid()) {
@@ -256,18 +256,18 @@ int OverworldCharacterNode::get_frame_alert() {
     return frame_alert;
 }
 
-void OverworldCharacterNode::set_sprite(OverworldSprite* p_sprite) {
+void OverworldCharacterNode::set_sprite(OverworldSprite *p_sprite) {
     sprite = p_sprite;
 }
 
-OverworldSprite* OverworldCharacterNode::get_sprite() const {
+OverworldSprite *OverworldCharacterNode::get_sprite() const {
     return sprite;
 }
 
-void OverworldCharacterNode::set_area_interact(InteractionTrigger* p_area) {
+void OverworldCharacterNode::set_area_interact(InteractionTrigger *p_area) {
     area_interact = p_area;
 }
 
-InteractionTrigger* OverworldCharacterNode::get_area_interact() const {
+InteractionTrigger *OverworldCharacterNode::get_area_interact() const {
     return area_interact;
 }

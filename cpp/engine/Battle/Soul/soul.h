@@ -48,7 +48,7 @@ namespace godot {
             };
 
         private:
-            Input* input;
+            Input *input;
             Array jump;
             float speed;
             float gravity;
@@ -63,26 +63,22 @@ namespace godot {
             Vector2 gravity_direction;
             SpecialBulletMode special_bullet_mode;
 
-            Node2D* sprite;
-            GPUParticles2D* ghost;
-            GPUParticles2D* afterimage;
-            AudioStreamPlayer* shoot;
-            AudioStreamPlayer* mode_change_sound;
-            BattleMain* main;
-            Area2D* area;
-            CollisionShape2D* collision;
-            CollisionShape2D* collision_area;
-            AudioStreamPlayer* wallhit;
-            RichTextLabel* hp_label;
+            Node2D *sprite;
+            GPUParticles2D *ghost, *afterimage;
+            AudioStreamPlayer *shoot, *mode_change_sound, *wallhit;
+            BattleMain *main;
+            Area2D *area;
+            CollisionShape2D *collision, *collision_area;
+            RichTextLabel *hp_label;
 
             // 소울 모드 관련
             Ref<PackedScene> green_mode_scene;
-            GreenShielding* green_shield;
+            GreenShielding *green_shield;
 
             Ref<PackedScene> yellow_bullet_scene;
 
             Ref<PackedScene> cyan_detect_scene;
-            CyanDetection* cyan_detector;
+            CyanDetection *cyan_detector;
 
             Dictionary mode_nodes;
 
@@ -122,10 +118,10 @@ namespace godot {
             void update_purple_pos();
             void _kill_able_tween();
             void enable_tween();
-            void check_bullet(Area2D* area);
-            void hurt(BulletArea* area);
-            void heal(BulletArea* area);
-            void _fade_tw_calle(Node* node_ref, Node* parent_ref);
+            void check_bullet(Area2D *area);
+            void hurt(BulletArea *area);
+            void heal(BulletArea *area);
+            void _fade_tw_calle(Node *node_ref, Node *parent_ref);
             void _on_death();
             void set_property(Variant value);
         

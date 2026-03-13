@@ -13,8 +13,8 @@ namespace godot {
         
         private:
             bool can_move;
-            Sprite2D* sprite;
-            GPUParticles2D* glow;
+            Sprite2D *sprite;
+            GPUParticles2D *glow;
 
             void set_property(bool value);
 

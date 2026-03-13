@@ -107,7 +107,7 @@ void UI::_ready() {
     item_actions[2.0] = get_node_internal("Control/StatAndOptions/Items/Drop");
     soultarget = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"))->get_global_position();
 
-    UI_Box* stats_box = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Stats"));
+    UI_Box *stats_box = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Stats"));
     if(global->get_player_position().y >= 240) {
         stats_box->set_position(Vector2(0, 280));
     }
@@ -118,7 +118,7 @@ void UI::_ready() {
     _set_enabled_options();
     soul_move(Vector2(0,0));
   
-    UI_Box* option_box = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Options"));
+    UI_Box *option_box = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Options"));
     option_box->grow();
     stats_box->grow();
     option_box->get_tw()->tween_property(soul, "self_modulate:a", 1, 1.2);
@@ -321,7 +321,7 @@ void UI::_close_menu() {
     
     Ref<Tween> tw = get_tree()->create_tween();
     tw->tween_property(soul, "modulate:a", 0.0, 0.2)->set_ease(Tween::EASE_OUT)->set_trans(Tween::TRANS_EXPO);
-    UI_Box* tw_property = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Options"));
+    UI_Box *tw_property = Object::cast_to<UI_Box>(get_node_internal("Control/StatAndOptions/Options"));
     tw_property->get_tw()->connect("finished", Callable(this, "_on_animation_finished"));
 }
 
@@ -397,7 +397,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
             }
             case CELL: {
                 _close_menu();
-                Overworld* ow = Object::cast_to<Overworld>(global->get_scene_container()->get_current_scene());
+                Overworld *ow = Object::cast_to<Overworld>(global->get_scene_container()->get_current_scene());
                 if(ow) {
                     if(ow->has_method("start_cellphone")) { // C++ 이랑 GDscript 모두 호환되도록
                         ow->call("start_cellphone", int(soulposition.y));
@@ -507,25 +507,25 @@ bool UI::soul_move(const Vector2& action) {
     Vector2 target;
     switch (current_state) {
         case OPTIONS: {
-            RichTextLabel* options_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"));
+            RichTextLabel *options_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"));
             soultarget = options_node->get_global_position() + soulposition * option_seperation;
             target = soultarget + Vector2(-12, 15);
             break;
         }
         case ITEM: {
-            RichTextLabel* items_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Items/Items"));
+            RichTextLabel *items_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Items/Items"));
             soultarget = items_node->get_global_position() + soulposition * items_seperation;
             target = soultarget + Vector2(-12, 13);
             break;
         }
         case ITEM_ACTION: {
-            Node* action_node = Object::cast_to<Node>(item_actions[soulposition.x]);
+            Node *action_node = Object::cast_to<Node>(item_actions[soulposition.x]);
             soultarget = action_node->call("get_global_position");
             target = soultarget + Vector2(-12, 13);
             break;
         }
         case CELL: {
-            RichTextLabel* numbers_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Cells/Numbers"));
+            RichTextLabel *numbers_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Cells/Numbers"));
             soultarget = numbers_node->get_global_position() + soulposition * items_seperation;
             target = soultarget + Vector2(-12, 13);
             break;

@@ -71,7 +71,7 @@ void ItemInteraction::_bind_methods() {
 }
 
 void ItemInteraction::discover() {
-    TextBox* txtbox = stagehand->summontextbox();
+    TextBox *txtbox = stagehand->summontextbox();
     
     bool inventory_full = global->get_items().size() == 8;
     

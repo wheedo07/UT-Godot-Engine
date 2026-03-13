@@ -22,9 +22,8 @@ namespace godot {
             SoulType soul_type;
             Color human_color;
             Color monster_color;
-            GPUParticles2D* shards;
-            AudioStreamPlayer* snap_sound;
-            AudioStreamPlayer* shatter_sound;
+            GPUParticles2D *shards;
+            AudioStreamPlayer *snap_sound, *shatter_sound;
             
             void _on_first_timer_timeout();
             void _on_second_timer_timeout();

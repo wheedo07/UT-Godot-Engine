@@ -23,7 +23,7 @@ namespace godot {
 		
 		public:
 			Dictionary game_over;
-			Object* battle_encounter;
+			Object *battle_encounter;
 	        bool start, isSetting, isDebugTurn;
 
         private:
@@ -32,11 +32,11 @@ namespace godot {
 	        String saveDir;
 			String savepath;
 			String settingpath;
-	        AudioStreamPlayer* speedup_sound;
-	        AudioStreamPlayer* Music;
-            RichTextLabel* Info;
-            Timer* KrTimer;
-	        SceneContainer* scene_container;
+	        AudioStreamPlayer *Music;
+	        AudioStreamPlayer *speedup_sound;
+            RichTextLabel *Info;
+            Timer *KrTimer;
+	        SceneContainer *scene_container;
 	        bool first;
 	        bool fullscreen;
 	        bool debugmode, collision_visible;
@@ -83,9 +83,9 @@ namespace godot {
 			double krtime;
 			Dictionary backup;
 
-			OS* os;
-            DisplayServer* display;
-			Marshalls* marshalls;
+			OS *os;
+            DisplayServer *display;
+			Marshalls *marshalls;
 
 			double quit_time, speed_time, paused_time;
 			Ref<Tween> tw_label;
@@ -136,9 +136,9 @@ namespace godot {
 	        bool check_level_up();
 	        void toggle_fullscreen();
 			void change_setting(String setting_name, Variant to);
-    		AudioStreamPlayer* get_Music();
+    		AudioStreamPlayer *get_Music();
 			Vector2 get_player_position();
-    		SceneContainer* get_scene_container() const;
+    		SceneContainer *get_scene_container() const;
     		bool get_first() const;
     		bool get_fullscreen() const;
 

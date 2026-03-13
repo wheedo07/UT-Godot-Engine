@@ -25,8 +25,8 @@ namespace godot {
         private:
             String default_scene;
             String battle_scene_path;
-            Node* current_node;
-            ResourceLoader* loader;
+            Node *current_node;
+            ResourceLoader *loader;
 
             float blind_time;
 
@@ -39,7 +39,7 @@ namespace godot {
             void _on_scene_setup_finished(bool transition);
             void _load_battle_scene(const String& scene_path, const Ref<Encounter>& encounter);
             void _load_and_set_scene(const String& path);
-            void _set_player_data(Node* current_scene);
+            void _set_player_data(Node *current_scene);
 
         public:
             SceneChanger();

@@ -15,7 +15,7 @@ namespace godot {
             int action;
             String new_room;
             int new_room_entrance;
-            CollisionShape2D* Collision;
+            CollisionShape2D *Collision;
         
         public:
             enum Action {
@@ -29,8 +29,8 @@ namespace godot {
             ~OverworldAreaTrigger();
 
             virtual void _ready() override;
-            void _on_area_entered(Area2D* body);
-            void _on_body_entered(Node* body);
+            void _on_area_entered(Area2D *body);
+            void _on_body_entered(Node *body);
             void _successful_enter();
             void disable();
 

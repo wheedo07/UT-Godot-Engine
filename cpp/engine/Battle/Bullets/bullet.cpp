@@ -98,7 +98,7 @@ void Bullet::_physics_process(double delta) {
     }
 }
 
-Bullet* Bullet::set_mode(DamageMode mode) {
+Bullet *Bullet::set_mode(DamageMode mode) {
     if(mode != MODE_NULL) damage_mode = mode;
     return this;
 }

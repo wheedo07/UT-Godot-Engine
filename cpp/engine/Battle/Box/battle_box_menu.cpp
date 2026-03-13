@@ -189,7 +189,7 @@ void BattleBox::blitter_flavour() {
 
 void BattleBox::blitter_act() {
     int target_id = soul_pos_to_id(soul_position, false, 2);
-    Enemy* enemy = Object::cast_to<Enemy>(enemies[current_target_id]);
+    Enemy *enemy = Object::cast_to<Enemy>(enemies[current_target_id]);
     
     if (enemy && blitter_text) {
         Ref<ActInfo> act_info = enemy->_get_act_info(target_id);

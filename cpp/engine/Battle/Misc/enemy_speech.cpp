@@ -23,7 +23,7 @@ void EnemySpeech::_ready() {
 }
 
 void EnemySpeech::character_customize() {
-    CharacterSetting* setting = stagehand->get_character(current_character);
+    CharacterSetting *setting = stagehand->get_character(current_character);
     if(!setting) return;
 
     if(!setting->get_font().is_null()) {

@@ -83,14 +83,14 @@ void DeathScreen::set_property(Variant value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");
 }
 
-void DeathScreen::set_death_soul(DeathSoul* p_death_soul) {
+void DeathScreen::set_death_soul(DeathSoul *p_death_soul) {
     death_soul = p_death_soul;
 }
 
-DeathSoul* DeathScreen::get_death_soul() const {
+DeathSoul *DeathScreen::get_death_soul() const {
     return death_soul;
 }
 
-CameraFx* DeathScreen::get_camera_fx() const {
+CameraFx *DeathScreen::get_camera_fx() const {
     return global->get_scene_container()->get_camera();
 }

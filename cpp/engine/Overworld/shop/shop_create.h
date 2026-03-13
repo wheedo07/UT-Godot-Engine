@@ -14,10 +14,10 @@ namespace godot {
             static void _bind_methods();
 
         private:
-            SHOP* shop_ui;
-            AudioStreamPlayer* music_player;
-            RoomEntranceNode* room_exit;
-            AdvancedTextTyper* keeper_dialogue;
+            SHOP *shop_ui;
+            AudioStreamPlayer *music_player;
+            RoomEntranceNode *room_exit;
+            AdvancedTextTyper *keeper_dialogue;
 
             Ref<AudioStream> music;
             NodePath click_path;

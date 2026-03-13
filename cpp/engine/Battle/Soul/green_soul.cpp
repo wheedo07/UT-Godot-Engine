@@ -49,9 +49,9 @@ void GreenShielding::_change_shield_rot_deg(int to) {
     shield_tween->tween_property(shield, "rotation_degrees", to, TIME);
 }
 
-void GreenShielding::_on_shield_area_entered(Area2D* area) {
-    BulletArea* bullet_area = Object::cast_to<BulletArea>(area);
-    Bullet* bullet = bullet_area->bullet;
+void GreenShielding::_on_shield_area_entered(Area2D *area) {
+    BulletArea *bullet_area = Object::cast_to<BulletArea>(area);
+    Bullet *bullet = bullet_area->bullet;
     if(bullet) {
         call_deferred("_on_bullet_hit", bullet);
         ding_sound->play();
@@ -60,10 +60,10 @@ void GreenShielding::_on_shield_area_entered(Area2D* area) {
     }else ERR_PRINT("bullet 없음 에러");
 }
 
-void GreenShielding::_on_bullet_hit(Bullet* bullet) {
+void GreenShielding::_on_bullet_hit(Bullet *bullet) {
     if(bullet->has_method("on_hit_player_shield")) { // C++ 이랑 GDscript 모두 호환되도록
         bullet->call("on_hit_player_shield");
-    } else {
+    }else {
         bullet->on_hit_player_shield();
     }
 }

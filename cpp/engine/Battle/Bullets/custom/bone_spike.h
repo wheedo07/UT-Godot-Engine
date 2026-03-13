@@ -20,12 +20,11 @@ namespace godot {
         private:
             float collision_margin;
 
-            ReferenceRect* warning;
-            CollisionShape2D* collision;
-            Panel* mode_hint;
-            NinePatchRect* sprite_rect;
-            AudioStreamPlayer* alert_sound;
-            AudioStreamPlayer* spike_sound;
+            ReferenceRect *warning;
+            CollisionShape2D *collision;
+            Panel *mode_hint;
+            NinePatchRect *sprite_rect;
+            AudioStreamPlayer *alert_sound, *spike_sound;
 
             Tween::TransitionType tween_trans;
             Tween::EaseType tween_ease;

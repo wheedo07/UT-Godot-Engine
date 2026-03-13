@@ -17,15 +17,15 @@ void AudioPlayer::_bind_methods() {
 void AudioPlayer::_ready() {
     TypedArray<Node> children = get_children();
     for (int i = 0; i < children.size(); i++) {
-        Node* child = Object::cast_to<Node>(children[i]);
+        Node *child = Object::cast_to<Node>(children[i]);
         if(!child || !child->is_class("AudioStreamPlayer")) continue;
         audio_stream_players[child->get_name()] = Object::cast_to<AudioStreamPlayer>(child);
     }
 }
 
 void AudioPlayer::play(const String& audio_name) {
-    AudioStreamPlayer** player = audio_stream_players.getptr(audio_name);
-    if (!player) {
+    AudioStreamPlayer **player = audio_stream_players.getptr(audio_name);
+    if(!player) {
         ERR_PRINT(vformat(String::utf8("%s 라고 하는 이름의 오디오 플레이어가 없습니다"), audio_name));
         return;
     }
@@ -34,7 +34,7 @@ void AudioPlayer::play(const String& audio_name) {
 
 
 void AudioPlayer::loop_play(const String& audio_name) {
-    AudioStreamPlayer** player = audio_stream_players.getptr(audio_name);
+    AudioStreamPlayer **player = audio_stream_players.getptr(audio_name);
     if (!player) {
         ERR_PRINT(vformat(String::utf8("%s 라고 하는 이름의 오디오 플레이어가 없습니다"), audio_name));
         return;
@@ -44,7 +44,7 @@ void AudioPlayer::loop_play(const String& audio_name) {
 }
 
 void AudioPlayer::stop_audio(const String& audio_name) {
-    AudioStreamPlayer** player = audio_stream_players.getptr(audio_name);
+    AudioStreamPlayer **player = audio_stream_players.getptr(audio_name);
     if (!player) {
         return;
     }
@@ -56,9 +56,9 @@ void AudioPlayer::loop_audio(AudioStreamPlayer* audio) {
     audio->play();
 }
 
-AudioStreamPlayer* AudioPlayer::get_audio_stream_player(const String& audio_name) {
-    AudioStreamPlayer** player = audio_stream_players.getptr(audio_name);
-    if (!player) {
+AudioStreamPlayer *AudioPlayer::get_audio_stream_player(const String& audio_name) {
+    AudioStreamPlayer **player = audio_stream_players.getptr(audio_name);
+    if(!player) {
         for (auto it = audio_stream_players.begin(); it != audio_stream_players.end(); ++it) {
             return it->value;
         }

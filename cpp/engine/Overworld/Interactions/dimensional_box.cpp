@@ -11,12 +11,12 @@ void DimensionalBox::_bind_methods() {
 }
 
 void DimensionalBox::_ready() {
-    ResourceLoader* loader = ResourceLoader::get_singleton();
+    ResourceLoader *loader = ResourceLoader::get_singleton();
     ui_scene = loader->load("res://Engine/Overworld/ui_dimensionalBox.tscn");
 }
 
 void DimensionalBox::_on_interact_box() {
-    TextBox* textbox = stagehand->summontextbox();
+    TextBox *textbox = stagehand->summontextbox();
     textbox->connect("selected_option", Callable(this, "_on_textbox_select"), CONNECT_ONE_SHOT);
 
     Ref<Dialogues> dialogues = memnew(Dialogues);

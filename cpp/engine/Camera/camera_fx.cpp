@@ -44,7 +44,7 @@ void CameraFx::_ready() {
     if(!global) return;
 
     Ref<PackedScene> scene = ResourceLoader::get_singleton()->load("res://Engine/RequiredNode/camera_fx.tscn");
-    Node* requiredNode = scene->instantiate();
+    Node *requiredNode = scene->instantiate();
     add_child(requiredNode);
 
     blinder = Object::cast_to<ColorRect>(requiredNode->get_node_internal("CanvasLayer/Blinder"));
@@ -79,8 +79,8 @@ void CameraFx::_process(double delta) {
     bool tv = settings["vfx"];
     if(tv != vfx) {
         vfx = settings["vfx"];
-        for (int i = 0; i < VFX.size(); i++) {
-            Node* item = Object::cast_to<Node>(VFX[i]);
+        for(int i=0; i < VFX.size(); i++) {
+            Node *item = Object::cast_to<Node>(VFX[i]);
             item->call("set_visible", vfx);
         }
     }
@@ -94,7 +94,7 @@ void CameraFx::_process(double delta) {
 }
 
 void CameraFx::register_vfx(NodePath vfx_path) {
-    Node* vfx_node = get_node_internal(vfx_path);
+    Node *vfx_node = get_node_internal(vfx_path);
     VFX.push_back(glitcher);
 }
 

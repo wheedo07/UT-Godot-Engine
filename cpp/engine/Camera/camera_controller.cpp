@@ -148,6 +148,6 @@ int CameraController::get_limit_bottom() const {
     return limit_bottom;
 }
 
-CameraFx* CameraController::get_global_camera() {
+CameraFx *CameraController::get_global_camera() {
     return camerafx;
 }

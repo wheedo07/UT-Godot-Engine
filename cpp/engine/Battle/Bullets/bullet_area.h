@@ -12,7 +12,7 @@ namespace godot {
         
         public:
             int damage_mode;
-            Bullet* bullet;
+            Bullet *bullet;
             int damage;
             float iframes;
             float kr;

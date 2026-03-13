@@ -60,7 +60,7 @@ void SceneChanger::_ready() {
 }
 
 void SceneChanger::enter_room_default() {
-    CameraFx* camera = global->get_scene_container()->get_camera();
+    CameraFx *camera = global->get_scene_container()->get_camera();
     camera->blind(0.1, 1);
     camera->connect("finished_tween", Callable(this, "_load_and_set_scene").bind(default_scene), CONNECT_ONE_SHOT);
 }
@@ -72,7 +72,7 @@ void SceneChanger::enter_room_path(const String& room_path, const Dictionary& ex
     overworld_data["room"] = room_path;
     global->set_overworld_data(overworld_data);
     
-    CameraFx* camera = global->get_scene_container()->get_camera();
+    CameraFx *camera = global->get_scene_container()->get_camera();
     camera->blind(0.1, 1);
     camera->connect("finished_tween", Callable(this, "_load_and_set_scene").bind(room_path), CONNECT_ONE_SHOT);
 }
@@ -131,12 +131,12 @@ void SceneChanger::_on_scene_setup_finished(bool transition) {
         return;
     }
     
-    CameraFx* camera = global->get_scene_container()->get_camera();
-    SceneContainer* tree = global->get_scene_container();
+    CameraFx *camera = global->get_scene_container()->get_camera();
+    SceneContainer *tree = global->get_scene_container();
     tree->unload_current_scene();
 
     Ref<PackedScene> scene = loader->load(default_scene);
-    Overworld* sc = nullptr;
+    Overworld *sc = nullptr;
     if(is_cached_overworld_scene()) {
         sc = Object::cast_to<Overworld>(current_node);
     }else if(scene.is_valid() && !current_node) {
@@ -169,11 +169,11 @@ void SceneChanger::load_battle(const Ref<Encounter>& battle_resource, bool trans
         ERR_PRINT("global 로드 문제");
         return;
     }
-    SceneContainer* tree = global->get_scene_container();
+    SceneContainer *tree = global->get_scene_container();
     
     if (transition) {
         Ref<PackedScene> transition_scene = loader->load("res://Engine/Overworld/battle_transition.tscn");
-        BattleTransition* screen = Object::cast_to<BattleTransition>(transition_scene->instantiate());
+        BattleTransition *screen = Object::cast_to<BattleTransition>(transition_scene->instantiate());
         set_meta("scene_path", battle_scene_path);
         set_meta("encounter", battle_resource);
         set_meta("to_position", to_position);
@@ -214,10 +214,10 @@ void SceneChanger::_load_battle_scene(const String& scene_path, const Ref<Encoun
     global->set_player_can_move(true);
     
     Ref<PackedScene> battle_scene = loader->load(scene_path);
-    BattleMain* battle = Object::cast_to<BattleMain>(battle_scene->instantiate());
+    BattleMain *battle = Object::cast_to<BattleMain>(battle_scene->instantiate());
     battle->set_encounter(encounter);
     
-    SceneContainer* tree = global->get_scene_container();
+    SceneContainer *tree = global->get_scene_container();
     current_node = tree->get_current_scene();
     tree->get_main_viewport()->remove_child(current_node);
     

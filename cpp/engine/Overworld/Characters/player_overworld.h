@@ -45,12 +45,12 @@ namespace godot {
             int step_count = 0;
             String current_animation_name;
             
-            AnimatedSprite2D* sprite;
-            Area2D* interacter;
-            SoulOverworld* soul;
-            AnimatedSprite2D* alert_sprite;
-            AudioStreamPlayer* encounter_sound;
-            ProgressBar* hp_bar;
+            AnimatedSprite2D *sprite;
+            Area2D *interacter;
+            SoulOverworld *soul;
+            AnimatedSprite2D *alert_sprite;
+            AudioStreamPlayer *encounter_sound;
+            ProgressBar *hp_bar;
             
             Dictionary interact_posx;
             Dictionary interact_posy;

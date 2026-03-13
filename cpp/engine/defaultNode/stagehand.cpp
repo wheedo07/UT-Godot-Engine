@@ -32,16 +32,16 @@ void Stagehand::_ready() {
         return;
     }
     TypedArray<Node> character_nodes = get_node_internal("Character")->get_children();
-    for (int i = 0; i < character_nodes.size(); i++) {
-        Node* child = Object::cast_to<Node>(character_nodes[i]);
-        if (!child || !child->is_class("CharacterSetting")) continue;
+    for(int i=0; i < character_nodes.size(); i++) {
+        Node *child = Object::cast_to<Node>(character_nodes[i]);
+        if(!child || !child->is_class("CharacterSetting")) continue;
         characters[child->get_name()] = Object::cast_to<CharacterSetting>(child);
     }
 }
 
-CharacterSetting* Stagehand::get_character(String name) {
-    CharacterSetting** character = characters.getptr(name);
-    if (!character) {
+CharacterSetting *Stagehand::get_character(String name) {
+    CharacterSetting **character = characters.getptr(name);
+    if(!character) {
         ERR_PRINT(vformat(String::utf8("%s 라고 하는 이름의 캐릭터가 없습니다"), name));
         return nullptr;
     }
@@ -52,11 +52,11 @@ void Stagehand::set_property(Variant value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");
 }
 
-AudioPlayer* Stagehand::get_audio_player() const {
+AudioPlayer *Stagehand::get_audio_player() const {
     return audio_player;
 }
 
-TextBox* Stagehand::summontextbox() {
+TextBox *Stagehand::summontextbox() {
     if(!textbox) textbox = Object::cast_to<TextBox>(global->get_scene_container()->get_node_internal("SubViewportContainer/MainViewport/TextBox"));
     return textbox->_create();
 }

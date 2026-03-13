@@ -29,10 +29,10 @@ namespace godot {
             void ready() override;
             void start_attack() override;
 
-            Bone* create_bone(Masking type);
-            BoneSpike* create_boneSpike(Masking type);
-            Blaster* create_blaster(Masking type);
-            BattlePlatform* create_platform(Masking type);
+            Bone *create_bone(Masking type);
+            BoneSpike *create_boneSpike(Masking type);
+            Blaster *create_blaster(Masking type);
+            BattlePlatform *create_platform(Masking type);
     };
 }
 

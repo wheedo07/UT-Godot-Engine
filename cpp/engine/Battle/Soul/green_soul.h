@@ -21,14 +21,14 @@ namespace godot {
             const Color HIT_COL = Color("ff0000");
             const Color COLOR = Color(0, 0.5, 0); // DARK_GREEN
 
-            Timer* hit_timer;
-            Line2D* line;
-            Area2D* shield;
+            Timer *hit_timer;
+            Line2D *line;
+            Area2D *shield;
             Ref<Tween> shield_tween;
-            AudioStreamPlayer* ding_sound;
+            AudioStreamPlayer *ding_sound;
 
             void _on_timer_timeout();
-            void _on_bullet_hit(Bullet* bullet);
+            void _on_bullet_hit(Bullet *bullet);
         
         public:
             GreenShielding();
@@ -39,7 +39,7 @@ namespace godot {
             void _unhandled_input(const Ref<InputEvent>& event) override;
 
             void _change_shield_rot_deg(int to);
-            void _on_shield_area_entered(Area2D* area);
+            void _on_shield_area_entered(Area2D *area);
     };
 }
 

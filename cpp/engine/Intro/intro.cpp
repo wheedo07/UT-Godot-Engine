@@ -58,7 +58,7 @@ void Intro::_ready() {
         global->get_Music()->play();
     }
     Ref<PackedScene> scene = ResourceLoader::get_singleton()->load("res://Engine/RequiredNode/intro.tscn");
-    Node* requiredNode = scene->instantiate();
+    Node *requiredNode = scene->instantiate();
     add_child(requiredNode);
 
     intro_text = Object::cast_to<GenericTextTyper>(requiredNode->get_node_internal("IntroText"));
@@ -145,8 +145,7 @@ void Intro::_on_text_completed() {
     if(!enable_auto) return;
     Dictionary data = intro_data[current_index];
 
-    SceneTree* tree = get_tree();
-    Ref<SceneTreeTimer> timer = tree->create_timer(data.get("duration", 0), false);
+    Ref<SceneTreeTimer> timer = get_tree()->create_timer(data.get("duration", 0), false);
     timer->connect("timeout", Callable(this, "_on_next"), CONNECT_ONE_SHOT);
 }
 

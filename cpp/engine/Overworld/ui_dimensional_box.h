@@ -21,10 +21,9 @@ namespace godot {
             Vector2 soulposition;
             Vector2 seperation;
 
-            UI_Box* main;
-            MenuSoul* soul;
-            RichTextLabel* inventory_items;
-            RichTextLabel* box_items;
+            UI_Box *main;
+            MenuSoul *soul;
+            RichTextLabel *inventory_items, *box_items;
 
             bool soul_move(Vector2 action);
             void _set_items();

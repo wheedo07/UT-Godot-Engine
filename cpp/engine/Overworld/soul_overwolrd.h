@@ -18,12 +18,12 @@ namespace godot {
         private:
             bool isOn;
             float hiframes;
-            Area2D* area;
+            Area2D *area;
             Vector2 inputs;
 
-            void check_bullet(Area2D* area_node);
-            void hurt(BulletArea* bullet_area);
-            void heal(BulletArea* bullet_area);
+            void check_bullet(Area2D *area_node);
+            void hurt(BulletArea *bullet_area);
+            void heal(BulletArea *bullet_area);
 
         public:
             SoulOverworld();

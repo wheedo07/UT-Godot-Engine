@@ -20,9 +20,9 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            CameraFx* camera;
-            GenericTextTyper* intro_text;
-            TextureRect* intro_image;
+            CameraFx *camera;
+            GenericTextTyper *intro_text;
+            TextureRect *intro_image;
             Array intro_data;
             bool skip_intro, intro_completed;
             int current_index;

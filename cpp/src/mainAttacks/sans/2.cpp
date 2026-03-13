@@ -31,9 +31,9 @@ void AttackSans::turn_2() {
         {[this]() {
             soul->set_mode(SoulBattle::CYAN);
             sys->time_loop(Array(), [this](double delta, TimeAccumPtr acc) {
-                double* time = acc[0];
+                double *time = acc[0];
                 if(*time > 1) {
-                    Bone* b = create_bone(Masking::RELATIVE_BOX_CLIP);
+                    Bone *b = create_bone(Masking::RELATIVE_BOX_CLIP);
                     b->tween_height(10, 0);
                     b->set_rotation_degrees(90);
                     int y = UFus::randi_range(10, 150);
@@ -57,14 +57,14 @@ void AttackSans::turn_2() {
             float radius = 130.0f;
             float angle_increment = 90.0f;
             sys->time_loop(Array(),[this, center, radius, angle_increment](double delta, TimeAccumPtr acc) {
-                double* time = acc[0];
-                double* current_angle = acc[1];
+                double *time = acc[0];
+                double *current_angle = acc[1];
                 
                 *current_angle += UFus::deg_to_rad(angle_increment) * delta;
                 *current_angle = UFus::fmod(*current_angle, 2.0 * Math_PI);
                 if (*time >= 0.2) {
                     Vector2 spawn_position = Vector2(center.x + radius * cos(*current_angle), center.y + radius * sin(*current_angle));
-                    Blaster* bl = create_blaster(Masking::RELATIVE_BOX);
+                    Blaster *bl = create_blaster(Masking::RELATIVE_BOX);
                     bl->set_position(Vector2(spawn_position.x, spawn_position.y-100));
                     bl->set_rotation_degrees(UFus::rad_to_deg(*current_angle) + 90);
                     bl->fire(spawn_position, 1.5, 0.6, 0.3, 0.4);

@@ -28,16 +28,15 @@ namespace godot {
             Ref<Tween> tween_namepos;
             Ref<Tween> tween_shake;
 
-            Control* name;
-            Label* name_label;
-            AudioStreamPlayer* no_sound;
-            GenericTextTyper* typer;
+            Control *name;
+            Label *name_label;
+            AudioStreamPlayer *no_sound, *cymbal;
+            GenericTextTyper *typer;
             Array choices;
-            HSplitContainer* confirmation;
-            ColorRect* color_rect;
-            AudioStreamPlayer* cymbal;
-            RichTextLabel* prompt;
-            CameraController* camera;
+            HSplitContainer *confirmation;
+            ColorRect *color_rect;
+            RichTextLabel *prompt;
+            CameraController *camera;
 
             void _on_typer_finished(bool is_deny);
             void _on_choice_made(int id);

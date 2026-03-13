@@ -34,8 +34,7 @@ namespace godot {
             Vector2 output;
             Joystick_mode joystick_mode;
             Visibility_mode visibility_mode;
-            TextureRect* base;
-            TextureRect* tip;
+            TextureRect *base, *tip;
             Vector2 base_default_position;
             Vector2 tip_default_position;
             Color default_color;

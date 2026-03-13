@@ -24,9 +24,9 @@ namespace godot {
             MovementMode fire_mode;
             Ref<Tween> velocity_tween;
 
-            Node* sprite;
+            Node *sprite;
             NodePath collision_path;
-            CollisionShape2D* collision;
+            CollisionShape2D *collision;
             Tween::TransitionType tween_trans;
             Tween::EaseType tween_ease;
             Ref<Tween> tw;

@@ -69,7 +69,7 @@ void TextBox::_ready() {
             case 2: path += "Third"; break;
             case 3: path += "Fourth"; break;
         }
-        TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(get_node_internal(path));
+        TextBoxOptionWriter *option = Object::cast_to<TextBoxOptionWriter>(get_node_internal(path));
         option->set_text("");
         Options[i] = option;
     }
@@ -151,9 +151,9 @@ void TextBox::_reset_state() {
     hide();
 }
 
-TextBox* TextBox::_create() {
+TextBox *TextBox::_create() {
     _reset_state();
-    Control* control = Object::cast_to<Control>(get_node_internal("Control"));
+    Control *control = Object::cast_to<Control>(get_node_internal("Control"));
     if(global->get_player_position().y >= 240) {
         control->set_position(Vector2(33, 10));
     }else control->set_position(Vector2(33, 322));
@@ -199,7 +199,7 @@ void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& opti
     if(!effects.is_empty()) {
         Text->set_effects(effects);
         for(int i=0; i < 4; i++) {
-            TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
+            TextBoxOptionWriter *option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
             option->set_effects(effects);
         }
     }
@@ -209,7 +209,7 @@ void TextBox::abstract(const Ref<Dialogues>& text, const PackedStringArray& opti
 }
 
 void TextBox::generic(const Ref<Dialogues>& text, const PackedStringArray& options, const TypedArray<Dialogues>& text_after_options) {
-    CharacterSetting* setting = stagehand->get_character("DEFAULT");
+    CharacterSetting *setting = stagehand->get_character("DEFAULT");
     if(!setting) {
         ERR_PRINT("DEFAULT가 없습니다 대화를 진행할수 없습니다");
         return;
@@ -223,7 +223,7 @@ void TextBox::generic(const Ref<Dialogues>& text, const PackedStringArray& optio
         if(i == 0) {
             Text->set_click(setting);
         }else if(i <= 4) {
-            TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i-1]);
+            TextBoxOptionWriter *option = Object::cast_to<TextBoxOptionWriter>(Options[i-1]);
             option->set_click(setting);
         }
     }
@@ -232,7 +232,7 @@ void TextBox::generic(const Ref<Dialogues>& text, const PackedStringArray& optio
 }
 
 void TextBox::character(bool head_hide, String chr, const Ref<Dialogues>& dialogues, const PackedStringArray& options, const TypedArray<Dialogues>& dialogues_after_options) {
-    CharacterSetting* setting = stagehand->get_character(chr);
+    CharacterSetting *setting = stagehand->get_character(chr);
     if(!setting) {
         ERR_PRINT(vformat(String::utf8("%s 라는 캐릭터가 없습니다 대화를 진행할수 없습니다"), chr));
         return;
@@ -257,7 +257,7 @@ void TextBox::character(bool head_hide, String chr, const Ref<Dialogues>& dialog
         if(i == 0) {
             Text->set_click(setting);
         }else if (i <= 4) {
-            TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i-1]);
+            TextBoxOptionWriter *option = Object::cast_to<TextBoxOptionWriter>(Options[i-1]);
             option->set_click(setting);
         }
     }
@@ -284,7 +284,7 @@ void TextBox::_setup_options_typing(const PackedStringArray& options) {
         Ref<Dialogues> option_dialogue = memnew(Dialogues); 
         option_dialogue->from({ options[i] });
 
-        TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
+        TextBoxOptionWriter *option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
         option->show();
         option->connect("finished_typing_options", Callable(this, "_on_option_typing_finished").bind(i, options), CONNECT_ONE_SHOT);
         Ref<SceneTreeTimer> timer = get_tree()->create_timer(i * 0.1, false);
@@ -375,7 +375,7 @@ void TextBox::_set_all_fonts(Ref<Font> font, float font_size) {
     Text->add_theme_font_size_override("mono_font_size", font_size);
     
     for(int i = 0; i < 4; i++) {
-        TextBoxOptionWriter* option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
+        TextBoxOptionWriter *option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
         if(!font.is_null()) {
             option->add_theme_font_override("normal_font", font);
             option->add_theme_font_override("bold_font", font);

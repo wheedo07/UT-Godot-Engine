@@ -96,18 +96,18 @@ Vector2i Typing::get_current_pos() const {
 
 void Typing::_create_letters() {
     int counter = 0;
-    ResourceLoader* loader = ResourceLoader::get_singleton();
+    ResourceLoader *loader = ResourceLoader::get_singleton();
     Vector2 margin_current = Vector2(0, 0);
     
     PackedStringArray cases = LETTERS.split("\n", false);
     
-    for (int case_idx=0; case_idx < cases.size(); case_idx++) {
+    for(int case_idx=0; case_idx < cases.size(); case_idx++) {
         String case_str = cases[case_idx];
         
         // 케이스 내 각 문자에 대해 처리
-        for (int letter_idx = 0; letter_idx < case_str.length(); letter_idx++) {
+        for(int letter_idx=0; letter_idx < case_str.length(); letter_idx++) {
             String letter = case_str.substr(letter_idx, 1);
-            OptionSelectable* option = memnew(OptionSelectable);
+            OptionSelectable *option = memnew(OptionSelectable);
             
             Ref<Theme> theme = loader->load("res://Engine/Themes/DTMono24.tres", "Theme");
             option->set_theme(theme);

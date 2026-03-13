@@ -34,7 +34,7 @@ void MainNode::sequence(vector<pair<function<void()>, LoopTime>> funs) {
 
     int base_id = next_sequence_id;
     next_sequence_id += funs.size() + 1;
-    int* index = new int(0);
+    int *index = new int(0);
 
     LoopTime looptime = funs[*index].second;
     if(holds_alternative<double>(looptime)) {
@@ -82,7 +82,7 @@ void MainNode::executeTrue(function<bool()> isFun, function<void()> fun, int id)
 }
 
 void MainNode::time_loop(Array init, function<void(double delta, TimeAccumPtr acc)> fun, double duration) {
-    double* total_time = new double(0);
+    double *total_time = new double(0);
     loop(init,[fun, duration, total_time](double delta, TimeAccumPtr acc) {
         *total_time += delta;
         

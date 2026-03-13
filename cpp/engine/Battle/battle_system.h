@@ -26,16 +26,16 @@ namespace godot {
             static void _bind_methods();
 
         public:
-            CameraController* camera;
-            BattleButtons* buttons;
-            BattleBox* box;
-            Node2D* enemies_node;
-            TextureRect* bg;
-            SoulBattle* soul_battle;
-            AttackManager* attacks;
-            Node* attacks_parent;
-            BattleHUD* hud;
-            EncounterScript* script_node;
+            CameraController *camera;
+            BattleButtons *buttons;
+            BattleBox *box;
+            Node2D *enemies_node;
+            TextureRect *bg;
+            SoulBattle *soul_battle;
+            AttackManager *attacks;
+            Node *attacks_parent;
+            BattleHUD *hud;
+            EncounterScript *script_node;
             int turn_number;
             bool transparent, player_turn;
         

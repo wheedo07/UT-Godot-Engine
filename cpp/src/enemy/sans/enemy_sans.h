@@ -12,12 +12,12 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            AnimatedSprite2D* body;
-            AnimatedSprite2D* head;
-            AnimatedSprite2D* throw_head;
-            Timer* throw_timer;
-            Node2D* sprite;
-            AnimationNodeStateMachinePlayback* AnimStates;
+            AnimatedSprite2D *body;
+            AnimatedSprite2D *head;
+            AnimatedSprite2D *throw_head;
+            Timer *throw_timer;
+            Node2D *sprite;
+            AnimationNodeStateMachinePlayback *AnimStates;
 
             Ref<PackedScene> attackScene;
 
@@ -30,7 +30,7 @@ namespace godot {
             void _on_end_turn() override;
             void on_mercy() override;
 
-            AttackSans* create_attack();
+            AttackSans *create_attack();
             void camera_pro(float time, String key="all", Variant value=true);
             void _on_throws(Vector2 dir=Vector2(0, 1), int power = 10);
             void end_throws();

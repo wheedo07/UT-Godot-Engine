@@ -162,7 +162,7 @@ void DustTransition::_draw() {
 
     Vector2 offset = sprite->get("position");
     RID canvas = get_canvas_item();
-    RenderingServer* rs = RenderingServer::get_singleton();
+    RenderingServer *rs = RenderingServer::get_singleton();
     
     for(int i=0; i < dust.size(); i++) {
         Dictionary particle = dust[i];

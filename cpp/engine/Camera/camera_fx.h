@@ -16,9 +16,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            ColorRect* blinder;
-            ColorRect* glitcher;
-            ColorRect* shaker;
+            ColorRect *blinder, *glitcher, *shaker;
             TypedArray<Node> VFX;
             Array tween;
             Ref<ShaderMaterial> shaker_shader;

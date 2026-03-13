@@ -45,12 +45,12 @@ void SceneContainer::_ready() {
 }
 
 void SceneContainer::_init_scene_container() {
-    OS* os = OS::get_singleton();
+    OS *os = OS::get_singleton();
     global->load_game();
     global->set_scene_container(this);
     global->connect("fullscreen_toggled", Callable(this, "_on_fullscreen_toggle"));
 
-    SubViewport* settings_viewport = Object::cast_to<SubViewport>(settings_viewport_container->get_node_internal("SubViewport"));
+    SubViewport *settings_viewport = Object::cast_to<SubViewport>(settings_viewport_container->get_node_internal("SubViewport"));
     if(os->has_feature("debug_mode") || os->is_debug_build()) {
         Ref<PackedScene> debug_menu_scene = loader->load("res://Engine/Main/debugmenu.tscn");
         settings_viewport->add_child(debug_menu_scene->instantiate());
@@ -77,7 +77,7 @@ void SceneContainer::set_current_scene(Node* p_scene) {
     if(current_scene && !current_scene->is_class("Intro")) global->start = true;
 }
 
-Node* SceneContainer::get_current_scene() const {
+Node *SceneContainer::get_current_scene() const {
     return current_scene;
 }
 
@@ -164,7 +164,7 @@ void SceneContainer::_refresh_window() {
     _just_toggled_border = false;
     Dictionary settings = global->get_settings();
     bool to = settings["border"];
-    Window* window = get_window();
+    Window *window = get_window();
     window->set_size(to ? Vector2(960, 540) : SCREEN_SIZE);
     window->move_to_center();
 }
@@ -185,10 +185,10 @@ void SceneContainer::_on_settings_setting_changed(const String& setting_name, co
     }
 }
 
-CameraFx* SceneContainer::get_camera() {
+CameraFx *SceneContainer::get_camera() {
     return camera;
 }
 
-SubViewport* SceneContainer::get_main_viewport() {
+SubViewport *SceneContainer::get_main_viewport() {
     return main_viewport;
 }

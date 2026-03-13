@@ -16,7 +16,7 @@ namespace godot {
             float step_size;
 
             NodePath grabber_path;
-            Node* grabber_node;
+            Node *grabber_node;
 
             const float speed = 40.0f;
         

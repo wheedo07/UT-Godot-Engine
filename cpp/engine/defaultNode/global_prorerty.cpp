@@ -364,11 +364,11 @@ void Global::set_scene_container(SceneContainer* value) {
     scene_container = value;
 }
 
-SceneContainer* Global::get_scene_container() const {
+SceneContainer *Global::get_scene_container() const {
     return scene_container;
 }
 
-AudioStreamPlayer* Global::get_Music() {
+AudioStreamPlayer *Global::get_Music() {
     return Music;
 }
 

@@ -35,17 +35,17 @@ namespace godot {
             Dictionary sizethingys;
             int current_item_page, total_item_pages;
 
-            MenuSoul* soul;
-            UI_Box* stats;
-            UI_Box* items;
-            UI_Box* cells;
-            ItemSlider* item_slider;
+            MenuSoul *soul;
+            UI_Box *stats;
+            UI_Box *items;
+            UI_Box *cells;
+            ItemSlider *item_slider;
             Dictionary item_actions;
 
             Vector2 soulposition;
             Vector2 soulposition_item;
             Dictionary optionsize;
-            TextBox* textbox;
+            TextBox *textbox;
             Vector2 soultarget;
             States current_state;
 

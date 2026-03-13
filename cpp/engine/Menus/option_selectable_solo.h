@@ -55,7 +55,7 @@ namespace godot {
             void enable();
             void disable();
 
-            void move_soul(OptionSelectableSolo* node);
+            void move_soul(OptionSelectableSolo *node);
     };
 }
 

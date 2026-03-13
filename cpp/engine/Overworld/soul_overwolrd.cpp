@@ -25,7 +25,7 @@ void SoulOverworld::_physics_process(double delta) {
 
     TypedArray<Area2D> overlapping_areas = area->get_overlapping_areas();
     for(int i=0; i < overlapping_areas.size(); i++) {
-        Area2D* area_node = Object::cast_to<Area2D>(overlapping_areas[i]);
+        Area2D *area_node = Object::cast_to<Area2D>(overlapping_areas[i]);
         if(area_node) {
             check_bullet(area_node);
         }
@@ -50,9 +50,9 @@ void SoulOverworld::_process(double delta) {
     }
 }
 
-void SoulOverworld::check_bullet(Area2D* area_node) {
+void SoulOverworld::check_bullet(Area2D *area_node) {
     if(!area_node->is_class("BulletArea")) return;
-    BulletArea* bullet_area = Object::cast_to<BulletArea>(area_node);
+    BulletArea *bullet_area = Object::cast_to<BulletArea>(area_node);
     if(bullet_area) {
         // 치유 영역 확인
         if (hiframes <= 0) {
@@ -97,7 +97,7 @@ void SoulOverworld::hurt(BulletArea* bullet_area) {
     emit_signal("hurt", damage_amount);
 
     if(global->get_player_hp() <= 0 && !global->get_debugmode()) {
-        Overworld* overworld = Object::cast_to<Overworld>(global->get_scene_container()->get_current_scene());
+        Overworld *overworld = Object::cast_to<Overworld>(global->get_scene_container()->get_current_scene());
         if(overworld->has_method("player_died")) { // C++ 이랑 GDscript 모두 호환되도록
             global->game_over["text"] = overworld->call("player_died");
         }else {
@@ -112,7 +112,7 @@ void SoulOverworld::hurt(BulletArea* bullet_area) {
     }
 }
 
-void SoulOverworld::heal(BulletArea* bullet_area) {
+void SoulOverworld::heal(BulletArea *bullet_area) {
     if(!bullet_area) return;
     hiframes = 1;
     global->heal(bullet_area->damage);

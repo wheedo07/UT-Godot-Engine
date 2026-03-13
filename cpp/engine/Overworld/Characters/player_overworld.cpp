@@ -94,7 +94,7 @@ void PlayerOverworld::_ready() {
     hp_bar = Object::cast_to<ProgressBar>(get_node_internal("HpBar"));
     sprite_material = sprite->get_material();
    
-    ResourceLoader* loader = ResourceLoader::get_singleton();
+    ResourceLoader *loader = ResourceLoader::get_singleton();
     player_menu = loader->load("res://Engine/Overworld/ui.tscn");
     hit_label = loader->load("res://Engine/Overworld/hit_label.tscn");
     alert_sprite->set_visible(false);
@@ -174,7 +174,7 @@ void PlayerOverworld::_set_canmove(bool value) {
 }
 
 void PlayerOverworld::refresh_direction() {
-    Input* input = Input::get_singleton();
+    Input *input = Input::get_singleton();
     float right = input->get_action_raw_strength("ui_right");
     float left = input->get_action_raw_strength("ui_left");
     float down = input->get_action_raw_strength("ui_down");
@@ -397,7 +397,7 @@ void PlayerOverworld::off_overwolrd_encounter() {
 
 void PlayerOverworld::_on_hurt(int damage, bool heal) {
     if(!wolrd_encounter) return;
-    RichTextLabel* num_label = Object::cast_to<RichTextLabel>(hit_label->instantiate());
+    RichTextLabel *num_label = Object::cast_to<RichTextLabel>(hit_label->instantiate());
     global->get_scene_container()->get_current_scene()->add_child(num_label);
     float random_x = UtilityFunctions::randf_range(-20, 20);
     float random_y = UtilityFunctions::randf_range(-5, 5);

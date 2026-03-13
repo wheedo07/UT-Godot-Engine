@@ -8,6 +8,11 @@
 BattleTransition::BattleTransition() {
     current_state = IDLE;
     state_processing = false;
+    black_rect = nullptr;
+    soul = nullptr;
+    ghost = nullptr;
+    noise_player = nullptr;
+    drop_player = nullptr;
 }
 
 BattleTransition::~BattleTransition() {}

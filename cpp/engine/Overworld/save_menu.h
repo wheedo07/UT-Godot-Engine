@@ -22,18 +22,17 @@ namespace godot {
         private:
             Vector2 defsize;
             bool saved;
-            Node* sc;
+            Node *sc;
 
             Ref<Tween> tw;
 
-            Control* control_node;
-            RichTextLabel* location_label;
-            RichTextLabel* name_label;
-            RichTextLabel* lv_label;
-            RichTextLabel* time_label;
-            OptionSelectableSolo* return_option;
-            OptionSelectableSolo* save_option;
-            MenuSoul* soul_node;
+            Control *control_node;
+            RichTextLabel *location_label;
+            RichTextLabel *name_label;
+            RichTextLabel *lv_label;
+            RichTextLabel *time_label;
+            OptionSelectableSolo *return_option, *save_option;
+            MenuSoul *soul_node;
         
         public:
             SaveMenu();

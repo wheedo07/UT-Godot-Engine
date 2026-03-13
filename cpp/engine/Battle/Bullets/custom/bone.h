@@ -21,10 +21,10 @@ namespace godot {
             float shader_time;
             Vector2 scroll_offset;
             
-            NinePatchRect* sprite_rect;
-            CollisionShape2D* collision;
-            BulletArea* area;
-            ResourceLoader* loader;
+            NinePatchRect *sprite_rect;
+            CollisionShape2D *collision;
+            BulletArea *area;
+            ResourceLoader *loader;
            
             Ref<ShaderMaterial> scroll_shader;
 

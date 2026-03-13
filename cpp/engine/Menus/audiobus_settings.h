@@ -17,9 +17,8 @@ namespace godot {
         private:
             String audio_bus_name;
             StringName audio_bus_key;
-            RichTextLabel* Name;
-            RichTextLabel* Info;
-            VSlider* VolumeSlider;
+            RichTextLabel *Name, *Info;
+            VSlider *VolumeSlider;
             int audiobus_id;
             Ref<Tween> tw;
         

@@ -29,10 +29,10 @@ namespace godot {
             TypedArray<Dialogues> text_after_option;
             Dictionary default_settings;
 
-            TextBoxWriter* Text;
-            AnimatedSprite2D* head;
-            MarginContainer* text_container;
-            MenuSoul* soul;
+            TextBoxWriter *Text;
+            AnimatedSprite2D *head;
+            MarginContainer *text_container;
+            MenuSoul *soul;
             Array Options;
 
             void _on_option_selected(int option);
@@ -69,7 +69,7 @@ namespace godot {
             Vector2 get_soul_offset() const;
 
             void _on_text_click_played();
-            TextBox* _create();
+            TextBox *_create();
     };
 }
 

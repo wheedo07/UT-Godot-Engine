@@ -36,11 +36,10 @@ namespace godot {
             TransitionState current_state = IDLE;
             bool state_processing = false;
             
-            ColorRect* black_rect = nullptr;
-            Node2D* soul = nullptr;
-            GPUParticles2D* ghost = nullptr;
-            AudioStreamPlayer* noise_player = nullptr;
-            AudioStreamPlayer* drop_player = nullptr;
+            ColorRect *black_rect;
+            Node2D *soul;
+            GPUParticles2D *ghost;
+            AudioStreamPlayer *noise_player, *drop_player;
             
         public:
             BattleTransition();

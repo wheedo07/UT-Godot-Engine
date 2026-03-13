@@ -18,8 +18,8 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            CameraFx* camerafx;
-            ColorRect* fade;
+            CameraFx *camerafx;
+            ColorRect *fade;
             Vector2 zoom;
             bool position_smoothing_enabled;
 
@@ -36,7 +36,7 @@ namespace godot {
             void _process(double delta) override;
 
             // 사용함수
-            CameraFx* get_global_camera();
+            CameraFx *get_global_camera();
             void force_update();
 
             void set_zoom(const Vector2& p_zoom);

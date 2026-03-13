@@ -14,7 +14,7 @@ namespace godot {
             static void _bind_methods();
         
         private:
-            DeathSoul* death_soul;
+            DeathSoul *death_soul;
 
             void _setup_death_animation();
             void set_property(Variant value);
@@ -32,10 +32,10 @@ namespace godot {
             void end_death();
             PackedStringArray get_gameOver_text();
 
-            void set_death_soul(DeathSoul* p_death_soul);
-            DeathSoul* get_death_soul() const;
+            void set_death_soul(DeathSoul *p_death_soul);
+            DeathSoul *get_death_soul() const;
             
-            CameraFx* get_camera_fx() const;
+            CameraFx *get_camera_fx() const;
     };
 }
 

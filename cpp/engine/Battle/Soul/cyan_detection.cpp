@@ -28,7 +28,7 @@ void CyanDetection::_process(double delta) {
     glow->set_emitting(false);
     TypedArray<Area2D> areas = get_overlapping_areas();
     for(int i=0; i < areas.size(); i++) {
-        Area2D* area = Object::cast_to<Area2D>(areas[i]);
+        Area2D *area = Object::cast_to<Area2D>(areas[i]);
         
         if(area && area->is_class("BulletArea")) {
             Color modulate = sprite->get_modulate();

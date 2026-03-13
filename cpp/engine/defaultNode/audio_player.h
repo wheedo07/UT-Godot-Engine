@@ -13,7 +13,7 @@ namespace godot {
         private:
             HashMap<String, AudioStreamPlayer*> audio_stream_players;
 
-            void loop_audio(AudioStreamPlayer* audio);
+            void loop_audio(AudioStreamPlayer *audio);
         
         public:
             AudioPlayer();
@@ -23,7 +23,7 @@ namespace godot {
             void play(const String& audio_name);
             void loop_play(const String& audio_name);
             void stop_audio(const String& audio_name);
-            AudioStreamPlayer* get_audio_stream_player(const String& audio_name);
+            AudioStreamPlayer *get_audio_stream_player(const String& audio_name);
     };
 }
 

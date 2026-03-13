@@ -26,7 +26,7 @@ namespace godot {
             
             Vector2i current_pos;
             bool shift_pressed;
-            OptionSelectable* shift_button;
+            OptionSelectable *shift_button;
         
         public:
             Typing();
