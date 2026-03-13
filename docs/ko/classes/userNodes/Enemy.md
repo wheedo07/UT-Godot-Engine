@@ -177,7 +177,7 @@ act_index는 [`enemy_acts`](#enemy_acts-arrayenemyact) 배열의 인덱스입니
 change_act(1)  # ACT 1로 변경
 ```
 
-### `play_dialogue(index: int, duration: float = 0, skip: bool = true, keep_expression: bool = false)`
+### `play_dialogue(index: int, duration: float = 0, skip: bool = true, keep_expression: bool = false)` :id=play_dialogue-1
 적의 대화 박스 보이게 하고 대화를 재생합니다.
 index은 대화 리소스의 인덱스입니다.
 
@@ -187,7 +187,7 @@ await finished_dialogue  # 대화 완료까지 대기
 play_dialogue(0, 2.0, false, true)  # 대화 인덱스 0 재생, 2초 후 자동 종료, 스킵 불가, 표정 유지
 ```
 
-### `play_set_dialogue(dialogue: Dialogues, duration: float = 0, skip: bool = true, keep_expression: bool = false)`
+### `play_set_dialogue(dialogue: Dialogues, duration: float = 0, skip: bool = true, keep_expression: bool = false)` :id=play_set_dialogue-1
 적의 대화 박스 보이게 하고 대화 리소스를 재생합니다.
 
 ```gdscript
