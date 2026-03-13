@@ -27,10 +27,10 @@ void Dialogues::_bind_methods() {
 
 Array Dialogues::get_dialogues_single(DialogueType dialog_type) const {
     Array arr;
-    for (int i = 0; i < dialogues.size(); i++) {
+    for(int i=0; i < dialogues.size(); i++) {
         Ref<Dialogue> dialog = dialogues[i];
-        if (dialog.is_valid()) {
-            switch (dialog_type) {
+        if(dialog.is_valid()) {
+            switch(dialog_type) {
                 case DIALOGUE_TEXT:
                     arr.push_back(dialog->get_dialog_text());
                     break;

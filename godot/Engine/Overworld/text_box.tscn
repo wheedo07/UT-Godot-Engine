@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dy0t6jldvkcc1"]
+[gd_scene load_steps=5 format=3 uid="uid://dy0t6jldvkcc1"]
 
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Engine/Themes/BoxBackground.tres" id="1_gscy0"]
-[ext_resource type="SpriteFrames" uid="uid://dj2frtvnpp2o6" path="res://Core/text_box_head.tres" id="2_gj67d"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Engine/Themes/GlobalBoxTexture.tres" id="3_ftbcr"]
 [ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Engine/Main/menu_soul.tscn" id="4_5w4db"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="8_1qomw"]
@@ -23,8 +22,6 @@ visible = false
 z_index = 1
 position = Vector2(66, 75)
 scale = Vector2(2, 2)
-sprite_frames = ExtResource("2_gj67d")
-animation = &"SANS"
 
 [node name="Panel" type="Panel" parent="Control"]
 layout_mode = 1

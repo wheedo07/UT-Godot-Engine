@@ -244,7 +244,7 @@ void TextBox::character(bool head_hide, String chr, const Ref<Dialogues>& dialog
         head->show();
         text_container->set_size(Vector2(470, 143));
         text_container->set_position(Vector2(108, 5));
-        head->set_animation(chr);
+        head->set_sprite_frames(setting->get_text_box_head());
         Text->connect("expression_textbox_set", Callable(this, "_set_head_frame"));
     }
 
@@ -253,7 +253,7 @@ void TextBox::character(bool head_hide, String chr, const Ref<Dialogues>& dialog
     Text->set_extra_delay(setting->get_extra_delay());
     Text->set_entire_text_bbcode(setting->get_entire_text_bbcode());
     
-    for(int i = 0; i < 5; i++) {
+    for(int i=0; i < 5; i++) {
         if(i == 0) {
             Text->set_click(setting);
         }else if (i <= 4) {

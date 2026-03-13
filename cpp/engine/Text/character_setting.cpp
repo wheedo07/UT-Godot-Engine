@@ -23,12 +23,16 @@ void CharacterSetting::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_entire_text_bbcode"), &CharacterSetting::get_entire_text_bbcode);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "entire_text_bbcode", PROPERTY_HINT_MULTILINE_TEXT), "set_entire_text_bbcode", "get_entire_text_bbcode");
 
+    ClassDB::bind_method(D_METHOD("set_text_box_head", "value"), &CharacterSetting::set_text_box_head);
+    ClassDB::bind_method(D_METHOD("get_text_box_head"), &CharacterSetting::get_text_box_head);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "text_box_head", PROPERTY_HINT_RESOURCE_TYPE, "SpriteFrames"), "set_text_box_head", "get_text_box_head");
+
+    ADD_GROUP("advanced", "");
     ClassDB::bind_method(D_METHOD("set_extra_delay", "value"), &CharacterSetting::set_extra_delay);
     ClassDB::bind_method(D_METHOD("get_extra_delay"), &CharacterSetting::get_extra_delay);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "extra_delay"), "set_extra_delay", "get_extra_delay");
     ClassDB::bind_method(D_METHOD("set_no_sound", "value"), &CharacterSetting::set_no_sound);
     ClassDB::bind_method(D_METHOD("get_no_sound"), &CharacterSetting::get_no_sound);
-    ADD_GROUP("advanced", "");
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "extra_delay"), "set_extra_delay", "get_extra_delay");
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "no_sound"), "set_no_sound", "get_no_sound");
 }
 
@@ -70,4 +74,12 @@ void CharacterSetting::set_entire_text_bbcode(String value) {
 
 String CharacterSetting::get_entire_text_bbcode() {
     return entire_text_bbcode;
+}
+
+void CharacterSetting::set_text_box_head(const Ref<SpriteFrames>& value) {
+    text_box_head = value;
+}
+
+Ref<SpriteFrames> CharacterSetting::get_text_box_head() const {
+    return text_box_head;
 }

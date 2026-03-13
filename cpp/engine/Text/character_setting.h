@@ -2,6 +2,7 @@
 #define CHARACTER_SETTING_H
 
 #include<godot_cpp/classes/node.hpp>
+#include<godot_cpp/classes/sprite_frames.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
 #include<godot_cpp/classes/font.hpp>
 namespace godot {
@@ -15,6 +16,7 @@ namespace godot {
             Ref<Font> font;
             float text_size;
             String entire_text_bbcode;
+            Ref<SpriteFrames> text_box_head;
 
             String extra_delay;
             String no_sound;
@@ -37,6 +39,9 @@ namespace godot {
 
             void set_entire_text_bbcode(String value);
             String get_entire_text_bbcode();
+
+            void set_text_box_head(const Ref<SpriteFrames>& value);
+            Ref<SpriteFrames> get_text_box_head() const;
     };
 }
 

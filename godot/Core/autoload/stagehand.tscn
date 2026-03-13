@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bxambdq21t4hu"]
+[gd_scene load_steps=13 format=3 uid="uid://bxambdq21t4hu"]
 
 [ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="1_n5471"]
 [ext_resource type="AudioStream" uid="uid://d03elcf721v8r" path="res://sfx/snd_save.wav" id="2_bi6uv"]
@@ -8,6 +8,29 @@
 [ext_resource type="AudioStream" uid="uid://lp7i5p5u17hl" path="res://sfx/heal.wav" id="5_u7nfx"]
 [ext_resource type="FontFile" uid="uid://c4lu7m3c14u4q" path="res://assets/Fonts/sans.ttf" id="6_s7wao"]
 [ext_resource type="AudioStream" uid="uid://s6sq0p485acf" path="res://sfx/Clicks/sans.wav" id="6_ttt7e"]
+[ext_resource type="Texture2D" uid="uid://coveklulwsq8e" path="res://assets/sprite/sheet/sans_sheet.png" id="8_821gh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmtcj"]
+atlas = ExtResource("8_821gh")
+region = Rect2(131, 48, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lveqd"]
+atlas = ExtResource("8_821gh")
+region = Rect2(170, 48, 38, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qxklr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmtcj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lveqd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Stagehand" type="Stagehand"]
 
@@ -52,6 +75,7 @@ bus = &"SFX"
 [node name="SANS" type="CharacterSetting" parent="Character"]
 font = ExtResource("6_s7wao")
 entire_text_bbcode = "[b]"
+text_box_head = SubResource("SpriteFrames_qxklr")
 stream = ExtResource("6_ttt7e")
 max_polyphony = 3
 bus = &"SFX"
