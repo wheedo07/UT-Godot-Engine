@@ -253,6 +253,6 @@ F1 키를 눌러 디버그 메뉴를 열 때, 나오는 드롭다운 메뉴에 �
 ---
 
 ## 🔗 관련 문서
-- [`Overworld`](../userNodes/Overworld.md)
-- [`SceneContainer`](SceneContainer.md)
-- [`UI`](UI.md)
+- [Overworld - 오버월드 노드](../userNodes/Overworld.md)
+- [SceneContainer - 게임 씬 컨테이너](SceneContainer.md)
+- [UI - 오버월드 UI](UI.md)

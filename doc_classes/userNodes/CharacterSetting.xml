@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CharacterSetting" inherits="AudioStreamPlayer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=green](User creatable)[/color]
+        The CharacterSetting node is used to manage character voice settings, dialogue settings, and more.
+    </brief_description>
+    <description>
+        [b]Note[/b]
+        • The [CharacterSetting] node must be added as a child node under the Character node in the res://Core/autoload/stagehand.tscn file.
+
+        The CharacterSetting node is used to manage character voice settings, dialogue settings, and more.
+        This node inherits from [AudioStreamPlayer] and provides various features for playing character voices.
+        Through this, you can create and manage characters.
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+   </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/userNodes/CharacterSetting</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/userNodes/CharacterSetting</link>
+    </tutorials>
+
+    <members>
+        <member name="font" type="Font" setter="set_font" getter="get_font">
+            The font used for the character's dialogue.
+        </member>
+        <member name="text_size" type="float" setter="set_text_size" getter="get_text_size" default="28">
+            The font size used for the character's dialogue.
+        </member>
+        <member name="entire_text_bbcode" type="string" setter="set_entire_text_bbcode" getter="get_entire_text_bbcode" default="&quot;&quot;">
+            The BBCode style applied to the entire character's dialogue text.
+            This style is applied to the whole dialogue text, and different styles can be applied per individual line.
+        </member>
+        <member name="text_box_head" type="SpriteFrames" setter="set_text_box_head" getter="get_text_box_head">
+            The [SpriteFrames] for the speech bubble head used in the character's dialogue.
+            This [SpriteFrames] must consist of 50x50 frames, where each frame represents the animation of the speech bubble head.
+        </member>
+        <member name="extra_delay" type="String" setter="set_extra_delay" getter="get_extra_delay" default="&quot;@#$%^&amp;+=_-~`&lt;&gt;\&quot;|\\*{}()[].,!?&quot;">
+            A list of characters to which an extra delay is applied during typing.
+            A longer delay is applied after characters included in this string.
+            
+            The default value includes special characters and punctuation to provide a natural typing rhythm.
+        </member>
+        <member name="no_sound" type="String" setter="set_no_sound" getter="get_no_sound" default="&quot;@#$%^&amp;+=_-~`&lt;&gt;\&quot;|\\*{}()[].,!? &quot;">
+            A list of characters for which the typing sound will not be played.
+            The click sound will not play for characters included in this string.
+            
+            The default value includes special characters, punctuation, and spaces to provide a natural sound effect.
+        </member>
+    </members>
+</class>

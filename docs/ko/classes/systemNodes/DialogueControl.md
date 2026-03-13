@@ -53,5 +53,4 @@
 ---
 
 ## 🔗 관련 문서
-- [`Enemy`](../userNodes/Enemy.md)
-- [`Dialogues`](../resource/Dialogues.md)
+- [Dialogues - 대화 리소스](../resource/Dialogues.md)

@@ -31,6 +31,6 @@
 ---
 
 ## 🔗 관련 문서
-- [`Overworld`](../userNodes/Overworld.md)
-- [`PlayerOverworld`](PlayerOverworld.md)
+- [Overworld - 오버월드 노드](../userNodes/Overworld.md)
+- [PlayerOverworld - 오버월드 플레이어](PlayerOverworld.md)
 - [오버월드 만들기](/tutorials/overworld.md)
