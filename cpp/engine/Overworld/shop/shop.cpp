@@ -431,8 +431,8 @@ int SHOP::_get_sell_items_count() const {
     int count = 0;
     Array items = global->get_items();
     
-    for (int i = 0; i < items.size(); i++) {
-        for (int j = 0; j < sellferings.size(); j++) {
+    for(int i=0; i < items.size(); i++) {
+        for(int j=0; j < sellferings.size(); j++) {
             Ref<ShopItem> shop_item = sellferings[j];
             if(int(items[i]) == shop_item->get_item()) {
                 count++;
@@ -451,8 +451,8 @@ String SHOP::_get_sell_items(int id, int size) const {
     TypedArray<Item> item_list = global->get_item_list();
     
     Array sellable_items;
-    for (int i = 0; i < items.size(); i++) {
-        for (int j = 0; j < sellferings.size(); j++) {
+    for(int i=0; i < items.size(); i++) {
+        for(int j=0; j < sellferings.size(); j++) {
             Ref<ShopItem> shop_item = sellferings[j];
             if (int(items[i]) == shop_item->get_item()) {
                 sellable_items.push_back(i);
@@ -464,9 +464,9 @@ String SHOP::_get_sell_items(int id, int size) const {
     int start_index = (id - 1);
     int end_index = MIN(start_index + size, sellable_items.size());
     
-    for (int i = start_index; i < end_index; i++) {
+    for(int i=start_index; i < end_index; i++) {
         int item_index = sellable_items[i];
-        for (int j = 0; j < sellferings.size(); j++) {
+        for (int j=0; j < sellferings.size(); j++) {
             Ref<ShopItem> shop_item = sellferings[j];
             if (int(items[item_index]) == shop_item->get_item()) {
                 Ref<Item> item_data = item_list[items[item_index]];
@@ -487,7 +487,7 @@ void SHOP::_write_shop_items() {
     String txt = "";
     TypedArray<Item> item_list = global->get_item_list();
     
-    for (int i = 0; i < offerings.size(); i++) {
+    for(int i=0; i < offerings.size(); i++) {
         Ref<ShopItem> shop_item = offerings[i];
         Ref<Item> item_data = item_list[shop_item->get_item()];
         txt += vformat("%sG - %s\n", shop_item->get_cost(), item_data->get_item_name_tr());

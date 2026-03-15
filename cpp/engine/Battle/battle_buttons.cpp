@@ -220,9 +220,9 @@ void BattleButtons::disable() {
 }
 
 void BattleButtons::_reset() {
-    for (int i = 0; i < buttons.size(); i++) {
+    for(int i=0; i < buttons.size(); i++) {
         AnimatedSprite2D *button = Object::cast_to<AnimatedSprite2D>(buttons[i]);
-        if (button) {
+        if(button) {
             button->set_frame(0);
         }
     }

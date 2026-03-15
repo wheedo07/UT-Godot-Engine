@@ -247,11 +247,9 @@ void BattleMain::_on_action(const String& action) {
             end_encounter();
         }else {
             bool solo = check_enemy_solo();
-            for (int i = 0; i < enemies.size(); i++) {
+            for(int i=0; i < enemies.size(); i++) {
                 Enemy *e = Object::cast_to<Enemy>(enemies[i]);
-                if (e) {
-                    e->set_solo(solo);
-                }
+                if(e) e->set_solo(solo);
             }
             emit_signal("end_turn");
         }
@@ -471,9 +469,9 @@ void BattleMain::_mercy(int choice) {
             break;
         case 0:
             completed_size = enemy_size();
-            for (int i = 0; i < enemies.size(); i++) {
+            for(int i=0; i < enemies.size(); i++) {
                 Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
-                if (enemy) {
+                if(enemy) {
                     Ref<EnemyAct> state = enemy->get_enemy_acts()[enemy->get_current_act()];
                     enemy->connect("on_mercy_end", Callable(this, "_on_end").bind(state->get_sparable(), i), CONNECT_ONE_SHOT);
                     if(enemy->has_method("on_mercy")) { // C++ 이랑 GDscript 모두 호환되도록
@@ -504,7 +502,7 @@ void BattleMain::_on_end(bool mercy, int id) {
 void BattleMain::_item(int item_id) {
     emit_signal("item_used", item_id);
     completed_size = enemy_size();
-    for(int i = 0; i < enemies.size(); i++) {
+    for(int i=0; i < enemies.size(); i++) {
         Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
         if(enemy) {
             enemy->connect("on_item_end", Callable(this, "_on_end"), CONNECT_ONE_SHOT);
@@ -545,11 +543,9 @@ void BattleMain::_on_kill_enemy(Enemy *enemy) {
 
 bool BattleMain::check_enemy_solo() {
     int enemy_count = 0;
-    for (int i = 0; i < enemies.size(); i++) {
+    for(int i=0; i < enemies.size(); i++) {
         Enemy* enemy = Object::cast_to<Enemy>(enemies[i]);
-        if (enemy) {
-            enemy_count++;
-        }
+        if(enemy) enemy_count++;
     }
     return enemy_count == 1;
 }
@@ -660,12 +656,12 @@ void BattleMain::_on_get_turn() {
 }
 
 void BattleMain::_on_end_turn() {
-    for (int i = 0; i < enemies.size(); i++) {
+    for(int i=0; i < enemies.size(); i++) {
         Enemy *enemy = Object::cast_to<Enemy>(enemies[i]);
-        if (enemy) {
-            if (enemy->has_method("_on_end_turn")) { // C++ 이랑 GDscript 모두 호환되도록
+        if(enemy) {
+            if(enemy->has_method("_on_end_turn")) { // C++ 이랑 GDscript 모두 호환되도록
                 enemy->call("_on_end_turn");
-            } else {
+            }else {
                 enemy->_on_end_turn();
             }
         }
@@ -701,7 +697,7 @@ void BattleMain::add_enemy(Ref<PackedScene> enemy_scene) {
     Vector2 position = Vector2(0, 0);
     if(current_count == 1) {
         Enemy *existing_enemy = nullptr;
-        for(int i = 0; i < enemies.size(); i++) {
+        for(int i=0; i < enemies.size(); i++) {
             existing_enemy = Object::cast_to<Enemy>(enemies[i]);
             if(existing_enemy) {
                 existing_enemy->set_position(Vector2(-100, 0));

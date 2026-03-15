@@ -61,7 +61,7 @@ void TextBox::_ready() {
     Text->set_text("");
     
     Options.resize(4);
-    for(int i = 0; i < 4; i++) {
+    for(int i=0; i < 4; i++) {
         String path = "Control/TextContainer/Options/";
         switch (i) {
             case 0: path += "First"; break;
@@ -144,7 +144,7 @@ void TextBox::_reset_state() {
         disconnect("typing_skip", calls["callable"]);
     }
     
-    for(int i = 0; i < 4; i++) {
+    for(int i=0; i < 4; i++) {
         Options[i].call("hide");
     }
     set_key(true);
@@ -374,7 +374,7 @@ void TextBox::_set_all_fonts(Ref<Font> font, float font_size) {
     Text->add_theme_font_size_override("italics_font_size", font_size);
     Text->add_theme_font_size_override("mono_font_size", font_size);
     
-    for(int i = 0; i < 4; i++) {
+    for(int i=0; i < 4; i++) {
         TextBoxOptionWriter *option = Object::cast_to<TextBoxOptionWriter>(Options[i]);
         if(!font.is_null()) {
             option->add_theme_font_override("normal_font", font);

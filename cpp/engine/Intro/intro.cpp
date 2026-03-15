@@ -207,9 +207,9 @@ void Intro::_load_intro_data_from_json() {
     if(locale.find("_") != -1) locale = locale.get_slice("_", 0);
     
     intro_data = JSON::parse_string(json_text);
-    for(int i = 0; i < intro_data.size(); i++) {
+    for(int i=0; i < intro_data.size(); i++) {
         Dictionary entry = intro_data[i];
-        if (entry.has("image_path")) {
+        if(entry.has("image_path")) {
             String image_path = entry["image_path"];
             Ref<Texture2D> texture = ResourceLoader::get_singleton()->load(image_path);
             if (texture.is_valid()) {

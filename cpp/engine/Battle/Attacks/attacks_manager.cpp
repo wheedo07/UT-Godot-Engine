@@ -54,7 +54,7 @@ AttackBase *AttackManager::add_attack(const Ref<PackedScene>& attack) {
 }
 
 void AttackManager::start_attacks() {
-    for(int i = 0; i < current_attacks.size(); i++) {
+    for(int i=0; i < current_attacks.size(); i++) {
         if(run_attack_id.find(i) != -1) continue;
         start_attack(i);
     }
@@ -117,9 +117,9 @@ void AttackManager::end_attack(int id) {
 bool AttackManager::check_all_attacks_finished() {
     bool finished = true;
     
-    for(int i = 0; i < current_attacks.size(); i++) {
+    for(int i=0; i < current_attacks.size(); i++) {
         Variant attack = current_attacks[i];
-        if (attack.get_type() != Variant::Type::NIL) {
+        if(attack.get_type() != Variant::Type::NIL) {
             finished = false;
             break;
         }

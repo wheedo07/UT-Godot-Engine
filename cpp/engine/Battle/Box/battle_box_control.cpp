@@ -44,14 +44,13 @@ void BattleBox::set_webs(int n, float separation, int margin) {
 void BattleBox::clear_webs() {
     TypedArray<Node> children = webs->get_children();
     
-    for (int i = 0; i < children.size(); i++) {
+    for(int i=0; i < children.size(); i++) {
         Node *child = Object::cast_to<Node>(children[i]);
         if(child) {
             webs->remove_child(child);
             child->queue_free();
         }
     }
-    
     webs_array.clear();
 }
 
@@ -279,7 +278,7 @@ void BattleBox::polygon_enable() {
     static_shape = rect_poly.duplicate();
 
     polygon->set_disabled(false);
-    for (int i = 0; i < 4; i++) {
+    for(int i=0; i < 4; i++) {
         collisions[i].set("disabled", true);
     }
 }
@@ -488,11 +487,9 @@ void BattleBox::move_multiple_points(PackedInt64Array vertex_indices, PackedVect
 
 void BattleBox::stop_all_point_tweens() {
     Array keys = active_tweens.keys();
-    for (int i = 0; i < keys.size(); i++) {
+    for(int i=0; i < keys.size(); i++) {
         Ref<Tween> tween = active_tweens[keys[i]];
-        if (tween.is_valid()) {
-            tween->kill();
-        }
+        if(tween.is_valid()) tween->kill();
     }
     active_tweens.clear();
     tweening_vertices.clear();
@@ -703,11 +700,11 @@ int BattleBox::find_closest_vertex(const PackedVector2Array& poly, const Vector2
 bool BattleBox::is_polygon_valid(const PackedVector2Array& poly) {
     if (poly.size() < 3) return false;
     
-    for(int i = 0; i < poly.size(); i++) {
+    for(int i=0; i < poly.size(); i++) {
         Vector2 a1 = poly[i];
         Vector2 a2 = poly[(i + 1) % poly.size()];
         
-        for (int j = i + 2; j < poly.size(); j++) {
+        for(int j = i + 2; j < poly.size(); j++) {
             if(j == poly.size() - 1 && i == 0) continue;
             
             Vector2 b1 = poly[j];

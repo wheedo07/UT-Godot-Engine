@@ -15,7 +15,7 @@ Typing::Typing() {
     
     letters = Array();
     letters.resize(LIMIT);
-    for (int i = 0; i < LIMIT; i++) {
+    for(int i=0; i < LIMIT; i++) {
         letters[i] = Array();
         Array arr = letters[i];
         arr.resize(8);

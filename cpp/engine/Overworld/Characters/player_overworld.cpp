@@ -141,13 +141,12 @@ void PlayerOverworld::_physics_process(double delta) {
     
     interactables.clear();
     TypedArray<Area2D> areas = interacter->get_overlapping_areas();
-    for (int i = 0; i < areas.size(); i++) {
+    for(int i=0; i < areas.size(); i++) {
         Area2D* area = Object::cast_to<Area2D>(areas[i]);
         if(area->is_in_group("interactable")) {
             interactables.push_back(area);
         }
     }
-
     if(wolrd_encounter) soul->set_input(direction);
 }
 

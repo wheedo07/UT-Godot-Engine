@@ -544,10 +544,9 @@ String Global::xor_encrypt(String data, String key) {
     PackedByteArray data_bytes = data.to_utf8_buffer();
     PackedByteArray key_bytes = key.to_utf8_buffer();
     
-    for(int i = 0; i < data_bytes.size(); i++) {
+    for(int i=0; i < data_bytes.size(); i++) {
         data_bytes[i] ^= key_bytes[i % key_bytes.size()];
     }
-    
     return marshalls->raw_to_base64(data_bytes);
 }
 
@@ -555,10 +554,9 @@ String Global::xor_decrypt(String data, String key) {
     PackedByteArray encrypted_bytes = marshalls->base64_to_raw(data.strip_edges());
     PackedByteArray key_bytes = key.to_utf8_buffer();
     
-    for(int i = 0; i < encrypted_bytes.size(); i++) {
+    for(int i=0; i < encrypted_bytes.size(); i++) {
         encrypted_bytes[i] ^= key_bytes[i % key_bytes.size()];
     }
-    
     return String::utf8((char*)encrypted_bytes.ptr(), encrypted_bytes.size());
 }
 
@@ -645,7 +643,7 @@ void Global::_update_collision_visibility() {
         }
         
         TypedArray<Node> children = node->get_children();
-        for (int i = 0; i < children.size(); i++) {
+        for(int i=0; i < children.size(); i++) {
             node_stack.push_back(Object::cast_to<Node>(children[i]));
         }
     }

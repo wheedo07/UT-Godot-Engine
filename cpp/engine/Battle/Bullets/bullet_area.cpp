@@ -32,7 +32,7 @@ void BulletArea::_process(double delta) {
 
     if(is_monitoring()) {
         TypedArray<Area2D> overlapping_areas = get_overlapping_areas();
-        for(int i = 0; i < overlapping_areas.size(); i++) {
+        for(int i=0; i < overlapping_areas.size(); i++) {
             Area2D *overlap_node = Object::cast_to<Area2D>(overlapping_areas[i]);
             
             if(overlap_node && overlap_node->is_in_group("soul") && (damage_mode <= Bullet::MODE_GREEN)) {

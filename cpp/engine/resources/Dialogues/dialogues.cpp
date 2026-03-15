@@ -90,14 +90,14 @@ Ref<Dialogues> Dialogues::set_speed(const Array& speeds) {
 }
 
 Ref<Dialogues> Dialogues::set_pauses(Array pauses) {
-    for(int i = 0; i < dialogues.size(); i++) {
+    for(int i=0; i < dialogues.size(); i++) {
         Ref<Dialogue> dialog = dialogues[i];
-        if (dialog.is_valid() && i < pauses.size()) {
+        if(dialog.is_valid() && i < pauses.size()) {
             Array pause_array;
             
             if(pauses[i].get_type() == Variant::ARRAY) {
                 Array input_array = pauses[i];
-                for(int j = 0; j < input_array.size(); j++) {
+                for(int j=0; j < input_array.size(); j++) {
                     Ref<DialoguePause> pause_res = memnew(DialoguePause);
                     
                     if(input_array[j].get_type() == Variant::DICTIONARY) {
@@ -110,13 +110,13 @@ Ref<Dialogues> Dialogues::set_pauses(Array pauses) {
                     }
                     pause_array.push_back(pause_res);
                 }
-            } else if(pauses[i].get_type() == Variant::DICTIONARY) {
+            }else if(pauses[i].get_type() == Variant::DICTIONARY) {
                 Ref<DialoguePause> pause_res = memnew(DialoguePause);
                 Dictionary pause_dict = pauses[i];
                 pause_res->set_pause_index(pause_dict.get("index", 0));
                 pause_res->set_pause_duration(pause_dict.get("duration", 0.5));
                 pause_array.push_back(pause_res);
-            } else {
+            }else {
                 ERR_PRINT("문제 발생: pauses 배열의 요소는 Dictionary 또는 Array[Dictionary]여야 합니다.");
                 continue;
             }

@@ -274,7 +274,7 @@ void BattleBox::_physics_process(double delta) {
         Vector2 margin_offset = Vector2(margin_left, margin_top);
 
         points = polygon->get_polygon();
-        for(int i = 0; i < points.size(); i++) {
+        for(int i=0; i < points.size(); i++) {
             points[i] = points[i] - margin_offset;
         }
     }else {

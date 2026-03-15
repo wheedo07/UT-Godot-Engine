@@ -136,11 +136,9 @@ void SoulBattle::_physics_process(double delta) {
     sprite->set_scale(Vector2(1, 1));
 
     TypedArray<Area2D> overlapping_areas = area->get_overlapping_areas();
-    for (int i = 0; i < overlapping_areas.size(); i++) {
+    for(int i=0; i < overlapping_areas.size(); i++) {
         Area2D *area_node = Object::cast_to<Area2D>(overlapping_areas[i]);
-        if (area_node) {
-            check_bullet(area_node);
-        }
+        if(area_node) check_bullet(area_node);
     }
 
     hp_label->set_text(vformat("[color=%s]%d/%d", global->get_player_kr() ? "ff00ff" : "ffffff", global->get_player_hp(), global->get_player_max_hp()));

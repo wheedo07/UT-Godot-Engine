@@ -176,7 +176,7 @@ void UI::_set_enabled_options() {
     TypedArray<bool> enabled_array;
     enabled_array.resize(enabled_options.size());
     
-    for (int i = 0; i < enabled_options.size(); i++) {
+    for(int i=0; i < enabled_options.size(); i++) {
         switch (i) {
             case 0:
                 enabled_array[i] = global->get_items().size() > 0 && enabled_options[i];
@@ -197,13 +197,12 @@ void UI::_write_options() {
     _set_enabled_options();
     String txt;
     
-    for (int i = 0; i < enabled_options.size(); i++) {
+    for(int i=0; i < enabled_options.size(); i++) {
         bool is_enabled = enabled_options[i];
         String color = is_enabled ? "white" : "gray";
         String option_text = options_dict[i];
         txt += vformat("[color=%s]%s[/color]\n", color, tr(option_text));
     }
-    
     Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"))->set_text(txt);
 }
 
