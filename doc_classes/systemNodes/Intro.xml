@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Intro" inherits="Control" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+    <brief_description>
+        [color=red](Not user creatable)[/color]
+        A system node that plays the intro sequence when the game starts.
+    </brief_description>
+    <description>
+        The [Intro] class is a node in the scene that runs first when the game starts.
+        It loads intro data from a JSON file and displays images and text sequentially.
+
+        [b]JSON Data Format:[/b]
+        [codeblock]
+        [
+            {
+                "image_path": "res://Intro/intro_1.png",
+                "text": {
+                    "ko": "오래 옛날, 두 종족이 지구를 다스렸습니다...",
+                    "en": "Long ago, two races ruled over Earth...",
+                    "ja": "むかしむかし、ふたつの種族が地球を支配していた..."
+                },
+                "speed": {
+                    "ko": 0.05,
+                    "en": 0.03,
+                    "ja": 0.04
+                },
+                "duration": 3.0
+            },
+            {
+                "image_path": "res://Intro/intro_2.png",
+                "text": {
+                    "ko": "인간과 몬스터입니다.",
+                    "en": "HUMANS and MONSTERS.",
+                    "ja": "人間とモンスター。"
+                },
+                "speed": {
+                    "ko": 0.05,
+                    "en": 0.03,
+                    "ja": 0.04
+                },
+                "duration": 3.0
+            }
+        ]
+        [/codeblock]
+
+        [en] For a more detailed explanation, please refer to the tutorials linked below.
+        [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
+    </description>
+    <tutorials>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/classes/systemNodes/Intro</link>
+        <link>https://wheedo07.github.io/UT-Godot-Engine/ko/index.html#/classes/systemNodes/Intro</link>
+    </tutorials>
+
+    <methods>
+        <method name="ready" qualifiers="virtual">
+            <return type="void" />
+            <description>
+                A virtual method that can be overridden in a derived class to implement [b]game-specific[/b] initialization logic.
+            </description>
+        </method>
+        <method name="is_intro_completed" qualifiers="const">
+            <return type="bool" />
+            <description>
+                Returns whether the intro has been completed.
+                Returns true when all intro sequences have finished or the user has skipped the intro.
+            </description>
+        </method>
+        <method name="next">
+            <return type="void" />
+            <description>
+                Advances to the next step of the intro sequence.
+                Can only be called manually to proceed to the next intro step when [member enable_auto] is set to false.
+            </description>
+        </method>
+    </methods>
+
+    <members>
+        <member name="intro_completed_path" type="String" setter="set_intro_completed_path" getter="get_intro_completed_path" default="&quot;&quot;">
+            The file path of the scene to transition to after the intro is complete.
+            If not set, the current scene remains active after the intro completes.
+        </member>
+        <member name="intro_json_path" type="String" setter="set_intro_json_path" getter="get_intro_json_path" default="&quot;res://Intro/intro_data.json&quot;">
+            The path to the JSON file where the intro sequence data is defined.
+            This file must contain the image, text, and timing information for each intro step.
+        </member>
+        <member name="music" type="AudioStream" setter="set_music" getter="get_music">
+            The background music to be played during the intro.
+        </member>
+        <member name="enable_auto" type="bool" setter="set_enable_auto" getter="get_enable_auto" default="false">
+            Sets whether the intro sequence advances automatically.
+            When set to true, each intro step automatically proceeds after the specified duration.
+            When set to false, the [method next] method must be called manually to advance to the next step.
+        </member>
+    </members>
+
+    <signals>
+        <signal name="intro_completed">
+            <param name="skipped" type="bool" />
+            <description>
+                Emitted when the intro sequence is complete.
+                [param skipped] indicates whether the user skipped the intro.
+            </description>
+        </signal>
+        <signal name="started_intro">
+            <param name="index" type="int" />
+            <description>
+                Emitted when each step of the intro sequence begins.
+                [param index] is the index of the current intro step.
+            </description>
+        </signal>
+    </signals>
+</class>
