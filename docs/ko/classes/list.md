@@ -51,6 +51,9 @@ UT-Godot-Engine에서 제공하는 모든 노드 목록입니다. 각 노드는 
 ### 오토로더 시스템
 - [`Global`](systemNodes/Global.md)
 
+### 시작 시스템
+- [`Intro`](systemNodes/Intro.md)
+
 ### 전투 시스템
 - [`SoulBattle`](systemNodes/SoulBattle.md)
 - [`AttackManager`](systemNodes/AttackManager.md)

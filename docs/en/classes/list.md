@@ -51,6 +51,9 @@ A list of all nodes provided by UT-Godot-Engine. Each node provides various feat
 ### Autoloader System
 - [`Global`](systemNodes/Global.md)
 
+### Starting System
+- [`Intro`](systemNodes/Intro.md)
+
 ### Battle System
 - [`SoulBattle`](systemNodes/SoulBattle.md)
 - [`AttackManager`](systemNodes/AttackManager.md)
