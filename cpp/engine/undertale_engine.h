@@ -1,5 +1,5 @@
-#ifndef Undertale_Engine_H
-#define Undertale_Engine_H
+#ifndef __Undertale_Engine_H__
+#define __Undertale_Engine_H__
 #include<godot_cpp/core/class_db.hpp>
 using namespace godot;
 

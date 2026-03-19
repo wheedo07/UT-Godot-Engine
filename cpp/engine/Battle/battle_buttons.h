@@ -1,5 +1,5 @@
-#ifndef BATTLE_BUTTONS_H
-#define BATTLE_BUTTONS_H
+#ifndef __BATTLE_BUTTONS_H__
+#define __BATTLE_BUTTONS_H__
 
 #include<godot_cpp/classes/node2d.hpp>
 #include<godot_cpp/classes/animated_sprite2d.hpp>

@@ -1,5 +1,5 @@
-#ifndef RegisterTYPE_H
-#define RegisterTYPE_H
+#ifndef __RegisterTYPE_H__
+#define __RegisterTYPE_H__
 #include<godot_cpp/core/class_db.hpp>
 #include "mainNode/mainNode.h"
 

@@ -1,5 +1,5 @@
-#ifndef OVERWORLD_SCENE_CHANGER_H
-#define OVERWORLD_SCENE_CHANGER_H
+#ifndef __SCENE_CHANGER_H__
+#define __SCENE_CHANGER_H__
 
 #include "engine/Camera/camera_fx.h"
 #include "engine/Overworld/overworld.h"

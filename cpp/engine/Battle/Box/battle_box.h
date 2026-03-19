@@ -1,5 +1,5 @@
-#ifndef BATTLE_BOX_H
-#define BATTLE_BOX_H
+#ifndef __BATTLE_BOX_H__
+#define __BATTLE_BOX_H__
 #define SCROLL_THRESHOLD 3
 
 #include "blitter.h"
