@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c4h17xgtksukm"]
 
-[ext_resource type="Texture2D" uid="uid://w4geahft3l6b" path="res://Core/DefaultSecne/Bullets/assets/bone_sans.png" id="1_0le5x"]
+[ext_resource type="Texture2D" uid="uid://w4geahft3l6b" path="res://Core/DefaultScene/Bullets/assets/bone_sans.png" id="1_0le5x"]
 
 [node name="Bone" type="Bone"]
 collision_margin = 8.0

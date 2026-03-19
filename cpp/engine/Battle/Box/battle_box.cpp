@@ -202,7 +202,7 @@ void BattleBox::_ready() {
     
     current_state_nodes[BattleState::State_BlitteringCasual] = get_node_internal("Behaviours/BlitteringCasual");
     current_state_nodes[BattleState::State_Blittering] = get_node_internal("Behaviours/Blittering");
-    current_state_nodes[BattleState::State_TargetEnemy] = get_node_internal("Behaviours/Targetting");
+    current_state_nodes[BattleState::State_TargetEnemy] = get_node_internal("Behaviours/Targeting");
     current_state_nodes[BattleState::State_Acting] = get_node_internal("Behaviours/Acting");
     current_state_nodes[BattleState::State_Iteming] = get_node_internal("Behaviours/Iteming");
     current_state_nodes[BattleState::State_Mercying] = get_node_internal("Behaviours/Mercying");

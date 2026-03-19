@@ -1,10 +1,10 @@
-#ifndef TARGETTING_BOX_BEHAVIOUR_H
-#define TARGETTING_BOX_BEHAVIOUR_H
+#ifndef __TARGETING_BOX_BEHAVIOUR_H__
+#define __TARGETING_BOX_BEHAVIOUR_H__
 
 #include "box_behaviour.h"
 namespace godot {
-    class TargettingBoxBehaviour : public BattleBoxBehaviour {
-        GDCLASS(TargettingBoxBehaviour, BattleBoxBehaviour);
+    class TargetingBoxBehaviour : public BattleBoxBehaviour {
+        GDCLASS(TargetingBoxBehaviour, BattleBoxBehaviour);
 
         protected:
             static void _bind_methods();

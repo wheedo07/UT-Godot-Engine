@@ -246,7 +246,7 @@
             Referenced when the player selects ACT.
         </member>
         
-        <member name="one_by_one_overrdie" type="bool" setter="set_one_by_one_overrdie" getter="get_one_by_one_overrdie" default="false">
+        <member name="one_by_one_override" type="bool" setter="set_one_by_one_override" getter="get_one_by_one_override" default="false">
             Whether to process states one by one sequentially.
             Affects the ACT information retrieval method.
         </member>

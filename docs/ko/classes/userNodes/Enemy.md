@@ -263,12 +263,12 @@ print("혼자 남아 있는지 : ", is_solo)
 적의 ACT 배열입니다. <br>
 각 ACT는 [`EnemyAct`](../resource/EnemyAct.md) 리소스입니다.
 
-#### `one_by_one_overrdie: bool`
+#### `one_by_one_override: bool`
 ACT 변경 시 적이 하나씩 오버다이를 실행할지 여부입니다. <br>
 ex) ACT 0에서 ACT 1으로 변경 시
 ACT 0 ("Check")
 ACT 1 ("Tease", "Joke")
-일때 여기서 `one_by_one_overrdie`가 `true`이면
+일때 여기서 `one_by_one_override`가 `true`이면
 ("Check", "Joke") 가 됩니다.
 
 #### `hurt_sound_path: NodePath<AudioStreamPlayer>`

@@ -133,7 +133,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_RUNTIME_CLASS(ActingBoxBehaviour);
     GDREGISTER_RUNTIME_CLASS(ItemingBoxBehaviour);
     GDREGISTER_RUNTIME_CLASS(MercyingBoxBehaviour);
-    GDREGISTER_RUNTIME_CLASS(TargettingBoxBehaviour);
+    GDREGISTER_RUNTIME_CLASS(TargetingBoxBehaviour);
     GDREGISTER_RUNTIME_CLASS(BlitteringBoxBehaviour);
     GDREGISTER_RUNTIME_CLASS(BlitteringCasualBoxBehaviour);
 

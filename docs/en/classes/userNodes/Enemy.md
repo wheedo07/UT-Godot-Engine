@@ -263,12 +263,12 @@ Points to an index in the [`enemy_acts`](#enemy_acts-arrayenemyact) array.
 The enemy's ACT array. <br>
 Each ACT is an [`EnemyAct`](../resource/EnemyAct.md) resource.
 
-#### `one_by_one_overrdie: bool`
+#### `one_by_one_override: bool`
 Whether the enemy executes override one by one when the ACT changes. <br>
 e.g. When changing from ACT 0 to ACT 1:
 ACT 0 ("Check")
 ACT 1 ("Tease", "Joke")
-With `one_by_one_overrdie` set to `true`, the result is ("Check", "Joke").
+With `one_by_one_override` set to `true`, the result is ("Check", "Joke").
 
 #### `hurt_sound_path: NodePath<AudioStreamPlayer>`
 The path to the `AudioStreamPlayer` node played when the enemy is hit.

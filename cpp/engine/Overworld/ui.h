@@ -76,11 +76,11 @@ namespace godot {
             void _close_menu();
             bool soul_move(const Vector2& action);
 
-            void set_items_seperation(const Vector2& p_sep);
-            Vector2 get_items_seperation() const;
+            void set_items_separation(const Vector2& p_sep);
+            Vector2 get_items_separation() const;
 
-            void set_option_seperation(const Vector2& p_sep);
-            Vector2 get_option_seperation() const;
+            void set_option_separation(const Vector2& p_sep);
+            Vector2 get_option_separation() const;
 
             void set_options_dict(const Dictionary& p_dict);
             Dictionary get_options_dict() const;
@@ -89,8 +89,8 @@ namespace godot {
             Array get_enabled_options() const;
         
         private:
-            Vector2 items_seperation;
-            Vector2 option_seperation;
+            Vector2 items_separation;
+            Vector2 option_separation;
     };
 }
 VARIANT_ENUM_CAST(godot::UI::States);

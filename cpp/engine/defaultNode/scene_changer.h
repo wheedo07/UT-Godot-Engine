@@ -4,7 +4,7 @@
 #include "engine/Camera/camera_fx.h"
 #include "engine/Overworld/overworld.h"
 #include "engine/resources/Encounters/encounter.h"
-#include "engine/Overworld/battle_transistion.h"
+#include "engine/Overworld/battle_transition.h"
 #include<godot_cpp/classes/canvas_layer.hpp>
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/classes/resource_loader.hpp>

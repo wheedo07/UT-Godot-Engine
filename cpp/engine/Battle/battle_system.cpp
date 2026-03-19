@@ -128,7 +128,7 @@ void BattleMain::initialize() {
 
     Array enemy_scenes = encounter->get_enemies().duplicate();
     Ref<AudioStream> music = encounter->get_music();
-    if(music_player && music.is_valid()) {
+    if(music.is_valid()) {
         music_player->set_stream(music);
         music_player->play();
     }else {

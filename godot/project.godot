@@ -58,7 +58,7 @@ window/per_pixel_transparency/allowed=true
 folder_colors={
 "res://Core/": "orange",
 "res://Core/Custom/": "yellow",
-"res://Core/DefaultSecne/": "red",
+"res://Core/DefaultScene/": "red",
 "res://Core/Startup/": "yellow",
 "res://Engine/": "red",
 "res://bin/": "red"

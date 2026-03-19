@@ -56,7 +56,7 @@ namespace godot {
             Dictionary stats;
             Ref<DialogueAsset> dialogues;
             Dictionary rewards;
-            bool one_by_one_overrdie;
+            bool one_by_one_override;
             Array enemy_acts;
             int current_act;
 
@@ -156,8 +156,8 @@ namespace godot {
             Ref<DialogueAsset> get_dialogues() const;
             void set_rewards(const Dictionary& p_rewards);
             Dictionary get_rewards() const;
-            void set_one_by_one_overrdie(bool p_one_by_one_overrdie);
-            bool get_one_by_one_overrdie() const;
+            void set_one_by_one_override(bool p_one_by_one_override);
+            bool get_one_by_one_override() const;
             void set_enemy_acts(const Array& p_enemy_states);
             Array get_enemy_acts() const;
             void set_current_act(int p_current_state);

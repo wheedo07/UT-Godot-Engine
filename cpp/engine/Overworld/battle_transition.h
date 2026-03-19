@@ -1,5 +1,5 @@
-#ifndef BATTLE_TRANSITION_H
-#define BATTLE_TRANSITION_H
+#ifndef __BATTLE_TRANSITION_H__
+#define __BATTLE_TRANSITION_H__
 
 #include<godot_cpp/classes/canvas_layer.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>

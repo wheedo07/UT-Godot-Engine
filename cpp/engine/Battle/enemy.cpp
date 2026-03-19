@@ -14,7 +14,7 @@ Enemy::Enemy() {
     enemy_name = "Enemy";
     is_first_turn = false;
     dodging = false;
-    one_by_one_overrdie = false;
+    one_by_one_override = false;
     current_act = 0;
     
     // 기본 통계 설정
@@ -95,15 +95,15 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_current_act"), &Enemy::get_current_act);
     ClassDB::bind_method(D_METHOD("set_enemy_acts", "p_enemy_acts"), &Enemy::set_enemy_acts);
     ClassDB::bind_method(D_METHOD("get_enemy_acts"), &Enemy::get_enemy_acts);
-    ClassDB::bind_method(D_METHOD("set_one_by_one_overrdie", "p_one_by_one_overrdie"), &Enemy::set_one_by_one_overrdie);
-    ClassDB::bind_method(D_METHOD("get_one_by_one_overrdie"), &Enemy::get_one_by_one_overrdie);
+    ClassDB::bind_method(D_METHOD("set_one_by_one_override", "p_one_by_one_override"), &Enemy::set_one_by_one_override);
+    ClassDB::bind_method(D_METHOD("get_one_by_one_override"), &Enemy::get_one_by_one_override);
     
     ADD_GROUP("Act", "");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "current_act"), "set_current_act", "get_current_act");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "enemy_acts", PROPERTY_HINT_TYPE_STRING, 
         String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":EnemyAct"
     ), "set_enemy_acts", "get_enemy_acts");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "one_by_one_overrdie"), "set_one_by_one_overrdie", "get_one_by_one_overrdie");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "one_by_one_override"), "set_one_by_one_override", "get_one_by_one_override");
 
     ClassDB::bind_method(D_METHOD("set_hurt_sound_path", "p_path"), &Enemy::set_hurt_sound_path);
     ClassDB::bind_method(D_METHOD("get_hurt_sound_path"), &Enemy::get_hurt_sound_path);
@@ -198,7 +198,7 @@ void Enemy::modify_stats(Dictionary value) {
 }
 
 Ref<ActInfo> Enemy::_get_act_info(int act_choice) {
-    if(one_by_one_overrdie) {
+    if(one_by_one_override) {
         _get_act(0, act_choice);
         for(int i=0; i < current_act + 1; i++) {
             _get_act(i, act_choice);
@@ -463,12 +463,12 @@ Dictionary Enemy::get_rewards() const {
     return rewards;
 }
 
-void Enemy::set_one_by_one_overrdie(bool p_one_by_one_overrdie) {
-    one_by_one_overrdie = p_one_by_one_overrdie;
+void Enemy::set_one_by_one_override(bool p_one_by_one_override) {
+    one_by_one_override = p_one_by_one_override;
 }
 
-bool Enemy::get_one_by_one_overrdie() const {
-    return one_by_one_overrdie;
+bool Enemy::get_one_by_one_override() const {
+    return one_by_one_override;
 }
 
 void Enemy::set_enemy_acts(const Array& p_enemy_acts) {

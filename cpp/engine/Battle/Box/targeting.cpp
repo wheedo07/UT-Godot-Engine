@@ -1,9 +1,9 @@
-#include "targetting.h"
+#include "targeting.h"
 #include "env.h"
 
-void TargettingBoxBehaviour::_bind_methods() {}
+void TargetingBoxBehaviour::_bind_methods() {}
 
-void TargettingBoxBehaviour::_on_gain_control() {
+void TargetingBoxBehaviour::_on_gain_control() {
     Array arr = box->history[box->button_choice];
     if(arr[0]) box->soul_position = arr[0];
     box->call_deferred("_soul_choice", Vector2(0,0));
@@ -13,7 +13,7 @@ void TargettingBoxBehaviour::_on_gain_control() {
     box->_set_targets(box->button_choice ? false : true);
 }
 
-void TargettingBoxBehaviour::input(const Ref<InputEvent>& event) {
+void TargetingBoxBehaviour::input(const Ref<InputEvent>& event) {
     if(event->is_action_pressed("ut_cancel")) {
         box->_backout();
         box->emit_signal("moved_to_buttons");
@@ -29,7 +29,7 @@ void TargettingBoxBehaviour::input(const Ref<InputEvent>& event) {
     }
 }
 
-void TargettingBoxBehaviour::_on_lose_control() {
+void TargetingBoxBehaviour::_on_lose_control() {
     box->current_target_id = box->soul_pos_to_id(box->soul_position, false, 1);
     Array arr = box->history[box->button_choice];
     arr[0] = box->soul_position;

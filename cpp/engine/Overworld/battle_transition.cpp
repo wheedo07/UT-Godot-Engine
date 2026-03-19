@@ -1,4 +1,4 @@
-#include "battle_transistion.h"
+#include "battle_transition.h"
 #include "env.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>

@@ -25,7 +25,7 @@ bg_color = Color(0.11, 1, 0, 1)
 
 [node name="Fighting" type="FightingBoxBehaviour" parent="Behaviours"]
 
-[node name="Targetting" type="TargettingBoxBehaviour" parent="Behaviours"]
+[node name="Targeting" type="TargetingBoxBehaviour" parent="Behaviours"]
 
 [node name="Acting" type="ActingBoxBehaviour" parent="Behaviours"]
 
@@ -322,7 +322,7 @@ stream = ExtResource("8_wdevt")
 bus = &"SFX"
 
 [connection signal="change_state" from="Behaviours/Fighting" to="Behaviours/Fighting" method="_on_changed_state"]
-[connection signal="change_state" from="Behaviours/Targetting" to="Behaviours/Targetting" method="_on_changed_state"]
+[connection signal="change_state" from="Behaviours/Targeting" to="Behaviours/Targeting" method="_on_changed_state"]
 [connection signal="change_state" from="Behaviours/Acting" to="Behaviours/Acting" method="_on_changed_state"]
 [connection signal="change_state" from="Behaviours/Iteming" to="Behaviours/Iteming" method="_on_changed_state"]
 [connection signal="change_state" from="Behaviours/Mercying" to="Behaviours/Mercying" method="_on_changed_state"]

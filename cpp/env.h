@@ -1,5 +1,5 @@
-#ifndef ENV_H
-#define ENV_H
+#ifndef __ENV_H__
+#define __ENV_H__
 #include "engine/defaultNode/global.h"
 #include "engine/defaultNode/stagehand.h"
 #include "engine/defaultNode/scene_changer.h"

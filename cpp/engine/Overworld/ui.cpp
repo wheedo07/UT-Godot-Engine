@@ -49,8 +49,8 @@ UI::UI() {
     pos_history[CELL] = Variant();
     pos_history[ITEM_USE_DISABLE_MOVEMENT] = Variant();
 
-    items_seperation = Vector2(0, 37);
-    option_seperation = Vector2(0, 42);
+    items_separation = Vector2(0, 37);
+    option_separation = Vector2(0, 42);
 }
 
 UI::~UI() {}
@@ -75,13 +75,13 @@ void UI::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_animation_finished"), &UI::_on_animation_finished);
     ClassDB::bind_method(D_METHOD("_on_item_dialogue_finished"), &UI::_on_item_dialogue_finished);
     
-    ClassDB::bind_method(D_METHOD("set_items_seperation", "seperation"), &UI::set_items_seperation);
-    ClassDB::bind_method(D_METHOD("get_items_seperation"), &UI::get_items_seperation);
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "items_seperation"), "set_items_seperation", "get_items_seperation");
+    ClassDB::bind_method(D_METHOD("set_items_separation", "separation"), &UI::set_items_separation);
+    ClassDB::bind_method(D_METHOD("get_items_separation"), &UI::get_items_separation);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "items_separation"), "set_items_separation", "get_items_separation");
     
-    ClassDB::bind_method(D_METHOD("set_option_seperation", "seperation"), &UI::set_option_seperation);
-    ClassDB::bind_method(D_METHOD("get_option_seperation"), &UI::get_option_seperation);
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "option_seperation"), "set_option_seperation", "get_option_seperation");
+    ClassDB::bind_method(D_METHOD("set_option_separation", "separation"), &UI::set_option_separation);
+    ClassDB::bind_method(D_METHOD("get_option_separation"), &UI::get_option_separation);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "option_separation"), "set_option_separation", "get_option_separation");
 
     ClassDB::bind_method(D_METHOD("set_enabled_options", "options"), &UI::set_enabled_options);
     ClassDB::bind_method(D_METHOD("get_enabled_options"), &UI::get_enabled_options);
@@ -507,13 +507,13 @@ bool UI::soul_move(const Vector2& action) {
     switch (current_state) {
         case OPTIONS: {
             RichTextLabel *options_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Options/Options"));
-            soultarget = options_node->get_global_position() + soulposition * option_seperation;
+            soultarget = options_node->get_global_position() + soulposition * option_separation;
             target = soultarget + Vector2(-12, 15);
             break;
         }
         case ITEM: {
             RichTextLabel *items_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Items/Items"));
-            soultarget = items_node->get_global_position() + soulposition * items_seperation;
+            soultarget = items_node->get_global_position() + soulposition * items_separation;
             target = soultarget + Vector2(-12, 13);
             break;
         }
@@ -525,7 +525,7 @@ bool UI::soul_move(const Vector2& action) {
         }
         case CELL: {
             RichTextLabel *numbers_node = Object::cast_to<RichTextLabel>(get_node_internal("Control/StatAndOptions/Cells/Numbers"));
-            soultarget = numbers_node->get_global_position() + soulposition * items_seperation;
+            soultarget = numbers_node->get_global_position() + soulposition * items_separation;
             target = soultarget + Vector2(-12, 13);
             break;
         }
@@ -537,20 +537,20 @@ bool UI::soul_move(const Vector2& action) {
     return true;
 }
 
-void UI::set_items_seperation(const Vector2& p_sep) {
-    items_seperation = p_sep;
+void UI::set_items_separation(const Vector2& p_sep) {
+    items_separation = p_sep;
 }
 
-Vector2 UI::get_items_seperation() const {
-    return items_seperation;
+Vector2 UI::get_items_separation() const {
+    return items_separation;
 }
 
-void UI::set_option_seperation(const Vector2& p_sep) {
-    option_seperation = p_sep;
+void UI::set_option_separation(const Vector2& p_sep) {
+    option_separation = p_sep;
 }
 
-Vector2 UI::get_option_seperation() const {
-    return option_seperation;
+Vector2 UI::get_option_separation() const {
+    return option_separation;
 }
 
 void UI::set_options_dict(const Dictionary& p_dict) {

@@ -44,7 +44,7 @@ using namespace godot;
 // [Overworld] //
 #include "Overworld/overworld.h"
 #include "Overworld/room_entrance_node.h"
-#include "Overworld/battle_transistion.h"
+#include "Overworld/battle_transition.h"
 #include "Overworld/save_menu.h"
 #include "Overworld/ui_box.h"
 #include "Overworld/ui.h"
@@ -125,7 +125,7 @@ using namespace godot;
 #include "Battle/Box/acting.h"
 #include "Battle/Box/iteming.h"
 #include "Battle/Box/mercying.h"
-#include "Battle/Box/targetting.h"
+#include "Battle/Box/targeting.h"
 #include "Battle/Box/blittering.h"
 #include "Battle/Box/blittering_casual.h"
 

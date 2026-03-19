@@ -19,7 +19,7 @@ namespace godot {
             };
             BoxState current_side;
             Vector2 soulposition;
-            Vector2 seperation;
+            Vector2 separation;
 
             UI_Box *main;
             MenuSoul *soul;
@@ -36,8 +36,8 @@ namespace godot {
             void _ready() override;
             void _unhandled_input(const Ref<InputEvent>& event) override;
 
-            void set_seperation(Vector2 value);
-            Vector2 get_seperation() const;
+            void set_separation(Vector2 value);
+            Vector2 get_separation() const;
     };
 }
 

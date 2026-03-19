@@ -24,7 +24,7 @@
 
 ## Getting Started
 
-1. Download the latest release or clone the repository.
+1. Download the latest release.
 2. Open the project with Godot Engine 4.5+.
 3. Explore the sample scenes and start building your game.
 

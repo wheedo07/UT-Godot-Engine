@@ -6,15 +6,15 @@
 UIdimensionalBox::UIdimensionalBox() {
     current_side = INVENTORY_SIDE;
     soulposition = Vector2(0, 0);
-    seperation = Vector2(0, 28);
+    separation = Vector2(0, 28);
 }
 
 UIdimensionalBox::~UIdimensionalBox() {}
 
 void UIdimensionalBox::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("set_seperation", "value"), &UIdimensionalBox::set_seperation);
-    ClassDB::bind_method(D_METHOD("get_seperation"), &UIdimensionalBox::get_seperation);
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "seperation"), "set_seperation", "get_seperation");
+    ClassDB::bind_method(D_METHOD("set_separation", "value"), &UIdimensionalBox::set_separation);
+    ClassDB::bind_method(D_METHOD("get_separation"), &UIdimensionalBox::get_separation);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "separation"), "set_separation", "get_separation");
 }
 
 void UIdimensionalBox::_ready() {
@@ -131,19 +131,19 @@ bool UIdimensionalBox::soul_move(Vector2 action) {
     
     Vector2 target;
     if(current_side == INVENTORY_SIDE) {
-        target = inventory_items->get_global_position() + soulposition * seperation + Vector2(-12, 15);
+        target = inventory_items->get_global_position() + soulposition * separation + Vector2(-12, 15);
     } else {
-        target = box_items->get_global_position() + soulposition * seperation + Vector2(-12, 15);
+        target = box_items->get_global_position() + soulposition * separation + Vector2(-12, 15);
     }
     soul->move_global(target);
     
     return true;
 }
 
-void UIdimensionalBox::set_seperation(Vector2 value) {
-    seperation = value;
+void UIdimensionalBox::set_separation(Vector2 value) {
+    separation = value;
 }
 
-Vector2 UIdimensionalBox::get_seperation() const {
-    return seperation;
+Vector2 UIdimensionalBox::get_separation() const {
+    return separation;
 }
