@@ -475,7 +475,7 @@ int BattleBox::move_point_by_offset(Vector2 from_point, Vector2 offset, float du
 }
 
 void BattleBox::move_multiple_points(PackedInt64Array vertex_indices, PackedVector2Array target_points, float duration) {
-    if (vertex_indices.size() != target_points.size()) {
+    if(vertex_indices.size() != target_points.size()) {
         ERR_PRINT("vertex_indices와 target_points의 크기가 다릅니다.");
         return;
     }

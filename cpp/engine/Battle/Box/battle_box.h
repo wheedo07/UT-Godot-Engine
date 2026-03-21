@@ -189,6 +189,8 @@ namespace godot {
             
             // 사용 함수
             void blitter_print(PackedStringArray texts);
+
+            /* 변화하면서 적용하는 Change 함수 */
             void reset_box(float duration = 0.5f);
             void change_size(const Vector2& new_size, bool relative = false, float duration=0.6f);
             void change_position(const Vector2& new_position, bool relative = false, float duration=0.6f);
@@ -199,7 +201,7 @@ namespace godot {
                 bool size_relative = false, float duration = 0.6f);
             void rotate_by(float rot, bool relative = false, float duration = 0.6f);
 
-            // 바로 적용하는 Change 함수
+            /* 바로 적용하는 Set 함수 */
             void advanced_set_size(RelativePosition relative_to,
                 Vector2 new_position,
                 Vector2 new_size,
