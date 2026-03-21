@@ -51,5 +51,22 @@
         <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
         <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
         <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+        <script>
+            (function() {
+                function createLangButton() {
+                    if(document.getElementById('lang-switch-btn')) return;
+                    var btn = document.createElement('a');
+                    btn.id = 'lang-switch-btn';
+                    btn.textContent = '🌐 English';
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        var hash = window.location.hash.replace(/^#\//, '') || '';
+                        window.location.href = 'https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/' + hash;
+                    });
+                    document.body.appendChild(btn);
+                }
+                document.addEventListener('DOMContentLoaded', createLangButton);
+            })();
+        </script>
     </body>
 </html>

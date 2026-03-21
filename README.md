@@ -33,6 +33,18 @@
 - Tutorial site: https://wheedo07.github.io/UT-Godot-Engine/
 - Godot class reference: https://docs.godotengine.org/
 
+## Folder Structure & Rules
+
+Each folder is color-coded in the Godot editor to indicate how freely it can be modified.
+
+| Color | Folders | Rules |
+|-------|---------|-------|
+| 🔴 Red | `res://Engine/`, `res://Core/DefaultScene/`, `res://bin/` | **Do not touch.** Requires a complete understanding of engine internals. Avoid unless absolutely necessary. |
+| 🟠 Orange | `res://Core/` (includes `autoload/`) | Scenes and resources inside may be edited, but: root nodes cannot have scripts attached, existing scenes/resources must not be deleted, adding nodes is allowed. |
+| 🟡 Yellow | `res://Core/Custom/`, `res://Core/Startup/` | Freely editable — just don't delete existing files. |
+
+> For a full breakdown, see the [Project Structure](https://wheedo07.github.io/UT-Godot-Engine/en/index.html#/tutorials/project-structure) tutorial in the docs.
+
 ## Tech Stack
 
 - Godot Engine 4.5
