@@ -36,13 +36,6 @@
 4. `가져오기` → `project.godot` 파일 선택
 5. 프로젝트 열기
 
-### 🔧 소스 빌드
-```bash
-git clone https://github.com/wheedo07/UT-Godot-Engine.git
-cd UT-Godot-Engine
-scons target=template_release
-```
-
 ### 노드 목록 및 튜토리얼
 - [노드 목록](./classes/list.md)
 - [튜토리얼](./tutorials/README.md)

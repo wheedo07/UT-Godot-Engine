@@ -36,13 +36,6 @@ It provides the systems and tools needed to quickly build battle, dialogue, and 
 4. Click `Import` → Select the `project.godot` file
 5. Open the project
 
-### 🔧 Building from Source
-```bash
-git clone https://github.com/wheedo07/UT-Godot-Engine.git
-cd UT-Godot-Engine
-scons target=template_release
-```
-
 ### Node Reference & Tutorials
 - [Node List](./classes/list.md)
 - [Tutorials](./tutorials/README.md)
