@@ -94,6 +94,7 @@ namespace godot {
 
             void set_click(AudioStreamPlayer* value);
             AudioStreamPlayer* get_click();
+            void click_play();
 
             void set_delay(float value);
             float get_delay();

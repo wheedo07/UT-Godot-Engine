@@ -5,6 +5,7 @@
 DialogueControl::DialogueControl() {
     bubble_text = nullptr;
     tween_in_progress = false;
+    isKill = false;
     character_name = "DEFAULT";
 }
 
@@ -52,12 +53,14 @@ void DialogueControl::type_text_bubble(const Ref<Dialogues>& dialogues) {
         ERR_PRINT("bubble_text가 초기화되지 않았습니다");
         return;
     }
+    bubble_text->character_customize();
     global->_set_battle_text_box(true);
     bubble_text->set_effects(stagehand->get_global_effects());
 
     Callable call = Callable(this, "_on_ends_typing");
     if(bubble_text->is_connected("ends_typing", call)) bubble_text->disconnect("ends_typing", call);
-    
+   
+    current_dialogues = dialogues;
     bubble_text->set_text("");
     bubble_text->set_queued_dialogues(dialogues);
     
@@ -69,13 +72,22 @@ void DialogueControl::type_text_bubble(const Ref<Dialogues>& dialogues) {
 }
 
 void DialogueControl::kill() {
+    if(isKill) return;
+    isKill = true;
     Callable call = Callable(this, "_on_ends_typing");
     if(bubble_text->is_connected("ends_typing", call)) bubble_text->disconnect("ends_typing", call);
+    bubble_text->set_click(nullptr);
+
     _text_kill();
+    int size = current_dialogues->get_dialogues().size();
+    for(int i=0; i < size; i++) {
+        emit_signal("started_dialogue", i);
+    }
     _on_all_texts_finished();
 }
 
 void DialogueControl::_on_text_click_played(double duration) {
+    if(isKill) return;
     text_duration = duration;
     Callable call = Callable(this, "_on_ends_typing");
     if(bubble_text->is_connected("ends_typing", call)) bubble_text->disconnect("ends_typing", call);

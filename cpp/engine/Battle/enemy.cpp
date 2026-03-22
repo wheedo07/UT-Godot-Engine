@@ -244,10 +244,9 @@ void Enemy::play_dialogue(int index, float duration, bool skip, bool keep_expres
 
     Ref<Dialogues> dialogue_ref = dialogues->get_data(index);
     if(dialogue_ref.is_valid()) {
-        EnemySpeech *text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
         Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration);
-        if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
-        text_typer->connect("started_typing", call);
+        if(dialogue->is_connected("started_dialogue", call)) dialogue->disconnect("started_dialogue", call);
+        dialogue->connect("started_dialogue", call);
         dialogue->type_text_bubble(dialogue_ref);
     }else ERR_PRINT("Dialogues가 유효 하지 않습니다");
     dialogue->_set_key(skip);
@@ -267,11 +266,10 @@ void Enemy::play_set_dialogue(Ref<Dialogues> dialogue_ref, float duration, bool 
         originals.append(expr_sprite->get_frame());
     }
 
-    if (dialogue_ref.is_valid()) {
-        EnemySpeech *text_typer = Object::cast_to<EnemySpeech>(dialogue->get_node_internal("TextContainer/Text"));
+    if(dialogue_ref.is_valid()) {
         Callable call = Callable(this, "_handle_typing").bind(dialogue_ref, duration);
-        if(text_typer->is_connected("started_typing", call)) text_typer->disconnect("started_typing", call);
-        text_typer->connect("started_typing", call);
+        if(dialogue->is_connected("started_dialogue", call)) dialogue->disconnect("started_dialogue", call);
+        dialogue->connect("started_dialogue", call);
         dialogue->type_text_bubble(dialogue_ref);
     }else ERR_PRINT("Dialogues가 유효 하지 않습니다");
     dialogue->_set_key(skip);

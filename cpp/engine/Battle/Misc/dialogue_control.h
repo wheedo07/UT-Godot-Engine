@@ -14,8 +14,9 @@ namespace godot {
         private:
             String character_name;
             EnemySpeech *bubble_text;
-            bool tween_in_progress;
+            bool tween_in_progress, isKill;
             Ref<Tween> active_tween;
+            Ref<Dialogues> current_dialogues;
             double text_duration;
         
             void _on_ends_typing();

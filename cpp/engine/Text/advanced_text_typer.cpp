@@ -54,12 +54,12 @@ void AdvancedTextTyper::type_buffer(const Ref<Dialogues>& dialogues, int index) 
 }
 
 void AdvancedTextTyper::process_next_buffer() {
-    if (current_dialogue_index < queued_dialogues->get_dialogues().size()) {
+    if(current_dialogue_index < queued_dialogues->get_dialogues().size()) {
         pauses = Object::cast_to<Dialogue>(queued_dialogues->get_dialogues()[current_dialogue_index])->get_pauses();
         emit_signal("started_typing", current_dialogue_index);
         emit_signal("expression_set", expressions[current_dialogue_index]);
         type_buffer(queued_dialogues, current_dialogue_index);
-    } else {
+    }else {
         emit_signal("finished_all_typing");
     }
 }
@@ -88,7 +88,7 @@ void AdvancedTextTyper::_on_tween_finished_advanced() {
 }
 
 void AdvancedTextTyper::_on_confirm_advanced() {
-    if (type_buffer_text_complete) {
+    if(type_buffer_text_complete) {
         type_buffer_text_complete = false;
         current_dialogue_index++;
         process_next_buffer();
@@ -118,15 +118,15 @@ void AdvancedTextTyper::_playclick_advanced() {
     bool should_pause = false;
     float pause_duration = get_interval();
     
-    if (pauses.size() > pauses_done_counter && 
+    if(pauses.size() > pauses_done_counter && 
         actual_char_position == Object::cast_to<DialoguePause>(pauses[pauses_done_counter])->get_pause_index()) {
         should_pause = true;
         pause_duration += Object::cast_to<DialoguePause>(pauses[pauses_done_counter])->get_pause_duration();
         pauses_done_counter++;
     }
     
-    if (get_extra_delay().find(char_str) != -1 || should_pause) {
-        if (!get_visible_tween()->is_running() || !get_sound_tween()->is_running()) {
+    if(get_extra_delay().find(char_str) != -1 || should_pause) {
+        if(!get_visible_tween()->is_running() || !get_sound_tween()->is_running()) {
             return;
         }
         get_sound_tween()->pause();
@@ -137,12 +137,12 @@ void AdvancedTextTyper::_playclick_advanced() {
         get_pause_tween()->tween_callback(Callable(get_visible_tween().ptr(), "play"))->set_delay(pause_duration);
         get_pause_tween()->tween_callback(Callable(get_sound_tween().ptr(), "play"))->set_delay(pause_duration);
         
-        if (get_no_sound().find(char_str) != -1) {
+        if(get_no_sound().find(char_str) != -1) {
             return;
         }
     }
     
-    if (get_no_sound().find(char_str) == -1 && get_click()) {
+    if(get_no_sound().find(char_str) == -1 && get_click()) {
         get_click()->play();
     }
     emit_signal("click_played", text_size_counter, cached_text.length());

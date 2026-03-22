@@ -118,13 +118,13 @@ void GenericTextTyper::_unhandled_input(const Ref<InputEvent>& event) {
 }
 
 void GenericTextTyper::kill_tweens(bool complete_text) {
-    if (pause_tween.is_valid() && pause_tween->is_valid()) {
+    if(pause_tween.is_valid() && pause_tween->is_valid()) {
         pause_tween->kill();
     }
-    if (sound_tween.is_valid() && sound_tween->is_valid()) {
+    if(sound_tween.is_valid() && sound_tween->is_valid()) {
         sound_tween->kill();
     }
-    if (visible_tween.is_valid() && visible_tween->is_valid()) {
+    if(visible_tween.is_valid() && visible_tween->is_valid()) {
         if (complete_text) {
             visible_tween->custom_step(10000.0);
         }else {
@@ -193,7 +193,7 @@ void GenericTextTyper::_process_typing() {
 }
 
 void GenericTextTyper::_play_click() {
-    if (get_visible_characters() >= chache_parsed_text.length() || get_visible_characters() < 0) return;
+    if(get_visible_characters() >= chache_parsed_text.length() || get_visible_characters() < 0) return;
     
     char32_t current_char = chache_parsed_text[get_visible_characters()];
     String char_str;
@@ -214,11 +214,11 @@ void GenericTextTyper::_play_click() {
         return;
     }
     
-    if (no_sound.find(char_str) != -1) {
+    if(no_sound.find(char_str) != -1) {
         return;
     }
     
-    if (click) {
+    if(click) {
         click->play();
     }
 }

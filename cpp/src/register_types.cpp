@@ -6,14 +6,13 @@
 void register_init() {
     GDREGISTER_RUNTIME_CLASS(MainNode);
 
-    // overworld Node
-    GDREGISTER_RUNTIME_CLASS(TEST_WORLD);
-
     // enemy Node
     GDREGISTER_RUNTIME_CLASS(Enemy_SANS);
 
     // attackNode
     GDREGISTER_RUNTIME_CLASS(AttackSans);
 
-    // Bullets Node
+    // utils
+    GDREGISTER_RUNTIME_CLASS(CutsceneSequence);
+    GDREGISTER_RUNTIME_CLASS(SignalCondition);
 }
