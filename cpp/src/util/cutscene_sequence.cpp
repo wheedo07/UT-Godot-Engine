@@ -46,18 +46,14 @@ Ref<SceneTreeTimer> CutsceneSequence::create_timer(float time) {
 }
 
 Ref<Tween> CutsceneSequence::create_tween() {
+    Ref<Tween> tween = stagehand->get_tree()->create_tween();
     if(skip_requested) {
-        Ref<Tween> tween = stagehand->get_tree()->create_tween();
-        tween->tween_interval(1);
-        stagehand->get_tree()->connect("process_frame", 
-            callable_mp(this, &CutsceneSequence::_tween_process_frame).bind(tween), CONNECT_ONE_SHOT);
-        return tween;
+        tween->custom_step(10000.0);
     }else {
-        Ref<Tween> tween = stagehand->get_tree()->create_tween();
         tweens.push_back(tween);
         tween->connect("finished", callable_mp(this, &CutsceneSequence::_tween_finished).bind(tween), CONNECT_ONE_SHOT);
-        return tween;
     }
+    return tween;
 }
 
 void CutsceneSequence::skip_callback(Callable callback) {
