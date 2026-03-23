@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4c1hkxfxvh2t"]
+[gd_scene load_steps=3 format=3 uid="uid://c4c1hkxfxvh2t"]
 
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="2_u0ptt"]
-[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="4_6utps"]
 [ext_resource type="AudioStream" uid="uid://gmni7dkf4qh3" path="res://sfx/warning.ogg" id="5_7rbe8"]
-[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="5_rk211"]
 
 [node name="SaveLoader" type="SaveLoader"]
 
@@ -109,14 +107,6 @@ theme = ExtResource("2_u0ptt")
 bbcode_enabled = true
 text = "UT_RESET"
 scroll_active = false
-
-[node name="choice" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_6utps")
-bus = &"SFX"
-
-[node name="select" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_rk211")
-bus = &"SFX"
 
 [node name="warn" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_7rbe8")

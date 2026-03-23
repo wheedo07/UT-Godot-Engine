@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Engine/Main/menu_soul.tscn" id="1_045jq"]
 [ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Engine/Battle/Soul/soul.png" id="1_jpq5a"]
-[ext_resource type="AudioStream" uid="uid://cow2qwdm54juw" path="res://sfx/battle_noise.wav" id="2_fee8q"]
-[ext_resource type="AudioStream" uid="uid://dph0m6tovoply" path="res://sfx/battle_drop.wav" id="3_jex18"]
+[ext_resource type="AudioStream" uid="uid://cow2qwdm54juw" path="res://Engine/sfx/sound/battle_noise.wav" id="2_fee8q"]
+[ext_resource type="AudioStream" uid="uid://dph0m6tovoply" path="res://Engine/sfx/sound/battle_drop.wav" id="3_jex18"]
 
 [sub_resource type="Curve" id="Curve_y65xj"]
 _data = [Vector2(1e-05, 1), 100000.0, 0.0, 1, 0, Vector2(1, 0), -2.00047, 100000.0, 0, 1]

@@ -1,5 +1,6 @@
 #include "targeting.h"
 #include "env.h"
+#include "engine/resources/AudioLibrary/audio_library.h"
 
 void TargetingBoxBehaviour::_bind_methods() {}
 
@@ -18,7 +19,7 @@ void TargetingBoxBehaviour::input(const Ref<InputEvent>& event) {
         box->_backout();
         box->emit_signal("moved_to_buttons");
     }else if(event->is_action_pressed("ut_confirm")) {
-        stagehand->audio_player->play("select");
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/select.tres"));
         int id = box->soul_pos_to_id(box->soul_position, false, 1);
         if(box->button_choice == BattleBox::OPTION_FIGHT && box->enemies[id])
             box->change_state(BattleBox::State_Fighting);

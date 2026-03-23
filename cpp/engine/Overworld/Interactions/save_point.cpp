@@ -1,5 +1,6 @@
 #include "save_point.h"
 #include "env.h"
+#include "engine/resources/AudioLibrary/audio_library.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/resource_loader.hpp>
 
@@ -23,7 +24,7 @@ void SavePoint::_ready() {
 
 void SavePoint::_on_interact_save() {
     global->heal(global->get_player_max_hp());
-    stagehand->audio_player->play("heal");
+    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"));
    
     if(dialogues.is_null()) {
         _on_dialogue_finished();

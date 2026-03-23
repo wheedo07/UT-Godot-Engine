@@ -12,6 +12,7 @@
 #include<godot_cpp/classes/label.hpp>
 #include<godot_cpp/classes/time.hpp>
 #include<godot_cpp/classes/sprite2d.hpp>
+#include<godot_cpp/classes/audio_stream_player.hpp>
 namespace godot {
     class SaveMenu : public CanvasLayer {
         GDCLASS(SaveMenu, CanvasLayer)
@@ -31,6 +32,7 @@ namespace godot {
             RichTextLabel *name_label;
             RichTextLabel *lv_label;
             RichTextLabel *time_label;
+            AudioStreamPlayer *save_sound;
             OptionSelectableSolo *return_option, *save_option;
             MenuSoul *soul_node;
         

@@ -25,6 +25,9 @@ using namespace godot;
 
 // ShopItems
 #include "resources/ShopItems/shop_item.h"
+
+// AudioLibrary
+#include "resources/AudioLibrary/audio_library.h"
 // [end] //
 
 // [defaultNode] //

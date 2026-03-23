@@ -29,6 +29,7 @@ void SaveMenu::_ready() {
     return_option = Object::cast_to<OptionSelectableSolo>(get_node_internal("Control/Options/Return"));
     save_option = Object::cast_to<OptionSelectableSolo>(get_node_internal("Control/Options/Save"));
     soul_node = Object::cast_to<MenuSoul>(get_node_internal("Control/Options/MenuSoul"));
+    save_sound = get_node<AudioStreamPlayer>("save");
     defsize = control_node->get_size();
 
     global->_set_player_in_menu(true);
@@ -74,8 +75,8 @@ void SaveMenu::save() {
     global->save(world_name);
     refresh();
     location_label->set_text(world_name);
-    
-    stagehand->audio_player->play("save");
+   
+    save_sound->play();
     call_deferred("set_saved", true);
 }
 

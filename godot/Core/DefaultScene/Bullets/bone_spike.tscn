@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://jaey6n5ae5bp"]
 
-[ext_resource type="Texture2D" uid="uid://w4geahft3l6b" path="res://Core/DefaultScene/Bullets/assets/bone_sans.png" id="1_up1md"]
+[ext_resource type="Texture2D" uid="uid://w4geahft3l6b" path="res://Core/DefaultScene/Bullets/assets/spr/bone_sans.png" id="1_up1md"]
 [ext_resource type="AudioStream" uid="uid://wtp5ovq3dy16" path="res://sfx/overworld_encounter_surprise.wav" id="5_ngoh0"]
 [ext_resource type="AudioStream" uid="uid://diuv40dkq8wo6" path="res://sfx/bullet_rise.wav" id="6_e6brk"]
 

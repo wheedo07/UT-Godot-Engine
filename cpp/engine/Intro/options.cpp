@@ -1,6 +1,7 @@
 #include "options.h"
 #include "env.h"
 #include "engine/Menus/option_selectable.h"
+#include "engine/resources/AudioLibrary/audio_library.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
@@ -41,7 +42,7 @@ int Options::get_current_pos() const {
 }
 
 void Options::enable(int x) {
-    stagehand->audio_player->play("choice");
+    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
     current_pos = 0;
     
     int option_pos = 0;
@@ -103,7 +104,7 @@ void Options::_unhandled_input(const Ref<InputEvent>& event) {
 }
 
 void Options::refresh_thing(int action) {
-    stagehand->audio_player->play("choice");
+    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
     
     Object::cast_to<OptionSelectable>(option_nodes[current_pos])->set_selected(false);
     

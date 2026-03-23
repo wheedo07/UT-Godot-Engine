@@ -4,8 +4,8 @@
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="3_f5ep8"]
 [ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Engine/Main/Slider.tscn" id="5_20ij6"]
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="5_61718"]
-[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="7_u3o5n"]
-[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="8_wdevt"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://Engine/sfx/sound/button_select.wav" id="7_u3o5n"]
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://Engine/sfx/sound/button_choice.wav" id="8_wdevt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yiolc"]
 size = Vector2(580, 10)

@@ -16,10 +16,10 @@ void AttackSans::_bind_methods() {
 
 void AttackSans::ready() {
     ResourceLoader *loader = ResourceLoader::get_singleton();
-    bone = loader->load("res://Core/DefaultSecne/Bullets/bone.tscn");
-    bone_spike = loader->load("res://Core/DefaultSecne/Bullets/bone_spike.tscn");
-    blaster = loader->load("res://Core/DefaultSecne/Bullets/blaster.tscn");
-    platform = loader->load("res://Core/DefaultSecne/Bullets/platform.tscn");
+    bone = loader->load("res://Core/DefaultScene/Bullets/bone.tscn");
+    bone_spike = loader->load("res://Core/DefaultScene/Bullets/bone_spike.tscn");
+    blaster = loader->load("res://Core/DefaultScene/Bullets/blaster.tscn");
+    platform = loader->load("res://Core/DefaultScene/Bullets/platform.tscn");
 }
 
 void AttackSans::start_attack() {

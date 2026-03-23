@@ -5,11 +5,11 @@
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="3_lws8l"]
 [ext_resource type="AudioStream" uid="uid://bhsttfwejarc4" path="res://sfx/Clicks/generic1.wav" id="5_upaer"]
 [ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Engine/Main/menu_soul.tscn" id="8_if0j0"]
-[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://sfx/button_choice.wav" id="10_bn7bx"]
-[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="11_udity"]
+[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://Engine/sfx/sound/button_choice.wav" id="10_bn7bx"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://Engine/sfx/sound/button_select.wav" id="11_udity"]
 [ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Engine/Main/Slider.tscn" id="12_tldfv"]
 [ext_resource type="AudioStream" uid="uid://bccff4667e570" path="res://sfx/buy_item.wav" id="15_ssolt"]
-[ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://sfx/player_hurt.wav" id="16_jjntu"]
+[ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://Engine/sfx/sound/player_hurt.wav" id="16_jjntu"]
 
 [node name="Shop" type="SHOP"]
 

@@ -1,7 +1,8 @@
 #include "soul_overwolrd.h"
 #include "env.h"
-#include "engine/Battle/Bullets/bullet_area.h"
 #include "engine/Battle/Bullets/bullet.h"
+#include "engine/Battle/Bullets/bullet_area.h"
+#include "engine/resources/AudioLibrary/audio_library.h"
 #include<godot_cpp/classes/project_settings.hpp>
 
 SoulOverworld::SoulOverworld() {
@@ -93,7 +94,7 @@ void SoulOverworld::hurt(BulletArea* bullet_area) {
 
     int damage_amount = Math::max(bullet_area->damage - defense, 1);
     global->set_player_hp(global->get_player_hp() - damage_amount);
-    stagehand->audio_player->play("hurt");
+    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/hurt.tres"));
     emit_signal("hurt", damage_amount);
 
     if(global->get_player_hp() <= 0 && !global->get_debugmode()) {
@@ -116,7 +117,10 @@ void SoulOverworld::heal(BulletArea *bullet_area) {
     if(!bullet_area) return;
     hiframes = 1;
     global->heal(bullet_area->damage);
-    if(bullet_area->damage > 0) stagehand->audio_player->play("heal");
+
+    if(bullet_area->damage > 0) 
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"));
+    
     emit_signal("hurt", bullet_area->damage, true);
 }
 

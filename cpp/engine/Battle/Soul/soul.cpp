@@ -3,6 +3,7 @@
 #include "engine/Battle/battle_system.h"
 #include "engine/Battle/Bullets/bullet_area.h"
 #include "engine/Battle/Soul/yellow_soul_bullet.h"
+#include "engine/resources/AudioLibrary/audio_library.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/input_event_action.hpp>
 #include<godot_cpp/classes/project_settings.hpp>
@@ -255,7 +256,7 @@ void SoulBattle::check_bullet(Area2D *area) {
 void SoulBattle::hurt(BulletArea *area) {
     if(!area) return;
 
-    stagehand->audio_player->play("hurt");
+    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/hurt.tres"));
     if(global->get_player_hp() <= 1 && main->player_turn) return;
     
     iframes = area->iframes;
@@ -304,10 +305,11 @@ void SoulBattle::heal(BulletArea *area) {
     hiframes = 1;
     
     global->heal(area->damage);
-    if(area->damage > 0) stagehand->audio_player->play("heal");
+    if(area->damage > 0) stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"));
+
     global->set_player_kr(global->get_player_kr() + Math::min<float>(area->kr, area->damage) + 1);
     
-    if (global->get_player_kr() >= global->get_player_hp()) {
+    if(global->get_player_kr() >= global->get_player_hp()) {
         global->set_player_kr(Math::max(global->get_player_hp() - 1, 0));
     }
 }

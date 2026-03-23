@@ -6,9 +6,9 @@ script/source = "extends Node
 
 func _ready():
 	if global.get_frist():
-		global.get_scene_container().change_scene_to_file(\"res://Core/DefaultSecne/name_selection.tscn\");
+		global.get_scene_container().change_scene_to_file(\"res://Core/DefaultScene/name_selection.tscn\");
 	else:
-		global.get_scene_container().change_scene_to_file(\"res://Core/DefaultSecne/save_loader.tscn\");
+		global.get_scene_container().change_scene_to_file(\"res://Core/DefaultScene/save_loader.tscn\");
 "
 
 [node name="title" type="Node"]

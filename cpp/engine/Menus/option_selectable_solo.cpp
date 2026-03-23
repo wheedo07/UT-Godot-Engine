@@ -1,5 +1,6 @@
 #include "option_selectable_solo.h"
 #include "env.h"
+#include "engine/resources/AudioLibrary/audio_library.h"
 #include<godot_cpp/classes/engine.hpp>
 #include<godot_cpp/classes/viewport.hpp>
 
@@ -70,29 +71,29 @@ void OptionSelectableSolo::_ready() {
 void OptionSelectableSolo::_unhandled_input(const Ref<InputEvent>& event) {
     if(!is_visible_in_tree() || !enabled) return;
     
-    if (event->is_action_pressed("ui_down") && !node_down.is_empty()) {
+    if(event->is_action_pressed("ui_down") && !node_down.is_empty()) {
         move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_down)));
-        stagehand->audio_player->play("choice");
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
     }
     
-    if (event->is_action_pressed("ui_up") && !node_up.is_empty()) {
+    if(event->is_action_pressed("ui_up") && !node_up.is_empty()) {
         move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_up)));
-        stagehand->audio_player->play("choice");
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
     }
     
-    if (event->is_action_pressed("ui_left") && !node_left.is_empty()) {
+    if(event->is_action_pressed("ui_left") && !node_left.is_empty()) {
         move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_left)));
-        stagehand->audio_player->play("choice");
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
     }
     
-    if (event->is_action_pressed("ui_right") && !node_right.is_empty()) {
+    if(event->is_action_pressed("ui_right") && !node_right.is_empty()) {
         move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_right)));
-        stagehand->audio_player->play("choice");
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
     }
     
-    if (event->is_action_pressed("ut_confirm")) {
+    if(event->is_action_pressed("ut_confirm")) {
         if(!node_accept.is_empty()) move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_accept)));
-        stagehand->audio_player->play("select");
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/select.tres"));
         emit_signal("accept_pressed");
     }
 }

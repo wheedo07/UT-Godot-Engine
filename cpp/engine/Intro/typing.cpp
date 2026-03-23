@@ -1,5 +1,6 @@
 #include "typing.h"
 #include "env.h"
+#include "engine/resources/AudioLibrary/audio_library.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
@@ -55,14 +56,14 @@ void Typing::set_current_pos(const Vector2i& pos) {
     int new_x = pos.x;
     int new_y = pos.y;
 
-    if (new_x < 0) new_x = LIMIT - 1;
-    if (new_x >= LIMIT) new_x = 0;
+    if(new_x < 0) new_x = LIMIT - 1;
+    if(new_x >= LIMIT) new_x = 0;
 
     Array arr = letters[new_x];
-    if (arr.is_empty()) return;
+    if(arr.is_empty()) return;
 
-    if (new_y < 0) new_y = arr.size() - 1;
-    if (new_y >= arr.size()) new_y = 0;
+    if(new_y < 0) new_y = arr.size() - 1;
+    if(new_y >= arr.size()) new_y = 0;
 
     int dx = (pos.x - current_pos.x);
     int dy = (pos.y - current_pos.y);
@@ -70,20 +71,20 @@ void Typing::set_current_pos(const Vector2i& pos) {
     dy = dy == 0 ? 0 : (dy > 0 ? 1 : -1);
 
     int safety = 0;
-    while (safety < 100) {
+    while(safety < 100) {
         NodePath path = arr[new_y];
-        if (!path.is_empty()) break;
+        if(!path.is_empty()) break;
 
         new_x += dx;
         new_y += dy;
 
-        if (new_x < 0) new_x = LIMIT - 1;
-        if (new_x >= LIMIT) new_x = 0;
+        if(new_x < 0) new_x = LIMIT - 1;
+        if(new_x >= LIMIT) new_x = 0;
 
         arr = letters[new_x];
-        if (arr.is_empty()) return;
-        if (new_y < 0) new_y = arr.size() - 1;
-        if (new_y >= arr.size()) new_y = 0;
+        if(arr.is_empty()) return;
+        if(new_y < 0) new_y = arr.size() - 1;
+        if(new_y >= arr.size()) new_y = 0;
 
         safety++;
     }
@@ -139,7 +140,7 @@ void Typing::_create_letters() {
 }
 
 void Typing::enable_input(int x) {
-    stagehand->audio_player->play("choice");
+    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
     refresh_thing();
     set_process_unhandled_input(true);
 }
@@ -161,26 +162,26 @@ void Typing::_unhandled_input(const Ref<InputEvent>& event) {
     if(!is_visible()) return;
     
     Ref<InputEventKey> key_event = event;
-    if (key_event.is_valid()) {
+    if(key_event.is_valid()) {
         // Shift 키 처리
-        if (key_event->get_keycode() == Key::KEY_SHIFT) {
+        if(key_event->get_keycode() == Key::KEY_SHIFT) {
             _on_shift_pressed(key_event->is_pressed());
         }
         
-        if (shift_pressed && key_event->is_pressed()) {
-            if (key_event->get_keycode() > 64 && key_event->get_keycode() < 91) {
+        if(shift_pressed && key_event->is_pressed()) {
+            if(key_event->get_keycode() > 64 && key_event->get_keycode() < 91) {
                 int index = key_event->get_keycode() - 65;
                 String letter = LETTERS.substr(index, 1);
                 emit_signal("letter_input", letter);
-                stagehand->audio_player->play("choice");
+                stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
             }
             
-            if (key_event->get_keycode() == Key::KEY_BACKSPACE) {
+            if(key_event->get_keycode() == Key::KEY_BACKSPACE) {
                 emit_signal("backspace_key");
-                stagehand->audio_player->play("choice");
+                stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
             }
             
-            if (key_event->get_keycode() == Key::KEY_ENTER) {
+            if(key_event->get_keycode() == Key::KEY_ENTER) {
                 emit_signal("enter_key");
                 set_process_unhandled_input(false);
                 _on_shift_pressed(false);
@@ -191,12 +192,10 @@ void Typing::_unhandled_input(const Ref<InputEvent>& event) {
     }
     
     // Shift가 눌린 경우 추가 입력 처리하지 않음
-    if (shift_pressed) {
-        return;
-    }
+    if(shift_pressed) return;
     
     Array arr = letters[current_pos.x];
-    if (event->is_action_pressed("ui_down")) {
+    if(event->is_action_pressed("ui_down")) {
         if (current_pos.y >= arr.size() - 1 || 
             (current_pos.y >= arr.size() - 1)) {
             disable_input();
@@ -205,20 +204,20 @@ void Typing::_unhandled_input(const Ref<InputEvent>& event) {
         refresh_thing(Vector2i(0, 1)); 
     }
     
-    if (event->is_action_pressed("ui_right")) {
+    if(event->is_action_pressed("ui_right")) {
         refresh_thing(Vector2i(1, 0)); 
     }
     
-    if (event->is_action_pressed("ui_left")) {
+    if(event->is_action_pressed("ui_left")) {
         refresh_thing(Vector2i(-1, 0)); 
     }
     
-    if (event->is_action_pressed("ui_up")) {
+    if(event->is_action_pressed("ui_up")) {
         refresh_thing(Vector2i(0, -1)); 
     }
     
-    if (event->is_action_pressed("ut_confirm")) {
-        stagehand->audio_player->play("choice");
+    if(event->is_action_pressed("ut_confirm")) {
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
         Array arr = letters[current_pos.x];
         
         String text = Object::cast_to<OptionSelectable>(get_node_internal(arr[current_pos.y]))->get_parsed_text();
@@ -228,8 +227,8 @@ void Typing::_unhandled_input(const Ref<InputEvent>& event) {
 
 void Typing::refresh_thing(const Vector2i& action) {
     Array arr = letters[current_pos.x];
-    if (action != Vector2i(0, 0)) {
-        stagehand->audio_player->play("choice");
+    if(action != Vector2i(0, 0)) {
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
     }
     
     Object::cast_to<OptionSelectable>(get_node_internal(arr[current_pos.y]))->set_selected(false);

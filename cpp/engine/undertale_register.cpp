@@ -33,6 +33,9 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
     // Item
     GDREGISTER_CLASS(Item);
+
+    // AudioLibrary
+    GDREGISTER_CLASS(AudioLibrary);
     // [end] //
 
     // [defaultNode] //

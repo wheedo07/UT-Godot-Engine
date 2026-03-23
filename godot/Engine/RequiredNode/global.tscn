@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://rkh0m06yocwr"]
 
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="1_b33tt"]
-[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://sfx/button_select.wav" id="2_1plq4"]
+[ext_resource type="AudioStream" uid="uid://8273sonvvmuu" path="res://Engine/sfx/sound/button_select.wav" id="2_1plq4"]
 
 [node name="requiredNode_Global" type="Node"]
 

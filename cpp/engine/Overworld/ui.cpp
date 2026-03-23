@@ -1,6 +1,7 @@
 #include "ui.h"
 #include "env.h"
 #include "engine/Menus/item_slider.h"
+#include "engine/resources/AudioLibrary/audio_library.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/resource_loader.hpp>
 #include<godot_cpp/classes/panel.hpp>
@@ -370,7 +371,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
     if(event->is_action_pressed("ut_confirm")) {
         Object::cast_to<GPUParticles2D>(get_node_internal("Control/StatAndOptions/Soul/Ghost"))->restart();
         Object::cast_to<GPUParticles2D>(get_node_internal("Control/StatAndOptions/Soul/Ghost"))->set_emitting(true);
-        stagehand->audio_player->play("select");
+        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/select.tres"));
         
         switch (current_state) {
             case OPTIONS: {
@@ -493,7 +494,7 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
 }
 
 bool UI::soul_move(const Vector2& action) {
-    stagehand->audio_player->play("choice");
+    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
     Vector2 vec = optionsize[current_state];
 
     if (soulposition.x + action.x > vec.x - 1) return false;
