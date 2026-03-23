@@ -72,7 +72,7 @@ void DialogueControl::type_text_bubble(const Ref<Dialogues>& dialogues) {
 }
 
 void DialogueControl::kill() {
-    if(isKill) return;
+    if(isKill && !current_dialogues.is_valid()) return;
     isKill = true;
     Callable call = Callable(this, "_on_ends_typing");
     if(bubble_text->is_connected("ends_typing", call)) bubble_text->disconnect("ends_typing", call);
@@ -121,6 +121,7 @@ void DialogueControl::_on_all_texts_finished() {
     active_tween->tween_property(this, "modulate:a", 0, 0.1);
     
     global->_set_battle_text_box(false);
+    current_dialogues.unref();
     emit_signal("finished_all_texts_dialogue");
 }
 
