@@ -82,7 +82,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
     
     if(event->is_action_pressed("ui_left") && soulpos > 0) {
         selected_option = true;
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
         soulpos--;
         soul_position = Options[soulpos].call("get_global_position");
         soul->move_global(soul_position + soul_offset);
@@ -90,7 +90,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
     
     if(event->is_action_pressed("ui_right") && soulpos < optionamt-1) {
         selected_option = true;
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
         soulpos++;
         soul_position = Options[soulpos].call("get_global_position");
         soul->move_global(soul_position + soul_offset);
@@ -99,7 +99,7 @@ void TextBox::_input(const Ref<InputEvent>& event) {
     if(event->is_action_pressed("ut_confirm") && selected_option) {
         get_viewport()->set_input_as_handled();
         selecting = false;
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/select.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/select.tres"))->play();
         finish_options();
     }
 }
@@ -298,7 +298,7 @@ void TextBox::_setup_soul_selection(const PackedStringArray& options) {
     optionamt = options.size();
     soulpos = 0;
     
-    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+    stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
     
     Vector2 option_pos = Options[0].call("get_global_position");
     soul->set_global_position(option_pos + soul_offset);

@@ -73,27 +73,27 @@ void OptionSelectableSolo::_unhandled_input(const Ref<InputEvent>& event) {
     
     if(event->is_action_pressed("ui_down") && !node_down.is_empty()) {
         move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_down)));
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
     }
     
     if(event->is_action_pressed("ui_up") && !node_up.is_empty()) {
         move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_up)));
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
     }
     
     if(event->is_action_pressed("ui_left") && !node_left.is_empty()) {
         move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_left)));
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
     }
     
     if(event->is_action_pressed("ui_right") && !node_right.is_empty()) {
         move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_right)));
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
     }
     
     if(event->is_action_pressed("ut_confirm")) {
         if(!node_accept.is_empty()) move_soul(Object::cast_to<OptionSelectableSolo>(get_node_internal(node_accept)));
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/select.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/select.tres"))->play();
         emit_signal("accept_pressed");
     }
 }

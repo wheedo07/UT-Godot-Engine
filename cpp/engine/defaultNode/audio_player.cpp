@@ -13,7 +13,7 @@ void AudioPlayer::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_tree_exited", "audio"), &AudioPlayer::_tree_exited);
      
     ClassDB::bind_method(D_METHOD("create", "library"), &AudioPlayer::create);
-    ClassDB::bind_method(D_METHOD("play_dynamic", "library"), &AudioPlayer::play_dynamic);
+    ClassDB::bind_method(D_METHOD("dynamic", "library"), &AudioPlayer::dynamic);
     ClassDB::bind_method(D_METHOD("play", "audio_name"), &AudioPlayer::play);
     ClassDB::bind_method(D_METHOD("loop_play", "audio_name"), &AudioPlayer::loop_play);
     ClassDB::bind_method(D_METHOD("stop", "audio_name"), &AudioPlayer::stop);
@@ -44,7 +44,7 @@ AudioStreamPlayer *AudioPlayer::create(Ref<AudioLibrary> library) {
     return child;
 }
 
-AudioStreamPlayer *AudioPlayer::play_dynamic(Ref<AudioLibrary> library) {
+AudioStreamPlayer *AudioPlayer::dynamic(Ref<AudioLibrary> library) {
     AudioStreamPlayer *child = _create(library);
     child->connect("finished", Callable(child, "queue_free"));
     return child;

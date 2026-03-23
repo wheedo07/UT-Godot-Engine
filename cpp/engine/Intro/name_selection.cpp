@@ -66,7 +66,7 @@ void NameSelection::_input(const Ref<InputEvent>& event) {
     if(!confirmable) return;
     
     if(event->is_action_pressed("ui_right")) {
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
         
         if(choices.size() >= 2) {
             Object::cast_to<OptionSelectable>(choices[0])->reset();
@@ -76,7 +76,7 @@ void NameSelection::_input(const Ref<InputEvent>& event) {
     }
     
     if(event->is_action_pressed("ui_left")) {
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
         
         if(choices.size() >= 2) {
             Object::cast_to<OptionSelectable>(choices[1])->reset();
@@ -113,7 +113,7 @@ void NameSelection::_on_name_input_text_submitted() {
     }
     
     emit_signal("disable");
-    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/select.tres"));
+    stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/select.tres"))->play();
     
     Ref<SceneTreeTimer> timer = get_tree()->create_timer(0.1, false);
     timer->connect("timeout", Callable(this, "_on_check_name").bind(name_label->get_text().to_upper()));

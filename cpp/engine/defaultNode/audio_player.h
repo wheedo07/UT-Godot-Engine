@@ -25,7 +25,7 @@ namespace godot {
              
             void _ready() override;
             AudioStreamPlayer *create(Ref<AudioLibrary> library);
-            AudioStreamPlayer *play_dynamic(Ref<AudioLibrary> library);
+            AudioStreamPlayer *dynamic(Ref<AudioLibrary> library);
             void play(String audio_name);
             void loop_play(const String& audio_name);
             void stop(const String& audio_name);

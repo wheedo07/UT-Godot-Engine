@@ -216,7 +216,7 @@ void BattleBox::blitter_item() {
         // 소비 아이템인 경우
         texts = global->item_use_text(used_item);
         if(item->get_heal_amount() > 0) 
-            stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"));
+            stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"))->play();
     }else if(item->get_item_type() == Item::MISC) {
         // 기타 아이템인 경우
         texts = item->get_use_message();

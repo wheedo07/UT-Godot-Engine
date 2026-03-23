@@ -42,7 +42,7 @@ int Options::get_current_pos() const {
 }
 
 void Options::enable(int x) {
-    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+    stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
     current_pos = 0;
     
     int option_pos = 0;
@@ -104,7 +104,7 @@ void Options::_unhandled_input(const Ref<InputEvent>& event) {
 }
 
 void Options::refresh_thing(int action) {
-    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+    stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
     
     Object::cast_to<OptionSelectable>(option_nodes[current_pos])->set_selected(false);
     

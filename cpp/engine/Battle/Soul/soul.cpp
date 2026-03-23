@@ -256,7 +256,7 @@ void SoulBattle::check_bullet(Area2D *area) {
 void SoulBattle::hurt(BulletArea *area) {
     if(!area) return;
 
-    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/hurt.tres"));
+    stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/hurt.tres"))->play();
     if(global->get_player_hp() <= 1 && main->player_turn) return;
     
     iframes = area->iframes;
@@ -305,7 +305,7 @@ void SoulBattle::heal(BulletArea *area) {
     hiframes = 1;
     
     global->heal(area->damage);
-    if(area->damage > 0) stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"));
+    if(area->damage > 0) stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"))->play();
 
     global->set_player_kr(global->get_player_kr() + Math::min<float>(area->kr, area->damage) + 1);
     

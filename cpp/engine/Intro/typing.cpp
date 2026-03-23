@@ -140,7 +140,7 @@ void Typing::_create_letters() {
 }
 
 void Typing::enable_input(int x) {
-    stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+    stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
     refresh_thing();
     set_process_unhandled_input(true);
 }
@@ -173,12 +173,12 @@ void Typing::_unhandled_input(const Ref<InputEvent>& event) {
                 int index = key_event->get_keycode() - 65;
                 String letter = LETTERS.substr(index, 1);
                 emit_signal("letter_input", letter);
-                stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+                stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
             }
             
             if(key_event->get_keycode() == Key::KEY_BACKSPACE) {
                 emit_signal("backspace_key");
-                stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+                stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
             }
             
             if(key_event->get_keycode() == Key::KEY_ENTER) {
@@ -217,7 +217,7 @@ void Typing::_unhandled_input(const Ref<InputEvent>& event) {
     }
     
     if(event->is_action_pressed("ut_confirm")) {
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
         Array arr = letters[current_pos.x];
         
         String text = Object::cast_to<OptionSelectable>(get_node_internal(arr[current_pos.y]))->get_parsed_text();
@@ -228,7 +228,7 @@ void Typing::_unhandled_input(const Ref<InputEvent>& event) {
 void Typing::refresh_thing(const Vector2i& action) {
     Array arr = letters[current_pos.x];
     if(action != Vector2i(0, 0)) {
-        stagehand->audio_player->play_dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"));
+        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/choice.tres"))->play();
     }
     
     Object::cast_to<OptionSelectable>(get_node_internal(arr[current_pos.y]))->set_selected(false);
