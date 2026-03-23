@@ -1,8 +1,0 @@
-[gd_resource type="AudioLibrary" load_steps=2 format=3 uid="uid://cnmqxwnp4jlsm"]
-
-[ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://Engine/sfx/sound/player_hurt.wav" id="1_1mqlg"]
-
-[resource]
-audio_name = "hurt"
-audio_stream = ExtResource("1_1mqlg")
-audio_bus = &"SFX"

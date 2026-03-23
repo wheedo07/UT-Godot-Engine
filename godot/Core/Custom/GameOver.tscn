@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dggr74u132cr4"]
+[gd_scene load_steps=10 format=3 uid="uid://dggr74u132cr4"]
 
 [ext_resource type="PackedScene" uid="uid://dleuqhnhqqffc" path="res://Engine/Battle/Soul/death_soul.tscn" id="2_kpjqu"]
 [ext_resource type="AudioStream" uid="uid://bduwycraydjwu" path="res://sfx/Clicks/generic2.wav" id="4_vc66o"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="5_1ttji"]
 [ext_resource type="FontFile" uid="uid://ddqyxuicviwwp" path="res://Engine/Text/Fonts/8-BIT WONDER.TTF" id="5_hp2tx"]
+[ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://Engine/sfx/sound/player_hurt.wav" id="6_4n2di"]
 [ext_resource type="AudioStream" uid="uid://c1qln468c47ui" path="res://Core/Custom/assets/death_screen_music_thing.wav" id="8_vka2r"]
 
 [sub_resource type="GDScript" id="GDScript_1hvt8"]
@@ -13,7 +14,7 @@ script/source = "extends DeathScreen
 
 var tween:Tween;
 func ready() -> void:
-	stagehand.audio_player.play(\"hurt\");
+	$hurt.play();
 	tween = create_tween().set_trans(Tween.TRANS_QUAD);
 	tween.tween_interval(0.4);	
 	if (death_soul.scale != Vector2.ONE):
@@ -126,3 +127,7 @@ stream = ExtResource("4_vc66o")
 stream = ExtResource("8_vka2r")
 volume_db = -64.0
 bus = &"Music"
+
+[node name="hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_4n2di")
+bus = &"SFX"

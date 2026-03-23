@@ -104,6 +104,8 @@ void SoulBattle::_ready() {
     collision_area = Object::cast_to<CollisionShape2D>(get_node_internal("Area2D/CollisionShape2D"));
     collision = Object::cast_to<CollisionShape2D>(get_node_internal("CollisionShape2D"));
     wallhit = Object::cast_to<AudioStreamPlayer>(get_node_internal("Wallhit"));
+    hurt_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Hurt"));
+    heal_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Heal"));
     hp_label = Object::cast_to<RichTextLabel>(get_node_internal("hp_label"));
     input = Input::get_singleton();
     
@@ -256,7 +258,7 @@ void SoulBattle::check_bullet(Area2D *area) {
 void SoulBattle::hurt(BulletArea *area) {
     if(!area) return;
 
-    stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/hurt.tres"))->play();
+    hurt_sound->play();
     if(global->get_player_hp() <= 1 && main->player_turn) return;
     
     iframes = area->iframes;
@@ -305,8 +307,7 @@ void SoulBattle::heal(BulletArea *area) {
     hiframes = 1;
     
     global->heal(area->damage);
-    if(area->damage > 0) stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"))->play();
-
+    heal_sound->play();
     global->set_player_kr(global->get_player_kr() + Math::min<float>(area->kr, area->damage) + 1);
     
     if(global->get_player_kr() >= global->get_player_hp()) {

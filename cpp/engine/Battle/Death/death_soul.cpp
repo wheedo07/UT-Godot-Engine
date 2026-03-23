@@ -31,12 +31,12 @@ void DeathSoul::_ready() {
     shatter_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("shatter"));
     
     // 소울 타입에 따른 외관 설정
-    if (soul_type == MONSTER) {
+    if(soul_type == MONSTER) {
         set_modulate(monster_color);
         Vector2 scale_val = get_scale();
         scale_val.y = -1.0f;
         set_scale(scale_val);
-    } else {
+    }else {
         set_modulate(human_color);
     }
 }

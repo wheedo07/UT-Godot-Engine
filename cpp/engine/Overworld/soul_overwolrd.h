@@ -3,6 +3,7 @@
 
 #include<godot_cpp/classes/sprite2d.hpp>
 #include<godot_cpp/classes/area2d.hpp>
+#include<godot_cpp/classes/audio_stream_player.hpp>
 namespace godot {
     class BulletArea;
 
@@ -19,6 +20,7 @@ namespace godot {
             bool isOn;
             float hiframes;
             Area2D *area;
+            AudioStreamPlayer *hurt_sound, *heal_sound;
             Vector2 inputs;
 
             void check_bullet(Area2D *area_node);

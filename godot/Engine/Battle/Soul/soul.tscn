@@ -1,5 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://cobjcttlv6o13"]
+[gd_scene load_steps=20 format=3 uid="uid://cobjcttlv6o13"]
 
+[ext_resource type="AudioStream" uid="uid://lp7i5p5u17hl" path="res://Engine/sfx/sound/heal.wav" id="2_dke5a"]
+[ext_resource type="AudioStream" uid="uid://ce8m6y33f0418" path="res://Engine/sfx/sound/player_hurt.wav" id="2_jquni"]
 [ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Engine/Battle/Soul/soul.png" id="3_lkhun"]
 [ext_resource type="AudioStream" uid="uid://eyckh0i2ms08" path="res://sfx/snd_heartshot.wav" id="4_4sia6"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="8_2u0sn"]
@@ -88,6 +90,13 @@ debug_color = Color(1, 0.404667, 0.24, 0.0784314)
 shape = SubResource("RectangleShape2D_ns07m")
 disabled = true
 debug_color = Color(0.64, 0.922, 1, 0.0588235)
+
+[node name="Heal" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_dke5a")
+bus = &"SFX"
+
+[node name="Hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_jquni")
 
 [node name="Shoot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_4sia6")

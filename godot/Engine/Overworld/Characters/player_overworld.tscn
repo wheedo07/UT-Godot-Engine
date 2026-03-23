@@ -1,11 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://d4g7r4oj7f4t8"]
+[gd_scene load_steps=26 format=3 uid="uid://d4g7r4oj7f4t8"]
 
 [ext_resource type="Shader" uid="uid://gtw0lmi2ftie" path="res://Engine/Main/Shaders/outline.gdshader" id="1_cf73v"]
 [ext_resource type="Texture2D" uid="uid://cgoo48dwdplgr" path="res://Engine/Overworld/Characters/assets/frisk.png" id="3_54vmf"]
 [ext_resource type="Texture2D" uid="uid://bv1ip5w51qorh" path="res://Engine/Overworld/Interactions/alert.png" id="4_3i2lt"]
 [ext_resource type="AudioStream" uid="uid://wtp5ovq3dy16" path="res://sfx/overworld_encounter_surprise.wav" id="5_5j3a3"]
+[ext_resource type="PackedScene" uid="uid://cxyga1eleqiiu" path="res://Engine/Overworld/Characters/soul_overworld.tscn" id="6_rrlku"]
 [ext_resource type="Theme" uid="uid://idhsrkqv81lv" path="res://Engine/Themes/DTMono24.tres" id="6_s1ggv"]
-[ext_resource type="Texture2D" uid="uid://drb2pnehvxc4b" path="res://Engine/Battle/Soul/soul.png" id="7_ebdcd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbnmf"]
 size = Vector2(16, 3)
@@ -173,9 +173,6 @@ animations = [{
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1ggv"]
 bg_color = Color(0, 0, 0, 1)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_cf73v"]
-radius = 5.0
-
 [node name="PlayerOverworld" type="PlayerOverworld" groups=["player"]]
 slide_on_ceiling = false
 wall_min_slide_angle = 0.785398
@@ -223,17 +220,6 @@ max_value = 20.0
 value = 15.0
 show_percentage = false
 
-[node name="Soul" type="SoulOverworld" parent="."]
+[node name="Soul" parent="." instance=ExtResource("6_rrlku")]
 visible = false
-modulate = Color(1, 0, 0, 1)
 position = Vector2(0, -8)
-scale = Vector2(0.35, 0.35)
-texture = ExtResource("7_ebdcd")
-
-[node name="Area2D" type="Area2D" parent="Soul" groups=["soul"]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Soul/Area2D"]
-scale = Vector2(2.857143, 2.857143)
-shape = SubResource("CircleShape2D_cf73v")
-
-[connection signal="hurt" from="Soul" to="." method="_on_hurt"]

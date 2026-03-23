@@ -66,6 +66,7 @@ namespace godot {
             Node2D *sprite;
             GPUParticles2D *ghost, *afterimage;
             AudioStreamPlayer *shoot, *mode_change_sound, *wallhit;
+            AudioStreamPlayer *hurt_sound, *heal_sound;
             BattleMain *main;
             Area2D *area;
             CollisionShape2D *collision, *collision_area;

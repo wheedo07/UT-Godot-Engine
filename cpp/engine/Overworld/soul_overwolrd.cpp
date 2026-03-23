@@ -18,6 +18,8 @@ void SoulOverworld::_bind_methods() {
 }
 
 void SoulOverworld::_ready() {
+    hurt_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("hurt"));
+    heal_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("heal"));
     area = Object::cast_to<Area2D>(get_node_internal("Area2D"));
 }
 
@@ -94,7 +96,7 @@ void SoulOverworld::hurt(BulletArea* bullet_area) {
 
     int damage_amount = Math::max(bullet_area->damage - defense, 1);
     global->set_player_hp(global->get_player_hp() - damage_amount);
-    stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/hurt.tres"))->play();
+    hurt_sound->play();
     emit_signal("hurt", damage_amount);
 
     if(global->get_player_hp() <= 0 && !global->get_debugmode()) {
@@ -118,9 +120,7 @@ void SoulOverworld::heal(BulletArea *bullet_area) {
     hiframes = 1;
     global->heal(bullet_area->damage);
 
-    if(bullet_area->damage > 0) 
-        stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"))->play();
-    
+    if(bullet_area->damage > 0) heal_sound->play();
     emit_signal("hurt", bullet_area->damage, true);
 }
 
