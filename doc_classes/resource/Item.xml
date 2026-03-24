@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="Item" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
-    <brief_description>
-        A resource class that defines items in the UT-Godot-Engine.
+<brief_description>
+        The base resource class for defining items in UT-Godot-Engine.
     </brief_description>
     <description>
-        The [Item] class is a resource used to define all items in the game (consumable items, weapons, armor, and miscellaneous).
-        You can set the item type, stats, usage messages, and more.
+        Unlike other item resources, this class holds basic item information including the item's name, description, and messages for using and discarding the item.
         
-        [b]Item Types:[/b]
-        • [constant CONSUMABLE]: Recovery items that are consumed after use
-        • [constant WEAPON]: Equipment that increases attack power
-        • [constant ARMOR]: Equipment that increases defense power
-        • [constant MISC]: Miscellaneous items that do not fit into the other categories
-
         [en] For a more detailed explanation, please refer to the tutorials linked below.
         [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
     </description>
@@ -32,14 +25,11 @@
     </methods>
 
     <members>
-        <member name="item_information" type="PackedStringArray" setter="set_item_information" getter="get_item_information" default="PackedStringArray()">
-            Detailed information about the item. This is the description displayed when viewing items in the inventory.
-        </member>
         <member name="item_name" type="String" setter="set_item_name" getter="get_item_name" default="&quot;TestItem&quot;">
             The name of the item. Displayed in the inventory and menus.
         </member>
-        <member name="item_type" type="int" setter="set_item_type" getter="get_item_type" enum="Item.ItemType" default="0">
-            The type of the item. One of CONSUMABLE (consumable item), WEAPON (weapon), or ARMOR (armor).
+        <member name="item_information" type="PackedStringArray" setter="set_item_information" getter="get_item_information" default="PackedStringArray()">
+            Detailed information about the item. This is the description displayed when viewing items in the inventory.
         </member>
         <member name="throw_message" type="PackedStringArray" setter="set_throw_message" getter="get_throw_message" default="PackedStringArray()">
             Messages displayed when the item is discarded. Each string is displayed sequentially.
@@ -48,37 +38,4 @@
             Messages displayed when the item is used. Each element in the array is displayed sequentially.
         </member>
     </members>
-
-    <constants>
-        <constant name="KNIFE" value="0" enum="WeaponType">
-            Performs a basic cutting attack.
-        </constant>
-        <constant name="PUNCH" value="1" enum="WeaponType">
-            Performs a punch attack effect.
-        </constant>
-        <constant name="SHOE" value="2" enum="WeaponType">
-            Performs a shoe attack effect.
-        </constant>
-        <constant name="BOOK" value="3" enum="WeaponType">
-            Performs a book attack effect.
-        </constant>
-        <constant name="PAN" value="4" enum="WeaponType">
-            Performs a frying pan attack effect.
-        </constant>
-        <constant name="GUN" value="5" enum="WeaponType">
-            Performs a gun attack effect.
-        </constant>
-        <constant name="CONSUMABLE" value="0" enum="ItemType">
-            A consumable item. Takes effect when used and is consumed.
-        </constant>
-        <constant name="WEAPON" value="1" enum="ItemType">
-            A weapon. An equippable item.
-        </constant>
-        <constant name="ARMOR" value="2" enum="ItemType">
-            Armor. An equippable item.
-        </constant>
-        <constant name="MISC" value="3" enum="ItemType">
-            Miscellaneous item. An item that is neither consumed nor equipped.
-        </constant>
-    </constants>
 </class>

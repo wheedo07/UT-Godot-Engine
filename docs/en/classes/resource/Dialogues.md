@@ -118,3 +118,8 @@ The type representing the pause points of dialogue. Used with [`get_dialogues_si
 - **Description**:
     - returns: `Array<float>` <br>
 The type representing the text display speed of dialogue. Used with [`get_dialogues_single`](#get_dialogues_singledialog_type-dialoguetype---array) to retrieve the [`Dialogue.dialog_speed`](Dialogue.md#dialog_speed) property.
+
+---
+
+## 🔗 Related Docs
+- [Dialogue - Dialogue Resource](Dialogue.md)

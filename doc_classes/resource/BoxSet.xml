@@ -4,8 +4,7 @@
         A BoxSet resource used by [Encounter].
     </brief_description>
     <description>
-        BoxSet is a resource that defines the visual configuration of the battle board on which the player's SOUL moves during combat.
-        It allows you to set the board's color, border color, and the textures used for the attack meter.
+        This resource is used by [Encounter] to configure the battle board's color, custom meter, or default meter settings.
 
         [en] For a more detailed explanation, please refer to the tutorials linked below.
         [ko] 이것보다 더 자세한 설명(또는 한국어 문서)은 아래 링크된 튜토리얼을 참고하세요.
@@ -32,12 +31,10 @@
             The default value is an opaque white.
         </member>
 
-        <member name="meter_texture" type="Texture" setter="set_meter_texture" getter="get_meter_texture">
-            The texture for the meter displayed when attacking.
-        </member>
-
-        <member name="meter_scale" type="Vector2" setter="set_meter_scale" getter="get_meter_scale" default="Vector2(1, 1)">
-            The scale of the meter displayed when attacking.
+        <member name="is_custom_meter" type="bool" setter="set_is_custom_meter" getter="is_custom_meter" default="false">
+            Whether to use a custom meter.
+            The default meter is a system where the player times their attack, but the custom meter allows developers to implement their own meter system.
+            Refer to the documentation for details.
         </member>
     </members>
 </class>

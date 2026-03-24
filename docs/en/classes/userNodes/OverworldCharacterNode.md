@@ -3,78 +3,141 @@
 > 🟢 **User-creatable**
 >> Users can create this node and write scripts for it.
 
-A node for NPC characters in the overworld scene.
-Handles movement, animation, dialogue, and interaction area.
-
 ---
 
 ## Main Roles
-- NPC character movement and animation
-    - Walking in 4 directions (down, side, up)
-    - Idle and move animation states
-    - Special `act` animation
-- Dialogue and interaction
-    - Show dialogue via [`Dialogues`](../resource/Dialogues.md) resource
-    - Detect player interaction via `Area2D`
-- Alert icon display
-    - Show an exclamation mark icon above the NPC
+- **Movement System**
+    - Directional movement with automatic animation switching between idle/walking states
+    - Character movement speed and direction control
+- **Animation Management**
+    - Automatic handling of directional animations (up, down, left/right)
+    - Automatic sprite flip functionality
+- **Dialogue System**
+    - Integration with [`DialogueAsset`](../resource/DialogueAsset.md) and [`TextBox`](../systemNodes/TextBox.md)
+    - Per-character dialogue management
+- **Interaction System**
+    - Player interaction detection using [`InteractionTrigger`](../systemNodes/InteractionTrigger.md)
+    - Automatic dialogue start on interaction
+- **Alert System**
+    - Visual alert and sound effects on encounter or interaction
 
 ---
 
-## Required Node Structure
+## Required Components
 
+### Node Structure
 ```
 OverworldCharacterNode
-├── OverworldSprite         # Sprite with animations
-└── Area2D (area_interact)  # Interaction trigger area
-    └── CollisionShape2D
+├── OverworldSprite     # Animation sprite (required)
+└── InteractionTrigger  # Interaction area (required)
 ```
+
+### Required Resources
+- [`DialogueAsset`](../resource/DialogueAsset.md) - Character dialogue data
+
+---
+
+## Animation States
+
+The character automatically transitions between idle and movement animations based on speed:
+
+### Idle Animations
+- `"idle_down"` - Idle facing down
+- `"idle_side"` - Idle facing left/right
+- `"idle_up"` - Idle facing up
+
+### Move Animations
+- `"move_down"` - Moving downward
+- `"move_side"` - Moving left/right
+- `"move_up"` - Moving upward
+
+### Special Animations
+- `"act"` - Animation for custom actions
 
 ---
 
 ## Methods
 
-### `start_walking(direction: Vector2, distance: float, speed: float = -1)`
-Makes the NPC walk in a direction for a given distance.
+### `start_walking(direction: Vector2i = Vector2i(0, 0))`
+Starts or stops character movement in the specified direction.
+If `direction` is non-zero, starts movement and transitions to the walking animation.
+If `direction` is zero, stops movement and transitions to the idle animation.
 
 ```gdscript
-# Walk right for 100px
-start_walking(Vector2(1, 0), 100.0)
+# Start moving right
+character.start_walking(Vector2i(1, 0))
 
-# Walk down at custom speed
-start_walking(Vector2(0, 1), 200.0, 80.0)
+# Move downward
+character.start_walking(Vector2i(0, 1))
+
+# Stop movement
+character.start_walking(Vector2i(0, 0))
 ```
 
-### `force_direction(direction: Vector2)`
-Forces the NPC to face a direction without moving.
+### `force_direction(dir: Vector2)`
+Forces the character to face a specific direction without moving.
+Updates the animation state and sprite direction based on the normalized direction vector.
+Useful for making a character face the player or a specific object.
 
 ```gdscript
-force_direction(Vector2(0, 1))   # Face down
-force_direction(Vector2(1, 0))   # Face right
-force_direction(Vector2(0, -1))  # Face up
+# Set to face the player
+var player_pos = global.get_player().global_position
+var direction = (player_pos - global_position).normalized()
+character.force_direction(direction)
+
+# Lock to a specific direction
+character.force_direction(Vector2.DOWN)  # Face downward
 ```
 
-### `show_alert()`
-Shows a "!" alert icon above the NPC.
+### `show_alert(duration: float = 0.35)`
+Shows an alert indicator above the character for the specified duration.
+Plays the encounter sound effect and displays the alert sprite using [`frame_alert`](#frame_alert-int).
+The alert automatically hides after the duration has elapsed.
 
 ```gdscript
-show_alert()
-await get_tree().create_timer(0.5).timeout
+# Show alert for default duration (0.35s)
+character.show_alert()
+
+# Show alert for 1 second
+character.show_alert(1.0)
+
+# Alert on enemy encounter
+func on_enemy_encounter():
+    character.show_alert(0.5)
 ```
 
-### `set_frame(frame: int)`
-Sets the current animation frame of the sprite.
+### `set_frame(index: int)`
+Sets the character sprite to display a specific frame of the "act" animation.
+Useful for displaying custom poses or expressions outside the normal animation cycle.
 
 ```gdscript
-set_frame(0)  # Set to first frame
+# Display a special pose
+character.set_frame(2)  # Frame 2 of the act animation
+
+# Change between different expressions
+match emotion:
+    "happy":
+        character.set_frame(0)
+    "sad":
+        character.set_frame(1)
+    "angry":
+        character.set_frame(2)
 ```
 
-### `play_anim(anim: String)`
-Plays a specific animation on the [`OverworldSprite`](OverworldSprite.md).
+### `play_anim(key: String, speed: float = 1.0, from_end: bool = false)`
+Plays a specific animation with optional speed and direction control.
+Connected to the `animation_finished` signal, emits the [`animation_finished`](#animation_finished) signal on completion.
 
 ```gdscript
-play_anim("act")        # Play act animation
-play_anim("idle_down")  # Play idle down animation
+# Play normal animation
+character.play_anim("act")
+await character.animation_finished
+
+# Play at double speed
+character.play_anim("move_down", 2.0)
+
+# Play in reverse
+character.play_anim("act", 1.0, true)
 ```
 
 ---
@@ -83,80 +146,68 @@ play_anim("idle_down")  # Play idle down animation
 
 ### Editor-configurable Variables
 
-#### `character: CharacterSetting`
-The character settings resource for this NPC.
-Controls font, text box appearance, and dialogue sounds.
+#### `character: String`
+The name of the character used for dialogue display.
+The name displayed in the dialogue box when the character speaks.
 
-```gdscript
-character = preload("res://Characters/Toriel.tres")
-```
+#### `walk_speed: int`
+The character's movement speed in pixels per second.
+**Range:** 0–400. Higher values make the character move faster.
+**Default:** 60
 
-#### `walk_speed: float`
-The walking speed of this NPC in pixels per second.
+#### `frame_alert: int`
+The frame index to display when showing the alert indicator.
+References a frame in the alert sprite's animation sequence.
+**Default:** 0
 
-```gdscript
-walk_speed = 60.0
-```
+#### `sprite: OverworldSprite`
+A reference to the [`OverworldSprite`](OverworldSprite.md) component that handles character visuals.
+Must be set for the character to display and animate correctly.
 
-#### `frame_alert: Texture2D`
-The texture used for the alert "!" icon shown by `show_alert()`.
-
-#### `sprite: NodePath`
-The path to the `OverworldSprite` node for this character.
-
-```gdscript
-sprite = NodePath("OverworldSprite")
-```
-
-#### `area_interact: NodePath`
-The path to the `Area2D` node used to detect player interaction.
-
-```gdscript
-area_interact = NodePath("Area2D")
-```
+#### `area_interact: InteractionTrigger`
+A reference to the [`InteractionTrigger`](../systemNodes/InteractionTrigger.md) component that detects player interaction.
+Should be set using the (res://Engine/Overworld/Interactions/interaction_trigger.tscn) scene.
 
 #### `current_index: int`
-The current dialogue index. Advances each time the player interacts.
+The current dialogue index used when interacting with this character.
+References an index in the dialogue array of the [`dialogues`](#dialogues-dialogueasset) asset.
+Can be changed to progress to a different dialogue state.
+**Default:** 0
 
 #### `dialogues: DialogueAsset`
-The [`DialogueAsset`](../resource/DialogueAsset.md) resource containing this NPC's dialogue lines.
+The [`DialogueAsset`](../resource/DialogueAsset.md) resource containing this character's dialogue data.
+Used to display dialogue text when the player interacts with the character.
 
 ---
 
 ## Signals
 
 ### `character_finished`
-Emitted when the NPC finishes walking (via `start_walking()`).
+Emitted when the character's dialogue interaction is complete.
+Emitted after a dialogue sequence initiated by player interaction has ended.
 
 ```gdscript
-start_walking(Vector2(1, 0), 100.0)
-await character_finished
-print("NPC has finished walking.")
+func _on_character_finished():
+    print("Dialogue with character has ended")
+    global.set_player_can_move(true)
 ```
 
 ### `animation_finished`
-Emitted when the current animation completes.
+Emitted when a custom animation played via [`play_anim()`](#play_animkey-string-speed-float--10-from_end-bool--false) is complete.
+Useful for chaining animations or triggering events after a specific animation.
 
 ```gdscript
-play_anim("act")
-await animation_finished
-print("Act animation finished.")
+func play_sequence():
+    character.play_anim("act")
+    await character.animation_finished
+    print("Special action complete!")
 ```
-
----
-
-## ⚠️ Notes & Tips
-
-- Make sure `sprite` and `area_interact` paths are correctly configured in the Inspector.
-- The `character` resource controls the appearance and sound of dialogue — set it to match the NPC's identity.
-- `current_index` automatically advances during interaction, so you don't need to manage it manually for linear dialogue.
 
 ---
 
 ## 🔗 Related Docs
 
-- [OverworldSprite - Animation Setup](OverworldSprite.md)
-- [CharacterSetting - Character Config](CharacterSetting.md)
-- [DialogueAsset - Dialogue Resource](../resource/DialogueAsset.md)
-- [Overworld - Scene Root](Overworld.md)
-- [Creating an Overworld](/tutorials/overworld.md)
+- [OverworldSprite - Overworld Sprite](OverworldSprite.md)
+- [DialogueAsset - Dialogue Asset](../resource/DialogueAsset.md)
+- [InteractionTrigger - Interaction Trigger](../systemNodes/InteractionTrigger.md)
+- [TextBox - Text Box](../systemNodes/TextBox.md)
