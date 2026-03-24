@@ -47,6 +47,11 @@ namespace godot {
                 ARROW_KEYS_AND_MOVING
             };
 
+            enum OrangeModeDirection {
+                FOUR_DIR,
+                EIGHT_DIR
+            };
+
         private:
             Input *input;
             Array jump;
@@ -59,9 +64,10 @@ namespace godot {
             SoulMode previous_mode;
             Vector2 inputs;
             int slow_down;
-
             Vector2 gravity_direction;
+
             SpecialBulletMode special_bullet_mode;
+            OrangeModeDirection orange_mode_direction;
 
             Node2D *sprite;
             GPUParticles2D *ghost, *afterimage;
@@ -153,6 +159,9 @@ namespace godot {
             void set_special_bullet_mode(SpecialBulletMode p_mode);
             SpecialBulletMode get_special_bullet_mode() const;
 
+            void set_orange_mode_direction(OrangeModeDirection value);
+            OrangeModeDirection get_orange_mode_direction() const;
+
             void set_speed(float p_speed);
             float get_speed() const;
             Vector2 get_motion() const;
@@ -161,5 +170,6 @@ namespace godot {
 VARIANT_ENUM_CAST(godot::SoulBattle::SoulMode);
 VARIANT_ENUM_CAST(godot::SoulBattle::SoulType);
 VARIANT_ENUM_CAST(godot::SoulBattle::SpecialBulletMode);
+VARIANT_ENUM_CAST(godot::SoulBattle::OrangeModeDirection);
 
 #endif

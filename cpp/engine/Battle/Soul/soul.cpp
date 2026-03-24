@@ -22,6 +22,7 @@ SoulBattle::SoulBattle() {
     slow_down = 1;
     gravity_direction = Vector2(0, 1);
     special_bullet_mode = ARROW_KEYS_AND_MOVING;
+    orange_mode_direction = FOUR_DIR;
     sprite = nullptr;
     ghost = nullptr;
     shoot = nullptr;
@@ -64,6 +65,9 @@ void SoulBattle::_bind_methods() {
     BIND_ENUM_CONSTANT(ARROW_KEYS);
     BIND_ENUM_CONSTANT(VELOCITY);
     BIND_ENUM_CONSTANT(ARROW_KEYS_AND_MOVING);
+
+    BIND_ENUM_CONSTANT(FOUR_DIR);
+    BIND_ENUM_CONSTANT(EIGHT_DIR);
     
     ClassDB::bind_method(D_METHOD("set_mode", "new_mode"), &SoulBattle::set_mode, DEFVAL(RED));
     ClassDB::bind_method(D_METHOD("get_mode"), &SoulBattle::get_mode);
@@ -80,14 +84,19 @@ void SoulBattle::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_soul_type", "soul_type"), &SoulBattle::set_soul_type);
     ClassDB::bind_method(D_METHOD("get_soul_type"), &SoulBattle::get_soul_type);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "soul_type", PROPERTY_HINT_ENUM, "SOUL_HUMAN,SOUL_MONSTER"), "set_soul_type", "get_soul_type");
-    
-    ClassDB::bind_method(D_METHOD("set_special_bullet_mode", "mode"), &SoulBattle::set_special_bullet_mode);
-    ClassDB::bind_method(D_METHOD("get_special_bullet_mode"), &SoulBattle::get_special_bullet_mode);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "special_bullet_mode", PROPERTY_HINT_ENUM, "ARROW_KEYS,VELOCITY,ARROW_KEYS_AND_MOVING"), "set_special_bullet_mode", "get_special_bullet_mode");
 
     ClassDB::bind_method(D_METHOD("set_speed", "speed"), &SoulBattle::set_speed);
     ClassDB::bind_method(D_METHOD("get_speed"), &SoulBattle::get_speed);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
+
+    ADD_GROUP("Advanced", "");
+    ClassDB::bind_method(D_METHOD("set_special_bullet_mode", "mode"), &SoulBattle::set_special_bullet_mode);
+    ClassDB::bind_method(D_METHOD("get_special_bullet_mode"), &SoulBattle::get_special_bullet_mode);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "special_bullet_mode", PROPERTY_HINT_ENUM, "ARROW_KEYS,VELOCITY,ARROW_KEYS_AND_MOVING"), "set_special_bullet_mode", "get_special_bullet_mode");
+
+    ClassDB::bind_method(D_METHOD("set_orange_mode_direction", "direction"), &SoulBattle::set_orange_mode_direction);
+    ClassDB::bind_method(D_METHOD("get_orange_mode_direction"), &SoulBattle::get_orange_mode_direction);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "orange_mode_direction", PROPERTY_HINT_ENUM, "FOUR_DIR,EIGHT_DIR"), "set_orange_mode_direction", "get_orange_mode_direction");
 
     ClassDB::bind_method(D_METHOD("set_property", "value"), &SoulBattle::set_property);
     ClassDB::bind_method(D_METHOD("get_motion"), &SoulBattle::get_motion);
@@ -95,18 +104,18 @@ void SoulBattle::_bind_methods() {
 }
 
 void SoulBattle::_ready() {
-    sprite = Object::cast_to<Node2D>(get_node_internal("Sprite"));
-    ghost = Object::cast_to<GPUParticles2D>(get_node_internal("Sprite/Ghost"));
-    afterimage = Object::cast_to<GPUParticles2D>(get_node_internal("Sprite/afterimage"));
-    shoot = Object::cast_to<AudioStreamPlayer>(get_node_internal("Shoot"));
-    mode_change_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Ding"));
-    area = Object::cast_to<Area2D>(get_node_internal("Area2D"));
-    collision_area = Object::cast_to<CollisionShape2D>(get_node_internal("Area2D/CollisionShape2D"));
-    collision = Object::cast_to<CollisionShape2D>(get_node_internal("CollisionShape2D"));
-    wallhit = Object::cast_to<AudioStreamPlayer>(get_node_internal("Wallhit"));
-    hurt_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Hurt"));
-    heal_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("Heal"));
-    hp_label = Object::cast_to<RichTextLabel>(get_node_internal("hp_label"));
+    sprite = get_node<Node2D>("Sprite");
+    area = get_node<Area2D>("Area2D");
+    ghost = get_node<GPUParticles2D>("Sprite/Ghost");
+    afterimage = get_node<GPUParticles2D>("Sprite/afterimage");
+    shoot = get_node<AudioStreamPlayer>("Shoot");
+    mode_change_sound = get_node<AudioStreamPlayer>("Ding");
+    collision_area = get_node<CollisionShape2D>("Area2D/CollisionShape2D");
+    collision = get_node<CollisionShape2D>("CollisionShape2D");
+    wallhit = get_node<AudioStreamPlayer>("Wallhit");
+    hurt_sound = get_node<AudioStreamPlayer>("Hurt");
+    heal_sound = get_node<AudioStreamPlayer>("Heal");
+    hp_label = get_node<RichTextLabel>("hp_label");
     input = Input::get_singleton();
     
     ResourceLoader *loader = ResourceLoader::get_singleton();
@@ -117,11 +126,11 @@ void SoulBattle::_ready() {
     green_shield = Object::cast_to<GreenShielding>(green_mode_scene->instantiate());
     cyan_detector = Object::cast_to<CyanDetection>(cyan_detect_scene->instantiate());
     
-    if (green_shield) {
+    if(green_shield) {
         mode_nodes[GREEN] = green_shield;
     }
     
-    if (cyan_detector) {
+    if(cyan_detector) {
         mode_nodes[CYAN] = cyan_detector;
     }
     
@@ -206,14 +215,24 @@ void SoulBattle::_process(double delta) {
 }
 
 void SoulBattle::_unhandled_input(const Ref<InputEvent>& event) {
-    if(mode == ORANGE) {
+    if(mode != ORANGE) return;
+    if(orange_mode_direction == FOUR_DIR) {
         Vector2 input_list_pressed = Vector2(
             event->is_action_pressed("ui_right") ? 1 : (event->is_action_pressed("ui_left") ? -1 : 0),
             event->is_action_pressed("ui_down") ? 1 : (event->is_action_pressed("ui_up") ? -1 : 0)
         );
-        
         if(!input_list_pressed.is_zero_approx()) {
             inputs = input_list_pressed;
+        }
+    }else if(orange_mode_direction == EIGHT_DIR) {
+        if(event->is_pressed() && !event->is_echo()) {
+            Vector2 raw = Vector2(
+                input->get_action_strength("ui_right") - input->get_action_strength("ui_left"),
+                input->get_action_strength("ui_down") - input->get_action_strength("ui_up")
+            );
+            if(!raw.is_zero_approx()) {
+                inputs = raw.normalized();
+            }
         }
     }
 }
@@ -601,13 +620,9 @@ void SoulBattle::orange() {
         sprite->set_modulate(Color(1, 0.65, 0)); // ORANGE
     }
     motion = speed * inputs;
-
-    Ref<ParticleProcessMaterial> material = afterimage->get_process_material();
-    if(material->get_gravity() != Vector3(motion.x * -1, motion.y * -1, 0)) afterimage->restart();
-    material->set_gravity(Vector3(motion.x * -1, motion.y * -1, 0));
     afterimage->set_emitting(true);
-
-    if(get_velocity() == Vector2(0,0)) afterimage->restart();
+    
+    if(get_real_velocity().length() < speed * 0.1f) afterimage->restart();
 }
 
 void SoulBattle::cyan() {
@@ -718,4 +733,12 @@ float SoulBattle::get_speed() const {
 
 Vector2 SoulBattle::get_motion() const {
     return motion;
+}
+
+void SoulBattle::set_orange_mode_direction(OrangeModeDirection direction) {
+    orange_mode_direction = direction;
+}
+
+SoulBattle::OrangeModeDirection SoulBattle::get_orange_mode_direction() const {
+    return orange_mode_direction;
 }
