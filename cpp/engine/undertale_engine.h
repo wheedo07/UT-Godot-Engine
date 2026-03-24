@@ -22,6 +22,10 @@ using namespace godot;
 
 // Item
 #include "resources/Items/item.h"
+#include "resources/Items/weapon.h"
+#include "resources/Items/weapon_default.h"
+#include "resources/Items/armor.h"
+#include "resources/Items/recovery.h"
 
 // ShopItems
 #include "resources/ShopItems/shop_item.h"
@@ -103,7 +107,6 @@ using namespace godot;
 
 // [Battle] //
 #include "Battle/battle_buttons.h"
-#include "Battle/slash.h"
 #include "Battle/hud.h"
 #include "Battle/enemy.h"
 #include "Battle/battle_system.h"
@@ -113,7 +116,8 @@ using namespace godot;
 // AttackMeter
 #include "Battle/AttackMeter/bar.h"
 #include "Battle/AttackMeter/damage_indicator.h"
-#include "Battle/AttackMeter/meter.h"
+#include "Battle/AttackMeter/attack_meter.h"
+#include "Battle/AttackMeter/default_meter.h"
 
 // Attacks
 #include "Battle/Attacks/attacks.h"
@@ -155,6 +159,10 @@ using namespace godot;
 // Misc
 #include "Battle/Misc/enemy_speech.h"
 #include "Battle/Misc/dialogue_control.h"
+
+// Slash
+#include "Battle/Slash/attack_animation.h"
+#include "Battle/Slash/default_animation.h"
 // [end] //
 
 // Custom

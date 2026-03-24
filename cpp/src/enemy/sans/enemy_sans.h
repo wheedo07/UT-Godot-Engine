@@ -4,6 +4,7 @@
 #include "engine/Battle/enemy.h"
 #include "engine/Battle/battle_system.h"
 #include "src/mainAttacks/sans/attack_sans.h"
+#include<godot_cpp/classes/animation_node_state_machine_playback.hpp>
 namespace godot {
     class Enemy_SANS : public Enemy {
         GDCLASS(Enemy_SANS, Enemy);

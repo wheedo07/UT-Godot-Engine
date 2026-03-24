@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Engine/Themes/GlobalBoxTexture.tres" id="5_v15op"]
 [ext_resource type="Theme" uid="uid://csrwnc0ryis8q" path="res://Engine/Themes/EditorMain.tres" id="6_me24t"]
 [ext_resource type="PackedScene" uid="uid://cnm64bp0hy4b0" path="res://Engine/Main/audiobus.tscn" id="6_t1t4d"]
-[ext_resource type="Texture2D" uid="uid://2wkogj5dvyco" path="res://Engine/Overworld/icon_room.png" id="7_7c5sw"]
+[ext_resource type="Texture2D" uid="uid://2wkogj5dvyco" path="res://Engine/icon/room_entrance_node.png" id="7_7c5sw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_46ohv"]
 bg_color = Color(0, 0, 0, 0.705882)

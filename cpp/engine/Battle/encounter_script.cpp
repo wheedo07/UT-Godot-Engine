@@ -1,5 +1,6 @@
 #include "encounter_script.h"
-using namespace godot;
+#include "env.h"
+#include "engine/resources/Items/item.h"
 
 EncounterScript::EncounterScript() {}
 
@@ -25,6 +26,9 @@ void EncounterScript::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "attacks", PROPERTY_HINT_NONE, "AttackManager", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_attacks");
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camera", PROPERTY_HINT_NONE, "CameraController", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_camera");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "player_turn", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_property", "get_player_turn");
+
+    ClassDB::bind_method(D_METHOD("get_player_weapon"), &EncounterScript::get_player_weapon);
+    ClassDB::bind_method(D_METHOD("get_player_armor"), &EncounterScript::get_player_armor);
 }
 
 void EncounterScript::_ready() {
@@ -44,6 +48,14 @@ void EncounterScript::_ready() {
 }
 
 void EncounterScript::ready() {}
+
+Ref<Item> EncounterScript::get_player_weapon() {
+    return global->get_item_list()[global->get_equipment()["weapon"]];
+}
+
+Ref<Item> EncounterScript::get_player_armor() {
+    return global->get_item_list()[global->get_equipment()["armor"]];
+}
 
 void EncounterScript::set_property(Variant value) {
     ERR_PRINT("이 속성은 초기화 할수 없습니다");

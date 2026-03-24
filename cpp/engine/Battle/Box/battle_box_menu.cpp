@@ -210,19 +210,19 @@ void BattleBox::blitter_item() {
     PackedStringArray texts;
     
     // 장비 아이템인 경우
-    if (item->get_item_type() == Item::WEAPON || item->get_item_type() == Item::ARMOR) {
+    if(item->is_class("Weapon") || item->is_class("Armor")) {
         texts = global->equip_item(used_item);
-    }else if(item->get_item_type() == Item::CONSUMABLE) {
+    }else if(item->is_class("RecoveryItem")) {
         // 소비 아이템인 경우
         texts = global->item_use_text(used_item);
-        if(item->get_heal_amount() > 0) 
+        if(int(item->get("heal_amount")) > 0) 
             stagehand->audio_player->dynamic(AudioLibrary::load("res://Engine/sfx/library/heal.tres"))->play();
-    }else if(item->get_item_type() == Item::MISC) {
+    }else {
         // 기타 아이템인 경우
         texts = item->get_use_message();
     }
 
-    if(item->get_item_type() != Item::MISC) {
+    if(item->is_consumable()) {
         Array arr = global->get_items();
         for(int i=0; i < arr.size(); i++) {
             int item = arr[i];

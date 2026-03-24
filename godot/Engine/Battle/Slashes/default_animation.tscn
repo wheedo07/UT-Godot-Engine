@@ -1,96 +1,96 @@
-[gd_scene load_steps=92 format=4 uid="uid://csbnb8kew00yb"]
+[gd_scene load_steps=92 format=4 uid="uid://buc56i1q2qsjx"]
 
-[ext_resource type="Texture2D" uid="uid://id2la2tciqg" path="res://Engine/Battle/Slashes/Punch/punch_1.png" id="1_6qjek"]
-[ext_resource type="Texture2D" uid="uid://py6yw2rts2hb" path="res://Engine/Battle/Slashes/Knife/slashes.png" id="1_qjocq"]
-[ext_resource type="Texture2D" uid="uid://dcahl7exwjmor" path="res://Engine/Battle/Slashes/Book/notebook.png" id="1_yy3dm"]
-[ext_resource type="Texture2D" uid="uid://dalhs5vuf17ns" path="res://Engine/Battle/Slashes/Explosion/explosion_1.png" id="2_reqe8"]
-[ext_resource type="Texture2D" uid="uid://dg0ym72b6vipv" path="res://Engine/Battle/Slashes/Punch/punch_2.png" id="2_tb0ck"]
-[ext_resource type="Texture2D" uid="uid://dyv7h83w3l06t" path="res://Engine/Battle/Slashes/Shoe/shoes.png" id="3_1o6dr"]
-[ext_resource type="Texture2D" uid="uid://1161p61jqm67" path="res://Engine/Battle/Slashes/Explosion/explosion_2.png" id="3_rtdw6"]
-[ext_resource type="Texture2D" uid="uid://g7qe7lq7kv02" path="res://Engine/Battle/Slashes/Punch/press_z.png" id="4_871b4"]
-[ext_resource type="Texture2D" uid="uid://ce23p6s60h0he" path="res://Engine/Battle/Slashes/Explosion/explosion_3.png" id="4_s2am3"]
-[ext_resource type="Texture2D" uid="uid://cl5p1eu4w4efh" path="res://Engine/Battle/Slashes/Gun/gun.png" id="5_qi852"]
-[ext_resource type="Texture2D" uid="uid://crl4rx0qccly6" path="res://Engine/Battle/Slashes/Pan/pans.png" id="6_0u5uo"]
-[ext_resource type="Texture2D" uid="uid://bekspq5blcb7h" path="res://Engine/Battle/Particles/sparkle.png" id="13_woe25"]
-[ext_resource type="Texture2D" uid="uid://dsnt3leg50d50" path="res://Engine/Battle/Particles/sparkle2.png" id="14_cqjyc"]
-[ext_resource type="Texture2D" uid="uid://d4jcp2o7sb6t3" path="res://Engine/Battle/Slashes/Punch/punchthing.png" id="15_iwqe4"]
-[ext_resource type="AudioStream" uid="uid://ccp4pa887pl7g" path="res://sfx/snd_punchstrong.wav" id="15_lad84"]
-[ext_resource type="Texture2D" uid="uid://brfqjas63rvlo" path="res://Engine/Battle/Slashes/Gun/explode.png" id="16_nmbjf"]
-[ext_resource type="AudioStream" uid="uid://dqwv7btcdiwgw" path="res://sfx/snd_punchweak.wav" id="16_p8h40"]
-[ext_resource type="AudioStream" uid="uid://b8yec6w4dpkl1" path="res://sfx/mus_sfx_gunshot.wav" id="18_los0d"]
-[ext_resource type="AudioStream" uid="uid://djj7hq0vc571u" path="res://sfx/snd_magic.wav" id="19_gki2r"]
-[ext_resource type="AudioStream" uid="uid://l65nhgl2hp6k" path="res://sfx/player_slash.wav" id="21_eofdd"]
+[ext_resource type="Texture2D" uid="uid://dcahl7exwjmor" path="res://Engine/Battle/Slashes/Book/notebook.png" id="1_fg1gn"]
+[ext_resource type="Texture2D" uid="uid://g7qe7lq7kv02" path="res://Engine/Battle/Slashes/Punch/press_z.png" id="1_ksf5p"]
+[ext_resource type="Texture2D" uid="uid://dalhs5vuf17ns" path="res://Engine/Battle/Slashes/Explosion/explosion_1.png" id="2_tpj7c"]
+[ext_resource type="AudioStream" uid="uid://ccp4pa887pl7g" path="res://sfx/snd_punchstrong.wav" id="2_vkumf"]
+[ext_resource type="Texture2D" uid="uid://1161p61jqm67" path="res://Engine/Battle/Slashes/Explosion/explosion_2.png" id="3_at24u"]
+[ext_resource type="AudioStream" uid="uid://b8yec6w4dpkl1" path="res://sfx/mus_sfx_gunshot.wav" id="3_ocitk"]
+[ext_resource type="AudioStream" uid="uid://l65nhgl2hp6k" path="res://sfx/player_slash.wav" id="4_l1q6f"]
+[ext_resource type="Texture2D" uid="uid://ce23p6s60h0he" path="res://Engine/Battle/Slashes/Explosion/explosion_3.png" id="4_usf7f"]
+[ext_resource type="Texture2D" uid="uid://cl5p1eu4w4efh" path="res://Engine/Battle/Slashes/Gun/gun.png" id="5_21bjf"]
+[ext_resource type="Texture2D" uid="uid://bekspq5blcb7h" path="res://Engine/Battle/Particles/sparkle.png" id="5_ftiyb"]
+[ext_resource type="Texture2D" uid="uid://dsnt3leg50d50" path="res://Engine/Battle/Particles/sparkle2.png" id="6_cjttk"]
+[ext_resource type="Texture2D" uid="uid://id2la2tciqg" path="res://Engine/Battle/Slashes/Punch/punch_1.png" id="7_2tbl2"]
+[ext_resource type="Texture2D" uid="uid://brfqjas63rvlo" path="res://Engine/Battle/Slashes/Gun/explode.png" id="7_kmdgx"]
+[ext_resource type="Texture2D" uid="uid://d4jcp2o7sb6t3" path="res://Engine/Battle/Slashes/Punch/punchthing.png" id="8_bcibe"]
+[ext_resource type="Texture2D" uid="uid://dg0ym72b6vipv" path="res://Engine/Battle/Slashes/Punch/punch_2.png" id="8_om1t8"]
+[ext_resource type="Texture2D" uid="uid://dyv7h83w3l06t" path="res://Engine/Battle/Slashes/Shoe/shoes.png" id="9_3fp7m"]
+[ext_resource type="Texture2D" uid="uid://crl4rx0qccly6" path="res://Engine/Battle/Slashes/Pan/pans.png" id="9_gl3eb"]
+[ext_resource type="Texture2D" uid="uid://py6yw2rts2hb" path="res://Engine/Battle/Slashes/Knife/slashes.png" id="10_1fip3"]
+[ext_resource type="AudioStream" uid="uid://dqwv7btcdiwgw" path="res://sfx/snd_punchweak.wav" id="10_fg1gn"]
+[ext_resource type="AudioStream" uid="uid://djj7hq0vc571u" path="res://sfx/snd_magic.wav" id="11_tpj7c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q5v0y"]
-atlas = ExtResource("1_yy3dm")
+atlas = ExtResource("1_fg1gn")
 region = Rect2(0, 0, 45, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cu1k6"]
-atlas = ExtResource("1_yy3dm")
+atlas = ExtResource("1_fg1gn")
 region = Rect2(45, 0, 45, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jdghj"]
-atlas = ExtResource("1_yy3dm")
+atlas = ExtResource("1_fg1gn")
 region = Rect2(90, 0, 45, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mfxbo"]
-atlas = ExtResource("5_qi852")
+atlas = ExtResource("5_21bjf")
 region = Rect2(0, 0, 46, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ehfwq"]
-atlas = ExtResource("5_qi852")
+atlas = ExtResource("5_21bjf")
 region = Rect2(46, 0, 46, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5sfws"]
-atlas = ExtResource("5_qi852")
+atlas = ExtResource("5_21bjf")
 region = Rect2(92, 0, 46, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1iwb5"]
-atlas = ExtResource("6_0u5uo")
+atlas = ExtResource("9_gl3eb")
 region = Rect2(0, 0, 46, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_owep3"]
-atlas = ExtResource("6_0u5uo")
+atlas = ExtResource("9_gl3eb")
 region = Rect2(46, 0, 46, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ryff"]
-atlas = ExtResource("6_0u5uo")
+atlas = ExtResource("9_gl3eb")
 region = Rect2(92, 0, 46, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3psrn"]
-atlas = ExtResource("3_1o6dr")
+atlas = ExtResource("9_3fp7m")
 region = Rect2(0, 0, 48, 88)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fjiy1"]
-atlas = ExtResource("3_1o6dr")
+atlas = ExtResource("9_3fp7m")
 region = Rect2(48, 0, 48, 88)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lqpdg"]
-atlas = ExtResource("1_qjocq")
+atlas = ExtResource("10_1fip3")
 region = Rect2(0, 0, 32, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o64l3"]
-atlas = ExtResource("1_qjocq")
+atlas = ExtResource("10_1fip3")
 region = Rect2(32, 0, 32, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jhvvo"]
-atlas = ExtResource("1_qjocq")
+atlas = ExtResource("10_1fip3")
 region = Rect2(64, 0, 32, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ati6"]
-atlas = ExtResource("1_qjocq")
+atlas = ExtResource("10_1fip3")
 region = Rect2(96, 0, 32, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_40trl"]
-atlas = ExtResource("1_qjocq")
+atlas = ExtResource("10_1fip3")
 region = Rect2(128, 0, 32, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kjfp3"]
-atlas = ExtResource("1_qjocq")
+atlas = ExtResource("10_1fip3")
 region = Rect2(160, 0, 32, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s1c4s"]
-atlas = ExtResource("1_qjocq")
+atlas = ExtResource("10_1fip3")
 region = Rect2(192, 192, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d364v"]
@@ -111,13 +111,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_reqe8")
+"texture": ExtResource("2_tpj7c")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_rtdw6")
+"texture": ExtResource("3_at24u")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_s2am3")
+"texture": ExtResource("4_usf7f")
 }],
 "loop": true,
 "name": &"explosion",
@@ -153,10 +153,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_6qjek")
+"texture": ExtResource("7_2tbl2")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_tb0ck")
+"texture": ExtResource("8_om1t8")
 }],
 "loop": true,
 "name": &"punch",
@@ -352,7 +352,7 @@ tracks/3/keys = {
 tracks/4/type = "audio"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("sound")
+tracks/4/path = NodePath("../sound")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -367,14 +367,14 @@ tracks/4/use_blend = true
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("sound2")
+tracks/5/path = NodePath("../sound2")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("15_lad84")
+"stream": ExtResource("2_vkumf")
 }],
 "times": PackedFloat32Array(0.4)
 }
@@ -434,14 +434,14 @@ tracks/3/keys = {
 tracks/4/type = "audio"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("sound")
+tracks/4/path = NodePath("../sound")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("15_lad84")
+"stream": ExtResource("2_vkumf")
 }],
 "times": PackedFloat32Array(0)
 }
@@ -513,14 +513,14 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("sound")
+tracks/5/path = NodePath("../sound")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("18_los0d")
+"stream": ExtResource("3_ocitk")
 }],
 "times": PackedFloat32Array(0)
 }
@@ -568,14 +568,14 @@ tracks/2/keys = {
 tracks/3/type = "audio"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("sound")
+tracks/3/path = NodePath("../sound")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("15_lad84")
+"stream": ExtResource("2_vkumf")
 }],
 "times": PackedFloat32Array(0)
 }
@@ -651,14 +651,14 @@ tracks/1/keys = {
 tracks/2/type = "audio"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("sound")
+tracks/2/path = NodePath("../sound")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("15_lad84")
+"stream": ExtResource("2_vkumf")
 }],
 "times": PackedFloat32Array(0)
 }
@@ -694,14 +694,14 @@ tracks/1/keys = {
 tracks/2/type = "audio"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("sound")
+tracks/2/path = NodePath("../sound")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("21_eofdd")
+"stream": ExtResource("4_l1q6f")
 }],
 "times": PackedFloat32Array(0)
 }
@@ -761,14 +761,14 @@ tracks/3/keys = {
 tracks/4/type = "audio"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("sound")
+tracks/4/path = NodePath("../sound")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("15_lad84")
+"stream": ExtResource("2_vkumf")
 }],
 "times": PackedFloat32Array(0)
 }
@@ -874,8 +874,8 @@ graph_offset = Vector2(-92, 10)
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_e3onc"]
 frames = 2
 speed_scale = 4.0
-frame_0/texture = ExtResource("13_woe25")
-frame_1/texture = ExtResource("14_cqjyc")
+frame_0/texture = ExtResource("5_ftiyb")
+frame_1/texture = ExtResource("6_cjttk")
 frame_1/duration = 1.0
 
 [sub_resource type="Curve" id="Curve_ovl0o"]
@@ -948,8 +948,8 @@ color_ramp = SubResource("GradientTexture1D_0etct")
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_gevep"]
 frames = 2
 speed_scale = 4.0
-frame_0/texture = ExtResource("14_cqjyc")
-frame_1/texture = ExtResource("13_woe25")
+frame_0/texture = ExtResource("6_cjttk")
+frame_1/texture = ExtResource("5_ftiyb")
 frame_1/duration = 1.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1nb72"]
@@ -1016,30 +1016,31 @@ scale_curve = SubResource("CurveTexture_3a4vq")
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
-[node name="slash" type="Slash"]
-position = Vector2(314, 200)
+[node name="DefaultAnimation" type="DefaultAnimation"]
+
+[node name="slash" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_d364v")
 animation = &"slash"
 frame = 6
 
-[node name="press_z" type="Sprite2D" parent="."]
+[node name="press_z" type="Sprite2D" parent="slash"]
 visible = false
 position = Vector2(0, -59)
-texture = ExtResource("4_871b4")
+texture = ExtResource("1_ksf5p")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="slash"]
 libraries = {
 &"": SubResource("AnimationLibrary_coh8e")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="slash"]
 callback_mode_discrete = 0
 tree_root = SubResource("AnimationNodeStateMachine_x2qjn")
 anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/pressed_z_times = false
 parameters/conditions/weak = false
 
-[node name="Particles_GUN" type="GPUParticles2D" parent="."]
+[node name="Particles_GUN" type="GPUParticles2D" parent="slash"]
 emitting = false
 amount = 32
 texture = SubResource("AnimatedTexture_e3onc")
@@ -1048,17 +1049,17 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_6ncph")
 
-[node name="Particles_GUN2" type="GPUParticles2D" parent="."]
+[node name="Particles_GUN2" type="GPUParticles2D" parent="slash"]
 material = SubResource("CanvasItemMaterial_0a2pb")
 emitting = false
 amount = 32
-texture = ExtResource("16_nmbjf")
+texture = ExtResource("7_kmdgx")
 lifetime = 0.4
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_s53pa")
 
-[node name="Particles_EXPLOSION" type="GPUParticles2D" parent="."]
+[node name="Particles_EXPLOSION" type="GPUParticles2D" parent="slash"]
 show_behind_parent = true
 position = Vector2(-2, -4)
 emitting = false
@@ -1069,21 +1070,21 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_1nb72")
 
-[node name="Particles_PUNCH" type="GPUParticles2D" parent="."]
+[node name="Particles_PUNCH" type="GPUParticles2D" parent="slash"]
 material = SubResource("CanvasItemMaterial_xa0je")
 emitting = false
 amount = 4
 amount_ratio = 0.15
-texture = ExtResource("15_iwqe4")
+texture = ExtResource("8_bcibe")
 interp_to_end = 0.1
 one_shot = true
 process_material = SubResource("ParticleProcessMaterial_67tha")
 
-[node name="Particles_BOOK_PAN" type="GPUParticles2D" parent="."]
+[node name="Particles_BOOK_PAN" type="GPUParticles2D" parent="slash"]
 show_behind_parent = true
 material = SubResource("CanvasItemMaterial_7x4aq")
 emitting = false
-texture = ExtResource("6_0u5uo")
+texture = ExtResource("9_gl3eb")
 lifetime = 0.6
 one_shot = true
 explosiveness = 1.0
@@ -1096,9 +1097,11 @@ bus = &"SFX"
 bus = &"SFX"
 
 [node name="PunchW" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("16_p8h40")
+stream = ExtResource("10_fg1gn")
 bus = &"SFX"
 
 [node name="Sparkle" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("19_gki2r")
+stream = ExtResource("11_tpj7c")
 bus = &"SFX"
+
+[connection signal="animation_finished" from="slash/AnimationTree" to="." method="_on_animation_finished"]

@@ -265,7 +265,8 @@ void SoulBattle::hurt(BulletArea *area) {
     
     Dictionary equipment = global->get_equipment();
     Ref<Item> weapon = global->get_item_list()[equipment["weapon"]];
-    int defense = global->get_player_defense() + weapon->get_defense_amount() + global->get_temp_def();
+    int defense_amount = weapon->get("defense_amount");
+    int defense = global->get_player_defense() + defense_amount + global->get_temp_def();
 
     int damage_amount = Math::max(area->damage - defense, 1);
     global->set_player_hp(global->get_player_hp() - damage_amount);

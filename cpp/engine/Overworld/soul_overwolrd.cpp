@@ -92,7 +92,8 @@ void SoulOverworld::hurt(BulletArea* bullet_area) {
 
     Dictionary equipment = global->get_equipment();
     Ref<Item> weapon = global->get_item_list()[equipment["weapon"]];
-    int defense = global->get_player_defense() + weapon->get_defense_amount() + global->get_temp_def();
+    int weapon_defense = weapon->get("defense_amount");
+    int defense = global->get_player_defense() + weapon_defense + global->get_temp_def();
 
     int damage_amount = Math::max(bullet_area->damage - defense, 1);
     global->set_player_hp(global->get_player_hp() - damage_amount);

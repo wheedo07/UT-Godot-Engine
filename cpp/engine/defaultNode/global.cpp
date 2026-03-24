@@ -1,5 +1,6 @@
 #include "global.h"
 #include "engine/Battle/battle_system.h"
+#include "engine/resources/Items/recovery.h"
 #include<sstream>
 #include<fstream>
 #include<filesystem>
@@ -102,11 +103,11 @@ Global::Global() {
     is_Mobile = false;
     battle_encounter = nullptr;
 
-    Item *it0 = memnew(Item);
-    it0->set_item_type(Item::WEAPON);
+    Ref<Item> it0 = memnew(Item);
+    it0->set_consumable(false);
     it0->set_item_name(String::utf8("막대기"));
     it0->set_use_message({
-        String::utf8("* 당신은 막대기를 장착했다")
+        String::utf8("* 당신은 막대기를 사용했다")
     });
     it0->set_item_information({
         String::utf8("* 막대기 - 1\n* 겉보기와 달리 위협적이지 않다")
@@ -117,7 +118,7 @@ Global::Global() {
     });
     item_list.append(it0);
 
-    Item* it1 = memnew(Item);
+    Ref<RecoveryItem> it1 = memnew(RecoveryItem);
     it1->set_item_name(String::utf8("반창고"));
     it1->set_use_message({
         String::utf8("* 당신은 반창고를 사용했다")
@@ -131,7 +132,7 @@ Global::Global() {
     it1->set_heal_amount(10);
     item_list.append(it1);
 
-    Item* it2 = memnew(Item);
+    Ref<RecoveryItem> it2 = memnew(RecoveryItem);
     it2->set_item_name(String::utf8("파이"));
     it2->set_use_message({
         String::utf8("* 당신은 파이를 사용했다")
@@ -245,22 +246,25 @@ void Global::init_paths() {
 PackedStringArray Global::item_use_text(int item_id) {
     Ref<Item> item = item_list[item_id];
     PackedStringArray use_text = item->get_use_message();
+    int heal_amount = item->get("heal_amount");
+    int defense_amount = item->get("defense_amount");
+    int attack_amount = item->get("attack_amount");
     
-    if(item->get_heal_amount()) {
-        heal(item->get_heal_amount());
+    if(heal_amount) {
+        heal(heal_amount);
         if (player_hp == player_max_hp) {
             use_text.push_back(tr("UT_HP_FULL"));
         }else {
-            use_text.push_back(vformat(tr("UT_HP_HEAL"), item->get_heal_amount()));
+            use_text.push_back(vformat(tr("UT_HP_HEAL"), heal_amount));
         }
     }
-    if(item->get_defense_amount()) {
-        temp_def += item->get_defense_amount();
-        use_text.push_back(vformat(tr("UT_DEF_UP"), item->get_defense_amount()));
+    if(defense_amount) {
+        temp_def += defense_amount;
+        use_text.push_back(vformat(tr("UT_DEF_UP"), defense_amount));
     }
-    if(item->get_attack_amount()) {
-        temp_atk += item->get_attack_amount();
-        use_text.push_back(vformat(tr("UT_ATK_UP"), item->get_attack_amount()));
+    if(attack_amount) {
+        temp_atk += attack_amount;
+        use_text.push_back(vformat(tr("UT_ATK_UP"), attack_amount));
     }
     return use_text;
 }
@@ -268,18 +272,13 @@ PackedStringArray Global::item_use_text(int item_id) {
 PackedStringArray Global::equip_item(int item_id) {
     Ref<Item> item = item_list[item_id];
     PackedStringArray equip_text = item->get_use_message();
-    
-    switch(item->get_item_type()) {
-        case Item::WEAPON:
-            items.push_back(equipment["weapon"]);
-            equipment["weapon"] = item_id;
-            break;
-        case Item::ARMOR:
-            items.push_back(equipment["armor"]);
-            equipment["armor"] = item_id;
-            break;
-        default:
-            break;
+
+    if(item->is_class("Weapon")) {
+        items.push_back(equipment["weapon"]);
+        equipment["weapon"] = item_id;
+    }else if(item->is_class("Armor")) {
+        items.push_back(equipment["armor"]);
+        equipment["armor"] = item_id;
     }
     
     return equip_text;

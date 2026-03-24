@@ -33,6 +33,10 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
     // Item
     GDREGISTER_CLASS(Item);
+    GDREGISTER_CLASS(Weapon);
+    GDREGISTER_CLASS(WeaponDefault);
+    GDREGISTER_CLASS(Armor);
+    GDREGISTER_CLASS(RecoveryItem);
 
     // AudioLibrary
     GDREGISTER_CLASS(AudioLibrary);
@@ -111,7 +115,6 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
 
     // [Battle] //
     GDREGISTER_RUNTIME_CLASS(BattleButtons);
-    GDREGISTER_RUNTIME_CLASS(Slash);
     GDREGISTER_RUNTIME_CLASS(BattleHUD);
     GDREGISTER_RUNTIME_CLASS(Enemy);
     GDREGISTER_RUNTIME_CLASS(BattleMain);
@@ -122,6 +125,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     GDREGISTER_RUNTIME_CLASS(AttackBar);
     GDREGISTER_RUNTIME_CLASS(DamageIndicator);
     GDREGISTER_RUNTIME_CLASS(AttackMeter);
+    GDREGISTER_RUNTIME_CLASS(DefaultMeter);
 
     // Attacks
     GDREGISTER_RUNTIME_CLASS(AttackBase);
@@ -163,6 +167,10 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     // Misc
     GDREGISTER_CLASS(EnemySpeech);
     GDREGISTER_RUNTIME_CLASS(DialogueControl);
+
+    // Slash
+    GDREGISTER_RUNTIME_CLASS(SlashAnimation);
+    GDREGISTER_RUNTIME_CLASS(DefaultAnimation);
     // [end] //
     
     register_init();

@@ -2,12 +2,15 @@
 #include "env.h"
 #include "dust_transition.h"
 #include "encounter_script.h"
-#include "AttackMeter/meter.h"
-#include<godot_cpp/classes/input_event_action.hpp>
-#include<godot_cpp/variant/utility_functions.hpp>
-#include<godot_cpp/classes/scene_tree.hpp>
+#include "AttackMeter/attack_meter.h"
+#include "AttackMeter/default_meter.h"
+#include "Slash/default_animation.h"
+#include "engine/resources/Items/weapon.h"
 #include<godot_cpp/classes/window.hpp>
+#include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
+#include<godot_cpp/variant/utility_functions.hpp>
+#include<godot_cpp/classes/input_event_action.hpp>
 
 BattleMain::BattleMain() {
     turn_number = 0;
@@ -94,8 +97,8 @@ void BattleMain::_ready() {
     music_player = global->get_Music();
 
     ResourceLoader *loader = ResourceLoader::get_singleton();
-    attack_scene = loader->load("res://Engine/Battle/AttackMeter/meter.tscn");
-    slash_scene = loader->load("res://Engine/Battle/Slashes/slashes.tscn");
+    default_meter_scene = loader->load("res://Engine/Battle/AttackMeter/meter.tscn");
+    default_animation_scene = loader->load("res://Engine/Battle/Slashes/default_animation.tscn");
     damage_info_scene = loader->load("res://Engine/Battle/AttackMeter/damage.tscn");
 
     if(!encounter.is_valid() && global->battle_encounter && global->battle_encounter->is_class("Encounter")) {
@@ -313,44 +316,73 @@ PackedStringArray BattleMain::_on_death_player() {
 }
 
 void BattleMain::_fight(int target) {
-    if(!attack_scene.is_valid() || !box) return;
-
-    AttackMeter *meter = Object::cast_to<AttackMeter>(attack_scene->instantiate());
+    if(!box) return;
+    Ref<BoxSet> box_set = encounter->get_box_set();
+    Ref<PackedScene> meter_scene;
+    if(box_set.is_valid() && box_set->is_custom_meter()) {
+        meter_scene = box_set->get_meter_scene();
+        if(!meter_scene.is_valid()) {
+            WARN_PRINT("BoxSet에 커스텀 미터가 설정되어 있지 않습니다. 기본 미터가 사용됩니다.");
+            meter_scene = default_meter_scene;
+        }
+    }else {
+        meter_scene = default_meter_scene;
+    }
+    AttackMeter *meter = Object::cast_to<AttackMeter>(meter_scene->instantiate());
     emit_signal("fight_used", target);
-    meter->set("target", target);
+
+    meter->set_encounter_script(script_node);
+    meter->set_enemy_id(target);
+    meter->set_enemy_def(enemies_def[target]);
     meter->connect("damagetarget", Callable(this, "_hit"), CONNECT_ONE_SHOT);
     meter->connect("missed", Callable(this, "_miss"), CONNECT_ONE_SHOT);
-    meter->set("targetdef", enemies_def[target]);
     box->add_child(meter);
 
-    Ref<BoxSet> box_set = encounter->get_box_set();
-    if(box_set.is_valid()) {
+    if(box_set.is_valid() && box_set->is_custom_meter()) {
         Ref<Texture> meter_texture = box_set->get_meter_texture();
-        if(meter_texture.is_valid()) {
-            meter->set_meter_texture(meter_texture);
-        }
-        meter->set_scale(box_set->get_meter_scale());
+        if(!meter->is_class("DefaultMeter")) return;
+
+        DefaultMeter *default_meter = Object::cast_to<DefaultMeter>(meter);
+        if(meter_texture.is_valid()) default_meter->set_meter_texture(meter_texture);
+        default_meter->set_meter_scale(box_set->get_meter_scale());
     }
 }
 
 void BattleMain::_hit(int damage, int target, bool crit) {
-    if(!slash_scene.is_valid() || !box || target < 0 || target >= enemies.size()) return;
-    
+    if(!box || target < 0 || target >= enemies.size()) return;
     Enemy *enemy = Object::cast_to<Enemy>(enemies[target]);
     if(!enemy) return;
     
-    Slash *slashes = Object::cast_to<Slash>(slash_scene->instantiate());
-    if(slashes) {
+    Ref<Item> item = global->get_item_list()[global->get_equipment()["weapon"]];
+    Node *anim_node;
+    if(item.is_valid() && item->is_class("Weapon")) {
+        Ref<Weapon> weapon = item;
+        Ref<PackedScene> weapon_anim_scene = weapon->get_slash_scene();
+        if(!weapon_anim_scene.is_valid()) {
+            WARN_PRINT("무기의 Slash 장면이 설정되지 않았습니다. 기본 애니메이션이 재생됩니다.");
+            anim_node = default_animation_scene->instantiate();
+        }else {
+            anim_node = weapon_anim_scene->instantiate();
+            if(!anim_node->is_class("SlashAnimation")) {
+                ERR_PRINT("무기의 Slash 장면이 SlashAnimation 노드가 아닙니다. 기본 애니메이션이 재생됩니다.");
+                anim_node = default_animation_scene->instantiate();
+            }
+        }
+    }else {
+        anim_node = default_animation_scene->instantiate();
+    }
+    
+    attack_animation = Object::cast_to<SlashAnimation>(anim_node);
+    if(attack_animation) {
         if(enemy->get_dodging()) {
             int dodge_sign = (UtilityFunctions::randi_range(0, 1) * 2) - 1;
-            slashes->connect("started", Callable(enemy, "emit_signal").bind("dodged", dodge_sign == 1), CONNECT_ONE_SHOT);
-            slashes->connect("started", Callable(enemy, "_dodge").bind(dodge_sign), CONNECT_ONE_SHOT);
-        }else slashes->connect("started", Callable(enemy, "emit_signal").bind("hit", damage), CONNECT_ONE_SHOT);
+            attack_animation->connect("started", Callable(enemy, "emit_signal").bind("dodged", dodge_sign == 1), CONNECT_ONE_SHOT);
+            attack_animation->connect("started", Callable(enemy, "_dodge").bind(dodge_sign), CONNECT_ONE_SHOT);
+        }else attack_animation->connect("started", Callable(enemy, "emit_signal").bind("hit", damage), CONNECT_ONE_SHOT);
+        attack_animation->connect("finished", Callable(this, "_on_slash_finished").bind(damage, target, crit), CONNECT_ONE_SHOT);
         
-        slashes->connect("finished", Callable(this, "_on_slash_finished").bind(damage, target, crit), CONNECT_ONE_SHOT);
-
-        slashes->set_crit(crit);
-        box->add_child(slashes, true);
+        attack_animation->set_crit(crit);
+        box->add_child(attack_animation, true);
         Node *enemy_sprites = enemy->get_sprites();
         if(!enemy_sprites) {
             ERR_PRINT("Enemy의 sprites 노드가 없습니다");
@@ -361,28 +393,21 @@ void BattleMain::_hit(int damage, int target, bool crit) {
             offset += enemy_sprites->call("get_pivot_offset");
         }
 
-        slashes->set_global_position(offset);
+        attack_animation->set_global_position(offset);
     }
 }
 
 void BattleMain::_on_slash_finished(int damage, int target, bool crit) {
     Enemy *enemy = Object::cast_to<Enemy>(enemies[target]);
-    if(!enemy) return;
+    if(!enemy || !attack_animation) return;
     
-    Slash *slashes = nullptr;
-    for(int i=0; i < box->get_child_count(); i++) {
-        slashes = Object::cast_to<Slash>(box->get_child(i));
-        if (slashes) break;
-    }
-    
-    if (!slashes) return;
-    damage = floor(damage * slashes->get_dmg_mult());
+    damage = floor(damage * attack_animation->get_dmg_mult());
     
     if(damage_info_scene.is_valid()) {
         Node *clone = damage_info_scene->instantiate();
         if(clone) {
             clone->connect("damagetarget", Callable(enemy, "_hurt"), CONNECT_ONE_SHOT);
-            clone->call("set_global_position", slashes->get_global_position());
+            clone->call("set_global_position", attack_animation->get_global_position());
             clone->set("hp", box->enemies_hp[target]);
             clone->set("max_hp", enemies_max_hp[target]);
             

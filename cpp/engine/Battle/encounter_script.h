@@ -1,11 +1,12 @@
 #ifndef ENCOUNTER_SCRIPT_H
 #define ENCOUNTER_SCRIPT_H
 
+#include "battle_system.h"
 #include<godot_cpp/classes/node.hpp>
 #include<godot_cpp/core/binder_common.hpp>
 #include<godot_cpp/core/gdvirtual.gen.inc>
-#include "battle_system.h"
 namespace godot {
+    class Item;
     class EncounterScript : public Node {
         GDCLASS(EncounterScript, Node);
 
@@ -37,6 +38,10 @@ namespace godot {
             ~EncounterScript();
 
             void _ready() override;
+
+            /* 사용 함수 */
+            Ref<Item> get_player_weapon();
+            Ref<Item> get_player_armor();
 
             virtual void ready();
             GDVIRTUAL0(ready);

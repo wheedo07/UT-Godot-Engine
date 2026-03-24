@@ -1,5 +1,6 @@
 #include "bar.h"
 #include "env.h"
+#include "engine/resources/Items/weapon.h"
 #include<godot_cpp/variant/utility_functions.hpp>
 #include<godot_cpp/classes/input_event_action.hpp>
 #include<godot_cpp/classes/viewport.hpp>
@@ -44,8 +45,14 @@ void AttackBar::_ready() {
     critical_sound = Object::cast_to<AudioStreamPlayer>(get_node_internal("critical"));
     
     Ref<Item> weapon = global->get_item_list()[global->get_equipment()["weapon"]];
-    single_bar = weapon->get_weapon_bars() ? weapon->get_weapon_bars() == 1 : false;
-    can_crit = weapon->get_critical_hits() ? weapon->get_critical_hits() : false;
+    if(weapon.is_valid() && weapon->is_class("Weapon")) {
+        Ref<Weapon> weapon_ref = weapon;
+        can_crit = weapon_ref->get_critical_hits();
+        single_bar = weapon_ref->get_weapon_bars() == 1;
+    }else {
+        can_crit = WEAPON_DEFAULT_CRIT;
+        single_bar = WEAPON_DEFAULT_BARS == 1;
+    }
     
     tw = get_tree()->create_tween();
     tw->set_ease(Tween::EASE_OUT);

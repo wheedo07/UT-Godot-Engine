@@ -232,10 +232,10 @@ void UI::_set_detailed() {
     Ref<Item> weapon_item = global->get_item_list()[global->get_equipment()["weapon"]];
     Ref<Item> armor_item = global->get_item_list()[global->get_equipment()["armor"]];
     
-    int weapon_attack = weapon_item->get_attack_amount();
-    int armor_attack = armor_item->get_attack_amount();
-    int weapon_defense = weapon_item->get_defense_amount();
-    int armor_defense = armor_item->get_defense_amount();
+    int weapon_attack = weapon_item->get("attack_amount");
+    int armor_attack = armor_item->get("attack_amount");
+    int weapon_defense = weapon_item->get("defense_amount");
+    int armor_defense = armor_item->get("defense_amount");
     
     String stats_text = vformat("AT %d(%d) \nDF %d(%d)",
         global->get_player_attack(),
@@ -420,15 +420,15 @@ void UI::_unhandled_input(const Ref<InputEvent>& event) {
                         Ref<Dialogues> dialogues = memnew(Dialogues);
                        
                         PackedStringArray txt;
-                        if(item->get_item_type() != Item::CONSUMABLE) {
+                        if(item->is_class("RecoveryItem")) {
                             txt = global->equip_item(global->get_items()[item_index]);
-                        }else if(item->get_item_type() == Item::WEAPON || item->get_item_type() == Item::ARMOR) {
+                        }else if(item->is_class("Weapon") || item->is_class("Armor")) {
                             txt = global->item_use_text(global->get_items()[item_index]);
-                        }else if(item->get_item_type() == Item::MISC) {
+                        }else {
                             txt = item->get_use_message();
                         }
                         
-                        if(item->get_item_type() != Item::MISC) {
+                        if(item->is_consumable()) {
                             Array items = global->get_items();
                             items.remove_at(item_index);
                             global->set_items(items);

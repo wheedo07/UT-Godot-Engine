@@ -1,8 +1,7 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef __ITEM_H__
+#define __ITEM_H__
 
 #include<godot_cpp/classes/resource.hpp>
-#include<godot_cpp/variant/typed_array.hpp>
 namespace godot {
     class Item : public Resource {
         GDCLASS(Item, Resource)
@@ -10,62 +9,13 @@ namespace godot {
         protected:
             static void _bind_methods();
         
-        public:
-            enum WeaponType {
-                KNIFE,
-                PUNCH,
-                SHOE,
-                BOOK,
-                PAN,
-                GUN
-            };
-            enum ItemType {
-                CONSUMABLE,
-                WEAPON,
-                ARMOR,
-                MISC
-            };
-            void set_weapon_speed(float p_speed);
-            float get_weapon_speed() const;
-            
-            void set_weapon_bars(int p_bars);
-            int get_weapon_bars() const;
-            
-            void set_weapon_type(WeaponType p_type);
-            WeaponType get_weapon_type() const;
-            
-            void set_critical_hits(bool p_critical);
-            bool get_critical_hits() const;
-
-            void set_weapon_delay(int p_delay);
-            int get_weapon_delay() const;
-            
-            void set_heal_amount(int p_amount);
-            int get_heal_amount() const;
-            
-            void set_attack_amount(int p_amount);
-            int get_attack_amount() const;
-            
-            void set_defense_amount(int p_amount);
-            int get_defense_amount() const;
-       
         private:
-            ItemType item_type;
             String item_name;
-            
-            WeaponType weapon_type;
-            float weapon_speed;
-            int weapon_bars;
-            int weapon_delay;
-            bool critical_hits;
+            bool isConsumable;
             
             PackedStringArray use_message;
             PackedStringArray item_information;
             PackedStringArray throw_message;
-
-            int heal_amount;
-            int attack_amount;
-            int defense_amount;
 
         public:
             Item();
@@ -75,12 +25,12 @@ namespace godot {
             bool _set(const StringName& p_name, const Variant& p_value);
             bool _get(const StringName& p_name, Variant& r_ret);
             
-            void set_item_type(ItemType p_type);
-            ItemType get_item_type() const;
-            
             void set_item_name(const String& p_name);
             String get_item_name() const;
             String get_item_name_tr() const;
+
+            void set_consumable(bool p_consumable);
+            bool is_consumable() const;
 
             void set_use_message(const PackedStringArray& p_message);
             PackedStringArray get_use_message() const;
@@ -92,7 +42,5 @@ namespace godot {
             PackedStringArray get_throw_message() const;
     };
 }
-VARIANT_ENUM_CAST(godot::Item::WeaponType);
-VARIANT_ENUM_CAST(godot::Item::ItemType);
 
 #endif

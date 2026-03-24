@@ -1,14 +1,13 @@
 #ifndef BATTLE_SYSTEM_H
 #define BATTLE_SYSTEM_H
 
-#include "slash.h"
 #include "enemy.h"
 #include "hud.h"
 #include "battle_buttons.h"
 #include "Soul/soul.h"
 #include "Attacks/attacks_manager.h"
-#include "engine/resources/Encounters/encounter.h"
 #include "engine/Camera/camera_controller.h"
+#include "engine/resources/Encounters/encounter.h"
 #include<godot_cpp/classes/node2d.hpp>
 #include<godot_cpp/classes/color_rect.hpp>
 #include<godot_cpp/classes/audio_stream_player.hpp>
@@ -18,6 +17,7 @@
 #include<godot_cpp/classes/scene_tree_timer.hpp>
 namespace godot {
     class EncounterScript;
+    class SlashAnimation;
 
     class BattleMain : public Node2D {
         GDCLASS(BattleMain, Node2D);
@@ -42,9 +42,10 @@ namespace godot {
         private:
             AudioStreamPlayer *music_player, *lvlup_sound;
 
-            Ref<PackedScene> attack_scene;
-            Ref<PackedScene> slash_scene;
+            Ref<PackedScene> default_meter_scene;
+            Ref<PackedScene> default_animation_scene;
             Ref<PackedScene> damage_info_scene;
+            SlashAnimation *attack_animation;
 
             Ref<Encounter> encounter;
             Dictionary rewards;
