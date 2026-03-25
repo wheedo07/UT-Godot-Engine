@@ -23,6 +23,9 @@ namespace godot {
         public:
             AttackMeter();
             ~AttackMeter();
+
+            /* 사용 함수 */
+            int get_base_damage();
             
             void set_encounter_script(EncounterScript *value);
             void set_enemy_id(int value);

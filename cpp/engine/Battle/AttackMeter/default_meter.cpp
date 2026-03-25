@@ -118,7 +118,7 @@ void DefaultMeter::_on_timeout(Vector2 position, int direction) {
 
 void DefaultMeter::_on_bar_about_to_fade_out() {
     hits++;
-    if ((hits + misses) >= total_bars) {
+    if((hits + misses) >= total_bars) {
         remove_meter();
     }
 }
@@ -178,19 +178,7 @@ void DefaultMeter::_on_calculated() {
 }
 
 int DefaultMeter::finalcalculation() {
-    int damage = global->get_player_attack() + 10;
-    
-    // 무기 및 방어구에서 추가 공격력 가져오기
-    Ref<Item> weapon = encounter_script->get_player_weapon();
-    int weapon_attack_amount = weapon->get("attack_amount");
-    if(weapon_attack_amount) damage += weapon_attack_amount;
-    
-    Ref<Item> armor = encounter_script->get_player_armor();
-    int armor_attack_amount = armor->get("attack_amount");
-    if(armor_attack_amount) damage += armor_attack_amount;
-    
-    // 임시 공격력 추가
-    damage += global->get_temp_atk();
+    int damage = get_base_damage() + 10;
     
     // 적 방어력 적용
     damage -= enemy_def;
