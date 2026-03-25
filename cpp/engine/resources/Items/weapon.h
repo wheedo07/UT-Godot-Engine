@@ -25,7 +25,6 @@ namespace godot {
             bool critical_hits;
 
             Ref<PackedScene> slash_scene;
-            StringName slash_animation;
         
         public:
             Weapon();
@@ -54,7 +53,6 @@ namespace godot {
             bool get_critical_hits();
 
             Ref<PackedScene> get_slash_scene();
-            StringName get_slash_animation();
     };
 }
 

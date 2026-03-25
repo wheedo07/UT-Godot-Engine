@@ -1,4 +1,4 @@
-#include "attack_animation.h"
+#include "slash_animation.h"
 using namespace godot;
 
 SlashAnimation::SlashAnimation() {}

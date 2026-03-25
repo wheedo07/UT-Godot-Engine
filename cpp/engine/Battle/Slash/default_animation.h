@@ -1,7 +1,7 @@
 #ifndef __DEFAULT_ANIMATION_H__
 #define __DEFAULT_ANIMATION_H__
 
-#include "attack_animation.h"
+#include "slash_animation.h"
 #include<godot_cpp/classes/timer.hpp>
 #include<godot_cpp/classes/tween.hpp>
 #include<godot_cpp/classes/label.hpp>

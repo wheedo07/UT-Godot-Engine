@@ -4,7 +4,6 @@ using namespace godot;
 Weapon::Weapon() {
     attack_amount = 0;
     defense_amount = 0;
-    slash_animation = "";
     weapon_speed = WEAPON_DEFAULT_SPEED;
     weapon_bars = WEAPON_DEFAULT_BARS;
     weapon_delay = WEAPON_DEFAULT_DELAY;
@@ -44,16 +43,12 @@ void Weapon::_get_property_list(List<PropertyInfo> *p_list) const {
     if(is_class("WeaponDefault")) return;
     p_list->push_back(PropertyInfo(Variant::NIL, "Custom Weapon", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_GROUP));
     p_list->push_back(PropertyInfo(Variant::OBJECT, "slash_scene", PROPERTY_HINT_RESOURCE_TYPE, "PackedScene"));
-    p_list->push_back(PropertyInfo(Variant::STRING_NAME, "slash_animation"));
 }
 
 bool Weapon::_set(const StringName& p_name, const Variant& p_value) {
     String name = p_name;
     if(name == "slash_scene") {
         slash_scene = p_value;
-        return true;
-    }else if(name == "slash_animation") {
-        slash_animation = p_value;
         return true;
     }
     return false;
@@ -63,9 +58,6 @@ bool Weapon::_get(const StringName& p_name, Variant& r_ret) {
     String name = p_name;
     if(name == "slash_scene") {
         r_ret = slash_scene;
-        return true;
-    }else if(name == "slash_animation") {
-        r_ret = slash_animation;
         return true;
     }
     return false;
@@ -89,10 +81,6 @@ int Weapon::get_defense_amount() {
 
 Ref<PackedScene> Weapon::get_slash_scene() {
     return slash_scene;
-}
-
-StringName Weapon::get_slash_animation() {
-    return slash_animation;
 }
 
 void Weapon::set_weapon_speed(float value) {

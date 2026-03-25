@@ -161,7 +161,7 @@ using namespace godot;
 #include "Battle/Misc/dialogue_control.h"
 
 // Slash
-#include "Battle/Slash/attack_animation.h"
+#include "Battle/Slash/slash_animation.h"
 #include "Battle/Slash/default_animation.h"
 // [end] //
 

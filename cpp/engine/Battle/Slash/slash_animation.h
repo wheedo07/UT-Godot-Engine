@@ -1,5 +1,5 @@
-#ifndef __ATTACK_ANIMATION_H__
-#define __ATTACK_ANIMATION_H__
+#ifndef __SLASH_ANIMATION_H__
+#define __SLASH_ANIMATION_H__
 
 #include<godot_cpp/classes/node2d.hpp>
 namespace godot {
