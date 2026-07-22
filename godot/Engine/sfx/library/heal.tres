@@ -1,8 +1,0 @@
-[gd_resource type="AudioLibrary" load_steps=2 format=3 uid="uid://bdybc11l1b7if"]
-
-[ext_resource type="AudioStream" uid="uid://lp7i5p5u17hl" path="res://Engine/sfx/sound/heal.wav" id="1_68v2a"]
-
-[resource]
-audio_name = "heal"
-audio_stream = ExtResource("1_68v2a")
-audio_bus = &"SFX"
