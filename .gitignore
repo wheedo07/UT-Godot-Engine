@@ -1,0 +1,28 @@
+~*
+*.dll
+*.os
+*.o
+*.tmp
+*.swp
+
+# 설정
+.vscode
+.rsync.exclude
+compile_flags.txt
+
+# 고도
+godot/.godot
+godot/bin/lib
+godot-cpp
+
+# 빌드
+.sconsign.dblite
+push.sh
+build.sh
+keycreate.sh
+build
+result
+cpp/engine/engine_doc.gen.cpp
+ourgram.keystore
+
+*.old
