@@ -1,3 +1,0 @@
-- [홈](/README.md)
-- [클래스 문서](/classes/list.md)
-- [튜토리얼](/tutorials/README.md)
