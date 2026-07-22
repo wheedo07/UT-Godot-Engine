@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bg5sjvqtpvedk"]
-
-[ext_resource type="AudioStream" uid="uid://ddcjquq3yok8y" path="res://sfx/snd_vaporized.wav" id="1_g1i6m"]
-
-[node name="DustTransition" type="DustTransition"]
-
-[node name="sound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("1_g1i6m")
-bus = &"SFX"

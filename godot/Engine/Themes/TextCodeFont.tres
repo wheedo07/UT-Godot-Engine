@@ -1,5 +1,0 @@
-[gd_resource type="SystemFont" format=3 uid="uid://cppm782ibxw2r"]
-
-[resource]
-font_names = PackedStringArray("JetBrains Mono", "Consolas")
-font_weight = 600

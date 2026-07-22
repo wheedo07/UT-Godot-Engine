@@ -1,9 +1,0 @@
-[gd_resource type="AudioLibrary" load_steps=2 format=3 uid="uid://cpi13o7nhmm35"]
-
-[ext_resource type="AudioStream" uid="uid://bkju73t82sdbg" path="res://Engine/sfx/sound/button_choice.wav" id="1_ac6q7"]
-
-[resource]
-audio_name = "choice"
-audio_stream = ExtResource("1_ac6q7")
-volume_db = -2.0
-audio_bus = &"SFX"
