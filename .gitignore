@@ -7,7 +7,7 @@
 
 # 설정
 .vscode
-.rsync.exclude
+.rclone.filter
 compile_flags.txt
 
 # 고도

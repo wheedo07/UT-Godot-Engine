@@ -15,24 +15,33 @@ suffix = [ ".template", ".dev" ]
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=["cpp/"])
 
-sources = Glob("cpp/engine_main.cpp")
-sources += Glob("cpp/undertale_register.cpp")
-sources += Glob("cpp/undertale-engine/*/*/*/*.cpp")
-sources += Glob("cpp/undertale-engine/*/*/*.cpp")
-sources += Glob("cpp/undertale-engine/*/*.cpp")
+lib = ["undertale-engine", "undertale-plugin"]
+libName = {
+    "undertale-engine": "UndertaleEngine",
+    "undertale-plugin": "UndertalePlugin"
+}
 
-# if env["target"] in ["editor", "template_debug"]:
-#     sources_doc = Glob("doc_classes/*/*.xml")
-#     doc_data = env.GodotCPPDocData("cpp/engine_doc.gen.cpp", sources_doc)
-#     sources.append(doc_data)
+for l in lib:
+    if(l == "undertale-engine"):
+        sources = Glob("cpp/{}/engine_main.cpp".format(l))
+    else:
+        sources = Glob("cpp/{}/plugin_main.cpp".format(l))
+    sources += Glob("cpp/{}/register.cpp".format(l))
+    sources += Glob("cpp/{}/*/*/*/*.cpp".format(l))
+    sources += Glob("cpp/{}/*/*/*.cpp".format(l))
+    sources += Glob("cpp/{}/*/*.cpp".format(l))
 
-path = "godot/bin/lib/lib.UndertaleEngine{}{}".format(env["suffix"], env["SHLIBSUFFIX"])
-for s in suffix:
-    path = path.replace(s, "")
+    # if l == "undertale-engine" and env["target"] in ["editor", "template_debug"]:
+    #     sources_doc = Glob("doc_classes/*/*.xml")
+    #     doc_data = env.GodotCPPDocData("cpp/{}/engine_doc.gen.cpp".format(l), sources_doc)
+    #     sources.append(doc_data)
 
-library = env.SharedLibrary(
-    path,
-    source=sources,
-)
+    path = "godot/bin/lib/lib.{}{}{}".format(libName[l], env["suffix"], env["SHLIBSUFFIX"])
+    for s in suffix:
+        path = path.replace(s, "")
 
-Default(library)
+    library = env.SharedLibrary(
+        path,
+        source=sources,
+    )
+    Default(library)
