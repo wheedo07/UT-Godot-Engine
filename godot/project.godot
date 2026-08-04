@@ -11,4 +11,28 @@ config_version=5
 [application]
 
 config/name="UT-Godot-Engine"
+config/description="Undertale Fan Game Engine by wheedo07"
+config/version="2.0.0"
 config/features=PackedStringArray("4.7")
+run/max_fps=60
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
+config/icon="uid://cxoaq5e28l7wl"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=480
+window/size/resizable=false
+window/size/maximize_disabled=true
+
+[file_customization]
+
+folder_colors={
+"res://UTGE/": "red",
+"res://bin/": "red"
+}
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
