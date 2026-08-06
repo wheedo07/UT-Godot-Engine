@@ -1,6 +1,7 @@
 #include "layer.h"
 #include "env.h"
 #include<godot_cpp/classes/project_settings.hpp>
+#include<godot_cpp/classes/viewport_texture.hpp>
 using namespace godot;
 
 void UTGELayer::_bind_methods() {
@@ -75,25 +76,22 @@ void UTGELayer::_ready() {
 }
 
 Node *UTGELayer::change_scene(Ref<PackedScene> scene) {
-    if(!scene_root) return;
+    if(!scene_root) return nullptr;
+    ERR_FAIL_COND_V(scene.is_null(), nullptr);
     clear();
-    Node *instance = scene->instantiate();
-    scene_root->add_child(instance);
-    return instance;
+    current_scene = scene->instantiate();
+    scene_root->add_child(current_scene);
+    return current_scene;
 }
 
 Node *UTGELayer::get_current_scene() {
-    if(!scene_root) return nullptr;
-    if(scene_root->get_child_count() == 0) return nullptr;
-    return scene_root->get_child(0);
+    return current_scene;
 }
 
 void UTGELayer::clear() {
-    if(!scene_root) return;
-    for(int i=scene_root->get_child_count()-1; i>=0; i--) {
-        Node *child = scene_root->get_child(i);
-        if(child) child->queue_free();
-    }
+    if(!current_scene) return;
+    current_scene->queue_free();
+    current_scene = nullptr;
 }
 
 void UTGELayer::pause() {
