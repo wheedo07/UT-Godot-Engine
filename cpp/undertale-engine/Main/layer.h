@@ -27,7 +27,7 @@ namespace godot {
             SubViewport::DefaultCanvasItemTextureRepeat::DEFAULT_CANVAS_ITEM_TEXTURE_REPEAT_DISABLED;
 
             bool isPaused = false;
-            Node *parent = nullptr;
+            Node *child = nullptr;
             TextureRect *display = nullptr;
             void set_layer_id(StringName value);
             StringName get_layer_id();

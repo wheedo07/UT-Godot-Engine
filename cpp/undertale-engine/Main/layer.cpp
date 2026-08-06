@@ -57,12 +57,12 @@ bool UTGELayer::_get(const StringName& p_name, Variant& r_ret) {
 void UTGELayer::_ready() {
     if(isEditor) return;
     if(render_mode == DIRECT) {
-        parent = this;
+        child = this;
     }else if(render_mode == SUBVIEWPORT) {
         SubViewport *viewport = memnew(SubViewport);
         _apply_viewport_settings();
         add_child(viewport);
-        parent = viewport;
+        child = viewport;
 
         display = memnew(TextureRect);
         display->set_texture(viewport->get_texture());
@@ -72,8 +72,8 @@ void UTGELayer::_ready() {
 }
 
 void UTGELayer::pause() {
-    if(!parent || !parent->is_class("SubViewport")) return;
-    SubViewport *viewport = Object::cast_to<SubViewport>(parent);
+    if(!child || !child->is_class("SubViewport")) return;
+    SubViewport *viewport = Object::cast_to<SubViewport>(child);
     ERR_FAIL_NULL(viewport);
     viewport->set_update_mode(SubViewport::UPDATE_DISABLED);
     set_process_mode(Node::PROCESS_MODE_DISABLED);
@@ -81,8 +81,8 @@ void UTGELayer::pause() {
 }
 
 void UTGELayer::unpause() {
-    if(!parent || !parent->is_class("SubViewport")) return;
-    SubViewport *viewport = Object::cast_to<SubViewport>(parent);
+    if(!child || !child->is_class("SubViewport")) return;
+    SubViewport *viewport = Object::cast_to<SubViewport>(child);
     ERR_FAIL_NULL(viewport);
     viewport->set_update_mode(SubViewport::UPDATE_ALWAYS);
     set_process_mode(Node::PROCESS_MODE_INHERIT);
@@ -94,12 +94,12 @@ bool UTGELayer::is_paused() {
 }
 
 void UTGELayer::_apply_viewport_settings() {
-    if(!parent || !parent->is_class("SubViewport")) return;
+    if(!child || !child->is_class("SubViewport")) return;
     ProjectSettings *setting = ProjectSettings::get_singleton();
     int width = int(setting->get_setting("display/window/size/viewport_width"));
     int height = int(setting->get_setting("display/window/size/viewport_height"));
 
-    SubViewport *viewport = Object::cast_to<SubViewport>(parent);
+    SubViewport *viewport = Object::cast_to<SubViewport>(child);
     viewport->set_default_canvas_item_texture_filter(default_texture_filter);
     viewport->set_default_canvas_item_texture_repeat(default_texture_repeat);
     viewport->set_transparent_background(true);
