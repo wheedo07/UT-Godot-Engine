@@ -30,6 +30,7 @@ for l in lib:
     sources += Glob("cpp/{}/*/*/*/*.cpp".format(l))
     sources += Glob("cpp/{}/*/*/*.cpp".format(l))
     sources += Glob("cpp/{}/*/*.cpp".format(l))
+    sources += Glob("cpp/env.cpp")
 
     # if l == "undertale-engine" and env["target"] in ["editor", "template_debug"]:
     #     sources_doc = Glob("doc_classes/*/*.xml")
