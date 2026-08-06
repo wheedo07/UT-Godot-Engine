@@ -12,7 +12,7 @@ void UTGELayer::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_render_mode", "value"), &UTGELayer::set_render_mode);
     ClassDB::bind_method(D_METHOD("get_render_mode"), &UTGELayer::get_render_mode);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "render_mode", PROPERTY_HINT_ENUM, "Direct,SubViewport", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_READ_ONLY), "set_render_mode", "get_render_mode");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "render_mode", PROPERTY_HINT_ENUM, "Direct,SubViewport", PROPERTY_USAGE_DEFAULT), "set_render_mode", "get_render_mode");
 }
 
 void UTGELayer::_get_property_list(List<PropertyInfo> *p_list) const {
