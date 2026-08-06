@@ -14,6 +14,10 @@ void UTGELayer::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_render_mode", "value"), &UTGELayer::set_render_mode);
     ClassDB::bind_method(D_METHOD("get_render_mode"), &UTGELayer::get_render_mode);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "render_mode", PROPERTY_HINT_ENUM, "Direct,SubViewport", PROPERTY_USAGE_DEFAULT), "set_render_mode", "get_render_mode");
+
+    ClassDB::bind_method(D_METHOD("pause"), &UTGELayer::pause);
+    ClassDB::bind_method(D_METHOD("unpause"), &UTGELayer::unpause);
+    ClassDB::bind_method(D_METHOD("is_paused"), &UTGELayer::is_paused);
 }
 
 void UTGELayer::_get_property_list(List<PropertyInfo> *p_list) const {
@@ -52,10 +56,9 @@ bool UTGELayer::_get(const StringName& p_name, Variant& r_ret) {
 
 void UTGELayer::_ready() {
     if(isEditor) return;
-    if(render_mode != SUBVIEWPORT) {
+    if(render_mode == DIRECT) {
         parent = this;
-        return;
-    }else {
+    }else if(render_mode == SUBVIEWPORT) {
         SubViewport *viewport = memnew(SubViewport);
         _apply_viewport_settings();
         add_child(viewport);
@@ -66,6 +69,28 @@ void UTGELayer::_ready() {
         display->set_anchors_preset(Control::PRESET_FULL_RECT);
         add_child(display);
     }
+}
+
+void UTGELayer::pause() {
+    if(!parent || !parent->is_class("SubViewport")) return;
+    SubViewport *viewport = Object::cast_to<SubViewport>(parent);
+    ERR_FAIL_NULL(viewport);
+    viewport->set_update_mode(SubViewport::UPDATE_DISABLED);
+    set_process_mode(Node::PROCESS_MODE_DISABLED);
+    isPaused = true;
+}
+
+void UTGELayer::unpause() {
+    if(!parent || !parent->is_class("SubViewport")) return;
+    SubViewport *viewport = Object::cast_to<SubViewport>(parent);
+    ERR_FAIL_NULL(viewport);
+    viewport->set_update_mode(SubViewport::UPDATE_ALWAYS);
+    set_process_mode(Node::PROCESS_MODE_INHERIT);
+    isPaused = false;
+}
+
+bool UTGELayer::is_paused() {
+    return isPaused;
 }
 
 void UTGELayer::_apply_viewport_settings() {
