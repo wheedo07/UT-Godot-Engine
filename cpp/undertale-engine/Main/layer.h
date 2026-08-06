@@ -2,6 +2,7 @@
 
 #include<godot_cpp/classes/node.hpp>
 #include<godot_cpp/classes/sub_viewport.hpp>
+#include<godot_cpp/classes/texture_rect.hpp>
 namespace godot {
     class UTGELayer : public Node {
         GDCLASS(UTGELayer, Node);
@@ -26,6 +27,7 @@ namespace godot {
             SubViewport::DefaultCanvasItemTextureRepeat::DEFAULT_CANVAS_ITEM_TEXTURE_REPEAT_DISABLED;
 
             Node *parent = nullptr;
+            TextureRect *display = nullptr;
             void set_layer_id(StringName value);
             StringName get_layer_id();
 

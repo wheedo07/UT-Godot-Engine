@@ -57,8 +57,14 @@ void UTGELayer::_ready() {
         return;
     }else {
         SubViewport *viewport = memnew(SubViewport);
-        parent = viewport;
         _apply_viewport_settings();
+        add_child(viewport);
+        parent = viewport;
+
+        display = memnew(TextureRect);
+        display->set_texture(viewport->get_texture());
+        display->set_anchors_preset(Control::PRESET_FULL_RECT);
+        add_child(display);
     }
 }
 
