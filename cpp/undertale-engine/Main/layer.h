@@ -3,16 +3,17 @@
 #include<godot_cpp/classes/node.hpp>
 #include<godot_cpp/classes/sub_viewport.hpp>
 namespace godot {
-    enum RenderMode {
-        DIRECT,
-        SUBVIEWPORT
-    };
-
     class UTGELayer : public Node {
         GDCLASS(UTGELayer, Node);
 
         protected:
             static void _bind_methods();
+
+        public:
+            enum RenderMode {
+                DIRECT,
+                SUBVIEWPORT
+            };
 
         private:
             StringName layer_id = "main";
