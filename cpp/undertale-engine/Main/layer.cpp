@@ -15,6 +15,9 @@ void UTGELayer::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_render_mode"), &UTGELayer::get_render_mode);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "render_mode", PROPERTY_HINT_ENUM, "Direct,SubViewport", PROPERTY_USAGE_DEFAULT), "set_render_mode", "get_render_mode");
 
+    ClassDB::bind_method(D_METHOD("add_scene", "scene"), &UTGELayer::add_scene);
+    ClassDB::bind_method(D_METHOD("get_scenes"), &UTGELayer::get_scenes);
+    ClassDB::bind_method(D_METHOD("clear"), &UTGELayer::clear);
     ClassDB::bind_method(D_METHOD("pause"), &UTGELayer::pause);
     ClassDB::bind_method(D_METHOD("unpause"), &UTGELayer::unpause);
     ClassDB::bind_method(D_METHOD("is_paused"), &UTGELayer::is_paused);
@@ -57,11 +60,11 @@ bool UTGELayer::_get(const StringName& p_name, Variant& r_ret) {
 void UTGELayer::_ready() {
     if(isEditor) return;
     if(render_mode == DIRECT) {
-        child = this;
+        scene_root = this;
     }else if(render_mode == SUBVIEWPORT) {
         SubViewport *viewport = memnew(SubViewport);
         add_child(viewport);
-        child = viewport;
+        scene_root = viewport;
         _apply_viewport_settings();
 
         display = memnew(TextureRect);
@@ -71,21 +74,46 @@ void UTGELayer::_ready() {
     }
 }
 
+Node *UTGELayer::add_scene(Ref<PackedScene> scene) {
+    if(!scene_root) return;
+    Node *instance = scene->instantiate();
+    scene_root->add_child(instance);
+    return instance;
+}
+
+TypedArray<Node> UTGELayer::get_scenes() {
+    TypedArray<Node> scenes;
+    if(!scene_root) return scenes;
+    for(int i=0; i<scene_root->get_child_count(); i++) {
+        Node *child = scene_root->get_child(i);
+        if(child) scenes.append(child);
+    }
+    return scenes;
+}
+
+void UTGELayer::clear() {
+    if(!scene_root) return;
+    for(int i=scene_root->get_child_count()-1; i>=0; i--) {
+        Node *child = scene_root->get_child(i);
+        if(child) child->queue_free();
+    }
+}
+
 void UTGELayer::pause() {
-    if(!child || !child->is_class("SubViewport")) return;
-    SubViewport *viewport = Object::cast_to<SubViewport>(child);
+    if(!scene_root || !scene_root->is_class("SubViewport")) return;
+    SubViewport *viewport = Object::cast_to<SubViewport>(scene_root);
     ERR_FAIL_NULL(viewport);
     viewport->set_update_mode(SubViewport::UPDATE_DISABLED);
-    set_process_mode(Node::PROCESS_MODE_DISABLED);
+    viewport->set_process_mode(Node::PROCESS_MODE_DISABLED);
     isPaused = true;
 }
 
 void UTGELayer::unpause() {
-    if(!child || !child->is_class("SubViewport")) return;
-    SubViewport *viewport = Object::cast_to<SubViewport>(child);
+    if(!scene_root || !scene_root->is_class("SubViewport")) return;
+    SubViewport *viewport = Object::cast_to<SubViewport>(scene_root);
     ERR_FAIL_NULL(viewport);
     viewport->set_update_mode(SubViewport::UPDATE_ALWAYS);
-    set_process_mode(Node::PROCESS_MODE_INHERIT);
+    viewport->set_process_mode(Node::PROCESS_MODE_INHERIT);
     isPaused = false;
 }
 
@@ -94,12 +122,12 @@ bool UTGELayer::is_paused() {
 }
 
 void UTGELayer::_apply_viewport_settings() {
-    if(!child || !child->is_class("SubViewport")) return;
+    if(!scene_root || !scene_root->is_class("SubViewport")) return;
     ProjectSettings *setting = ProjectSettings::get_singleton();
     int width = int(setting->get_setting("display/window/size/viewport_width"));
     int height = int(setting->get_setting("display/window/size/viewport_height"));
 
-    SubViewport *viewport = Object::cast_to<SubViewport>(child);
+    SubViewport *viewport = Object::cast_to<SubViewport>(scene_root);
     viewport->set_default_canvas_item_texture_filter(default_texture_filter);
     viewport->set_default_canvas_item_texture_repeat(default_texture_repeat);
     viewport->set_transparent_background(true);

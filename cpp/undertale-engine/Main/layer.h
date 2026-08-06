@@ -3,6 +3,7 @@
 #include<godot_cpp/classes/node.hpp>
 #include<godot_cpp/classes/sub_viewport.hpp>
 #include<godot_cpp/classes/texture_rect.hpp>
+#include<godot_cpp/classes/packed_scene.hpp>
 namespace godot {
     class UTGELayer : public Node {
         GDCLASS(UTGELayer, Node);
@@ -27,7 +28,7 @@ namespace godot {
             SubViewport::DefaultCanvasItemTextureRepeat::DEFAULT_CANVAS_ITEM_TEXTURE_REPEAT_DISABLED;
 
             bool isPaused = false;
-            Node *child = nullptr;
+            Node *scene_root = nullptr;
             TextureRect *display = nullptr;
             void set_layer_id(StringName value);
             StringName get_layer_id();
@@ -45,6 +46,10 @@ namespace godot {
             void _ready() override;
 
             /* API 함수 */
+            Node *add_scene(Ref<PackedScene> scene);
+            TypedArray<Node> get_scenes();
+            void clear();
+
             void pause();
             void unpause();
             bool is_paused();
