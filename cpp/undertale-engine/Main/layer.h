@@ -46,8 +46,8 @@ namespace godot {
             void _ready() override;
 
             /* API 함수 */
-            Node *add_scene(Ref<PackedScene> scene);
-            TypedArray<Node> get_scenes();
+            Node *change_scene(Ref<PackedScene> scene);
+            Node* get_current_scene();
             void clear();
 
             void pause();

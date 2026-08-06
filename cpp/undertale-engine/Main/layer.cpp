@@ -15,8 +15,8 @@ void UTGELayer::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_render_mode"), &UTGELayer::get_render_mode);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "render_mode", PROPERTY_HINT_ENUM, "Direct,SubViewport", PROPERTY_USAGE_DEFAULT), "set_render_mode", "get_render_mode");
 
-    ClassDB::bind_method(D_METHOD("add_scene", "scene"), &UTGELayer::add_scene);
-    ClassDB::bind_method(D_METHOD("get_scenes"), &UTGELayer::get_scenes);
+    ClassDB::bind_method(D_METHOD("change_scene", "scene"), &UTGELayer::change_scene);
+    ClassDB::bind_method(D_METHOD("get_current_scene"), &UTGELayer::get_current_scene);
     ClassDB::bind_method(D_METHOD("clear"), &UTGELayer::clear);
     ClassDB::bind_method(D_METHOD("pause"), &UTGELayer::pause);
     ClassDB::bind_method(D_METHOD("unpause"), &UTGELayer::unpause);
@@ -74,21 +74,18 @@ void UTGELayer::_ready() {
     }
 }
 
-Node *UTGELayer::add_scene(Ref<PackedScene> scene) {
+Node *UTGELayer::change_scene(Ref<PackedScene> scene) {
     if(!scene_root) return;
+    clear();
     Node *instance = scene->instantiate();
     scene_root->add_child(instance);
     return instance;
 }
 
-TypedArray<Node> UTGELayer::get_scenes() {
-    TypedArray<Node> scenes;
-    if(!scene_root) return scenes;
-    for(int i=0; i<scene_root->get_child_count(); i++) {
-        Node *child = scene_root->get_child(i);
-        if(child) scenes.append(child);
-    }
-    return scenes;
+Node *UTGELayer::get_current_scene() {
+    if(!scene_root) return nullptr;
+    if(scene_root->get_child_count() == 0) return nullptr;
+    return scene_root->get_child(0);
 }
 
 void UTGELayer::clear() {
