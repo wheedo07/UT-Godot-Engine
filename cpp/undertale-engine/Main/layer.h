@@ -46,6 +46,7 @@ namespace godot {
             void _ready() override;
 
             /* API 함수 */
+
             Node *change_scene(Ref<PackedScene> scene);
             Node* get_current_scene();
             void clear();
