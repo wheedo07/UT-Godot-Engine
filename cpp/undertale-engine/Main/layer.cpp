@@ -53,10 +53,11 @@ void UTGELayer::_ready() {
     if(render_mode != SUBVIEWPORT) {
         parent = this;
         return;
+    }else {
+        SubViewport *viewport = memnew(SubViewport);
+        parent = viewport;
+        _apply_viewport_settings();
     }
-    SubViewport *viewport = memnew(SubViewport);
-    parent = viewport;
-    _apply_viewport_settings();
 }
 
 void UTGELayer::_apply_viewport_settings() {
