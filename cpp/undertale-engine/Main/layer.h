@@ -42,3 +42,4 @@ namespace godot {
             bool _get(const StringName& p_name, Variant& r_ret);
     };
 }
+VARIANT_ENUM_CAST(godot::UTGELayer::RenderMode);
