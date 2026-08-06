@@ -1,4 +1,5 @@
 #include "layer.h"
+#include "env.h"
 #include<godot_cpp/classes/project_settings.hpp>
 using namespace godot;
 
@@ -50,6 +51,7 @@ bool UTGELayer::_get(const StringName& p_name, Variant& r_ret) {
 }
 
 void UTGELayer::_ready() {
+    if(isEditor) return;
     if(render_mode != SUBVIEWPORT) {
         parent = this;
         return;

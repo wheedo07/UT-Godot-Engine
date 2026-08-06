@@ -1,4 +1,5 @@
 #include "undertale_engine.h"
+#include "env.h"
 #include<godot_cpp/classes/engine.hpp>
 #include<gdextension_interface.h>
 #include<godot_cpp/core/defs.hpp>
@@ -17,7 +18,9 @@ extern "C" {
     }
 }
 
-void on_startup() {}
+void on_startup() {
+    isEditor = Engine::get_singleton()->is_editor_hint();
+}
 
 void on_shutdown() {}
 
