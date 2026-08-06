@@ -86,4 +86,5 @@ void UTGELayer::set_render_mode(RenderMode value) {
 
 UTGELayer::RenderMode UTGELayer::get_render_mode() {
     return render_mode;
+    notify_property_list_changed();
 }
