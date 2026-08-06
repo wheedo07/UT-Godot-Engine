@@ -82,9 +82,9 @@ StringName UTGELayer::get_layer_id() {
 
 void UTGELayer::set_render_mode(RenderMode value) {
     render_mode = value;
+    notify_property_list_changed();
 }
 
 UTGELayer::RenderMode UTGELayer::get_render_mode() {
     return render_mode;
-    notify_property_list_changed();
 }
