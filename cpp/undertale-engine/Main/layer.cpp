@@ -60,9 +60,9 @@ void UTGELayer::_ready() {
         child = this;
     }else if(render_mode == SUBVIEWPORT) {
         SubViewport *viewport = memnew(SubViewport);
-        _apply_viewport_settings();
         add_child(viewport);
         child = viewport;
+        _apply_viewport_settings();
 
         display = memnew(TextureRect);
         display->set_texture(viewport->get_texture());
