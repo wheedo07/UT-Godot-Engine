@@ -34,6 +34,7 @@ bool UTGELayer::_set(const StringName& p_name, const Variant& p_value) {
         _apply_viewport_settings();
         return true;
     }
+    return false;
 }
 
 bool UTGELayer::_get(const StringName& p_name, Variant& r_ret) {
@@ -45,6 +46,7 @@ bool UTGELayer::_get(const StringName& p_name, Variant& r_ret) {
         r_ret = default_texture_repeat;
         return true;
     }
+    return false;
 }
 
 void UTGELayer::_ready() {
