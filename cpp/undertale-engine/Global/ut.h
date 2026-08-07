@@ -1,6 +1,7 @@
 #pragma once
 
 #include<godot_cpp/classes/object.hpp>
+#include "undertale-engine/Engine/pool.h"
 #include "undertale-engine/Engine/scene_tree.h"
 namespace godot {
     class UT : public Object {
@@ -10,6 +11,7 @@ namespace godot {
             static void _bind_methods();
         
         public:
-            static UTGESceneTree* tree();
+            static UTGESceneTree *tree();
+            static UTGEPool *pool();
     };
 }

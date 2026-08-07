@@ -1,4 +1,5 @@
 #include "undertale_engine.h"
+#include<godot_cpp/classes/engine.hpp>
 #include<gdextension_interface.h>
 #include<godot_cpp/core/defs.hpp>
 #include<godot_cpp/godot.hpp>
@@ -11,6 +12,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     /* [Engine] */
     GDREGISTER_CLASS(UTGESceneTree);
     GDREGISTER_RUNTIME_CLASS(UTGEPool);
+    Engine::get_singleton()->register_singleton("UTGEPool", memnew(UTGEPool));
     
     /* [Main] */
     GDREGISTER_RUNTIME_CLASS(UTGERoot);
