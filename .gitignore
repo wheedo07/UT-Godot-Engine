@@ -17,7 +17,7 @@ godot-cpp
 
 # 빌드
 .sconsign.dblite
-push.sh
+pull.sh
 build.sh
 keycreate.sh
 build
