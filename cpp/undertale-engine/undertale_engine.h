@@ -4,6 +4,7 @@
 using namespace godot;
 
 /* [Main] */
+#include "Main/ut.h"
 #include "Main/root.h"
 #include "Main/layer.h"
 #include "Main/scene_tree.h"
