@@ -8,6 +8,7 @@ using namespace godot;
 
 /* [Engine] */
 #include "Engine/scene_tree.h"
+#include "Engine/pool.h"
 
 /* [Main] */
 #include "Main/root.h"

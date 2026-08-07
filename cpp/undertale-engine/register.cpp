@@ -5,10 +5,16 @@
 
 void undertale_engine_init(ModuleInitializationLevel p_level) {
     if(p_level != MODULE_INITIALIZATION_LEVEL_SCENE) return;
-    GDREGISTER_RUNTIME_CLASS(UTGERoot);
+    /* [Global] */
     GDREGISTER_RUNTIME_CLASS(UT);
-    GDREGISTER_CLASS(UTGELayer);
+    
+    /* [Engine] */
     GDREGISTER_CLASS(UTGESceneTree);
+    GDREGISTER_RUNTIME_CLASS(UTGEPool);
+    
+    /* [Main] */
+    GDREGISTER_RUNTIME_CLASS(UTGERoot);
+    GDREGISTER_CLASS(UTGELayer);
 }
 
 void undertale_engine_uninit(ModuleInitializationLevel p_level) {
