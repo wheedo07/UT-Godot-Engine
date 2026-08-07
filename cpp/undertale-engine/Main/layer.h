@@ -30,11 +30,6 @@ namespace godot {
             bool isPaused = false;
             Node *scene_root = nullptr, *current_scene = nullptr;
             TextureRect *display = nullptr;
-            void set_layer_id(StringName value);
-            StringName get_layer_id();
-
-            void set_render_mode(RenderMode value);
-            RenderMode get_render_mode();
 
             void _apply_viewport_settings();
 
@@ -54,6 +49,13 @@ namespace godot {
             void pause();
             void unpause();
             bool is_paused();
+
+            /* setters / getters */
+            void set_layer_id(StringName value);
+            StringName get_layer_id();
+
+            void set_render_mode(RenderMode value);
+            RenderMode get_render_mode();
     };
 }
 VARIANT_ENUM_CAST(godot::UTGELayer::RenderMode);

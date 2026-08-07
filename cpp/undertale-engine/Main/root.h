@@ -11,5 +11,10 @@ namespace godot {
 
         private:
             HashMap<StringName, UTGELayer*> layers;
+
+        public:
+            void _ready() override;
+
+            UTGELayer *get_layer(StringName layer_id = "main");
     };
 }
