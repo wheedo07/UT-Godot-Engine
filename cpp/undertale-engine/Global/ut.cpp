@@ -3,7 +3,7 @@
 using namespace godot;
 
 void UT::_bind_methods() {
-    ClassDB::bind_static_method("UTGE", D_METHOD("tree"), &UT::tree);
+    ClassDB::bind_static_method("UT", D_METHOD("tree"), &UT::tree);
 }
 
 UTGESceneTree* UT::tree() {

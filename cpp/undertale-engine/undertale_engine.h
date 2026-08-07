@@ -3,8 +3,10 @@
 #include<godot_cpp/core/class_db.hpp>
 using namespace godot;
 
+/* [Global] */
+#include "Global/ut.h"
+
 /* [Main] */
-#include "Main/ut.h"
 #include "Main/root.h"
 #include "Main/layer.h"
 #include "Main/scene_tree.h"
