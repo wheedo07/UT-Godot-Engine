@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c4tejespw4u1h"]
+
+[sub_resource type="GDScript" id="GDScript_ak6cg"]
+resource_name = "tmp"
+script/source = "extends Node
+
+func _ready() -> void:
+	print(\"ss\");
+	await (get_tree() as UTGESceneTree).create_timer(1).timeout;
+	print(\"1s\");
+"
+
+[node name="Node" type="Node" unique_id=1103431746]
+script = SubResource("GDScript_ak6cg")
