@@ -3,7 +3,7 @@
 #include<godot_cpp/classes/scene_tree.hpp>
 #include<godot_cpp/classes/packed_scene.hpp>
 #include<godot_cpp/classes/scene_tree_timer.hpp>
-#include "root.h"
+#include "undertale-engine/Main/root.h"
 namespace godot {
     class UTGESceneTree : public SceneTree {
         GDCLASS(UTGESceneTree, SceneTree);
