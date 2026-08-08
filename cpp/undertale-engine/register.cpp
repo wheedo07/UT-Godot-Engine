@@ -11,6 +11,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     
     /* [Engine] */
     GDREGISTER_CLASS(UTGESceneTree);
+    GDREGISTER_CLASS(UTGETimer);
     GDREGISTER_RUNTIME_CLASS(UTGEPool);
     Engine::get_singleton()->register_singleton("UTGEPool", memnew(UTGEPool));
     
