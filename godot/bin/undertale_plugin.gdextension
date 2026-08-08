@@ -15,5 +15,3 @@ android.editor.x86_64 = "res://bin/lib/lib.UndertalePlugin.android.editor.x86_64
 android.editor.arm64 = "res://bin/lib/lib.UndertalePlugin.android.editor.arm64.so"
 web.editor.wasm32 = "res://bin/lib/lib.UndertalePlugin.web.editor.wasm32.wasm"
 web.editor.wasm32.nothreads = "res://bin/lib/lib.UndertalePlugin.web.editor.wasm32.nothreads.wasm"
-
-[icons]
