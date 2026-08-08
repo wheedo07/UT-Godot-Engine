@@ -14,6 +14,7 @@ namespace godot {
 
         private:
             Vector<Ref<UTGETimer>> timers;
+
             UTGERoot *get_root();
             void _process_timers(double p_delta, bool p_process_in_physics);
 
@@ -23,7 +24,9 @@ namespace godot {
 
             /* API 함수 */
 
-            Node *change_scene(StringName layer_id, Ref<PackedScene> scene);
+            Error change_scene_to_file(StringName layer_id, String path);
+            Error change_scene_to_packed(StringName layer_id, Ref<PackedScene> scene);
+            Error change_scene_to_node(StringName layer_id, Node *node);
             Ref<UTGETimer> create_timer(double p_time_sec, bool p_process_always = true, bool p_process_in_physics = false, bool p_ignore_time_scale = false);
     };
 }

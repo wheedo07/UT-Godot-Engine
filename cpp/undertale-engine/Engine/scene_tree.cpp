@@ -1,9 +1,12 @@
 #include "scene_tree.h"
 #include<godot_cpp/classes/engine.hpp>
+#include<godot_cpp/classes/resource_loader.hpp>
 using namespace godot;
 
 void UTGESceneTree::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("change_scene", "layer_id", "scene"), &UTGESceneTree::change_scene);
+    ClassDB::bind_method(D_METHOD("change_scene_to_file", "layer_id", "path"), &UTGESceneTree::change_scene_to_file);
+    ClassDB::bind_method(D_METHOD("change_scene_to_packed", "layer_id", "scene"), &UTGESceneTree::change_scene_to_packed);
+    ClassDB::bind_method(D_METHOD("change_scene_to_node", "layer_id", "node"), &UTGESceneTree::change_scene_to_node);
     ClassDB::bind_method(D_METHOD("create_timer", "time_sec", "process_always", "process_in_physics", "ignore_time_scale"), &UTGESceneTree::create_timer, DEFVAL(true), DEFVAL(false), DEFVAL(false));
 }
 
@@ -17,8 +20,25 @@ bool UTGESceneTree::_process(double p_delta) {
     return false;
 }
 
-Node *UTGESceneTree::change_scene(StringName layer_id, Ref<PackedScene> scene) {
-    return get_root()->get_layer(layer_id)->change_scene(scene);
+Error UTGESceneTree::change_scene_to_file(StringName layer_id, String path) {
+    Ref<PackedScene> scene = ResourceLoader::get_singleton()->load(path);
+    ERR_FAIL_COND_V(scene.is_null(), ERR_FILE_NOT_FOUND);
+    return change_scene_to_packed(layer_id, scene);
+}
+
+Error UTGESceneTree::change_scene_to_packed(StringName layer_id, Ref<PackedScene> scene) {
+    ERR_FAIL_COND_V(scene.is_null(), ERR_INVALID_PARAMETER);
+    Node *node = scene->instantiate();
+    return change_scene_to_node(layer_id, node);
+}
+
+Error UTGESceneTree::change_scene_to_node(StringName layer_id, Node *node) {
+    ERR_FAIL_COND_V(!node, ERR_INVALID_PARAMETER);
+    UTGERoot *root = get_root();
+    ERR_FAIL_COND_V(!root, ERR_UNAVAILABLE);
+    UTGELayer *layer = root->get_layer(layer_id);
+    ERR_FAIL_COND_V(!layer, ERR_DOES_NOT_EXIST);
+    return layer->change_scene(node);
 }
 
 Ref<UTGETimer> UTGESceneTree::create_timer(double p_time_sec, bool p_process_always, bool p_process_in_physics, bool p_ignore_time_scale) {
