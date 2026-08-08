@@ -12,6 +12,8 @@ namespace godot {
             double time_left = 0;
             double speed_scale = 1;
             bool paused = false;
+            StringName layer_id = "";
+
             bool process_in_physics = false;
             bool ignore_time_scale = false;
             bool process_always = true;
@@ -25,13 +27,13 @@ namespace godot {
 
             /* 내부 API */
 
+            bool process(double p_delta, double p_tree_time_scale, bool p_tree_paused);
             void set_process_in_physics(bool value);
             bool is_processing_in_physics() const;
-            void set_ignore_time_scale(bool value);
             void set_process_always(bool value);
-
+            bool is_process_always() const;
+            void set_ignore_time_scale(bool value);
             bool is_finished() const;
-            bool process(double p_delta, double p_tree_time_scale, bool p_tree_paused);
 
             /* setters / getters */
 
@@ -43,5 +45,8 @@ namespace godot {
 
             void set_speed_scale(double value);
             double get_speed_scale() const;
+
+            void set_layer_id(StringName value);
+            StringName get_layer_id() const;
     };
 }

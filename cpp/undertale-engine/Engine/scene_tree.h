@@ -27,6 +27,11 @@ namespace godot {
             Error change_scene_to_file(StringName layer_id, String path);
             Error change_scene_to_packed(StringName layer_id, Ref<PackedScene> scene);
             Error change_scene_to_node(StringName layer_id, Node *node);
+
             Ref<UTGETimer> create_timer(double p_time_sec, bool p_process_always = true, bool p_process_in_physics = false, bool p_ignore_time_scale = false);
+            Ref<UTGETimer> layer_timer(StringName layer_id, double p_time_sec, bool p_process_always = true, bool p_process_in_physics = false, bool p_ignore_time_scale = false);
+
+            void pause_layer_timers(StringName layer_id, bool force = false);
+            void resume_layer_timers(StringName layer_id, bool force = false);
     };
 }

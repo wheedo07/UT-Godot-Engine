@@ -6,17 +6,21 @@ void UTGETimer::_bind_methods() {
     ClassDB::bind_method(D_METHOD("frame"), &UTGETimer::frame);
     ClassDB::bind_method(D_METHOD("is_frame_based"), &UTGETimer::is_frame_based);
 
-    ClassDB::bind_method(D_METHOD("set_time_left", "time"), &UTGETimer::set_time_left);
+    ClassDB::bind_method(D_METHOD("set_time_left", "value"), &UTGETimer::set_time_left);
     ClassDB::bind_method(D_METHOD("get_time_left"), &UTGETimer::get_time_left);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "time_left"), "set_time_left", "get_time_left");
 
-    ClassDB::bind_method(D_METHOD("set_paused", "paused"), &UTGETimer::set_paused);
+    ClassDB::bind_method(D_METHOD("set_paused", "value"), &UTGETimer::set_paused);
     ClassDB::bind_method(D_METHOD("is_paused"), &UTGETimer::is_paused);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "paused"), "set_paused", "is_paused");
 
-    ClassDB::bind_method(D_METHOD("set_speed_scale", "scale"), &UTGETimer::set_speed_scale);
+    ClassDB::bind_method(D_METHOD("set_speed_scale", "value"), &UTGETimer::set_speed_scale);
     ClassDB::bind_method(D_METHOD("get_speed_scale"), &UTGETimer::get_speed_scale);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed_scale"), "set_speed_scale", "get_speed_scale");
+
+    ClassDB::bind_method(D_METHOD("set_layer_id", "value"), &UTGETimer::set_layer_id);
+    ClassDB::bind_method(D_METHOD("get_layer_id"), &UTGETimer::get_layer_id);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING_NAME, "layer_id"), "set_layer_id", "get_layer_id");
 }
 
 bool UTGETimer::process(double p_delta, double p_tree_time_scale, bool p_tree_paused) {
@@ -50,28 +54,32 @@ bool UTGETimer::is_frame_based() const {
     return frame_based;
 }
 
-void UTGETimer::set_process_in_physics(bool p_enabled) {
-    process_in_physics = p_enabled;
+void UTGETimer::set_process_in_physics(bool value) {
+    process_in_physics = value;
 }
 
 bool UTGETimer::is_processing_in_physics() const {
     return process_in_physics;
 }
 
-void UTGETimer::set_ignore_time_scale(bool p_enabled) {
-    ignore_time_scale = p_enabled;
+void UTGETimer::set_ignore_time_scale(bool value) {
+    ignore_time_scale = value;
 }
 
-void UTGETimer::set_process_always(bool p_enabled) {
-    process_always = p_enabled;
+void UTGETimer::set_process_always(bool value) {
+    process_always = value;
+}
+
+bool UTGETimer::is_process_always() const {
+    return process_always;
 }
 
 bool UTGETimer::is_finished() const {
     return finished;
 }
 
-void UTGETimer::set_time_left(double p_time) {
-    time_left = p_time < 0.0 ? 0.0 : p_time;
+void UTGETimer::set_time_left(double value) {
+    time_left = value < 0.0 ? 0.0 : value;
     finished = false;
 }
 
@@ -79,18 +87,26 @@ double UTGETimer::get_time_left() const {
     return time_left;
 }
 
-void UTGETimer::set_paused(bool p_paused) {
-    paused = p_paused;
+void UTGETimer::set_paused(bool value) {
+    paused = value;
 }
 
 bool UTGETimer::is_paused() const {
     return paused;
 }
 
-void UTGETimer::set_speed_scale(double p_scale) {
-    speed_scale = p_scale;
+void UTGETimer::set_speed_scale(double value) {
+    speed_scale = value;
 }
 
 double UTGETimer::get_speed_scale() const {
     return speed_scale;
+}
+
+void UTGETimer::set_layer_id(StringName value) {
+    layer_id = value;
+}
+
+StringName UTGETimer::get_layer_id() const {
+    return layer_id;
 }

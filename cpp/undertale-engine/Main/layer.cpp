@@ -1,5 +1,5 @@
 #include "layer.h"
-#include "env.h"
+#include "undertale-engine/Global/ut.h"
 using namespace godot;
 
 void UTGELayer::_bind_methods() {
@@ -35,10 +35,12 @@ void UTGELayer::clear() {
 void UTGELayer::pause() {
     process_mode_cache = get_process_mode();
     set_process_mode(ProcessMode::PROCESS_MODE_DISABLED);
+    UT::tree()->pause_layer_timers(layer_id);
 }
 
 void UTGELayer::resume() {
     set_process_mode(process_mode_cache);
+    UT::tree()->resume_layer_timers(layer_id);
 }
 
 void UTGELayer::set_layer_id(StringName value) {
