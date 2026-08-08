@@ -6,11 +6,11 @@ void UTGERoot::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_layer_parent", "value"), &UTGERoot::set_layer_parent);
     ClassDB::bind_method(D_METHOD("get_layer_parent"), &UTGERoot::get_layer_parent);
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "layer_parent", PROPERTY_HINT_NONE, "Node"), "set_layer_parent", "get_layer_parent");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "layer_parent", PROPERTY_HINT_NODE_TYPE, "Node"), "set_layer_parent", "get_layer_parent");
 }
 
 void UTGERoot::_ready() {
-    TypedArray<Node> children = get_children();
+    TypedArray<Node> children = layer_parent->get_children();
     for(int i=0; i < children.size(); i++) {
         Node *child = Object::cast_to<Node>(children[i]);
         if(child->is_class("UTGELayer")) {

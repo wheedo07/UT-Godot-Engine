@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dbeaula4khq8m"]
+
+[node name="UTGERoot" type="UTGERoot" unique_id=478703303]
+
+[node name="main" type="UTGELayer" parent="." unique_id=96428922]
+
+[node name="sub" type="UTGELayer" parent="." unique_id=1192601669]
+layer_id = &"sub"
