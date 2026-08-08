@@ -3,6 +3,10 @@ using namespace godot;
 
 void UTGERoot::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_layer", "layer_id"), &UTGERoot::get_layer, DEFVAL("main"));
+
+    ClassDB::bind_method(D_METHOD("set_layer_parent", "value"), &UTGERoot::set_layer_parent);
+    ClassDB::bind_method(D_METHOD("get_layer_parent"), &UTGERoot::get_layer_parent);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "layer_parent", PROPERTY_HINT_NONE, "Node"), "set_layer_parent", "get_layer_parent");
 }
 
 void UTGERoot::_ready() {
@@ -21,4 +25,12 @@ UTGELayer *UTGERoot::get_layer(StringName layer_id) {
     if(layer_ptr) {
         return *layer_ptr;
     }else return nullptr;
+}
+
+void UTGERoot::set_layer_parent(Node *value) {
+    layer_parent = value;
+}
+
+Node *UTGERoot::get_layer_parent() {
+    return layer_parent;
 }
