@@ -11,7 +11,7 @@ void UTGELayer::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_current_scene"), &UTGELayer::get_current_scene);
     ClassDB::bind_method(D_METHOD("clear"), &UTGELayer::clear);
     ClassDB::bind_method(D_METHOD("pause"), &UTGELayer::pause);
-    ClassDB::bind_method(D_METHOD("unpause"), &UTGELayer::unpause);
+    ClassDB::bind_method(D_METHOD("resume"), &UTGELayer::resume);
 }
 
 Node *UTGELayer::change_scene(Ref<PackedScene> scene) {
@@ -35,7 +35,7 @@ void UTGELayer::clear() {
 void UTGELayer::pause() {
 }
 
-void UTGELayer::unpause() {
+void UTGELayer::resume() {
 }
 
 void UTGELayer::set_layer_id(StringName value) {

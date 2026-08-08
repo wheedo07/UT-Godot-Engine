@@ -22,7 +22,7 @@ namespace godot {
             void clear();
 
             void pause();
-            void unpause();
+            void resume();
 
             /* setters / getters */
             void set_layer_id(StringName value);

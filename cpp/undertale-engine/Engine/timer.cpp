@@ -3,12 +3,18 @@ using namespace godot;
 
 void UTGETimer::_bind_methods() {
     ADD_SIGNAL(MethodInfo("timeout"));
+
     ClassDB::bind_method(D_METHOD("set_time_left", "time"), &UTGETimer::set_time_left);
     ClassDB::bind_method(D_METHOD("get_time_left"), &UTGETimer::get_time_left);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "time_left"), "set_time_left", "get_time_left");
+
     ClassDB::bind_method(D_METHOD("set_paused", "paused"), &UTGETimer::set_paused);
     ClassDB::bind_method(D_METHOD("is_paused"), &UTGETimer::is_paused);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "paused"), "set_paused", "is_paused");
+
     ClassDB::bind_method(D_METHOD("set_speed_scale", "scale"), &UTGETimer::set_speed_scale);
     ClassDB::bind_method(D_METHOD("get_speed_scale"), &UTGETimer::get_speed_scale);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed_scale"), "set_speed_scale", "get_speed_scale");
 }
 
 bool UTGETimer::process(double p_delta, double p_tree_time_scale, bool p_tree_paused) {
