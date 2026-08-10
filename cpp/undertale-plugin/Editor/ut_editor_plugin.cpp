@@ -1,17 +1,15 @@
 #include "ut_editor_plugin.h"
-#include<godot_cpp/classes/button.hpp>
+#include "undertale-plugin/Button/run.h"
 using namespace godot;
 
 void UTEditorPlugin::_bind_methods() {
 }
 
 void UTEditorPlugin::_enter_tree() {
-    Button *button = memnew(Button);
-    button->set_text("UT Run");
-    
+    UTEditorRunBtn* runBtn = memnew(UTEditorRunBtn);
     add_control_to_container(
         CONTAINER_TOOLBAR,
-        button
+        runBtn
     );
 }
 

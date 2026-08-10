@@ -1,6 +1,7 @@
 #pragma once
 
 #include<godot_cpp/classes/node.hpp>
+#include<godot_cpp/classes/camera2d.hpp>
 #include "layer.h"
 namespace godot {
     class UTGERoot : public Node {
@@ -11,11 +12,13 @@ namespace godot {
 
         private:
             Node *layer_parent = this;
+            Camera2D *camera = nullptr;
 
             HashMap<StringName, UTGELayer*> layers;
 
         public:
-            void _ready() override;
+            UTGERoot();
+            void _utge_ready();
 
             /* API 함수 */
 
@@ -25,5 +28,8 @@ namespace godot {
 
             void set_layer_parent(Node *value);
             Node *get_layer_parent();
+
+            void set_camera(Camera2D *value);
+            Camera2D *get_camera();
     };
 }

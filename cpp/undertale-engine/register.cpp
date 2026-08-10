@@ -18,6 +18,7 @@ void undertale_engine_init(ModuleInitializationLevel p_level) {
     /* [Main] */
     GDREGISTER_RUNTIME_CLASS(UTGERoot);
     GDREGISTER_RUNTIME_CLASS(UTGELayer);
+    GDREGISTER_RUNTIME_CLASS(UTGECamera);
 }
 
 void undertale_engine_uninit(ModuleInitializationLevel p_level) {

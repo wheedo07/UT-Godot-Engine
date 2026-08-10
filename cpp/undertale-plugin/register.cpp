@@ -5,8 +5,13 @@
 
 void undertale_plugin_init(ModuleInitializationLevel p_level) {
     if(p_level != MODULE_INITIALIZATION_LEVEL_EDITOR) return;
+
+    /* [Editor] */
     GDREGISTER_CLASS(UTEditorPlugin);
     EditorPlugins::add_by_type<UTEditorPlugin>();
+    
+    /* [Button] */
+    GDREGISTER_CLASS(UTEditorRunBtn);
 }
 
 void undertale_plugin_uninit(ModuleInitializationLevel p_level) {

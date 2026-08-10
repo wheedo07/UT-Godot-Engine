@@ -3,7 +3,11 @@
 #include<godot_cpp/core/class_db.hpp>
 using namespace godot;
 
+/* [Editor] */
 #include "Editor/ut_editor_plugin.h"
+
+/* [Button] */
+#include "Button/run.h"
 
 void undertale_plugin_init(ModuleInitializationLevel p_level);
 void undertale_plugin_uninit(ModuleInitializationLevel p_level);

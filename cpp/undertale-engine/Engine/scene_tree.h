@@ -15,7 +15,6 @@ namespace godot {
         private:
             Vector<Ref<UTGETimer>> timers;
 
-            UTGERoot *get_root();
             void _process_timers(double p_delta, bool p_process_in_physics);
 
         public:
@@ -23,6 +22,8 @@ namespace godot {
             bool _process(double p_delta) override;
 
             /* API 함수 */
+
+            UTGERoot *get_root();
 
             Error change_scene_to_file(StringName layer_id, String path);
             Error change_scene_to_packed(StringName layer_id, Ref<PackedScene> scene);
