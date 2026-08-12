@@ -38,8 +38,7 @@ sources += Glob("cpp/env.cpp")
 #     sources.append(doc_data)
 
 path = "godot/bin/lib/lib.{}{}{}".format(libName[lib], env["suffix"], env["SHLIBSUFFIX"])
-for s in suffix:
-    path = path.replace(s, "")
+for s in suffix: path = path.replace(s, "")
 library = env.SharedLibrary(
     path,
     source=sources,

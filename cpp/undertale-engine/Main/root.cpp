@@ -1,4 +1,6 @@
 #include "root.h"
+#include<godot_cpp/classes/engine_debugger.hpp>
+#include "undertale-engine/Global/ut.h"
 using namespace godot;
 
 UTGERoot::UTGERoot() {
@@ -8,6 +10,7 @@ UTGERoot::UTGERoot() {
 void UTGERoot::_bind_methods() {
     /* 내부 메서드 */
     ClassDB::bind_method(D_METHOD("_utge_ready"), &UTGERoot::_utge_ready);
+    ClassDB::bind_method(D_METHOD("_debugger_capture", "message", "data"), &UTGERoot::_debugger_capture);
 
     /* API 메서드 */
     ClassDB::bind_method(D_METHOD("get_layer", "layer_id"), &UTGERoot::get_layer, DEFVAL("main"));
@@ -30,6 +33,64 @@ void UTGERoot::_utge_ready() {
             layers[layer->get_layer_id()] = layer;
         }
     }
+
+    EngineDebugger *debugger = EngineDebugger::get_singleton();
+    if(debugger && debugger->is_active()) {
+        debugger->register_message_capture("ut_debugger", Callable(this, "_debugger_capture"));
+    }
+}
+
+bool UTGERoot::_debugger_capture(String message, Array data) {
+    if (message == "call") {
+        if(data.size() < 4) return true;
+        const int64_t request_id = data[0];
+        const NodePath path = data[1];
+        const StringName method = data[2];
+        const Array args = data[3];
+
+        Node *node = get_node_or_null(path);
+
+        if(!node) {
+            print_error("Node not found: ", path);
+            return true;
+        }
+
+        if(!node->has_method(method)) {
+            print_error("Method not found: ", method);
+            return true;
+        }
+
+        Variant result = node->callv(method, args);
+        EngineDebugger::get_singleton()->send_message(
+            "ut_debugger:call_result",
+            { request_id, result }
+        );
+        return true;
+    }else if(message == "tree_call") {
+        if(data.size() < 3) return true;
+        const int64_t request_id = data[0];
+        const StringName method = data[1];
+        const Array args = data[2];
+
+        UTGESceneTree *tree = UT::tree();
+
+        if(!tree) {
+            print_error("SceneTree is null.");
+            return true;
+        }
+        if(!tree->has_method(method)) {
+            print_error("SceneTree method not found: ", method);
+            return true;
+        }
+        Variant result = tree->callv(method, args);
+
+        EngineDebugger::get_singleton()->send_message(
+            "ut_debugger:tree_call_result",
+            { request_id, result }
+        );
+        return true;
+    }
+    return false;
 }
 
 UTGELayer *UTGERoot::get_layer(StringName layer_id) {

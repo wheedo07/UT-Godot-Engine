@@ -19,6 +19,7 @@ namespace godot {
         public:
             UTGERoot();
             void _utge_ready();
+            bool _debugger_capture(String message, Array data);
 
             /* API 함수 */
 

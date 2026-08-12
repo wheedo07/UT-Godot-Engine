@@ -8,6 +8,7 @@ void undertale_plugin_init(ModuleInitializationLevel p_level) {
 
     /* [Editor] */
     GDREGISTER_CLASS(UTEditorPlugin);
+    GDREGISTER_CLASS(UTEditorDebuggerPlugin);
     EditorPlugins::add_by_type<UTEditorPlugin>();
     
     /* [Button] */

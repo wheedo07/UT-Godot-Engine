@@ -5,6 +5,7 @@ using namespace godot;
 
 /* [Editor] */
 #include "Editor/ut_editor_plugin.h"
+#include "Editor/debugger_editor_plugin.h"
 
 /* [Button] */
 #include "Button/run.h"
