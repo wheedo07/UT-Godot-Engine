@@ -25,7 +25,7 @@ void UTRunSceneDialog::set_layers(PackedStringArray layers) {
     ERR_FAIL_NULL(layer_list);
 
     layer_list->clear();
-    for(int i = 0; i < layers.size(); i++) {
+    for(int i=0; i < layers.size(); i++) {
         StringName layer_id = layers[i];
         int index = layer_list->add_item(String(layer_id));
         layer_list->set_item_metadata(index, layer_id);
