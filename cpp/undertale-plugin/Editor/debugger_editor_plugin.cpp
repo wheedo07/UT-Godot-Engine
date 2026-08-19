@@ -8,7 +8,7 @@ void UTEditorDebuggerPlugin::_bind_methods() {
 
 void UTEditorDebuggerPlugin::_setup_session(int32_t p_session_id) {
     session = get_session(p_session_id);
-    session->connect("started", Callable(this, "_on_session_started"), CONNECT_ONE_SHOT);
+    session->connect("started", Callable(this, "_on_session_started"));
 }
 
 bool UTEditorDebuggerPlugin::_has_capture(const String& p_capture) const {
@@ -32,7 +32,15 @@ bool UTEditorDebuggerPlugin::_capture(const String& p_message, const Array& p_da
 }
 
 void UTEditorDebuggerPlugin::_on_session_started() {
-    remote_tree_call("change_scene_to_file", Array::make("main", "res://test.tscn"));
+    if(pending_scene_path.is_empty()) return;
+    remote_tree_call("change_scene_to_file", Array::make(pending_layer_id, pending_scene_path));
+    pending_layer_id = StringName();
+    pending_scene_path = "";
+}
+
+void UTEditorDebuggerPlugin::queue_run_request(StringName p_layer_id, String p_scene_path) {
+    pending_layer_id = p_layer_id;
+    pending_scene_path = p_scene_path;
 }
 
 void UTEditorDebuggerPlugin::remote_call(NodePath path, StringName method, Array args) {

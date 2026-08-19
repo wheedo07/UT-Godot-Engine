@@ -15,5 +15,7 @@ namespace godot {
         public:
             void _enter_tree() override;
             void _exit_tree() override;
+
+            void current_play(StringName layer_id, String scene_path);
     };
 }

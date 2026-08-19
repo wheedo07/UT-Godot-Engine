@@ -14,6 +14,7 @@ void UTGERoot::_bind_methods() {
 
     /* API 메서드 */
     ClassDB::bind_method(D_METHOD("get_layer", "layer_id"), &UTGERoot::get_layer, DEFVAL("main"));
+    ClassDB::bind_method(D_METHOD("get_layers"), &UTGERoot::get_layers);
 
     ClassDB::bind_method(D_METHOD("set_layer_parent", "value"), &UTGERoot::set_layer_parent);
     ClassDB::bind_method(D_METHOD("get_layer_parent"), &UTGERoot::get_layer_parent);
@@ -41,7 +42,7 @@ void UTGERoot::_utge_ready() {
 }
 
 bool UTGERoot::_debugger_capture(String message, Array data) {
-    if (message == "call") {
+    if(message == "call") {
         if(data.size() < 4) return true;
         const int64_t request_id = data[0];
         const NodePath path = data[1];
@@ -98,6 +99,14 @@ UTGELayer *UTGERoot::get_layer(StringName layer_id) {
     if(layer_ptr) {
         return *layer_ptr;
     }else return nullptr;
+}
+
+TypedArray<UTGELayer> UTGERoot::get_layers() {
+    TypedArray<UTGELayer> result;
+    for(auto it = layers.begin(); it != layers.end(); ++it) {
+        result.push_back(it->value);
+    }
+    return result;
 }
 
 void UTGERoot::set_layer_parent(Node *value) {

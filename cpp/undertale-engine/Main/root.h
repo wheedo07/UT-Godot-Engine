@@ -24,6 +24,7 @@ namespace godot {
             /* API 함수 */
 
             UTGELayer *get_layer(StringName layer_id = "main");
+            TypedArray<UTGELayer> get_layers();
 
             /* setters / getters */
 

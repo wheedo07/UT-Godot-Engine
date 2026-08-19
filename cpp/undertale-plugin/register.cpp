@@ -13,6 +13,9 @@ void undertale_plugin_init(ModuleInitializationLevel p_level) {
     
     /* [Button] */
     GDREGISTER_CLASS(UTEditorRunBtn);
+
+    /* [Dialog] */
+    GDREGISTER_CLASS(UTRunSceneDialog);
 }
 
 void undertale_plugin_uninit(ModuleInitializationLevel p_level) {

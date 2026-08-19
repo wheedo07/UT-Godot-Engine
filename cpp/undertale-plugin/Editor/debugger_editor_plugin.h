@@ -12,6 +12,8 @@ namespace godot {
         private:
             Ref<EditorDebuggerSession> session;
             int64_t next_request_id = 0;
+            String pending_scene_path;
+            StringName pending_layer_id;
 
         public:
             void _setup_session(int32_t p_session_id) override;
@@ -19,6 +21,7 @@ namespace godot {
             bool _capture(const String& p_message, const Array& p_data, int32_t p_session_id) override;
 
             void _on_session_started();
+            void queue_run_request(StringName layer_id, String scene_path);
 
             void remote_call(NodePath path, StringName method, Array args = Array());
             void remote_tree_call(StringName method, Array args = Array());

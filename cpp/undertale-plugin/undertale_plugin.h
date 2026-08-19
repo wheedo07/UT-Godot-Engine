@@ -10,6 +10,9 @@ using namespace godot;
 /* [Button] */
 #include "Button/run.h"
 
+/* [Dialog] */
+#include "Dialog/run_scene_dialog.h"
+
 void undertale_plugin_init(ModuleInitializationLevel p_level);
 void undertale_plugin_uninit(ModuleInitializationLevel p_level);
 
