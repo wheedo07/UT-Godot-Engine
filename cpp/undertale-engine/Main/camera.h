@@ -10,7 +10,15 @@ namespace godot {
             static void _bind_methods();
 
         private:
+            Vector2 zoom = Vector2(1, 1);
+            bool position_smoothing_enabled = false;
+            int limit_left = -1000000000;
+            int limit_top = -1000000000;
+            int limit_right = 1000000000;
+            int limit_bottom = 1000000000;
+
             Camera2D *camera = nullptr;
+            void _set_limits();
 
         public:
             UTGECamera();
@@ -19,5 +27,23 @@ namespace godot {
             /* setters / getters */
             void set_camera(Camera2D *value);
             Camera2D *get_camera();
+
+            void set_position_smoothing_enabled(bool value);
+            bool is_position_smoothing_enabled();
+
+            void set_zoom(Vector2 value);
+            Vector2 get_zoom();
+
+            void set_limit_left(int value);
+            int get_limit_left();
+
+            void set_limit_top(int value);
+            int get_limit_top();
+
+            void set_limit_right(int value);
+            int get_limit_right();
+
+            void set_limit_bottom(int value);
+            int get_limit_bottom();
     };
 }
