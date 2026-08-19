@@ -4,6 +4,7 @@
 using namespace godot;
 
 void UTGESceneTree::_bind_methods() {
+    /* API 메서드 */
     ClassDB::bind_method(D_METHOD("get_root"), &UTGESceneTree::get_root);
     ClassDB::bind_method(D_METHOD("change_scene_to_file", "layer_id", "path"), &UTGESceneTree::change_scene_to_file);
     ClassDB::bind_method(D_METHOD("change_scene_to_packed", "layer_id", "scene"), &UTGESceneTree::change_scene_to_packed);

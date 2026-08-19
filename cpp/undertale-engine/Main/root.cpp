@@ -16,6 +16,7 @@ void UTGERoot::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_layer", "layer_id"), &UTGERoot::get_layer, DEFVAL("main"));
     ClassDB::bind_method(D_METHOD("get_layers"), &UTGERoot::get_layers);
 
+    /* 공개 속성 */
     ClassDB::bind_method(D_METHOD("set_layer_parent", "value"), &UTGERoot::set_layer_parent);
     ClassDB::bind_method(D_METHOD("get_layer_parent"), &UTGERoot::get_layer_parent);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "layer_parent", PROPERTY_HINT_NODE_TYPE, "Node"), "set_layer_parent", "get_layer_parent");

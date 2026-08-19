@@ -2,6 +2,7 @@
 using namespace godot;
 
 void UTGEPool::_bind_methods() {
+    /* API 메서드 */
     ClassDB::bind_method(D_METHOD("release", "node"), &UTGEPool::release);
     ClassDB::bind_method(D_METHOD("obtain", "scene"), &UTGEPool::obtain);
     ClassDB::bind_method(D_METHOD("has", "node"), &UTGEPool::has);

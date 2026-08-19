@@ -3,9 +3,12 @@ using namespace godot;
 
 void UTGETimer::_bind_methods() {
     ADD_SIGNAL(MethodInfo("timeout"));
+
+    /* API 메서드 */
     ClassDB::bind_method(D_METHOD("frame"), &UTGETimer::frame);
     ClassDB::bind_method(D_METHOD("is_frame_based"), &UTGETimer::is_frame_based);
 
+    /* 공개 속성 */
     ClassDB::bind_method(D_METHOD("set_time_left", "value"), &UTGETimer::set_time_left);
     ClassDB::bind_method(D_METHOD("get_time_left"), &UTGETimer::get_time_left);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "time_left"), "set_time_left", "get_time_left");

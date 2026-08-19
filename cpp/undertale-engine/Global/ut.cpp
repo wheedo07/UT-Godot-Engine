@@ -3,6 +3,7 @@
 using namespace godot;
 
 void UT::_bind_methods() {
+    /* API 메서드 */
     ClassDB::bind_static_method("UT", D_METHOD("tree"), &UT::tree);
     ClassDB::bind_static_method("UT", D_METHOD("pool"), &UT::pool);
 }
