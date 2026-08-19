@@ -3,13 +3,10 @@
 using namespace godot;
 
 UTGECamera::UTGECamera() {
-    connect("ready", Callable(this, "_utge_ready"));
+    connect("ready", callable_mp(this, &UTGECamera::_utge_ready));
 }
 
 void UTGECamera::_bind_methods() {
-    /* 내부 메서드 */
-    ClassDB::bind_method(D_METHOD("_utge_ready"), &UTGECamera::_utge_ready);
-
     /* 스크립트 속성 */
     ClassDB::bind_method(D_METHOD("set_camera", "value"), &UTGECamera::set_camera);
     ClassDB::bind_method(D_METHOD("get_camera"), &UTGECamera::get_camera);
@@ -20,9 +17,14 @@ void UTGECamera::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_zoom"), &UTGECamera::get_zoom);
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "zoom"), "set_zoom", "get_zoom");
 
+    ADD_GROUP("Position Smoothing", "position_smoothing_");
     ClassDB::bind_method(D_METHOD("set_position_smoothing_enabled", "value"), &UTGECamera::set_position_smoothing_enabled);
     ClassDB::bind_method(D_METHOD("is_position_smoothing_enabled"), &UTGECamera::is_position_smoothing_enabled);
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "position_smoothing_enabled"), "set_position_smoothing_enabled", "is_position_smoothing_enabled");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "position_smoothing_enabled", PROPERTY_HINT_GROUP_ENABLE), "set_position_smoothing_enabled", "is_position_smoothing_enabled");
+
+    ClassDB::bind_method(D_METHOD("set_position_smoothing_speed", "value"), &UTGECamera::set_position_smoothing_speed);
+    ClassDB::bind_method(D_METHOD("get_position_smoothing_speed"), &UTGECamera::get_position_smoothing_speed);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "position_smoothing_speed"), "set_position_smoothing_speed", "get_position_smoothing_speed");
 
     ADD_GROUP("Limits", "limit_");
     ClassDB::bind_method(D_METHOD("set_limit_left", "value"), &UTGECamera::set_limit_left);
@@ -47,6 +49,7 @@ void UTGECamera::_utge_ready() {
     _set_limits();
     camera->set_zoom(zoom);
     camera->set_position_smoothing_enabled(position_smoothing_enabled);
+    camera->set_position_smoothing_speed(position_smoothing_speed);
     set_remote_node(camera->get_path());
 }
 
@@ -82,6 +85,15 @@ void UTGECamera::set_position_smoothing_enabled(bool value) {
 
 bool UTGECamera::is_position_smoothing_enabled() {
     return position_smoothing_enabled;
+}
+
+void UTGECamera::set_position_smoothing_speed(double value) {
+    position_smoothing_speed = value;
+    if(camera) camera->set_position_smoothing_speed(value);
+}
+
+double UTGECamera::get_position_smoothing_speed() {
+    return position_smoothing_speed;
 }
 
 void UTGECamera::set_limit_left(int value) {

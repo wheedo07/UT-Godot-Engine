@@ -4,14 +4,10 @@
 using namespace godot;
 
 UTGERoot::UTGERoot() {
-    connect("ready", Callable(this, "_utge_ready"));
+    connect("ready", callable_mp(this, &UTGERoot::_utge_ready));
 }
 
 void UTGERoot::_bind_methods() {
-    /* 내부 메서드 */
-    ClassDB::bind_method(D_METHOD("_utge_ready"), &UTGERoot::_utge_ready);
-    ClassDB::bind_method(D_METHOD("_debugger_capture", "message", "data"), &UTGERoot::_debugger_capture);
-
     /* API 메서드 */
     ClassDB::bind_method(D_METHOD("get_layer", "layer_id"), &UTGERoot::get_layer, DEFVAL("main"));
     ClassDB::bind_method(D_METHOD("get_layers"), &UTGERoot::get_layers);
@@ -38,7 +34,7 @@ void UTGERoot::_utge_ready() {
 
     EngineDebugger *debugger = EngineDebugger::get_singleton();
     if(debugger && debugger->is_active()) {
-        debugger->register_message_capture("ut_debugger", Callable(this, "_debugger_capture"));
+        debugger->register_message_capture("ut_debugger", callable_mp(this, &UTGERoot::_debugger_capture));
     }
 }
 
