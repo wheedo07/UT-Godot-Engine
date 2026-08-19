@@ -1,6 +1,6 @@
 #include "root.h"
-#include<godot_cpp/classes/engine_debugger.hpp>
 #include "undertale-engine/Global/ut.h"
+#include<godot_cpp/classes/engine_debugger.hpp>
 using namespace godot;
 
 UTGERoot::UTGERoot() {
@@ -11,6 +11,11 @@ void UTGERoot::_bind_methods() {
     /* API 메서드 */
     ClassDB::bind_method(D_METHOD("get_layer", "layer_id"), &UTGERoot::get_layer, DEFVAL("main"));
     ClassDB::bind_method(D_METHOD("get_layers"), &UTGERoot::get_layers);
+
+    /* 스크립트 속성 */
+    ClassDB::bind_method(D_METHOD("set_current_camera", "value"), &UTGERoot::set_current_camera);
+    ClassDB::bind_method(D_METHOD("get_current_camera"), &UTGERoot::get_current_camera);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "current_camera", PROPERTY_HINT_NODE_TYPE, "UTGECamera", PROPERTY_USAGE_SCRIPT_VARIABLE), "set_current_camera", "get_current_camera");
 
     /* 공개 속성 */
     ClassDB::bind_method(D_METHOD("set_layer_parent", "value"), &UTGERoot::set_layer_parent);
@@ -120,4 +125,15 @@ void UTGERoot::set_camera(Camera2D *value) {
 
 Camera2D *UTGERoot::get_camera() {
     return camera;
+}
+
+void UTGERoot::set_current_camera(UTGECamera *value) {
+    if(current_camera == value) return;
+    if(current_camera) current_camera->deactivate();
+    if(value) value->activate();
+    current_camera = value;
+}
+
+UTGECamera *UTGERoot::get_current_camera() {
+    return current_camera;
 }

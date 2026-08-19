@@ -7,6 +7,11 @@ UTGECamera::UTGECamera() {
 }
 
 void UTGECamera::_bind_methods() {
+    /* API 함수 */
+    ClassDB::bind_method(D_METHOD("activate"), &UTGECamera::activate);
+    ClassDB::bind_method(D_METHOD("deactivate"), &UTGECamera::deactivate);
+    ClassDB::bind_method(D_METHOD("is_active"), &UTGECamera::is_active);
+
     /* 스크립트 속성 */
     ClassDB::bind_method(D_METHOD("set_camera", "value"), &UTGECamera::set_camera);
     ClassDB::bind_method(D_METHOD("get_camera"), &UTGECamera::get_camera);
@@ -46,6 +51,11 @@ void UTGECamera::_bind_methods() {
 
 void UTGECamera::_utge_ready() {
     camera = UT::tree()->get_root()->get_camera();
+    UT::tree()->get_root()->set_current_camera(this);
+}
+
+void UTGECamera::activate() {
+    if(!camera) return;
     _set_limits();
     camera->set_zoom(zoom);
     camera->set_position_smoothing_enabled(position_smoothing_enabled);
@@ -53,8 +63,18 @@ void UTGECamera::_utge_ready() {
     set_remote_node(camera->get_path());
 }
 
-void UTGECamera::_set_limits() {
+void UTGECamera::deactivate() {
     if(!camera) return;
+    set_remote_node(NodePath());
+}
+
+bool UTGECamera::is_active() {
+    if(!camera) return false;
+    return get_remote_node() == camera->get_path();
+}
+
+void UTGECamera::_set_limits() {
+    if(!is_active()) return;
     camera->set_limit(Side::SIDE_LEFT, limit_left);
     camera->set_limit(Side::SIDE_TOP, limit_top);
     camera->set_limit(Side::SIDE_RIGHT, limit_right);
@@ -71,7 +91,7 @@ Camera2D *UTGECamera::get_camera() {
 
 void UTGECamera::set_zoom(Vector2 value) {
     zoom = value;
-    if(camera) camera->set_zoom(value);
+    if(is_active()) camera->set_zoom(value);
 }
 
 Vector2 UTGECamera::get_zoom() {
@@ -80,7 +100,7 @@ Vector2 UTGECamera::get_zoom() {
 
 void UTGECamera::set_position_smoothing_enabled(bool value) {
     position_smoothing_enabled = value;
-    if(camera) camera->set_position_smoothing_enabled(value);
+    if(is_active()) camera->set_position_smoothing_enabled(value);
 }
 
 bool UTGECamera::is_position_smoothing_enabled() {
@@ -89,7 +109,7 @@ bool UTGECamera::is_position_smoothing_enabled() {
 
 void UTGECamera::set_position_smoothing_speed(double value) {
     position_smoothing_speed = value;
-    if(camera) camera->set_position_smoothing_speed(value);
+    if(is_active()) camera->set_position_smoothing_speed(value);
 }
 
 double UTGECamera::get_position_smoothing_speed() {

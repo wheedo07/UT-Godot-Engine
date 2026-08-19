@@ -25,7 +25,13 @@ namespace godot {
             UTGECamera();
             void _utge_ready();
 
+            /* API 함수 */
+            void activate();
+            void deactivate();
+            bool is_active();
+
             /* setters / getters */
+
             void set_camera(Camera2D *value);
             Camera2D *get_camera();
 

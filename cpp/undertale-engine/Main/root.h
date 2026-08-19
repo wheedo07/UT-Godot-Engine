@@ -2,6 +2,7 @@
 
 #include<godot_cpp/classes/node.hpp>
 #include<godot_cpp/classes/camera2d.hpp>
+#include "camera.h"
 #include "layer.h"
 namespace godot {
     class UTGERoot : public Node {
@@ -13,6 +14,7 @@ namespace godot {
         private:
             Node *layer_parent = this;
             Camera2D *camera = nullptr;
+            UTGECamera *current_camera = nullptr;
 
             HashMap<StringName, UTGELayer*> layers;
 
@@ -33,5 +35,8 @@ namespace godot {
 
             void set_camera(Camera2D *value);
             Camera2D *get_camera();
+
+            void set_current_camera(UTGECamera *value);
+            UTGECamera *get_current_camera();
     };
 }
