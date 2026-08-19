@@ -48,9 +48,6 @@ void UTEditorRunBtn::_pressed() {
 
     current_scene_path = edited_scene->get_scene_file_path();
     if(current_scene_path.is_empty()) {
-        current_scene_path = editor->get_current_path();
-    }
-    if(current_scene_path.is_empty()) {
         _show_alert("The current scene must be saved before running.");
         return;
     }
@@ -58,20 +55,21 @@ void UTEditorRunBtn::_pressed() {
     ProjectSettings *settings = ProjectSettings::get_singleton();
     ERR_FAIL_NULL(settings);
 
-    String main_scene_path = settings->get_setting("application/run/main_scene");
-    if(main_scene_path.is_empty()) {
+    String main_scene_setting = settings->get_setting("application/run/main_scene");
+    if(main_scene_setting.is_empty()) {
         _show_alert("Project main scene is not configured.");
         return;
     }
-    if(main_scene_path == current_scene_path) {
-        _show_alert("The current scene cannot be the main scene.");
-        return;
-    }
-
-    Ref<Resource> resource = ResourceLoader::get_singleton()->load(main_scene_path, "PackedScene");
-    Ref<PackedScene> main_scene = resource;
+    
+    Ref<PackedScene> main_scene = ResourceLoader::get_singleton()->load(main_scene_setting, "PackedScene");
     if(main_scene.is_null()) {
         _show_alert("Failed to load the project main scene.");
+        return;
+    }
+    
+    String main_scene_path = main_scene->get_path();
+    if(main_scene_path == current_scene_path) {
+        _show_alert("The current scene cannot be the main scene.");
         return;
     }
 
