@@ -98,8 +98,7 @@ void UTEditorRunBtn::_pressed() {
     for(int i=0; i < children.size(); i++) {
         Node *child = Object::cast_to<Node>(children[i]);
         if(!child || !child->is_class("UTGELayer")) continue;
-        Variant layer_id = child->get("layer_id");
-        layer_name.push_back(layer_id);
+        layer_name.push_back(child->get("layer_id"));
     }
     main_root->queue_free();
 
