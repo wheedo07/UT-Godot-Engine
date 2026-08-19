@@ -7,3 +7,6 @@
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=486518623]
 position = Vector2(261, 184)
 texture = ExtResource("1_37kl0")
+
+[node name="UTGECamera" type="UTGECamera" parent="." unique_id=625996541]
+position = Vector2(516, 107)
