@@ -14,7 +14,7 @@ void UTEditorRunBtn::_bind_methods() {
 }
 
 void UTEditorRunBtn::_ready() {
-    set_text("UTGE: Current Scene");
+    set_text("UTGE: Run In Layer");
     call_deferred("_setup_dialogs");
 }
 
