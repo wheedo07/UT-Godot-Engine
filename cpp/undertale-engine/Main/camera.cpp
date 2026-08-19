@@ -22,15 +22,6 @@ void UTGECamera::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_zoom"), &UTGECamera::get_zoom);
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "zoom"), "set_zoom", "get_zoom");
 
-    ADD_GROUP("Position Smoothing", "position_smoothing_");
-    ClassDB::bind_method(D_METHOD("set_position_smoothing_enabled", "value"), &UTGECamera::set_position_smoothing_enabled);
-    ClassDB::bind_method(D_METHOD("is_position_smoothing_enabled"), &UTGECamera::is_position_smoothing_enabled);
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "position_smoothing_enabled", PROPERTY_HINT_GROUP_ENABLE), "set_position_smoothing_enabled", "is_position_smoothing_enabled");
-
-    ClassDB::bind_method(D_METHOD("set_position_smoothing_speed", "value"), &UTGECamera::set_position_smoothing_speed);
-    ClassDB::bind_method(D_METHOD("get_position_smoothing_speed"), &UTGECamera::get_position_smoothing_speed);
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "position_smoothing_speed"), "set_position_smoothing_speed", "get_position_smoothing_speed");
-
     ADD_GROUP("Limits", "limit_");
     ClassDB::bind_method(D_METHOD("set_limit_left", "value"), &UTGECamera::set_limit_left);
     ClassDB::bind_method(D_METHOD("get_limit_left"), &UTGECamera::get_limit_left);
@@ -47,6 +38,15 @@ void UTGECamera::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_limit_bottom", "value"), &UTGECamera::set_limit_bottom);
     ClassDB::bind_method(D_METHOD("get_limit_bottom"), &UTGECamera::get_limit_bottom);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "limit_bottom"), "set_limit_bottom", "get_limit_bottom");
+
+    ADD_GROUP("Position Smoothing", "position_smoothing_");
+    ClassDB::bind_method(D_METHOD("set_position_smoothing_enabled", "value"), &UTGECamera::set_position_smoothing_enabled);
+    ClassDB::bind_method(D_METHOD("is_position_smoothing_enabled"), &UTGECamera::is_position_smoothing_enabled);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "position_smoothing_enabled", PROPERTY_HINT_GROUP_ENABLE), "set_position_smoothing_enabled", "is_position_smoothing_enabled");
+
+    ClassDB::bind_method(D_METHOD("set_position_smoothing_speed", "value"), &UTGECamera::set_position_smoothing_speed);
+    ClassDB::bind_method(D_METHOD("get_position_smoothing_speed"), &UTGECamera::get_position_smoothing_speed);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "position_smoothing_speed"), "set_position_smoothing_speed", "get_position_smoothing_speed");
 }
 
 void UTGECamera::_utge_ready() {
